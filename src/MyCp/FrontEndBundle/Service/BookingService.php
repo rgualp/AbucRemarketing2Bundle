@@ -1101,15 +1101,6 @@ class BookingService extends Controller
                 $pdfFilePath
             );
 
-            /*$emailService->sendEmail(
-                 $subject,
-                 'send@mycasaparticular.com',
-                 $subject . ' - MyCasaParticular.com',
-                 "luiseduardo@hds.li",
-                 $body,
-                 $pdfFilePath
-             );*/
-
             $logger->info('Successfully sent email to user ' . $userEmail . ', PDF path : ' .
                 (isset($pdfFilePath) ? $pdfFilePath : '<empty>'));
         } catch (\Exception $e) {
@@ -1290,11 +1281,15 @@ class BookingService extends Controller
         $emailService = $this->get('Email');
         $dataArray = array(
             "zipFileName" => $zipFileName,
-            "bookingId" => $bookingId
+            "bookingId" => $bookingId,
+            "arrayNightsByOwnershipReservation" => $arrayNightsByOwnershipReservation,
+            "paymentPending" => $paymentPending,
+            "rooms" => $rooms,
+            "arrayOwnershipReservationByHouse" => $arrayOwnershipReservationByHouse
         );
 
         $this->sendEmailsToAgencyPartner($user, $travelAgency, $isSpecial, $emailService, $dataArray);
-
+        $this->sendEmailstoReservationAndAccommodationPartner($user, $isSpecial, $emailService, $dataArray);
 
     }
 
@@ -1492,6 +1487,9 @@ class BookingService extends Controller
         $bookingId = $booking->getBookingId();
         $user = $this->getUserFromBooking($booking);
         $userId = $user->getUserId();
+        //Buscar la agencia y sus contactos
+        $travelAgency = $this->em->getRepository("PartnerBundle:paTravelAgency")->findOneBy(array("email" => $user->getEmail()));
+        $isSpecial = $travelAgency->getAgencyPackages()[0]->getPackage()->isSpecial();
 
         //$userTourist = $this->getUserTourist($userId, $bookingId);
         $ownershipReservations = $this->getOwnershipReservations($bookingId);
@@ -1549,123 +1547,17 @@ class BookingService extends Controller
         // Send email to customer
         $emailService = $this->get('Email');
 
-        $userLocale = strtolower($user->getUserLanguage()->getLangCode());
-        $body = $this->render('PartnerBundle:Mail:voucher.html.twig', array(
-            'user_locale' => $userLocale,
-            'user_currency' => $user->getUserCurrency(),
-            'user'=>$user
-        ));
+        $dataArray = array(
+            "zipFileName" => $zipFileName,
+            "bookingId" => $bookingId,
+            "arrayNightsByOwnershipReservation" => $arrayNightsByOwnershipReservation,
+            "paymentPending" => 1,
+            "rooms" => $rooms,
+            "arrayOwnershipReservationByHouse" => $arrayOwnershipReservationByHouse
+        );
 
-        $locale = $this->get('translator');
-        $subject = $locale->trans('PAYMENT_CONFIRMATION', array(), "messages", $userLocale);
-
-        $logger = $this->get('logger');
-        $userEmail = trim($user->getUserEmail());
-
-        try {
-            $emailService->sendEmail(
-                $subject,
-                'send@mycasaparticular.com',
-                $subject . ' - MyCasaParticular.com',
-                $userEmail,
-                $body,
-                $zipFileName //$pdfFilePath
-            );
-
-            $emailService->sendEmail(
-                $subject,
-                'send@mycasaparticular.com',
-                'Partner - '.$subject,
-                "confirmacion@mycasaparticular.com",
-                $body,
-                $zipFileName //$pdfFilePath
-            );
-
-            $logger->info('Successfully sent email to user ' . $userEmail . ', PDF path : ' .
-                (isset($pdfFilePath) ? $pdfFilePath : '<empty>'));
-        } catch (\Exception $e) {
-            $logger->error(sprintf(
-                'EMAIL: Could not send Email to User. Booking ID: %s, Email: %s',
-                $bookingId, $userEmail));
-            $logger->error($e->getMessage());
-        }
-        // send email to reservation team
-        /*foreach ($arrayOwnershipReservationByHouse as $owns) {
-            $bodyRes = $this->render(
-                'PartnerBundle:Mail:rt_payment_confirmation.html.twig',
-                array(
-                    'user' => $user,
-                    'user_tourist' => $user,
-                    'reservations' => $owns,
-                    'nights' => $arrayNightsByOwnershipReservation,
-                    'payment_pending' => $paymentPending,
-                    'rooms' => $rooms,
-                    'booking' => $bookingId
-                )
-            );
-
-            try {
-                $emailService->sendEmail(
-                    'Confirmación de pago',
-                    'no-reply@mycasaparticular.com',
-                    'MyCasaParticular.com',
-                    'confirmacion@mycasaparticular.com',
-                    $bodyRes
-                );
-
-                $logger->info('Successfully sent email to reservation team. Booking ID: ' . $bookingId);
-            } catch (\Exception $e) {
-                $logger->error('EMAIL: Could not send Email to reservation team. Booking ID: ' . $bookingId);
-                $logger->error($e->getMessage());
-            }
-        }*/
-
-        // send email to accommodation owner
-        /* foreach ($arrayOwnershipReservationByHouse as $owns) {
-             $bodyOwner = $this->render(
-                 'PartnerBundle:Mail:email_house_confirmation.html.twig',
-                 array(
-                     'user' => $user,
-                     'user_tourist' => $user,
-                     'reservations' => $owns,
-                     'nights' => $arrayNightsByOwnershipReservation,
-                     'rooms' => $rooms,
-                     'booking' => $bookingId
-                 )
-             );
-
-             $ownerEmail = $owns[0]->getOwnResGenResId()->getGenResOwnId()->getOwnEmail1();
-             $ownerEmail = trim($ownerEmail);
-
-             if (empty($ownerEmail)) {
-                 $logger->warning('EMAIL: Could not send Email to Casa Owner as the Email address is empty. Booking ID: ' .
-                     $bookingId . '. General Reservation ID: ' .
-                     $owns[0]->getOwnResGenResId()->getGenResId() . '.');
-             } else {
-                 try {
-                     $emailService->sendEmail(
-                         'Confirmación de reserva',
-                         'no-reply@mycasaparticular.com',
-                         'MyCasaParticular.com',
-                         $ownerEmail,
-                         $bodyOwner
-                     );
-
-                     $logger->info('Successfully sent email to Casa Owner. Booking ID: ' .
-                         $bookingId . ', Email: ' . $ownerEmail);
-                 } catch (\Exception $e) {
-                     $logger->error('EMAIL: Could not send Email to Casa Owner. Booking ID: ' .
-                         $bookingId . '. General Reservation ID: ' .
-                         $owns[0]->getOwnResGenResId()->getGenResId() . '. Email: ' . $ownerEmail);
-                     $logger->error($e->getMessage());
-                 }
-             }
-
-             //Suscripción al evento para feedback
-             $dispatcher = $this->get('event_dispatcher');
-             $eventData = new \MyCp\mycpBundle\JobData\GeneralReservationJobData($owns[0]->getOwnResGenResId());
-             $dispatcher->dispatch('mycp.event.feedback', new FixedDateJobEvent($owns[0]->getOwnResGenResId()->getGenResToDate(),$eventData));
-         }*/
+        $this->sendEmailsToAgencyPartner($user, $travelAgency, $isSpecial, $emailService, $dataArray);
+        $this->sendEmailstoReservationAndAccommodationPartner($user, $isSpecial, $emailService, $dataArray);
     }
 
     /**

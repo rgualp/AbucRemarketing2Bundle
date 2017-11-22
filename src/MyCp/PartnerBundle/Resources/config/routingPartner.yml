@@ -367,3 +367,11 @@ partner_post_payment_return:
 partner_payment_postfinance_cancel:
     locales:  { en: "/payment/postfinance-cancel", es: "/payment/postfinance-cancel", de: "/payment/postfinance-cancel", fr: "/payment/postfinance-cancel", it: "/payment/postfinance-cancel" }
     defaults: { _controller: PartnerBundle:Payment:postfinanceCancel }
+
+partner_dashboard_booking_pending_payment:
+    locales:  { en: "/dashboard/booking/pending-payment", es: "/dashboard/booking/pendientes-pago", de: "/dashboard/booking/pending-payment", fr: "/dashboard/booking/pending-payment", it: "/dashboard/booking/pending-payment" }
+    defaults: { _controller: PartnerBundle:Dashboard:indexBookingPendingPayment }
+
+partner_dashboard_booking_list_pending_payment:
+    locales:  { en: "/dashboard/booking/pending-payment/list", es: "/dashboard/booking/pendientes-pago/list", de: "/dashboard/booking/pending-payment/list", fr: "/dashboard/booking/pending-payment/list", it: "/dashboard/booking/pending-payment/list" }
+    defaults: { _controller: PartnerBundle:Dashboard:listBookingPendingPayment }

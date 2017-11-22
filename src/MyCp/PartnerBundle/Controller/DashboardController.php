@@ -319,6 +319,88 @@ class DashboardController extends Controller
     }
     /*End BookingReserved*/
 
+    /*Pending payment*/
+    public function indexBookingPendingPaymentAction()
+    {
+        return new JsonResponse([
+            'success' => true,
+            'id' => 'id_dashboard_booking_pending_payment',
+            'html' => $this->renderView('PartnerBundle:Dashboard:booking_pending_payment.html.twig', array()),
+            'msg' => 'Vista del listado de reservas PENDIENTES DE PAGO']);
+    }
+
+    public function listBookingPendingPaymentAction(Request $request)
+    {
+        $filters = $request->get('booking_pending_payment_filter_form');
+        $filters = (isset($filters)) ? ($filters) : (array());
+
+        #region PAGINADO
+        $start = $request->get('start', 0);
+        $limit = $request->get('length', 10);
+        $draw = $request->get('draw') + 1;
+        #endregion PAGINADO
+
+        $data = $this->getReservationsData($filters, $start, $limit, $draw, generalReservation::STATUS_PENDING_PAYMENT_PARTNER);
+        $reservations = $data['aaData'];
+        $data['aaData'] = array();
+
+        $timeService = $this->get('time');
+
+        foreach ($reservations as $reservation) {
+            $arrTmp = array();
+            $arrTmp['id'] = $reservation->getGenResId();
+            $arrTmp['data'] = array(
+                'id' => $reservation->getGenResId(),
+                'cas' => '' . $reservation->getGenResId(),
+                'from' => $reservation->getGenResFromDate()->format('d-m-Y'),
+                'to' => $reservation->getGenResToDate()->format('d-m-Y'),
+                'canBeCanceled' => ($reservation->getGenResFromDate() > new \DateTime()),
+                'own_mcp_code' => $reservation->getGenResOwnId()->getOwnMcpCode(),
+                'destination' => $reservation->getGenResOwnId()->getOwnDestination()->getDesName(),
+                'date' => $reservation->getGenResDate()->format('d-m-Y'),
+                'client_dates' => $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getClient()->getFullName(),
+                'own_name' => $reservation->getGenResOwnId()->getOwnName()/*,
+                'client_name'=>$reservation->getTravelAgencyDetailReservations()->getReservation()->getClient()->getFullName()*/
+            );
+
+            $ownReservations = $reservation->getOwn_reservations();
+            $arrTmp['data']['rooms'] = array();
+            if (!$ownReservations->isEmpty()) {
+                $ownReservation = $ownReservations->first();
+                $curr = $this->getCurr($request);
+                do {
+                    $nights = $timeService->nights($ownReservation->getOwnResReservationFromDate()->getTimestamp(), $ownReservation->getOwnResReservationToDate()->getTimestamp());
+                    $totalPrice = 0;
+                    if ($ownReservation->getOwnResNightPrice() > 0) {
+                        $totalPrice += $ownReservation->getOwnResNightPrice() * $nights;
+                        //$initialPayment += $res->getOwnResNightPrice() * $nights * $comission;
+                    } else {
+                        $totalPrice += $ownReservation->getOwnResTotalInSite();
+                        //$initialPayment += $res->getOwnResTotalInSite() * $comission;
+                    }
+
+                    $arrTmp['data']['rooms'][] = array(
+                        'type' => $ownReservation->getOwnResRoomType(),
+                        'adults' => $ownReservation->getOwnResCountAdults(),
+                        'childrens' => $ownReservation->getOwnResCountChildrens(),
+                        'totalPrice' => ($totalPrice * $curr['change']),
+                        'curr_code' => $curr['code'],
+                        'booking' => array(
+                            'code' => $ownReservation->getOwnResReservationBooking()->getBookingId(),
+                            'date' => $ownReservation->getOwnResReservationBooking()->getPayments()->first()->getCreated()->format('d-m-Y')
+                        )
+                    );
+                    $ownReservation = $ownReservations->next();
+                } while ($ownReservation);
+            }
+
+            $data['aaData'][] = $arrTmp;
+        }
+
+        return new JsonResponse($data);
+    }
+    /*End BookingReserved*/
+
     /*BookingBeaten*/
     public function indexBookingBeatenAction()
     {

@@ -2348,6 +2348,10 @@
           <source>VOUCHER_PAYED</source>
           <target state="new">PAYED</target>
       </trans-unit>
+      <trans-unit id="30">
+          <source>dashboard.booking.pending.payment</source>
+          <target state="new">Pending Payment</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
