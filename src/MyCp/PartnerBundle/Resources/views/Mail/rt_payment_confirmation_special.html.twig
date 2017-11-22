@@ -69,20 +69,7 @@ Fecha: {{ "now"|date("D, d M Y H:m:s O") }}
 <br/>
 {% endfor %}
 <br/>
-<b>Total a pagar en casa:</b> {{ total_price }} CUC en efectivo.
-<br/>
-<br/>
-<b>Saldo pagado:</b> {{ total_payed + configuration_service_fee }} CUC en efectivo.
-<br/>
-<br/>
-<b>Tasa de cambio:</b> 1 CUC = {{ user.getUserCurrency.getCurrCucChange }} {{ user.getUserCurrency.getCurrCode | upper }}
-
-<br/>
-<br/>
-<b>ID de transacción de Skrill:</b>
-<br/>
-<br/>
-<b>MSID:</b>
+<b>Total a pagar a la casa:</b> {{ total_price }} CUC por transferencia bancaria.
 <br/>
 <br/>
 </body>
