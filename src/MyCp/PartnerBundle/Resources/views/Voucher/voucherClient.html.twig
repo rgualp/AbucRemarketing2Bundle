@@ -47,7 +47,7 @@
 <br/>
 <h2 class="h-green no-margin">{{ 'RESERVATION_CONFIRM'|trans({}, "messages", user_locale) }}</h2>
 <hr/>
-<h4 style="font-size: 14px; margin: 10px 0px 0px 5px">{{"DEAR_MR"|trans({}, "messages", user_locale)}} {{ user.getUserLastName }}</h4>
+<h4 style="font-size: 14px; margin: 10px 0px 0px 5px">{{"DEAR_MR"|trans({}, "messages", user_locale)}} {{ client.fullname }}</h4>
 <p>
     {{"THANKS_RESERVATION_MYCP"|trans({}, "messages", user_locale)}} <a href="{{ url('frontend_partner_home') }}">MyCasaPartner.com</a><br/>
     {{"PLEASE_PRINT_CONFIRMATION_OF_SERVICE"|trans({}, "messages", user_locale)}}<br/>
@@ -179,10 +179,11 @@
         </td>
     </tr>
 </table>
+<br/><br/>
 <table style="width: 100%;">
     <tr style="border-top:none;">
         <td style="text-wrap: none; border-top:none;text-align: center;padding:0px" nowrap="nowrap">
-            <h2 class="h-green no-margin">{{"VOUCHER_PAYED" | trans({}, "messages", user_locale)}}</h2>
+            <h1 class="h-green no-margin">{{"VOUCHER_PAYED" | trans({}, "messages", user_locale)}}</h1>
         </td>
     </tr>
 </table>

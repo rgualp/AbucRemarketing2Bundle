@@ -1221,7 +1221,7 @@ class BookingService extends Controller
         $user = $this->getUserFromBooking($booking);
         $userId = $user->getUserId();
         //Buscar la agencia y sus contactos
-        $travelAgency = $this->em->getRepository("PartnerBundle:paTravelAgency")->findOneBy(array("email" => $user->getEmail()));
+        $travelAgency = $this->em->getRepository("PartnerBundle:paTravelAgency")->findOneBy(array("email" => $user->getUserEmail()));
         $isSpecial = $travelAgency->getAgencyPackages()[0]->getPackage()->isSpecial();
 
         //$userTourist = $this->getUserTourist($userId, $bookingId);
@@ -1488,7 +1488,7 @@ class BookingService extends Controller
         $user = $this->getUserFromBooking($booking);
         $userId = $user->getUserId();
         //Buscar la agencia y sus contactos
-        $travelAgency = $this->em->getRepository("PartnerBundle:paTravelAgency")->findOneBy(array("email" => $user->getEmail()));
+        $travelAgency = $this->em->getRepository("PartnerBundle:paTravelAgency")->findOneBy(array("email" => $user->getUserEmail()));
         $isSpecial = $travelAgency->getAgencyPackages()[0]->getPackage()->isSpecial();
 
         //$userTourist = $this->getUserTourist($userId, $bookingId);
