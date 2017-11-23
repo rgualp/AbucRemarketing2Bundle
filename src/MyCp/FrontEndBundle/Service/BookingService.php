@@ -1464,13 +1464,13 @@ class BookingService extends Controller
                     $owns[0]->getOwnResGenResId()->getGenResId() . '.');
             } else {
                 try {
-                    $emailService->sendEmail(
+                   /* $emailService->sendEmail(
                         'Agencia: Confirmación de reserva',
                         'no-reply@mycasaparticular.com',
                         'MyCasaParticular.com',
                         $ownerEmail,
                         $bodyOwner
-                    );
+                    );*/
 
                     $logger->info('Successfully sent email to Casa Owner. Booking ID: ' .
                         $bookingId . ', Email: ' . $ownerEmail);
