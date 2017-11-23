@@ -1285,7 +1285,8 @@ class BookingService extends Controller
             "arrayNightsByOwnershipReservation" => $arrayNightsByOwnershipReservation,
             "paymentPending" => $paymentPending,
             "rooms" => $rooms,
-            "arrayOwnershipReservationByHouse" => $arrayOwnershipReservationByHouse
+            "arrayOwnershipReservationByHouse" => $arrayOwnershipReservationByHouse,
+            "attachPaths" => $filePaths
         );
 
         $this->sendEmailsToAgencyPartner($user, $travelAgency, $isSpecial, $emailService, $dataArray);
@@ -1297,6 +1298,7 @@ class BookingService extends Controller
         $userLocale = strtolower($user->getUserLanguage()->getLangCode());
         $zipFileName = $dataArray["zipFileName"];
         $bookingId = $dataArray["bookingId"];
+        $attachPaths = $dataArray["attachPaths"];
 
         $body = $this->render('PartnerBundle:Mail:voucher.html.twig', array(
             'user_locale' => $userLocale,
@@ -1311,13 +1313,13 @@ class BookingService extends Controller
         $userEmail = trim($user->getUserEmail());
 
         try {
-            $emailService->sendEmail(
+            $emailService->sendEmailMultiplesAttach(
                 $subject,
                 'send@mycasaparticular.com',
                 $subject . ' - MyCasaParticular.com',
                 $userEmail,
                 $body,
-                $zipFileName //$pdfFilePath
+                $attachPaths //varios attachments
             );
 
             $logger->info('Successfully sent email to user ' . $userEmail . ', PDF path : ' .
@@ -1335,13 +1337,13 @@ class BookingService extends Controller
             foreach($contacts as $contact){
                 if($userEmail != $contact->getEmail()){
                     try {
-                        $emailService->sendEmail(
+                        $emailService->sendEmailMultiplesAttach(
                             $subject,
                             'send@mycasaparticular.com',
                             $subject . ' - MyCasaParticular.com',
                             $contact->getEmail(),
                             $body,
-                            $zipFileName //$pdfFilePath
+                            $attachPaths //varios attachments
                         );
 
                         $logger->info('Successfully sent email to agency contact ' . $userEmail . ', PDF path : ' .
@@ -1364,6 +1366,7 @@ class BookingService extends Controller
         $bookingId = $dataArray["bookingId"];
         $arrayOwnershipReservationByHouse = $dataArray["arrayOwnershipReservationByHouse"];
         $zipFileName = $dataArray["zipFileName"];
+        $attachPaths = $dataArray["attachPaths"];
 
         $logger = $this->get('logger');
 
@@ -1436,13 +1439,13 @@ class BookingService extends Controller
 
 
             try {
-                $emailService->sendEmail(
+                $emailService->sendEmailMultiplesAttach(
                     'Agencia: Confirmación de pago',
                     'no-reply@mycasaparticular.com',
                     'MyCasaParticular.com',
                     'confirmacion@mycasaparticular.com',
                     $bodyRes,
-                    $zipFileName
+                    $attachPaths
                 );
 
                 $logger->info('Successfully sent email to reservation team. Booking ID: ' . $bookingId);
@@ -1553,7 +1556,8 @@ class BookingService extends Controller
             "arrayNightsByOwnershipReservation" => $arrayNightsByOwnershipReservation,
             "paymentPending" => 1,
             "rooms" => $rooms,
-            "arrayOwnershipReservationByHouse" => $arrayOwnershipReservationByHouse
+            "arrayOwnershipReservationByHouse" => $arrayOwnershipReservationByHouse,
+            "attachPaths" => $pdfFilePath
         );
 
         $this->sendEmailsToAgencyPartner($user, $travelAgency, $isSpecial, $emailService, $dataArray);
