@@ -37,11 +37,11 @@ function totalPrice(curr,percent, totalNights)
     {
         if(roomsTotal == 1)
         {
-            if(avgPrice < 20*curr )
+            if(avgPrice < parseInt(20)*curr )
                 tourist_fee_percent = parseFloat($("#tourist_service").attr("data-one-nr-until-20-percent"));
-            else if(avgPrice >= 20*curr && avgPrice < 25*curr)
+            else if(avgPrice >= parseInt(20)*curr && avgPrice < parseInt(25)*curr)
                 tourist_fee_percent = parseFloat($("#tourist_service").attr("data-one-nr-from-20-to-25-percent"));
-            else if(avgPrice >= 25*curr)
+            else if(avgPrice >= parseInt(25)*curr)
                 tourist_fee_percent = parseFloat($("#tourist_service").attr("data-one-nr-from-more-25-percent"));
         }
         else
@@ -62,9 +62,9 @@ function totalPrice(curr,percent, totalNights)
  // console.log(total_price_var);
 
     $('#subtotal_price').html(normalize_prices(total_price_var));
-    var percent_value=total_price_var * percent / 100;
+    var percent_value=total_price_var * percent / parseFloat(100);
     var tourist_service = total_price_var*tourist_fee_percent;
-    var tour_serv=(total_price_var+totalPriceDinner+totalPriceBreakfast)*0.1;
+    var tour_serv=(total_price_var+totalPriceDinner+totalPriceBreakfast)*parseFloat(0.1);
 
     $("#tourist_service").html(normalize_prices(tour_serv));
     $('#initial_deposit').html(normalize_prices(percent_value));
@@ -79,9 +79,9 @@ function totalPrice(curr,percent, totalNights)
     var summatoryTax = parseFloat(total_price_var+tourist_service + fixed_tax);
     console.log("Sumatoria " + summatoryTax);
     //var agencyCommissionTax = parseFloat((total_price_var+tourist_service + fixed_tax) * commissionAgency/100);
-    var agencyCommissionTax = parseFloat((total_price_var+tourist_service + fixed_tax) * 0.1);
+    var agencyCommissionTax = parseFloat((total_price_var+tourist_service + fixed_tax) * parseFloat(0.1));
     console.log("Comision Agencia " + agencyCommissionTax);
-    var transferTax = parseFloat((total_price_var+tourist_service + fixed_tax) * 0.1);
+    var transferTax = parseFloat((total_price_var+tourist_service + fixed_tax) * parseFloat(0.1));
     console.log("Tansferencia " + transferTax);
     var totalCost = parseFloat(total_price_var+tour_serv + transferTax);
     console.log("Costo total " + totalCost);
@@ -169,7 +169,7 @@ function updateService(){
     $('#calcdinner').html( normalize_prices(parseFloat($('.col-dinnerPrice').data("dinnerprice"))* total*$("#totalNights").val()));
     $('#calcbreakfast').html( normalize_prices(parseFloat($('.col-breakfastprice').data("breakfastprice"))* total*$("#totalNights").val()));
 
-    var tour_serv=(eval($('#accommodation_price').html())+totalPriceDinner+totalPriceBreakfast)*0.1;
+    var tour_serv=(eval($('#accommodation_price').html())+totalPriceDinner+totalPriceBreakfast)*parseFloat(0.1);
     $("#tourist_service").html(normalize_prices(tour_serv));
 
 }
