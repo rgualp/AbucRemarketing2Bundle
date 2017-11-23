@@ -4,6 +4,7 @@
 <html id="top" {{ get_lang(lang_code)|raw }}>
 <head>
     <title>{% block title %}{{"WELCOMEPAGE_TITLE" | trans }}{% endblock %}</title>
+    <meta name="google" content="notranslate" />
 
     {% block metas %}
         {{ get_metas('Main', lang_code)|raw }}
