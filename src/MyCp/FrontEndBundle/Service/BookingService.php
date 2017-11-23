@@ -1443,7 +1443,7 @@ class BookingService extends Controller
                     'Agencia: Confirmación de pago',
                     'no-reply@mycasaparticular.com',
                     'MyCasaParticular.com',
-                    'confirmacion@mycasaparticular.com',
+                    'confirmation.partner@mycasaparticular.com',
                     $bodyRes,
                     $attachPaths
                 );
