@@ -2089,7 +2089,7 @@
                 </trans-unit>
                 <trans-unit id="532">
                     <source>PAYED</source>
-                    <target>Payed</target>
+                    <target>Paid</target>
                 </trans-unit>
             <trans-unit id="533">
                 <source>SKRILL_CONFIRMATION_NOTE</source>
@@ -4082,7 +4082,7 @@
             </trans-unit>
             <trans-unit id="1022">
                  <source>PAYED_AMOUNT</source>
-                 <target>Payed amount:</target>
+                 <target>Paid amount:</target>
             </trans-unit>
             <trans-unit id="1023">
                  <source>BOOKING_ID</source>

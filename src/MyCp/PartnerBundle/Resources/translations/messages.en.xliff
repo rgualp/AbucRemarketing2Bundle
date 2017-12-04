@@ -2346,7 +2346,7 @@
       </trans-unit>
       <trans-unit id="29">
           <source>VOUCHER_PAYED</source>
-          <target state="new">PAYED</target>
+          <target state="new">PAID</target>
       </trans-unit>
       <trans-unit id="30">
           <source>dashboard.booking.pending.payment</source>

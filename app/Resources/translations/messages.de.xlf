@@ -4093,7 +4093,7 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
             </trans-unit>
             <trans-unit id="1022">
                  <source>PAYED_AMOUNT</source>
-                 <target>Payed amount:</target>
+                 <target>Paid amount:</target>
             </trans-unit>
             <trans-unit id="1023">
                  <source>BOOKING_ID</source>
