@@ -1997,7 +1997,7 @@
               </trans-unit>
               <trans-unit id="508">
                   <source>PLEASE_PRINT_CONFIRMATION_OF_SERVICE</source>
-                  <target>Please print this confirmation, and show it to the hosts at Cuba, before receiving the booked service.</target>
+                  <target>Please print this confirmation, and show it to the hosts in Cuba.</target>
               </trans-unit>
               <trans-unit id="509">
                     <source>CAN_FOLLOWING_RESERVATIONS_MYCT</source>

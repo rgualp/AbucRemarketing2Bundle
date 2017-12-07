@@ -632,7 +632,7 @@ class BookingService extends Controller
     public function getPrintableBookingConfirmationResponsePartner($bookingId,$user){
         $em = $this->em;
         $repository = $em->getRepository('mycpBundle:generalReservation');
-        $paginator = $repository->getReservationsPartnerByStatusArray($user->getUserId(), array(generalReservation::STATUS_RESERVED, generalReservation::STATUS_PENDING_PAYMENT_PARTNER),array('booking_code'=>$bookingId),0,1000);
+        $paginator = $repository->getReservationsPartnerByStatusArray($user->getUserId(), array(generalReservation::STATUS_RESERVED),array('booking_code'=>$bookingId),0,1000);
         $booking = $em->getRepository('mycpBundle:booking')->find($bookingId);
         $result=array_merge($this->calculateBookingDetailsPartner($bookingId,$user),array('data'=>$paginator['data'],'bookingId'=>$bookingId,'user'=>$user,'own_res1'=>$paginator['data'],'booking'=>$booking,'user_locale'=> strtolower($user->getUserLanguage()->getLangCode()),'user_currency'=>$user->getUserCurrency()));
 
@@ -642,7 +642,7 @@ class BookingService extends Controller
     public function getPrintableBookingConfirmationForClientResponsePartner($bookingId, $user,$idClient){
         $em = $this->em;
         $repository = $em->getRepository('mycpBundle:generalReservation');
-        $paginator = $repository->getReservationsPartnerByStatusArray($user->getUserId(),array(generalReservation::STATUS_RESERVED, generalReservation::STATUS_PENDING_PAYMENT_PARTNER),array('booking_code'=>$bookingId, 'partner_client_id'=>$idClient),0,1000);
+        $paginator = $repository->getReservationsPartnerByStatusArray($user->getUserId(),array(generalReservation::STATUS_RESERVED),array('booking_code'=>$bookingId, 'partner_client_id'=>$idClient),0,1000);
         $booking = $em->getRepository('mycpBundle:booking')->find($bookingId);
         $partnerClient = $em->getRepository("PartnerBundle:paClient")->find($idClient);
         $result=array_merge($this->calculateBookingDetailsPartnerClient($bookingId,$user, $idClient),array('data'=>$paginator['data'],'bookingId'=>$bookingId,'user'=>$user,'own_res1'=>$paginator['data'],'booking'=>$booking,'user_locale'=> strtolower($user->getUserLanguage()->getLangCode()),'user_currency'=>$user->getUserCurrency(), 'client'=> $partnerClient));
@@ -1606,15 +1606,15 @@ class BookingService extends Controller
 
             $generalReservation = $own->getOwnResGenResId();
 
-            if($isPaymentPending)
+            /*if($isPaymentPending)
             {
                 $generalReservation->setGenResStatus(generalReservation::STATUS_PENDING_PAYMENT_PARTNER);
                 $own->setOwnResStatus(ownershipReservation::STATUS_PENDING_PAYMENT_PARTNER);
             }
-            else{
+            else{*/
                 $generalReservation->setGenResStatus(generalReservation::STATUS_RESERVED);
                 $own->setOwnResStatus(ownershipReservation::STATUS_RESERVED);
-            }
+            //}
 
             $this->em->persist($generalReservation);
             $this->em->flush();

@@ -37,10 +37,10 @@
     </tr>
     <tr>
         <td>
-            <img id="logo"  src="bundles/mycp/images/logo.jpg" alt="my casa particular"/>
+            <img src="bundles/partner/img/logos/agency.png" alt="agency" style="height: 50px"/>
         </td>
         <td style="text-align: right; vertical-align: top; color: #cccccc">
-            <img src="bundles/partner/img/logos/agency.png" alt="agency" style="height: 50px"/>
+            <img id="logo"  src="bundles/mycp/images/logo.jpg" alt="my casa particular"/>
         </td>
     </tr>
 </table>
@@ -49,7 +49,7 @@
 <hr/>
 <h4 style="font-size: 14px; margin: 10px 0px 0px 5px">{{"DEAR_MR"|trans({}, "messages", user_locale)}} {{ client.fullname }}</h4>
 <p>
-    {{"THANKS_RESERVATION_MYCP"|trans({}, "messages", user_locale)}} <a href="{{ url('frontend_partner_home') }}">MyCasaPartner.com</a><br/>
+    {{"THANKS_RESERVATION_MYCP_PARTNER"|trans({}, "messages", user_locale)}}
     {{"PLEASE_PRINT_CONFIRMATION_OF_SERVICE"|trans({}, "messages", user_locale)}}<br/>
 </p>
 <h2 class="h-green no-margin">{{ 'CLIENT_INFORMATION'|trans({}, "messages", user_locale) }}</h2>
@@ -63,8 +63,15 @@
         <td>{{ client.fullname }}</td>
     </tr>
     <tr>
-        <td><b>{{"label.name.agency"|trans({}, "messages", user_locale)}}:</b></td>
-        <td colspan="3">{{ user.getUserUserName }} {{ user.getUserLastName }}</td>
+        <td><b>Cuba Travel Network References{#{"label.name.agency"|trans({}, "messages", user_locale)}#}:</b></td>
+        <td colspan="3">
+            {% for own in own_res %}
+                {%for res_room in own_res_rooms[own.id] %}
+                    {{ res_room.reference }}
+                {% endfor %}
+            {% endfor %}
+        {#{ user.getUserUserName }} {{ user.getUserLastName }#}
+        </td>
     </tr>
 </table>
 <br/>
@@ -93,7 +100,8 @@
             <td style="border-top:none; width:40%">{{ own.name }}</td>
             <td rowspan="5" style="border-top:none;width:30%">
                 <div class="thumbnail" style="padding: 12px; margin-left: 12px;">
-                    <img src='https://maps.googleapis.com/maps/api/staticmap?center={{own.geo_x}},{{own.geo_y}}&zoom=15&size=200x200&sensor=false&markers=icon:{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}%7C{{own.geo_x}},{{own.geo_y}}&a.jpg' alt="{{"Maps" | trans}}"/>
+                    {#<img src='https://maps.googleapis.com/maps/api/staticmap?center={{own.geo_x}},{{own.geo_y}}&zoom=15&size=200x200&sensor=false&markers=icon:{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}%7C{{own.geo_x}},{{own.geo_y}}&a.jpg' alt="{{"Maps" | trans}}"/>#}
+                    <img src="uploads/ownershipImages/thumbnails/{{ own.photo }}" alt="my casa particular" style="width: 200px"/>
                 </div>
             </td>
         </tr>
@@ -121,6 +129,19 @@
                 <td>{% if own.own_email_1 == "" and own.own_email_2 == "" %}-{% else %}<a href="mailto:{{ own.own_email_1 }}">{{ own.own_email_1 }}</a>{% if own.own_email_1 != "" and own.own_email_2 != "" %}, {% endif %}<a href="mailto:{{ own.own_email_2 }}">{{ own.own_email_2 }}</a>{% endif %}</td>
             </tr>
         {% endif %}
+        <tr>
+            <td colspan="3">
+                {% if user_locale == "es" %}
+                    {{ own.description_es }}
+                {% elseif user_locale == "fr" %}
+                    {{ own.description_fr }}
+                {% elseif user_locale == "it" %}
+                    {{ own.description_it }}
+                {% else %}
+                    {{ own.description_en }}
+                {% endif %}
+            </td>
+        </tr>
     </table>
 
     {%for res_room in own_res_rooms[own.id] %}

@@ -646,9 +646,9 @@
         <source>TERRACE_ROOMS</source>
         <target state="new">TERRACE_ROOMS</target>
       </trans-unit>
-      <trans-unit id="30020c864b906311cac51307a2b1c126da696a09" resname="THANKS_RESERVATION_MYCP">
-        <source>THANKS_RESERVATION_MYCP</source>
-        <target state="new">THANKS_RESERVATION_MYCP</target>
+      <trans-unit id="30020c864b906311cac51307a2b1c126da696a09" resname="THANKS_RESERVATION_MYCP_PARTNER">
+        <source>THANKS_RESERVATION_MYCP_PARTNER</source>
+        <target state="new">Gracias por reservar</target>
       </trans-unit>
       <trans-unit id="8f28b28558e65b8d2741bad530c878f65db35617" resname="TRIPLE_ROOM_FILTER">
         <source>TRIPLE_ROOM_FILTER</source>

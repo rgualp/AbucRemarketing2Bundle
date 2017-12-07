@@ -238,10 +238,19 @@ class ownershipReservationRepository extends EntityRepository {
             serviceFee.id as service_fee,
             serviceFee.fixedFee,
             serviceFee.current as currentFee,
+            pho.pho_name as photo,
+            (SELECT min(d.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d JOIN d.odl_id_lang l WHERE d.odl_ownership = o.own_id AND l.lang_code = 'ES') as description_es,
+            (SELECT min(d1.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d1 JOIN d1.odl_id_lang l1 WHERE d1.odl_ownership = o.own_id AND l1.lang_code = 'EN') as description_en,
+            (SELECT min(d2.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d2 JOIN d2.odl_id_lang l2 WHERE d2.odl_ownership = o.own_id AND l2.lang_code = 'DE') as description_de,
+            (SELECT min(d3.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d3 JOIN d3.odl_id_lang l3 WHERE d3.odl_ownership = o.own_id AND l3.lang_code = 'FR') as description_fr,
+            (SELECT min(d4.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d4 JOIN d4.odl_id_lang l4 WHERE d4.odl_ownership = o.own_id AND l4.lang_code = 'IT') as description_it,
             o.own_email_1,
             o.own_email_2
             FROM mycpBundle:ownershipReservation ore JOIN ore.own_res_gen_res_id gre
             JOIN gre.gen_res_own_id o
+            LEFT JOIN o.data data
+            LEFT JOIN data.principalPhoto op
+            LEFT JOIN op.own_pho_photo pho
             JOIN o.own_address_municipality as mun
             JOIN o.own_address_province as prov
             JOIN gre.service_fee serviceFee
@@ -318,7 +327,7 @@ class ownershipReservationRepository extends EntityRepository {
             (select min(r.room_bathroom) from mycpBundle:room r where r.room_id = ore.own_res_selected_room_id) as room_bathroom,
             ore.own_res_total_in_site as priceInSite,
             ore.own_res_night_price as priceNight,
-            c.fullname
+            c.fullname, detailReservation.reference
             FROM mycpBundle:ownershipReservation ore
             JOIN ore.own_res_gen_res_id gre
             JOIN gre.travelAgencyDetailReservations agencyReservation

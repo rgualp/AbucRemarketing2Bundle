@@ -22,6 +22,7 @@ class taskRenta
     const TYPE_RESERVATION_CREATE_TOURIST = 2;
     const TYPE_RESERVATION_CREATE_TEAM = 3;
     const TYPE_RESERVATION_CREATE_HOST = 4;
+    const TYPE_CREATE_USER = 5;
 
     /**
      * @var integer
