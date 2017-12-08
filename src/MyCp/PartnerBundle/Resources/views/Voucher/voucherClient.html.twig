@@ -65,11 +65,7 @@
     <tr>
         <td><b>Cuba Travel Network References{#{"label.name.agency"|trans({}, "messages", user_locale)}#}:</b></td>
         <td colspan="3">
-            {% for own in own_res %}
-                {%for res_room in own_res_rooms[own.id] %}
-                    {{ res_room.reference }}
-                {% endfor %}
-            {% endfor %}
+           {{ own_res_rooms[own.id][0].reference }}
         {#{ user.getUserUserName }} {{ user.getUserLastName }#}
         </td>
     </tr>
