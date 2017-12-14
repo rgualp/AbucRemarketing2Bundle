@@ -2308,7 +2308,7 @@
       </trans-unit>
     <trans-unit id="20">
         <source>payment.online_payment</source>
-        <target>Pago Online</target>
+        <target>Pago Completo</target>
       </trans-unit>
     <trans-unit id="21">
         <source>cancelPayment.refundAmount</source>

@@ -195,10 +195,11 @@ class BookingService extends Controller
 
         if($completePayment){
             //Calcular los totales
+            $comisioncal= ($travelAgency->getCommission()/100) * ($totalPrice + $serviceChargeInCuc + $touristTaxTotal);
             $totalTransferTax = 0.1*($totalPrice + $serviceChargeInCuc + $touristTaxTotal);
-            $totalAccommodationPayment = ($totalPrice + $touristTaxTotal + $serviceChargeInCuc + $totalTransferTax) * $currencyRate;
+            $totalAccommodationPayment = ($totalPrice + $touristTaxTotal + $serviceChargeInCuc + $totalTransferTax+$comisioncal) * $currencyRate;
             $totalTransferTax = $totalTransferTax * $currencyRate;
-            $commissionAgency = ($travelAgency->getCommission()/100) * ($totalPrice + $serviceChargeInCuc + $touristTaxTotal) * $currencyRate;
+            $commissionAgency = ($comisioncal) * $currencyRate;
             $totalOnlinePayment = $totalAccommodationPayment - $commissionAgency;
         }
 

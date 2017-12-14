@@ -1920,7 +1920,7 @@
             </trans-unit>
             <trans-unit id="489">
                 <source>REQUEST_IN_PROCESS_24_HOURS</source>
-                <target>Ihre Anfrage wird bearbeitet und Sie erhalten Antwort innerhalb von 24 Stunden</target>
+                <target>Ihre Anfrage wird bearbeitet und Sie erhalten Antwort innerhalb von 12 Stunden</target>
             </trans-unit>
             <trans-unit id="490">
                 <source>THANKS_RESERVATION_TEAM</source>

@@ -1921,7 +1921,7 @@
             </trans-unit>
             <trans-unit id="489">
                 <source>REQUEST_IN_PROCESS_24_HOURS</source>
-                <target>Your request is been processed. You will receive an answer within the next 24 hours.</target>
+                <target>Your request is been processed. You will receive an answer within the next 12 hours.</target>
             </trans-unit>
             <trans-unit id="490">
                 <source>THANKS_RESERVATION_TEAM</source>

@@ -488,7 +488,7 @@
           </trans-unit>
           <trans-unit id="ddf73ae6bc2b86c2883c3b4f77ffc13ad440c376" resname="PRICE_TOTAL_TO_PAY">
             <source>PRICE_TOTAL_TO_PAY</source>
-            <target state="new">Total to pay</target>
+            <target state="new">Total Price</target>
           </trans-unit>
           <trans-unit id="af4ca7a0bbbd209d4969bee11ae373bf0ccc200a" resname="PROVINCE_TAB_DESCRIPTION">
             <source>PROVINCE_TAB_DESCRIPTION</source>
@@ -2310,7 +2310,7 @@
       </trans-unit>
     <trans-unit id="20">
         <source>payment.online_payment</source>
-        <target>Online Payment</target>
+        <target>Complete payment</target>
       </trans-unit>
     <trans-unit id="21">
         <source>cancelPayment.refundAmount</source>

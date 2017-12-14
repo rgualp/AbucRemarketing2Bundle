@@ -1933,7 +1933,7 @@
             </trans-unit>
             <trans-unit id="489">
                 <source>REQUEST_IN_PROCESS_24_HOURS</source>
-                <target>Votre demande de réservation est en attente de réponse sous  24 heures .</target>
+                <target>Votre demande de réservation est en attente de réponse sous  12 heures .</target>
             </trans-unit>
             <trans-unit id="490">
                 <source>THANKS_RESERVATION_TEAM</source>

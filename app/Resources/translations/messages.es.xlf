@@ -1921,7 +1921,7 @@
             </trans-unit>
             <trans-unit id="489">
                 <source>REQUEST_IN_PROCESS_24_HOURS</source>
-                <target>Su solicitud está en proceso y usted obtendrá respuesta en menos de 24 horas.</target>
+                <target>Su solicitud está en proceso y usted obtendrá respuesta en menos de 12 horas.</target>
             </trans-unit>
             <trans-unit id="490">
                 <source>THANKS_RESERVATION_TEAM</source>
