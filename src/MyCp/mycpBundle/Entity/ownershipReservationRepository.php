@@ -298,6 +298,7 @@ class ownershipReservationRepository extends EntityRepository {
             ore.own_res_count_adults,
             ore.own_res_count_childrens,
             (select min(r.room_bathroom) from mycpBundle:room r where r.room_id = ore.own_res_selected_room_id) as room_bathroom,
+            (select min(t.room_num) from mycpBundle:room t where t.room_id = ore.own_res_selected_room_id) as room_number,
             ore.own_res_total_in_site as priceInSite,
             ore.own_res_night_price as priceNight,
             c.fullname, co.co_name as country, c.comments, detailReservation.reference

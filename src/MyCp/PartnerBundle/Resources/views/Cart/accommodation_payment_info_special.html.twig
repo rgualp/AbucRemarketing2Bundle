@@ -60,7 +60,7 @@
 
         <div class="row">
             <div class="col-sm-8">
-                {{ "payment.total" | trans | upper }}
+                {{ "PAYMENT_COMPLETE" | trans | upper }}
             </div>
             <div class="col-sm-4 text-right">
                 {{ (payments[item.gen_res_id].onlinePayment * app.user.userCurrency.currCucChange) | number_format(2) }} {{ app.user.userCurrency.currSymbol }}

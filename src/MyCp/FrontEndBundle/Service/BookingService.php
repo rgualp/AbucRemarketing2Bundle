@@ -72,6 +72,7 @@ class BookingService extends Controller
      * @param $bookingId
      * @return array
      */
+    /* FUncion LLenar Datos del voucher Partner reservation*/
     public function calculateBookingDetailsPartner($bookingId,$user)
     {
         $serviceChargeInCuc = 0;
@@ -195,11 +196,12 @@ class BookingService extends Controller
 
         if($completePayment){
             //Calcular los totales
-            $comisioncal= ($travelAgency->getCommission()/100) * ($totalPrice + $serviceChargeInCuc + $touristTaxTotal);
+            $travelAgencycomision = $travelAgency->getCommission()/100;
+            $comisioncal= $travelAgencycomision * ($totalPrice + $serviceChargeInCuc + $touristTaxTotal);
             $totalTransferTax = 0.1*($totalPrice + $serviceChargeInCuc + $touristTaxTotal);
-            $totalAccommodationPayment = ($totalPrice + $touristTaxTotal + $serviceChargeInCuc + $totalTransferTax+$comisioncal) * $currencyRate;
+            $totalAccommodationPayment = ($totalPrice + $touristTaxTotal + $serviceChargeInCuc + $totalTransferTax + $comisioncal) * $currencyRate;
             $totalTransferTax = $totalTransferTax * $currencyRate;
-            $commissionAgency = ($comisioncal) * $currencyRate;
+            $commissionAgency = $currencyRate * $comisioncal;
             $totalOnlinePayment = $totalAccommodationPayment - $commissionAgency;
         }
 
@@ -214,6 +216,7 @@ class BookingService extends Controller
         return array(
             'user_locale' => $userLocale,
             'own_res' => $ownResDistinct,
+            'travelAgencycomision'=>$travelAgencycomision,
             'own_res_rooms' => $ownResRooms,
             'own_res_payments' => $payments,
             'user' => $user,
@@ -1294,7 +1297,7 @@ class BookingService extends Controller
         $this->sendEmailstoReservationAndAccommodationPartner($user, $isSpecial, $emailService, $dataArray);
 
     }
-
+//   Enviar correo vaucher partner
     private function sendEmailsToAgencyPartner($user, $travelAgency, $isSpecial, $emailService, $dataArray){
         $userLocale = strtolower($user->getUserLanguage()->getLangCode());
         $zipFileName = $dataArray["zipFileName"];
@@ -1312,6 +1315,8 @@ class BookingService extends Controller
 
         $logger = $this->get('logger');
         $userEmail = trim($user->getUserEmail());
+
+
 
         try {
             $emailService->sendEmailMultiplesAttach(
@@ -1465,13 +1470,13 @@ class BookingService extends Controller
                     $owns[0]->getOwnResGenResId()->getGenResId() . '.');
             } else {
                 try {
-                   /* $emailService->sendEmail(
+                    $emailService->sendEmail(
                         'Agencia: Confirmación de reserva',
                         'no-reply@mycasaparticular.com',
                         'MyCasaParticular.com',
                         $ownerEmail,
                         $bodyOwner
-                    );*/
+                    );
 
                     $logger->info('Successfully sent email to Casa Owner. Booking ID: ' .
                         $bookingId . ', Email: ' . $ownerEmail);

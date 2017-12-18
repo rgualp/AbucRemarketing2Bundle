@@ -38,8 +38,8 @@
                 {#<img class="thumbnail" style="background-color: transparent; border:none;padding: 18px; margin-bottom: 5px" src="{{ asset('bundles/frontend/img/Todospostfinance.png') }}" alt="{{"Postfinance" | trans}}">#}
                 {#<input type="radio" class="i-checks" name="payment_method" value="postfinance"> {{"POSTFINANCE_PAYMENT" | trans}} </label>#}
             {#</div>#}
-            <div class="col-sm-6">
-                {{ 'payment.total' | trans }}: <span id="totalPrepaymentGeneral"></span>
+            <div class="col-sm-6" >
+                {{ 'PAYMENT_COMPLETE' | trans | upper }}: <span id="totalPrepaymentGeneral"></span>
                 <input type="hidden" name="totalPrepaymentGeneralInput" id="totalPrepaymentGeneralInput"/>
                 <input type="hidden" name="completePayment" id="completePayment"/>
                 <input type="hidden" name="totalTouristAgencyTax" id="totalTouristAgencyTax"/>
@@ -59,7 +59,9 @@
             <a class="bg-blue color-white payButton" id="payNow">
                 <i class="glyphicons coins"></i> {{ "payment.book_now" | trans }}</a>
             </a>
+
         </div>
+
     </div>
 
 </div>
