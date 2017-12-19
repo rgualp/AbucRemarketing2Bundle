@@ -716,7 +716,7 @@
           </trans-unit>
           <trans-unit id="0cdd444afab1dde98c1efe7d858c25cdbccac843" resname="booking.placeholder.booking_code">
             <source>booking.placeholder.booking_code</source>
-            <target state="new">Booking Code</target>
+            <target state="new">Booking</target>
           </trans-unit>
           <trans-unit id="d2a6e5f7cf7a32a846403c34a9ec8717613788be" resname="booking.placeholder.booking_date">
             <source>booking.placeholder.booking_date</source>
@@ -2350,7 +2350,7 @@
       </trans-unit>
       <trans-unit id="30">
           <source>dashboard.booking.pending.payment</source>
-          <target state="new">Pending Payment</target>
+          <target state="new">Reserved</target>
       </trans-unit>
       <trans-unit id="31">
           <source>client.information</source>
@@ -2360,6 +2360,19 @@
           <source>today.date</source>
           <target state="new">Date</target>
       </trans-unit>
+      <trans-unit id="33">
+        <source>dashboard.booking.br</source>
+        <target state="new">BR</target>
+      </trans-unit>
+      <trans-unit id="34">
+                                        <source>dashboard.booking.acomodation</source>
+                                        <target state="new">Accommodation</target>
+                          </trans-unit>
+
+                          <trans-unit id="35">
+                                                                          <source>dashboard.booking.acomodationserach</source>
+                                                                          <target state="new">Code or Name</target>
+                                                                </trans-unit>
         </body>
   </file>
 </xliff>

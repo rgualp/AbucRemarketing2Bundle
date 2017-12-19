@@ -3,6 +3,7 @@
 namespace MyCp\PartnerBundle\Controller;
 
 use MyCp\FrontEndBundle\Helpers\Utils;
+use MyCp\mycpBundle\Entity\booking;
 use MyCp\mycpBundle\Entity\generalReservation;
 use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\PartnerBundle\Entity\paCancelPayment;
@@ -61,6 +62,8 @@ class DashboardController extends Controller
                 'own_name' => $reservation->getGenResOwnId()->getOwnName(),
                 'destination' => $reservation->getGenResOwnId()->getOwnDestination()->getDesName(),
                 'client_dates' => $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getClient()->getFullName(),
+                'reference' => $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getReference(),
+
                 'date' => $reservation->getGenResDate()->format('d-m-Y'));
 
             $ownReservations = $reservation->getOwn_reservations();
@@ -122,6 +125,8 @@ class DashboardController extends Controller
                 'own_mcp_code' => $reservation->getGenResOwnId()->getOwnMcpCode(),
                 'destination' => $reservation->getGenResOwnId()->getOwnDestination()->getDesName(),
                 'date' => $reservation->getGenResDate()->format('d-m-Y'),
+                'reference' => $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getReference(),
+
                 'client_dates' => $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getClient()->getFullName(),
                 'own_name' => $reservation->getGenResOwnId()->getOwnName());
 
@@ -201,6 +206,8 @@ class DashboardController extends Controller
                 'destination' => $reservation->getGenResOwnId()->getOwnDestination()->getDesName(),
                 'date' => $reservation->getGenResDate()->format('d-m-Y'),
                 'client_dates' => $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getClient()->getFullName(),
+                'reference' => $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getReference(),
+
                 'own_name' => $reservation->getGenResOwnId()->getOwnName());
 
             $ownReservations = $reservation->getOwn_reservations();
@@ -277,8 +284,10 @@ class DashboardController extends Controller
                 'destination' => $reservation->getGenResOwnId()->getOwnDestination()->getDesName(),
                 'date' => $reservation->getGenResDate()->format('d-m-Y'),
                 'client_dates' => $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getClient()->getFullName(),
-                'own_name' => $reservation->getGenResOwnId()->getOwnName()/*,
-                'client_name'=>$reservation->getTravelAgencyDetailReservations()->getReservation()->getClient()->getFullName()*/
+                'own_name' => $reservation->getGenResOwnId()->getOwnName(),
+                'reference' => $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getReference()
+                /*,
+                                'client_name'=>$reservation->getTravelAgencyDetailReservations()->getReservation()->getClient()->getFullName()*/
             );
 
             $ownReservations = $reservation->getOwn_reservations();
@@ -360,6 +369,7 @@ class DashboardController extends Controller
                 'date' => $reservation->getGenResDate()->format('d-m-Y'),
                 'client_dates' => $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getClient()->getFullName(),
                 'own_name' => $reservation->getGenResOwnId()->getOwnName()/*,
+
                 'client_name'=>$reservation->getTravelAgencyDetailReservations()->getReservation()->getClient()->getFullName()*/
             );
 
@@ -440,6 +450,8 @@ class DashboardController extends Controller
                 'destination' => $reservation->getGenResOwnId()->getOwnDestination()->getDesName(),
                 'date' => $reservation->getGenResDate()->format('d-m-Y'),
                 'client_dates' => $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getClient()->getFullName(),
+                'reference' => $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getReference(),
+
                 'own_name' => $reservation->getGenResOwnId()->getOwnName());
 
             $ownReservations = $reservation->getOwn_reservations();
@@ -615,7 +627,10 @@ class DashboardController extends Controller
                 'destination' => $reservation->getGenResOwnId()->getOwnDestination()->getDesName(),
                 'date' => $reservation->getGenResDate()->format('d-m-Y'),
                 'client_dates' => $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getClient()->getFullName(),
-                'own_name' => $reservation->getGenResOwnId()->getOwnName()/*,
+                'own_name' => $reservation->getGenResOwnId()->getOwnName(),
+                'reference'=> $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getReference()
+
+                /*,
                 'client_name'=>$reservation->getTravelAgencyDetailReservations()->getReservation()->getClient()->getFullName()*/
             );
 
@@ -1265,7 +1280,7 @@ class DashboardController extends Controller
 
         return new Response($response, 200);
     }
-
+   #Detalles 1
     public function indexBookingDetailAction($id_reservation, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -1281,11 +1296,15 @@ class DashboardController extends Controller
         $today = new \DateTime();
         $oneCanBeCanceled = false;
 
+        $booking=array();
+
         foreach ($ownership_reservations as $res) {
             $nights = $res->getNights($service_time);
             array_push($rooms, $em->getRepository('mycpBundle:room')->find($res->getOwnResSelectedRoomId()));
             array_push($array_nights, $nights);
-
+            if($reservation->getGenResStatus()==2) {
+                array_push($booking, $res->getOwnResReservationBooking()->getBookingId());
+            }
             $canCancel = ($res->getOwnResReservationFromDate() > $today && $res->getOwnResStatus() == ownershipReservation::STATUS_RESERVED);
             array_push($canBeCanceled, $canCancel);
 
@@ -1294,23 +1313,57 @@ class DashboardController extends Controller
 
             $total_price = ($res->getPriceTotal($service_time) * $curr['change']) . $curr['code'];
             array_push($array_total_prices, $total_price);
+
+
+
+
         }
 
-        return new JsonResponse([
-            'success' => true,
-            'id' => 'id_dashboard_booking_detail_' . $id_reservation,
-            'html' => $this->renderView('PartnerBundle:Dashboard:details.html.twig', array(
-                'id_res' => $id_reservation,
-                'cas' => "CAS.$id_reservation",
-                'reservation' => $reservation,
-                'reservations' => $ownership_reservations,
-                'rooms' => $rooms,
-                'nights' => $array_nights,
-                'total_prices' => $array_total_prices,
-                'canBeCanceled' => $canBeCanceled,
-                'oneCanBeCanceled' => $oneCanBeCanceled
-            )),
-            'msg' => 'Vista del detalle de una reserva']);
+        if($reservation->getGenResStatus()==2){
+            return new JsonResponse([
+                'success' => true,
+                'id' => 'id_dashboard_booking_detail_' . $id_reservation,
+                'html' => $this->renderView('PartnerBundle:Dashboard:details.html.twig', array(
+                    'id_res' => $id_reservation,
+                    'cas' => "CAS.$id_reservation",
+                    'reservation' => $reservation,
+                    'reservations' => $ownership_reservations,
+                    'rooms' => $rooms,
+                    'nights' => $array_nights,
+                    'total_prices' => $array_total_prices,
+                    'canBeCanceled' => $canBeCanceled,
+                    'oneCanBeCanceled' => $oneCanBeCanceled,
+                    'booking'=>$booking[0],
+                    'reference'=> $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getReference()
+
+                )),
+                'msg' => 'Vista del detalle de una reserva']);
+        }
+
+        else{
+            return new JsonResponse([
+                'success' => true,
+                'id' => 'id_dashboard_booking_detail_' . $id_reservation,
+                'html' => $this->renderView('PartnerBundle:Dashboard:details.html.twig', array(
+                    'id_res' => $id_reservation,
+                    'cas' => "CAS.$id_reservation",
+                    'reservation' => $reservation,
+                    'reservations' => $ownership_reservations,
+                    'rooms' => $rooms,
+                    'nights' => $array_nights,
+                    'total_prices' => $array_total_prices,
+                    'canBeCanceled' => $canBeCanceled,
+                    'oneCanBeCanceled' => $oneCanBeCanceled,
+                    'reference'=> $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getReference()
+
+                )),
+                'msg' => 'Vista del detalle de una reserva']);
+
+        }
+
+
+
+
     }
 
     public function indexBookingDetailCancelAction($id_reservation, $date, $amount, $currency, Request $request)
@@ -1357,6 +1410,8 @@ class DashboardController extends Controller
                 'canBeCanceled' => $canBeCanceled,
                 'oneCanBeCanceled' => $oneCanBeCanceled,
                 'cancelDate' => $date,
+                'reference'=> $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getReference(),
+
                 'cancelAmount' => $amount." ".$currency
             )),
             'msg' => 'Vista del detalle de una reserva']);

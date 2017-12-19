@@ -3435,9 +3435,13 @@ order by LENGTH(o.own_mcp_code), o.own_mcp_code";
         $qb->orderBy("r.gen_res_id", "DESC");
 
         if(isset($filters)) {
+            $re = '/^[A-z]{2}[0-9]{2,}$/';
+
             $cas = (array_key_exists('cas', $filters) && isset($filters['cas']));
+            $br = (array_key_exists('br', $filters) && isset($filters['br']));
             $own_name = (array_key_exists('own_name', $filters) && isset($filters['own_name']));
             $code = (array_key_exists('code', $filters) && isset($filters['code']));
+//            $acomodation=(array_key_exists('acomodation', $filters) && isset($filters['acomodation']));
             $destination = (array_key_exists('destination', $filters) && isset($filters['destination']));
             $from = (array_key_exists('from', $filters) && isset($filters['from']));
             $from_between = (array_key_exists('from_between', $filters) && isset($filters['from_between']));
@@ -3449,7 +3453,14 @@ order by LENGTH(o.own_mcp_code), o.own_mcp_code";
             $booking_date = (array_key_exists('booking_date', $filters) && isset($filters['booking_date']));
             $client_dates = (array_key_exists('client_dates', $filters) && isset($filters['client_dates']));
             $partner_client_id = (array_key_exists('partner_client_id', $filters) && isset($filters['partner_client_id']));
+            $cancel_date = (array_key_exists('cancel_date', $filters) && isset($filters['cancel_date']));
 
+            if($cancel_date) {
+                $a = Dates::createForQuery($filters['cancel_date'], 'd-m-Y');
+
+                $qb->andWhere('r.gen_res_status_date = :gen_res_status_date');
+                $qb->setParameter('gen_res_status_date', $a);
+            }
             if($cas) {
                 $qb->andWhere('r.gen_res_id = :gen_res_id');
                 $qb->setParameter('gen_res_id', $filters['cas']);
@@ -3462,8 +3473,15 @@ order by LENGTH(o.own_mcp_code), o.own_mcp_code";
                     $qb->setParameter('own_name', '%' . trim($filters['own_name']) . '%');
                 }
                 if($code) {
-                    $qb->andWhere('o.own_mcp_code LIKE :own_mcp_code');
-                    $qb->setParameter('own_mcp_code', '%' . trim($filters['code']) . '%');
+                    if(preg_match($re,$filters['code'])==1){
+                        $qb->andWhere('o.own_mcp_code LIKE :own_mcp_code');
+                        $qb->setParameter('own_mcp_code', '%' . trim($filters['code']) . '%');
+                    }
+                    else{
+                        $qb->andWhere('o.own_name LIKE :own_name');
+                        $qb->setParameter('own_name', '%' . trim($filters['code']) . '%');
+                    }
+
                 }
                 if($destination) {
                     $qb->join('o.own_destination', 'd');
@@ -3520,9 +3538,14 @@ JOIN owres_2.own_res_reservation_booking AS b1 JOIN b1.payments AS p WHERE owres
                 $qb->setParameter('created1', $a1);
                 $qb->setParameter('created2', $a2);
             }
+
             if($client_dates) {
                 $qb->andWhere('client.fullname LIKE :client_dates');
                 $qb->setParameter('client_dates', '%' . trim($filters['client_dates']) . '%');
+            }
+            if($br) {
+                $qb->andWhere('par.reference LIKE :br');
+                $qb->setParameter('br', '%' . trim($filters['br']) . '%');
             }
             if($partner_client_id) {
                 $qb->andWhere('client.id = :partner_client_id');
