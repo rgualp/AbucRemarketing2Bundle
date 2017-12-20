@@ -24,7 +24,6 @@ class ownershipReservation {
     const STATUS_CANCELLED = 4;
     const STATUS_RESERVED = 5;
     const STATUS_OUTDATED = 6;
-    const STATUS_PENDING_PAYMENT_PARTNER = 7;
 
     /**
      * Contains all possible statuses
@@ -38,8 +37,7 @@ class ownershipReservation {
         self::STATUS_NOT_AVAILABLE,
         self::STATUS_CANCELLED,
         self::STATUS_RESERVED,
-        self::STATUS_OUTDATED,
-        self::STATUS_PENDING_PAYMENT_PARTNER
+        self::STATUS_OUTDATED
     );
 
     /**
@@ -599,7 +597,6 @@ class ownershipReservation {
             case self::STATUS_NOT_AVAILABLE: return "ND";
             case self::STATUS_OUTDATED: return "V";
             case self::STATUS_RESERVED: return "R";
-            case self::STATUS_PENDING_PAYMENT_PARTNER: return "PP";
         }
     }
 

@@ -16,27 +16,19 @@ Estimado/a {{ reservations[0].getOwnResGenResId.getGenResOwnId.getOwnHomeowner1 
 Por este medio le confirmamos la reservación del cliente correspondientes al booking {{ booking }}:
 <br/><br/>
 
-<h3>Datos de la agencia de viajes</h3>
-<b>Agencia de viajes:</b> {{ user.getUserLastName }}
+<b>Nombre:</b> {{ user.getUserUserName }}
+<br/>
+<b>Apellidos:</b> {{ user.getUserLastName }}
 <br/>
 <b>Correo electrónico:</b> <a href="mailto:{{ user.getUserEmail }}">{{ user.getUserEmail }}</a>
 <br/>
 <b>País:</b> {{ user.getUserCountry.getCoName }}
 <br/>
+<b>Ciudad:</b> {{ user.getUserCity }}
+<br/>
 <b>Idioma:</b> {{ user.getUserLanguage.getLangName }}
 <br/>
-{% if client is defined and client != null %}
-    <br/>
-    <h3>Datos del cliente</h3>
-    <b>Nombre:</b> {{ client.fullname }}
-    <br/>
-    {% if client.country != null %}
-        <b>País:</b> {{client.country.getCoName }}
-        <br/>
-    {% endif %}
-{% endif %}
 <br/>
-
 <h3>Reservaciones  (Total: {{ reservations| length }})</h3>
 {% set total_price = 0 %}
 {% set reservationCAS = "" %}

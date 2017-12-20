@@ -4,7 +4,7 @@ frontend_get_reservation_calendar_ownership_callback:
     defaults: { _controller: FrontEndBundle:Ownership:getReservationCalendar }
 
 frontend_details_ownership:
-    locales:  { en: "/accommodation/{own_name}", es: "/alojamiento/{own_name}", de: "/unterkunft/{own_name}", fr: "/logement/{own_name}", it: "/alloggio/{own_name}" }
+    locales:  { en: "/accommodation/{own_name}", es: "/alojamiento/{own_name}", de: "/unterkunft/{own_name}", fr: "/unterkunft/{own_name}", it: "/unterkunft/{own_name}" }
     defaults: { _controller: FrontEndBundle:Ownership:details }
 
 frontend_last_added_ownership:
@@ -16,7 +16,7 @@ frontend_category_ownership:
     defaults: { _controller: FrontEndBundle:Ownership:category }
 
 frontend_search_ownership:
-    locales:  { en: "/accommodations/{text}/{arrival}/{departure}/{guests}/{rooms}/{inmediate}/{order_price}/{order_comments}/{order_books}", es: "/alojamientos/{text}/{arrival}/{departure}/{guests}/{rooms}/{inmediate}/{order_price}/{order_comments}/{order_books}", de: "/unterkuenfte/{text}/{arrival}/{departure}/{guests}/{rooms}/{inmediate}/{order_price}/{order_comments}/{order_books}", fr: "/logements/{text}/{arrival}/{departure}/{guests}/{rooms}/{inmediate}/{order_price}/{order_comments}/{order_books}", it: "/sistemazioni/{text}/{arrival}/{departure}/{guests}/{rooms}/{inmediate}/{order_price}/{order_comments}/{order_books}" }
+    locales:  { en: "/accommodations/{text}/{arrival}/{departure}/{guests}/{rooms}/{inmediate}/{order_price}/{order_comments}/{order_books}", es: "/alojamientos/{text}/{arrival}/{departure}/{guests}/{rooms}/{inmediate}/{order_price}/{order_comments}/{order_books}", de: "/unterkuenfte/{text}/{arrival}/{departure}/{guests}/{rooms}/{inmediate}/{order_price}/{order_comments}/{order_books}", fr: "/unterkuenfte/{text}/{arrival}/{departure}/{guests}/{rooms}/{inmediate}/{order_price}/{order_comments}/{order_books}", it: "/unterkuenfte/{text}/{arrival}/{departure}/{guests}/{rooms}/{inmediate}/{order_price}/{order_comments}/{order_books}" }
     defaults: { _controller: FrontEndBundle:Ownership:search,text:'null',arrival:'null',departure:'null',guests:0,rooms:0, inmediate:'null',order_price:'null', order_comments: 'null', order_books:'null'}
 
 frontend_order_search_results_ownership_callback:

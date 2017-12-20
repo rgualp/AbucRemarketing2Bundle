@@ -593,14 +593,6 @@ class OwnershipController extends Controller
         $currentServiceFee = $em->getRepository("mycpBundle:serviceFee")->getCurrent();
         $allLanguages = $em->getRepository("mycpBundle:lang")->findBy(array('lang_active' => 1));
 
-        $langCountry = array(
-                'en' => 'en-US',
-                'es' => 'es-ES',
-                'de' => 'de-DE',
-                'it' => 'it-IT',
-                'fr' => 'fr-FR'
-        );  
-
         $mobileDetector = $this->get('mobile_detect.mobile_detector');
         if ($mobileDetector->isMobile()) {
             return $this->render('MyCpMobileFrontendBundle:ownership:ownershipDetails.html.twig', array(
@@ -638,8 +630,7 @@ class OwnershipController extends Controller
                 'locale' => $locale,
                 'currentServiceFee' => $currentServiceFee,
                 'lastPage' => $paginator->getLastPage(),
-                'allLanguages' => $allLanguages,
-                'langCountry' => $langCountry
+                'allLanguages' => $allLanguages
             ));
         } else {
 
@@ -677,8 +668,7 @@ class OwnershipController extends Controller
                 'keywords' => $ownership_array['keywords'],
                 'currentServiceFee' => $currentServiceFee,
                 'lastPage' => $paginator->getLastPage(),
-                'allLanguages' => $allLanguages,
-                'langCountry' => $langCountry
+                'allLanguages' => $allLanguages
             ));
         }
     }
@@ -762,36 +752,7 @@ class OwnershipController extends Controller
         }
         $session->set('inmediate', $inmediate);
         $today = new \DateTime();
-
-        
-        //$provinces = $em->getRepository('mycpBundle:province')->findOneBy(array('prov_name' => $prov_name));
-
-        $arrTransProv = array(
-            'la-habana' => 'La Habana',
-            'havana' => 'La Habana',
-            'havanna' => 'La Habana', 
-            'havana' => 'La Habana', 
-            'lavana' => 'La Habana',  
-            'isla-de-la-juventud' => 'Isla de la Juventud',
-            'isle-of-youth' => 'Isla de la Juventud',
-            'insel-der-jugend' => 'Isla de la Juventud',
-            'ile-de-la-jeunesse' => 'Isla de la Juventud',
-            'isola-della-gioventu' => 'Isla de la Juventud',
-        );
-
         $search_text = ($text != null && $text != '' && $text != $this->get('translator')->trans('PLACE_WATERMARK')) ? Utils::getTextFromNormalized($text) : null;
-        
-        if (array_key_exists($text, $arrTransProv)){
-            $search_text = $arrTransProv[$text];             
-        }
-
-        $provinces = $em->getRepository('mycpBundle:province')->findOneBy(array('prov_name' => $search_text));
-        $province_name = 'no';    
-
-        if ($provinces){
-            $province_name = $provinces->getProvName(); 
-        }
-
         $search_guests = ($guests != null && $guests != '' && $guests != $this->get('translator')->trans('GUEST_WATERMARK')) ? $guests : "1";
         $search_rooms = ($rooms != null && $rooms != '' && $rooms != $this->get('translator')->trans('ROOM_WATERMARK')) ? $rooms : "1";
         $arrival = ($request->get('arrival') != null && $request->get('arrival') != "" && $request->get('arrival') != "null") ? $request->get('arrival') : $today->format('d-m-Y');
@@ -818,6 +779,49 @@ class OwnershipController extends Controller
         $session->set("filter_room", $room_filter);
         $list = $em->getRepository('mycpBundle:ownership')->search($this, $search_text, $arrival, $departure, $search_guests, $search_rooms, $session->get('search_order'), $room_filter, $check_filters, $inmediate);
 
+        // <editor-fold defaultstate="collapsed" desc="Inside code was inserted into search method in ownershipRepository">
+        //Marlon
+        /* $owns_list = array();
+
+          foreach($list as $tmp){
+          //die(var_dump($tmp));
+          $own = new ownership();
+          $own = $tmp;
+          $rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $own['own_id']));
+
+          $real = count($rooms);
+
+          foreach( $rooms as $room){
+          $own_reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(
+          array(
+          'own_res_selected_room_id' => $room->getRoomId()
+          )
+          );
+          foreach( $own_reservations as $res ){
+          $from = $res->getOwnResReservationFromDate();
+          $end = $res->getOwnResReservationToDate();
+
+          $arr = new \DateTime($arrival);
+          $dep = new \DateTime($departure);
+
+          //die(var_dump($from, $end, $arr, $dep));
+
+          if ( ! ( $dep < $from || $arr > $end)){
+          $real--;
+          break;
+          }
+
+          }
+          }
+
+          if ( $real > 0 )
+          $owns_list[] = $own;
+
+          }
+
+          $list = $owns_list; */
+        // End Marlon
+        // </editor-fold>
 
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 15;
@@ -873,8 +877,7 @@ class OwnershipController extends Controller
                 'show_paginator' => true,
                 'awards' => $awards,
                 "lastPage" => $paginator->getLastPage(),
-                "inmediate" => $inmediate,
-                "province_name" => $province_name
+                "inmediate" => $inmediate
             ));
         else
             return $this->render('FrontEndBundle:ownership:searchOwnershipv2.html.twig', array(
@@ -900,8 +903,7 @@ class OwnershipController extends Controller
                 'show_paginator' => true,
                 'awards' => $awards,
                 "lastPage" => $paginator->getLastPage(),
-                "inmediate" => $inmediate,
-                "province_name" => $province_name
+                "inmediate" => $inmediate
             ));
     }
 

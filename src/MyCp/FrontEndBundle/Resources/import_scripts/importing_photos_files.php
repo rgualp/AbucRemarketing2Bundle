@@ -4,7 +4,7 @@
  * Importing Photo Files from old website MyCasaParticular.com
  */
 //Settings to images paths
-$old_website_path_to_images = "https://www.mycasaparticular.com/images/";
+$old_website_path_to_images = "http://www.mycasaparticular.com/images/";
 $new_website_path_to_images = "http://localhost/mycp2.0/web/uploads/";
 $old_website_path_to_albums_photos = "";
 $old_website_path_to_destinations_photos = "";

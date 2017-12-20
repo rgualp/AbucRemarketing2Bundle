@@ -21,11 +21,6 @@ class SeoUtilsExtension extends \Twig_Extension
 	 */
 	protected $blockcontent_repository;
 
-    /**
-     * @var \hds\SeoBundle\Repository\Header
-     */
-    protected $header_repository;
-
 	/**
 	 * @var Request
 	 */
@@ -41,12 +36,11 @@ class SeoUtilsExtension extends \Twig_Extension
 	 *
 	 * @param ContainerInterface $container
 	 */
-	public function __construct($container, $block_repository, $blockcontent_repository, $header_repository, $languaje_repository)
+	public function __construct($container, $block_repository, $blockcontent_repository, $languaje_repository)
 	{
 		$this->container = $container;
 		$this->block_repository = $block_repository;
 		$this->blockcontent_repository = $blockcontent_repository;
-		$this->header_repository = $header_repository;
 		$this->languaje_repository = $languaje_repository;
 
 		if ($this->container->isScopeActive('request')) {
@@ -69,35 +63,8 @@ class SeoUtilsExtension extends \Twig_Extension
 		return array(
 			new \Twig_SimpleFunction('get_metas', array($this, 'getMetas')),
 			new \Twig_SimpleFunction('get_lang', array($this, 'getLang')),
-			new \Twig_SimpleFunction('get_tagvalue_bytag', array($this, 'getTagValueByTag')),
 		);
 	}
-
-	public function getTagValueByTag($block_name, $language_code, $type_tag){
-        $block= $this->block_repository->findOneBy(array('name'=>$block_name));
-
-        if(!$block){
-            return false;
-        }
-        if(!$block->getIsActive()){
-            return false;
-        }
-
-        $header = $this->header_repository->findOneBy(array('type_tag'=>$type_tag));
-        if(!$header){
-            return false;
-        }
-        $block_contents= $this->blockcontent_repository->findOneBy(array(
-            'block'=>$block->getId(),
-            'header'=>$header->getId(),
-            'language_code'=>$language_code
-        ));
-        if(!$block_contents){
-            return false;
-        }
-
-        return $block_contents->getContent();
-    }
 
 	public function getMetas($block_name, $language_code, array $replacements=array()){
 
@@ -105,7 +72,7 @@ class SeoUtilsExtension extends \Twig_Extension
 		try{
 			$block= $this->block_repository->findOneBy(array('name'=>$block_name));
 			if(!$block){
-				return false;
+				return '<!--- Seo: Bloque "'.$block_name.'" no existe!!! --->';
 			}
 			if(!$block->getIsActive()){
 				return '<!---Seo: Bloque "'.$block_name.'" esta desactivado!!! --->';
@@ -136,14 +103,6 @@ class SeoUtilsExtension extends \Twig_Extension
             $paramas = $attributes['_route_params'];
             $paramas['locale'] = "es";
 
-            $langCountry = array(
-            	'en' => 'en-US',
-            	'es' => 'es-ES',
-            	'de' => 'de-DE',
-            	'it' => 'it-IT',
-            	'fr' => 'fr-FR'
-            );	
-
             if (count($allLanguage) > 0){
                 foreach ($allLanguage as $lang){
                     $paramas['locale'] = strtolower($lang->getLangCode());
@@ -161,8 +120,7 @@ class SeoUtilsExtension extends \Twig_Extension
                     $new_url = str_replace("/".$language_code."/", "/".strtolower($lang->getLangCode())."/", $url);
                     $hreflang = 'hreflang=';
                     $rel = "alternate";
-
-                    $hreflang = $hreflang.'"'.$langCountry[strtolower($lang->getLangCode())].'"';
+                    $hreflang = $hreflang.'"'.strtolower($lang->getLangCode()).'"';
 
                     if (strtolower($lang->getLangCode()) == $language_code){
                         $rel = "canonical";

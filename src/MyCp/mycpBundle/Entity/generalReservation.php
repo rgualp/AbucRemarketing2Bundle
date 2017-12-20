@@ -32,7 +32,6 @@ class generalReservation {
     const STATUS_PARTIAL_CANCELLED = 7;
     const STATUS_OUTDATED = 8;
     const STATUS_PENDING_PARTNER = 9;
-    const STATUS_PENDING_PAYMENT_PARTNER = 10;
 
     /**
      * Contains all possible statuses
@@ -50,8 +49,7 @@ class generalReservation {
         self::STATUS_CANCELLED,
         self::STATUS_PARTIAL_CANCELLED,
         self::STATUS_OUTDATED,
-        self::STATUS_PENDING_PARTNER,
-        self::STATUS_PENDING_PAYMENT_PARTNER
+        self::STATUS_PENDING_PARTNER
     );
 
     /**
@@ -710,7 +708,6 @@ class generalReservation {
             case self::STATUS_PARTIAL_AVAILABLE: return "Parcialmente Disponible";
             case self::STATUS_PARTIAL_CANCELLED: return "Parcialmente Cancelada";
             case self::STATUS_RESERVED: return "Reservada";
-            case self::STATUS_PENDING_PAYMENT_PARTNER: return "Pago Pendiente";
         }
     }
 

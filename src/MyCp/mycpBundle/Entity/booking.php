@@ -12,7 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class booking
 {
-    const STATUS_PENDING_PAYMENT = 1;
     /**
      * @var integer
      *
@@ -87,13 +86,6 @@ class booking
      * @ORM\Column(name="tax_for_service", type="decimal", precision=10, scale=2 )
      */
     private $taxForService;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="status", type="integer", nullable=true)
-     */
-    private $status;
 
     /**
      * Constructor
@@ -313,24 +305,6 @@ class booking
     public function setTaxForService($taxForService)
     {
         $this->taxForService = $taxForService;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
-
-    /**
-     * @param int $status
-     * @return mixed
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
         return $this;
     }
 

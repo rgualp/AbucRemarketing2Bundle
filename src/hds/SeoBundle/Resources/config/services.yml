@@ -9,7 +9,6 @@ services:
             - @service_container
             - @block_repository
             - @blockcontent_repository
-            - @header_repository
             - @languaje_repository
         tags:
             - { name: twig.extension }

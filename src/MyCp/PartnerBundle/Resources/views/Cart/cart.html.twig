@@ -55,11 +55,7 @@
         </div>
     </div>
 
-    {% if isSpecialPackage %}
-        {% include 'PartnerBundle:Cart:cart_overlay_special.html.twig' %}
-    {% else %}
-        {% include 'PartnerBundle:Cart:cart_overlay.html.twig' %}
-    {% endif %}
+    {% include 'PartnerBundle:Cart:cart_overlay.html.twig' %}
 </form>
 {% endblock %}
 

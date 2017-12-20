@@ -17,47 +17,11 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <dl class="dl-horizontal">
-                            <dt><em class="rt">{{ "dashboard.booking.br" | trans }}:</em></dt>
-                            <dd><span class="rst">{{ reference }}</span></dd>
+                            <dt><em class="rt">{{ "dashboard.booking.code" | trans }}:</em></dt>
+                            <dd><span class="rst">{{ reservation.getGenResOwnId.getOwnMcpCode }}</span></dd>
 
-                            <dt><em class="rt">{{ "dashboard.booking.client_dates" | trans }}:</em></dt>
-                            <dd><span class="rst">{{ reservation.getTravelAgencyDetailReservations.first.getReservation.getClient.getFullName }}</span></dd>
-
-
-
-                            <dt><em class="rt">{{ "FORMS_COMMENTS" | trans }}:</em></dt>
-                            <dd><span class="rst">{{ reservation.getTravelAgencyDetailReservations.first.getReservation.getClient.getComments }}</span></dd>
-
-                            <dt><em class="rt">{{ "label.name.country" | trans }}:</em></dt>
-                            <dd><span class="rst">{{ reservation.getTravelAgencyDetailReservations.first.getReservation.getClient.getCountry }}</span></dd>
-
-                            <dt><em class="rt">{{ "dashboard.booking.cas" | trans }}:</em></dt>
-                            <dd><span class="rst">{{ reservation.getGenResId }}</span></dd>
-
-                            {% if reservation.getGenResStatus==2 %}
-                            <dt><em class="rt">{{ "dashboard.booking.bookingcode" | trans }}:</em></dt>
-                            <dd><span class="rst">{{ booking }}</span></dd>
-
-                                <dt><em class="rt">{{ "dashboard.booking.bookingdate" | trans }}:</em></dt>
-                                <dd><span class="rst">{{ reservation.getGenResDate | date("d-m-Y") }}</span></dd>
-                            {% elseif reservation.getGenResStatus==6 %}
-                                <dt><em class="rt">{{ "cancelPayment.cancelDate" | trans }}:</em></dt>
-                                <dd><span class="rst">{{ reservation.getGenResStatusDate | date("d-m-Y") }}</span></dd>
-                            {% else %}
-                            <dt><em class="rt">{{ "dashboard.booking.date" | trans }}:</em></dt>
-                            <dd><span class="rst">{{ reservation.getGenResDate | date("d-m-Y") }}</span></dd>
-                            {% endif %}
-
-
-
-                        </dl>
-                    </div>
-                    <div class="col-lg-6">
-                        <dl class="dl-horizontal">
-
-                            <dt><em class="rt">{{ "dashboard.booking.acomodation" | trans }}:</em></dt>
-                            <dd><span class="rst">{{ reservation.getGenResOwnId.getOwnMcpCode }}-{{ reservation.getGenResOwnId.getOwnName }}</span></dd>
-
+                            <dt><em class="rt">{{ "dashboard.booking.home" | trans }}:</em></dt>
+                            <dd><span class="rst">{{ reservation.getGenResOwnId.getOwnName }}</span></dd>
 
                             <dt><em class="rt">{{ "dashboard.booking.home.type" | trans }}:</em></dt>
                             <dd><span class="rst">{{ reservation.getGenResOwnId.getOwnType }}</span></dd>
@@ -73,8 +37,18 @@
 
                             <dt><em class="rt">{{ "dashboard.booking.home.owns" | trans }}:</em></dt>
                             <dd><span class="rst">{{ reservation.getGenResOwnId.getOwnHomeowner1 }}</span></dd>
+                        </dl>
+                    </div>
+                    <div class="col-lg-6">
+                        <dl class="dl-horizontal">
+                            <dt><em class="rt">{{ "dashboard.booking.client_dates" | trans }}:</em></dt>
+                            <dd><span class="rst">{{ reservation.getTravelAgencyDetailReservations.first.getReservation.getClient.getFullName }}</span></dd>
 
+                            <dt><em class="rt">{{ "dashboard.booking.date" | trans }}:</em></dt>
+                            <dd><span class="rst">{{ reservation.getGenResDate | date("d-m-Y") }}</span></dd>
 
+                            <dt><em class="rt">{{ "dashboard.booking.cas" | trans }}:</em></dt>
+                            <dd><span class="rst">{{ reservation.getGenResId }}</span></dd>
 
                             <dt><em class="rt">{{ "dashboard.booking.status" | trans }}:</em></dt>
                             <dd><span class="rst">{% include 'PartnerBundle:Dashboard:general_reservation_status_name.html.twig' with {'status': reservation.getGenResStatus} %}</span></dd>
@@ -107,7 +81,6 @@
             <thead>
             <tr>
                 <th></th>
-
                 <th><span class="rt">Habitación</span></th>
                 <th><span class="rt">Adultos</span></th>
                 <th><span class="rt">Niños</span></th>
@@ -115,7 +88,6 @@
                 <th><span class="rt">Salida</span></th>
                 <th><span class="rt">Noches</span></th>
                 <th><span class="rt">Total</span></th>
-
             </tr>
             </thead>
             {% set flag = 0 %}

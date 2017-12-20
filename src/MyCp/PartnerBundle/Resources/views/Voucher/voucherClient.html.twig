@@ -33,23 +33,20 @@
 
 <table style="width: 100%">
     <tr>
-        <td colspan="2" style="text-align: right">{{'now'| date('M d, Y') }}</td>
-    </tr>
-    <tr>
         <td>
-            <img src="bundles/partner/img/logos/agency.png" alt="agency" style="height: 50px"/>
+            <img id="logo"  src="bundles/mycp/images/logo.jpg" alt="my casa particular"/>
         </td>
         <td style="text-align: right; vertical-align: top; color: #cccccc">
-            <img id="logo"  src="bundles/mycp/images/logo.jpg" alt="my casa particular"/>
+            {{'now'| date('M d, Y') }}
         </td>
     </tr>
 </table>
 <br/>
 <h2 class="h-green no-margin">{{ 'RESERVATION_CONFIRM'|trans({}, "messages", user_locale) }}</h2>
 <hr/>
-<h4 style="font-size: 14px; margin: 10px 0px 0px 5px">{{"DEAR_MR"|trans({}, "messages", user_locale)}} {{ client.fullname }}</h4>
+<h4 style="font-size: 14px; margin: 10px 0px 0px 5px">{{"DEAR_MR"|trans({}, "messages", user_locale)}} {{ user.getUserLastName }}</h4>
 <p>
-    {{"THANKS_RESERVATION_MYCP_PARTNER"|trans({}, "messages", user_locale)}}
+    {{"THANKS_RESERVATION_MYCP"|trans({}, "messages", user_locale)}} <a href="{{ url('frontend_partner_home') }}">MyCasaPartner.com</a><br/>
     {{"PLEASE_PRINT_CONFIRMATION_OF_SERVICE"|trans({}, "messages", user_locale)}}<br/>
 </p>
 <h2 class="h-green no-margin">{{ 'CLIENT_INFORMATION'|trans({}, "messages", user_locale) }}</h2>
@@ -63,12 +60,8 @@
         <td>{{ client.fullname }}</td>
     </tr>
     <tr>
-        <td><b>Cuba Travel Network References{#{"label.name.agency"|trans({}, "messages", user_locale)}#}:</b></td>
-        <td colspan="3">
-            {% set own1 = own_res[0] %}
-           {{ own_res_rooms[own1.id][0].reference }}
-        {#{ user.getUserUserName }} {{ user.getUserLastName }#}
-        </td>
+        <td><b>{{"label.name.agency"|trans({}, "messages", user_locale)}}:</b></td>
+        <td colspan="3">{{ user.getUserUserName }} {{ user.getUserLastName }}</td>
     </tr>
 </table>
 <br/>
@@ -97,8 +90,7 @@
             <td style="border-top:none; width:40%">{{ own.name }}</td>
             <td rowspan="5" style="border-top:none;width:30%">
                 <div class="thumbnail" style="padding: 12px; margin-left: 12px;">
-                    {#<img src='https://maps.googleapis.com/maps/api/staticmap?center={{own.geo_x}},{{own.geo_y}}&zoom=15&size=200x200&sensor=false&markers=icon:{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}%7C{{own.geo_x}},{{own.geo_y}}&a.jpg' alt="{{"Maps" | trans}}"/>#}
-                    <img src="uploads/ownershipImages/thumbnails/{{ own.photo }}" alt="my casa particular" style="width: 200px"/>
+                    <img src='https://maps.googleapis.com/maps/api/staticmap?center={{own.geo_x}},{{own.geo_y}}&zoom=15&size=200x200&sensor=false&markers=icon:{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}%7C{{own.geo_x}},{{own.geo_y}}&a.jpg' alt="{{"Maps" | trans}}"/>
                 </div>
             </td>
         </tr>
@@ -126,19 +118,6 @@
                 <td>{% if own.own_email_1 == "" and own.own_email_2 == "" %}-{% else %}<a href="mailto:{{ own.own_email_1 }}">{{ own.own_email_1 }}</a>{% if own.own_email_1 != "" and own.own_email_2 != "" %}, {% endif %}<a href="mailto:{{ own.own_email_2 }}">{{ own.own_email_2 }}</a>{% endif %}</td>
             </tr>
         {% endif %}
-        <tr>
-            <td colspan="3">
-                {% if user_locale == "es" %}
-                    {{ own.description_es }}
-                {% elseif user_locale == "fr" %}
-                    {{ own.description_fr }}
-                {% elseif user_locale == "it" %}
-                    {{ own.description_it }}
-                {% else %}
-                    {{ own.description_en }}
-                {% endif %}
-            </td>
-        </tr>
     </table>
 
     {%for res_room in own_res_rooms[own.id] %}
@@ -194,14 +173,6 @@
         </td>
         <td style="text-wrap: none; border-top:none;text-align: right;padding:0px" nowrap="nowrap">
             <h3 class="no-margin c-bbbb">{{"END_OF_YOUR_RESERVATION" | trans({}, "messages", user_locale)}}</h3>
-        </td>
-    </tr>
-</table>
-<br/><br/>
-<table style="width: 100%;">
-    <tr style="border-top:none;">
-        <td style="text-wrap: none; border-top:none;text-align: center;padding:0px" nowrap="nowrap">
-            <h1 class="h-green no-margin">{{"VOUCHER_PAYED" | trans({}, "messages", user_locale)}}</h1>
         </td>
     </tr>
 </table>

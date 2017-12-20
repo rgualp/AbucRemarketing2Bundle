@@ -2159,8 +2159,6 @@ ORDER BY own.own_mcp_code ASC
         $clientsSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryAvailable(null, null,$accommodationModality);
         $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryPaymentsFacturation(null, null,$accommodationModality);
         $clientsSummaryFacturation = $em->getRepository("mycpBundle:generalReservation")->getClientsYearlySummaryOnlyFacturation(null, null,$accommodationModality);
-        //$payment=$em->getRepository("mycpBundle:generalReservation")->getPaymentByYear($accommodationModality);
-
         foreach($clientsSummaryFacturation as  $i=>$y){
             $clientsSummaryPayments[$i]['facturacion']=$y['facturacion'];
         }
@@ -2219,8 +2217,7 @@ ORDER BY own.own_mcp_code ASC
             'clientsSummaryAvailable' => $clientsSummaryAvailable,
             'clientsSummaryPayments' => $clientsSummaryPayments,
             'summary' => $summary,
-            "dateFilter" => "Y",
-            //"payment" => $payment
+            "dateFilter" => "Y"
         ));
     }
     public function clientsFacturationSummaryExcelYearlyAction(Request $request,$report, $accommodation_modality)

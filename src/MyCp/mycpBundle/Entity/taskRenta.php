@@ -19,10 +19,6 @@ class taskRenta
     const TYPE_NONE = -1;
     const TYPE_CANCELED_BOOKING = 0;
     const TYPE_UPDATE_ICAL = 1;
-    const TYPE_RESERVATION_CREATE_TOURIST = 2;
-    const TYPE_RESERVATION_CREATE_TEAM = 3;
-    const TYPE_RESERVATION_CREATE_HOST = 4;
-    const TYPE_CREATE_USER = 5;
 
     /**
      * @var integer

@@ -260,7 +260,7 @@
 
         var partner_arrival_date='{{ app.session.get('partner_arrival_date')}}';
         var partner_exit_date='{{ app.session.get('partner_exit_date')}}';
-
+        
         $(document).ready(function () {
             WinMove();
 
@@ -275,6 +275,7 @@
                 var link = $(this);
                 executeAjax(link, null);
             });
+
             items.each(function(index, ele){
                 ele = $(ele);
                 if (ele.data('action') && inAction.indexOf(ele.data('action')) != -1){

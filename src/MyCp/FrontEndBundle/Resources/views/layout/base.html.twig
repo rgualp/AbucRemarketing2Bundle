@@ -4,7 +4,6 @@
 <html id="top" {{ get_lang(lang_code)|raw }}>
 <head>
     <title>{% block title %}{{"WELCOMEPAGE_TITLE" | trans }}{% endblock %}</title>
-    <meta name="google" content="notranslate" />
 
     {% block metas %}
         {{ get_metas('Main', lang_code)|raw }}
@@ -153,7 +152,6 @@
                     <li><a rel="nofollow" title="My Casa Particular - {{"FAQ" | trans}}" href="{{path('frontend_list_faq')}}">{{"FAQ" | trans}}</a></li>
                     <li><a rel="nofollow" title="My Casa Particular - {{"LEGAL_TERMS" | trans}}" href="{{path('frontend_legal_terms')}}">{{"LEGAL_TERMS" | trans}}</a></li>
                     <li><a rel="nofollow" title="My Casa Particular - {{"SECURITY_AND_PRIVACITY" | trans}}" href="{{path('frontend_security_privacity')}}">{{"SECURITY_AND_PRIVACITY" | trans}}</a></li>
-                    <li><a target="_blank" title="Blog MyCasaParticular" href="http://blog.mycasaparticular.com">{{"BLOG" | trans}}</a></li>
                 </ul>
             </div>
             <div class="col-xs-2">
@@ -221,7 +219,7 @@
         </div>
         <div class="row">
             <div class="col-sm-8" style="margin-bottom: 2em">
-                <p>&copy; 2009 - {{'today'|date('Y')}}. <a style="font-size: 11px; color: #ffffff" href="https://www.mycasaparticular.com">MyCasaParticular.com</a>.
+                <p>&copy; 2009 - {{'today'|date('Y')}}. <a style="font-size: 11px; color: #ffffff" href="http://www.mycasaparticular.com">MyCasaParticular.com</a>.
                     {{"FOOTER_COPYRIGHT" | trans}}.</p>
             </div>
 

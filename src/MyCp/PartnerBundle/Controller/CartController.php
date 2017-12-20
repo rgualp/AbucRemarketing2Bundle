@@ -41,7 +41,6 @@ class CartController extends Controller
         $user = $this->getUser();
         $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
         $travelAgency = $tourOperator->getTravelAgency();
-        $packageService = $this->get("mycp.partner.package.service");
 
         $cartItems = $em->getRepository("PartnerBundle:paReservation")->getCartItems($travelAgency, $ids_gr);
 
@@ -71,8 +70,7 @@ class CartController extends Controller
         return $this->render('PartnerBundle:Cart:cart.html.twig', array(
             "items" => $cartItems,
             "details" => $details,
-            "disablePaymentButton" => (count($ids_gr) > 0),
-            "isSpecialPackage" => $packageService->isSpecialPackageFromAgency($travelAgency)
+            "disablePaymentButton" => (count($ids_gr) > 0)
         ));
     }
 
@@ -128,8 +126,7 @@ class CartController extends Controller
 
         $cartItems = $em->getRepository("PartnerBundle:paReservation")->getCartItems($travelAgency);
         $response = $this->renderView('PartnerBundle:Cart:cart_reservations.html.twig', array(
-            'items' => $cartItems,
-            "disablePaymentButton" => true
+            'items' => $cartItems
         ));
 
         return new JsonResponse([
@@ -175,16 +172,12 @@ class CartController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $ownReservationIds = $request->get("checkValues");
-
         $timer = $this->get("Time");
         $user = $this->getUser();
         $currentTourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
         $currentTravelAgency = $currentTourOperator->getTravelAgency();
         $agencyPackage = $currentTravelAgency->getAgencyPackages()[0];
         $completePayment = $agencyPackage->getPackage()->getCompletePayment();
-
-        $packageService = $this->get("mycp.partner.package.service");
-        $isSpecial = $packageService->isSpecialPackageFromAgency($currentTravelAgency);
 
         $list = $em->getRepository('PartnerBundle:paReservation')->getDetailsByIds($ownReservationIds);
         $payments = array();
@@ -203,14 +196,12 @@ class CartController extends Controller
         $fixedFee = $currentServiceFee->getFixedFee();
 
         $itemsTotal = 0;
-        $totalPayment = 0;
 
         foreach($list as $item)
         {
             $itemsTotal++;
 
-            //$touristFee = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFeeByGeneralReservation($item["gen_res_id"], $timer);
-            $touristFee = $item["totalInSite"]*0.1;
+            $touristFee = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFeeByGeneralReservation($item["gen_res_id"], $timer);
             $commission = $item["totalInSite"]*$item["commission"]/100;
 
             $totalTouristAgencyTax += $touristFee;
@@ -240,15 +231,15 @@ class CartController extends Controller
                     "dinner"=>$dinner,
                     "breakfast"=>$breakfast,
                     "agency_tax"=>($item["totalInSite"]+$dinner+$breakfast)*0.1,
-                    "taxFees" => $touristFee
+                    "taxFees" => $touristFee + $fixedFee
                 );
             }
             else{ // agregar la tarfia fija a los calculos
-                $subTotal = $item["totalInSite"] + $touristFee;
-
+                $subTotal = ($itemsTotal == count($list)) ? ($item["totalInSite"] + $touristFee + $fixedFee) : ($item["totalInSite"] + $touristFee);
+                $addFixedFee = ($itemsTotal == count($list)) ? $fixedFee : 0;
                 $transferFee =  0.1 *  $subTotal;
                 $agencyCommission = $subTotal * $currentTravelAgency->getCommission() / 100;
-                $totalPayment = $item["totalInSite"] + $touristFee + $transferFee;
+                $totalPayment = $item["totalInSite"] + $touristFee + $transferFee + $addFixedFee;
                 $dinner = ($item["dinner"] != null) ? $item["dinner"] : 0;
                 $breakfast = ($item["breakfast"] != null) ? $item["breakfast"] : 0;
                 $totalPayment += $dinner + $breakfast;
@@ -281,32 +272,21 @@ class CartController extends Controller
             }
         }
 
-        /*if(!$completePayment)
+        if(!$completePayment)
             $totalPrepayment += $currentServiceFee->getFixedFee();
         else
-        {*/
+        {
             /*$totalPrepayment += 1.1*$currentServiceFee->getFixedFee();
             $totalTransferFee += 0.1*$currentServiceFee->getFixedFee();
             $totalAgencyCommission += $currentServiceFee->getFixedFee() * $currentTravelAgency->getCommission() / 100;*/
             $totalOnlinePayment = $totalPrepayment - $totalAgencyCommission;
-        //}
-
-        if($isSpecial)
-        {
-            $response = $this->renderView('PartnerBundle:Cart:selected_to_pay_special.html.twig', array(
-                'items' => $list,
-                'payments' => $payments,
-                'completePayment' => $completePayment
-            ));
-        }
-        else{
-            $response = $this->renderView('PartnerBundle:Cart:selected_to_pay.html.twig', array(
-                'items' => $list,
-                'payments' => $payments,
-                'completePayment' => $completePayment
-            ));
         }
 
+        $response = $this->renderView('PartnerBundle:Cart:selected_to_pay.html.twig', array(
+            'items' => $list,
+            'payments' => $payments,
+            'completePayment' => $completePayment
+        ));
 
         //$totalPayAtAccommodation = ($completePayment) ? $totalAccommodationPayment : $totalAccommodationPayment - $totalPercentAccommodationPrepayment;
         if(!$completePayment) {
@@ -323,8 +303,8 @@ class CartController extends Controller
                 'totalServiceTaxPaymentTxt' => number_format($totalServicesTax * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
                 'fixedTax' => $fixedFee,
                 'fixedTaxTxt' => number_format($fixedFee * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
-                'totalPayment' => $totalAccommodationPayment + $totalServicesTax,
-                'totalPaymentTxt' => number_format(($totalAccommodationPayment + $totalServicesTax) * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
+                'totalPayment' => $totalAccommodationPayment + $totalServicesTax + $fixedFee,
+                'totalPaymentTxt' => number_format(($totalAccommodationPayment + $totalServicesTax + $fixedFee) * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
                 'totalPercentAccommodationPrepayment' => $totalPercentAccommodationPrepayment,
                 'totalPercentAccommodationPrepaymentTxt' => number_format($totalPercentAccommodationPrepayment * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
                 'totalPayAtAccommodationPayment' => $totalAccommodationPayment - $totalPercentAccommodationPrepayment,
@@ -343,8 +323,8 @@ class CartController extends Controller
                 'totalPrepaymentTxt' => number_format($totalOnlinePayment * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
                 'totalAccommodationPayment' => $totalAccommodationPayment,
                 'totalAccommodationPaymentTxt' => number_format($totalAccommodationPayment * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
-                'totalServiceTaxPayment' => $totalServicesTax,
-                'totalServiceTaxPaymentTxt' => number_format($totalServicesTax, 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
+                'totalServiceTaxPayment' => $totalServicesTax + 1.1 * $fixedFee,
+                'totalServiceTaxPaymentTxt' => number_format(($totalServicesTax + 1.1 * $fixedFee) * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
                 'fixedTax' => $fixedFee,
                 'fixedTaxTxt' => number_format($fixedFee * $user->getUserCurrency()->getCurrCucChange(), 2) . " " . $user->getUserCurrency()->getCurrSymbol(),
                 'totalPayment' => $totalPrepayment,
@@ -367,9 +347,7 @@ class CartController extends Controller
         $currentTourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
         $currentTravelAgency = $currentTourOperator->getTravelAgency();
         $agencyPackage = $currentTravelAgency->getAgencyPackages()[0];
-        $package = $agencyPackage->getPackage();
-        $completePayment = $package->getCompletePayment();
-        $isSpecialPackage = $package->isSpecial();
+        $completePayment = $agencyPackage->getPackage()->getCompletePayment();
 
         $roomsToPay = $request->get("roomsToPay");
         $roomsToPay = explode(",", $roomsToPay);
@@ -388,45 +366,30 @@ class CartController extends Controller
             $dataValues = explode("-", $data);
             $idReservation = $dataValues[0];
             $genResId = $dataValues[1];
+            $arrivalHour = $request->get("arrivalHour_".$idReservation);
             $clientName = $request->get("clientName_".$idReservation);
 
             $generalReservation = $em->getRepository("mycpBundle:generalReservation")->find($genResId);
             $reservation = $em->getRepository("PartnerBundle:paReservation")->find($idReservation);
-            $client = $reservation->getClient();
+
+            if($arrivalHour != "") {
+                $generalReservation->setGenResArrivalHour($arrivalHour);
+                $em->persist($generalReservation);
+
+                $timeExplode = explode(":", $arrivalHour);
+                $time = new \DateTime();
+                $time->setTime($timeExplode[0], $timeExplode[1], 0);
+
+                $reservation->setArrivalHour($time);
+                $em->persist($reservation);
+            }
 
             if($clientName != "") {
+                $client = $reservation->getClient();
+
                 $client->setFullname($clientName);
+                $em->persist($client);
             }
-
-            if($isSpecialPackage){
-                $country = $request->get("country_".$idReservation);
-                $comments = $request->get("comments_".$idReservation);
-                $reference = $request->get("reference_".$idReservation);
-
-                $client->setComments($comments);
-                $reservation->setReference($reference);
-
-                if($country != "")
-                {
-                    $countryEntity = $em->getRepository("mycpBundle:country")->find($country);
-                    $client->setCountry($countryEntity);
-                }
-            }
-            else{
-                $arrivalHour = $request->get("arrivalHour_".$idReservation);
-                if($arrivalHour != "") {
-                    $generalReservation->setGenResArrivalHour($arrivalHour);
-                    $em->persist($generalReservation);
-
-                    $timeExplode = explode(":", $arrivalHour);
-                    $time = new \DateTime();
-                    $time->setTime($timeExplode[0], $timeExplode[1], 0);
-
-                    $reservation->setArrivalHour($time);
-                }
-            }
-            $em->persist($reservation);
-            $em->persist($client);
 
             $em->flush();
         }
@@ -447,7 +410,6 @@ class CartController extends Controller
         $booking->setBookingUserDates($travelAgency->getName() . ', ' . $user->getUserEmail());
         $booking->setCompletePayment($completePayment);
         $booking->setTaxForService($totalTouristAgencyTax);
-        $booking->setStatus(booking::STATUS_PENDING_PAYMENT);
         $em->persist($booking);
 
         $total_pay_at_service = 0;
@@ -470,7 +432,6 @@ class CartController extends Controller
             case "postfinance": return $this->forward('PartnerBundle:Payment:postFinancePayment', array('bookingId' => $bookingId, 'method' => "POSTFINANCE"));
 //                    case "visa": return $this->forward('FrontEndBundle:Payment:postFinancePayment', array('bookingId' => $bookingId, 'method' => "VISA"));
 //                    case "mastercard": return $this->forward('FrontEndBundle:Payment:postFinancePayment', array('bookingId' => $bookingId, 'method' => "MASTERCARD"));
-            case "generateVouchersOnly": return $this->forward('PartnerBundle:Payment:generateVoucherPartner', array('bookingId' => $bookingId));
             default: return $this->forward('PartnerBundle:Payment:skrillPayment', array('bookingId' => $bookingId));
         }
     }
@@ -483,7 +444,6 @@ class CartController extends Controller
         $user = $this->getUser();
         $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
         $travelAgency = $tourOperator->getTravelAgency();
-        $packageService = $this->get("mycp.partner.package.service");
 
         $cartItems = $em->getRepository("PartnerBundle:paReservation")->getCartItems($travelAgency, $ids_gr);
 
@@ -513,8 +473,7 @@ class CartController extends Controller
         return $this->render('PartnerBundle:Cart:cart.html.twig', array(
             "items" => $cartItems,
             "details" => $details,
-            "disablePaymentButton" => (count($ids_gr) > 0),
-            "isSpecialPackage" => $packageService->isSpecialPackageFromAgency($travelAgency)
+            "disablePaymentButton" => (count($ids_gr) > 0)
         ));
     }
 

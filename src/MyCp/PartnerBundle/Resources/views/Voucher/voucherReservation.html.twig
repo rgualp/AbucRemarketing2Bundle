@@ -4,7 +4,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <style type="text/css">
         body{font: 11px Verdana, Arial, Helvetica, sans-serif; letter-spacing: 0.3px;}
-
         h2{font-size: 15px; letter-spacing: 0.5px;}
         h4{font-size: 12px; letter-spacing: 0.5px}
         h3{font-size: 13px; letter-spacing: 0.5px}
@@ -15,10 +14,9 @@
         p{line-height: 18px}
         .text-right{text-align: right}
         .h-only-blue{color: #218CDC;}
-        .voucher-subtitle{color: #80AA2A; padding:3px 5px; background: #EBE9EA;}
+        .voucher-subtitle{color: #80AA2A; padding:3px 5px; background: #EBE9EA; width: 70%;}
         .h-green-line{border-bottom: 1px solid #80AA2A;}
         .b-cyan{background: #EBE9EA;}
-        .b-cyan1{background: #b9b9b9;}
         .c-bbbb{ color: #bbb;}
         hr.upper-bottom{ margin:15px 0 0; border-color:#bbb;}
         .hr-grey-wide{border-color:#C8C8C8; border-width: 3px;}
@@ -36,30 +34,36 @@
 <table style="width: 100%">
     <tr>
         <td>
-            <img src="bundles/partner/img/logos/agency.png" alt="agency" style="height: 50px" />
-
+            <img id="logo"  src="bundles/mycp/images/logo.jpg" alt="my casa particular"/>
         </td>
         <td style="text-align: right; vertical-align: top; color: #cccccc">
-            <img id="logo"  src="bundles/mycp/images/logo.jpg" alt="my casa particular"/>
+            {{'now'| date('M d, Y') }}
         </td>
     </tr>
 </table>
 <br/>
 <h2 class="h-green no-margin">{{ 'RESERVATION_CONFIRM'|trans({}, "messages", user_locale) }}</h2>
 <hr/>
+<h4 style="font-size: 14px; margin: 10px 0px 0px 5px">{{"DEAR_MR"|trans({}, "messages", user_locale)}} {{ user.getUserLastName }}</h4>
+<p>
+    {{"THANKS_RESERVATION_MYCP"|trans({}, "messages", user_locale)}} <a href="{{ url('frontend_partner_home') }}">MyCasaPartner.com</a><br/>
+    {{"PLEASE_PRINT_CONFIRMATION_OF_SERVICE"|trans({}, "messages", user_locale)}}<br/>
+</p>
+<h2 class="h-green no-margin">{{ 'CLIENT_INFORMATION'|trans({}, "messages", user_locale) }}</h2>
+<hr/>
 <p>
 <table style="width: 100%">
     <tr>
         <td><b>{{"RESERVATION_NUMBER"|trans({}, "messages", user_locale)}}:</b></td>
         <td>ID_{{ booking.getBookingId }}</td>
-        <td><b>{{"today.date"|trans({}, "messages", user_locale)}}</b></td>
-        <td>{{'now'| date('M d, Y') }}</td>
+        <td><b>{{"EMAIL_TO"|trans({}, "messages", user_locale)}}</b></td>
+        <td>{{ user.getUserEmail }}</td>
     </tr>
     <tr>
         <td><b>{{"CLIENT_NAME"|trans({}, "messages", user_locale)}}:</b></td>
         <td>{{ user.getUserUserName }} {{ user.getUserLastName }}</td>
-        <td><b>{{"EMAIL_TO"|trans({}, "messages", user_locale)}}</b></td>
-        <td>{{ user.getUserEmail }}</td>
+        <td><b>{{"NACIONALITY"|trans({}, "messages", user_locale)}}:</b></td>
+        <td>{{ user.getUserCountry.getCoName }}</td>
     </tr>
 </table>
 <br/>
@@ -69,36 +73,6 @@
         <div style="page-break-after: always"></div>
     {% endif %}
     <hr class="hr-grey-wide"/>
-    <br/><br/>
-
-    <h2 class="h-green no-margin">{{ 'CLIENT_INFORMATION'|trans({}, "messages", user_locale) }}</h2>
-    <hr/>
-   {#Modificaciones aki#}
-   {%for res_room in own_res_rooms[own.id] %}
-    <table  style="width: 100%">
-      {#{% set res_room = own_res_rooms[own.id][0] %}#}
-        <tr>
-            <td><b>{{"label.name.client"|trans({}, "messages", user_locale)}}: {{res_room.fullname }}</b>
-            </td>
-
-            <td><b>{{ "label.name.country" |trans({}, "messages", user_locale) }}: {{res_room.country }}</b>
-            </td>
-
-            <td><b>{{ "FORMS_COMMENTS" |trans({}, "messages", user_locale) }}: {{res_room.comments }}</b>
-
-            </td>
-
-        </tr>
-        <tr>
-            <td colspan="6">
-                <b>{{ "label.name.reference" |trans({}, "messages", user_locale) }}: {{res_room.reference }}</b>
-            </td>
-        </tr>
-    </table>
- {% if own_res_rooms[own.id] | length > 1 and not loop.last %}
- <h3 class="h-green h-green-line"  style="padding-bottom: 8px">
-    {% endif %}
-   {% endfor %}
     <table style="width: 100%">
         <tr>
             <td style="width: 70%">
@@ -157,7 +131,7 @@
         <br/>
         <table style="width:100%">
             <tr>
-                <td colspan="6"><h4 class="h-only-blue no-margin">{{res_room.own_res_room_type |trans({}, "messages", user_locale)}} # {{res_room.room_number }}</h4></td>
+                <td colspan="6"><h4 class="h-only-blue no-margin">{{res_room.own_res_room_type|trans({}, "messages", user_locale)}}</h4></td>
             </tr>
             <tr>
                 {% set difference = date(res_room.own_res_reservation_to_date|date('Y/m/d')).diff(date(res_room.own_res_reservation_from_date|date('Y/m/d'))) %}
@@ -185,9 +159,11 @@
                 <td><b>{{ "RESERVATION_COST" | trans({}, "messages", user_locale) }}</b></td>
                 <td>{{ currency_symbol }} {{ (res_room.priceInSite * currency_rate) | number_format(2) }}</td>
             </tr>
+            <tr>
+                <td colspan="6"><strong>  {{" label.name.client "|trans({}, "messages", user_locale)}}:</strong> {{res_room.fullname }}</td>
+            </tr>
         </table>
     {%endfor%}
-
     {% if own_res | length > 1 %}
         <br/>
         <h4 class="voucher-subtitle no-margin">
@@ -201,46 +177,24 @@
                 <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ (own_res_payments[own.id].total_price)| number_format(2) }}</h4></td>
             </tr>
             <tr>
-                <td><b>
-                 {% if booking.completePayment | trans({}, "messages", user_locale) %}
-                 {{ "SERVICE_AGENCY_TAX" |trans({}, "messages", user_locale) }}
-                  {% else %}
-                 {{ "SERVICES_TOTAL_COST" | trans({}, "messages", user_locale) }}
-                   {% endif %}</b></td>
+                <td><b>{% if booking.completePayment | trans({}, "messages", user_locale) %}{{ "SERVICE_AGENCY_TAX" |trans({}, "messages", user_locale) }}{% else %}{{ "SERVICES_TOTAL_COST" | trans({}, "messages", user_locale) }}{% endif %}</b></td>
                 <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ ((own_res_payments[own.id].touristTax)) | number_format(2) }}</h4></td>
-            </tr>
-            <tr>
-                <td><b>{{"SERVICE_TRANSFERENCE_TAX"|trans({}, "messages", user_locale)}}</b></td>
-                <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ (0.1*(own_res_payments[own.id].total_price + own_res_payments[own.id].touristTax)) | number_format(2) }}</h4></td>
-            </tr>
-            <tr>
-                <td><b>{{"AGENCY_COMMISSION"|trans({}, "messages", user_locale)}} ({{commissionAgencyPercent}}%)</b></td>
-                <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ ((travelAgencycomision*(own_res_payments[own.id].total_price + own_res_payments[own.id].touristTax))) | number_format(2) }}</h4></td>
-
             </tr>
             {% set fixedTax = 0 %}
             {% if own_res | length == 1 and not booking.completePayment %}
-                {#{% set fixedTax = service_charge_total %}#}
+                {% set fixedTax = service_charge_total %}
                 <tr>
                     <td><b>{{"SERVICE_FIXED_TAX"|trans({}, "messages", user_locale)}}</b></td>
                     <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ fixedTax | number_format(2)}}</h4></td>
                 </tr>
             {% endif %}
             <tr class="b-cyan">
-                <td><b>{{ "payment.total" | trans({}, "messages", user_locale) }} - {{"ACCOMMODATION"|trans({}, "messages", user_locale)}} {{loop.index}}</b></td>
+                <td><b>{{ "PRICE_TOTAL_TO_PAY" | trans({}, "messages", user_locale) }} - {{"ACCOMMODATION"|trans({}, "messages", user_locale)}} {{loop.index}}</b></td>
                 <td class="text-right">
                     <h4 class="no-margin">
-                        {{ currency_symbol }} {{ (own_res_payments[own.id].total_price + fixedTax + own_res_payments[own.id].touristTax)+(0.1*(own_res_payments[own.id].total_price + own_res_payments[own.id].touristTax)+(travelAgencycomision*(own_res_payments[own.id].total_price + own_res_payments[own.id].touristTax))) | number_format(2) }}
+                        {{ currency_symbol }} {{ (own_res_payments[own.id].total_price + fixedTax + own_res_payments[own.id].touristTax)| number_format(2) }}
                     </h4>
                 </td>
-            </tr>
-            <tr>
-                <td>- {{"AGENCY_COMMISSION"|trans({}, "messages", user_locale)}} ({{commissionAgencyPercent}}%)</td>
-                <td class="text-right">{{ currency_symbol }} {{ ((travelAgencycomision*(own_res_payments[own.id].total_price + own_res_payments[own.id].touristTax))) | number_format(2) }}</td>
-            </tr>
-            <tr class="b-cyan">
-                <td ><b>{{ "payment.online_payment" | trans({}, "messages", user_locale) }}</b></td>
-                <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{((own_res_payments[own.id].total_price + fixedTax + own_res_payments[own.id].touristTax)+(0.1*(own_res_payments[own.id].total_price + own_res_payments[own.id].touristTax)+(travelAgencycomision*(own_res_payments[own.id].total_price + own_res_payments[own.id].touristTax))))-(travelAgencycomision*(own_res_payments[own.id].total_price + own_res_payments[own.id].touristTax)) | number_format(2)}}</h4></td>
             </tr>
             {% if not booking.completePayment %}
             <tr>
@@ -375,30 +329,23 @@
             <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ (totalTransferTax) | number_format(2) }}</h4></td>
         </tr>
         <tr>
-            <td><b>{{"AGENCY_COMMISSION"|trans({}, "messages", user_locale)}} ({{commissionAgencyPercent}}%)</b></td>
-            <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ (commissionAgency) | number_format(2) }}</h4></td>
+            <td><b>{{"SERVICE_FIXED_TAX"|trans({}, "messages", user_locale)}}</b></td>
+            <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ service_charge_total | number_format(2)}}</h4></td>
         </tr>
         <tr class="b-cyan">
-            <td><b>{{ "payment.total" | trans({}, "messages", user_locale) }}</b></td>
+            <td><b>{{ "PRICE_TOTAL_TO_PAY" | trans({}, "messages", user_locale) }}</b></td>
             <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ ((totalAccommodationPayment)) | number_format(2) }}</h4></td>
         </tr>
         <tr>
             <td>- {{"AGENCY_COMMISSION"|trans({}, "messages", user_locale)}} ({{commissionAgencyPercent}}%)</td>
             <td class="text-right">{{ currency_symbol }} {{ (commissionAgency) | number_format(2) }}</td>
         </tr>
-        {#<tr>#}
-            {#<td><b>{{"SERVICE_FIXED_TAX"|trans({}, "messages", user_locale)}}</b></td>#}
-            {#<td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ service_charge_total | number_format(2)}}</h4></td>#}
-        {#</tr>#}
-
-
-        <tr class="b-cyan1">
-            <td ><b>{{ "payment.online_payment" | trans({}, "messages", user_locale) }}</b></td>
-            <td class="text-right"><h2 class="no-margin">{{ currency_symbol }} {{ totalOnlinePayment | number_format(2)}}</h2></td>
+        <tr>
+            <td><b>{{ "payment.online_payment" | trans({}, "messages", user_locale) }}</b></td>
+            <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ totalOnlinePayment | number_format(2)}}</h4></td>
         </tr>
     </table>
 {% endif %}
-</h3>
 </body>
 </html>
 

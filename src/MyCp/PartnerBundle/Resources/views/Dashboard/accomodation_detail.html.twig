@@ -481,11 +481,7 @@
         </div>
         <div class="space space-30"></div>
     </div>
-    {% if isSpecialPackage %}
-        {{ include('PartnerBundle:Modal:modal-reservation-special.html.twig') }}
-    {% else %}
-        {{ include('PartnerBundle:Modal:modal-reservation.html.twig') }}
-    {% endif %}
+    {{ include('PartnerBundle:Modal:modal-reservation.html.twig') }}
 {% endblock %}
 
 {% block javascripts %}

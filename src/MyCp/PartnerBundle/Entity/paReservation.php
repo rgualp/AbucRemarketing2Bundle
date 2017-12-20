@@ -63,13 +63,6 @@ class paReservation extends baseEntity
     /**
      * @var integer
      *
-     * @ORM\Column(name="reference", type="string", nullable=true)
-     */
-    private $reference;
-
-    /**
-     * @var integer
-     *
      * @ORM\Column(name="children_with_accommodation", type="integer", nullable=true)
      */
     private $childrenWithAccommodation;
@@ -312,24 +305,6 @@ class paReservation extends baseEntity
     public function setChildrenWithAccommodation($childrenWithAccommodation)
     {
         $this->childrenWithAccommodation = $childrenWithAccommodation;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getReference()
-    {
-        return $this->reference;
-    }
-
-    /**
-     * @param int $reference
-     * @return mixed
-     */
-    public function setReference($reference)
-    {
-        $this->reference = $reference;
         return $this;
     }
 

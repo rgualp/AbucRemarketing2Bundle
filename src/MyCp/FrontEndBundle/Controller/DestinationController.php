@@ -58,36 +58,10 @@ class DestinationController extends Controller {
         $locale = $this->get('translator')->getLocale();
         $original_destination_name = $destination_name;
         $destination_name = str_replace('-', ' ', $destination_name);
-
-        $language = $em->getRepository('mycpBundle:lang')->findOneBy(array('lang_code' => $locale));
-        $destinationsLang = $em->getRepository('mycpBundle:destinationLang')->findOneBy(array('des_lang_name'=>$destination_name,'des_lang_lang'=>$language->getLangId()));
-
-        if ( $destinationsLang ){
-            $destination = $destinationsLang->getDesLangDestination();
-        }else{
-            $destination = $em->getRepository('mycpBundle:destination')->findOneBy(array('des_name' => $destination_name));
-
-            if ( $destination ){
-                $destinationsLang = $em->getRepository('mycpBundle:destinationLang')->findOneBy(array('des_lang_destination'=>$destination->getDesId(),'des_lang_lang'=>$language->getLangId()));
-                if ( $destinationsLang && $destinationsLang->getDesLangName() != ""){
-                    $url_destination_name = Utils::convert_text($destinationsLang->getDesLangName());
-                    $url_destination_name = strtolower($url_destination_name);
-                    $url_destination_name = str_replace(' ', '-', $url_destination_name);
-
-                    return $this->redirect($this->generateUrl('frontend_details_destination', array('destination_name'=> $url_destination_name)));
-                }
-            }
-        }
-
-
+        $destination = $em->getRepository('mycpBundle:destination')->findOneBy(array('des_name' => $destination_name));
         if($destination == null) {
             throw $this->createNotFoundException();
         }
-
-        if ($destinationsLang->getDesLangName() != ""){
-            $original_destination_name = $destinationsLang->getDesLangName();
-        }
-
         $destination_array = $em->getRepository('mycpBundle:destination')->getDestination($destination->getDesId(), $locale);
         if($destination_array == null || count($destination_array) == 0) {
             throw $this->createNotFoundException();
@@ -192,13 +166,10 @@ class DestinationController extends Controller {
             $awards = $em->getRepository('mycpBundle:award')->findAll();
 
             $today = new \DateTime();
-
-
             $desName = $destination->getDesName();
-            if ($desName === "La Habana Vieja") {
+            if ($desName === "La Habana Vieja"){
                 $desName = "Habana Vieja";
             }
-
             $search_text = Utils::getTextFromNormalized($desName);
             $search_guests = "1";
             $search_rooms = "1";
@@ -257,7 +228,6 @@ class DestinationController extends Controller {
                 'total_items' => $totalItems,
                 'paginator'=>$paginator,
                 'destination_name' => $original_destination_name,
-                'name_for_search' => $name_for_search,
                 'data_view' => (($view == null) ? 'LIST' : $view),
                 'popular_destinations_for_url' => $popular_destinations_for_url,
                 'other_destinations_in_municipality_for_url' => $other_destinations_in_municipality_for_url,

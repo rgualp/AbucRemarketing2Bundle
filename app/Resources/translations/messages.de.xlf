@@ -1920,7 +1920,7 @@
             </trans-unit>
             <trans-unit id="489">
                 <source>REQUEST_IN_PROCESS_24_HOURS</source>
-                <target>Ihre Anfrage wird bearbeitet und Sie erhalten Antwort innerhalb von 12 Stunden</target>
+                <target>Ihre Anfrage wird bearbeitet und Sie erhalten Antwort innerhalb von 24 Stunden</target>
             </trans-unit>
             <trans-unit id="490">
                 <source>THANKS_RESERVATION_TEAM</source>
@@ -4093,7 +4093,7 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
             </trans-unit>
             <trans-unit id="1022">
                  <source>PAYED_AMOUNT</source>
-                 <target>Paid amount:</target>
+                 <target>Payed amount:</target>
             </trans-unit>
             <trans-unit id="1023">
                  <source>BOOKING_ID</source>
@@ -4203,10 +4203,6 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
             <trans-unit id="4793">
                 <source>KUBATRIP_MESSAGE_3</source>
                 <target>Falls Sie unsere Dienstleistungen benötigen, kontaktieren Sie uns bitte unter folgender E-Mail: </target>
-            </trans-unit>
-            <trans-unit id="4794">
-                <source>HDS_ADDRESS</source>
-                <target>Strasse San Nicolas 358 Erdgeschoss zwischen San Rafael und San Miguel, Centro Habana, La Habana</target>
             </trans-unit>
     </body>
     </file>

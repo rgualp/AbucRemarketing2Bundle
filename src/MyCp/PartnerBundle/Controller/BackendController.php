@@ -4,7 +4,6 @@ namespace MyCp\PartnerBundle\Controller;
 
 use MyCp\mycpBundle\Helpers\Dates;
 use MyCp\PartnerBundle\Entity\paReservationDetail;
-use MyCp\PartnerBundle\Form\paReservationExtendedType;
 use MyCp\PartnerBundle\Form\paReservationType;
 use MyCp\PartnerBundle\Form\paTravelAgencyType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -39,10 +38,7 @@ class BackendController extends Controller
         $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
         $travelAgency = $tourOperator->getTravelAgency();
 
-        $packageService = $this->get("mycp.partner.package.service");
-        $isSpecialPackage = $packageService->isSpecialPackageFromAgency($travelAgency);
-        $form = ($isSpecialPackage) ? $this->createForm(new paReservationExtendedType($this->get('translator'), $travelAgency)) : $this->createForm(new paReservationType($this->get('translator'), $travelAgency));
-
+        $form = $this->createForm(new paReservationType($this->get('translator'), $travelAgency));
         $formFilterOwnerShip = $this->createForm(new FilterOwnershipType($this->get('translator'), array()));
 
         //proccess, pending, availability, notavailability, reserved, beaten, canceled, checkin
@@ -55,8 +51,7 @@ class BackendController extends Controller
             "owns_prices" => $prices_own_list,
             "formFilterOwnerShip"=>$formFilterOwnerShip->createView(),
             'form'=>$form->createView(),
-            'inAction'=>$inAction,
-            "isSpecialPackage" => $isSpecialPackage
+            'inAction'=>$inAction
         ));
     }
 
@@ -71,12 +66,6 @@ class BackendController extends Controller
         $session->set("partner_exit_date",$filters['exit']);
         $start=$request->request->get('start');
         $limit=$request->request->get('limit');
-
-        $packageService = $this->get("mycp.partner.package.service");
-
-        $filters["showOnlySelectedAccommodations"] = $packageService->isSpecialPackage();
-
-
         $list =$em->getRepository('mycpBundle:ownership')->searchOwnership($this,$filters,$start,$limit);
         $response = $this->renderView('PartnerBundle:Search:result.html.twig', array(
             'list' => $list
@@ -102,9 +91,6 @@ class BackendController extends Controller
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
-
-        $packageService = $this->get("mycp.partner.package.service");
-        $isSpecial = $packageService->isSpecialPackage();
         /*$list = $em->getRepository('PartnerBundle:paReservation')->getOpenReservationsList($tourOperator->getTravelAgency());
 
         $response = $this->renderView('PartnerBundle:Modal:open-reservations-list.html.twig', array(
@@ -134,8 +120,7 @@ class BackendController extends Controller
             'locale'=>$locale,'currentServiceFee'=>$currentServiceFee,
             'fromPartner' => true,
             'completePayment' => $tourOperator->getTravelAgency()->getAgencyPackages()[0]->getPackage()->getCompletePayment(),
-            'comisionAgency' => $tourOperator->getTravelAgency()->getAgencyPackages()[0]->getPackage()->getId(),
-            "isSpecial" => $isSpecial
+            'comisionAgency' => $tourOperator->getTravelAgency()->getAgencyPackages()[0]->getPackage()->getId()
 
         ));
         return new Response($response, 200);
@@ -150,24 +135,15 @@ class BackendController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         //Adding new reservation
-        //$clientName = $request->get("clientName");
+        $clientName = $request->get("clientName");
         $dateFrom = $request->get("dateFrom");
         $dateTo = $request->get("dateTo");
         $adults = $request->get("adults");
         $children = $request->get("children");
-        //$clientId=$request->get("clientId");
+        $clientId=$request->get("clientId");
         $accommodationId = $request->get("accommodationId");
         $roomType = $request->get("roomType");
         $roomsTotal = $request->get("roomsTotal");
-        $reservationNumber = $request->get("reservationNumber");
-
-        $client = array(
-            "clientName" => $request->get("clientName"),
-            "clientCountry" => $request->get("clientCountry"),
-            "clientId" => $request->get("clientId"),
-            //"clientBirthday" => $request->get("clientBirthday"),
-            "clientComments" => $request->get("clientComments"),
-        );
         //$clientEmail= $request->get("clientEmail");
 
         $dateFrom = Dates::createDateFromString($dateFrom,"/", 1);
@@ -179,7 +155,7 @@ class BackendController extends Controller
         $accommodation = $em->getRepository("mycpBundle:ownership")->find($accommodationId);
 
         $translator = $this->get('translator');
-        $returnedObject = $em->getRepository("PartnerBundle:paReservation")->newReservation($travelAgency, $client, $adults, $children, $dateFrom, $dateTo, $accommodation, $user, $this->container, $translator,$reservationNumber, $roomType, $roomsTotal/*,$clientEmail*/);
+        $returnedObject = $em->getRepository("PartnerBundle:paReservation")->newReservation($travelAgency, $clientName, $adults, $children, $dateFrom, $dateTo, $accommodation, $user, $this->container, $translator,$clientId, $roomType, $roomsTotal/*,$clientEmail*/);
 
         $list = $em->getRepository('PartnerBundle:paReservation')->getOpenReservationsList($travelAgency);
 
@@ -488,9 +464,6 @@ class BackendController extends Controller
             'success' => true,
             'fullname'=>$client->getFullName(),
             'email'=>$client->getEmail(),
-            'country' => ($client->getCountry() != null) ? $client->getCountry()->getCoId() : 0,
-            //'birthday' => $client->getBirthdayDate()->format("Y-m-d"),
-            "comments" => $client->getComments()
         ]);
     }
 

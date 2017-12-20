@@ -1921,7 +1921,7 @@
             </trans-unit>
             <trans-unit id="489">
                 <source>REQUEST_IN_PROCESS_24_HOURS</source>
-                <target>Your request is been processed. You will receive an answer within the next 12 hours.</target>
+                <target>Your request is been processed. You will receive an answer within the next 24 hours.</target>
             </trans-unit>
             <trans-unit id="490">
                 <source>THANKS_RESERVATION_TEAM</source>
@@ -1997,7 +1997,7 @@
               </trans-unit>
               <trans-unit id="508">
                   <source>PLEASE_PRINT_CONFIRMATION_OF_SERVICE</source>
-                  <target>Please print this confirmation, and show it to the hosts in Cuba.</target>
+                  <target>Please print this confirmation, and show it to the hosts at Cuba, before receiving the booked service.</target>
               </trans-unit>
               <trans-unit id="509">
                     <source>CAN_FOLLOWING_RESERVATIONS_MYCT</source>
@@ -2089,7 +2089,7 @@
                 </trans-unit>
                 <trans-unit id="532">
                     <source>PAYED</source>
-                    <target>Paid</target>
+                    <target>Payed</target>
                 </trans-unit>
             <trans-unit id="533">
                 <source>SKRILL_CONFIRMATION_NOTE</source>
@@ -4082,7 +4082,7 @@
             </trans-unit>
             <trans-unit id="1022">
                  <source>PAYED_AMOUNT</source>
-                 <target>Paid amount:</target>
+                 <target>Payed amount:</target>
             </trans-unit>
             <trans-unit id="1023">
                  <source>BOOKING_ID</source>
@@ -4192,10 +4192,6 @@
             <trans-unit id="4793">
                 <source>KUBATRIP_MESSAGE_3</source>
                 <target>If you need our services, just contact us at the following email: </target>
-            </trans-unit>
-            <trans-unit id="4794">
-                <source>HDS_ADDRESS</source>
-                <target>Street San Nicolas 358 between San Rafael and San Miguel, Centro Habana, La Habana</target>
             </trans-unit>
         </body>
     </file>
