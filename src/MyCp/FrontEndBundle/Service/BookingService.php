@@ -1281,6 +1281,10 @@ class BookingService extends Controller
         $filePaths = array_merge(array($pdfFilePath), $pdfClientFilePaths);
         $zipFileName = $this->zipService->createZipFile("vouchers_".$bookingId."_".$user->getUserId().".zip", $filePaths, $this->voucherDirectoryPath);
 
+
+
+        $result=$this->calculateBookingDetailsPartner($bookingId,$user);
+
         // Send email to customer
         $emailService = $this->get('Email');
         $dataArray = array(
@@ -1293,12 +1297,25 @@ class BookingService extends Controller
             "attachPaths" => $filePaths
         );
 
-        $this->sendEmailsToAgencyPartner($user, $travelAgency, $isSpecial, $emailService, $dataArray);
+        $this->sendEmailsToAgencyPartner($user, $travelAgency, $isSpecial, $emailService, $dataArray,$result);
         $this->sendEmailstoReservationAndAccommodationPartner($user, $isSpecial, $emailService, $dataArray);
 
     }
 //   Enviar correo vaucher partner
-    private function sendEmailsToAgencyPartner($user, $travelAgency, $isSpecial, $emailService, $dataArray){
+    private function sendEmailsToAgencyPartner($user, $travelAgency, $isSpecial, $emailService, $dataArray,$result){
+        $logger = $this->get('logger');
+        $own_res=$result['own_res'];
+        $own_res_rooms=$result['own_res_rooms'];
+        $references='';
+        foreach ($own_res as $own){
+            foreach ($own_res_rooms[$own['id']] as $res_room){
+
+                    $references.=$res_room['reference'].'.';
+
+
+
+            }
+        }
         $userLocale = strtolower($user->getUserLanguage()->getLangCode());
         $zipFileName = $dataArray["zipFileName"];
         $bookingId = $dataArray["bookingId"];
@@ -1311,9 +1328,9 @@ class BookingService extends Controller
         ));
 
         $locale = $this->get('translator');
-        $subject = $locale->trans('PAYMENT_CONFIRMATION', array(), "messages", $userLocale);
+        $subject = $locale->trans('PAYMENT_CONFIRMATION', array(), "messages", $userLocale).' R:'. $references;
 
-        $logger = $this->get('logger');
+
         $userEmail = trim($user->getUserEmail());
 
 
@@ -1328,7 +1345,7 @@ class BookingService extends Controller
                 $attachPaths //varios attachments
             );
 
-            $logger->info('Successfully sent email to user ' . $userEmail . ', PDF path : ' .
+            $logger->info('Successfully sent email to user '.'Reference:'.$references . $userEmail . ', PDF path : ' .
                 (isset($pdfFilePath) ? $pdfFilePath : '<empty>'));
         } catch (\Exception $e) {
             $logger->error(sprintf(
