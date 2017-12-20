@@ -1249,6 +1249,10 @@ class ownershipRepository extends EntityRepository {
         if($reservations_where != "")
             $where .= " AND o.own_id NOT IN (" . $reservations_where . ")";
 
+        if(array_key_exists('showOnlySelectedAccommodations', $filters) and $filters["showOnlySelectedAccommodations"]){
+            $where .= " AND o.own_selection = 1";
+        }
+
         $filterWhere = SearchUtils::getFilterWherePartner($filters);
 
         $where .= ($filterWhere != "") ? $filterWhere : "";
@@ -2201,6 +2205,7 @@ class ownershipRepository extends EntityRepository {
             $commentsTotal += $comment->getComRate();
 
         $reservationsTotal = count($em->getRepository("mycpBundle:generalReservation")->findBy(array("gen_res_own_id" => $ownership->getOwnId(), "gen_res_status" => generalReservation::STATUS_RESERVED)));
+        //$reservationsTotal += count($em->getRepository("mycpBundle:generalReservation")->findBy(array("gen_res_own_id" => $ownership->getOwnId(), "gen_res_status" => generalReservation::STATUS_PENDING_PAYMENT_PARTNER)));
 
         return sqrt(($commentsTotal + 1) * ($reservationsTotal + 1) * ($reservationsTotal + 1));
     }

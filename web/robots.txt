@@ -1,11 +1,21 @@
 User-agent: *
 Disallow: /backend
 Disallow: /mycasa
+Disallow: /de/ownership/calendar
 Disallow: /ownership/calendar
 Disallow: /casa/calendario
-
-
-
-
-
+Disallow: /en/ownership/calendar
+Disallow: /es/casa/calendario
+Disallow: /me/
+Disallow: /fr/hebergement/
+Disallow: /fr/unterkuenfte/
+Disallow: /fr/unterkunft/
+Disallow: /it/hebergement/
+Disallow: /it/unterkuenfte/
+Disallow: /it/unterkunft/
+Disallow: /es/destinos/ost-havanna/
+Disallow: /en/destination/
+Disallow: /es/destino/
+Disallow: /de/reiseziel/
+Disallow: /en/who-we-are/
 Sitemap: https://mycasaparticular.com/sitemap.xml

@@ -1,0 +1,75 @@
+<div class="MyriadProRegular blue-font paymentInfoBox" style="padding: 5px">
+        {#<div class="row">#}
+            {#<div class="col-sm-8" style="font-size:24px">#}
+                {#{{ "payment.details" | trans }}#}
+            {#</div>#}
+            {#&#123;&#35;<div class="col-sm-4 text-right">&#35;&#125;#}
+                {#&#123;&#35;<i class="fa fa-refresh fa-spin hide" id="paymentLoading_{{ item.gen_res_id }}"></i>&#35;&#125;#}
+            {#&#123;&#35;</div>&#35;&#125;#}
+        {#</div>#}
+        {#<div class="row detail-section sectionToHide_{{ item.gen_res_id }}">#}
+            {#<div class="col-sm-8">#}
+                {#{{ "payment.lodging_price" | trans }}#}
+            {#</div>#}
+            {#<div class="col-sm-4 text-right">#}
+                {#{{ (payments[item.gen_res_id].lodgingPrice * app.user.userCurrency.currCucChange) | number_format(2) }} {{ app.user.userCurrency.currSymbol }}#}
+            {#</div>#}
+        {#</div>#}
+        {#<div class="row detail-section hide sectionToHide_{{ item.gen_res_id }}">#}
+            {#<div class="col-sm-8">#}
+                {#{{ "SERVICE_AGENCY_TAX" | trans }}#}
+            {#</div>#}
+            {#<div class="col-sm-4 text-right">#}
+                {#{{ (payments[item.gen_res_id].agency_tax * app.user.userCurrency.currCucChange) | number_format(2) }} {{ app.user.userCurrency.currSymbol }}#}
+            {#</div>#}
+        {#</div>#}
+        {#<div class="row detail-section hide sectionToHide_{{ item.gen_res_id }}">#}
+            {#<div class="col-sm-8">#}
+                {#{{ "SERVICE_TRANSFERENCE_TAX" | trans}}#}
+            {#</div>#}
+            {#<div class="col-sm-4 text-right">#}
+                {#{{ (payments[item.gen_res_id].transferFee * app.user.userCurrency.currCucChange) | number_format(2) }} {{ app.user.userCurrency.currSymbol }}#}
+            {#</div>#}
+        {#</div>#}
+            {#{% if isLastItem %}
+                <div class="row detail-section hide sectionToHide_{{ item.gen_res_id }}">
+                    <div class="col-sm-8">
+                        {{ "payment.fixed_fee" | trans }}
+                    </div>
+                    <div class="col-sm-4 text-right">
+                        {{ (payments[item.gen_res_id].fixedFee * app.user.userCurrency.currCucChange) | number_format(2) }} {{ app.user.userCurrency.currSymbol }}
+                    </div>
+                </div>
+            {% endif %}#}
+        {#<div class="row" style="font-size: smaller">#}
+            {#<div class="col-sm-8">#}
+                {#{{ "payment.online_payment" | trans }}#}
+            {#</div>#}
+            {#<div class="col-sm-4 text-right">#}
+                {#{{ (payments[item.gen_res_id].onlinePayment * app.user.userCurrency.currCucChange) | number_format(2) }} {{ app.user.userCurrency.currSymbol }}#}
+            {#</div>#}
+        {#</div>#}
+        {#<div class="row  detail-section hide sectionToHide_{{ item.gen_res_id }}">#}
+            {#<div class="col-sm-8">#}
+                {#{{ "payment.agency_commission" | trans | replace({"#percent#": payments[item.gen_res_id].agencyCommissionPercent}) }}#}
+            {#</div>#}
+            {#<div class="col-sm-4 text-right">#}
+                {#{{ (payments[item.gen_res_id].agencyCommission * app.user.userCurrency.currCucChange) | number_format(2) }} {{ app.user.userCurrency.currSymbol }}#}
+            {#</div>#}
+        {#</div>#}
+
+        <div class="row">
+            <div class="col-sm-8">
+                {{ "PAYMENT_COMPLETE" | trans | upper }}
+            </div>
+            <div class="col-sm-4 text-right">
+                {{ (payments[item.gen_res_id].onlinePayment * app.user.userCurrency.currCucChange) | number_format(2) }} {{ app.user.userCurrency.currSymbol }}
+            </div>
+        </div>
+
+
+        {#<div class="row text-center">#}
+            {#<img class="icon-down-payment" data-genresid="{{ item.gen_res_id }}" id="icon-down-payment_{{ item.gen_res_id }}" src="{{ asset('bundles/partner/img/icon/back_lighter.png')}}" style="cursor: pointer"/>#}
+            {#<img class="hide icon-up-payment" data-genresid="{{ item.gen_res_id }}" id="icon-up-payment_{{ item.gen_res_id }}" src="{{ asset('bundles/partner/img/icon/top_lighter.png')}}" style="cursor: pointer"/>#}
+        {#</div>#}
+    </div>

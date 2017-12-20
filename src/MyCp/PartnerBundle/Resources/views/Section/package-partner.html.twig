@@ -13,8 +13,8 @@
                         <th class="color-td-onepackage" width="20%" style="font-size: 24px;vertical-align: middle;"><strong>{{ 'title.column_one' | trans }}</strong></th>
                         <th class="color-td-twopackage" width="20%"><img class="" src="{{ asset('bundles/partner/img/icon/basico.png')}}" alt="{{"label.home" | trans}}" style="margin-top: -10px"/><span style="font-size: 34px;font-family: MyriadProBoldCond">{{ 'title.column_two' | trans }}</span></br><span style="color: #eea733">{{ 'label.free' | trans }}</span></th>
                         <th class="color-td-threepackage" width="20%"><img class="" src="{{ asset('bundles/partner/img/icon/economico.png')}}" alt="{{"label.home" | trans}}" style="margin-top: -10px"/><span style="font-size: 34px;font-family: MyriadProBoldCond">{{ 'title.column_three' | trans }}</span></br><span style="color: #eea733">{{ 'label.free' | trans }}</span></th>
-                        <th class="color-td-fourpackage" width="20%"><img class="" src="{{ asset('bundles/partner/img/icon/especial.png')}}" alt="{{"label.home" | trans}}" style="margin-top: -10px"/><span style="font-size: 34px;font-family: MyriadProBoldCond">{{ 'title.column_four' | trans }}</span></br><span style="color: #aab4b6">{{ 'label.gonow' | trans }}</span></th>
-                        <th class="color-td-fivepackage" width="20%"><img class="" src="{{ asset('bundles/partner/img/icon/premiun.png')}}" alt="{{"label.home" | trans}}" style="margin-top: -10px"/><span style="font-size: 34px;font-family: MyriadProBoldCond">{{ 'title.column_five' | trans }}</span></br><span style="color: #aab4b6">{{ 'label.prox' | trans }}</span></th>
+                        <th class="color-td-fourpackage" width="20%"><img class="" src="{{ asset('bundles/partner/img/icon/especial.png')}}" alt="{{"label.home" | trans}}" style="margin-top: -10px"/><span style="font-size: 34px;font-family: MyriadProBoldCond">{{ 'title.column_four' | trans }}</span></br><span style="color: #eea733">{{ 'label.free' | trans }}</span></th>
+                        <th class="color-td-fivepackage" width="20%"><img class="" src="{{ asset('bundles/partner/img/icon/premiun.png')}}" alt="{{"label.home" | trans}}" style="margin-top: -10px"/><span style="font-size: 34px;font-family: MyriadProBoldCond">{{ 'title.column_five' | trans }}</span></br><span style="color: #aab4b6">{{ 'label.gonow' | trans }}</span></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -75,8 +75,14 @@
                                 </a>
                             {% endif %}
                         </td>
-                        <td style="background-color: #11517d;color:#4793ba">{{ 'label.gonow' | trans }}</td>
-                        <td style="background-color: #063b5b;color:#4793ba">{{ 'label.prox' | trans }}...</td>
+                        <td style="background-color: #eea733; border-left: 2px solid #063b5b">
+                            {% if app.user.getUserUserName is not defined %}
+                                <a class="aRegisterAgency" style="color: #063b5b;font-size: 34px" type="button" data-toggle="modal" data-target="#myModalRegisterAgency" data-package="{{ packagesArray["Especial"] }}">
+                                    {{ 'frontend.partner' | trans }}
+                                </a>
+                            {% endif %}
+                        </td>
+                        <td style="background-color: #063b5b;color:#4793ba">{{ 'label.gonow' | trans }}...</td>
                     </tr>
                     </tbody>
                 </table>

@@ -55,6 +55,7 @@ class destinationRepository extends EntityRepository {
                 $destination_lang = new destinationLang();
                 $destination_lang->setDesLangBrief($data['brief_' . $id]);
                 $destination_lang->setDesLangDesc($data['desc_' . $id]);
+                $destination_lang->setDesLangName($data['lang_name_' . $id]);
                 $repo = $em->getRepository('mycpBundle:lang');
                 $lang = $repo->find($id);
                 $destination_lang->setDesLangLang($lang);
@@ -141,6 +142,7 @@ class destinationRepository extends EntityRepository {
                 $destination_lang = new destinationLang();
                 $destination_lang->setDesLangBrief($data['brief_' . $id]);
                 $destination_lang->setDesLangDesc($data['desc_' . $id]);
+                $destination_lang->setDesLangName($data['lang_name_' . $id]);
                 $repo = $em->getRepository('mycpBundle:lang');
                 $lang = $repo->find($id);
                 $destination_lang->setDesLangLang($lang);
@@ -791,6 +793,17 @@ class destinationRepository extends EntityRepository {
         return $em->createQuery($query_string)->getResult();
     }
 
+    function getLangMainMenu($locale){
+        $em = $this->getEntityManager();
+        $query_string = "SELECT d as dest,
+                        (SELECT dl.des_lang_name from mycpBundle:destinationLang dl
+                         JOIN dl.des_lang_lang l WHERE dl.des_lang_destination = d.des_id AND l.lang_code = '$locale') as d_lang_name
+                         FROM mycpBundle:destination d
+                         WHERE d.des_active <> 0
+                         ORDER BY d.des_order ASC";
+
+        return $em->createQuery($query_string)->getResult();
+    }
     function getActiveForMap() {
         $em = $this->getEntityManager();
 

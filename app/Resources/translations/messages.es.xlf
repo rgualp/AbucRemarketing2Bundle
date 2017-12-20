@@ -1921,7 +1921,7 @@
             </trans-unit>
             <trans-unit id="489">
                 <source>REQUEST_IN_PROCESS_24_HOURS</source>
-                <target>Su solicitud está en proceso y usted obtendrá respuesta en menos de 24 horas.</target>
+                <target>Su solicitud está en proceso y usted obtendrá respuesta en menos de 12 horas.</target>
             </trans-unit>
             <trans-unit id="490">
                 <source>THANKS_RESERVATION_TEAM</source>
@@ -4182,7 +4182,10 @@
                 <source>KUBATRIP_MESSAGE_3</source>
                 <target>Si necesita de nuestros servicios, solo contáctenos al siguiente email: </target>
             </trans-unit>
-
+            <trans-unit id="4794">
+                <source>HDS_ADDRESS</source>
+                <target>Calle San Nicolas 358 bajos entre San Rafael y San Miguel, Centro Habana, La Habana</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

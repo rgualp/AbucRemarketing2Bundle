@@ -197,6 +197,10 @@ class paPackage extends baseEntity
         return $this;
     }
 
+    public function isSpecial()
+    {
+        return $this->name == "Especial";
+    }
 
 
 }

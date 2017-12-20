@@ -46,10 +46,24 @@ class paClient extends baseEntity
     private $country;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="birthday_date", type="date", nullable=true)
+     */
+    private $birthday_date;
+
+    /**
      * @ORM\ManyToOne(targetEntity="paTravelAgency",inversedBy="clients")
      * @ORM\JoinColumn(name="travelAgency",referencedColumnName="id")
      */
     private $travelAgency;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="comments", type="text", nullable=true)
+     */
+    private $comments;
 
     /**
      * @ORM\OneToMany(targetEntity="paReservation", mappedBy="client")
@@ -208,5 +222,43 @@ class paClient extends baseEntity
         $this->email = $email;
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getBirthdayDate()
+    {
+        return $this->birthday_date;
+    }
+
+    /**
+     * @param string $birthday_date
+     * @return mixed
+     */
+    public function setBirthdayDate($birthday_date)
+    {
+        $this->birthday_date = $birthday_date;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param string $comments
+     * @return mixed
+     */
+    public function setComments($comments)
+    {
+        $this->comments = $comments;
+        return $this;
+    }
+
+
 
 }

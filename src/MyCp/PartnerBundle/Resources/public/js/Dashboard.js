@@ -265,6 +265,8 @@ var Dashboard = function () {
                             end_date = $("#requests_ownership_filter_exit").val();
                         }
 
+
+
                         $('#filter_date_from').datepicker({
                             format: 'dd/mm/yyyy',
                             todayBtn: false,
@@ -946,6 +948,8 @@ var Dashboard = function () {
                  }, function (response) {
                      if (response.success) {
                          $("#partner_reservation_name").val(response.fullname);
+                         $("#partner_reservation_comments").val(response.comments);
+                         $("#partner_reservation_country").val(response.country);
                         // $("#partner_reservation_email").val(response.email);
                      }
                  });
@@ -996,6 +1000,13 @@ var Dashboard = function () {
             onChangeClient();
             onclickBtnRefreshClient();
             onclickBtnResetFormReservation();
+
+            $('.datepicker').datepicker({
+                format: 'yyyy-mm-dd',
+                todayBtn: false,
+                autoclose: true
+            });
+
         },
         refreshClientList: function () {
             var _url=$('#partner_reservation_client').data('urlrefreshlist');

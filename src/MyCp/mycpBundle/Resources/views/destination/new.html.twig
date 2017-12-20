@@ -48,6 +48,14 @@
 <label>Nombre:</label>{% if errors['name'] is defined %}<label class="error">{{errors['name']|trim(':')}}</label>{%endif%}
 <input class="span12" name="name" value="{% if(data['name'] is defined) %}{{data['name']}}{% endif %}" type="text"/>
     <br/>
+    <h3 class="title">Nombres para SEO</h3>
+    {% for language in languages %}
+        <label>Nombre del Destino en {{language.lang_name |title}}:</label>
+        {%if errors["lang_name_"~language.lang_id] is defined %}<label class="error">{{errors["lang_name_"~language.lang_id]|trim(':')}}</label>{%endif%}
+        <input type="text" value="{% if(data["lang_name_"~language.lang_id] is defined) %}{{data["lang_name_"~language.lang_id]}}{% endif %}" class="span12" name="lang_name_{{language.lang_id}}">
+        <br/>
+    {% endfor %}
+     <br/>
     <h3 class="title">Descripción breve</h3>
 {% for language in languages %}
     <label>{{language.lang_name |title}}:</label>

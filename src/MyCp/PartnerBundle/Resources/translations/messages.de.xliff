@@ -264,7 +264,7 @@
           </trans-unit>
           <trans-unit id="c3be17b5a23d2e02581ea55dceb655e56f217a06" resname="FORMS_COMMENTS">
             <source>FORMS_COMMENTS</source>
-            <target state="new">FORMS_COMMENTS</target>
+            <target state="new">Comments</target>
           </trans-unit>
           <trans-unit id="bc6ab67e1e5698bda61f2ba71f2e0a2aa1e6f147" resname="FORMS_EMAIL">
             <source>FORMS_EMAIL</source>
@@ -488,7 +488,7 @@
           </trans-unit>
           <trans-unit id="ddf73ae6bc2b86c2883c3b4f77ffc13ad440c376" resname="PRICE_TOTAL_TO_PAY">
             <source>PRICE_TOTAL_TO_PAY</source>
-            <target state="new">Total to pay</target>
+            <target state="new">Total Price</target>
           </trans-unit>
           <trans-unit id="af4ca7a0bbbd209d4969bee11ae373bf0ccc200a" resname="PROVINCE_TAB_DESCRIPTION">
             <source>PROVINCE_TAB_DESCRIPTION</source>
@@ -646,9 +646,9 @@
             <source>TERRACE_ROOMS</source>
             <target state="new">TERRACE_ROOMS</target>
           </trans-unit>
-          <trans-unit id="30020c864b906311cac51307a2b1c126da696a09" resname="THANKS_RESERVATION_MYCP">
-            <source>THANKS_RESERVATION_MYCP</source>
-            <target state="new">THANKS_RESERVATION_MYCP</target>
+          <trans-unit id="30020c864b906311cac51307a2b1c126da696a09" resname="THANKS_RESERVATION_MYCP_PARTNER">
+            <source>THANKS_RESERVATION_MYCP_PARTNER</source>
+            <target state="new">Thank you for your reservation.</target>
           </trans-unit>
           <trans-unit id="8f28b28558e65b8d2741bad530c878f65db35617" resname="TRIPLE_ROOM_FILTER">
             <source>TRIPLE_ROOM_FILTER</source>
@@ -716,7 +716,7 @@
           </trans-unit>
           <trans-unit id="0cdd444afab1dde98c1efe7d858c25cdbccac843" resname="booking.placeholder.booking_code">
             <source>booking.placeholder.booking_code</source>
-            <target state="new">Booking Code</target>
+            <target state="new">Booking</target>
           </trans-unit>
           <trans-unit id="d2a6e5f7cf7a32a846403c34a9ec8717613788be" resname="booking.placeholder.booking_date">
             <source>booking.placeholder.booking_date</source>
@@ -2310,7 +2310,7 @@
       </trans-unit>
     <trans-unit id="20">
         <source>payment.online_payment</source>
-        <target>Online Payment</target>
+        <target>Complete payment</target>
       </trans-unit>
     <trans-unit id="21">
         <source>cancelPayment.refundAmount</source>
@@ -2324,6 +2324,55 @@
           <source>label.reserv.inmediatly2</source>
           <target state="new">Inmediate Booking</target>
         </trans-unit>
+      <trans-unit id="24">
+          <source>label.name.birthday</source>
+          <target state="new">Birthdate</target>
+      </trans-unit>
+      <trans-unit id="25">
+          <source>label.name.reference</source>
+          <target state="new">Booking reference</target>
+      </trans-unit>
+      <trans-unit id="26">
+          <source>payment.total.price</source>
+          <target state="new">Total to pay</target>
+      </trans-unit>
+      <trans-unit id="27">
+          <source>payment.generate.vouchers</source>
+          <target state="new">Generate vouchers</target>
+      </trans-unit>
+      <trans-unit id="28">
+          <source>payment.book_now</source>
+          <target state="new">Book now!!</target>
+      </trans-unit>
+      <trans-unit id="29">
+          <source>VOUCHER_PAYED</source>
+          <target state="new">PAID</target>
+      </trans-unit>
+      <trans-unit id="30">
+          <source>dashboard.booking.pending.payment</source>
+          <target state="new">Reserved</target>
+      </trans-unit>
+      <trans-unit id="31">
+          <source>client.information</source>
+          <target state="new">Client Information</target>
+      </trans-unit>
+      <trans-unit id="32">
+          <source>today.date</source>
+          <target state="new">Date</target>
+      </trans-unit>
+      <trans-unit id="33">
+        <source>dashboard.booking.br</source>
+        <target state="new">BR</target>
+      </trans-unit>
+      <trans-unit id="34">
+                                        <source>dashboard.booking.acomodation</source>
+                                        <target state="new">Accommodation</target>
+                          </trans-unit>
+
+                          <trans-unit id="35">
+                                                                          <source>dashboard.booking.acomodationserach</source>
+                                                                          <target state="new">Code or Name</target>
+                                                                </trans-unit>
         </body>
   </file>
 </xliff>

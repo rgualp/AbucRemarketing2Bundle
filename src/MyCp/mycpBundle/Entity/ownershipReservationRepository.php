@@ -79,8 +79,9 @@ class ownershipReservationRepository extends EntityRepository {
     function getReservationReservedByOwnership($id_ownership) {
         $em = $this->getEntityManager();
         $reservedCode = ownershipReservation::STATUS_RESERVED;
+        $pendingPayment = ownershipReservation::STATUS_PENDING_PAYMENT_PARTNER;
         $query = $em->createQuery("SELECT ore FROM mycpBundle:ownershipReservation ore JOIN ore.own_res_gen_res_id gre join mycpBundle:room ro with ore.own_res_selected_room_id = ro.room_id
-        WHERE gre.gen_res_own_id = :id_ownership and ore.own_res_status = $reservedCode");
+        WHERE gre.gen_res_own_id = :id_ownership and (ore.own_res_status = $reservedCode or ore.own_res_status = $pendingPayment)");
         return $query->setParameter('id_ownership', $id_ownership)->getResult();
     }
 
@@ -88,6 +89,7 @@ class ownershipReservationRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $reservedCode = ownershipReservation::STATUS_RESERVED;
         $cancelledCode = ownershipReservation::STATUS_CANCELLED;
+        $pendingPayment = ownershipReservation::STATUS_PENDING_PAYMENT_PARTNER;
         $query = $em->createQuery("SELECT ore.own_res_status,coun.co_name, user.user_name, user.user_last_name, ro.room_num, ore, gre.gen_res_id, gre.gen_res_from_date, gre.gen_res_to_date
             FROM mycpBundle:ownershipReservation ore
             JOIN mycpBundle:room ro with ore.own_res_selected_room_id = ro.room_id
@@ -95,7 +97,7 @@ class ownershipReservationRepository extends EntityRepository {
             JOIN gre.gen_res_user_id user
             JOIN gre.gen_res_own_id own
             JOIN user.user_country coun
-        WHERE (ore.own_res_status = $reservedCode OR ore.own_res_status = $cancelledCode)
+        WHERE (ore.own_res_status = $reservedCode OR ore.own_res_status = $cancelledCode OR ore.own_res_status = $pendingPayment)
         AND ((ore.own_res_reservation_from_date >= '$startParam' AND ore.own_res_reservation_to_date <= '$endParam')
          OR (ore.own_res_reservation_to_date >= '$startParam' AND ore.own_res_reservation_to_date <= '$endParam') OR
     (ore.own_res_reservation_from_date <= '$endParam' AND ore.own_res_reservation_from_date >= '$startParam'))");
@@ -106,6 +108,7 @@ class ownershipReservationRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $reservedCode = ownershipReservation::STATUS_RESERVED;
         $cancelledCode = ownershipReservation::STATUS_CANCELLED;
+        $pendingPayment = ownershipReservation::STATUS_PENDING_PAYMENT_PARTNER;
         $query = $em->createQuery("SELECT ore.own_res_status,coun.co_name, user.user_name, user.user_last_name, ro.room_num, ore, gre.gen_res_id, ore.own_res_reservation_from_date, ore.own_res_reservation_to_date
             FROM mycpBundle:ownershipReservation ore
             JOIN mycpBundle:room ro with ore.own_res_selected_room_id = ro.room_id
@@ -113,7 +116,7 @@ class ownershipReservationRepository extends EntityRepository {
             JOIN gre.gen_res_user_id user
             JOIN gre.gen_res_own_id own
             JOIN user.user_country coun
-        WHERE (ore.own_res_status = $reservedCode OR ore.own_res_status = $cancelledCode)
+        WHERE (ore.own_res_status = $reservedCode OR ore.own_res_status = $cancelledCode or ore.own_res_status = $pendingPayment)
         AND ((ore.own_res_reservation_from_date >= '$startParam' AND ore.own_res_reservation_to_date <= '$endParam')
          OR (ore.own_res_reservation_to_date >= '$startParam' AND ore.own_res_reservation_to_date <= '$endParam') OR
     (ore.own_res_reservation_from_date <= '$endParam' AND ore.own_res_reservation_from_date >= '$startParam'))
@@ -125,7 +128,8 @@ class ownershipReservationRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $reservedCode = ownershipReservation::STATUS_RESERVED;
         $cancelledCode = ownershipReservation::STATUS_CANCELLED;
-        $statusWhere = ($justReservations) ? "ore.own_res_status = $reservedCode" : "(ore.own_res_status = $reservedCode OR ore.own_res_status = $cancelledCode)";
+        $pendingPayment = ownershipReservation::STATUS_PENDING_PAYMENT_PARTNER;
+        $statusWhere = ($justReservations) ? "(ore.own_res_status = $reservedCode or ore.own_res_status = $pendingPayment)" : "(ore.own_res_status = $reservedCode OR ore.own_res_status = $cancelledCode  or ore.own_res_status = $pendingPayment)";
         $query = $em->createQuery("SELECT ore.own_res_status,ore.own_res_id,ore.own_res_reservation_from_date, ore.own_res_reservation_to_date
             FROM mycpBundle:ownershipReservation ore
         WHERE $statusWhere
@@ -142,9 +146,25 @@ class ownershipReservationRepository extends EntityRepository {
     function getByBookingAndOwnership($id_booking, $own_id) {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT ore FROM mycpBundle:ownershipReservation ore JOIN ore.own_res_gen_res_id gre
-        WHERE ore.own_res_reservation_booking = :id_booking and gre.gen_res_own_id = :id_own AND ore.own_res_status = :own_res_status");
+        WHERE ore.own_res_reservation_booking = :id_booking and gre.gen_res_own_id = :id_own AND (ore.own_res_status = :own_res_status OR ore.own_res_status = :own_res_status1)");
         $query->setParameter('own_res_status', ownershipReservation::STATUS_RESERVED);
+        $query->setParameter('own_res_status1', ownershipReservation::STATUS_PENDING_PAYMENT_PARTNER);
         return $query->setParameter('id_booking', $id_booking)->setParameter('id_own', $own_id)->getResult();
+    }
+
+    function getOwnershipReservationForPartnerVoucher($bookingId){
+        $em = $this->getEntityManager();
+
+        $qb = $em->createQueryBuilder()
+            ->from("mycpBundle:ownershipReservation", "owres")
+            ->select("owres")
+            ->where("owres.own_res_reservation_booking = :booking")
+            ->andWhere("(owres.own_res_status = :status OR owres.own_res_status = :status1)")
+            ->setParameter("booking", $bookingId)
+            ->setParameter("status", ownershipReservation::STATUS_PENDING_PAYMENT_PARTNER)
+            ->setParameter("status1", ownershipReservation::STATUS_RESERVED);
+
+        return $qb->getQuery()->getResult();
     }
 
     function getByBookingAndOwnershipClient($id_booking, $own_id, $idClient) {
@@ -153,8 +173,9 @@ class ownershipReservationRepository extends EntityRepository {
         JOIN gre.travelAgencyDetailReservations dres
         JOIN dres.reservation reservation JOIN reservation.client client
         WHERE ore.own_res_reservation_booking = :id_booking and gre.gen_res_own_id = :id_own
-        AND ore.own_res_status = :own_res_status AND client.id = :idClient");
+        AND (ore.own_res_status = :own_res_status or ore.own_res_status = :pending_payment_status) AND client.id = :idClient");
         $query->setParameter('own_res_status', ownershipReservation::STATUS_RESERVED)
+            ->setParameter("pending_payment_status", ownershipReservation::STATUS_PENDING_PAYMENT_PARTNER)
             ->setParameter("idClient", $idClient);
         return $query->setParameter('id_booking', $id_booking)->setParameter('id_own', $own_id)->getResult();
     }
@@ -188,8 +209,9 @@ class ownershipReservationRepository extends EntityRepository {
             JOIN o.own_address_municipality as mun
             JOIN o.own_address_province as prov
             JOIN gre.service_fee serviceFee
-        WHERE ore.own_res_reservation_booking = :id_booking AND ore.own_res_status = :own_res_status");
+        WHERE ore.own_res_reservation_booking = :id_booking AND (ore.own_res_status = :own_res_status OR ore.own_res_status = :own_res_status1)");
         $query->setParameter('own_res_status', ownershipReservation::STATUS_RESERVED);
+        $query->setParameter('own_res_status1', ownershipReservation::STATUS_PENDING_PAYMENT_PARTNER);
 
         return $query->setParameter('id_booking', $id_booking)->getArrayResult();
     }
@@ -216,10 +238,19 @@ class ownershipReservationRepository extends EntityRepository {
             serviceFee.id as service_fee,
             serviceFee.fixedFee,
             serviceFee.current as currentFee,
+            pho.pho_name as photo,
+            (SELECT min(d.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d JOIN d.odl_id_lang l WHERE d.odl_ownership = o.own_id AND l.lang_code = 'ES') as description_es,
+            (SELECT min(d1.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d1 JOIN d1.odl_id_lang l1 WHERE d1.odl_ownership = o.own_id AND l1.lang_code = 'EN') as description_en,
+            (SELECT min(d2.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d2 JOIN d2.odl_id_lang l2 WHERE d2.odl_ownership = o.own_id AND l2.lang_code = 'DE') as description_de,
+            (SELECT min(d3.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d3 JOIN d3.odl_id_lang l3 WHERE d3.odl_ownership = o.own_id AND l3.lang_code = 'FR') as description_fr,
+            (SELECT min(d4.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d4 JOIN d4.odl_id_lang l4 WHERE d4.odl_ownership = o.own_id AND l4.lang_code = 'IT') as description_it,
             o.own_email_1,
             o.own_email_2
             FROM mycpBundle:ownershipReservation ore JOIN ore.own_res_gen_res_id gre
             JOIN gre.gen_res_own_id o
+            LEFT JOIN o.data data
+            LEFT JOIN data.principalPhoto op
+            LEFT JOIN op.own_pho_photo pho
             JOIN o.own_address_municipality as mun
             JOIN o.own_address_province as prov
             JOIN gre.service_fee serviceFee
@@ -227,7 +258,7 @@ class ownershipReservationRepository extends EntityRepository {
             JOIN pard.reservation par
             JOIN par.client client
         WHERE ore.own_res_reservation_booking = :id_booking
-        AND ore.own_res_status = :own_res_status
+        AND (ore.own_res_status = :own_res_status)
         AND client.id = :idClient
         ");
         $query->setParameter('own_res_status', ownershipReservation::STATUS_RESERVED)
@@ -250,7 +281,7 @@ class ownershipReservationRepository extends EntityRepository {
             ore.own_res_night_price as priceNight
             FROM mycpBundle:ownershipReservation ore JOIN ore.own_res_gen_res_id gre
         WHERE ore.own_res_reservation_booking = :id_booking
-        AND ore.own_res_status = :own_res_status
+        AND (ore.own_res_status = :own_res_status)
         and gre.gen_res_own_id = :id_own");
         return $query->setParameter('id_booking', $id_booking)
             ->setParameter('own_res_status', ownershipReservation::STATUS_RESERVED)
@@ -267,15 +298,17 @@ class ownershipReservationRepository extends EntityRepository {
             ore.own_res_count_adults,
             ore.own_res_count_childrens,
             (select min(r.room_bathroom) from mycpBundle:room r where r.room_id = ore.own_res_selected_room_id) as room_bathroom,
+            (select min(t.room_num) from mycpBundle:room t where t.room_id = ore.own_res_selected_room_id) as room_number,
             ore.own_res_total_in_site as priceInSite,
             ore.own_res_night_price as priceNight,
-            c.fullname
+            c.fullname, co.co_name as country, c.comments, detailReservation.reference
             FROM mycpBundle:ownershipReservation ore
             JOIN ore.own_res_gen_res_id gre
             JOIN gre.travelAgencyDetailReservations agencyReservation
             JOIN agencyReservation.reservation detailReservation
             JOIN detailReservation.client c
-        WHERE ore.own_res_reservation_booking = :id_booking and gre.gen_res_own_id = :id_own and ore.own_res_status = :reservedStatus");
+            LEFT JOIN c.country co
+        WHERE ore.own_res_reservation_booking = :id_booking and gre.gen_res_own_id = :id_own and (ore.own_res_status = :reservedStatus)");
         return $query
                 ->setParameter('id_booking', $id_booking)
                 ->setParameter('id_own', $own_id)
@@ -295,14 +328,14 @@ class ownershipReservationRepository extends EntityRepository {
             (select min(r.room_bathroom) from mycpBundle:room r where r.room_id = ore.own_res_selected_room_id) as room_bathroom,
             ore.own_res_total_in_site as priceInSite,
             ore.own_res_night_price as priceNight,
-            c.fullname
+            c.fullname, detailReservation.reference
             FROM mycpBundle:ownershipReservation ore
             JOIN ore.own_res_gen_res_id gre
             JOIN gre.travelAgencyDetailReservations agencyReservation
             JOIN agencyReservation.reservation detailReservation
             JOIN detailReservation.client c
         WHERE ore.own_res_reservation_booking = :id_booking
-        and gre.gen_res_own_id = :id_own and ore.own_res_status = :reservedStatus
+        and gre.gen_res_own_id = :id_own and (ore.own_res_status = :reservedStatus)
         and c.id = :idClient
         ");
         return $query
@@ -423,7 +456,7 @@ class ownershipReservationRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT count(ore_pend) as pending,
         (SELECT count(ore_avail) FROM mycpBundle:ownershipReservation ore_avail JOIN ore_avail.own_res_gen_res_id gen_res WHERE gen_res.gen_res_user_id = $id_user AND ore_avail.own_res_status=" . ownershipReservation::STATUS_AVAILABLE . " AND gen_res.gen_res_from_date > '$date_days')  as available,
-        (SELECT count(ore_res) FROM mycpBundle:ownershipReservation ore_res JOIN ore_res.own_res_gen_res_id gen_res_r WHERE gen_res_r.gen_res_user_id = $id_user AND ore_res.own_res_status=" . ownershipReservation::STATUS_RESERVED . " AND gen_res_r.gen_res_date > '$new_date')  as reserve,
+        (SELECT count(ore_res) FROM mycpBundle:ownershipReservation ore_res JOIN ore_res.own_res_gen_res_id gen_res_r WHERE gen_res_r.gen_res_user_id = $id_user AND (ore_res.own_res_status=" . ownershipReservation::STATUS_RESERVED . " AND gen_res_r.gen_res_date > '$new_date')  as reserve,
         (SELECT count(ore_cons) FROM mycpBundle:ownershipReservation ore_cons JOIN ore_cons.own_res_gen_res_id gen_res_cons WHERE gen_res_cons.gen_res_user_id = $id_user AND ore_cons.own_res_status <>" . ownershipReservation::STATUS_RESERVED . " AND gen_res_cons.gen_res_date < '$new_date')  as consult,
         (SELECT count(owre_payed) FROM mycpBundle:ownershipReservation owre_payed JOIN owre_payed.own_res_gen_res_id gen_res_p WHERE gen_res_p.gen_res_user_id = $id_user AND owre_payed.own_res_status=" . ownershipReservation::STATUS_RESERVED . ")  as payed,
         (SELECT count(ore_res_hist) FROM mycpBundle:ownershipReservation ore_res_hist JOIN ore_res_hist.own_res_gen_res_id gen_res_h  WHERE gen_res_h.gen_res_user_id = $id_user AND ore_res_hist.own_res_status=" . ownershipReservation::STATUS_RESERVED . " AND gen_res_h.gen_res_date < '$new_date')  as reserve_history,
@@ -508,9 +541,11 @@ class ownershipReservationRepository extends EntityRepository {
     function getReservationReservedByRoomAndDateForCalendar($roomId, $startParam, $endParam) {
         $em = $this->getEntityManager();
         $reservedCode = ownershipReservation::STATUS_RESERVED;
+        $pendingPaymentCode = ownershipReservation::STATUS_PENDING_PAYMENT_PARTNER;
+
         $query = $em->createQuery("SELECT ore
             FROM mycpBundle:ownershipReservation ore
-        WHERE (ore.own_res_status = $reservedCode)
+        WHERE (ore.own_res_status = $reservedCode or ore.own_res_status = $pendingPaymentCode)
         AND ((ore.own_res_reservation_from_date >= :start AND ore.own_res_reservation_to_date < :end) OR
              (ore.own_res_reservation_to_date > :start AND ore.own_res_reservation_to_date < :end) OR
              (ore.own_res_reservation_from_date <= :end AND ore.own_res_reservation_from_date >= :start) OR
@@ -542,6 +577,8 @@ class ownershipReservationRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $reservedCode = ownershipReservation::STATUS_RESERVED;
         $cancelledCode = ownershipReservation::STATUS_CANCELLED;
+        $pendingPayment = ownershipReservation::STATUS_PENDING_PAYMENT_PARTNER;
+
         $query = $em->createQuery("SELECT ore.own_res_id, ore.own_res_status,coun.co_name, user.user_name, user.user_last_name, ro.room_num, ore, gre.gen_res_id, gre.gen_res_from_date, gre.gen_res_to_date, ore.own_res_reservation_from_date, ore.own_res_reservation_to_date
             FROM mycpBundle:ownershipReservation ore
             JOIN mycpBundle:room ro with ore.own_res_selected_room_id = ro.room_id
@@ -549,7 +586,7 @@ class ownershipReservationRepository extends EntityRepository {
             JOIN gre.gen_res_user_id user
             JOIN gre.gen_res_own_id own
             JOIN user.user_country coun
-        WHERE (ore.own_res_status = $reservedCode) AND ore.own_res_selected_room_id = :roomId AND
+        WHERE (ore.own_res_status = $reservedCode OR ore.own_res_status = $pendingPayment) AND ore.own_res_selected_room_id = :roomId AND
         (gre.gen_res_from_date >= :start AND gre.gen_res_to_date <= :end OR (gre.gen_res_from_date >= :start AND gre.gen_res_from_date <= :end)
         OR (gre.gen_res_to_date >= :start AND gre.gen_res_to_date <= :end))");
         return $query->setParameter('start', $startParam)->setParameter('end', $endParam)->setParameter('roomId', $roomId)->getResult();
@@ -558,6 +595,7 @@ class ownershipReservationRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $reservedCode = ownershipReservation::STATUS_RESERVED;
         $cancelledCode = ownershipReservation::STATUS_CANCELLED;
+        $pendingPayment = ownershipReservation::STATUS_PENDING_PAYMENT_PARTNER;
         $query = $em->createQuery("SELECT ore.own_res_id, ore.own_res_status,coun.co_name, user.user_name, user.user_last_name, ro.room_num, ore, gre.gen_res_id, gre.gen_res_from_date, gre.gen_res_to_date, ore.own_res_reservation_from_date, ore.own_res_reservation_to_date
             FROM mycpBundle:ownershipReservation ore
             JOIN mycpBundle:room ro with ore.own_res_selected_room_id = ro.room_id
@@ -565,7 +603,7 @@ class ownershipReservationRepository extends EntityRepository {
             JOIN gre.gen_res_user_id user
             JOIN gre.gen_res_own_id own
             JOIN user.user_country coun
-        WHERE (ore.own_res_status = $reservedCode) AND ore.own_res_selected_room_id = :roomId AND((gre.gen_res_from_date>=:start AND gre.gen_res_from_date < :end) OR (gre.gen_res_to_date>=:start AND gre.gen_res_to_date < :end) OR (gre.gen_res_from_date<=:start AND gre.gen_res_to_date > :end) )");
+        WHERE (ore.own_res_status = $reservedCode or ore.own_res_status = $pendingPayment) AND ore.own_res_selected_room_id = :roomId AND((gre.gen_res_from_date>=:start AND gre.gen_res_from_date < :end) OR (gre.gen_res_to_date>=:start AND gre.gen_res_to_date < :end) OR (gre.gen_res_from_date<=:start AND gre.gen_res_to_date > :end) )");
         return $query->setParameter('start', $startParam)->setParameter('end', $endParam)->setParameter('roomId', $roomId)->getResult();
     }
     function getReservationCancelledByRoom($roomId,$startParam, $endParam) {
@@ -615,13 +653,15 @@ class ownershipReservationRepository extends EntityRepository {
             ->join("res.own_res_gen_res_id", "gen")
             ->orderBy('res.own_res_reservation_from_date', 'DESC')
             ->where("gen.gen_res_own_id = :ownId")
-            ->andWhere("res.own_res_status = :status")
+            ->andWhere("(res.own_res_status = :status or res.own_res_status = :status1)")
             ->andWhere("res.own_res_reservation_from_date >= :date")
             ->groupBy("res.own_res_gen_res_id")
             ->setMaxResults($maxResults)
             ->setParameter("ownId", $ownId)
             ->setParameter("date", $today->format('Y-m-d'))
-            ->setParameter("status", ownershipReservation::STATUS_RESERVED);
+            ->setParameter("status", ownershipReservation::STATUS_RESERVED)
+            ->setParameter("status1", ownershipReservation::STATUS_PENDING_PAYMENT_PARTNER)
+        ;
 
         return $qb->getQuery()->getResult();
     }
@@ -648,22 +688,24 @@ class ownershipReservationRepository extends EntityRepository {
     }
 
     public function getReservationByRoomByStartDate($roomId,$startParam) {
-    $em = $this->getEntityManager();
-    $reservedCode = ownershipReservation::STATUS_RESERVED;
-    $query = $em->createQuery("SELECT ore.own_res_id,ore.own_res_count_adults,ore.own_res_count_childrens, ore.own_res_status,coun.co_name, user.user_name, user.user_last_name, ro.room_num, ore, gre.gen_res_id, gre.gen_res_from_date, gre.gen_res_to_date, ore.own_res_reservation_from_date, ore.own_res_reservation_to_date
+        $em = $this->getEntityManager();
+        $reservedCode = ownershipReservation::STATUS_RESERVED;
+        $pendingPayment = ownershipReservation::STATUS_PENDING_PAYMENT_PARTNER;
+        $query = $em->createQuery("SELECT ore.own_res_id,ore.own_res_count_adults,ore.own_res_count_childrens, ore.own_res_status,coun.co_name, user.user_name, user.user_last_name, ro.room_num, ore, gre.gen_res_id, gre.gen_res_from_date, gre.gen_res_to_date, ore.own_res_reservation_from_date, ore.own_res_reservation_to_date
             FROM mycpBundle:ownershipReservation ore
             JOIN mycpBundle:room ro with ore.own_res_selected_room_id = ro.room_id
             JOIN ore.own_res_gen_res_id gre
             JOIN gre.gen_res_user_id user
             JOIN gre.gen_res_own_id own
             JOIN user.user_country coun
-        WHERE (ore.own_res_status = $reservedCode) AND ore.own_res_selected_room_id = :roomId AND gre.gen_res_from_date >= :start");
+        WHERE (ore.own_res_status = $reservedCode or ore.own_res_status = $pendingPayment) AND ore.own_res_selected_room_id = :roomId AND gre.gen_res_from_date >= :start");
         return $query->setParameter('start', $startParam)->setParameter('roomId', $roomId)->getResult();
 }
 
     public function getCountReservationsByRoomAndDates($roomId,$startDate, $endDate) {
         $em = $this->getEntityManager();
         $reservedCode = ownershipReservation::STATUS_RESERVED;
+        $pendingPayment = ownershipReservation::STATUS_PENDING_PAYMENT_PARTNER;
         $startDate = $startDate->format('Y-m-d');
         $endDate = $endDate->format('Y-m-d');
         $query = $em->createQuery("SELECT COUNT(ore.own_res_id)
@@ -673,7 +715,7 @@ class ownershipReservationRepository extends EntityRepository {
             JOIN gre.gen_res_user_id user
             JOIN gre.gen_res_own_id own
             JOIN user.user_country coun
-        WHERE (ore.own_res_status = $reservedCode) AND ore.own_res_selected_room_id = :roomId AND gre.gen_res_from_date >= :start AND gre.gen_res_to_date <= :endDate");
+        WHERE (ore.own_res_status = $reservedCode or ore.own_res_status = $pendingPayment) AND ore.own_res_selected_room_id = :roomId AND gre.gen_res_from_date >= :start AND gre.gen_res_to_date <= :endDate");
         return $query->setParameter('start', $startDate)->setParameter('endDate', $endDate)->setParameter('roomId', $roomId)->getSingleScalarResult();
     }
 

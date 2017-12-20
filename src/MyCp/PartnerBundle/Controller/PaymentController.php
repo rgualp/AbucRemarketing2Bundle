@@ -104,6 +104,68 @@ class PaymentController extends Controller
         return $this->render('FrontEndBundle:payment:postPayment.html.twig', $postFinanceData);
     }
 
+    public function generateVoucherPartnerAction($bookingId)
+    {
+        $booking = $this->getBookingFrom($bookingId);
+
+        if (empty($booking)) {
+            throw new EntityNotFoundException($bookingId);
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('mycpBundle:user')->find($booking->getBookingUserId());
+
+        if (empty($user)) {
+            throw new EntityNotFoundException("user($user)");
+        }
+
+        $loggedInUser = $this->getUser();
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $travelAgency = $tourOperator->getTravelAgency();
+
+        if (empty($loggedInUser)) {
+            throw new AuthenticationException('User not logged in.');
+        }
+
+        if ($user->getUserId() !== $loggedInUser->getUserId()) {
+            throw new AuthenticationException('Access to resource not permitted.');
+        }
+
+        $payment = $this->getPaymentFrom($booking);
+
+        $this->log('PaymentController line ' . __LINE__ . "Payment found: " . empty($payment) ? 'yes' : 'no');
+
+        if (empty($payment)) {
+            $payment = new payment();
+            $payment->setCreated(new DateTime());
+            $payment->setBooking($booking);
+            $payment->setCurrency($booking->getBookingCurrency());
+            $payment->setPayedAmount($booking->getBookingPrepay());
+            $em->persist($payment);
+            $em->flush();
+        }
+
+        //$skrillData = $this->getSkrillViewData($booking, $user, $travelAgency);
+
+        //return $this->render('FrontEndBundle:payment:skrillPayment.html.twig', $skrillData);
+
+        $bookingService = $this->get('front_end.services.booking');
+
+        //$bookingService->postProcessBookingPayment($payment);
+        $bookingService->postProcessBookingGenerateVouchersOnlyPartner($booking, 1);
+
+        /*$dispatcher = $this->get('event_dispatcher');
+        $eventData = new PaymentJobData($payment->getId());
+        $dispatcher->dispatch('mycp.event.postpayment', new JobEvent($eventData));*/
+
+//        $this->log(date(DATE_RSS) . ' - PaymentController line ' . __LINE__ .
+//            ': Payment ID: ' . $payment->getId() . "\nSkrillRequest ID: " . $skrillPayment->getId());
+        $message = 'Success!';
+        $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+        return $this->redirect($this->generateUrl("backend_partner_dashboard"));
+    }
+
     /**
      * Action method the user should be directed to when returning from
      * the Skrill payment website.

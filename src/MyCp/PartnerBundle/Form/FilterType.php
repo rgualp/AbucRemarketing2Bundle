@@ -18,6 +18,7 @@ class FilterType extends AbstractType
         $builder
             //TEXT ************************
             ->add('cas', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
+            ->add('br', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
             ->add('own_name', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
             ->add('code', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
             ->add('from', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
@@ -40,6 +41,7 @@ class FilterType extends AbstractType
             ->add('booking_code', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
             ->add('client_dates', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
             ->add('booking_date', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
+            ->add('cancel_date', 'text', array('required' => true, 'attr' => array('class' => 'form-control')))
         ;
     }
     

@@ -158,7 +158,8 @@ class Logs
             $content.= "-----------------------------------------------------". "\r\n\r\n\r\n\r\n";
             $fp = fopen($this->logsFilePath . $fileName, "wb");
             foreach ($logsCollection as $log) {
-                $content .= "- Operación:". log::getOperationName($log->getOperation()) . ", " . $log->getLogDescription() . (($log->getLogDescription() != "Login" && $log->getOperation() == log::OPERATION_LOGIN) ? " en el módulo " : " en ") . "(" . BackendModuleName::getModuleName($log->getLogModule()) . ") por " . $log->getlogUser()->getUserName() . ", fecha " . $log->getLogDate()->format("d/m/Y") . ", hora " . $log->getLogTime() . "\r\n";
+                $userName = ($log->getlogUser() != null) ? $log->getlogUser()->getUserName() : "Usuario Eliminado";
+                $content .= "- Operación:". log::getOperationName($log->getOperation()) . ", " . $log->getLogDescription() . (($log->getLogDescription() != "Login" && $log->getOperation() == log::OPERATION_LOGIN) ? " en el módulo " : " en ") . "(" . BackendModuleName::getModuleName($log->getLogModule()) . ") por " . $userName . ", fecha " . $log->getLogDate()->format("d/m/Y") . ", hora " . $log->getLogTime() . "\r\n";
                 $this->em->remove($log);
             }
 

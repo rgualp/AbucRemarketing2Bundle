@@ -15,6 +15,7 @@
 
     {% block open_graph_metas %}
     <meta name="author" content="ABUC media network GmbH">
+    <meta name="google" content="notranslate" />
     <meta name="copyright" content="ABUC media network GmbH">
     <meta name="language-content" content="{{app.request.locale}}">
 
@@ -33,7 +34,7 @@
     <meta property="og:author" content="ABUC media network GmbH" />
     <meta property="og:site_name" content="MyCasaParticular" />
     <meta property="og:description" content="{{meta_description}}" />
-    <meta property="og:url" content="http://www.mycasaparticular.com" />
+    <meta property="og:url" content="https://www.mycasaparticular.com" />
     <meta property=”fb:admins” content=”312774092497”/>
     {% endblock %}
 
@@ -181,7 +182,7 @@
         </div>
         <div class="row">
             <div class="col-sm-8">
-                <p>&copy; 2009 - {{'today'|date('Y')}}. <a style="font-size: 11px; color: #ffffff" href="http://www.mycasaparticular.com">MyCasaParticular.com</a>.
+                <p>&copy; 2009 - {{'today'|date('Y')}}. <a style="font-size: 11px; color: #ffffff" href="https://www.mycasaparticular.com">MyCasaParticular.com</a>.
                     {{"FOOTER_COPYRIGHT" | trans}}.</p>
             </div>
             <div id="social" class="col-sm-4 text-right">

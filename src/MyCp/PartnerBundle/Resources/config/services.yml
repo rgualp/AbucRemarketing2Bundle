@@ -49,6 +49,16 @@ services:
             - null                             # data to bind, this is where your entity could go if you have that defined as a service
             - { validation_groups: [Default] } # validation groups
 
+    booking.pending.payment.filter.form:
+        factory_method: createNamed
+        factory_service: form.factory
+        class: Symfony\Component\Form\Form
+        arguments:
+            - booking_pending_payment_filter_form            # name of the form
+            - booking_filter                 # alias of the form type
+            - null                             # data to bind, this is where your entity could go if you have that defined as a service
+            - { validation_groups: [Default] } # validation groups
+
     booking.canceled.filter.form:
         factory_method: createNamed
         factory_service: form.factory
@@ -92,3 +102,7 @@ services:
     mycp.partner.cancelreservation.service:
         class: MyCp\PartnerBundle\Service\CancelReservationService
         arguments: [@doctrine.orm.entity_manager, @Time, @service_container, @mycp.notification.mail.service, @templating]
+
+    mycp.partner.package.service:
+        class: MyCp\PartnerBundle\Service\PackageService
+        arguments: [@doctrine.orm.entity_manager, @service_container]

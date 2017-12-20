@@ -32,7 +32,7 @@
             <div class="col-md-6 m-0 text-center">
                 {% set dinner = (item.dinner != null and item.dinner > 0) ? item.dinner : 0 %}
                 {% set breakfast = (item.breakfast != null and item.breakfast > 0) ? item.breakfast : 0 %}
-               {{ "RESERVATION_PRICE" | trans }}: <b>{{ ((item.totalInSite + dinner + breakfast) * app.user.userCurrency.currCucChange) | number_format(2)}}{{ app.user.userCurrency.currSymbol | lower }}</b>
+               {#{{ "RESERVATION_PRICE" | trans }}: <b>{{ ((item.totalInSite + dinner + breakfast) * app.user.userCurrency.currCucChange) | number_format(2)}}{{ app.user.userCurrency.currSymbol | lower }}</b>#}
             </div>
         </div>
     </div>

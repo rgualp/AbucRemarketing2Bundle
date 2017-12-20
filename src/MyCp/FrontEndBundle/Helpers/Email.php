@@ -87,6 +87,25 @@ class Email
         return $this->container->get('mailer')->send($message);
     }
 
+    public function sendEmailMultiplesAttach($subject, $email_from, $name_from, $email_to, $sf_render, $attachArray = null)
+    {
+        if(is_object($sf_render)) {
+            $sf_render = $sf_render->getContent();
+        }
+        //echo $sf_render; exit();
+        $message = Swift_Message::newInstance()
+            ->setSubject($subject)
+            ->setFrom($email_from, $name_from)
+            ->setTo($email_to)
+            ->setBody($sf_render, 'text/html');
+        if($attachArray != null) {
+            foreach($attachArray as $attach){
+                $message->attach(\Swift_Attachment::fromPath($attach));
+            }
+        }
+        return $this->container->get('mailer')->send($message);
+    }
+
     public function sendReservation($id_reservation, $custom_message = null, $change_genres_status = false, $isANewOffer = false)
     {
         $templating = $this->container->get('templating');

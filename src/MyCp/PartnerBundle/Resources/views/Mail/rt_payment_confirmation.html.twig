@@ -12,19 +12,28 @@ Fecha: {{ "now"|date("D, d M Y H:m:s O") }}
 {% endif %}
 <b>Booking:</b> {{ booking }}
 <br/>
-<b>Cliente:</b> {{ user.getUserUserName }} {{ user.getUserLastName }}
+<b>Alojamiento:</b> {{ reservations[0].getOwnResGenResId.getGenResOwnId.getOwnMcpCode }} - {{ reservations[0].getOwnResGenResId.getGenResOwnId.getOwnName }}
 <br/>
-<b>Ciudad:</b> {{ user.getUserCity }}
 <br/>
-<b>País:</b> {{ user.getUserCountry.getCoName }}
+<h3>Datos de la agencia de viajes</h3>
+<b>Agencia de viajes:</b> {{ user.getUserLastName }}
 <br/>
 <b>Correo electrónico:</b> <a href="mailto:{{ user.getUserEmail }}">{{ user.getUserEmail }}</a>
 <br/>
+<b>País:</b> {{ user.getUserCountry.getCoName }}
+<br/>
 <b>Idioma:</b> {{ user.getUserLanguage.getLangName }}
 <br/>
-<b>Moneda:</b> {{ user.getUserCurrency.getCurrName }}
-<br/>
-<b>Alojamiento:</b> {{ reservations[0].getOwnResGenResId.getGenResOwnId.getOwnMcpCode }} - {{ reservations[0].getOwnResGenResId.getGenResOwnId.getOwnName }}
+{% if client is defined and client != null %}
+    <br/>
+    <h3>Datos del cliente</h3>
+    <b>Nombre:</b> {{ client.fullname }}
+    <br/>
+    {% if client.country != null %}
+        <b>País:</b> {{client.country.getCoName }}
+        <br/>
+    {% endif %}
+{% endif %}
 <br/>
 <br/>
 <h3>Reservas (Total: {{ reservations| length }})</h3>

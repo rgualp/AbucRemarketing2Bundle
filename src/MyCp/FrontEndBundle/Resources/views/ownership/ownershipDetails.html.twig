@@ -10,6 +10,8 @@
 {% extends 'FrontEndBundle:layout:base.html.twig' %}
 {% set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_ACCOMMODATIONS') %}
 {% block metas %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots"Index, Follow">
     <meta name="description"
           content="{{ ownership.owntype  | trans }} {{ "IN" | trans }} {{ ownership.ownAddressProvince }}: {{ ownership.ownname }}.
                 {% if rooms is defined and rooms | length %}
@@ -21,15 +23,14 @@
                  {{ 'quick_bookinhg'|trans }}
                 {% endif %}">
 
-    <meta name="keywords"
-          content="{{ ownership.owntype }} {{ ownership.owntype | trans }} {{ ownership.ownaddressmunicipality }} {{ ownership.ownAddressProvince }} Cuba {{ ownership.ownname }}">
+    {#<meta name="keywords" content="{{ ownership.owntype | trans }} {{ ownership.ownaddressmunicipality }} {{ ownership.ownAddressProvince }} Cuba {{ ownership.ownname }}">#}
 
     {% set page = app.request.query.get('page') %}
     <link rel="canonical" href="{{ url("frontend_details_ownership", {'own_name':ownership.ownname|lower|replace(' ','-'), "page": page, "locale": locale}) }}"/>
 
     {% for lang in allLanguages %}
         {% if lang.langCode | lower != locale %}
-            <link rel="alternate" href="{{ url("frontend_details_ownership", {'own_name':ownership.ownname|lower|replace(' ','-'), "page": page, "locale": lang.langCode | lower}) }}"/>
+            <link rel="alternate" hreflang="{{ langCountry[lang.langCode|lower] }}" href="{{ url("frontend_details_ownership", {'own_name':ownership.ownname|lower|replace(' ','-'), "page": page, "locale": lang.langCode | lower}) }}"/>
         {% endif %}
     {% endfor %}
 
