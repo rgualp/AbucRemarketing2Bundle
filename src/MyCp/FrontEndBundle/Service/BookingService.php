@@ -1311,9 +1311,6 @@ class BookingService extends Controller
             foreach ($own_res_rooms[$own['id']] as $res_room){
 
                     $references.=$res_room['reference'].'.';
-
-
-
             }
         }
         $userLocale = strtolower($user->getUserLanguage()->getLangCode());
