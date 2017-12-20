@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints\Null;
 
 /**
  * user
@@ -205,6 +206,13 @@ class user implements AdvancedUserInterface,  \Serializable
      * @ORM\Column(name="online", type="boolean", nullable=true)
      */
     private $online;
+
+    /**
+     * One user has One user .
+     * @ORM\OneToOne(targetEntity="user")
+     * @ORM\JoinColumn(name="mentor_id", referencedColumnName="user_id")
+     */
+    private $mentor;
 
     public function __construct() {
         $this->comments = new ArrayCollection();
@@ -1149,4 +1157,49 @@ class user implements AdvancedUserInterface,  \Serializable
     }
 
 
+
+    /**
+     * Get facebook
+     *
+     * @return boolean
+     */
+    public function getFacebook()
+    {
+        return $this->facebook;
+    }
+
+    /**
+     * Set mentor
+     *
+     * @param \MyCp\mycpBundle\Entity\user $mentor
+     *
+     * @return user
+     */
+    public function setMentor(\MyCp\mycpBundle\Entity\user $mentor = null)
+    {
+        $this->mentor = $mentor;
+
+        return $this;
+    }
+
+    /**
+     * Get mentor
+     *
+     * @return \MyCp\mycpBundle\Entity\user
+     */
+    public function getMentor()
+    {
+        return $this->mentor;
+    }
+
+    public function ifTouroperator()
+    {
+        if($this->mentor==Null){
+            return false;
+        }
+        else{
+            return true;
+        }
+
+    }
 }
