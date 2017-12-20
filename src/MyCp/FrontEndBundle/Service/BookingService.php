@@ -1328,7 +1328,7 @@ class BookingService extends Controller
         ));
 
         $locale = $this->get('translator');
-        $subject = $locale->trans('PAYMENT_CONFIRMATION', array(), "messages", $userLocale).' R:'. $references;
+        $subject = $locale->trans('PAYMENT_CONFIRMATION', array(), "messages", $userLocale);
 
 
         $userEmail = trim($user->getUserEmail());
@@ -1337,7 +1337,7 @@ class BookingService extends Controller
 
         try {
             $emailService->sendEmailMultiplesAttach(
-                $subject,
+                $subject . ' R:'. $references,
                 'send@mycasaparticular.com',
                 $subject . ' - MyCasaParticular.com',
                 $userEmail,
