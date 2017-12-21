@@ -762,10 +762,15 @@ class DashboardController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository('PartnerBundle:paGeneralReservation');
-
+        $userrepo= $em->getRepository('mycpBundle:user');
+        $touroperators= array();
+        if(!$user->isTouroperator())
+        {
+            $touroperators=$userrepo->getTourOperators($user->getUserId());
+        }
         #region PAGINADO
         $page = ($start > 0) ? $start / $limit + 1 : 1;
-        $paginator = $repository->getReservationsPartner($user->getUserId(), $filters, $start, $limit);;
+        $paginator = $repository->getReservationsPartner($user->getUserId(), $filters, $start, $limit,$touroperators);;
         $reservations = $paginator['data'];
         #endregion PAGINADO
 
