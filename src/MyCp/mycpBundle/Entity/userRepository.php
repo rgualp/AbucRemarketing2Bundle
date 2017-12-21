@@ -493,5 +493,18 @@ class userRepository extends EntityRepository {
             ->setMaxResults(1)
             ->getQuery()->getOneOrNullResult();
     }
+    public function getTourOperators($userid)
+    {
+        $em = $this->getEntityManager();
+        return $em->createQueryBuilder()
+            ->select("u.user_id")
+            ->from("mycpBundle:user", "u")
+            ->Where("u.mentor_id = :mentor_id")
+            ->andWhere("(u.locked is null or u.locked = 0)")
+            ->andWhere("u.user_enabled = 1")
+            ->setParameter("mentor_id", $userid)
+            ->setParameter("userTouristRole", "ROLE_CLIENT_TOURIST")
+            ->getQuery()->getResult();
 
+    }
 }
