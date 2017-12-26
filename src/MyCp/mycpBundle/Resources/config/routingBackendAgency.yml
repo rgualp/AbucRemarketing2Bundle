@@ -14,6 +14,14 @@ mycp_edit_agency:
     pattern:  /edit/{id}
     defaults: { _controller: mycpBundle:BackendAgency:edit_Agency, id:''}
 
+mycp_add_touroperator_agency:
+    pattern:  /addoperator/{idmaster}/{idslave}/{idagency}
+    defaults: { _controller: mycpBundle:BackendAgency:addTourOperator,idmaster:'',idslave:'',idagency:''}
+
+mycp_delete_touroperator_agency:
+    pattern:  /deleteoperator/{id}/{idagency}
+    defaults: { _controller: mycpBundle:BackendAgency:deleteTourOperator}
+
 mycp_enable_agency:
     pattern:  /enable/{id}/{activar}
     defaults: { _controller: mycpBundle:BackendAgency:enable_Agency, id:'',activar:''}
@@ -21,3 +29,7 @@ mycp_enable_agency:
 mycp_list_agency_checkin:
     pattern:  /check-in/{startDate}/{sort_by}
     defaults: { _controller: mycpBundle:BackendReservationAg:checkin,startDate:'',sort_by:'' }
+
+mycp_get_user:
+   pattern:  /user
+   defaults: { _controller: mycpBundle:BackendAgency:get_user }

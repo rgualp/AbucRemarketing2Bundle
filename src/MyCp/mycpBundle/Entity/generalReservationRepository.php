@@ -3397,25 +3397,30 @@ order by LENGTH(o.own_mcp_code), o.own_mcp_code";
      * @param array $filters
      * @param $start
      * @param $limit
-     * @param $touroperators
+     * @param array $touroperators
      * @return mixed
      */
-    function getReservationsPartner($idUser, $status, array $filters, $start, $limit,$touroperators) {
+    function getReservationsPartner($idUser, $status, array $filters, $start, $limit,array $touroperators) {
 
 
         $qb = $this->createQueryBuilder('r');
 
         $qb->join('r.gen_res_user_id', 'u');
-        $qb->andWhere('u.user_id = :user_id');
-        $qb->setParameter('user_id', $idUser);
+
         if(sizeof($touroperators) > 0){
+
             foreach ($touroperators as $mentor){
-                $qb->orWhere('u.mentor_id = :mentor_id');
-                $qb->setParameter('mentor_id', $mentor);
+                $qb->orWhere('(u.user_id = '.$mentor['user_id'].')');
+//                $qb->andWhere('u.user_id = :user_id'.$i);
+//                $qb->setParameter('user_id', $mentor);
+//                $i++;
             }
 
 
         }
+        $qb->orWhere('u.user_id = :user_id');
+        $qb->setParameter('user_id', $idUser);
+
 
         $qb->join('r.travelAgencyDetailReservations', 'pard');
         $qb->join('pard.reservation', 'par');

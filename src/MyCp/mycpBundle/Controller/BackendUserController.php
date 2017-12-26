@@ -377,11 +377,11 @@ class BackendUserController extends Controller {
             $form->handleRequest($request);
             if ($form->isValid() && $count_errors == 0) {
                 $factory = $this->get('security.encoder_factory');
-                $userPartner = $em->getRepository('mycpBundle:userPartner')->insert($id_role, $request, $this->container, $factory);
+                $userPartner = $em->getRepository('mycpBundle:userPartner')->insertTourOperator($id_role, $request, $this->container, $factory);
                 $message = 'Usuario añadido satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
-                $service_log = $this->get('log');
-                $service_log->saveLog($userPartner->getUserPartnerUser()->getLogDescription()." (Usuario Partner)", BackendModuleName::MODULE_USER, log::OPERATION_INSERT, DataBaseTables::USER);
+//                $service_log = $this->get('log');
+//                $service_log->saveLog($userPartner->getUserPartnerUser()->getLogDescription()." (Usuario Partner)", BackendModuleName::MODULE_USER, log::OPERATION_INSERT, DataBaseTables::USER);
                 return $this->redirect($this->generateUrl('mycp_list_users'));
             } else {
                 if ($data['error'] == "")

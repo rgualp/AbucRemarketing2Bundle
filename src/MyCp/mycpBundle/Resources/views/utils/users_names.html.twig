@@ -1,0 +1,4 @@
+<option></option>
+{% for user in users %}
+<option {%if selected == user.getUsername%}  selected="selected" {%endif%} id="{{ path('mycp_get_user') }}" class="{{user.getUserId}}" value="{{user.getUsername}}"></option>
+{% endfor %}

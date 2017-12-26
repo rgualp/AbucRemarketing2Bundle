@@ -5,6 +5,8 @@ namespace MyCp\mycpBundle\Entity;
 use Doctrine\ORM\EntityRepository;
 use MyCp\mycpBundle\Entity\userPartner;
 use MyCp\mycpBundle\Helpers\Images;
+use MyCp\PartnerBundle\Entity\paTourOperator;
+use MyCp\PartnerBundle\Entity\paTravelAgency;
 
 /**
  * userPartnerRepository
@@ -66,6 +68,92 @@ class userPartnerRepository extends EntityRepository
         $em->persist($user_partner);
         $em->flush();
         return $user_partner;
+    }
+
+    function insertTourOperator($id_role, $request, $container, $factory) {
+        $em = $this->getEntityManager();
+        $dir = $container->getParameter('user.dir.photos');
+        $photoSize = $container->getParameter('user.photo.size');
+
+        $form_post = $request->get('mycp_mycpbundle_client_partnertype');
+
+        $lang = $em->getRepository('mycpBundle:lang')->find($form_post['language']);
+        $currency = $em->getRepository('mycpBundle:currency')->find($form_post['currency']);
+        $country = $em->getRepository('mycpBundle:country')->find($form_post['country']);
+
+        $user = new user();
+        $travelagency=new paTravelAgency();
+        $touroperator = new paTourOperator();
+        $user->setUserAddress($form_post['address']);
+        $user->setUserCity($form_post['city']);
+        $user->setUserCountry($country);
+        $user->setUserEmail($form_post['email']);
+        $user->setUserPhone($form_post['phone']);
+        $user->setUserName($form_post['user_name']);
+        $user->setUserLastName($form_post['user_name']);
+        $user->setUserCreatedByMigration(false);
+        $role = $em->getRepository('mycpBundle:role')->find($id_role);
+        $user->setUserRole('ROLE_CLIENT_PARTNER');
+        $user->setUserSubrole($role);
+        $user->setUserUserName($form_post['user_name']);
+        $encoder = $factory->getEncoder($user);
+        $password = $encoder->encodePassword($form_post['user_password']['Clave:'], $user->getSalt());
+        $user->setUserPassword($password);
+
+        $travelagency->setName('DEFAULT'.$form_post['user_name']);
+        $travelagency->setAddress('DEFAULT');
+        $travelagency->setCode('DEFAULT');
+        $travelagency->setEmail('default@email.com');
+        $travelagency->setCommission(10);
+        $travelagency->setCountry($country);
+
+
+
+        $file = $request->files->get('mycp_mycpbundle_client_partnertype');
+        if (isset($file['photo'])) {
+            $photo = new photo();
+            $fileName = uniqid('user-') . '-photo.jpg';
+            $file['photo']->move($dir, $fileName);
+
+            //Redimensionando la foto del usuario
+            Images::resize($dir . $fileName, $photoSize);
+
+            $photo->setPhoName($fileName);
+            $user->setUserPhoto($photo);
+            $em->persist($photo);
+        }
+        $em->persist($user);
+        $em->persist($travelagency);
+        $em->flush();
+        $query = $em->createQuery("SELECT
+         us
+         FROM mycpBundle:user us
+         
+          WHERE us.user_email = :mail        
+         
+        ");
+        $query->setParameter('mail', $form_post['email']);
+        $query1 = $em->createQuery("SELECT
+         ag
+         FROM PartnerBundle:paTravelAgency ag
+         
+          WHERE ag.name=:nombre       
+         
+        ");
+        $query1->setParameter('nombre','DEFAULT'.$form_post['user_name']);
+
+
+
+        $user= $query->getArrayResult()[0];
+        $user= $em->getRepository('mycpBundle:user')->find($user['user_id']);
+        $travelagency= $query1->getArrayResult()[0];
+        $travelagency=$em->getRepository('PartnerBundle:paTravelAgency')->find($travelagency['id']);
+        $touroperator->setTourOperator($user);
+        $touroperator->setTravelAgency($travelagency);
+        $em->persist($touroperator);
+        $em->flush();
+
+        return $touroperator;
     }
 
     function edit($id_user, $request, $container, $factory) {

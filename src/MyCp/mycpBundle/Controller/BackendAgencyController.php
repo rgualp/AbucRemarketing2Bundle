@@ -115,9 +115,13 @@ class BackendAgencyController extends Controller {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
-        $agency = $em->getRepository('PartnerBundle:paTravelAgency')->getById($id)[0];
+        $agency = $em->getRepository('PartnerBundle:paTravelAgency')->getById($id);
+        $responsable=$em->getRepository('PartnerBundle:paTravelAgency')->getResponsable($id);
+        if (empty($agency)) {
+            $agency=$responsable;// list is empty.
+        }
 
-        return $this->render('mycpBundle:agency:details.html.twig', array('agency' => $agency));
+        return $this->render('mycpBundle:agency:details.html.twig', array('agency' => $agency,'responsable'=>$responsable[0]));
     }
 
     public function edit_AgencyAction($id, Request $request) {
@@ -126,8 +130,12 @@ class BackendAgencyController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
         $obj = $em->getRepository('PartnerBundle:paTravelAgency')->find($id);
-        $agency = $em->getRepository('PartnerBundle:paTravelAgency')->getById($id)[0];
+        $agency = $em->getRepository('PartnerBundle:paTravelAgency')->getById($id);
+        $responsable=$em->getRepository('PartnerBundle:paTravelAgency')->getResponsable($id);
         $errors = array();
+        if (empty($agency)) {
+            $agency=$responsable;// list is empty.
+        }
 
         $packagesByAgency = $em->getRepository("PartnerBundle:paAgencyPackage")->getPackagesByAgency($id);
 
@@ -159,10 +167,24 @@ class BackendAgencyController extends Controller {
             'form' => $form->createView(),
             'id_agency' => $id,
             'agency' => $agency,
+            'responsable'=>$responsable[0],
             'packages' => $packagesByAgency
         ));
     }
+    #Eliminar Operadores
+    public function deleteTourOperatorAction($id,$idagency){
+        $em = $this->getDoctrine()->getManager();
+        $em->getRepository('mycpBundle:user')->deleteTourOperators($id);
 
+        return $this->redirect($this->generateUrl('mycp_edit_agency',array('id'=>$idagency)));
+    }
+    public function addTourOperatorAction($idmaster,$idslave,$idagency){
+        $em = $this->getDoctrine()->getManager();
+        $result=$em->getRepository('mycpBundle:user')->addTourOperators($idmaster,$idslave);
+
+      #  return $this->redirect($this->generateUrl('mycp_edit_agency',array('id'=>$idagency)));
+       return new JsonResponse(array('result'=>$result,'id'=>$idslave));
+    }
     public function enable_AgencyAction($id,$activar){
 
         $em = $this->getDoctrine()->getManager();
@@ -212,6 +234,35 @@ class BackendAgencyController extends Controller {
 
         return $this->render('mycpBundle:utils:agency_package.html.twig', array('packages' => $packages, 'selected' => $selected, 'post' => $post));
 
+    }
+
+    public function get_all_countrysAction($selected){
+        $selected = strtoupper($selected);
+        $em = $this->getDoctrine()->getManager();
+        $countries = $em->getRepository('mycpBundle:country')->findAll();
+        return $this->render('mycpBundle:utils:country.html.twig', array('countries' => $countries, 'selected' => $selected));
+
+    }
+    public function get_all_usersAction($selected) {
+
+        $selected = strtoupper($selected);
+        $em = $this->getDoctrine()->getManager();
+        $users = $em->getRepository('mycpBundle:user')->getNotTourOperators();
+        return $this->render('mycpBundle:utils:users_names.html.twig', array('users' => $users, 'selected' => $selected));
+    }
+
+    public function get_userAction(Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('mycpBundle:user')->find($request->get('idUsuario'));
+        return new JsonResponse([
+            'success' => true,
+            'name'=>$user->getUserUserName(),
+            'lastname'=>$user->getUserLastName(),
+            'email'=>$user->getUserEmail(),
+            'country' => $user->getUserCountry()->getCoName()
+            //'birthday' => $client->getBirthdayDate()->format("Y-m-d"),
+
+        ]);
     }
 
 }

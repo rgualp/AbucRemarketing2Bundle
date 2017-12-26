@@ -764,13 +764,13 @@ class DashboardController extends Controller
         $repository = $em->getRepository('PartnerBundle:paGeneralReservation');
         $userrepo= $em->getRepository('mycpBundle:user');
         $touroperators= array();
-        if(!$user->isTouroperator())
+        if(!$user->ifTouroperator())
         {
             $touroperators=$userrepo->getTourOperators($user->getUserId());
         }
         #region PAGINADO
         $page = ($start > 0) ? $start / $limit + 1 : 1;
-        $paginator = $repository->getReservationsPartner($user->getUserId(), $filters, $start, $limit,$touroperators);;
+        $paginator = $repository->getReservationsPartner($user->getUserId(), $filters, $start, $limit,$touroperators);
         $reservations = $paginator['data'];
         #endregion PAGINADO
 
@@ -928,10 +928,15 @@ class DashboardController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository('mycpBundle:generalReservation');
-
+        $userrepo= $em->getRepository('mycpBundle:user');
+        $touroperators= array();
+        if($user->ifTouroperator()==false)
+        {
+            $touroperators=$userrepo->getTourOperators($user->getUserId());
+        }
         #region PAGINADO
         $page = ($start > 0) ? $start / $limit + 1 : 1;
-        $paginator = $repository->getReservationsPartner($user->getUserId(), $status, $filters, $start, $limit);;
+        $paginator = $repository->getReservationsPartner($user->getUserId(), $status, $filters, $start, $limit,$touroperators);;
         $reservations = $paginator['data'];
         #endregion PAGINADO
 
@@ -1591,7 +1596,12 @@ class DashboardController extends Controller
     public function getReservationCalendarAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $user = $this->getUser();
+        if(!$this->getUser()->ifTouroperator()){
+            $user = $this->getUser();
+        }
+        else{
+            $user = $this->getUser()->getMentor();
+        }
         $currentTourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
         $currentTravelAgency = $currentTourOperator->getTravelAgency();
         $agencyPackage = $currentTravelAgency->getAgencyPackages()[0];
@@ -1824,7 +1834,13 @@ class DashboardController extends Controller
         $check_dispo = $request->get('check_dispo');
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
-        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        if(!$this->getUser()->ifTouroperator()){
+            $user1 = $this->getUser();
+        }
+        else{
+            $user1 = $this->getUser()->getMentor();
+        }
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user1->getUserId()));
         $travelAgency = $tourOperator->getTravelAgency();
         $completePayment = $travelAgency->getAgencyPackages()[0]->getPackage()->getCompletePayment();
 

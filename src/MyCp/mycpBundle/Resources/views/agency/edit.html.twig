@@ -82,7 +82,7 @@
                         </tr>
                         <tr>
                             <td>
-                                {% if agency.status %}
+                                {% if agency[0].status %}
                                     <a id="link-activate" class="btn btn-danger desactivate" href="" title="Desactivar la agencia"><i class="glyphicons check"></i> Desactivar</a>
                                 {% else %}
                                     <a id="link-activate" class="btn btn-success activate" href="" title="Activar la agencia"><i class="glyphicons unchecked"></i> Activar</a>
@@ -141,8 +141,178 @@
                 </table>
                 {{ form_widget(form._token) }}
             </div>
+
         </div>
     </div>
+        <div class="span12"style="margin-left:auto">
+        <div class="span6" style="margin-left:auto">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a data-toggle="tab" href="#reservas">Tour Operadores </a>
+                </li>
+            </ul>
+            <div class="row-fluid">
+                <div class="span3">
+
+                    <label>Usuario:</label>
+                    {#<select  id="users" class="span12">#}
+                    {#{{ render(controller('mycpBundle:BackendAgency:get_all_users', {'selected': '0'})) }}#}
+                    {#</select>&nbsp;#}
+                    <input id='usuarios' list="browsersuser" name="browser" class="span12"  >
+                    <datalist id="browsersuser">
+
+                        {{ render(controller('mycpBundle:BackendAgency:get_all_users', {'selected': '0'})) }}
+
+                    </datalist>
+
+                </div>
+                <div class="span3" id="nombre" style="display: none">
+                    <label >Nombre:</label>
+                    <input name="filter_owner"  id="name" autocomplete="off" type="text" class="input-block-level" style="margin: 0 auto;" data-provide="typeahead" data-items="5" data-source='{{ render(controller('mycpBundle:BackendAgency:get_owner_names')) }}'>
+                </div>
+
+                <div class="span3" style="display: none" id="apellido">
+                    <label>Apellido:</label>
+                    <input name="filter_owner"  id="lastname" autocomplete="off" type="text" class="input-block-level" style="margin: 0 auto;" data-provide="typeahead" data-items="5" data-source='{{ render(controller('mycpBundle:BackendAgency:get_owner_names')) }}'>
+                </div>
+
+                <div class="span3" id="pais1" style="display: none">
+                    <label>País:</label>
+                    <input  id="country1" class="input-block-level" name="filter_email" type="text"/>
+                </div>
+
+
+            </div>
+            <table class="table table-striped">
+                <thead>
+
+                <tr>
+
+                    <th>Nombre</th>
+                    <th>Correo</th>
+                    <th>Teléfono de Contacto:</th>
+                    <th>
+                       <a onclick="submittourO(event);"data-url="{{path('mycp_add_touroperator_agency')}}" style="float:right" class="btn btn-mini btn-success" id="botonadd"  title="Añadir"  ><i class="icon-plus"></i></a>
+                    </th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {% for own in agency %}
+
+                    <tr>
+
+                        <td>{{ own.touroperador }} {{ own.touroperador_last_name }}</td>
+                        <td>{{ own.user_email }}</td>
+                        <td>{{ own.user_phone }}, {{ own.contact_mobile }}</td>
+
+
+
+                        <td style="text-align: right">
+
+                          <a class="btn btn-mini btn-danger desactivate" href="{{ path('mycp_delete_touroperator_agency',{'id':own.touroperador_id,'idagency':own.id}) }}" title="Eliminar - {{own.touroperador}}"><i class="icon-trash"></i></a>
+                        </td>
+                    </tr>
+
+
+                    {#"name" => "DES"#}
+                    {#"contact_mail" => "ernesto@hds.li"#}
+                    {#"touroperador" => "ernestgm2006@gmail.com"#}
+                    {#"name_country" => "Afghanistan"#}
+                    {#"name_package" => "Bronce"#}
+                    {#"status" => true#}
+                    {#"date_register" => DateTime #}{#691 ▶}#}
+
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+            {#<div class="span6" id="addOperators" style="display: none;">#}
+                {#<ul class="nav nav-tabs">#}
+                    {#<li class="active">#}
+                        {#<a data-toggle="tab" href="#reservas">Añadir Tour Operador </a>#}
+                    {#</li>#}
+                {#</ul>#}
+                {#<div  id="filter">#}
+                    {#<div class="well well-small">#}
+                        {#<div class="row-fluid">#}
+                            {#<div class="span3">#}
+
+                                {#<label>Usuario:</label>#}
+                                {#<select  id="users" class="span12">#}
+                                    {#{{ render(controller('mycpBundle:BackendAgency:get_all_users', {'selected': '0'})) }}#}
+                                {#</select>&nbsp;#}
+                                {#<input id='usuarios' list="browsersuser" name="browser" class="span12"  >#}
+                                {#<datalist id="browsersuser">#}
+
+                                    {#{{ render(controller('mycpBundle:BackendAgency:get_all_users', {'selected': '0'})) }}#}
+
+                                {#</datalist>#}
+
+                            {#</div>#}
+                            {#<div class="span3" id="nombre" style="display: none">#}
+                                {#<label >Nombre:</label>#}
+                                {#<input name="filter_owner"  id="name" autocomplete="off" type="text" class="input-block-level" style="margin: 0 auto;" data-provide="typeahead" data-items="5" data-source='{{ render(controller('mycpBundle:BackendAgency:get_owner_names')) }}'>#}
+                            {#</div>#}
+
+                            {#<div class="span3" style="display: none" id="apellido">#}
+                                {#<label>Apellido:</label>#}
+                                {#<input name="filter_owner"  id="lastname" autocomplete="off" type="text" class="input-block-level" style="margin: 0 auto;" data-provide="typeahead" data-items="5" data-source='{{ render(controller('mycpBundle:BackendAgency:get_owner_names')) }}'>#}
+                            {#</div>#}
+
+                            {#<div class="span3" id="pais1" style="display: none">#}
+                                {#<label>País:</label>#}
+                                {#<input  id="country1" class="input-block-level" name="filter_email" type="text"/>#}
+                            {#</div>#}
+
+
+                        {#</div>#}
+                        {#<div class="row-fluid">#}
+
+                            {#<div class="span3" id="pass1">#}
+                                {#<label>Contraseña:</label>#}
+                                {#<input  class="input-block-level" name="filter_email" type="text"/>#}
+                            {#</div>#}
+                            {#<div class="span3" id="pass2">#}
+                                {#<label>Repite:</label>#}
+                                {#<input   class="input-block-level" name="filter_email" type="text"/>#}
+                            {#</div>#}
+
+                            {#<div class="span3" id="pais2">#}
+                                {#<label>País:</label>#}
+
+                                {#<input list="paises" name="paises" class="span12" id="pais">#}
+                                {#<datalist id="paises">#}
+
+                                    {#{{ render(controller('mycpBundle:BackendAgency:get_all_countrys', {'selected': '0'})) }}#}
+
+                                {#</datalist>#}
+
+                            {#</div>#}
+
+
+                        {#</div>#}
+                        {#<div class="row-fluid" style="margin-top: 10px">#}
+                            {##}
+                            {#<a onclick="submittourO(event);" data-url="{{path('mycp_add_touroperator_agency')}}" id="addtouropelink" style="float: right;" class="btn btn-success" title="Añadir touroperador"><i class="glyphicons check"></i> Añadir</a>#}
+
+                            {#<div class="span1">#}
+                                {#<a rel="tooltip" title="Activar Release" href="{{ path('mycp_active_release', {'items_per_page':items_per_page}) }}" class="tooltip_msg btn btn-block btn-success"><i class="icon-filter icon-white"></i></a>#}
+                            {#</div>#}
+                            {#<div class="span9">&nbsp;</div>#}
+                            {#<div class="span1">#}
+                                {#<a rel="tooltip" title="Filtrar listado" href="javascript:action_submit();" class="tooltip_msg btn btn-block btn-success"><i class="icon-filter icon-white"></i></a>#}
+                            {#</div>#}
+                            {#<div class="span1">#}
+                                {#<a rel="tooltip" title="Resetear filtrado" href="{{ path('mycp_list_agency', {'items_per_page':items_per_page}) }}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>#}
+                            {#</div>#}
+
+                        {#</div>#}
+                    {#</div>#}
+                {#</div>#}
+            {#</div>#}
+        </div>
+
 {% endblock %}
 {% block form_actions %}
     <ul class="breadcrumb">
@@ -157,6 +327,7 @@
     </div>
     </form>
 {% endblock %}
+
 {% block javascripts %}
     {% javascripts
     '@mycpBundle/Resources/public/js/common_list.js'
@@ -169,6 +340,8 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
+
+
            $("#link-activate").click(function (e) {
                var elem = $(this);
                e.preventDefault();
@@ -190,11 +363,41 @@
                }
            })
         });
+        function submittourO(ev) {
 
+                var idslave=$("#browsersuser option[value='" + $('#usuarios').val() + "']").attr('class');
+                if(idslave!=undefined) {
+
+                    var idmaster ={{ responsable.touroperador_id }};
+                    var idagency ={{ id_agency }};
+                    var url_submit = $('#botonadd').attr('data-url');
+                    url_submit = url_submit + '/' + idmaster + '/' + idslave + '/' + idagency;
+                    $.post(url_submit);
+                    window.location.reload();
+                }
+                else
+                    {
+
+                        var new_url='{{ path('mycp_new_user_partner',{'id_role':'-1'}) }}';
+                        new_url=new_url.replace('/-1','');
+                        $(location).attr('href',new_url+'/'+'3');
+
+
+
+
+                }
+
+             //   $('#filter').attr('action',url_submit);
+             //   $('#filter').submit();
+
+
+
+
+        }
         function activarAgencia(enabled, callback) {
-            var url = '{{ path('mycp_enable_agency', {'id': agency.id, 'activar': true}) }}';
+            var url = '{{ path('mycp_enable_agency', {'id': agency[0].id, 'activar': true}) }}';
             if (!enabled){
-                url = '{{ path('mycp_enable_agency', {'id': agency.id, 'activar': false}) }}';
+                url = '{{ path('mycp_enable_agency', {'id': agency[0].id, 'activar': false}) }}';
             }
 
             $.get(url, function(data){
@@ -204,6 +407,86 @@
                     return false;
                 }
             })
+        }
+        function showOperatorsForm() {
+            var x = document.getElementById("addOperators");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+
+        $('#usuarios').on('input',function() {
+            if($(this).val!=''){
+                var abc = $("#browsersuser option[value='" + $('#usuarios').val() + "']").attr('class');
+                var url = $("#browsersuser option[value='" + $('#usuarios').val() + "']").attr('id');
+                if(abc!=undefined)
+                {
+                  //  alert(url);
+                    $.post(url, {
+                        'idUsuario': abc
+                    }, function (response) {
+                        if (response.success) {
+                            $("#name").val(response.name);
+                            $("#lastname").val(response.lastname);
+                            $("#country1").val(response.country);
+                            $("#nombre").css("display","block");
+                            $("#apellido").css("display","block");
+                            $("#pass1").css("display","none");
+                            $("#pass2").css("display","none");
+                            $("#pais1").css("display","block");
+                            $("#pais2").css("display","none");
+                            // $("#partner_reservation_email").val(response.email);
+                        }
+                    });
+                }
+                else
+                {    $("#name").val('');
+                    $("#lastname").val('');
+                    $("#pass1").css("display","block");
+                    $("#pass2").css("display","block");
+                    $("#pais2").css("display","block");
+                    $("#pais1").css("display","none");
+
+                }
+                $('#row-name').removeClass('hide');
+//
+            }
+
+            else{
+
+
+//                    $("#form-agency")[0].reset();
+            }
+
+        });
+
+        var onChangeClient=function(){
+            var clientSelect = $('#usuarios');
+
+            clientSelect.change(function(){
+                if($(this).text!=''){
+                    alert($(this).text());
+
+                    $('#row-name').removeClass('hide');
+//                    $.post($(this).data('url'), {
+//                        'idUsuario': $(this).val()
+//                    }, function (response) {
+//                        if (response.success) {
+//                            $("#partner_reservation_name").val(response.fullname);
+//                            $("#partner_reservation_comments").val(response.comments);
+//                            $("#partner_reservation_country").val(response.country);
+//                            // $("#partner_reservation_email").val(response.email);
+//                        }
+//                    });
+                }
+
+                else{
+                    alert($(this).value());
+//                    $("#form-agency")[0].reset();
+                }
+            });
         }
     </script>
 

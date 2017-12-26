@@ -36,9 +36,18 @@ class BackendController extends Controller
         $statistics_own_list = $em->getRepository('mycpBundle:ownership')->getSearchStatistics();
 
         $user = $this->getUser();
-        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
-        $travelAgency = $tourOperator->getTravelAgency();
-
+        $userrepo= $em->getRepository('mycpBundle:user');
+        $touroperators= array();
+        if($user->ifTouroperator()==true)
+        {
+            $mentor=$user->getMentor();
+            $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $mentor->getUserId()));
+            $travelAgency = $tourOperator->getTravelAgency();
+        }
+        else {
+            $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+            $travelAgency = $tourOperator->getTravelAgency();
+        }
         $packageService = $this->get("mycp.partner.package.service");
         $isSpecialPackage = $packageService->isSpecialPackageFromAgency($travelAgency);
         $form = ($isSpecialPackage) ? $this->createForm(new paReservationExtendedType($this->get('translator'), $travelAgency)) : $this->createForm(new paReservationType($this->get('translator'), $travelAgency));
@@ -100,7 +109,13 @@ class BackendController extends Controller
     public function openReservationsListAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $user = $this->getUser();
+
+        if(!$this->getUser()->ifTouroperator()){
+            $user = $this->getUser();
+        }
+        else{
+            $user = $this->getUser()->getMentor();
+        }
         $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
 
         $packageService = $this->get("mycp.partner.package.service");

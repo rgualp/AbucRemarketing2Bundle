@@ -119,13 +119,14 @@
                   </div>
                   </div>
                 </div>
+
                 <div class="col-lg-2 field-filter">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                            {{ form_widget(formFilter.booking_date, { 'attr': {'placeholder': 'dashboard.booking.bookingdate'|trans, 'title':'dashboard.booking.bookingdate'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
-                        </div>
-                    </div>
+                <div class="form-group">
+                <div class="input-group date">
+                {{ form_widget(formFilter.booking_date, { 'attr': {'placeholder': 'dashboard.booking.bookingdate'|trans, 'title':'dashboard.booking.bookingdate'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                </div>
+                </div>
                 </div>
 
                 {#<div class="col-lg-2 field-filter">#}

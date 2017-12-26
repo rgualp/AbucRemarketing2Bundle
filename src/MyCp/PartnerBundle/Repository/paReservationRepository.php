@@ -182,7 +182,55 @@ class paReservationRepository extends EntityRepository {
         ;
         return $qb->getQuery()->getResult();
     }
+    public function getAllCartItems($travelAgency,array $travelAgencys, $idsGeneralReservation = array())
+    {
+        $em = $this->getEntityManager();
+//        $query = $em->createQuery("SELECT DISTINCT client.fullname, paReservation.id,
+//            (SELECT count(rDetail) FROM PartnerBundle:paReservationDetail rDetail JOIN rDetail.reservationDetail gres WHERE gres.gen_res_status = :availableStatus AND rDetail.reservation = paReservation.id) as available,
+//            (SELECT count(rDetail1) FROM PartnerBundle:paReservationDetail rDetail1 JOIN rDetail1.reservationDetail gres1 WHERE rDetail1.reservation = paReservation.id) as detailsCount,
+//            (IF(genRes.gen_res_id IN (:ids), 1, 0)) as showOpened
+//
+//           FROM PartnerBundle:paReservation paReservation
+//           JOIN paReservation.client client
+//           JOIN paReservation.details details detail
+//           JOIN detail.reservationDetail  genRes
+//           WHERE paReservation.closed = 1 AND genRes.gen_res_status = :availableStatus1
+//           AND (client.travelAgency IN :agency1 OR client.travelAgency = :agency2)
+//
+//        ");
+//        $query->setParameter("availableStatus1", generalReservation::STATUS_AVAILABLE);
+//
+        $qb = $em->createQueryBuilder()
+            ->select("DISTINCT client.fullname, paReservation.id,
+            (SELECT count(rDetail) FROM PartnerBundle:paReservationDetail rDetail JOIN rDetail.reservationDetail gres WHERE gres.gen_res_status = :availableStatus AND rDetail.reservation = paReservation.id) as available,
+            (SELECT count(rDetail1) FROM PartnerBundle:paReservationDetail rDetail1 JOIN rDetail1.reservationDetail gres1 WHERE rDetail1.reservation = paReservation.id) as detailsCount,
+            (IF(genRes.gen_res_id IN (:ids), 1, 0)) as showOpened")
+            ->from("PartnerBundle:paReservation", "paReservation")
+            ->join("paReservation.client", "client")
+            ->join("paReservation.details", "detail")
+            ->join("detail.reservationDetail", "genRes")
+            ->where("paReservation.closed = 1")
 
+            ->andWhere("genRes.gen_res_status = :availableStatus1")
+            ->andWhere("client.travelAgency in (:array) OR client.travelAgency = :agency1")
+            ->setParameter("availableStatus", generalReservation::STATUS_AVAILABLE)
+            ->setParameter("availableStatus1", generalReservation::STATUS_AVAILABLE)
+            ->setParameter("ids", $idsGeneralReservation)
+            ->setParameter("agency1", $travelAgency->getId())
+        ;
+//        $qb->orWhere("client.travelAgency = :travelAgency");
+//        $qb->setParameter("travelAgency", $travelAgency->getId());
+        $lista=array();
+        foreach ($travelAgencys as $travelagency){
+
+             array_push($lista,$travelagency->getId());
+
+
+        }
+        $qb->setParameter('array',$lista);
+
+        return $qb->getQuery()->getResult();
+    }
     public function getReservationsInCart($travelAgency)
     {
         $em = $this->getEntityManager();

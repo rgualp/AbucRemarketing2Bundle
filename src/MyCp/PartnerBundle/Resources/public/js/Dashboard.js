@@ -309,6 +309,7 @@ var Dashboard = function () {
             }
         });
     }
+
     var refresh_calendar=function(from, to,own_id,url){
 
         if (from != '' && to != '') {

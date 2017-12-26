@@ -39,12 +39,34 @@ class CartController extends Controller
         $session->remove("ri_ids");
 
         $user = $this->getUser();
+        if(!$this->getUser()->ifTouroperator()){
+            $user1 = $this->getUser();
+        }
+        else{
+            $user1 = $this->getUser()->getMentor();
+        }
         $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
         $travelAgency = $tourOperator->getTravelAgency();
+        $tourOperator2 = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user1->getUserId()));
+
+        $travelAgency2 = $tourOperator2->getTravelAgency();
         $packageService = $this->get("mycp.partner.package.service");
+        $userrepo= $em->getRepository('mycpBundle:user');
+        $touroperators= array();
+        $travelAgencys=array();
+        if($user->ifTouroperator()==false)
+        {
+            $touroperators=$userrepo->getTourOperators($user->getUserId());
+            foreach ($touroperators as $operator){
+                $tourOperator1 = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $operator['user_id']));
+                array_push($travelAgencys,$tourOperator1->getTravelAgency());
 
-        $cartItems = $em->getRepository("PartnerBundle:paReservation")->getCartItems($travelAgency, $ids_gr);
-
+            }
+            $cartItems = $em->getRepository("PartnerBundle:paReservation")->getAllCartItems($travelAgency,$travelAgencys, $ids_gr);
+        }
+        else {
+            $cartItems = $em->getRepository("PartnerBundle:paReservation")->getCartItems($travelAgency, $ids_gr);
+        }
         $reservations = array();
         $reservationsIds = array();
 
@@ -72,7 +94,7 @@ class CartController extends Controller
             "items" => $cartItems,
             "details" => $details,
             "disablePaymentButton" => (count($ids_gr) > 0),
-            "isSpecialPackage" => $packageService->isSpecialPackageFromAgency($travelAgency)
+            "isSpecialPackage" => $packageService->isSpecialPackageFromAgency($travelAgency2)
         ));
     }
 
@@ -146,7 +168,35 @@ class CartController extends Controller
         $user = $this->getUser();
         $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
         $travelAgency = $tourOperator->getTravelAgency();
+        $travelAgencys=array();
+        $userrepo= $em->getRepository('mycpBundle:user');
 
+        if($user->ifTouroperator()==false)
+        {
+            $touroperators=$userrepo->getTourOperators($user->getUserId());
+            foreach ($touroperators as $operator){
+                $tourOperator1 = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $operator['user_id']));
+                $reservations = $em->getRepository("PartnerBundle:paReservation")->getReservationsInCart($tourOperator1->getTravelAgency());
+                foreach($reservations as $reservation) {
+                    foreach ($reservation->getDetails() as $detail) {
+                        $generalReservation = $detail->getReservationDetail();
+                        $ownershipReservations = $generalReservation->getOwn_reservations();
+
+                        foreach ($ownershipReservations as $ownRes) {
+                            $ownRes->setOwnResStatus(ownershipReservation::STATUS_CANCELLED);
+                            $em->persist($ownRes);
+                        }
+
+                        $generalReservation->setGenResStatus(generalReservation::STATUS_CANCELLED);
+                        $generalReservation->setGenResStatusDate(new \DateTime());
+                        $generalReservation->setCanceledBy($user);
+                        $em->persist($generalReservation);
+                    }
+                }
+
+            }
+
+        }
         $reservations = $em->getRepository("PartnerBundle:paReservation")->getReservationsInCart($travelAgency);
 
         foreach($reservations as $reservation) {
