@@ -1,8 +1,9 @@
 {% set formFilter = form_search_booking_reserved.createView() %}
 <div class="ibox card">
     <div class="ibox-title card">
-        <span class="title-card">{{ "dashboard.booking.pending.payment" | trans }}</span>
-
+        <div id="appended">
+        <span class="title-card" id="title-card">{{ "dashboard.booking.pending.payment" | trans }} :   </span>
+        </div>
         <div class="ibox-tools">
             <a class="collapse-link">
                 <i class="fa fa-chevron-up"></i>
@@ -175,9 +176,23 @@
 <script type="text/javascript">
     var oTableReserved = '';
 
+    var Mycallback = function ( settings, json){
+        console.log(json);
+
+        $('#deletedd').remove();
+        $('#appended').append("<span class='title-card' id='deletedd' >"+" "+json.iTotalRecords+ ' {{"payment.online_payment" | trans}}:'+" "+json.prices+"</span>");
+
+//                $("#title-card").text().append(json.iTotalRecords);
+        // call your function here
+    }
+
     $(document).ready(function () {
 
-        oTableReserved = $('#table-booking-reserved').DataTable({
+        oTableReserved = $('#table-booking-reserved').on('xhr.dt', function ( e, settings, json, xhr ) {
+            $('#deletedd').remove();
+            $('#appended').append("<span class='title-card' id='deletedd' >"+" "+json.iTotalRecords+ ' {{"payment.online_payment" | trans}}:'+" "+json.prices+"</span>");
+
+        } ).DataTable({
             "language": {
                 "url": "{{ asset('bundles/layout/js/plugins/dataTables/locale/') }}{{ app.request.locale }}.json"
             },
@@ -190,7 +205,9 @@
                 data: function (params) {
 
                     var inputs = $("#form-booking-reserved input,select");
+
                     inputs.each(function () {
+
                         var input = $(this);
                         var val = input.val();
                         var name = input.attr('name');
@@ -198,7 +215,9 @@
                             params[input.attr('name')] = val;
                         }
                     });
+
                 }
+
             },
             "aoColumnDefs": [
                 {
@@ -277,6 +296,7 @@
             ],
             fnDrawCallback: function() {
                 $("#table-booking-reserved thead").remove();
+
             }
         });
     });
@@ -284,6 +304,7 @@
     function filterReservedAction() {
 
         oTableReserved.ajax.reload();
+
     }
 
     function clearReservedAction() {

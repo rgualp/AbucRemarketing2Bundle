@@ -322,7 +322,37 @@ class DashboardController extends Controller
             }
 
             $data['aaData'][] = $arrTmp;
+
         }
+        $datas = $this->getReservationsData($filters, 1, false, $draw, generalReservation::STATUS_RESERVED);
+        $reservationes = $datas['aaData'];
+        $totalprices =0;
+
+        foreach ($reservationes as $reserva){
+            $id=$reserva->getGenResId();
+            $em = $this->getDoctrine()->getManager();
+            $reservation = $em->getRepository('mycpBundle:generalReservation')->find($id);
+            $ownership_reservations = $reservation->getOwnReservations();
+
+            $service_time = $this->get('time');
+
+
+
+            $curr = $this->getCurr($request);
+
+            foreach ($ownership_reservations as $res) {
+
+
+                $total_price = $res->getPriceTotal($service_time) * $curr['change'];
+                $totalprices += $total_price;
+
+
+
+
+            }
+
+        }
+        $data['prices']=$totalprices .$curr['code'];
 
         return new JsonResponse($data);
     }
@@ -935,7 +965,13 @@ class DashboardController extends Controller
             $touroperators=$userrepo->getTourOperators($user->getUserId());
         }
         #region PAGINADO
-        $page = ($start > 0) ? $start / $limit + 1 : 1;
+        if($limit==false){
+
+        }
+        else{
+            $page = ($start > 0) ? $start / $limit + 1 : 1;
+        }
+
         $paginator = $repository->getReservationsPartner($user->getUserId(), $status, $filters, $start, $limit,$touroperators);;
         $reservations = $paginator['data'];
         #endregion PAGINADO
