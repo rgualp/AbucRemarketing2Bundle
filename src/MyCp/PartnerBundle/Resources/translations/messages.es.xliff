@@ -980,7 +980,7 @@
       </trans-unit>
       <trans-unit id="4d58eba7b655963a4e1d273ef8e10b965e525afc" resname="dashboard.booking.reserved">
         <source>dashboard.booking.reserved</source>
-        <target state="new">Pagadas</target>
+        <target state="new">Reservadas</target>
       </trans-unit>
       <trans-unit id="e6a37c027488107c665f1c00a9991b14d1eb6ec1" resname="dashboard.booking.room_types">
         <source>dashboard.booking.room_types</source>
@@ -2348,7 +2348,7 @@
       </trans-unit>
       <trans-unit id="30">
           <source>dashboard.booking.pending.payment</source>
-          <target state="new">Reservadas</target>
+          <target state="new">Pendientes a Pago</target>
       </trans-unit>
       <trans-unit id="31">
           <source>client.information</source>

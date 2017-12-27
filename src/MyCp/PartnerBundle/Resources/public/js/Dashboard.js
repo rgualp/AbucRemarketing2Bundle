@@ -890,7 +890,8 @@ var Dashboard = function () {
     var onPayNowButton = function () {
         $("#payNow").on('click', function () {
             $("#overlayLoading").removeClass("hide");
-            $(".payButton").attr("disabled", "true");
+
+           $('#payNow').unbind("click");
             var cartPrepayment = $("#totalPrepaymentGeneralInput").val();
             //var _url = $(this).data("url");
             var roomsToPay = $('input[name=checkAccommodationsToPay]:checked').map(function () {
@@ -916,6 +917,7 @@ var Dashboard = function () {
 
             var form = $("#paPaymentForm");
             form.submit();
+            
 
             //Ir a buscar los datos de los ownRes seleccionados para pagar y generar un booking (server)
             /*$.post(_url, {

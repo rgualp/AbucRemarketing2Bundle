@@ -124,6 +124,27 @@ class BackendAgencyController extends Controller {
         return $this->render('mycpBundle:agency:details.html.twig', array('agency' => $agency,'responsable'=>$responsable[0]));
     }
 
+    public function details_AgencybyUserAction($id,$ida, Request $request) {
+        $service_security = $this->get('Secure');
+        $service_security->verifyAccess();
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('mycpBundle:user')->find($id);
+
+        if($user->getMentor()==null) {
+            $agency = $em->getRepository('PartnerBundle:paTravelAgency')->getById($ida);
+            $responsable = $em->getRepository('PartnerBundle:paTravelAgency')->getResponsableByUser($id);
+        }
+        else{
+            $responsable = $em->getRepository('PartnerBundle:paTravelAgency')->getResponsableByUser($user->getMentor());
+            $agency = $em->getRepository('PartnerBundle:paTravelAgency')->getByUserId($id);
+        }
+        if (empty($agency)) {
+            $agency=$responsable;// list is empty.
+        }
+
+        return $this->render('mycpBundle:agency:details.html.twig', array('agency' => $agency,'responsable'=>$responsable[0]));
+    }
+
     public function edit_AgencyAction($id, Request $request) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();

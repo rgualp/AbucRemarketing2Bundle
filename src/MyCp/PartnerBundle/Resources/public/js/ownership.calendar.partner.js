@@ -4,6 +4,8 @@ var totalPriceDinner=0;
 var totalPriceBreakfast=0;
 function totalPrice(curr,percent, totalNights)
 {
+    $('#agency_commission').css({display: 'none'});
+    $('#agency_commission_one').css({display: 'none'});
     var real_price=0;
     var total_price_var=0;
     var rooms_price='';
@@ -79,9 +81,9 @@ function totalPrice(curr,percent, totalNights)
     console.log(total_price_var,tourist_service,fixed_tax);
     var summatoryTax = parseFloat(total_price_var+tourist_service + fixed_tax);
     console.log("Sumatoria " + summatoryTax);
-    var agencyCommissionTax = parseFloat((total_price_var+tourist_service + fixed_tax) * commissionAgency/100);
+    //var agencyCommissionTax = parseFloat((total_price_var+tourist_service + fixed_tax) * commissionAgency/100);
     //var agencyCommissionTax = parseFloat((total_price_var+tourist_service + fixed_tax) * parseFloat(0.1));
-    console.log("Comision Agencia " + agencyCommissionTax);
+    console.log("Comision Agencia " );
     var transferTax = parseFloat((total_price_var+tourist_service + fixed_tax) * parseFloat(0.1));
     console.log("Tansferencia " + transferTax);
     var totalCost = parseFloat(total_price_var+tour_serv + transferTax);
@@ -90,16 +92,16 @@ function totalPrice(curr,percent, totalNights)
     if(completePayment != 0)
         var prepayment = parseFloat(totalCost);
     else
-        var prepayment = parseFloat(summatoryTax- agencyCommissionTax) ;
+        var prepayment = parseFloat(summatoryTax) ;
 
     $('#total_prepayment').html(normalize_prices(prepayment));
-    $('#total_price').html( normalize_prices(totalPriceDinner + totalPriceBreakfast + totalCost + agencyCommissionTax) );
+    $('#total_price').html( normalize_prices(totalPriceDinner + totalPriceBreakfast + totalCost ) );
 
     $("#commissionPercent").html(percent);
     $("#totalNightsToShow").html(totalNights);
     $("#service_transfer_tax").html(normalize_prices(transferTax));
-    $("#agency_commission").html(normalize_prices(agencyCommissionTax));
-    $("#agency_commission_one").html(normalize_prices(agencyCommissionTax));
+  //  $("#agency_commission").html(normalize_prices(agencyCommissionTax));
+  //  $("#agency_commission_one").html(normalize_prices(agencyCommissionTax));
     $('.calendar-results').css({display: 'block'});
 
     /*if(checkTotalPrice) {
@@ -126,6 +128,7 @@ function totalPrice(curr,percent, totalNights)
     //}
 }
 function updateService(){
+   // $('.calendar-results').css({display: 'none'});
     var count_guests=0;
     $('.guest').each(function() {
         count_guests =eval(count_guests)+ eval(this.innerHTML);
@@ -282,6 +285,7 @@ function reservationsBody()
 
             $('#rooms_selected').css({display: 'table'});
             $('.calendar-results').css({display: 'block'});
+
             $('#rooms_selected > tbody:last').append('<tr id="tr_'+$(this).attr('data')+'">' +
                 '<td class="id_room" style="display: none;">'+$(this).attr('data')+'</td>' +
                 '<td>'+this.parentNode.parentNode.cells[0].innerHTML+'</td>' +

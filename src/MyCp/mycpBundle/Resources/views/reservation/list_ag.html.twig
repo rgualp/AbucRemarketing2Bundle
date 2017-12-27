@@ -184,7 +184,7 @@
                         </td>
                         <td>{{ reservation.gen_res_date |date("d/m/Y") }}</td>
                         <td>
-                            <a title="Detalles" href="{{ path('mycp_details_agency', {'id':reservation.ag_id}) }}">{{ reservation.user_last_name }}</a>
+                            <a title="Detalles" href="{{ path('mycp_details_agencyus', {'id':reservation.user_id,'ida':reservation.ag_id}) }}">{{ reservation.user_last_name }}</a>
                         </td>
                         <td>{{ reservation.client }}</td>
                         <td><a href="{{ path('mycp_details_reservation_ag',{'id_reservation':reservation.gen_res_id}) }}">{{ reservation.gen_res_id | getCASId }}</a></td>

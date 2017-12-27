@@ -213,11 +213,11 @@
                 <td><b>{{"SERVICE_TRANSFERENCE_TAX"|trans({}, "messages", user_locale)}}</b></td>
                 <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ (0.1*(own_res_payments[own.id].total_price + own_res_payments[own.id].touristTax)) | number_format(2) }}</h4></td>
             </tr>
-            <tr>
-                <td><b>{{"AGENCY_COMMISSION"|trans({}, "messages", user_locale)}} ({{commissionAgencyPercent}}%)</b></td>
-                <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ ((travelAgencycomision*(own_res_payments[own.id].total_price + own_res_payments[own.id].touristTax))) | number_format(2) }}</h4></td>
+            {#<tr>#}
+                {#<td><b>{{"AGENCY_COMMISSION"|trans({}, "messages", user_locale)}} ({{commissionAgencyPercent}}%)</b></td>#}
+                {#<td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ ((travelAgencycomision*(own_res_payments[own.id].total_price + own_res_payments[own.id].touristTax))) | number_format(2) }}</h4></td>#}
 
-            </tr>
+            {#</tr>#}
             {% set fixedTax = 0 %}
             {% if own_res | length == 1 and not booking.completePayment %}
                 {#{% set fixedTax = service_charge_total %}#}
@@ -226,21 +226,21 @@
                     <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ fixedTax | number_format(2)}}</h4></td>
                 </tr>
             {% endif %}
-            <tr class="b-cyan">
-                <td><b>{{ "payment.total" | trans({}, "messages", user_locale) }} - {{"ACCOMMODATION"|trans({}, "messages", user_locale)}} {{loop.index}}</b></td>
-                <td class="text-right">
-                    <h4 class="no-margin">
-                        {{ currency_symbol }} {{ (own_res_payments[own.id].total_price + fixedTax + own_res_payments[own.id].touristTax)+(0.1*(own_res_payments[own.id].total_price + own_res_payments[own.id].touristTax)+(travelAgencycomision*(own_res_payments[own.id].total_price + own_res_payments[own.id].touristTax))) | number_format(2) }}
-                    </h4>
-                </td>
-            </tr>
-            <tr>
-                <td>- {{"AGENCY_COMMISSION"|trans({}, "messages", user_locale)}} ({{commissionAgencyPercent}}%)</td>
-                <td class="text-right">{{ currency_symbol }} {{ ((travelAgencycomision*(own_res_payments[own.id].total_price + own_res_payments[own.id].touristTax))) | number_format(2) }}</td>
-            </tr>
+            {#<tr class="b-cyan">#}
+                {#<td><b>{{ "payment.total" | trans({}, "messages", user_locale) }} - {{"ACCOMMODATION"|trans({}, "messages", user_locale)}} {{loop.index}}</b></td>#}
+                {#<td class="text-right">#}
+                    {#<h4 class="no-margin">#}
+                        {#{{ currency_symbol }} {{ (own_res_payments[own.id].total_price + fixedTax + own_res_payments[own.id].touristTax)+(0.1*(own_res_payments[own.id].total_price + own_res_payments[own.id].touristTax)+(travelAgencycomision*(own_res_payments[own.id].total_price + own_res_payments[own.id].touristTax))) | number_format(2) }}#}
+                    {#</h4>#}
+                {#</td>#}
+            {#</tr>#}
+            {#<tr>#}
+                {#<td>- {{"AGENCY_COMMISSION"|trans({}, "messages", user_locale)}} ({{commissionAgencyPercent}}%)</td>#}
+                {#<td class="text-right">{{ currency_symbol }} {{ ((travelAgencycomision*(own_res_payments[own.id].total_price + own_res_payments[own.id].touristTax))) | number_format(2) }}</td>#}
+            {#</tr>#}
             <tr class="b-cyan">
                 <td ><b>{{ "payment.online_payment" | trans({}, "messages", user_locale) }}</b></td>
-                <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{((own_res_payments[own.id].total_price + fixedTax + own_res_payments[own.id].touristTax)+(0.1*(own_res_payments[own.id].total_price + own_res_payments[own.id].touristTax)+(travelAgencycomision*(own_res_payments[own.id].total_price + own_res_payments[own.id].touristTax))))-(travelAgencycomision*(own_res_payments[own.id].total_price + own_res_payments[own.id].touristTax)) | number_format(2)}}</h4></td>
+                <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{((own_res_payments[own.id].total_price + fixedTax + own_res_payments[own.id].touristTax)+(0.1*(own_res_payments[own.id].total_price + own_res_payments[own.id].touristTax)+(travelAgencycomision*(own_res_payments[own.id].total_price + own_res_payments[own.id].touristTax)))) | number_format(2)}}</h4></td>
             </tr>
             {% if not booking.completePayment %}
             <tr>
@@ -374,18 +374,18 @@
             <td><b>{{"SERVICE_TRANSFERENCE_TAX"|trans({}, "messages", user_locale)}}</b></td>
             <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ (totalTransferTax) | number_format(2) }}</h4></td>
         </tr>
-        <tr>
-            <td><b>{{"AGENCY_COMMISSION"|trans({}, "messages", user_locale)}} ({{commissionAgencyPercent}}%)</b></td>
-            <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ (commissionAgency) | number_format(2) }}</h4></td>
-        </tr>
-        <tr class="b-cyan">
-            <td><b>{{ "payment.total" | trans({}, "messages", user_locale) }}</b></td>
-            <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ ((totalAccommodationPayment)) | number_format(2) }}</h4></td>
-        </tr>
-        <tr>
-            <td>- {{"AGENCY_COMMISSION"|trans({}, "messages", user_locale)}} ({{commissionAgencyPercent}}%)</td>
-            <td class="text-right">{{ currency_symbol }} {{ (commissionAgency) | number_format(2) }}</td>
-        </tr>
+        {#<tr>#}
+            {#<td><b>{{"AGENCY_COMMISSION"|trans({}, "messages", user_locale)}} ({{commissionAgencyPercent}}%)</b></td>#}
+            {#<td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ (commissionAgency) | number_format(2) }}</h4></td>#}
+        {#</tr>#}
+        {#<tr class="b-cyan">#}
+            {#<td><b>{{ "payment.total" | trans({}, "messages", user_locale) }}</b></td>#}
+            {#<td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ ((totalAccommodationPayment)) | number_format(2) }}</h4></td>#}
+        {#</tr>#}
+        {#<tr>#}
+            {#<td>- {{"AGENCY_COMMISSION"|trans({}, "messages", user_locale)}} ({{commissionAgencyPercent}}%)</td>#}
+            {#<td class="text-right">{{ currency_symbol }} {{ (commissionAgency) | number_format(2) }}</td>#}
+        {#</tr>#}
         {#<tr>#}
             {#<td><b>{{"SERVICE_FIXED_TAX"|trans({}, "messages", user_locale)}}</b></td>#}
             {#<td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ service_charge_total | number_format(2)}}</h4></td>#}
