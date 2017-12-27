@@ -144,48 +144,49 @@
 
         </div>
     </div>
+
         <div class="span12"style="margin-left:auto">
-        <div class="span6" style="margin-left:auto">
+        <div class="span12" style="margin-left:auto">
             <ul class="nav nav-tabs">
                 <li class="active">
                     <a data-toggle="tab" href="#reservas">Tour Operadores </a>
                 </li>
             </ul>
-            <div class="row-fluid">
-                <div class="span3">
 
-                    <label>Usuario:</label>
-                    {#<select  id="users" class="span12">#}
-                    {#{{ render(controller('mycpBundle:BackendAgency:get_all_users', {'selected': '0'})) }}#}
-                    {#</select>&nbsp;#}
-                    <input id='usuarios' list="browsersuser" name="browser" class="span12"  >
-                    <datalist id="browsersuser">
-
-                        {{ render(controller('mycpBundle:BackendAgency:get_all_users', {'selected': '0'})) }}
-
-                    </datalist>
-
-                </div>
-                <div class="span3" id="nombre" style="display: none">
-                    <label >Nombre:</label>
-                    <input name="filter_owner"  id="name" autocomplete="off" type="text" class="input-block-level" style="margin: 0 auto;" data-provide="typeahead" data-items="5" data-source='{{ render(controller('mycpBundle:BackendAgency:get_owner_names')) }}'>
-                </div>
-
-                <div class="span3" style="display: none" id="apellido">
-                    <label>Apellido:</label>
-                    <input name="filter_owner"  id="lastname" autocomplete="off" type="text" class="input-block-level" style="margin: 0 auto;" data-provide="typeahead" data-items="5" data-source='{{ render(controller('mycpBundle:BackendAgency:get_owner_names')) }}'>
-                </div>
-
-                <div class="span3" id="pais1" style="display: none">
-                    <label>País:</label>
-                    <input  id="country1" class="input-block-level" name="filter_email" type="text"/>
-                </div>
-
-
-            </div>
             <table class="table table-striped">
                 <thead>
+                <div class="row-fluid">
+                    <div class="span3">
 
+                        <label>Usuario:</label>
+                        {#<select  id="users" class="span12">#}
+                        {#{{ render(controller('mycpBundle:BackendAgency:get_all_users', {'selected': '0'})) }}#}
+                        {#</select>&nbsp;#}
+                        <input id='usuarios' list="browsersuser" name="browser" class="input-block-level"  >
+                        <datalist id="browsersuser">
+
+                            {{ render(controller('mycpBundle:BackendAgency:get_all_users', {'selected': '0'})) }}
+
+                        </datalist>
+
+                    </div>
+                    <div class="span3" id="nombre" style="display: none">
+                        <label >Nombre:</label>
+                        <input name="filter_owner"  id="name" autocomplete="off" type="text" class="input-block-level" style="margin: 0 auto;" data-provide="typeahead" data-items="5" data-source='{{ render(controller('mycpBundle:BackendAgency:get_owner_names')) }}'>
+                    </div>
+
+                    <div class="span3" style="display: none" id="apellido">
+                        <label>Apellido:</label>
+                        <input name="filter_owner"  id="lastname" autocomplete="off" type="text" class="input-block-level" style="margin: 0 auto;" data-provide="typeahead" data-items="5" data-source='{{ render(controller('mycpBundle:BackendAgency:get_owner_names')) }}'>
+                    </div>
+
+                    <div class="span3" id="pais1" style="display: none">
+                        <label>País:</label>
+                        <input  id="country1" class="input-block-level" name="filter_email" type="text"/>
+                    </div>
+
+
+                </div>
                 <tr>
 
                     <th>Nombre</th>
@@ -198,6 +199,7 @@
                 </tr>
                 </thead>
                 <tbody>
+                {% if hastour %}
                 {% for own in agency %}
 
                     <tr>
@@ -224,6 +226,7 @@
                     {#"date_register" => DateTime #}{#691 ▶}#}
 
                 {% endfor %}
+                {% endif %}
                 </tbody>
             </table>
         </div>

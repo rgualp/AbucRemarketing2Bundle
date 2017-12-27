@@ -112,6 +112,7 @@ class BackendAgencyController extends Controller {
     }
 
     public function details_AgencyAction($id, Request $request) {
+        $hastouroperators=true;
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
@@ -119,9 +120,10 @@ class BackendAgencyController extends Controller {
         $responsable=$em->getRepository('PartnerBundle:paTravelAgency')->getResponsable($id);
         if (empty($agency)) {
             $agency=$responsable;// list is empty.
+            $hastouroperators=false;
         }
 
-        return $this->render('mycpBundle:agency:details.html.twig', array('agency' => $agency,'responsable'=>$responsable[0]));
+        return $this->render('mycpBundle:agency:details.html.twig', array('agency' => $agency,'responsable'=>$responsable[0],'hastour'=>$hastouroperators));
     }
 
     public function details_AgencybyUserAction($id,$ida, Request $request) {
@@ -129,7 +131,7 @@ class BackendAgencyController extends Controller {
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('mycpBundle:user')->find($id);
-
+        $hastouroperators=true;
         if($user->getMentor()==null) {
             $agency = $em->getRepository('PartnerBundle:paTravelAgency')->getById($ida);
             $responsable = $em->getRepository('PartnerBundle:paTravelAgency')->getResponsableByUser($id);
@@ -140,14 +142,16 @@ class BackendAgencyController extends Controller {
         }
         if (empty($agency)) {
             $agency=$responsable;// list is empty.
+            $hastouroperators=false;
         }
 
-        return $this->render('mycpBundle:agency:details.html.twig', array('agency' => $agency,'responsable'=>$responsable[0]));
+        return $this->render('mycpBundle:agency:details.html.twig', array('agency' => $agency,'responsable'=>$responsable[0],'hastour'=>$hastouroperators));
     }
 
     public function edit_AgencyAction($id, Request $request) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
+        $hastouroperators=true;
 
         $em = $this->getDoctrine()->getManager();
         $obj = $em->getRepository('PartnerBundle:paTravelAgency')->find($id);
@@ -156,6 +160,7 @@ class BackendAgencyController extends Controller {
         $errors = array();
         if (empty($agency)) {
             $agency=$responsable;// list is empty.
+            $hastouroperators=false;
         }
 
         $packagesByAgency = $em->getRepository("PartnerBundle:paAgencyPackage")->getPackagesByAgency($id);
@@ -189,7 +194,8 @@ class BackendAgencyController extends Controller {
             'id_agency' => $id,
             'agency' => $agency,
             'responsable'=>$responsable[0],
-            'packages' => $packagesByAgency
+            'packages' => $packagesByAgency,
+            'hastour'=>$hastouroperators
         ));
     }
     #Eliminar Operadores
