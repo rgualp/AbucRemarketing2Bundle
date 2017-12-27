@@ -58,9 +58,11 @@ class FrontendController extends Controller
         $routeParams = empty($routeParams) ? array() : $routeParams;
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
-        $session->set("curr_rate", $user->getUserCurrency()->getCurrCucChange());
-        $session->set("curr_symbol",  $user->getUserCurrency()->getCurrSymbol());
-        $session->set("curr_acronym", $user->getUserCurrency()->getCurrCode());
+        if($user->getUserCurrency()!=null) {
+            $session->set("curr_rate", $user->getUserCurrency()->getCurrCucChange());
+            $session->set("curr_symbol", $user->getUserCurrency()->getCurrSymbol());
+            $session->set("curr_acronym", $user->getUserCurrency()->getCurrCode());
+        }
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
         $countItems = $em->getRepository('mycpBundle:favorite')->getTotal($user_ids['user_id'], $user_ids['session_id']);
         $response = $this->render('PartnerBundle:Layout:language-currency.html.twig', array(
