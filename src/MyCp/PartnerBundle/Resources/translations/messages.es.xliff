@@ -2370,6 +2370,10 @@
                             <source>dashboard.booking.acomodationserach</source>
                             <target state="new">Código o Nombre</target>
                   </trans-unit>
+                   <trans-unit id="36" resname="btn.bill">
+                          <source>btn.bill</source>
+                          <target state="new">Facturar</target>
+                        </trans-unit>
     </body>
   </file>
 </xliff>

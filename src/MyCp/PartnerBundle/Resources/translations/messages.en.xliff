@@ -788,7 +788,7 @@
       </trans-unit>
       <trans-unit id="7580fa85de8adc47d2e89b748fefb65e1b32708c" resname="btn.search">
         <source>btn.search</source>
-        <target state="new">Buscar</target>
+        <target state="new">Find</target>
       </trans-unit>
       <trans-unit id="6744ceb5f7096539c06a718f678b66760cd4e6b0" resname="cart.alert.cancel_button">
         <source>cart.alert.cancel_button</source>
@@ -2373,6 +2373,10 @@
                                                 <source>dashboard.booking.acomodationserach</source>
                                                 <target state="new">Code or Name</target>
                                       </trans-unit>
+                                       <trans-unit id="36" resname="btn.bill">
+                                                                <source>btn.bill</source>
+                                                                <target state="new">Invoice</target>
+                                                              </trans-unit>
     </body>
   </file>
 </xliff>

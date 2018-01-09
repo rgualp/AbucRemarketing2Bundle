@@ -1542,7 +1542,14 @@ ORDER BY own.own_mcp_code ASC
                 //Cliente
                 $data[4] = ($currentReservation != $generalReservation->getGenResId()) ? $generalReservation->getGenResUserId()->getUserLastName(): "";
 
-                $data[5] = ($currentReservation != $generalReservation->getGenResId()) ? $generalReservation->getTravelAgencyDetailReservations()->first()->getReservation()->getClient()->getFullName(): "";
+                if($generalReservation->getTravelAgencyDetailReservations()->first()){
+                    $data[5] = ($currentReservation != $generalReservation->getGenResId()) ? $generalReservation->getTravelAgencyDetailReservations()->first()->getReservation()->getClient()->getFullName(): "";
+
+                }
+                else{
+                    $data[5]="";
+                }
+
 
                 $accommodation = $generalReservation->getGenResOwnId();
 
