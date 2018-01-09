@@ -1358,7 +1358,7 @@ class BookingService extends Controller
                 if($userEmail != $contact->getEmail()){
                     try {
                         $emailService->sendEmailMultiplesAttach(
-                            $subject,
+                            $subject . ' R:'. $references,
                             'send@mycasaparticular.com',
                             $subject . ' - MyCasaParticular.com',
                             $contact->getEmail(),
