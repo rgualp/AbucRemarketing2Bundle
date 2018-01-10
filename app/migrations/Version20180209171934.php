@@ -28,6 +28,8 @@ pa_reservation_detail.reservationDetail!=145524
    and pa_reservation_detail.reservationDetail!=124655
 	 and pa_reservation_detail.reservationDetail!=17985
 	  and pa_reservation_detail.reservationDetail!=17984
+	  and pa_reservation_detail.reservationDetail!=145713
+	  and pa_reservation_detail.reservationDetail!=145712
 and user.user_role='ROLE_CLIENT_PARTNER' ");
 
         $this->addSql("delete ownershipreservation from ownershipreservation 
@@ -40,6 +42,8 @@ ownershipreservation.own_res_gen_res_id!=145524
  and ownershipreservation.own_res_gen_res_id!=124655 
  and ownershipreservation.own_res_gen_res_id!=17985 
  and ownershipreservation.own_res_gen_res_id!=17984
+ and ownershipreservation.own_res_gen_res_id!=145713
+  and ownershipreservation.own_res_gen_res_id!=145712
  and user.user_role='ROLE_CLIENT_PARTNER' ");
         $this->addSql("delete offerlog from offerlog 
 join generalreservation on generalreservation.gen_res_id=offerlog.log_offer_reservation or offerlog.log_from_reservation=generalreservation.gen_res_id
@@ -51,6 +55,8 @@ generalreservation.gen_res_id!=145524
  and generalreservation.gen_res_id!=124655 
  and generalreservation.gen_res_id!=17985 
  and generalreservation.gen_res_id!=17984
+  and generalreservation.gen_res_id!=145713
+   and generalreservation.gen_res_id!=145712
  and user.user_role='ROLE_CLIENT_PARTNER' ");
 
         $this->addSql("delete pending_payment from pending_payment
@@ -64,6 +70,8 @@ generalreservation.gen_res_id!=145524
    and generalreservation.gen_res_id!=124655
 	 and generalreservation.gen_res_id!=17985
 	  and generalreservation.gen_res_id!=17984
+	  and generalreservation.gen_res_id!=145713
+   and generalreservation.gen_res_id!=145712
 and user.user_role='ROLE_CLIENT_PARTNER' ");
 
         $this->addSql("delete notification from notification
@@ -77,6 +85,8 @@ generalreservation.gen_res_id!=145524
    and generalreservation.gen_res_id!=124655
 	 and generalreservation.gen_res_id!=17985
 	  and generalreservation.gen_res_id!=17984
+	  and generalreservation.gen_res_id!=145713
+   and generalreservation.gen_res_id!=145712
 and user.user_role='ROLE_CLIENT_PARTNER' ");
 
         $this->addSql("delete failure from failure join 
@@ -91,6 +101,8 @@ generalreservation.gen_res_id!=145524
    and generalreservation.gen_res_id!=124655
 	 and generalreservation.gen_res_id!=17985
 	  and generalreservation.gen_res_id!=17984
+	  and generalreservation.gen_res_id!=145713
+   and generalreservation.gen_res_id!=145712
 and user.user_role='ROLE_CLIENT_PARTNER'");
 
  $this->addSql("delete generalreservation from generalreservation
@@ -104,6 +116,8 @@ generalreservation.gen_res_id!=145524
    and generalreservation.gen_res_id!=124655
 	 and generalreservation.gen_res_id!=17985
 	  and generalreservation.gen_res_id!=17984
+	  and generalreservation.gen_res_id!=145713
+   and generalreservation.gen_res_id!=145712
 and user.user_role='ROLE_CLIENT_PARTNER' ");
 
     }
