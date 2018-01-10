@@ -307,7 +307,6 @@ class BackendReservationAgController extends Controller {
         ));
     }
 
-
     public function details_reservation_agAction($id_reservation, Request $request) {
         $em = $this->getDoctrine()->getManager();
         $reservation = $em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
@@ -454,7 +453,6 @@ class BackendReservationAgController extends Controller {
             else{
                 $message = 'No hay datos para llenar el Excel a descargar.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
-
                 return $this->redirect($this->generateUrl("mycp_list_reservations_ag"));
             }
         }

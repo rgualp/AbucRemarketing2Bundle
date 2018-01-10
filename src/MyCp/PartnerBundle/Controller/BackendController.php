@@ -528,15 +528,4 @@ class BackendController extends Controller
         return new JsonResponse($data);
     }
 
-    public function get_agency_namesAction($post) {
-        $em = $this->getDoctrine()->getManager();
-        $selected = '-1';
-        if(isset($post['selected']) && $post['selected'] != "")
-            $selected = $post['selected'];
-        $data= $em->getRepository("PartnerBundle:paTravelAgency")->getAll($a='',$b='',$c='',$d='',$e='',$filter_package=3,$f='');
-        $array= $data->getArrayResult();
-
-        return $this->render('PartnerBundle:Search:agency_names.html.twig', array('selected' => $selected,'data'=>$array));
-    }
-
 }
