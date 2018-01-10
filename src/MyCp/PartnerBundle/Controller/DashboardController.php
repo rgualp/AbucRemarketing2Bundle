@@ -344,7 +344,7 @@ class DashboardController extends Controller
 
 
                 $total_price = $res->getPriceTotal($service_time) * $curr['change'];
-                $totalprices += $total_price;
+                $totalprices += $total_price+($total_price*0.1)+($total_price+($total_price*0.1))*0.1;
 
 
 
@@ -352,7 +352,7 @@ class DashboardController extends Controller
             }
 
         }
-        $data['prices']=$totalprices .$curr['code'];
+        $data['prices']=round($totalprices ,2) .$curr['code'];
 
         return new JsonResponse($data);
     }
@@ -1336,6 +1336,7 @@ class DashboardController extends Controller
         $service_time = $this->get('time');
         $array_nights = array();
         $array_total_prices = array();
+        $array_complete_prices = 0;
         $rooms = array();
         $canBeCanceled = array();
         $curr = $this->getCurr($request);
@@ -1356,10 +1357,10 @@ class DashboardController extends Controller
 
             if (!$oneCanBeCanceled)
                 $oneCanBeCanceled = $canCancel;
-
-            $total_price = ($res->getPriceTotal($service_time) * $curr['change']) . $curr['code'];
+            $price=$res->getPriceTotal($service_time) * $curr['change'];
+            $total_price = ($price) . $curr['code'];
             array_push($array_total_prices, $total_price);
-
+            $array_complete_prices+=$price+($price*0.1)+($price+($price*0.1))*0.1;
 
 
 
@@ -1373,6 +1374,7 @@ class DashboardController extends Controller
                     'id_res' => $id_reservation,
                     'cas' => "CAS.$id_reservation",
                     'reservation' => $reservation,
+                    'array_complete_prices'=>round($array_complete_prices ,2). $curr['code'],
                     'reservations' => $ownership_reservations,
                     'rooms' => $rooms,
                     'nights' => $array_nights,

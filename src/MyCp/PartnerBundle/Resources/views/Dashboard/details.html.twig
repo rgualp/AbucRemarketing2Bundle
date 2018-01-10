@@ -127,6 +127,7 @@
             {% set initialDate = null %}
             {% set endDate = null %}
 
+
             {% for reservation_rooms in reservations %}
                 {% if reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_NOT_AVAILABLE') and reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_CANCELLED') %}
                     {% set total_adults = total_adults + reservation_rooms.getOwnResCountAdults %}
@@ -170,6 +171,32 @@
                 </tr>
                 {% set flag = flag + 1 %}
             {% endfor %}
+                <td>
+
+                </td>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+                <td>
+                    <span class="rst"  >{{ 'PAYMENT_COMPLETE' | trans }}</span>
+
+                </td>
+            <td>
+                <span class="rst" > {{ array_complete_prices }}</span>
+
+            </td>
         </table>
 
         {% if oneCanBeCanceled %}
