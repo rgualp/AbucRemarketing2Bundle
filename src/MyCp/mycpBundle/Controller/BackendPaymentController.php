@@ -589,6 +589,7 @@ class BackendPaymentController extends Controller {
         try {
             //$service_security = $this->get('Secure');
             //$service_security->verifyAccess();
+            $page = 1;
             $filterbr = $request->get('filterbr');
             $filter_date_reserve = $request->get('filter_date_reserve');
             $filter_agency=$request->get('filter_agency');
@@ -632,7 +633,7 @@ class BackendPaymentController extends Controller {
             $paginator->setItemsPerPage(10);
             $em = $this->getDoctrine()->getManager();
             $all = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
-                ->getAllPagReserved($filter_date_reserve,$filter_date_reserve2,$filterbr,$filter_agency, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $filter_client, $items_per_page, $page, true))->getResult();
+                ->getAllPagReserved($filter_date_reserve,$filter_date_reserve2,$filterbr,$filter_agency, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, 2, $filter_client, 10, $page, true))->getResult();
             $reservations = $all['reservations'];
             if(count($reservations)) {
                 $exporter = $this->get("mycp.service.export_to_excel");

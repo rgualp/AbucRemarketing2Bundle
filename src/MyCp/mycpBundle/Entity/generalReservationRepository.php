@@ -36,8 +36,7 @@ class generalReservationRepository extends EntityRepository {
         return $this->getByQueryPag($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $filter_client, -1, $gaQuery, $items_per_page, $page, $partner);
     }
 
-<<<<<<< Updated upstream
-=======
+
     function getAllPagReserved($filter_date_reserve,$filter_date_reserve2,$filterbr,$filter_agency, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $filter_client, $items_per_page = null, $page = null, $partner = true) {
         $gaQuery = "SELECT gre.gen_res_date, gre.gen_res_id, own.own_mcp_code, gre.gen_res_total_in_site,gre.gen_res_status,gre.gen_res_from_date,
         (SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id),
@@ -264,7 +263,7 @@ class generalReservationRepository extends EntityRepository {
         return array("reservations" => $data, "totalItems" => $total);
     }
 
->>>>>>> Stashed changes
+
     function getByQueryPag($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $filter_client, $user_casa, $queryStr, $items_per_page = null, $page = null, $partner = null) {
         $filter_offer_number = strtolower($filter_offer_number);
         $filter_booking_number = strtolower($filter_booking_number);
