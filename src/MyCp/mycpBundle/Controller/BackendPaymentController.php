@@ -585,5 +585,72 @@ class BackendPaymentController extends Controller {
             'filter_client' => $filter_client
         ));
     }
+    public function exportReservationsAction(Request $request) {
+        try {
+            //$service_security = $this->get('Secure');
+            //$service_security->verifyAccess();
+            $filterbr = $request->get('filterbr');
+            $filter_date_reserve = $request->get('filter_date_reserve');
+            $filter_agency=$request->get('filter_agency');
+            $filter_date_reserve2 = $request->get('filter_date_reserve2');
+            $filter_offer_number = $request->get('filter_offer_number');
+            $filter_reference = $request->get('filter_reference');
+            $filter_client = $request->get('filter_client');
+            $filter_date_from = $request->get('filter_date_from');
+            $filter_date_to = $request->get('filter_date_to');
+            $filter_booking_number = $request->get('filter_booking_number');
+            $filter_status = $request->get('filter_status');
+            $sort_by = $request->get('sort_by');
+            if ($filter_agency == 'null')
+                $filter_agency = '';
+            if ($filter_date_reserve == 'null')
+                $filter_date_reserve = '';
+            if ($filterbr == 'null')
+                $filterbr = '';
+            if ($filter_date_reserve2 == 'null')
+                $filter_date_reserve2 = '';
+            if ($filter_offer_number == 'null')
+                $filter_offer_number = '';
+            if ($filter_booking_number == 'null')
+                $filter_booking_number = '';
+            if ($filter_reference == 'null')
+                $filter_reference = '';
+            if ($filter_client == 'null')
+                $filter_client = '';
+            if ($filter_date_from == 'null')
+                $filter_date_from = '';
+            if ($filter_date_to == 'null')
+                $filter_date_to = '';
+            if ($filter_status == 'null')
+                $filter_status = '';
+            if ($sort_by == 'null')
+                $sort_by = '';
+
+            $date = new \DateTime();
+            $date = date_modify($date, "-5 days");
+            $paginator = $this->get('ideup.simple_paginator');
+            $paginator->setItemsPerPage(10);
+            $em = $this->getDoctrine()->getManager();
+            $all = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
+                ->getAllPagReserved($filter_date_reserve,$filter_date_reserve2,$filterbr,$filter_agency, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $filter_client, $items_per_page, $page, true))->getResult();
+            $reservations = $all['reservations'];
+            if(count($reservations)) {
+                $exporter = $this->get("mycp.service.export_to_excel");
+                return $exporter->exportReservationsReservedAg($reservations, $date);
+            }
+            else{
+                $message = 'No hay datos para llenar el Excel a descargar.';
+                $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+                return $this->redirect($this->generateUrl("mycp_list_reservations_ag"));
+            }
+        }
+        catch(\Exception $e){
+            $message = 'Ha ocurrido un error. Por favor, introduzca correctamente los valores para filtrar.';
+            $this->get('session')->getFlashBag()->add('message_error_main', $message);
+
+            return $this->redirect($this->generateUrl("mycp_list_reservations_ag"));
+        }
+    }
 
 }
