@@ -2374,6 +2374,12 @@
                                                                           <target state="new">Code or Name</target>
                                                                 </trans-unit>
                                                                 <trans-unit id="36" resname="btn.bill">
+
+
+                  <trans-unit id="37" resname="touroperator">
+                                                                  <source>touroperator</source>
+                                                                  <target state="new">TourOperator</target>
+                                                                </trans-unit>
                                                                                                                                 <source>btn.bill</source>
                                                                                                                                 <target state="new">Invoice</target>
                                                                                                                               </trans-unit>

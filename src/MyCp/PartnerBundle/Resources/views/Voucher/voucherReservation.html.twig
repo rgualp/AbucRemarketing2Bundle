@@ -74,7 +74,8 @@
     <h2 class="h-green no-margin">{{ 'CLIENT_INFORMATION'|trans({}, "messages", user_locale) }}</h2>
     <hr/>
    {#Modificaciones aki#}
-   {%for res_room in own_res_rooms[own.id] %}
+
+   {%for res_room in clients[own.id] %}
     <table  style="width: 100%">
       {#{% set res_room = own_res_rooms[own.id][0] %}#}
         <tr>
@@ -99,6 +100,8 @@
  <h3 class="h-green h-green-line"  style="padding-bottom: 8px">
     {% endif %}
    {% endfor %}
+
+
     <table style="width: 100%">
         <tr>
             <td style="width: 70%">

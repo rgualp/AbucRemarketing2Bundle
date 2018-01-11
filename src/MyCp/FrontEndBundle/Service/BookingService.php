@@ -101,6 +101,7 @@ class BookingService extends Controller
         $rooms = array();
         $commissions = array();
         $ownResRooms = array();
+        $clients=array();
         $payments = array();
         $ownResDistinct = $em
             ->getRepository('mycpBundle:ownershipReservation')
@@ -110,7 +111,9 @@ class BookingService extends Controller
             $ownResRooms[$own_r["id"]] = $em
                 ->getRepository('mycpBundle:ownershipReservation')
                 ->getRoomsByAccomodationForPartner($bookingId, $own_r["id"]);
-
+            $clients[$own_r["id"]] = $em
+                ->getRepository('mycpBundle:ownershipReservation')
+                ->getClientsByAccomodationForPartner($bookingId, $own_r["id"]);
             $ownCommission = $own_r["commission_percent"];
             $ownReservations = $em
                 ->getRepository('mycpBundle:ownershipReservation')
@@ -218,6 +221,7 @@ class BookingService extends Controller
             'own_res' => $ownResDistinct,
             'travelAgencycomision'=>$travelAgencycomision,
             'own_res_rooms' => $ownResRooms,
+            'clients'=>$clients,
             'own_res_payments' => $payments,
             'user' => $user,
             'booking' => $booking,
@@ -1306,9 +1310,10 @@ class BookingService extends Controller
         $logger = $this->get('logger');
         $own_res=$result['own_res'];
         $own_res_rooms=$result['own_res_rooms'];
+        $clients=$result['clients'];
         $references='';
         foreach ($own_res as $own){
-            foreach ($own_res_rooms[$own['id']] as $res_room){
+            foreach ($clients[$own['id']] as $res_room){
 
                     $references.=$res_room['reference'].'.';
             }
@@ -1334,7 +1339,7 @@ class BookingService extends Controller
 
         try {
             $emailService->sendEmailMultiplesAttach(
-                $subject . ' R:'. $references,
+                $subject . ' BR:'. $references,
                 'send@mycasaparticular.com',
                 $subject . ' - MyCasaParticular.com',
                 $userEmail,
@@ -1358,7 +1363,7 @@ class BookingService extends Controller
                 if($userEmail != $contact->getEmail()){
                     try {
                         $emailService->sendEmailMultiplesAttach(
-                            $subject . ' R:'. $references,
+                            $subject . ' BR:'. $references,
                             'send@mycasaparticular.com',
                             $subject . ' - MyCasaParticular.com',
                             $contact->getEmail(),

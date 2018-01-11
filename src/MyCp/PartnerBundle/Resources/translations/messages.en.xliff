@@ -2377,6 +2377,10 @@
                                                                 <source>btn.bill</source>
                                                                 <target state="new">Invoice</target>
                                                               </trans-unit>
+                                                                <trans-unit id="37" resname="touroperator">
+                                                                                                                <source>touroperator</source>
+                                                                                                                <target state="new">TourOperator</target>
+                                                                                                              </trans-unit>
     </body>
   </file>
 </xliff>
