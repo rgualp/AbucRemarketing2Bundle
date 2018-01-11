@@ -169,7 +169,8 @@
                                 var room = data.rooms[i];
                                 adults += room.adults;
                                 childrens += room.childrens;
-                                totalPrice += room.totalPrice;
+                                totalPrice += room.totalPrice+(room.totalPrice*0.1)+(room.totalPrice+(room.totalPrice*0.1))*0.1;
+
                                 curr_code = room.curr_code;
 
                                 if (room_types.hasOwnProperty(room.type)) {
@@ -195,10 +196,11 @@
                             var rooms = '<em class="rt">{{"dashboard.booking.room_types" | trans}}:</em> <span class="rst">' + s_room_types + '</span> ' +
                                     '<em class="rt">{{"dashboard.booking.adults" | trans}}:</em> <span class="rst">' + adults + '</span> ' +
                                     '<em class="rt">{{"dashboard.booking.childrens" | trans}}:</em> <span class="rst">' + childrens + '</span> ' +
-                                    '<em class="rt">{{"dashboard.booking.totalprice" | trans}}:</em> <span class="rst">' + totalPrice + curr_code + '</span> ';
+                                    '<em class="rt">{{"dashboard.booking.totalprice" | trans}}:</em> <span class="rst">' + parseFloat(totalPrice).toFixed(2) + curr_code + '</span> ';
 
                             html = '<div class="row"> ' +
                                     '<div class="col-xs-12"> ' +
+
                                 '<em class="rt">{{"dashboard.booking.br" | trans}}:</em> <span class="rst">' + data.reference + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.client_dates" | trans}}:</em> <span class="rst">' + data.client_dates + '</span> ' +
 

@@ -34,7 +34,7 @@ class DashboardController extends Controller
             'html' => $this->renderView('PartnerBundle:Dashboard:booking_pending.html.twig', array()),
             'msg' => 'Vista del listado de reservas PENDIENTES']);
     }
-
+//Pendientes
     public function listBookingPendingAction(Request $request)
     {
         $filters = $request->get('booking_pending_filter_form');
@@ -70,10 +70,23 @@ class DashboardController extends Controller
             $arrTmp['data']['rooms'] = array();
             if (!$ownReservations->isEmpty()) {
                 $ownReservation = $ownReservations->first();
+                $timeService = $this->get('time');
+                $curr = $this->getCurr($request);
                 do {
+
+                    $nights = $timeService->nights($ownReservation->getOwnResReservationFromDate()->getTimestamp(), $ownReservation->getOwnResReservationToDate()->getTimestamp());
+                    $totalPrice = 0;
+                    if ($ownReservation->getOwnResNightPrice() > 0) {
+                        $totalPrice += $ownReservation->getOwnResNightPrice() * $nights;
+                        //$initialPayment += $res->getOwnResNightPrice() * $nights * $comission;
+                    } else {
+                        $totalPrice += $ownReservation->getOwnResTotalInSite();
+                        //$initialPayment += $res->getOwnResTotalInSite() * $comission;
+                    }
                     $arrTmp['data']['rooms'][] = array(
                         'type' => $ownReservation->getOwnResRoomType(),
                         'adults' => $ownReservation->getOwnResCountAdults(),
+                        'totalPrice' => ($totalPrice * $curr['change']),
                         'childrens' => $ownReservation->getOwnResCountChildrens()
                     );
                     $ownReservation = $ownReservations->next();
@@ -119,6 +132,7 @@ class DashboardController extends Controller
             $arrTmp['id'] = $reservation->getGenResId();
             $arrTmp['data'] = array(
                 'id' => $reservation->getGenResId(),
+                'user_id' => $reservation->getGenResUserId()->getUsername(),
                 'cas' => '' . $reservation->getGenResId(),
                 'from' => $reservation->getGenResFromDate()->format('d-m-Y'),
                 'to' => $reservation->getGenResToDate()->format('d-m-Y'),
@@ -199,6 +213,7 @@ class DashboardController extends Controller
             $arrTmp['id'] = $reservation->getGenResId();
             $arrTmp['data'] = array(
                 'id' => $reservation->getGenResId(),
+                'user_id' => $reservation->getGenResUserId()->getUsername(),
                 'cas' => '' . $reservation->getGenResId(),
                 'from' => $reservation->getGenResFromDate()->format('d-m-Y'),
                 'to' => $reservation->getGenResToDate()->format('d-m-Y'),
@@ -276,6 +291,7 @@ class DashboardController extends Controller
             $arrTmp['id'] = $reservation->getGenResId();
             $arrTmp['data'] = array(
                 'id' => $reservation->getGenResId(),
+                'user_id' => $reservation->getGenResUserId()->getUsername(),
                 'cas' => '' . $reservation->getGenResId(),
                 'from' => $reservation->getGenResFromDate()->format('d-m-Y'),
                 'to' => $reservation->getGenResToDate()->format('d-m-Y'),
@@ -390,6 +406,7 @@ class DashboardController extends Controller
             $arrTmp['id'] = $reservation->getGenResId();
             $arrTmp['data'] = array(
                 'id' => $reservation->getGenResId(),
+                'user_id' => $reservation->getGenResUserId()->getUsername(),
                 'cas' => '' . $reservation->getGenResId(),
                 'from' => $reservation->getGenResFromDate()->format('d-m-Y'),
                 'to' => $reservation->getGenResToDate()->format('d-m-Y'),
@@ -473,6 +490,7 @@ class DashboardController extends Controller
             $arrTmp['id'] = $reservation->getGenResId();
             $arrTmp['data'] = array(
                 'id' => $reservation->getGenResId(),
+                'user_id' => $reservation->getGenResUserId()->getUsername(),
                 'cas' => '' . $reservation->getGenResId(),
                 'from' => $reservation->getGenResFromDate()->format('d-m-Y'),
                 'to' => $reservation->getGenResToDate()->format('d-m-Y'),
@@ -559,6 +577,7 @@ class DashboardController extends Controller
 
             $arrTmp['data'] = array(
                 'id' => $reservation->getGenResId(),
+                'user_id' => $reservation->getGenResUserId()->getUsername(),
                 'cas' => '' . $reservation->getGenResId(),
                 'from' => $reservation->getGenResFromDate()->format('d-m-Y'),
                 'to' => $reservation->getGenResToDate()->format('d-m-Y'),
@@ -650,6 +669,7 @@ class DashboardController extends Controller
             $h = $reservation->getGenResArrivalHour();
             $arrTmp['data'] = array(
                 'id' => $reservation->getGenResId(),
+                'user_id' => $reservation->getGenResUserId()->getUsername(),
                 'cas' => '' . $reservation->getGenResId(),
                 'from' => $reservation->getGenResFromDate()->format('d-m-Y') . " $h",
                 'to' => $reservation->getGenResToDate()->format('d-m-Y'),
@@ -1373,6 +1393,10 @@ class DashboardController extends Controller
                     'id_res' => $id_reservation,
                     'cas' => "CAS.$id_reservation",
                     'reservation' => $reservation,
+                    'user' => $reservation->getGenResUserId()->getUsername(),
+                    'agency'=> $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getClient()->getTravelAgency()->getName(),
+
+                    'array_complete_prices'=>round($array_complete_prices ,2). $curr['code'],
                     'reservations' => $ownership_reservations,
                     'rooms' => $rooms,
                     'nights' => $array_nights,

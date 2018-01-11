@@ -1521,6 +1521,69 @@ ORDER BY own.own_mcp_code ASC
             return $this->export($fileName);
         }
     }
+    public function exportReservationsReservedAg($reservations, $startingDate, $fileName = "reservaciones") {
+        if(count($reservations) > 0) {
+            $excel = $this->configExcel("Listado de reservaciones", "Listado de reservaciones agencia de MyCasaParticular", "reservaciones");
+            $user=$this->getUser()->getUsername();
+            $data = $this->dataForReservationsAg($excel, $reservations);
+
+            if (count($data) > 0)
+                $excel = $this->createSheetForReservationsReservedAg($excel, "Reservaciones", $data,$user);
+
+            $fileName = $this->getFileName($fileName);
+            $this->save($excel, $fileName);
+
+            return $this->export($fileName);
+        }
+    }
+    private function createSheetForReservationsReservedAg($excel, $sheetName, $data,$user) {
+        $sheet = $this->createSheet($excel, $sheetName);
+
+        $sheet->setCellValue('a1', "Listado de reservas");
+        $sheet->mergeCells("A1:Q1");
+        $now = new \DateTime();
+        $sheet->setCellValue('a2', 'Reporte generado por: '.$user);
+        $sheet->mergeCells("A2:Q2");
+        $sheet->setCellValue('a3', 'Fecha de creación: '.$now->format('d/m/Y H:s'));
+        $sheet->mergeCells("A3:Q3");
+
+        $sheet->setCellValue('a5', 'Reservación');
+        $sheet->setCellValue('b5', 'Booking');
+        $sheet->setCellValue('c5', 'Fecha Booking');
+        $sheet->setCellValue('d5', 'Cliente');
+        $sheet->setCellValue('e5', 'BR');
+        $sheet->setCellValue('f5', 'Agencia');
+        $sheet->setCellValue('g5', 'Alojamiento');
+        $sheet->setCellValue('h5', 'Check in');
+        $sheet->setCellValue('i5', 'Pago Completo');
+
+
+        $centerStyle = array(
+            'alignment' => array(
+                'horizontal' => \PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+            )
+        );
+        $sheet->getStyle("A1:Q1")->applyFromArray($centerStyle);
+
+        $sheet = $this->styleHeader("A5:Q5", $sheet);
+
+        $style = array(
+            'font' => array(
+                'bold' => true,
+                'size' => 14
+            ),
+        );
+        $sheet->getStyle("a1")->applyFromArray($style);
+
+        $sheet->fromArray($data, ' ', 'A6');
+
+        $this->setColumnAutoSize("a", "q", $sheet);
+
+        //$sheet->setAutoFilter($sheet->calculateWorksheetDimension());
+        $sheet->setAutoFilter("A5:Q".(count($data)+5));
+
+        return $excel;
+    }
     private function dataForReservationsAg($excel,$reservations) {
         $results = array();
         $currentReservation = "";

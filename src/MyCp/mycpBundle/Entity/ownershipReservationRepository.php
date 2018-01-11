@@ -315,6 +315,31 @@ class ownershipReservationRepository extends EntityRepository {
                 ->setParameter("reservedStatus", ownershipReservation::STATUS_RESERVED)
                 ->getArrayResult();
     }
+    function getClientsByAccomodationForPartner($id_booking, $own_id) {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT
+            
+            (select min(r.room_bathroom) from mycpBundle:room r where r.room_id = ore.own_res_selected_room_id) as room_bathroom,
+            (select min(t.room_num) from mycpBundle:room t where t.room_id = ore.own_res_selected_room_id) as room_number,
+            ore.own_res_total_in_site as priceInSite,
+            ore.own_res_night_price as priceNight,
+            c.fullname, co.co_name as country, c.comments, detailReservation.reference
+            FROM mycpBundle:ownershipReservation ore
+            JOIN ore.own_res_gen_res_id gre
+            JOIN gre.travelAgencyDetailReservations agencyReservation
+            JOIN agencyReservation.reservation detailReservation
+            JOIN detailReservation.client c
+            LEFT JOIN c.country co
+        WHERE ore.own_res_reservation_booking = :id_booking and gre.gen_res_own_id = :id_own and (ore.own_res_status = :reservedStatus)
+        GROUP BY c.fullname
+        ");
+
+        return $query
+            ->setParameter('id_booking', $id_booking)
+            ->setParameter('id_own', $own_id)
+            ->setParameter("reservedStatus", ownershipReservation::STATUS_RESERVED)
+            ->getArrayResult();
+    }
 
     function getRoomsByAccomodationAndClientForPartner($id_booking, $own_id, $idClient) {
         $em = $this->getEntityManager();

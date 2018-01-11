@@ -4,6 +4,7 @@
     {% stylesheets
     '@mycpBundle/Resources/public/css/datepicker.css'
     '@FrontEndBundle/Resources/public/css/daterangepicker.css'
+    '@mycpBundle/Resources/public/css/bootstrap-multiselect.css'
     filter='?uglifycss' %}
     <link rel="stylesheet" href="{{ asset_url }}"/>
     {% endstylesheets %}
@@ -15,7 +16,12 @@
     </ul>
 {% endblock %}
 {% block content %}
-    <h2>Reservas</h2>
+    {% set totalpayment=0 %}
+ {% for reservation in reservations %}
+     {% set totalpayment = totalpayment +(reservation.gen_res_total_in_site+(reservation.gen_res_total_in_site*0.1)+(reservation.gen_res_total_in_site+(reservation.gen_res_total_in_site*0.1))*0.1) %}
+
+ {% endfor %}
+    <h2>Reservas :{{reservations|length  }} Pago Completo : {{ totalpayment |round(2, 'ceil')}} CUC</h2>
     <hr/>
     {#<a class="btn" href="{{ path('mycp_new_offer_to_client') }}"><i class="icon-plus"></i> Nueva Oferta</a>&nbsp;
     <a class="btn btn-info" href="{{ path('mycp_reservation_sync_booking_list') }}"><i class="icon-refresh"></i> Sincronizar Pagos</a>&nbsp;#}
@@ -45,10 +51,10 @@
                         </div>
 
                         <div class="span3"><label>Agencia:</label>
-                            <select id="filter_agency" name="filter_agency" class="input-block-level">
-                                <option></option>
+                            <select id="filter_agency" multiple="multiple" name="filter_agency" class="input-block-level">
                                 {{ render(controller('PartnerBundle:Backend:get_agency_names', {'post': {'selected':filter_agency}})) }}
                             </select>
+
                         </div>
                     </div>
                     <div class="row-fluid">
@@ -56,7 +62,7 @@
                     </div>
                     <br>
                     <div class="row-fluid">
-                        <div class="span3"><label>Fecha Booking:</label>
+                        <div class="span3"><label>Fecha Check in:</label>
                             <input type="text" class="input-block-level" name="datefilter" value="" />
                             <input style="display: none" id="filter_date_reserve" name="filter_date_reserve" type="text" class=" input-block-level" value="{{ filter_date_reserve }}"/>
                             <input style="display: none" id="filter_date_reserve2" name="filter_date_reserve2" type="text" class=" input-block-level" value="{{ filter_date_reserve2 }}"/>
@@ -64,7 +70,7 @@
 
                         </div>
 
-                        <div class="span3"><label>Check in:</label>
+                        <div class="span3" style="display:none;"><label>Check in:</label>
                             <input id="filter_date_from" name="filter_date_from" type="text" class="datepicker input-block-level" value="{{ filter_date_from }}"/>
                         </div>
                         <div class="span3" style="display: none"><label>Fecha de salida:</label>
@@ -107,7 +113,7 @@
                                     <a rel="tooltip" title="Resetear filtrado " href="{{ path('mycp_list_reservations_ag_reserved') }}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>
                                 </div>
                                 <div class="span4">
-                                    <a {% if not reservations %}disabled="disabled"{% endif %} rel="tooltip" title="Descargar listado" href="{{ path('mycp_export_list_reservations_ag',{'filter_date_reserve':filter_date_reserve_twig,'filter_date_reserve2':filter_date_reserve2_twig,'filter_offer_number':filter_offer_number,'filter_reference':filter_reference,'filter_date_from':filter_date_from_twig,'filter_date_to':filter_date_to_twig,'sort_by':sort_by,'filter_booking_number': filter_booking_number, 'filter_status':filter_status, 'filter_client':filter_client}) }}"
+                                    <a {% if not reservations %}disabled="disabled"{% endif %} rel="tooltip" title="Descargar listado" href="{{ path('mycp_list_reservations_ag_export',{'filter_date_reserve':filter_date_reserve_twig,'filter_date_reserve2':filter_date_reserve2_twig,'filterbr':filterbr,'filter_agency':filter_agency,'filter_offer_number':filter_offer_number,'filter_reference':filter_reference,'filter_date_from':filter_date_from_twig,'filter_date_to':filter_date_to_twig,'sort_by':sort_by,'filter_booking_number': filter_booking_number, 'filter_status':filter_status, 'filter_client':filter_client}) }}"
                                        class="tooltip_msg btn btn-block btn-info"><i class="icon-download-alt icon-white"></i></a>
                                 </div>
                             </div>
@@ -171,7 +177,7 @@
                     {#<th>Huésp.</th>#}
                     <th>Check in</th>
                     {#<th>Noches</th>#}
-                    <th>Precio</th>
+                    <th>Pago Completo</th>
                     <th>Estado</th>
                     <th style="text-align: right">Acciones</th>
                 </tr>
@@ -225,7 +231,7 @@
                         {#<td>{{ reservation[3]+reservation[5] }}</td>#}
                         <td>{{ reservation[7]|date("d/m/Y") }}</td>
                         {#<td>{{ reservation[9] }}</td>#}
-                        <td>{{ reservation.gen_res_total_in_site }} CUC</td>
+                        <td>{{ (reservation.gen_res_total_in_site+(reservation.gen_res_total_in_site*0.1)+(reservation.gen_res_total_in_site+(reservation.gen_res_total_in_site*0.1))*0.1)|round(2, 'ceil') }} CUC</td>
                         <td>
                             {% include 'mycpBundle:utils:general_reservation_status_name.html.twig' with {'status': reservation.gen_res_status,'wrap': false, 'showInDiv': true} %}
                         </td>
@@ -233,8 +239,9 @@
                             <a class="btn btn-mini" href="{{ path('mycp_details_reservation_ag',{'id_reservation':reservation.gen_res_id}) }}">Detalles</a>
                         </td>
                     </tr>
+
                     {% set flag = flag + 1 %}
-                {% endfor %}
+                      {% endfor %}
                 </tbody>
             </table>
             <div class="row-fluid">
@@ -277,15 +284,36 @@
     '@mycpBundle/Resources/public/js/bootstrap-datepicker.es.js'
     '@FrontEndBundle/Resources/public/js/moments.min.js'
     '@FrontEndBundle/Resources/public/js/daterangepicker.js'
+    '@mycpBundle/Resources/public/js/bootstrap-multiselect.js'
     filter='?uglifyjs2' %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
     <script>
+        $(document).ready(function() {
+            $('#filter_agency').multiselect(
+                {
+                    enableFiltering: true,
+                    onChange : function(option, checked) {
+
+                    },
+                    templates: {
+
+
+            filterClearBtn: '<span class="input-group-btn"><button class="btn btn-default multiselect-clear-filter" type="button"><i class="icon-remove icon-white"></i></button></span>',
+
+
+
+        }}
+            );
+
+        });
         $('.datepicker').datepicker({
             format: 'dd/mm/yyyy',
             todayBtn: 'linked',
             language: 'es'
         });
+
+
         $('input[name="datefilter"]').daterangepicker({
             autoUpdateInput: false,
             locale: {
@@ -362,8 +390,15 @@
             if (filter_booking_number == '')filter_booking_number = 'null';
             var filter_status = $('#filter_status').val();
             if (filter_status == '')filter_status = 'null';
-            var filter_agency = $('#filter_agency').val();
-            if (filter_agency == '')filter_agency = 'null';
+
+            var brands = $('#filter_agency option:selected');
+            var filter_agency = [];
+            $(brands).each(function(index, brand){
+                filter_agency.push([$(this).val()]);
+            });
+
+            console.log(filter_agency);
+            if (filter_agency.length == 0)filter_agency = 'null';
             var filter_reference = $('#filter_reference').val();
             if (filter_reference == '')filter_reference = 'null';
             var filter_date_from = $('#filter_date_from').val();
