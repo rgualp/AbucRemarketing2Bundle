@@ -554,6 +554,14 @@ class BackendPaymentController extends Controller {
 
         $totalItems = $all['totalItems'];
         $last_page_number = ceil($totalItems / $items_per_page);
+        $all = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
+            ->getAllPagReserved(null,null,null,null, null, null, null, null, null, null, null, null, null, $page, true))->getResult();
+        $reservations1 = $all['reservations'];
+
+        $mindate=reset($reservations1)['gen_res_date'];
+        $maxdate=end($reservations1)['gen_res_date'];
+
+
 
         $start_page = ($page == 1) ? ($page) : ($page - 1);
         $end_page = ($page == $last_page_number) ? ($last_page_number) : ($page + 1);
@@ -582,13 +590,18 @@ class BackendPaymentController extends Controller {
             'filter_date_to_twig' => $filter_date_to_twig,
             'filter_status' => $filter_status,
             'filter_agency'=>$filter_agency,
-            'filter_client' => $filter_client
+            'filter_client' => $filter_client,
+            'date1'=>$mindate,
+            'date2'=>$maxdate
+
         ));
     }
+
     public function exportReservationsAction(Request $request) {
         try {
             //$service_security = $this->get('Secure');
             //$service_security->verifyAccess();
+            $filters_apply=array();
             $page = 1;
             $filterbr = $request->get('filterbr');
             $filter_date_reserve = $request->get('filter_date_reserve');
@@ -602,22 +615,44 @@ class BackendPaymentController extends Controller {
             $filter_booking_number = $request->get('filter_booking_number');
             $filter_status = $request->get('filter_status');
             $sort_by = $request->get('sort_by');
+            $em= $this->getDoctrine()->getManager();
+            $array_agency=array();
+            if ($filter_agency != 'null')
+                $array_agency=explode(',',$filter_agency);
+                foreach ($array_agency as $ange){
+                    array_push($filters_apply,'-Agencia:'.$em->getRepository("PartnerBundle:PaTravelAgency")->find($ange)->getName()) ;
+                }
+
             if ($filter_agency == 'null')
                 $filter_agency = '';
+            if ($filter_client != 'null'&&$filter_client!='')
+                array_push($filters_apply,'-Cliente:'. $filter_client);
+            if ($filter_date_reserve != 'null')
+                array_push($filters_apply,'-Check in from:'.$filter_date_reserve) ;
             if ($filter_date_reserve == 'null')
                 $filter_date_reserve = '';
+
+            if ($filter_date_reserve2 != 'null')
+                array_push($filters_apply,'-Check in to:'.$filter_date_reserve2) ;
+            if ($filterbr != 'null')
+                array_push($filters_apply,'-BR:'.$filterbr) ;
             if ($filterbr == 'null')
                 $filterbr = '';
+            if ($filter_booking_number != 'null')
+                array_push($filters_apply,'-Booking:'.$filter_booking_number) ;
             if ($filter_date_reserve2 == 'null')
                 $filter_date_reserve2 = '';
-            if ($filter_offer_number == 'null')
+               if ($filter_offer_number == 'null')
                 $filter_offer_number = '';
             if ($filter_booking_number == 'null')
                 $filter_booking_number = '';
+
             if ($filter_reference == 'null')
                 $filter_reference = '';
+
             if ($filter_client == 'null')
                 $filter_client = '';
+
             if ($filter_date_from == 'null')
                 $filter_date_from = '';
             if ($filter_date_to == 'null')
@@ -626,31 +661,39 @@ class BackendPaymentController extends Controller {
                 $filter_status = '';
             if ($sort_by == 'null')
                 $sort_by = '';
-
+            if (isset($_GET['page']))
+                $page = $_GET['page'];
+            $filter_date_reserve = str_replace('_', '/', $filter_date_reserve);
+            $filter_date_reserve2 = str_replace('_', '/', $filter_date_reserve2);
+            $filter_date_from = str_replace('_', '/', $filter_date_from);
+            $filter_date_to = str_replace('_', '/', $filter_date_to);
             $date = new \DateTime();
             $date = date_modify($date, "-5 days");
             $paginator = $this->get('ideup.simple_paginator');
             $paginator->setItemsPerPage(10);
             $em = $this->getDoctrine()->getManager();
             $all = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
-                ->getAllPagReserved($filter_date_reserve,$filter_date_reserve2,$filterbr,$filter_agency, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, 2, $filter_client, 10, $page, true))->getResult();
+                ->getAllPagReserved($filter_date_reserve,$filter_date_reserve2,$filterbr,$filter_agency, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $filter_client, null, $page, true))->getResult();
             $reservations = $all['reservations'];
+
+            $date = new \DateTime();
+            $date = date_modify($date, "-5 days");
             if(count($reservations)) {
                 $exporter = $this->get("mycp.service.export_to_excel");
-                return $exporter->exportReservationsReservedAg($reservations, $date);
+                return $exporter->exportReservationsReservedAg($reservations, $date,$filters_apply);
             }
             else{
                 $message = 'No hay datos para llenar el Excel a descargar.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
-                return $this->redirect($this->generateUrl("mycp_list_reservations_ag"));
+                return $this->redirect($this->generateUrl("mycp_list_reservations_ag_reserved"));
             }
         }
         catch(\Exception $e){
             $message = 'Ha ocurrido un error. Por favor, introduzca correctamente los valores para filtrar.';
             $this->get('session')->getFlashBag()->add('message_error_main', $message);
 
-            return $this->redirect($this->generateUrl("mycp_list_reservations_ag"));
+            return $this->redirect($this->generateUrl("mycp_list_reservations_ag_reserved"));
         }
     }
 

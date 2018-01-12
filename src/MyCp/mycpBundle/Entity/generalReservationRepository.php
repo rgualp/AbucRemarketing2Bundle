@@ -135,15 +135,19 @@ class generalReservationRepository extends EntityRepository {
 
         if($filter_date_from != "" && $filter_date_from != "null" && $filter_date_to != "" && $filter_date_to != "null")
             $where .= (($where != "") ? " AND " : " WHERE ") . " gre.gen_res_from_date >= '$filter_date_from' AND gre.gen_res_to_date <= '$filter_date_to'";
+
         else if($filter_date_from != "" && $filter_date_from != "null" && ($filter_date_to == "" || $filter_date_to == "null"))
             $where .= (($where != "") ? " AND " : " WHERE ") . " gre.gen_res_from_date >= '$filter_date_from'";
+
         else if(($filter_date_from == "" || $filter_date_from == "null") && $filter_date_to != "" && $filter_date_to != "null")
             $where .= (($where != "") ? " AND " : " WHERE ") . " gre.gen_res_to_date <= '$filter_date_to'";
 
         if($filter_date_reserve != "" && $filter_date_reserve != "null" && $filter_date_reserve2 != "" && $filter_date_reserve2 != "null")
-            $where .= (($where != "") ? " AND " : " WHERE ") . " gre.gen_res_from_date BETWEEN '$filter_date_reserve' AND '$filter_date_reserve2'";
+            $where .= (($where != "") ? " AND " : " WHERE ") . " gre.gen_res_from_date >= '$filter_date_reserve' AND gre.gen_res_from_date <= '$filter_date_reserve2'";
+
         if($filter_agency != "" && $filter_agency != "null")
-        $array_agency=explode(',',$filter_agency);
+            $array_agency=explode(',',$filter_agency);
+
         if($filter_reference != "" && $filter_reference != "null")
             $where .= (($where != "") ? " AND " : " WHERE ") . " own.own_mcp_code LIKE '%$filter_reference%'";
 
@@ -164,7 +168,7 @@ class generalReservationRepository extends EntityRepository {
         if($filter_client != "") {
             $client_name = $filter_client;
             $client_name = "'%" . trim($client_name) . "%'";
-            $where .= (($where != "") ? " AND " : " WHERE ") . " (SELECT COUNT(c) FROM PartnerBundle:paReservationDetail pard JOIN pard.reservation par JOIN par.client c WHERE pard.reservationDetail = gre.gen_res_id AND c.fullname LIKE $client_name) > 0";
+            $where .= (($where != "") ? " AND " : " WHERE ") . " (SELECT COUNT(c) FROM PartnerBundle:paReservationDetail parde JOIN parde.reservation pars JOIN pars.client c WHERE parde.reservationDetail = gre.gen_res_id AND c.fullname LIKE $client_name) > 0";
         }
 
         $queryStr = $queryStr . $where . $string_order . $groupby;
@@ -177,7 +181,7 @@ class generalReservationRepository extends EntityRepository {
         $data = ($items_per_page != null && $page != null) ? $query->setMaxResults($items_per_page)->setFirstResult(($page - 1) * $items_per_page)->getArrayResult() : $query->getArrayResult();
 
 
-        $queryStr = "SELECT c.fullname, ag.id , par.reference
+        $queryStr = "SELECT c.fullname , par.reference
                     FROM PartnerBundle:paReservationDetail pard
                     JOIN pard.reservation par
                     JOIN par.client c
@@ -185,7 +189,7 @@ class generalReservationRepository extends EntityRepository {
                     WHERE pard.reservationDetail = :gen_res_id";
         $query = $em->createQuery($queryStr);
         $query->setMaxResults(1);
-        $queryStr1 = "SELECT ag.name, packt.name as packname
+        $queryStr1 = "SELECT ag.name,ag.id, packt.name as packname
                     FROM PartnerBundle:paTourOperator tour
                     JOIN tour.travelAgency ag
                     JOIN PartnerBundle:paAgencyPackage pack WITH pack.travelAgency = ag.id
@@ -198,6 +202,7 @@ class generalReservationRepository extends EntityRepository {
         $query1->setMaxResults(1);
 
         $userrepo= $em->getRepository('mycpBundle:user');
+
         foreach ($data as $key => $reservation) {
             $gen_res_id = $reservation['gen_res_id'];
             $user_id = $reservation['user_id'];
@@ -219,20 +224,9 @@ class generalReservationRepository extends EntityRepository {
 
 
                 $data[$key]['client'] = $client['fullname'];
-                $data[$key]['ag_id'] = $client['id'];
+
                 $data[$key]['br'] = $client['reference'];
-                if(count($array_agency)!=0){
-                    foreach ($array_agency as $agname){
-                    if($client['id']!=$agname) {
-                    unset($data[$key]);
-                    continue;
 
-
-                }
-
-                }
-
-                }
                 if($filterbr != "" && $filterbr != "null"&&$client['reference']!=$filterbr){
                     unset($data[$key]);
                     continue;
@@ -245,6 +239,7 @@ class generalReservationRepository extends EntityRepository {
                         continue;
                     }
                     else{
+                        $data[$key]['ag_id'] = $agency['id'];
 
                         $data[$key]['ag_name'] = $agency['name'];
 
@@ -252,13 +247,28 @@ class generalReservationRepository extends EntityRepository {
                 }
 
 
+                if(count($array_agency)!=0){
+                foreach ($array_agency as $agname){
 
+                    if($agency['id']!=$agname&& !in_array( $agency['id'] ,$array_agency ) ) {
+
+                        unset($data[$key]);
+                        continue;
+
+
+                    }
+
+
+                }
 
             }
+
+        }
             else
                 unset($data[$key]);
 
         }
+
         $total = count($data);
         return array("reservations" => $data, "totalItems" => $total);
     }

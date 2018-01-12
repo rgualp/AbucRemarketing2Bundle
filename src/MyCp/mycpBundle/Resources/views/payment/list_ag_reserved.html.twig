@@ -14,6 +14,7 @@
         <li><a href="{{ path('mycp_backend_front') }}">Administración</a> <span class="divider">/</span></li>
         <li class="active">Reservas</li>
     </ul>
+
 {% endblock %}
 {% block content %}
     {% set totalpayment=0 %}
@@ -21,11 +22,17 @@
      {% set totalpayment = totalpayment +(reservation.gen_res_total_in_site+(reservation.gen_res_total_in_site*0.1)+(reservation.gen_res_total_in_site+(reservation.gen_res_total_in_site*0.1))*0.1) %}
 
  {% endfor %}
-    <h2>Reservas :{{reservations|length  }} Pago Completo : {{ totalpayment |round(2, 'ceil')}} CUC</h2>
+    <h2>Reservas :{{reservations|length  }} Pago Completo : {{ totalpayment |round(2, 'ceil')}} CUC </h2>
+
+
+
     <hr/>
     {#<a class="btn" href="{{ path('mycp_new_offer_to_client') }}"><i class="icon-plus"></i> Nueva Oferta</a>&nbsp;
     <a class="btn btn-info" href="{{ path('mycp_reservation_sync_booking_list') }}"><i class="icon-refresh"></i> Sincronizar Pagos</a>&nbsp;#}
     {#<br/><br/>#}
+
+    <a style="float: right;" id="invoice"  title="Generar Factura" class="tooltip_msg btn btn-warning">Generar Factura</a>
+
     <ul class="nav nav-tabs" id="myTab">
 
         <li class="active"><a data-toggle="tab" href="#reservas">Reservas</a></li>
@@ -63,7 +70,7 @@
                     <br>
                     <div class="row-fluid">
                         <div class="span3"><label>Fecha Check in:</label>
-                            <input type="text" class="input-block-level" name="datefilter" value="" />
+                            <input type="text" class="input-block-level" name="datefilter" value="{{ filter_date_reserve }}  {{ filter_date_reserve2 }}" />
                             <input style="display: none" id="filter_date_reserve" name="filter_date_reserve" type="text" class=" input-block-level" value="{{ filter_date_reserve }}"/>
                             <input style="display: none" id="filter_date_reserve2" name="filter_date_reserve2" type="text" class=" input-block-level" value="{{ filter_date_reserve2 }}"/>
 
@@ -113,9 +120,10 @@
                                     <a rel="tooltip" title="Resetear filtrado " href="{{ path('mycp_list_reservations_ag_reserved') }}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>
                                 </div>
                                 <div class="span4">
-                                    <a {% if not reservations %}disabled="disabled"{% endif %} rel="tooltip" title="Descargar listado" href="{{ path('mycp_list_reservations_ag_export',{'filter_date_reserve':filter_date_reserve_twig,'filter_date_reserve2':filter_date_reserve2_twig,'filterbr':filterbr,'filter_agency':filter_agency,'filter_offer_number':filter_offer_number,'filter_reference':filter_reference,'filter_date_from':filter_date_from_twig,'filter_date_to':filter_date_to_twig,'sort_by':sort_by,'filter_booking_number': filter_booking_number, 'filter_status':filter_status, 'filter_client':filter_client}) }}"
+                                    <a {% if not reservations %}disabled="disabled"{% endif %} rel="tooltip" title="Descargar listado" href="{{ path('mycp_list_reservations_ag_export',{'items_per_page':50,'filter_date_reserve':filter_date_reserve_twig,'filter_date_reserve2':filter_date_reserve2_twig,'filterbr':filterbr,'filter_agency':filter_agency,'filter_offer_number':filter_offer_number,'filter_reference':filter_reference,'filter_date_from':filter_date_from_twig,'filter_date_to':filter_date_to_twig,'sort_by':sort_by,'filter_booking_number': filter_booking_number, 'filter_status':filter_status, 'filter_client':filter_client}) }}"
                                        class="tooltip_msg btn btn-block btn-info"><i class="icon-download-alt icon-white"></i></a>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -274,6 +282,7 @@
         </div>
 
     </div>
+    {% include 'mycpBundle:payment:modal_invoice.html.twig'  %}
 
     {% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Confirma que desea eliminar el elemento?','confirmation_action_label':'Eliminar'} %}
 {% endblock %}
@@ -285,11 +294,14 @@
     '@FrontEndBundle/Resources/public/js/moments.min.js'
     '@FrontEndBundle/Resources/public/js/daterangepicker.js'
     '@mycpBundle/Resources/public/js/bootstrap-multiselect.js'
+
     filter='?uglifyjs2' %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
     <script>
-        $(document).ready(function() {
+        $(document).ready(function(e) {
+
+
             $('#filter_agency').multiselect(
                 {
                     enableFiltering: true,
@@ -299,14 +311,42 @@
                     templates: {
 
 
-            filterClearBtn: '<span class="input-group-btn"><button class="btn btn-default multiselect-clear-filter" type="button"><i class="icon-remove icon-white"></i></button></span>',
+            filterClearBtn: '<span class="input-group-btn"><button class="btn btn-default multiselect-clear-filter" type="button"><i class="icon-remove icon-red"></i></button></span>',
 
 
 
         }}
             );
+                $('input[name="datefilter_modal"]').daterangepicker({
+                    autoUpdateInput: false,
+                    locale: {
+                        cancelLabel: 'Clear'
+                    },
+                    minDate:$('#mindate').val(),
+                    maxDate:$('#maxdate').val(),
 
-        });
+
+
+                });
+                $('input[name="datefilter_modal"]').on('apply.daterangepicker', function(ev, picker) {
+                    $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+                    $('#filter_date_reserve').val(picker.startDate.format('DD/MM/YYYY'));
+                    $('#filter_date_reserve2').val(picker.endDate.format('DD/MM/YYYY'));
+                });
+                $('input[name="datefilter_modal"]').on('cancel.daterangepicker', function(ev, picker) {
+                    $(this).val('');
+                    $('#filter_date_reserve_modal').val('');
+                    $('#filter_date_reserve_modal2').val('');
+                });
+
+
+            }
+
+        );
+        $('#invoice').on('click', function(event) {
+            event.preventDefault();
+            $('#myModal').modal('show');
+        })
         $('.datepicker').datepicker({
             format: 'dd/mm/yyyy',
             todayBtn: 'linked',
@@ -318,14 +358,22 @@
             autoUpdateInput: false,
             locale: {
                 cancelLabel: 'Clear'
-            }
+            },
+
+
         });
+
+
+
+
+
 
         $('input[name="datefilter"]').on('apply.daterangepicker', function(ev, picker) {
             $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
             $('#filter_date_reserve').val(picker.startDate.format('DD/MM/YYYY'));
             $('#filter_date_reserve2').val(picker.endDate.format('DD/MM/YYYY'));
         });
+
 
         $('input[name="datefilter"]').on('cancel.daterangepicker', function(ev, picker) {
             $(this).val('');
@@ -372,7 +420,9 @@
             }
         }
 
-        function action_submit() {
+
+
+        function action_refresh() {
 
             var filterbr = $('#filterbr').val();
 
@@ -429,6 +479,15 @@
             $('#filter').attr('action', url_submit);
             $('#filter').submit();
         }
-
+        $("#nadaahun").onchange(function(){
+            $.post("demo_test_post.asp",
+                {
+                    name: "Donald Duck",
+                    city: "Duckburg"
+                },
+                function(data, status){
+                    alert("Data: " + data + "\nStatus: " + status);
+                });
+        });
     </script>
 {% endblock %}

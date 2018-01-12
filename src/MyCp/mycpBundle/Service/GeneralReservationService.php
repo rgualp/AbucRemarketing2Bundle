@@ -260,7 +260,10 @@ class GeneralReservationService extends Controller
                     //Enviar oferta con 3 casas de reserva inmediata
                     $service_email = $this->container->get('Email');
                     $emailManager = $this->container->get('mycp.service.email_manager');
-                    $user_tourist = $this->em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $reservation->getGenResUserId()));
+
+
+                    $user_tourist = $this->em->getRepository('mycpBundle:userTourist')->find($reservation->getGenResUserId());
+
                     $userLocale = strtolower($user_tourist->getUserTouristLanguage()->getLangCode());
 
                     $ownership = $this->em->getRepository('mycpBundle:ownership')->find($reservation->getGenResOwnId()->getOwnId());

@@ -1521,14 +1521,14 @@ ORDER BY own.own_mcp_code ASC
             return $this->export($fileName);
         }
     }
-    public function exportReservationsReservedAg($reservations, $startingDate, $fileName = "reservaciones") {
+    public function exportReservationsReservedAg($reservations, $startingDate,$filters, $fileName = "reservaciones") {
         if(count($reservations) > 0) {
             $excel = $this->configExcel("Listado de reservaciones", "Listado de reservaciones agencia de MyCasaParticular", "reservaciones");
             $user=$this->getUser()->getUsername();
-            $data = $this->dataForReservationsAg($excel, $reservations);
+            $data = $this->dataForReservationsAgReserved($excel, $reservations);
 
             if (count($data) > 0)
-                $excel = $this->createSheetForReservationsReservedAg($excel, "Reservaciones", $data,$user);
+                $excel = $this->createSheetForReservationsReservedAg($excel, "Reservaciones", $data,$user,$filters);
 
             $fileName = $this->getFileName($fileName);
             $this->save($excel, $fileName);
@@ -1536,7 +1536,7 @@ ORDER BY own.own_mcp_code ASC
             return $this->export($fileName);
         }
     }
-    private function createSheetForReservationsReservedAg($excel, $sheetName, $data,$user) {
+    private function createSheetForReservationsReservedAg($excel, $sheetName, $data,$user,$filters) {
         $sheet = $this->createSheet($excel, $sheetName);
 
         $sheet->setCellValue('a1', "Listado de reservas");
@@ -1546,6 +1546,12 @@ ORDER BY own.own_mcp_code ASC
         $sheet->mergeCells("A2:Q2");
         $sheet->setCellValue('a3', 'Fecha de creación: '.$now->format('d/m/Y H:s'));
         $sheet->mergeCells("A3:Q3");
+        $filtros='';
+        foreach ($filters as $filtro){
+            $filtros.=$filtro;
+        }
+        $sheet->setCellValue('a4', 'Filtros Aplicados: '.$filtros);
+        $sheet->mergeCells("A4:Q4");
 
         $sheet->setCellValue('a5', 'Reservación');
         $sheet->setCellValue('b5', 'Booking');
@@ -1565,7 +1571,7 @@ ORDER BY own.own_mcp_code ASC
         );
         $sheet->getStyle("A1:Q1")->applyFromArray($centerStyle);
 
-        $sheet = $this->styleHeader("A5:Q5", $sheet);
+        $sheet = $this->styleHeader("A5:I5", $sheet);
 
         $style = array(
             'font' => array(
@@ -1580,10 +1586,50 @@ ORDER BY own.own_mcp_code ASC
         $this->setColumnAutoSize("a", "q", $sheet);
 
         //$sheet->setAutoFilter($sheet->calculateWorksheetDimension());
-        $sheet->setAutoFilter("A5:Q".(count($data)+5));
+        $sheet->setAutoFilter("A5:I".(count($data)+5));
 
         return $excel;
     }
+    private function dataForReservationsAgReserved($excel,$reservations) {
+        $results = array();
+        $currentReservation = "";
+       // dump($reservations);die;
+        foreach ($reservations as $reservation) {
+            $data = array();
+
+
+            //Reservacion
+            $data[0] ="CAS.".$reservation["gen_res_id"];
+            //Booking
+            $data[1] = $reservation["booking_id"];
+                //Fecha Booking
+            $data[2] =$reservation["gen_res_date"]->format('Y-m-d');;
+                //Cliente
+            $data[3] = $reservation["client"];
+            //BR
+            $data[4] = $reservation["br"];
+            //Agencia
+            $data[5] = $reservation["ag_name"];
+            //Alojamiento
+            $data[6] = $reservation["own_mcp_code"];
+
+            //Check in
+            $data[7] = $reservation["gen_res_from_date"]->format('Y-m-d');
+
+            //Pago Completo
+            $pago=$reservation["gen_res_total_in_site"];
+            $tax=$pago*0.1;
+            $tranfer=($pago+$tax)*0.1;
+            $total=$pago+$tax+$tranfer;
+            $data[8] = $total;
+
+            array_push($results, $data);
+
+        }
+
+        return $results;
+    }
+
     private function dataForReservationsAg($excel,$reservations) {
         $results = array();
         $currentReservation = "";

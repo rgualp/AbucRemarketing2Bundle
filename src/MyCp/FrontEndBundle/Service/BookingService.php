@@ -1317,7 +1317,10 @@ class BookingService extends Controller
 
                     $references.=$res_room['reference'].'.';
             }
+
         }
+
+
         $userLocale = strtolower($user->getUserLanguage()->getLangCode());
         $zipFileName = $dataArray["zipFileName"];
         $bookingId = $dataArray["bookingId"];
