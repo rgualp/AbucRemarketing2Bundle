@@ -261,10 +261,15 @@ class GeneralReservationService extends Controller
                     $service_email = $this->container->get('Email');
                     $emailManager = $this->container->get('mycp.service.email_manager');
 
+                    $user_tourist = $this->em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $reservation->getGenResUserId()));
 
-                    $user_tourist = $this->em->getRepository('mycpBundle:userTourist')->find($reservation->getGenResUserId());
-
+                    if($user_tourist==null) {
+                        $user_tourist = $this->em->getRepository('mycpBundle:user')->find($reservation->getGenResUserId());
+                        $userLocale = strtolower($user_tourist->getUserLanguage()->getLangCode());
+                    }
+                    else{
                     $userLocale = strtolower($user_tourist->getUserTouristLanguage()->getLangCode());
+                    }
 
                     $ownership = $this->em->getRepository('mycpBundle:ownership')->find($reservation->getGenResOwnId()->getOwnId());
 
