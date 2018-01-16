@@ -1374,7 +1374,7 @@ class DashboardController extends Controller
             array_push($rooms, $em->getRepository('mycpBundle:room')->find($res->getOwnResSelectedRoomId()));
             array_push($array_nights, $nights);
 
-            array_push($booking, $res->getOwnResReservationBooking()->getBookingId());
+                array_push($booking, $res->getOwnResReservationBooking()->getBookingId());
 
             $canCancel = ($res->getOwnResReservationFromDate() > $today && $res->getOwnResStatus() == ownershipReservation::STATUS_RESERVED);
             array_push($canBeCanceled, $canCancel);
@@ -1394,8 +1394,8 @@ class DashboardController extends Controller
             $array_complete_prices+=$price+($price*0.1)+($price+($price*0.1))*0.1;
         }
 
-
-        return new JsonResponse([
+        if($reservation->getGenResStatus()==10) {
+            return new JsonResponse([
                 'success' => true,
                 'id' => 'id_dashboard_booking_detail_' . $id_reservation,
                 'html' => $this->renderView('PartnerBundle:Dashboard:details.html.twig', array(
@@ -1404,7 +1404,8 @@ class DashboardController extends Controller
                     'reservation' => $reservation,
                     'user' => $reservation->getGenResUserId()->getUsername(),
                     'agency'=> $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getClient()->getTravelAgency()->getName(),
-
+                    'invoice'=>$reservation->getInvoice()->getFilename(),
+                    'invoice_date'=>$reservation->getInvoice()->getInvoicedate(),
                     'array_complete_prices'=>round($array_complete_prices ,2). $curr['code'],
                     'reservations' => $ownership_reservations,
                     'rooms' => $rooms,
@@ -1417,7 +1418,32 @@ class DashboardController extends Controller
 
                 )),
                 'msg' => 'Vista del detalle de una reserva']);
+        }
+        else {
+            return new JsonResponse([
+                'success' => true,
+                'id' => 'id_dashboard_booking_detail_' . $id_reservation,
+                'html' => $this->renderView('PartnerBundle:Dashboard:details.html.twig', array(
+                    'id_res' => $id_reservation,
+                    'cas' => "CAS.$id_reservation",
+                    'reservation' => $reservation,
+                    'user' => $reservation->getGenResUserId()->getUsername(),
+                    'agency' => $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getClient()->getTravelAgency()->getName(),
+                    'invoice' => '',
+                    'invoice_date' => '',
+                    'array_complete_prices' => round($array_complete_prices, 2) . $curr['code'],
+                    'reservations' => $ownership_reservations,
+                    'rooms' => $rooms,
+                    'nights' => $array_nights,
+                    'total_prices' => $array_total_prices,
+                    'canBeCanceled' => $canBeCanceled,
+                    'oneCanBeCanceled' => $oneCanBeCanceled,
+                    'booking' => $booking[0],
+                    'reference' => $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getReference()
 
+                )),
+                'msg' => 'Vista del detalle de una reserva']);
+        }
 
     }
 
