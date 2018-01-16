@@ -452,7 +452,7 @@
 
 
 
-        function action_refresh() {
+        function action_submit() {
 
             var filterbr = $('#filterbr').val();
 
@@ -477,7 +477,7 @@
                 filter_agency.push([$(this).val()]);
             });
 
-            console.log(filter_agency);
+
             if (filter_agency.length == 0)filter_agency = 'null';
             var filter_reference = $('#filter_reference').val();
             if (filter_reference == '')filter_reference = 'null';

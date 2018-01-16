@@ -415,9 +415,12 @@ class DashboardController extends Controller
                 'destination' => $reservation->getGenResOwnId()->getOwnDestination()->getDesName(),
                 'date' => $reservation->getGenResDate()->format('d-m-Y'),
                 'client_dates' => $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getClient()->getFullName(),
-                'own_name' => $reservation->getGenResOwnId()->getOwnName()/*,
+                'own_name' => $reservation->getGenResOwnId()->getOwnName(),
+                'reference' => $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getReference()
+                /*,
 
-                'client_name'=>$reservation->getTravelAgencyDetailReservations()->getReservation()->getClient()->getFullName()*/
+
+                  'client_name'=>$reservation->getTravelAgencyDetailReservations()->getReservation()->getClient()->getFullName()*/
             );
 
             $ownReservations = $reservation->getOwn_reservations();
@@ -1357,6 +1360,7 @@ class DashboardController extends Controller
         $array_nights = array();
         $array_total_prices = array();
         $rooms = array();
+        $array_complete_prices = 0;
         $canBeCanceled = array();
         $curr = $this->getCurr($request);
         $today = new \DateTime();
@@ -1383,9 +1387,13 @@ class DashboardController extends Controller
 
 
 
+
+        }
+        foreach ($array_total_prices as $price){
+            $array_complete_prices+=$price+($price*0.1)+($price+($price*0.1))*0.1;
         }
 
-        if($reservation->getGenResStatus()==2){
+        if($reservation->getGenResStatus()==2 ||$reservation->getGenResStatus()==10){
             return new JsonResponse([
                 'success' => true,
                 'id' => 'id_dashboard_booking_detail_' . $id_reservation,
