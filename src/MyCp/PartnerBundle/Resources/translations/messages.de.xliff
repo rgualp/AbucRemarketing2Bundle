@@ -2361,7 +2361,10 @@
                                  <source>touroperator</source>
                         <target state="new">TourOperator</target>
                                       </trans-unit>
-
+ <trans-unit id="38" resname="payed">
+                  <source>payed</source>
+                    <target state="new">Paid</target>
+            </trans-unit>
         </body>
   </file>
 </xliff>

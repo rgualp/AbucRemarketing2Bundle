@@ -294,7 +294,7 @@
     '@FrontEndBundle/Resources/public/js/moments.min.js'
     '@FrontEndBundle/Resources/public/js/daterangepicker.js'
     '@mycpBundle/Resources/public/js/bootstrap-multiselect.js'
-
+    '@mycpBundle/Resources/public/js/utils.js'
     filter='?uglifyjs2' %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
@@ -329,9 +329,39 @@
 
                 });
                 $('input[name="datefilter_modal"]').on('apply.daterangepicker', function(ev, picker) {
+                    $('#loading-indicator').show();
                     $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
-                    $('#filter_date_reserve').val(picker.startDate.format('DD/MM/YYYY'));
-                    $('#filter_date_reserve2').val(picker.endDate.format('DD/MM/YYYY'));
+                    $('#filter_date_reserve_modal').val(picker.startDate.format('DD/MM/YYYY'));
+                    $('#filter_date_reserve_modal2').val(picker.endDate.format('DD/MM/YYYY'));
+                    var items_per_page ={{items_per_page}};
+                    var filter_agency=$( "#filter_agency_modal option:selected" ).val();
+                    if(filter_agency=='')filter_agency=null;
+                    var filter_date_from = $("#filter_date_reserve_modal").val();
+                    if (filter_date_from == '')filter_date_from = 'null';
+                    var filter_date_from2 = $("#filter_date_reserve_modal2").val();
+                    if (filter_date_from2 == '')filter_date_from2 = 'null';
+                    filter_date_from = filter_date_from.replace('/', "_");
+                    filter_date_from = filter_date_from.replace('/', "_");
+
+                    filter_date_from2 = filter_date_from2.replace('/', "_");
+                    filter_date_from2 = filter_date_from2.replace('/', "_");
+
+                    var url = "{{ path('mycp_invoice_selection')|escape('js') }}";
+                    var url_submit=url+'/'+items_per_page+'/'+filter_date_from+'/'+filter_date_from2+'/'+filter_agency;
+                    $.post(url_submit, {
+
+                    }, function (data) {
+                        if (data.success == true) {
+
+                            totalPriceCalculator(data.reservations);
+                            $('#loading-indicator').hide();
+                        }
+                        else {
+
+                            $(".lblLoading").addClass("hidden");
+                            $('#loading-indicator').hide();
+                        }
+                    });
                 });
                 $('input[name="datefilter_modal"]').on('cancel.daterangepicker', function(ev, picker) {
                     $(this).val('');
@@ -408,7 +438,7 @@
                     window.location = data;
                 }
                 else {
-                    alert(data);
+
                     $(".lblLoading").addClass("hidden");
                 }
             });
@@ -479,15 +509,96 @@
             $('#filter').attr('action', url_submit);
             $('#filter').submit();
         }
-        $("#nadaahun").onchange(function(){
-            $.post("demo_test_post.asp",
-                {
-                    name: "Donald Duck",
-                    city: "Duckburg"
-                },
-                function(data, status){
-                    alert("Data: " + data + "\nStatus: " + status);
+        $("#filter_agency_modal").on('change',function(){
+
+            $('#filter_agency_modal').attr('disabled', 'disabled');
+            if(this.value!=''){
+            $('#loading-indicator').show();
+            $("#fechas_modal").css('display','block');
+
+
+            $("#filter_date_reserve_modal").val("");
+            $("#filter_date_reserve_modal2").val("");
+                var items_per_page ={{items_per_page}};
+                var filter_date_from = $("#filter_date_reserve_modal").val();
+                if (filter_date_from == '')filter_date_from = 'null';
+                var filter_date_from2 = $("#filter_date_reserve_modal2").val();
+                if (filter_date_from2 == '')filter_date_from2 = 'null';
+                var url = "{{ path('mycp_invoice_selection')|escape('js') }}";
+                var url_submit=url+'/'+items_per_page+'/'+filter_date_from+'/'+filter_date_from2+'/'+this.value;
+                $.post(url_submit, {
+
+                }, function (data) {
+                    if (data.success == true) {
+
+                        totalPriceCalculator(data.reservations,data.invoice);
+                        $('#filter_agency_modal').removeAttr('disabled');
+                        $('#loading-indicator').hide();
+
+
+                    }
+                    else {
+                        $('#loading-indicator').hide();
+                        $(".lblLoading").addClass("hidden");
+                    }
                 });
+
+            }
+            else{
+                $("#fechas_modal").css('display','none');
+                $("#filter_date_reserve_modal").val("");
+                $("#filter_date_reserve_modal2").val("");
+                $('#filter_agency_modal').removeAttr('disabled');
+
+                $("#append-c").remove();
+            }
+
         });
+        $( "#generar" ).on( "click", function() {
+
+
+            var items_per_page ={{items_per_page}};
+            var filter_agency=$( "#filter_agency_modal option:selected" ).val();
+            if(filter_agency=='')filter_agency=null;
+            var filter_date_from = $("#filter_date_reserve_modal").val();
+            if (filter_date_from == '')filter_date_from = 'null';
+            var filter_date_from2 = $("#filter_date_reserve_modal2").val();
+            if (filter_date_from2 == '')filter_date_from2 = 'null';
+            filter_date_from = filter_date_from.replace('/', "_");
+            filter_date_from = filter_date_from.replace('/', "_");
+
+            filter_date_from2 = filter_date_from2.replace('/', "_");
+            filter_date_from2 = filter_date_from2.replace('/', "_");
+
+            var url = "{{ path('mycp_invoice_generate')|escape('js') }}";
+            var url_submit=url+'/'+items_per_page+'/'+filter_date_from+'/'+filter_date_from2+'/'+filter_agency;
+
+            if(filter_agency!=null && filter_agency!=''&& $('.amount').text()!=' Reservas:0'){
+                $('#loading-indicator').show();
+            $.post(url_submit, {
+
+            }, function (data) {
+
+                if (data.success == true) {
+                    $('#loading-indicator').hide();
+                    $("#succes-modal").html("Factura Generada con Exito");
+
+
+                }
+                else {
+
+                    $(".lblLoading").addClass("hidden");
+                    $('#loading-indicator').hide();
+                    $("#succes-modal").html("Error");
+                }
+            });}
+            else if($('.amount').text()==' Reservas:0'){
+                $("#succes-modal").html("No hay Datos que Generar");
+            }
+            else{
+                $("#succes-modal").html("Por Favor Seleccione una agencia");
+            }
+        });
+
     </script>
 {% endblock %}

@@ -159,6 +159,7 @@ parameters:
     configuration.triple.room.charge: 10
     configuration.service.fee: 10
     configuration.dir.vouchers: %kernel.root_dir%/../tmp/vouchers/
+    configuration.dir.invoice: %kernel.root_dir%/../tmp/invoice/
     configuration.dir.excels: %kernel.root_dir%/../tmp/excels/
     configuration.dir.logs: %kernel.root_dir%/../tmp/logs/
     configuration.dir.udetails: %kernel.root_dir%/../tmp/uDetails/

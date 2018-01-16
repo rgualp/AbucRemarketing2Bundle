@@ -66,3 +66,11 @@ mycp_edit_effective_method_payment:
 mycp_delete_effective_method_payment:
     pattern:  /methods-delete-effective/{id}
     defaults: { _controller: mycpBundle:BackendPayment:deleteEffectiveMethod }
+
+mycp_invoice_selection:
+    pattern:  /invoice-selections/{items_per_page}/{filter_date_reserve}/{filter_date_reserve2}/{filter_agency}
+    defaults: { _controller: mycpBundle:BackendPayment:invoice_ag_selection,items_per_page:50,filter_date_reserve:'',filter_date_reserve2:'',filter_agency:'' ,sort_by:0}
+
+mycp_invoice_generate:
+    pattern:  /invoice-generate/{items_per_page}/{filter_date_reserve}/{filter_date_reserve2}/{filter_agency}
+    defaults: { _controller: mycpBundle:BackendPayment:invoice_ag_export,items_per_page:50,filter_date_reserve:'',filter_date_reserve2:'',filter_agency:'' ,sort_by:0}

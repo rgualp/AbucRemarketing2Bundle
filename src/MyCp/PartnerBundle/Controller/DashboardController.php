@@ -1653,6 +1653,40 @@ class DashboardController extends Controller
         return $response;
     }
 
+
+    public function downloadInvoiceAction($reservationID)
+    {
+        $pathToFile = $this->container->getParameter("configuration.dir.invoice");
+
+        /*$pathToCont = $pathToFile."download_cont.txt";
+        $file = fopen($pathToCont,"a");
+        fclose($file);
+        if (is_writeable($pathToCont)){
+            $arrayFile=file($pathToCont);
+            $arrayFile[0] = (count($arrayFile) <= 0) ? (1) : (++$arrayFile[0]);
+            $file=fopen($pathToCont,"w");
+            fwrite($file,$arrayFile[0]);
+            fclose($file);
+        }*/
+
+        $em = $this->getDoctrine()->getManager();
+        $gr = $em->getRepository('mycpBundle:generalReservation')->find($reservationID);
+
+        $name = $gr->getInvoice()->getFilename() . '.pdf';
+
+
+        if (file_exists(realpath($pathToFile.$name))){
+            $response = new BinaryFileResponse($pathToFile . $name);
+            $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $name);
+        }
+        else{
+            $response = new BinaryFileResponse($pathToFile . $name);
+            $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $name);
+        }
+
+        return $response;
+    }
+
     public function getReservationCalendarAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();

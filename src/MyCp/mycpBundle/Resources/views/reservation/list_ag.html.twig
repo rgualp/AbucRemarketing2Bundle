@@ -168,9 +168,10 @@
                 {% set partially_reserved = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PARTIAL_RESERVED') %}
                 {% set cancelled = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_CANCELLED') %}
                 {% set partially_cancelled = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PARTIAL_CANCELLED') %}
+                {% set pending_payment = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PENDING_PAYMENT_PARTNER') %}
 
                 {% for reservation in reservations %}
-                    <tr class="{% if reservation.gen_res_status==available %}success{% endif %}{% if reservation.gen_res_status==reserved %}info{% endif %}{% if reservation.gen_res_status==not_available %}warning{% endif %} {% if reservation.gen_res_status==cancelled or reservation.gen_res_status==partially_cancelled %}error{% endif %}">
+                    <tr class="{% if reservation.gen_res_status==available %}success{% endif %}{% if reservation.gen_res_status==reserved %}info{% endif %}{% if reservation.gen_res_status==not_available %}warning{% endif %} {% if reservation.gen_res_status==cancelled or reservation.gen_res_status==partially_cancelled  %}error{% endif %}">
                         <td>
                             {% if reservation.gen_res_status==pending %}
                                 <input type="checkbox" name="check_reservations" class="ch_reservation" data-reservation-id="{{ reservation.gen_res_id }}"/>
@@ -208,6 +209,10 @@
                         <td style="text-align: right">
                             <a class="btn btn-mini" href="{{ path('mycp_details_reservation_ag',{'id_reservation':reservation.gen_res_id}) }}">Detalles</a>
                         </td>
+                        {% if reservation.gen_res_status==pending_payment %}
+                            <td style="text-align: right">
+                                <a class="btn btn-mini" title="Decargar Factura" href="{{ path('partner_download_invoice',{'reservationID':reservation.gen_res_id}) }}"><i class="fa fa-download"></i></a>
+                            </td>      {% endif %}
                     </tr>
                     {% set flag = flag + 1 %}
                 {% endfor %}

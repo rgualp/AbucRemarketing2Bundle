@@ -326,6 +326,10 @@ partner_download_voucher:
     locales:  { en: "/partner/voucher/{bookingId}", es: "/partner/voucher/{bookingId}", de: "/partner/voucher/{bookingId}", fr: "/partner/voucher/{bookingId}", it: "/partner/voucher/{bookingId}" }
     defaults: { _controller: PartnerBundle:Dashboard:downloadVoucher, bookingId:'' }
 
+partner_download_invoice:
+    locales:  { en: "/partner/invoice/{reservationID}", es: "/partner/factura/{reservationID}", de: "/partner/invoice/{reservationID}", fr: "/partner/invoice/{reservationID}", it: "/partner/invoice/{reservationID}" }
+    defaults: { _controller: PartnerBundle:Dashboard:downloadInvoice, reservationID:'' }
+
 partner_payment_postfinance_status:
     pattern:  /postfinance/status
     defaults: { _controller: PartnerBundle:Payment:postfinanceStatus }

@@ -13,10 +13,13 @@ use MyCp\mycpBundle\Helpers\DataBaseTables;
 use MyCp\mycpBundle\Helpers\FileIO;
 use Proxies\__CG__\MyCp\mycpBundle\Entity\ownershipStatus;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
+use MyCp\PartnerBundle\Entity\paInvoice;
 
 class BackendPaymentController extends Controller {
 
@@ -596,7 +599,189 @@ class BackendPaymentController extends Controller {
 
         ));
     }
+    public function invoice_ag_selectionAction($items_per_page, Request $request) {
+        $service_security = $this->get('Secure');
+        $service_security->verifyAccess();
+        $page = 1;
 
+        $filter_date_reserve = $request->get('filter_date_reserve');
+        $filter_agency=$request->get('filter_agency');
+        $filter_date_reserve2 = $request->get('filter_date_reserve2');
+
+        $price = 0;
+        $sort_by = $request->get('sort_by');
+
+        if ($filter_agency == 'null')
+            $filter_agency = '';
+        if ($filter_date_reserve == 'null')
+            $filter_date_reserve = '';
+
+        if ($filter_date_reserve2 == 'null')
+            $filter_date_reserve2 = '';
+
+
+        if ($sort_by == 'null')
+            $sort_by = '';
+
+        if (isset($_GET['page']))
+            $page = $_GET['page'];
+        $filter_date_reserve = str_replace('_', '/', $filter_date_reserve);
+        $filter_date_reserve2 = str_replace('_', '/', $filter_date_reserve2);
+
+
+        $em = $this->getDoctrine()->getManager();
+        $paginator = $this->get('ideup.simple_paginator');
+        $paginator->setItemsPerPage($items_per_page);
+
+        $all = $em->getRepository('mycpBundle:generalReservation')
+            ->getAllPagReserved(null,null,null,$filter_agency, null, null, $filter_date_reserve, $filter_date_reserve2, $sort_by, null, null, null, $items_per_page, $page, true);
+        $reservations = $all['reservations'];
+        $data=$em->getRepository('PartnerBundle:paInvoice')->getLastCreatedDatePartner();
+        if(count($data)){
+            $lastdate=$data[0]['filename'];
+
+            $dtData = split('-',$lastdate); // $dtData[0] = date part, $dtData[1] = Prefix part
+            $dtDate= split('_',$dtData[0]);
+            $month1 = date("m",strtotime($dtDate[1])); //Get the month of retrived date
+
+//$date2 = date("Ymd"); // Get current date
+// OR
+            $date2 = date("Ym", strtotime("+1 day", strtotime($dtDate[1]))); // OR Increment last-date by one day
+            $month2 = date("m",strtotime($date2));  // Get updated date's  month
+
+// now calculate month difference between dates. if months are same, prefix will be increased else prefix will be reset to 1
+            $prefix = (($month2-$month1) == 0) ? str_pad(++$dtData[1], 2, '0', STR_PAD_LEFT) : str_pad(1, 2, '0', STR_PAD_LEFT);
+            $pdfName='F_'. $date2. '-'. $prefix;
+        }
+        else{
+            $lastdate=(new \DateTime())->format('Ym');
+            $pdfName='F_'. $lastdate. '-'. '01';
+        }
+
+
+
+
+        return new JsonResponse([
+            'success' => true,
+            'reservations' => $reservations,
+            'invoice'=>$pdfName,
+
+
+
+        ]);
+
+    }
+    public function invoice_ag_exportAction($items_per_page, Request $request) {
+        $service_security = $this->get('Secure');
+        $service_security->verifyAccess();
+        $page = 1;
+
+        $filter_date_reserve = $request->get('filter_date_reserve');
+        $filter_agency=$request->get('filter_agency');
+        $filter_date_reserve2 = $request->get('filter_date_reserve2');
+
+        $price = 0;
+        $sort_by = $request->get('sort_by');
+
+        if ($filter_agency == 'null')
+            $filter_agency = '';
+        if ($filter_date_reserve == 'null')
+            $filter_date_reserve = '';
+
+        if ($filter_date_reserve2 == 'null')
+            $filter_date_reserve2 = '';
+
+
+        if ($sort_by == 'null')
+            $sort_by = '';
+
+        if (isset($_GET['page']))
+            $page = $_GET['page'];
+        $filter_date_reserve = str_replace('_', '/', $filter_date_reserve);
+        $filter_date_reserve2 = str_replace('_', '/', $filter_date_reserve2);
+
+
+        $em = $this->getDoctrine()->getManager();
+        $paginator = $this->get('ideup.simple_paginator');
+        $paginator->setItemsPerPage($items_per_page);
+
+        $all = $em->getRepository('mycpBundle:generalReservation')
+            ->getAllPagReserved(null,null,null,$filter_agency, null, null, $filter_date_reserve, $filter_date_reserve2, $sort_by, null, null, null, $items_per_page, $page, true);
+        $reservations = $all['reservations'];
+        $user=$this->getUser();
+
+
+        $response= $this->render('mycpBundle:pdf:invoiceAgency.html.twig',array('reservations'=>$reservations,'user'=>$user));
+        $path=$this->container->getParameter('configuration.dir.invoice');
+        $data=$em->getRepository('PartnerBundle:paInvoice')->getLastCreatedDatePartner();
+        if(count($data)){
+            $lastdate=$data[0]['filename'];
+            $dtData = split('-',$lastdate); // $dtData[0] = date part, $dtData[1] = Prefix part
+            $dtDate= split('_',$dtData[0]);
+            $month1 = date("m",strtotime($dtDate[1])); //Get the month of retrived date
+
+//$date2 = date("Ymd"); // Get current date
+// OR
+            $date2 = date("Ym", strtotime("+1 day", strtotime($dtDate[1]))); // OR Increment last-date by one day
+            $month2 = date("m",strtotime($date2));  // Get updated date's  month
+
+// now calculate month difference between dates. if months are same, prefix will be increased else prefix will be reset to 1
+            $prefix = (($month2-$month1) == 0) ? str_pad(++$dtData[1], 2, '0', STR_PAD_LEFT) : str_pad(1, 2, '0', STR_PAD_LEFT);
+            $pdfName='F_'. $date2. '-'. $prefix;
+        }
+        else{
+            $lastdate=(new \DateTime())->format('Ym');
+            $pdfName='F_'. $lastdate. '-'. '01';
+        }
+
+
+
+        $pdfFilePath = $path . "$pdfName.pdf";
+        if (file_exists($pdfFilePath)) {
+
+        }
+
+        else {
+            $pdfService = $this->get('front_end.services.pdf');
+            $success = $pdfService->storeHtmlAsPdf($response, $pdfFilePath);
+            $invoice= new paInvoice();
+            $invoice->setFilename($pdfName);
+            $invoice->setInvoicedate((new \DateTime()));
+            $em->persist($invoice);
+            $em->flush();
+
+            $repo=$em->getRepository('mycpBundle:generalReservation');
+
+            foreach ($reservations as $reserva) {
+                $gr = $repo->find($reserva['gen_res_id']);
+                $gr->setGenResStatus(10);
+                $gr->setGenResStatusDate(new \DateTime());
+                $gr->setInvoice($invoice);
+                $repo->addInvoice($gr->getGenResId(),$invoice->getId());
+
+                $em->persist($gr);
+
+            }
+            $em->flush();
+
+        }
+
+
+
+        return new JsonResponse([
+            'success' => true
+
+
+
+        ]);
+
+
+//
+//
+//
+//      return  new BinaryFileResponse($pdfFilePath);
+
+    }
     public function exportReservationsAction(Request $request) {
         try {
             //$service_security = $this->get('Secure');

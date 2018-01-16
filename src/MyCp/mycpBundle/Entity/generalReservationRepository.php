@@ -38,7 +38,7 @@ class generalReservationRepository extends EntityRepository {
 
 
     function getAllPagReserved($filter_date_reserve,$filter_date_reserve2,$filterbr,$filter_agency, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $filter_client, $items_per_page = null, $page = null, $partner = true) {
-        $gaQuery = "SELECT gre.gen_res_date, gre.gen_res_id, own.own_mcp_code, gre.gen_res_total_in_site,gre.gen_res_status,gre.gen_res_from_date,
+        $gaQuery = "SELECT gre.gen_res_date, gre.gen_res_id, own.own_mcp_code, gre.gen_res_total_in_site,gre.gen_res_status,gre.gen_res_from_date,gre.gen_res_to_date,
         (SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id),
         (SELECT SUM(owres2.own_res_count_adults) FROM mycpBundle:ownershipReservation owres2 WHERE owres2.own_res_gen_res_id = gre.gen_res_id),
         (SELECT SUM(owres3.own_res_count_childrens) FROM mycpBundle:ownershipReservation owres3 WHERE owres3.own_res_gen_res_id = gre.gen_res_id),
@@ -62,6 +62,7 @@ class generalReservationRepository extends EntityRepository {
         return $this->getByQueryReservedPag($filter_date_reserve,$filter_date_reserve2,$filterbr,$filter_agency, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by=OrderByHelper::RESERVATION_DATE, $filter_booking_number, 2, $filter_client, -1, $gaQuery, $items_per_page, $page, $partner);
     }
 
+
     function getByQueryReservedPag($filter_date_reserve,$filter_date_reserve2,$filterbr,$filter_agency, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $filter_client, $user_casa, $queryStr, $items_per_page = null, $page = null, $partner = null) {
         $filter_offer_number = strtolower($filter_offer_number);
         $filter_booking_number = strtolower($filter_booking_number);
@@ -74,6 +75,7 @@ class generalReservationRepository extends EntityRepository {
         $array_date_reserve = explode('/', $filter_date_reserve);
         $array_date_reserve2 = explode('/', $filter_date_reserve2);
         $array_date_from = explode('/', $filter_date_from);
+
         $array_date_to = explode('/', $filter_date_to);
         if(count($array_date_reserve) > 1)
             $filter_date_reserve = $array_date_reserve[2] . '-' . $array_date_reserve[1] . '-' . $array_date_reserve[0];
@@ -134,13 +136,8 @@ class generalReservationRepository extends EntityRepository {
             $where .= (($where != "") ? " AND " : " WHERE ") . " gre.gen_res_id = $filter_offer_number";
 
         if($filter_date_from != "" && $filter_date_from != "null" && $filter_date_to != "" && $filter_date_to != "null")
-            $where .= (($where != "") ? " AND " : " WHERE ") . " gre.gen_res_from_date >= '$filter_date_from' AND gre.gen_res_to_date <= '$filter_date_to'";
+            $where .= (($where != "") ? " AND " : " WHERE ") . " gre.gen_res_date >= '$filter_date_from' AND gre.gen_res_date <= '$filter_date_to'";
 
-        else if($filter_date_from != "" && $filter_date_from != "null" && ($filter_date_to == "" || $filter_date_to == "null"))
-            $where .= (($where != "") ? " AND " : " WHERE ") . " gre.gen_res_from_date >= '$filter_date_from'";
-
-        else if(($filter_date_from == "" || $filter_date_from == "null") && $filter_date_to != "" && $filter_date_to != "null")
-            $where .= (($where != "") ? " AND " : " WHERE ") . " gre.gen_res_to_date <= '$filter_date_to'";
 
         if($filter_date_reserve != "" && $filter_date_reserve != "null" && $filter_date_reserve2 != "" && $filter_date_reserve2 != "null")
             $where .= (($where != "") ? " AND " : " WHERE ") . " gre.gen_res_from_date >= '$filter_date_reserve' AND gre.gen_res_from_date <= '$filter_date_reserve2'";
@@ -4123,5 +4120,16 @@ JOIN owres_2.own_res_reservation_booking AS b1 JOIN b1.payments AS p WHERE owres
         $em->persist($generalReservation);
         $em->flush();
     }
+    public function addInvoice($idgen,$idinvoice){
+        $em=$this->getEntityManager();
+        $q=$em->createQueryBuilder();
+        $q->update('mycpBundle:generalReservation', 'ge');
+        $q->set('ge.invoice', $idinvoice);
 
+        $q->where('ge.gen_res_id =:idgen');
+        $q->setParameter('idgen',$idgen);
+        $results = $q->getQuery()->execute();
+
+        return true;
+    }
 }

@@ -253,6 +253,15 @@ class generalReservation {
      */
     private $servicefast;
 
+
+    /**
+     * One user has One user .
+     * @ORM\OneToOne(targetEntity="MyCp\PartnerBundle\Entity\paInvoice")
+     * @ORM\JoinColumn(name="invoice", referencedColumnName="id")
+     */
+
+    private $invoice;
+
     /**
      * Constructor
      */
@@ -277,7 +286,27 @@ class generalReservation {
     public function getGenResId() {
         return $this->gen_res_id;
     }
+    /**
+     * @return mixed
+     */
+    public function getInvoice()
+    {
+        return $this->invoice;
+    }
 
+       /**
+     * Set invoice
+     *
+     * @param \MyCp\PartnerBundle\Entity\paInvoice $invoice
+     *
+     * @return user
+     */
+    public function setInvoice(\MyCp\PartnerBundle\Entity\paInvoice  $invoice)
+    {
+        $this->mentor = $invoice;
+
+        return $this;
+    }
     /**
      * Set gen_res_nights
      *
@@ -1062,6 +1091,22 @@ class generalReservation {
     public function getServicefast()
     {
         return $this->servicefast;
+    }
+
+    /**
+     * @return array
+     */
+    public function getStatuses()
+    {
+        return $this->statuses;
+    }
+
+    /**
+     * @param array $statuses
+     */
+    public function setStatuses($statuses)
+    {
+        $this->statuses = $statuses;
     }
 
     /**
