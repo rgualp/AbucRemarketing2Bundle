@@ -2382,6 +2382,10 @@
                                      <source>payed</source>
                                        <target state="new">Pagadas</target>
                                </trans-unit>
+     <trans-unit id="39" resname="partner.download.invoice">
+                                         <source>partner.download.invoice</source>
+                                           <target state="new">Descargar Factura</target>
+                                   </trans-unit>
     </body>
   </file>
 </xliff>

@@ -1373,9 +1373,9 @@ class DashboardController extends Controller
             $nights = $res->getNights($service_time);
             array_push($rooms, $em->getRepository('mycpBundle:room')->find($res->getOwnResSelectedRoomId()));
             array_push($array_nights, $nights);
-            if($reservation->getGenResStatus()==2||$reservation->getGenResStatus()==10) {
-                array_push($booking, $res->getOwnResReservationBooking()->getBookingId());
-            }
+
+            array_push($booking, $res->getOwnResReservationBooking()->getBookingId());
+
             $canCancel = ($res->getOwnResReservationFromDate() > $today && $res->getOwnResStatus() == ownershipReservation::STATUS_RESERVED);
             array_push($canBeCanceled, $canCancel);
 
@@ -1394,8 +1394,8 @@ class DashboardController extends Controller
             $array_complete_prices+=$price+($price*0.1)+($price+($price*0.1))*0.1;
         }
 
-        if($reservation->getGenResStatus()==2 ||$reservation->getGenResStatus()==10){
-            return new JsonResponse([
+
+        return new JsonResponse([
                 'success' => true,
                 'id' => 'id_dashboard_booking_detail_' . $id_reservation,
                 'html' => $this->renderView('PartnerBundle:Dashboard:details.html.twig', array(
@@ -1417,30 +1417,6 @@ class DashboardController extends Controller
 
                 )),
                 'msg' => 'Vista del detalle de una reserva']);
-        }
-
-        else{
-            return new JsonResponse([
-                'success' => true,
-                'id' => 'id_dashboard_booking_detail_' . $id_reservation,
-                'html' => $this->renderView('PartnerBundle:Dashboard:details.html.twig', array(
-                    'id_res' => $id_reservation,
-                    'cas' => "CAS.$id_reservation",
-                    'reservation' => $reservation,
-                    'reservations' => $ownership_reservations,
-                    'rooms' => $rooms,
-                    'nights' => $array_nights,
-                    'total_prices' => $array_total_prices,
-                    'canBeCanceled' => $canBeCanceled,
-                    'oneCanBeCanceled' => $oneCanBeCanceled,
-                    'reference'=> $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getReference()
-
-                )),
-                'msg' => 'Vista del detalle de una reserva']);
-
-        }
-
-
 
 
     }
