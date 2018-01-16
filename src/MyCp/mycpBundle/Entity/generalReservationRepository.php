@@ -3735,10 +3735,23 @@ order by LENGTH(o.own_mcp_code), o.own_mcp_code";
             $adults_number = (array_key_exists('adults_number', $filters) && isset($filters['adults_number']));
             $booking_code = (array_key_exists('booking_code', $filters) && isset($filters['booking_code']));
             $booking_date = (array_key_exists('booking_date', $filters) && isset($filters['booking_date']));
+            $invoice_code = (array_key_exists('invoice_code', $filters) && isset($filters['invoice_code']));
+            $invoice_date = (array_key_exists('invoice_date', $filters) && isset($filters['invoice_date']));
             $client_dates = (array_key_exists('client_dates', $filters) && isset($filters['client_dates']));
             $partner_client_id = (array_key_exists('partner_client_id', $filters) && isset($filters['partner_client_id']));
             $cancel_date = (array_key_exists('cancel_date', $filters) && isset($filters['cancel_date']));
 
+            if($invoice_code) {
+                $qb->join('r.invoice','i');
+                $qb->adWhere('i.filename LIKE :filename');
+                $qb->setParameter('filename', $invoice_code);
+            }
+            if($invoice_date) {
+                $a = Dates::createForQuery($filters['invoice_date'], 'd-m-Y');
+                $qb->join('r.invoice','i');
+                $qb->andWhere('i.invoicedate = :dateinvoice');
+                $qb->setParameter('dateinvoice', $a);
+            }
             if($cancel_date) {
                 $a = Dates::createForQuery($filters['cancel_date'], 'd-m-Y');
 
