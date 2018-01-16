@@ -273,7 +273,7 @@ class DashboardController extends Controller
     {
         $filters = $request->get('booking_reserved_filter_form');
         $filters = (isset($filters)) ? ($filters) : (array());
-
+        $curr = $this->getCurr($request);
         #region PAGINADO
         $start = $request->get('start', 0);
         $limit = $request->get('length', 10);
@@ -308,9 +308,10 @@ class DashboardController extends Controller
 
             $ownReservations = $reservation->getOwn_reservations();
             $arrTmp['data']['rooms'] = array();
+
             if (!$ownReservations->isEmpty()) {
                 $ownReservation = $ownReservations->first();
-                $curr = $this->getCurr($request);
+
                 do {
                     $nights = $timeService->nights($ownReservation->getOwnResReservationFromDate()->getTimestamp(), $ownReservation->getOwnResReservationToDate()->getTimestamp());
                     $totalPrice = 0;
@@ -353,8 +354,6 @@ class DashboardController extends Controller
             $service_time = $this->get('time');
 
 
-
-            $curr = $this->getCurr($request);
 
             foreach ($ownership_reservations as $res) {
 
