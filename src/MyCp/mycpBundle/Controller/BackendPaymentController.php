@@ -711,8 +711,7 @@ class BackendPaymentController extends Controller {
         $user=$this->getUser();
 
 
-        $response= $this->render('mycpBundle:pdf:invoiceAgency.html.twig',array('reservations'=>$reservations,'user'=>$user));
-        $path=$this->container->getParameter('configuration.dir.invoice');
+         $path=$this->container->getParameter('configuration.dir.invoice');
         $data=$em->getRepository('PartnerBundle:paInvoice')->getLastCreatedDatePartner();
         if(count($data)){
             $lastdate=$data[0]['filename'];
@@ -733,6 +732,7 @@ class BackendPaymentController extends Controller {
             $lastdate=(new \DateTime())->format('Ym');
             $pdfName='F_'. $lastdate. '-'. '01';
         }
+        $response= $this->render('mycpBundle:pdf:invoiceAgency.html.twig',array('reservations'=>$reservations,'user'=>$user,'ID'=>$pdfName));
 
 
 
