@@ -1354,6 +1354,7 @@ class DashboardController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $reservation = $em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
+
         $ownership_reservations = $reservation->getOwnReservations();
 
         $service_time = $this->get('time');
@@ -1372,7 +1373,7 @@ class DashboardController extends Controller
             $nights = $res->getNights($service_time);
             array_push($rooms, $em->getRepository('mycpBundle:room')->find($res->getOwnResSelectedRoomId()));
             array_push($array_nights, $nights);
-            if($reservation->getGenResStatus()==2) {
+            if($reservation->getGenResStatus()==2||$reservation->getGenResStatus()==10) {
                 array_push($booking, $res->getOwnResReservationBooking()->getBookingId());
             }
             $canCancel = ($res->getOwnResReservationFromDate() > $today && $res->getOwnResStatus() == ownershipReservation::STATUS_RESERVED);
