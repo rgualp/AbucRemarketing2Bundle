@@ -353,7 +353,7 @@
                     }, function (data) {
                         if (data.success == true) {
 
-                            totalPriceCalculator(data.reservations);
+                            totalPriceCalculator(data.reservations,data.invoice);
                             $('#loading-indicator').hide();
                         }
                         else {
