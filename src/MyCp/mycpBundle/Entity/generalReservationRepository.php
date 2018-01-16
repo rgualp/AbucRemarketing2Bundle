@@ -386,15 +386,48 @@ class generalReservationRepository extends EntityRepository {
                     WHERE pard.reservationDetail = :gen_res_id";
         $query = $em->createQuery($queryStr);
         $query->setMaxResults(1);
+        $queryStr1 = "SELECT ag.name,ag.id, packt.name as packname
+                    FROM PartnerBundle:paTourOperator tour
+                    JOIN tour.travelAgency ag
+                    JOIN PartnerBundle:paAgencyPackage pack WITH pack.travelAgency = ag.id
+                    JOIN pack.package packt
+                    JOIN tour.tourOperator u
+                    WHERE u.user_id = :user_id";
+
+        $query1 = $em->createQuery($queryStr1);
+        $userrepo= $em->getRepository('mycpBundle:user');
+        $query1->setMaxResults(1);
         foreach ($data as $key => $reservation) {
             $gen_res_id = $reservation['gen_res_id'];
             $query->setParameter('gen_res_id', $gen_res_id);
+            $user_id = $reservation['user_id'];
+            $user=$userrepo->find($user_id);
+            if($user->ifTouroperator()==false)
+            {
+                $query1->setParameter('user_id', $user->getUserId());
+            }
+            else{
+                $query1->setParameter('user_id', $user->getMentor());
+            }
             $r = $query->getArrayResult();
+            $r1=$query1->getArrayResult();
             if(count($r)){
                 $client = $r[0];
                 $data[$key]['client'] = $client['fullname'];
                 $data[$key]['ag_id'] = $client['id'];
+                $data[$key]['ag_name'] = $client['fullname'];
+                if(count($r1)){
+                    $agency=$r1[0];
+
+                    $data[$key]['ag_id'] = $agency['id'];
+
+                    $data[$key]['ag_name'] = $agency['name'];
+
+
+                }
+
             }
+
             else
                 unset($data[$key]);
 
