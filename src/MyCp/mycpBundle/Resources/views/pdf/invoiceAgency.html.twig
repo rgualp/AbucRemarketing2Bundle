@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style type="text/css">
+        body{font: 11px Verdana, Arial, Helvetica, sans-serif; letter-spacing: 0.3px;}
+        h2{font-size: 15px; letter-spacing: 0.5px;}
+        h4{font-size: 12px; letter-spacing: 0.5px}
+        h3{font-size: 13px; letter-spacing: 0.5px}
+        h6{font-size: 8px; letter-spacing: 0.5px; font-weight: normal;}
+        #logo{margin-bottom: 10px; width: 260px; height: 50px}
+        hr{border: none;border-bottom:solid 1px #84B231;}
+        .h-green,a{color:#80AA2A}
+        p{line-height: 18px}
+        .text-right{text-align: right}
+        .h-only-blue{color: #218CDC;}
+        .voucher-subtitle{color: #80AA2A; padding:3px 5px; background: #EBE9EA; width: 70%;}
+        .h-green-line{border-bottom: 1px solid #80AA2A;}
+        .b-cyan{background: #EBE9EA;}
+        .c-bbbb{ color: #bbb;}
+        hr.upper-bottom{ margin:15px 0 0; border-color:#bbb;}
+        .hr-grey-wide{border-color:#C8C8C8; border-width: 3px;}
+        .no-margin{margin: 0}
+        table{border-collapse: collapse; width: 100%; border-spacing: 0;}
+        /*table td{ padding: 2px; border-top: 1px solid #bbb;}*/
+        .cursive{font-style: italic;}
+
+    </style>
+</head>
+<body>
+{#{% set currency_symbol= user_currency.currSymbol %}#}
+{#{% set currency_rate= user_currency.currCucChange %}#}
+
+<table style="width: 100%">
+    <tr>
+        <td colspan="2" style="text-align: right">{{'now'| date('M d, Y') }}</td>
+    </tr>
+    <tr>
+        <td>
+            <img src="bundles/partner/img/logos/agency.png" alt="agency" style="height: 50px"/>
+        </td>
+        <td style="text-align: right; vertical-align: top; color: #cccccc">
+            <img id="logo"  src="bundles/mycp/images/logo.jpg" alt="my casa particular"/>
+        </td>
+    </tr>
+</table>
+<br/>
+<h2 class="h-green no-margin">ID Factura : {{ID}}</h2>
+
+<hr/>
+{% set totalpayment=0 %}
+{% for reservation in reservations %}
+    {% set totalpayment = totalpayment +(reservation.gen_res_total_in_site+(reservation.gen_res_total_in_site*0.1)+(reservation.gen_res_total_in_site+(reservation.gen_res_total_in_site*0.1))*0.1) %}
+
+{% endfor %}
+<p>Estado: Pendiente a Pago <br> Cantidad de Reservas :{{reservations|length  }} <br> Pago Completo : {{ (totalpayment*0.9) |round(2, 'ceil')}} EUR </p>
+
+    <hr class="hr-grey-wide"/>
+
+
+
+
+        <br/>
+        <h4 class="voucher-subtitle no-margin" style="margin-bottom: 0px; width: 100%">
+            <img src="bundles/frontend/img/icons/vcurrency.png" />
+            Listado de Bookings Relacionados
+        </h4>
+        <br/>
+
+        <table style="width:100%">
+            <thead>
+            <tr>
+                <th></th>
+                <th>BR</th>
+                <th>Cliente</th>
+                <th>Reservación</th>
+                <th>Booking</th>
+                <th>Alojamiento</th>
+                <th>Fecha Booking</th>
+
+
+
+
+                {#<th>Habit.</th>#}
+                {#<th>Huésp.</th>#}
+                <th>Check in</th>
+                <th>Check out</th>
+                {#<th>Noches</th>#}
+                <th>Pago Completo</th>
+
+            </tr>
+            </thead>
+
+            <tbody>
+            {% set flag=0 %}
+            {% set pending = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PENDING') %}
+            {% set available = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_AVAILABLE') %}
+            {% set reserved = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_RESERVED') %}
+            {% set not_available = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_NOT_AVAILABLE') %}
+            {% set partially_available = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PARTIAL_AVAILABLE') %}
+            {% set partially_reserved = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PARTIAL_RESERVED') %}
+            {% set cancelled = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_CANCELLED') %}
+            {% set partially_cancelled = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PARTIAL_CANCELLED') %}
+
+            {%for reservation in reservations%}
+                <tr class="{% if reservation.gen_res_status==available %}success{% endif %}{% if reservation.gen_res_status==reserved %}info{% endif %}{% if reservation.gen_res_status==not_available %}warning{% endif %} {% if reservation.gen_res_status==cancelled or reservation.gen_res_status==partially_cancelled %}error{% endif %}">
+                    <td>
+                        {% if reservation.gen_res_status==pending %}
+                            <input type="checkbox" name="check_reservations" class="ch_reservation" data-reservation-id="{{ reservation.gen_res_id }}"/>
+                        {% endif %}
+                        {% if reservation.isOffer > 0 %}
+                            <i class="icon-asterisk" title="Oferta enviada al cliente"/>
+                        {% endif %}
+                        {% if reservation.complete_payment > 0 %}
+                            <i class="glyphicons history" title="Pago Completo" style="color: green"></i>
+                        {% endif %}
+                    </td>
+
+
+                    <td>{{ reservation.br }}</td>
+                    <td>{{ reservation.client }}</td>
+                    <td>{{ reservation.gen_res_id | getCASId }}</a></td>
+                    <td>{{ reservation.booking_id  }}</a></td>
+                    <td>
+                        {{ reservation.own_mcp_code }}
+                        {#{% if reservation.own_inmediate_booking %}#}
+                        {#<i class="glyphicons electricity" title="Reserva Rápida"></i>#}
+                        {#{% endif %}#}
+
+                    </td>
+                    <td>{{ reservation.gen_res_date |date("d/m/Y") }}</td>
+
+
+
+
+
+                    {#<td>{{ reservation[1] }}</td>#}
+                    {#<td>{{ reservation[3]+reservation[5] }}</td>#}
+                    <td>{{ reservation.gen_res_from_date|date("d/m/Y") }}</td>
+                    <td>{{ reservation.gen_res_to_date|date("d/m/Y") }}</td>
+                    {#<td>{{ reservation[9] }}</td>#}
+                    <td>{{ ((reservation.gen_res_total_in_site+(reservation.gen_res_total_in_site*0.1)+(reservation.gen_res_total_in_site+(reservation.gen_res_total_in_site*0.1))*0.1)*0.9)|round(2, 'ceil') }} EUR</td>
+
+                </tr>
+            {%endfor%}
+            </tbody>
+        </table>
+
+    <br>
+    {#<h4 class="voucher-subtitle no-margin" style="margin-bottom: 0px;">#}
+        {#{{"Clients"|trans({}, "messages", user_locale)}}#}
+    {#</h4>#}
+    {#<br>#}
+{#<table style="width:100%">#}
+
+    {#{% for agency in own.travelAgencyDetailReservations %}#}
+        {#<tr>#}
+            {#<td colspan="6"> <strong>  {{" label.name.client "|trans({}, "messages", user_locale)}}:</strong> {{agency.reservation.client.fullName }}</td>#}
+        {#</tr>#}
+    {#{% endfor %}#}
+{#</table>#}
+
+<br/>
+<table style="width: 100%;">
+    <tr style="border-top:none;">
+        <td style="border-top:none;padding:0px; width: 100%;">
+            <hr class="upper-bottom"/>
+        </td>
+
+    </tr>
+</table>
+<br/><br/>
+<table style="width: 100%;">
+    <tr style="border-top:none;">
+        <td style="text-wrap: none; border-top:none;text-align: center;padding:0px" nowrap="nowrap">
+            <h1 class="h-green no-margin">{{"VOUCHER_PAYED" | trans({}, "messages")}}</h1>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
+
+

@@ -38,7 +38,7 @@ class generalReservationRepository extends EntityRepository {
 
 
     function getAllPagReserved($filter_date_reserve,$filter_date_reserve2,$filterbr,$filter_agency, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $filter_client, $items_per_page = null, $page = null, $partner = true) {
-        $gaQuery = "SELECT gre.gen_res_date, gre.gen_res_id, own.own_mcp_code, gre.gen_res_total_in_site,gre.gen_res_status,gre.gen_res_from_date,
+        $gaQuery = "SELECT gre.gen_res_date, gre.gen_res_id, own.own_mcp_code, gre.gen_res_total_in_site,gre.gen_res_status,gre.gen_res_from_date,gre.gen_res_to_date,
         (SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id),
         (SELECT SUM(owres2.own_res_count_adults) FROM mycpBundle:ownershipReservation owres2 WHERE owres2.own_res_gen_res_id = gre.gen_res_id),
         (SELECT SUM(owres3.own_res_count_childrens) FROM mycpBundle:ownershipReservation owres3 WHERE owres3.own_res_gen_res_id = gre.gen_res_id),
@@ -62,6 +62,7 @@ class generalReservationRepository extends EntityRepository {
         return $this->getByQueryReservedPag($filter_date_reserve,$filter_date_reserve2,$filterbr,$filter_agency, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by=OrderByHelper::RESERVATION_DATE, $filter_booking_number, 2, $filter_client, -1, $gaQuery, $items_per_page, $page, $partner);
     }
 
+
     function getByQueryReservedPag($filter_date_reserve,$filter_date_reserve2,$filterbr,$filter_agency, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $filter_client, $user_casa, $queryStr, $items_per_page = null, $page = null, $partner = null) {
         $filter_offer_number = strtolower($filter_offer_number);
         $filter_booking_number = strtolower($filter_booking_number);
@@ -74,6 +75,7 @@ class generalReservationRepository extends EntityRepository {
         $array_date_reserve = explode('/', $filter_date_reserve);
         $array_date_reserve2 = explode('/', $filter_date_reserve2);
         $array_date_from = explode('/', $filter_date_from);
+
         $array_date_to = explode('/', $filter_date_to);
         if(count($array_date_reserve) > 1)
             $filter_date_reserve = $array_date_reserve[2] . '-' . $array_date_reserve[1] . '-' . $array_date_reserve[0];
@@ -134,13 +136,8 @@ class generalReservationRepository extends EntityRepository {
             $where .= (($where != "") ? " AND " : " WHERE ") . " gre.gen_res_id = $filter_offer_number";
 
         if($filter_date_from != "" && $filter_date_from != "null" && $filter_date_to != "" && $filter_date_to != "null")
-            $where .= (($where != "") ? " AND " : " WHERE ") . " gre.gen_res_from_date >= '$filter_date_from' AND gre.gen_res_to_date <= '$filter_date_to'";
+            $where .= (($where != "") ? " AND " : " WHERE ") . " gre.gen_res_date >= '$filter_date_from' AND gre.gen_res_date <= '$filter_date_to'";
 
-        else if($filter_date_from != "" && $filter_date_from != "null" && ($filter_date_to == "" || $filter_date_to == "null"))
-            $where .= (($where != "") ? " AND " : " WHERE ") . " gre.gen_res_from_date >= '$filter_date_from'";
-
-        else if(($filter_date_from == "" || $filter_date_from == "null") && $filter_date_to != "" && $filter_date_to != "null")
-            $where .= (($where != "") ? " AND " : " WHERE ") . " gre.gen_res_to_date <= '$filter_date_to'";
 
         if($filter_date_reserve != "" && $filter_date_reserve != "null" && $filter_date_reserve2 != "" && $filter_date_reserve2 != "null")
             $where .= (($where != "") ? " AND " : " WHERE ") . " gre.gen_res_from_date >= '$filter_date_reserve' AND gre.gen_res_from_date <= '$filter_date_reserve2'";
@@ -389,15 +386,48 @@ class generalReservationRepository extends EntityRepository {
                     WHERE pard.reservationDetail = :gen_res_id";
         $query = $em->createQuery($queryStr);
         $query->setMaxResults(1);
+        $queryStr1 = "SELECT ag.name,ag.id, packt.name as packname
+                    FROM PartnerBundle:paTourOperator tour
+                    JOIN tour.travelAgency ag
+                    JOIN PartnerBundle:paAgencyPackage pack WITH pack.travelAgency = ag.id
+                    JOIN pack.package packt
+                    JOIN tour.tourOperator u
+                    WHERE u.user_id = :user_id";
+
+        $query1 = $em->createQuery($queryStr1);
+        $userrepo= $em->getRepository('mycpBundle:user');
+        $query1->setMaxResults(1);
         foreach ($data as $key => $reservation) {
             $gen_res_id = $reservation['gen_res_id'];
             $query->setParameter('gen_res_id', $gen_res_id);
+            $user_id = $reservation['user_id'];
+            $user=$userrepo->find($user_id);
+            if($user->ifTouroperator()==false)
+            {
+                $query1->setParameter('user_id', $user->getUserId());
+            }
+            else{
+                $query1->setParameter('user_id', $user->getMentor());
+            }
             $r = $query->getArrayResult();
+            $r1=$query1->getArrayResult();
             if(count($r)){
                 $client = $r[0];
                 $data[$key]['client'] = $client['fullname'];
                 $data[$key]['ag_id'] = $client['id'];
+                $data[$key]['ag_name'] = $client['fullname'];
+                if(count($r1)){
+                    $agency=$r1[0];
+
+                    $data[$key]['ag_id'] = $agency['id'];
+
+                    $data[$key]['ag_name'] = $agency['name'];
+
+
+                }
+
             }
+
             else
                 unset($data[$key]);
 
@@ -3674,11 +3704,12 @@ order by LENGTH(o.own_mcp_code), o.own_mcp_code";
 
         elseif($status == generalReservation::STATUS_CANCELLED)
         {
+
             $qb->andWhere('(r.gen_res_status = :gen_res_status or r.gen_res_status = :gen_res_status1)');
             $qb->setParameter('gen_res_status1', generalReservation::STATUS_PARTIAL_CANCELLED);
             $qb->setParameter('gen_res_status', $status);
-            $qb->leftJoin("r.pendingPayments", "pending");
-            $qb->andWhere("pending.cancelPayment IS NOT NULL");
+//            $qb->leftJoin("r.pendingPayments", "pending");
+//            $qb->andWhere("pending.cancelPayment IS NOT NULL");
 
         }
         else{
@@ -3705,10 +3736,23 @@ order by LENGTH(o.own_mcp_code), o.own_mcp_code";
             $adults_number = (array_key_exists('adults_number', $filters) && isset($filters['adults_number']));
             $booking_code = (array_key_exists('booking_code', $filters) && isset($filters['booking_code']));
             $booking_date = (array_key_exists('booking_date', $filters) && isset($filters['booking_date']));
+            $invoice_code = (array_key_exists('invoice_code', $filters) && isset($filters['invoice_code']));
+            $invoice_date = (array_key_exists('invoice_date', $filters) && isset($filters['invoice_date']));
             $client_dates = (array_key_exists('client_dates', $filters) && isset($filters['client_dates']));
             $partner_client_id = (array_key_exists('partner_client_id', $filters) && isset($filters['partner_client_id']));
             $cancel_date = (array_key_exists('cancel_date', $filters) && isset($filters['cancel_date']));
 
+            if($invoice_code) {
+                $qb->join('r.invoice','i');
+                $qb->adWhere('i.filename LIKE :filename');
+                $qb->setParameter('filename', $invoice_code);
+            }
+            if($invoice_date) {
+                $a = Dates::createForQuery($filters['invoice_date'], 'd-m-Y');
+                $qb->join('r.invoice','i');
+                $qb->andWhere('i.invoicedate = :dateinvoice');
+                $qb->setParameter('dateinvoice', $a);
+            }
             if($cancel_date) {
                 $a = Dates::createForQuery($filters['cancel_date'], 'd-m-Y');
 
@@ -3839,6 +3883,7 @@ JOIN owres_2.own_res_reservation_booking AS b1 JOIN b1.payments AS p WHERE owres
                 $qb->andWhere('(r.gen_res_status = '.$status.' or r.gen_res_status = :gen_res_status1)');
                 $qb->setParameter('gen_res_status1', generalReservation::STATUS_PARTIAL_RESERVED);
             } elseif ($status == generalReservation::STATUS_CANCELLED) {
+
                 $qb->andWhere('(r.gen_res_status = '.$status.' or r.gen_res_status = :gen_res_status1)');
                 $qb->setParameter('gen_res_status1', generalReservation::STATUS_PARTIAL_CANCELLED);
                 $qb->leftJoin("r.pendingPayments", "pending");
@@ -4123,5 +4168,16 @@ JOIN owres_2.own_res_reservation_booking AS b1 JOIN b1.payments AS p WHERE owres
         $em->persist($generalReservation);
         $em->flush();
     }
+    public function addInvoice($idgen,$idinvoice){
+        $em=$this->getEntityManager();
+        $q=$em->createQueryBuilder();
+        $q->update('mycpBundle:generalReservation', 'ge');
+        $q->set('ge.invoice', $idinvoice);
 
+        $q->where('ge.gen_res_id =:idgen');
+        $q->setParameter('idgen',$idgen);
+        $results = $q->getQuery()->execute();
+
+        return true;
+    }
 }

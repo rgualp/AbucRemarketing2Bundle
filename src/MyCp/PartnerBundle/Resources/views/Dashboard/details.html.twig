@@ -49,6 +49,12 @@
                             {% elseif reservation.getGenResStatus==6 %}
                                 <dt><em class="rt">{{ "cancelPayment.cancelDate" | trans }}:</em></dt>
                                 <dd><span class="rst">{{ reservation.getGenResStatusDate | date("d-m-Y") }}</span></dd>
+                            {% elseif reservation.getGenResStatus==10 %}
+                                <dt><em class="rt">{{ "partner.invoice" | trans }}:</em></dt>
+                                <dd><span class="rst">{{ invoice }}</span></dd>
+                                <dt><em class="rt">{{ "partner.invoice.date" | trans }}:</em></dt>
+                                <dd><span class="rst">{{ invoice_date| date("d-m-Y") }}</span></dd>
+
                             {% else %}
                             <dt><em class="rt">{{ "dashboard.booking.date" | trans }}:</em></dt>
                             <dd><span class="rst">{{ reservation.getGenResDate | date("d-m-Y") }}</span></dd>
@@ -176,6 +182,32 @@
                 </tr>
                 {% set flag = flag + 1 %}
             {% endfor %}
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+            <td>
+                <span class="rst"  >{{ 'PAYMENT_COMPLETE' | trans }}</span>
+
+            </td>
+            <td>
+                <span class="rst" > {{ array_complete_prices }}</span>
+
+            </td>
         </table>
 
         {% if oneCanBeCanceled %}

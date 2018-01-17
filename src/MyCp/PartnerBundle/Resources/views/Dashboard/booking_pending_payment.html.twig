@@ -1,7 +1,7 @@
 {% set formFilter = form_search_booking_pending_payment.createView() %}
 <div class="ibox card">
     <div class="ibox-title card">
-        <span class="title-card">{{ "dashboard.booking.pending.payment" | trans }}</span>
+        <span class="title-card">{{ "payed" | trans }}</span>
 
         <div class="ibox-tools">
             <a class="collapse-link">
@@ -18,46 +18,9 @@
                 <div class="col-lg-2 field-filter">
                     <div class="form-group">
                         <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-qrcode"></i></span>
-                            {{ form_widget(formFilter.booking_code, { 'attr': {'placeholder': 'booking.placeholder.booking_code'|trans, 'title':'booking.placeholder.booking_code'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                            <span class="input-group-addon"><i class="fa fa-tags"></i></span>
+                            {{ form_widget(formFilter.br, { 'attr': {'placeholder': 'dashboard.booking.br'|trans, 'title':'dashboard.booking.br'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                         </div>
-                    </div>
-                </div>
-                <div class="col-lg-2 field-filter">
-                    <div class="form-group">
-                        <div class="input-group date">
-                            {{ form_widget(formFilter.booking_date, { 'attr': {'placeholder': 'booking.placeholder.booking_date'|trans, 'title':'booking.placeholder.booking_date'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
-                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-1 field-filter">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-qrcode"></i></span>
-                            {{ form_widget(formFilter.code, { 'attr': {'placeholder': 'booking.placeholder.code'|trans, 'title':'booking.placeholder.code'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-2 field-filter">
-                    <div class="form-group">
-                        <div class="input-group date">
-                            {{ form_widget(formFilter.from, { 'attr': {'placeholder': 'booking.placeholder.from'|trans, 'title':'booking.placeholder.from'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
-                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-2 field-filter">
-                    <div class="form-group">
-                        <div class="input-group date">
-                            {{ form_widget(formFilter.to, { 'attr': {'placeholder': 'booking.placeholder.to'|trans, 'title':'booking.placeholder.to'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
-                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-2 field-filter">
-                    <div class="form-group">
-                        {{ form_widget(formFilter.destination, { 'attr': {'data-placeholder': 'booking.placeholder.destination'|trans, 'title':'booking.placeholder.destination'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
                     </div>
                 </div>
                 <div class="col-lg-1 field-filter">
@@ -68,6 +31,54 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-lg-2 field-filter">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-home"></i></span>
+                            {{ form_widget(formFilter.code, { 'attr': {'placeholder': 'dashboard.booking.acomodationserach'|trans, 'title':'dashboard.booking.acomodation'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                        </div>
+                    </div>
+                </div>
+                {#<div class="col-lg-2 field-filter">#}
+                {#<div class="form-group">#}
+                {#<div class="input-group">#}
+                {#<span class="input-group-addon"><i class="fa fa-home"></i></span>#}
+                {#{{ form_widget(formFilter.own_name, { 'attr': {'placeholder': 'booking.placeholder.own_name'|trans, 'title':'booking.placeholder.own_name'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}#}
+                {#</div>#}
+                {#</div>#}
+                {#</div>#}
+                <div class="col-lg-2 field-filter">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-qrcode"></i></span>
+                            {{ form_widget(formFilter.invoice_code, { 'attr': {'placeholder': 'partner.invoice'|trans, 'title':'partner.invoice'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 field-filter">
+                    <div class="form-group">
+                        <div class="input-group date">
+                            {{ form_widget(formFilter.invoice_date, { 'attr': {'placeholder': 'partner.invoice.date'|trans, 'title':'partner.invoice.date'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                {#<div class="col-lg-2 field-filter">#}
+                {#<div class="form-group">#}
+                {#{{ form_widget(formFilter.destination, { 'attr': {'data-placeholder': 'booking.placeholder.destination'|trans, 'title':'booking.placeholder.destination'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}#}
+                {#</div>#}
+                {#</div>#}
+                {#<div class="col-lg-1 field-filter">#}
+                {#<div class="form-group">#}
+                {#<div class="input-group">#}
+                {#<span class="input-group-addon"><i class="fa fa-male"></i></span>#}
+                {#{{ form_widget(formFilter.client_dates, { 'attr': {'placeholder': 'dashboard.booking.client_dates'|trans, 'title':'dashboard.booking.client_dates'|trans, 'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}#}
+                {#</div>#}
+                {#</div>#}
+                {#</div>#}
+
             </div>
 
             <div class="row">
@@ -176,20 +187,23 @@
                         var today = new Date();
                         var html = '<div class="row"> ' +
                                 '<div class="col-xs-12"> ' +
-                                '<em class="rt">{{"dashboard.booking.cas" | trans}}:</em> <span class="rst">' + data.cas + '</span> ' +
-                                '<em class="rt">{{"dashboard.booking.code" | trans}}:</em> <span class="rst">' + data.own_mcp_code + '</span> ' +
-                                '<em class="rt">{{"dashboard.booking.home" | trans}}:</em> <span class="rst">' + data.own_name + '</span> ' +
-                                '<em class="rt">{{"dashboard.booking.destination" | trans}}:</em> <span class="rst">' + data.destination + '</span> ' +
+                            '<em class="rt">{{"dashboard.booking.br" | trans}}:</em> <span class="rst">' + data.reference + '</span> ' +
+                            '<em class="rt">{{"dashboard.booking.client_dates" | trans}}:</em> <span class="rst">' + data.client_dates + '</span> ' +
+
+                            '<em class="rt">{{"dashboard.booking.cas" | trans}}:</em> <span class="rst">' + data.cas + '</span> ' +
+                            '<em class="rt">{{"dashboard.booking.acomodation" | trans}}:</em> <span class="rst">' + data.own_mcp_code + '-'+ data.own_name +  '</span> ' +
+                            '<em class="rt">{{"dashboard.booking.destination" | trans}}:</em> <span class="rst">' + data.destination + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.from" | trans}}:</em> <span class="rst">' + data.from + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.to" | trans}}:</em> <span class="rst">' + data.to + '</span> ' +
-                                '<em class="rt">{{"dashboard.booking.client_dates" | trans}}:</em> <span class="rst">' + data.client_dates + '</span> ' +
-                                rooms + '<br>';
-                                if (data.canBeCanceled)
-                                    html += '<a data-href="{{ path("partner_dashboard_booking_detail") }}/' + data.id + '" onClick="executeAjaxEle(this)"> <span class="rt" style="float: right; margin-left: 20px;"> {{ 'label.cancel' | trans }} </span> </a>';
+
+                            rooms + '<br>';
+
 
                         html += '<a data-href="{{ path("partner_dashboard_booking_detail") }}/' + data.id + '" onClick="executeAjaxEle(this)"> <span class="rt" style="float: right;"> {{ 'dashboard.booking.detail' | trans }} </span> </a>' +
                                 '<a href="{{ path("partner_download_voucher") }}/' + booking_code + '"> <span class="rt" style="float: right; margin-right: 20px;"> {{ "partner.download.voucher" | trans }} </span> </a>' +
-                        '</div> ' +
+                            '<a href="{{ path("partner_download_invoice") }}/' + data.cas + '"> <span class="rt" style="float: right; margin-right: 20px;"> {{ "partner.download.invoice" | trans }} </span> </a>' +
+
+                            '</div> ' +
                         '</div>';
                         return html;
                     }

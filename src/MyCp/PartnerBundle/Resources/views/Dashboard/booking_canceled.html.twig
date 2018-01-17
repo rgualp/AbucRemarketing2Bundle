@@ -198,6 +198,7 @@
                         var curr_code;
                         var booking_code ='';
                         var date = '';
+                        var room_types = [];
                         for(var i = 0; i < data.rooms.length; i++){
                             var room = data.rooms[i];
                             adults += room.adults;
@@ -223,6 +224,24 @@
                             clientDates = room.booking.client_name;
                         }
                         rooms += '<em class="rt">Código booking:</em> <span class="rst">' + booking_code + '</span> ';*/
+                        var s_room_types = '';
+                        for (var key in room_types) {
+                            if (room_types.hasOwnProperty(key)) {
+                                if(s_room_types == ''){
+                                    s_room_types += " " + key + "(" + room_types[key] + ")";
+                                }
+                                else {
+                                    s_room_types += " ," + key + "(" + room_types[key] + ")";
+                                }
+                            }
+                        }
+                        var rooms = '<em class="rt">{{"dashboard.booking.room_types" | trans}}:</em> <span class="rst">' + s_room_types + '</span> ' +
+                                {#/*'<em class="rt">{{"dashboard.booking.rooms" | trans}}:</em> <span class="rst">' + data.rooms.length + '</span> ' +*/#}
+                            '<em class="rt">{{"dashboard.booking.adults" | trans}}:</em> <span class="rst">' + adults + '</span> ' +
+                            '<em class="rt">{{"dashboard.booking.childrens" | trans}}:</em> <span class="rst">' + childrens + '</span> ' +
+                            '<em class="rt">{{"dashboard.booking.totalprice" | trans}}:</em> <span class="rst">' + totalPrice + curr_code + '</span> ' +
+                            '<em class="rt">{{"dashboard.booking.bookingcode" | trans}}:</em> <span class="rst">' + booking_code + '</span> ' +
+                            '<em class="rt">{{"dashboard.booking.bookingdate" | trans}}:</em> <span class="rst">' + date + '</span> ';
 
                         var html = '<div class="row"> ' +
                                 '<div class="col-xs-12"> ' +

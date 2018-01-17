@@ -2378,6 +2378,33 @@
                                                   <source>touroperator</source>
                                                   <target state="new">TourOperador</target>
                                                 </trans-unit>
+     <trans-unit id="38" resname="payed">
+                                     <source>payed</source>
+                                       <target state="new">Pagadas</target>
+                               </trans-unit>
+     <trans-unit id="39" resname="partner.download.invoice">
+                                         <source>partner.download.invoice</source>
+                                           <target state="new">Descargar Factura</target>
+                                   </trans-unit>
+     <trans-unit id="40" resname="partner.invoice">
+                                              <source>partner.invoice</source>
+                                                <target state="new">Factura</target>
+                                        </trans-unit>
+
+   <trans-unit id="41" resname="partner.invoice.date">
+                                                 <source>partner.invoice.date</source>
+                                                   <target state="new">Fecha Factura</target>
+                                           </trans-unit>
+
+
+
+
+
+
+
+
+
+
     </body>
   </file>
 </xliff>
