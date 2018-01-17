@@ -24,10 +24,10 @@
 
  {% block metas %}
      {% if get_metas('Alojamientos ' ~ province_name, app.session.get('app_lang_code')|lower ) == false %}
-        {{ get_metas('Alojamientos', app.session.get('app_lang_code')|lower )|raw }}
-    {% else %}
-        {{ get_metas('Alojamientos ' ~ province_name, app.session.get('app_lang_code')|lower )|raw }}
-    {% endif %}
+         {{ get_metas('Alojamientos', app.session.get('app_lang_code')|lower )|raw }}
+     {% else %}
+         {{ get_metas('Alojamientos ' ~ province_name, app.session.get('app_lang_code')|lower )|raw }}
+     {% endif %}
  {% endblock metas %}
 
 {% block other_load_js %}
@@ -107,6 +107,19 @@
             </div>
         </div>
         <div class="col-sm-5 p-0">
+            <div class="destination-bar-title fmap col-sm-12 clearfix" style="padding: 0;">
+                <div class="col-sm-7" style="padding: 0 15px 13px;">
+                    <ul class="nav" style="margin: 0">
+                        <li><h1 id="province_name" class="h-green caecilia-roman">
+                                {% if province_name != 'no' %}
+                                    {{ province_name }}
+                                {% endif %}
+                            </h1>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
             {% if view_results != 'MAP' %}
                 <div class="thumbnail" id="search_map" style="width:100%;" class="google-maps"></div>
             {% endif %}
@@ -128,7 +141,7 @@
                 });
 
                 var h = $(window).height() - 24 - $('#top-menu-cont').height() - $('.filters-container').height();
-
+                $(".destination-bar-title").css("height", $('.filters-container').height() + 14 + "px");
                 $('#div_result').slimScroll({
                     height: h + 'px',
                     start: 'top',
@@ -185,6 +198,14 @@
                         $('#more_filters').addClass('collapsed');
                     }
                 });
+
+                var $INPUT = $('input#input_text');
+                var $H1_NAME = $('h1#province_name');
+                $('button#button_research').click(function () {
+                    $H1_NAME.empty();
+                    $H1_NAME.append($INPUT.val());
+                });
+
 
             }
 
