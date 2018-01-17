@@ -49,7 +49,7 @@ class DashboardController extends Controller
         $data = $this->getReservationsData($filters, $start, $limit, $draw, generalReservation::STATUS_PENDING);
         $reservations = $data['aaData'];
         $data['aaData'] = array();
-
+        $curr = $this->getCurr($request);
         foreach ($reservations as $reservation) {
             $arrTmp = array();
             $arrTmp['id'] = $reservation->getGenResId();
@@ -71,7 +71,7 @@ class DashboardController extends Controller
             if (!$ownReservations->isEmpty()) {
                 $ownReservation = $ownReservations->first();
                 $timeService = $this->get('time');
-                $curr = $this->getCurr($request);
+
                 do {
 
                     $nights = $timeService->nights($ownReservation->getOwnResReservationFromDate()->getTimestamp(), $ownReservation->getOwnResReservationToDate()->getTimestamp());
@@ -87,7 +87,8 @@ class DashboardController extends Controller
                         'type' => $ownReservation->getOwnResRoomType(),
                         'adults' => $ownReservation->getOwnResCountAdults(),
                         'totalPrice' => ($totalPrice * $curr['change']),
-                        'childrens' => $ownReservation->getOwnResCountChildrens()
+                        'childrens' => $ownReservation->getOwnResCountChildrens(),
+                        'curr_code' => $curr['code']
                     );
                     $ownReservation = $ownReservations->next();
                 } while ($ownReservation);
