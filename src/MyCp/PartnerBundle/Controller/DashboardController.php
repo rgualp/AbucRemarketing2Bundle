@@ -1391,7 +1391,13 @@ class DashboardController extends Controller
             array_push($rooms, $em->getRepository('mycpBundle:room')->find($res->getOwnResSelectedRoomId()));
             array_push($array_nights, $nights);
 
-            array_push($booking, $res->getOwnResReservationBooking()->getBookingId());
+            if($res->getOwnResReservationBooking()!=null) {
+                array_push($booking, $res->getOwnResReservationBooking()->getBookingId());
+            }
+            else{
+                array_push($booking, '-');
+
+            }
 
             $canCancel = ($res->getOwnResReservationFromDate() > $today && $res->getOwnResStatus() == ownershipReservation::STATUS_RESERVED);
             array_push($canBeCanceled, $canCancel);

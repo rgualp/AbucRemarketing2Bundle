@@ -27,6 +27,7 @@
 
     </style>
 </head>
+
 <body>
 {% set currency_symbol= user_currency.currSymbol %}
 {% set currency_rate= user_currency.currCucChange %}
@@ -205,6 +206,55 @@
         </td>
     </tr>
 </table>
+<br>
+<footer>
+<h3 class="h-green h-green-line"  style="padding-bottom: 5px">
+    <img src="bundles/frontend/img/map-signal.png" alt="{{"House" | trans}}">
+    CONTACT US
+</h3>
+    <small>
+<div>
+    <b>Main Office:</b>
+    <p>Phone:+53 7 204 9201,+53 7 204 9202 <br> Address:CTN House, Avenida 31 entre 14 y 18 No. 1411, Miramar, Playa, Havana, Cuba<br>Email:reservations@cubatravelnetwork.com  </p>
+
+</div>
+{% for own in own_res %}
+    <b>Representative:</b>
+    {% if own.province =="La Habana" %}
+        <div>
+
+            <p>Havana: <br> Phone:(0)5 286 8492 (Alexie) ,  (0)5 279 9533 (Deisy) International Airport: (0)5 286 0670 (Manuel) <br> Address:CTN House, Avenida 31 entre 14 y 18 No. 1411, Miramar, Playa, Havana, Cuba</p>
+
+        </div>
+    {% elseif own.province =="Santiago de Cuba" %}
+        <div>
+
+            <p>Santiago de Cuba: <br> Phone:(01)5 285 5730 (Fernando)<br> Address:Avenida Manduley #304 entre 11 y 13, Reparto Vista Alegre</p>
+
+        </div>
+    {% elseif own.municipality =="Trinidad" %}
+        <div>
+
+            <p>Trinidad: <br> Phone:(01)5 285 6855 (Floor)</p>
+
+        </div>
+
+    {% elseif own.municipality =="Baracoa" %}
+        <div>
+
+            <p>Baracoa: <br> Phone:(0)21 64 51 64 (Roger) <br> Address:c/o Gaviota Tours, Cafetería El Parque, Maceo s/n esq. Rafael Trejo</p>
+
+        </div>
+    {% else %}
+        <div>
+
+            <p>Havana: <br> Phone:(0)5 286 8492 (Alexie) ,  (0)5 279 9533 (Deisy) International Airport: (0)5 286 0670 (Manuel) <br> Address:CTN House, Avenida 31 entre 14 y 18 No. 1411, Miramar, Playa, Havana, Cuba</p>
+
+        </div>
+    {% endif %}
+{% endfor %}
+    </small>
+</footer>
 </body>
 </html>
 
