@@ -3704,11 +3704,12 @@ order by LENGTH(o.own_mcp_code), o.own_mcp_code";
 
         elseif($status == generalReservation::STATUS_CANCELLED)
         {
+
             $qb->andWhere('(r.gen_res_status = :gen_res_status or r.gen_res_status = :gen_res_status1)');
             $qb->setParameter('gen_res_status1', generalReservation::STATUS_PARTIAL_CANCELLED);
             $qb->setParameter('gen_res_status', $status);
-            $qb->leftJoin("r.pendingPayments", "pending");
-            $qb->andWhere("pending.cancelPayment IS NOT NULL");
+//            $qb->leftJoin("r.pendingPayments", "pending");
+//            $qb->andWhere("pending.cancelPayment IS NOT NULL");
 
         }
         else{
@@ -3882,6 +3883,7 @@ JOIN owres_2.own_res_reservation_booking AS b1 JOIN b1.payments AS p WHERE owres
                 $qb->andWhere('(r.gen_res_status = '.$status.' or r.gen_res_status = :gen_res_status1)');
                 $qb->setParameter('gen_res_status1', generalReservation::STATUS_PARTIAL_RESERVED);
             } elseif ($status == generalReservation::STATUS_CANCELLED) {
+
                 $qb->andWhere('(r.gen_res_status = '.$status.' or r.gen_res_status = :gen_res_status1)');
                 $qb->setParameter('gen_res_status1', generalReservation::STATUS_PARTIAL_CANCELLED);
                 $qb->leftJoin("r.pendingPayments", "pending");

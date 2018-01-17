@@ -206,7 +206,7 @@ class DashboardController extends Controller
         $data = $this->getReservationsData($filters, $start, $limit, $draw, generalReservation::STATUS_NOT_AVAILABLE);
         $reservations = $data['aaData'];
         $data['aaData'] = array();
-
+        $curr = $this->getCurr($request);
         $timeService = $this->get('time');
 
         foreach ($reservations as $reservation) {
@@ -230,7 +230,7 @@ class DashboardController extends Controller
             $arrTmp['data']['rooms'] = array();
             if (!$ownReservations->isEmpty()) {
                 $ownReservation = $ownReservations->first();
-                $curr = $this->getCurr($request);
+
                 do {
                     $nights = $timeService->nights($ownReservation->getOwnResReservationFromDate()->getTimestamp(), $ownReservation->getOwnResReservationToDate()->getTimestamp());
                     $totalPrice = 0;
@@ -567,7 +567,7 @@ class DashboardController extends Controller
         $data['aaData'] = array();
 
         $timeService = $this->get('time');
-
+        $curr = $this->getCurr($request);
         foreach ($reservations as $reservation) {
             $arrTmp = array();
             $arrTmp['id'] = $reservation->getGenResId();
@@ -598,7 +598,7 @@ class DashboardController extends Controller
             $arrTmp['data']['rooms'] = array();
             if (!$ownReservations->isEmpty()) {
                 $ownReservation = $ownReservations->first();
-                $curr = $this->getCurr($request);
+
                 do {
                     $nights = $timeService->nights($ownReservation->getOwnResReservationFromDate()->getTimestamp(), $ownReservation->getOwnResReservationToDate()->getTimestamp());
                     $totalPrice = 0;
@@ -609,11 +609,27 @@ class DashboardController extends Controller
                         $totalPrice += $ownReservation->getOwnResTotalInSite();
                         //$initialPayment += $res->getOwnResTotalInSite() * $comission;
                     }
+                    if($ownReservation->getOwnResReservationBooking()==null){
+                        $booking_code='';
+                        $booking_date='';
+                        $type='';
+                    }
+                    else{
+                        $booking_code=  $ownReservation->getOwnResReservationBooking()->getBookingId();
+                         $booking_date= $ownReservation->getOwnResReservationBooking()->getPayments()->first()->getCreated()->format('d-m-Y');
+                         $type=    $ownReservation->getOwnResRoomType();
+                    }
+
 
                     $arrTmp['data']['rooms'][] = array(
-                        'type' => $ownReservation->getOwnResRoomType(),
+                        'type' => $type,
                         'totalPrice' => ($totalPrice * $curr['change']),
-                        'curr_code' => $curr['code']/*,
+                        'curr_code' => $curr['code'],
+                        'booking' => array(
+                            'code' => $booking_code,
+                            'date' => $booking_date
+                        )
+                        /*,
                         'booking'=>array(
                             'code'=>$ownReservation->getOwnResReservationBooking()->getBookingId(),
                         )*/
@@ -997,6 +1013,7 @@ class DashboardController extends Controller
 
         $paginator = $repository->getReservationsPartner($user->getUserId(), $status, $filters, $start, $limit,$touroperators);;
         $reservations = $paginator['data'];
+
         #endregion PAGINADO
 
         $data = array();
@@ -1374,7 +1391,7 @@ class DashboardController extends Controller
             array_push($rooms, $em->getRepository('mycpBundle:room')->find($res->getOwnResSelectedRoomId()));
             array_push($array_nights, $nights);
 
-                array_push($booking, $res->getOwnResReservationBooking()->getBookingId());
+            array_push($booking, $res->getOwnResReservationBooking()->getBookingId());
 
             $canCancel = ($res->getOwnResReservationFromDate() > $today && $res->getOwnResStatus() == ownershipReservation::STATUS_RESERVED);
             array_push($canBeCanceled, $canCancel);
@@ -1393,6 +1410,7 @@ class DashboardController extends Controller
         foreach ($array_total_prices as $price){
             $array_complete_prices+=$price+($price*0.1)+($price+($price*0.1))*0.1;
         }
+
 
         if($reservation->getGenResStatus()==10) {
             return new JsonResponse([
