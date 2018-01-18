@@ -26,7 +26,7 @@ class BookingService extends Controller
     /**
      * @var string
      */
-    private $voucherDirectoryPath;
+    public $voucherDirectoryPath;
 
     /**
      * @var ObjectManager
@@ -45,7 +45,7 @@ class BookingService extends Controller
      */
     private $tripleRoomCharge;
 
-    private $zipService;
+    public $zipService;
 
     private $smsNotificationService;
 
@@ -914,6 +914,7 @@ class BookingService extends Controller
         if (file_exists($pdfFilePath)) {
             if($replaceExistingVoucher)
             {
+                chmod($pdfFilePath,0775);
                 unlink($pdfFilePath);
             }
             else
@@ -941,6 +942,7 @@ class BookingService extends Controller
         if (file_exists($pdfFilePath)) {
             if($replaceExistingVoucher)
             {
+                chmod($pdfFilePath,0775);
                 unlink($pdfFilePath);
             }
             else
@@ -975,6 +977,7 @@ class BookingService extends Controller
             if (file_exists($pdfFilePath)) {
                 if($replaceExistingVoucher)
                 {
+                    chmod($pdfFilePath,0775);
                     unlink($pdfFilePath);
                 }
                 else
@@ -1700,7 +1703,7 @@ class BookingService extends Controller
      * @return null|object
      * @throws \LogicException
      */
-    private function getUserFromBooking(booking $booking)
+    public function getUserFromBooking(booking $booking)
     {
         $user = $this->em
             ->getRepository('mycpBundle:user')
