@@ -1944,17 +1944,29 @@ class DashboardController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $booking = $em->getRepository('mycpBundle:booking')->find($bookingId);
-
+        $pdfservice=$this->get("front_end.services.booking");
+        $user = $pdfservice->getUserFromBooking($booking);
+        $clients = $em->getRepository("PartnerBundle:paClient")->getClientsFromBooking($bookingId, $user);
         $name = 'voucher' . $booking->getBookingUserId() . '_' . $booking->getBookingId() . '.pdf';
+        $name_client= 'voucher' . $user->getUserId(). '_' . $bookingId . '_' . $clients[0]['id'] .'.pdf';
         $nameZip = 'vouchers_'.$booking->getBookingId(). '_' . $booking->getBookingUserId() . '.zip';
 
-        if (file_exists(realpath($pathToFile.$nameZip))){
+        if (file_exists(realpath($pathToFile.$nameZip))&&file_exists(realpath($pathToFile.$name))&&file_exists(realpath($pathToFile.$name_client))){
+           
             $response = new BinaryFileResponse($pathToFile . $nameZip);
             $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $nameZip);
+
         }
         else{
-            $response = new BinaryFileResponse($pathToFile . $name);
-            $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $name);
+
+            $pdfFilePath = $pdfservice->createBookingVoucherIfNotExistingPartner($bookingId,$user,true);
+            $pdfClientFilePaths = $pdfservice->createBookingVoucherForClientsIfNotExistsPartner($bookingId, $user,true);
+
+            $filePaths = array_merge(array($pdfFilePath), $pdfClientFilePaths);
+            $zipFileName = $pdfservice->zipService->createZipFile("vouchers_".$bookingId."_".$user->getUserId().".zip", $filePaths, $pdfservice->voucherDirectoryPath);
+
+            $response = new BinaryFileResponse($pathToFile . $nameZip);
+            $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $nameZip);
         }
 
         return $response;
