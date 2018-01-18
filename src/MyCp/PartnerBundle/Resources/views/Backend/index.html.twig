@@ -180,13 +180,13 @@
 {% endblock stylesheets %}
 
 {% block carousel %}
-    <div id="inSlider" class="carousel carousel-fade hidden-xs" data-ride="carousel">
-        <div class="carousel-inner" role="listbox">
+    <div id="inSlider" class="carousel carousel-fade hidden-xs" data-ride="carousel" style="height: 200px">
+        <div class="carousel-inner" role="listbox" style="height: 200px">
             {% for i in 1..2 %}
                 {% set image_url = ['bundles/partner/img/slideshow/1/', i, '.jpg']|join %}
                 <div class="item {% if loop.first %} active {% endif %}">
                     <div class="container">
-                        <div class="carousel-caption" style="right: 72px !important;top: 110px !important;">
+                        <div class="carousel-caption" style="right: 72px !important;top: 10px !important;">
                             {% block textCarousel %}
                                 <h1 style="line-height: 1 !important">{{ 'label.carousel_text_backend_one' | trans | raw }}</h1>
                                 <p style="color: #d5f2fa !important;margin-top: -40px !important">{{ 'label.carousel_text_backend_two' | trans | raw }}</p>
@@ -197,13 +197,14 @@
                     <div style="background-blend-mode: overlay;
                             background: rgba(0, 0, 0, 0.1) url('{{ asset(image_url) }}') no-repeat scroll center center / cover ;
                             position: absolute;
-                            height: 90%;
+                            height: 100%;
                             width: 100%;">
                     </div>
                 </div>
             {% endfor %}
         </div>
     </div>
+
 {% endblock %}
 
 {% block body %}

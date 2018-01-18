@@ -652,8 +652,21 @@ class BookingService extends Controller
         $repository = $em->getRepository('mycpBundle:generalReservation');
         $paginator = $repository->getReservationsPartnerByStatusArray($user->getUserId(),array(generalReservation::STATUS_RESERVED),array('booking_code'=>$bookingId, 'partner_client_id'=>$idClient),0,1000);
         $booking = $em->getRepository('mycpBundle:booking')->find($bookingId);
+        $array_destination=array();
+        foreach ($this->calculateBookingDetailsPartnerClient($bookingId,$user, $idClient)['own_res']as $own){
+            if($own['province']=="Santiago de Cuba"&& !in_array("Santiago de Cuba",$array_destination)){
+                array_push($array_destination,"Santiago de Cuba");
+            }
+            elseif ($own['municipality']=="Trinidad"&& !in_array("Trinidad",$array_destination)){
+                array_push($array_destination,"Trinidad");
+            }
+            elseif ($own['municipality']=="Baracoa"&& !in_array("Baracoa",$array_destination)){
+                array_push($array_destination,"Baracoa");
+            }
+
+        }
         $partnerClient = $em->getRepository("PartnerBundle:paClient")->find($idClient);
-        $result=array_merge($this->calculateBookingDetailsPartnerClient($bookingId,$user, $idClient),array('data'=>$paginator['data'],'bookingId'=>$bookingId,'user'=>$user,'own_res1'=>$paginator['data'],'booking'=>$booking,'user_locale'=> strtolower($user->getUserLanguage()->getLangCode()),'user_currency'=>$user->getUserCurrency(), 'client'=> $partnerClient));
+        $result=array_merge($this->calculateBookingDetailsPartnerClient($bookingId,$user, $idClient),array('data'=>$paginator['data'],'bookingId'=>$bookingId,'user'=>$user,'own_res1'=>$paginator['data'],'booking'=>$booking,'user_locale'=> strtolower($user->getUserLanguage()->getLangCode()),'user_currency'=>$user->getUserCurrency(), 'client'=> $partnerClient,'destinys'=>$array_destination));
 
         return $this->render('PartnerBundle:Voucher:voucherClient.html.twig',$result);
     }
