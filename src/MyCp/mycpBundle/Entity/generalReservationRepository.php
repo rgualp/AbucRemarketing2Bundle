@@ -93,7 +93,7 @@ class generalReservationRepository extends EntityRepository {
                 $string_order = "ORDER BY gre.gen_res_id DESC";
                 break;
             case OrderByHelper::RESERVATION_DATE:
-                $string_order = " GROUP BY booking.booking_id ORDER BY gre.gen_res_date ASC ";
+                $string_order = "ORDER BY gre.gen_res_date ASC ";
                 $groupby="" ;
                 break;
             case OrderByHelper::RESERVATION_ACCOMMODATION_CODE:
