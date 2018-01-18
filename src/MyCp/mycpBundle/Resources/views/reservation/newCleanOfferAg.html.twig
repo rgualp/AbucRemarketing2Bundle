@@ -42,7 +42,7 @@
             </li>
         </ul>
         <form id="form_submit" action="{{ path("mycp_new_offer_to_client_ag", {"idClient": client.userId, 'idClientOfAg': clientOfAg.getId, "attendedDate": attendedDate}) }}" method="POST">
-            {#{{ render(controller('mycpBundle:BackendReservation:searchAccommodations')) }}#}
+            {{ render(controller('mycpBundle:BackendReservation:searchAccommodations')) }}
             <div class="row-fluid" style="text-align: right">
                 <button class="btn btn-success btn_submit" id="btn_submit" disabled="disabled" onclick="javascript:submit_button({{ constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE_AND_EXIT') }})">Guardar</button>
                 <button class="btn btn-warning btn_submit" id="btn_submit" disabled="disabled" onclick="javascript:submit_button({{ constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE_OFFER_AND_VIEW') }})">Guardar y ver oferta</button>
