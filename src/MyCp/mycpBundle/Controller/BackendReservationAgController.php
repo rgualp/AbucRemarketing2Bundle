@@ -561,6 +561,7 @@ class BackendReservationAgController extends Controller {
             $paReservation->setChildrenWithAccommodation($childrens);
             $paReservation->setCreated(new \DateTime());
             $paReservation->setModified(new \DateTime());
+            $paReservation->setReference($reference);
             $paReservation->setClosed(1);
             $em->persist($paReservation);
             $em->flush();
