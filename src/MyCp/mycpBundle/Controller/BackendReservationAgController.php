@@ -307,13 +307,24 @@ class BackendReservationAgController extends Controller {
         ));
     }
 
-
+   //Detalles
     public function details_reservation_agAction($id_reservation, Request $request) {
         $em = $this->getDoctrine()->getManager();
         $reservation = $em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
         $ownership_reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $id_reservation));
         $offerLog = $em->getRepository("mycpBundle:offerLog")->findOneBy(array("log_offer_reservation" => $id_reservation), array("log_date" => "DESC"));
         $errors = array();
+        $queryStr = "SELECT c.fullname , par.reference
+                    FROM PartnerBundle:paReservationDetail pard
+                    JOIN pard.reservation par
+                    JOIN par.client c
+                    JOIN c.travelAgency ag
+                    WHERE pard.reservationDetail = :gen_res_id";
+        $query = $em->createQuery($queryStr);
+        $query->setMaxResults(1);
+        $query->setParameter('gen_res_id', $id_reservation);
+        $r = $query->getArrayResult();
+        $reference = $r[0];
 
         $service_time = $this->get('time');
         $reservationService = $this->get('mycp.reservation.service');
@@ -356,6 +367,7 @@ class BackendReservationAgController extends Controller {
             'post' => $post,
             'errors' => $errors,
             'reservation' => $reservation,
+            'br'=>$reference['reference'],
             'user' => $user,
             'client'=>$client,
             'reservations' => $ownership_reservations,
@@ -506,8 +518,8 @@ class BackendReservationAgController extends Controller {
         }
         return new Response($response);
     }
-
-    public function newCleanOfferAction($idClient, $idClientOfAg, $attendedDate)
+    //Nueva Oferta
+    public function newCleanOfferAction($idClient, $idClientOfAg, $attendedDate,$reference)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -551,7 +563,7 @@ class BackendReservationAgController extends Controller {
             $paReservation->setModified(new \DateTime());
             $paReservation->setClosed(1);
             $em->persist($paReservation);
-
+            $em->flush();
             $paReservationDetail = new paReservationDetail();
             $paReservationDetail->setReservation($paReservation);
             $paReservationDetail->setReservationDetail($general_reservation);
@@ -605,7 +617,7 @@ class BackendReservationAgController extends Controller {
         }
 
         return $this->render('mycpBundle:reservation:newCleanOfferAg.html.twig', array(
-            'client' => $client, 'clientOfAg' => $paClient, "attendedDate" => $attendedDate));
+            'client' => $client, 'clientOfAg' => $paClient, "attendedDate" => $attendedDate,'br'=>$reference));
     }
 
     public function generateClientCallbackAction() {

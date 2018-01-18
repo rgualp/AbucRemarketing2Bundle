@@ -19,7 +19,7 @@ function totalPriceCalculator(reservations,invoice)
         '</div>'+
         '<br/>'+
         '<div class="text-right pull-left col-md-3">'+
-        '<span class="h3 text-muted total"><strong> Monto Total:'+parseFloat(total).toFixed(2)+'CUC</strong></span>'+
+        '<span class="h3 text-muted total"><strong> Monto Total:'+parseFloat(total*0.9).toFixed(2)+'EUR</strong></span>'+
         '</div>'+
         '</div>'
     );

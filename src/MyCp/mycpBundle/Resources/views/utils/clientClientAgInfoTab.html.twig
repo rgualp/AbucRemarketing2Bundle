@@ -1,0 +1,20 @@
+<ul class="nav nav-tabs">
+    <li class="active">
+        <a href="#reservas" data-toggle="tab">Cliente</a>
+    </li>
+</ul>
+<table class="table  table-striped" style="font-size: 12px;">
+    {% if clientOfAg is defined and clientOfAg != null %}
+    <tr>
+        {#<td rowspan="3"  style="width: 100px"><a &#123;&#35;title="Editar" href="{{ path("mycp_edit_user_tourist", {'id_user': user.userId}) }}"&#35;&#125;>{{ render(controller('mycpBundle:BackendUser:getUserPhotoPath', {'userId': user.userId})) }}</a></td>#}
+        <td><b>Cliente:</b> <a {#title="Editar" href="{{ path("mycp_edit_user_tourist", {'id_user': user.userId}) }}"#}>{{ clientOfAg.getFullName }}</a></td>
+          <td colspan="2"><b>País:</b> {{ clientOfAg.getCountry }}
+            {% if user.getUserCity != null %}(Ciudad: {{ user.getUserCity }}){% endif %}
+        </td>
+    </tr>
+        <tr>
+            <td colspan="2"><b>Comentarios: </b>{{ clientOfAg.getComments }}</td>
+        </tr>
+     <tr><td colspan="2"><b>BR: </b>{{ reference }}</td></tr>
+    {% endif %}
+</table>

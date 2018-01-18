@@ -18,4 +18,5 @@
                 <td><b>Moneda: </b>{% if user.getUserCurrency.getCurrName is defined %}{{ user.getUserCurrency.getCurrName }}{% endif %}</td>
             </tr>
             <tr><td colspan="2"><b>Cliente: </b>{{ client.fullname }}</td></tr>
+            <tr><td colspan="2"><b>BR: </b>{{ reference }}</td></tr>
         </table>
