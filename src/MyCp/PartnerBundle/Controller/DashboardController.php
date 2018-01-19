@@ -360,7 +360,7 @@ class DashboardController extends Controller
 
 
                 $total_price = $res->getPriceTotal($service_time) * $curr['change'];
-                $totalprices += $total_price+($totalPrice*0.1)+($total_price+($totalPrice*0.1)*0.1);
+                $totalprices += $total_price;
 
 
 
@@ -368,7 +368,8 @@ class DashboardController extends Controller
             }
 
         }
-        $data['prices']=$totalprices .$curr['code'];
+
+        $data['prices']= round(($totalprices+($totalprices*0.1)+($totalprices+($totalprices*0.1))*0.1) ,2).$curr['code'];
 
         return new JsonResponse($data);
     }
