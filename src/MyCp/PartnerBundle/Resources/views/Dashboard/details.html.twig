@@ -211,7 +211,7 @@
         </table>
 
         {% if oneCanBeCanceled %}
-            <a id="btnCancel" data-url="{{ path("partner_frontend_cancel_reservations_callback") }}"><span class="rt"> {{ 'label.cancel' | trans }} </span></a>
+            <a style="float: right" id="btnCancel" data-url="{{ path("partner_frontend_cancel_reservations_callback") }}"><span class="rt"> {{ 'label.cancel' | trans }} </span></a>
         {% endif %}
 
         {% include 'PartnerBundle:Dashboard:general_reservation_action.html.twig' with {'status': reservation.getGenResStatus, 'id_res':id_res} %}
