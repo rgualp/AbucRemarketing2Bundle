@@ -1,106 +1,126 @@
-{%for own in list%}
-<div class="row elementList" data-id="{{own.own_id}}" id="own_{{own.own_id}}">
-    <div class="col-sm-4">
+{% for own in list %}
+    <div class="row elementList" data-id="{{ own.own_id }}" id="own_{{ own.own_id }}">
+        <div class="col-sm-4">
 
-        <div class="thumbnail has-ribbon has-ribbon-right" data-text="&nbsp;&nbsp;&nbsp;{%if own.comments_total > 0%}+{%endif%}{{own.comments_total}}&nbsp;&nbsp;&nbsp;">
-            <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':own.own_name  | urlNormalize}) }}">
-                <img  src="{{ asset('bundles/frontend/img/nophoto.gif') }}" id="{{own.own_id}}" class="bttrlazyloading" data-bttrlazyloading-md-src="{{ asset("uploads/ownershipImages/thumbnails/" ~  own.photo)}}"  title="{{ own.own_name }}" alt="{{ own.own_name }}"/>
-            </a>
+            <div class="thumbnail has-ribbon has-ribbon-right"
+                 data-text="&nbsp;&nbsp;&nbsp;{% if own.comments_total > 0 %}+{% endif %}{{ own.comments_total }}&nbsp;&nbsp;&nbsp;">
+                <a target="_blank"
+                   href="{{ path('frontend_details_ownership',{'own_name':own.own_name  | urlNormalize}) }}">
+                    <img src="{{ asset('bundles/frontend/img/nophoto.gif') }}" id="{{ own.own_id }}"
+                         class="bttrlazyloading"
+                         data-bttrlazyloading-md-src="{{ asset("uploads/ownershipImages/thumbnails/" ~  own.photo) }}"
+                         title="{{ own.own_name }}" alt="{{ own.own_name }}"/>
+                </a>
+            </div>
         </div>
-    </div>
-    <div class="col-sm-8">
-        <table class="full-width">
-            <tr>
-                <td>
-                    <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':own.own_name  | urlNormalize}) }}">
-                        <h1 class="h-blue">{{own.own_name}}</h1>
-                    </a>
-                    {%if own.category == "Premium"%}
-                    <img rel="tooltip" title="{{own.category | trans}}" class="icon icon-3 tiny-premium-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/>
-                        {%else%}
-                            {%if (own.category | lower) == ("Rango Medio" | lower)%}
-                    <img rel="tooltip" title="{{own.category | trans}}" class="icon icon-3 tiny-middle-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/>
-                            {%else%}
-                    <img rel="tooltip" title="{{own.category | trans}}" class="icon icon-3 tiny-economic-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}" | trans}}"/>
-                            {%endif%}
-                        {%endif%}
-                    <span>{{own.category | trans}}</span><br/>
-                    <small class="top">{{own.prov_name}}, {{own.mun_name}}<br/>
-                     {{own.type  | trans}}
-                     {%if (own.rooms_count != 0) %}
-                            / {{own.rooms_count}} {% if own.rooms_count == 1%} {{"ROOM_SINGULAR" | trans}}
-                     {%else%} {{"ROOM_PLURAL" | trans}}
-                     {%endif%}
-                     {%endif%}
+        <div class="col-sm-8">
+            <table class="full-width">
+                <tr>
+                    <td>
+                        <a target="_blank"
+                           href="{{ path('frontend_details_ownership',{'own_name':own.own_name  | urlNormalize}) }}">
+                            <h1 class="h-blue">{{ own.own_name }}</h1>
+                        </a>
+                        {% if own.category == "Premium" %}
+                            <img rel="tooltip" title="{{ own.category | trans }}" class="icon icon-3 tiny-premium-icon"
+                                 src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
+                                 alt="{{ "Mycasaparticular" | trans }}" title="{{ "Mycasaparticular" | trans }}"/>
+                        {% else %}
+                            {% if (own.category | lower) == ("Rango Medio" | lower) %}
+                                <img rel="tooltip" title="{{ own.category | trans }}"
+                                     class="icon icon-3 tiny-middle-icon"
+                                     src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
+                                     alt="{{ "Mycasaparticular" | trans }}" title="{{ "Mycasaparticular" | trans }}"/>
+                            {% else %}
+                                <img rel="tooltip" title="{{ own.category | trans }}"
+                                     class="icon icon-3 tiny-economic-icon"
+                                     src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
+                                     alt="{{ "Mycasaparticular" | trans }}" title="{{ "Mycasaparticular" | trans }}" |
+                                     trans}}"/>
+                            {% endif %}
+                        {% endif %}
+                        <span>{{ own.category | trans }}</span><br/>
+                        <small class="top">{{ own.prov_name }}, {{ own.mun_name }}<br/>
+                            {{ own.type  | trans }}
+                            {% if (own.rooms_count != 0) %}
+                                / {{ own.rooms_count }} {% if own.rooms_count == 1 %} {{ "ROOM_SINGULAR" | trans }}
+                            {% else %} {{ "ROOM_PLURAL" | trans }}
+                            {% endif %}
+                            {% endif %}
                         </small>
-                    {%if own.rating > 0%}
-                        {%for i in 1..own.rating%}
-                        <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon icon-2 tiny-star-icon" alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/>
-                        {%endfor%}
-                        {%endif%}
+                        {% if own.rating > 0 %}
+                            {% for i in 1..own.rating %}
+                                <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
+                                     class="icon icon-2 tiny-star-icon" alt="{{ "Mycasaparticular" | trans }}"
+                                     title="{{ "Mycasaparticular" | trans }}"/>
+                            {% endfor %}
+                        {% endif %}
 
-                        {%if own.rating < 5%}
-                        {%for i in 1..(5-own.rating)%}
-                        <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon icon-2 tiny-star-off-icon" alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/>
-                        {%endfor%}
-                    {%endif%}
-                        <small>{{own.comments}} {{"FORMS_COMMENTS" | trans | lower}}</small>
+                        {% if own.rating < 5 %}
+                            {% for i in 1..(5-own.rating) %}
+                                <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
+                                     class="icon icon-2 tiny-star-off-icon" alt="{{ "Mycasaparticular" | trans }}"
+                                     title="{{ "Mycasaparticular" | trans }}"/>
+                            {% endfor %}
+                        {% endif %}
+                        <small>{{ own.comments }} {{ "FORMS_COMMENTS" | trans | lower }}</small>
                         <br/>
-                        <small>{{own.count_reservations}} {{"RESERVATIONS" | trans | lower}}</small>
+                        <small>{{ own.count_reservations }} {{ "RESERVATIONS" | trans | lower }}</small>
                     </td>
                     <td class="text-right">
-                        <small>{{"FROM_PRICES" | trans}}:</small><span class="big-price-blue">
-                        {{own.minimum_price | price}}
+                        <small>{{ "FROM_PRICES" | trans }}:</small>
+                        <span class="big-price-blue">
+                        {{ own.minimum_price | price }}
                             </span>
-                            <br/>
-                            <br/>
-                            <br/>
+                        <br/>
+                        <br/>
+                        <br/>
                         {{ include('FrontEndBundle:favorite:itemFavorite.html.twig',
                         {'is_in_favorite': own.is_in_favorites,
-                         'favorite_type': 'ownership',
-                         'element_id':own.own_id,
-                         'list_preffix' : list_preffix,
-                         'include_text': true
-                         }) }}
-                        </td>
-                    </tr>
-                </table>
+                            'favorite_type': 'ownership',
+                            'element_id':own.own_id,
+                            'list_preffix' : list_preffix,
+                            'include_text': true
+                        }) }}
+                    </td>
+                </tr>
+            </table>
 
-            </div>
         </div>
-        <hr/>
-{%else%}
-        <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
-{%endfor%}
-{%if (show_paginator is defined and show_paginator) and (list | length) and total_items > items_per_page%}
-        <div class="text-center">
-            {%if in_searcher is defined and in_searcher == 'false' and destination_name is defined%}
+    </div>
+    <hr/>
+{% else %}
+    <div class="alert a alert-info">{{ "EMPTY_LIST" | trans }}</div>
+{% endfor %}
+{% if (show_paginator is defined and show_paginator) and (list | length) and total_items > items_per_page %}
+    <div class="text-center">
+        {% if in_searcher is defined and in_searcher == 'false' and destination_name is defined %}
 
-              {{ simple_paginator_render('frontend_details_destination',null,{
-    'container_class': 'pagination',
-    'previousPageText': '«',
-    'nextPageText': '»',
-    'currentClass': 'current',
-    'firstPageText': 'FIRST_PAGE' | trans,
-    'lastPageText': 'LAST_PAGE' | trans,
-    'route_params': {'destination_name': destination_name}
-}) }}
+            {{ simple_paginator_render('frontend_details_destination',null,{
+                'container_class': 'pagination',
+                'previousPageText': '«',
+                'nextPageText': '»',
+                'currentClass': 'current',
+                'firstPageText': 'FIRST_PAGE' | trans,
+                'lastPageText': 'LAST_PAGE' | trans,
+                'route_params': {'destination_name': destination_name}
+            }) }}
 
-            {%else%}
-              {{ simple_paginator_render('frontend_search_ownership',null,{
-    'container_class': 'pagination',
-    'previousPageText': '«',
-    'nextPageText': '»',
-    'currentClass': 'current',
-    'firstPageText': 'FIRST_PAGE' | trans,
-    'lastPageText': 'LAST_PAGE' | trans,
-    'route_params': {'text': app.session.get('search_text'),
-                     'arrival':app.session.get('search_arrival_date'),
-                     'departure': app.session.get('search_departure_date'),
-                     'guests': app.session.get('search_guests'),
-                     'rooms': app.session.get('search_rooms')}
-}) }}
-                {%endif%}
-            </div>
+        {% else %}
+            {{ simple_paginator_render('frontend_search_ownership',null,{
+                'container_class': 'pagination',
+                'previousPageText': '«',
+                'nextPageText': '»',
+                'currentClass': 'current',
+                'firstPageText': 'FIRST_PAGE' | trans,
+                'lastPageText': 'LAST_PAGE' | trans,
+                'route_params': {'text': app.session.get('search_text'),
+                    'arrival':app.session.get('search_arrival_date'),
+                    'departure': app.session.get('search_departure_date'),
+                    'guests': app.session.get('search_guests'),
+                    'rooms': app.session.get('search_rooms')}
+            }) }}
+        {% endif %}
+    </div>
 
-{%endif%}
+{% endif %}
