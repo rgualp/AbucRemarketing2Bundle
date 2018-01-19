@@ -1677,7 +1677,7 @@ class DashboardController extends Controller
             if (!$oneCanBeCanceled)
                 $oneCanBeCanceled = $canCancel;
 
-            $total_price = ($res->getPriceTotal($service_time) * $curr['change']) . $curr['code'];
+            $total_price = round(($res->getPriceTotal($service_time) * $curr['change']) ,2) . $curr['code'];
             array_push($array_total_prices, $total_price);
 
 
