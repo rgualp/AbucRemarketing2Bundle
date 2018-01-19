@@ -143,8 +143,8 @@
     </table>
 
     {%for res_room in own_res_rooms[own.id] %}
-        <br/>
-        <h4 class="voucher-subtitle no-margin" style="margin-bottom: 0px;">
+
+        <h4 class="voucher-subtitle no-margin" style="margin-bottom: 0px; width: 100%">
             <img src="bundles/frontend/img/icons/vbed.png" alt="{{"BEDS_ROOMS" | trans}}"/>
             {{"RESERVATION_DETAILS"|trans({}, "messages", user_locale)}} {{loop.index}}
         </h4>
@@ -173,7 +173,7 @@
             </tr>
         </table>
     {%endfor%}
-    <br>
+
     {#<h4 class="voucher-subtitle no-margin" style="margin-bottom: 0px;">#}
         {#{{"Clients"|trans({}, "messages", user_locale)}}#}
     {#</h4>#}
@@ -207,7 +207,7 @@
     </tr>
 </table>
 <br>
-
+<br>
 
 <h3 class="h-green h-green-line"  style="padding-bottom: 5px">
     <img src="bundles/frontend/img/map-signal.png" alt="{{"House" | trans}}">

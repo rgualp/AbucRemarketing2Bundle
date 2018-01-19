@@ -360,7 +360,7 @@ class DashboardController extends Controller
 
 
                 $total_price = $res->getPriceTotal($service_time) * $curr['change'];
-                $totalprices += $total_price;
+                $totalprices += $total_price+($totalPrice*0.1)+($total_price+($totalPrice*0.1)*0.1);
 
 
 
