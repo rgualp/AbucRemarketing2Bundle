@@ -86,7 +86,7 @@ var Dashboard = function () {
                 $('#text-more').addClass('hide');
                 if (!$('#search-result').hasClass('hide'))
                     $('#big_map').removeClass('hide');
-                $('.container-map').css('margin-top', '371px');
+
             }
         });
         $('#icon-top').on('click', function () {
@@ -96,7 +96,7 @@ var Dashboard = function () {
             $('#text-more').removeClass('hide');
             if ($('#search-result').hasClass('hide'))
                 $('#big_map').addClass('hide');
-            $('.container-map').css('margin-top', '99px');
+
         });
     }
     var form = $('#form-filter-ownership');

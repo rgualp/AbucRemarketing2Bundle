@@ -444,7 +444,7 @@ class DashboardController extends Controller
                         'type' => $ownReservation->getOwnResRoomType(),
                         'adults' => $ownReservation->getOwnResCountAdults(),
                         'childrens' => $ownReservation->getOwnResCountChildrens(),
-                        'totalPrice' => ($totalPrice * $curr['change']),
+                        'totalPrice' => (($totalPrice+($totalPrice*0.1)+(($totalPrice+($totalPrice*0.1))*0.1)) * $curr['change']),
                         'curr_code' => $curr['code'],
                         'booking' => array(
                             'code' => $ownReservation->getOwnResReservationBooking()->getBookingId(),

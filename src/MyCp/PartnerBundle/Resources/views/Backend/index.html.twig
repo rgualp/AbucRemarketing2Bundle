@@ -210,19 +210,33 @@
 {% block body %}
     <div class="row" style="background-color: #06354f">
         <div class="container m-t-sm" style="width: 96%">
-            <div class="col-md-7">
+            <div class="col-md-12">
                 {% include 'PartnerBundle:Backend:searcher.html.twig' %}
             </div>
-            <div class="col-md-5 text-right m-t-md" style="line-height: 1">
-                <div class="row hidden-xs">
-                    <span class="color-white MyriadProBoldCond" style="font-size: 48px">{{ 'label.gest.reserv_one' | trans }}</span></br>
-                    <span class="color-white MyriadProLightCond" style="font-size: 48px">{{ 'label.gest.reserv_two' | trans }}</span>
-                </div>
-                <div class="row bg-white container-map" style="margin-top: 99px">
-                    <div id="big_map" style="width:100%;height: 580px;" class="google-maps hide" data-icon-small="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_small.png') }}" data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}"></div>
+
+
+        </div>
+        <div class="col-md-7 " style="line-height: 1;display: inline-block;padding-left: 30px;">
+            {#<div class="row hidden-xs">#}
+            {#<span class="color-white MyriadProBoldCond" style="font-size: 48px">{{ 'label.gest.reserv_one' | trans }}</span></br>#}
+            {#<span class="color-white MyriadProLightCond" style="font-size: 48px">{{ 'label.gest.reserv_two' | trans }}</span>#}
+            {#</div>#}
+            <div class="row container hide ownerships_mosaic" style="background: #fff" id="search-result">
+                <div class="col-md-12 m-t-md" id="list-ownership">
+
                 </div>
             </div>
 
+        </div>
+        <div class="col-md-5 " style="display: inline-block;vertical-align:top;padding-right: 50px;padding-left: 0px;">
+            {#<div class="row hidden-xs">#}
+            {#<span class="color-white MyriadProBoldCond" style="font-size: 48px">{{ 'label.gest.reserv_one' | trans }}</span></br>#}
+            {#<span class="color-white MyriadProLightCond" style="font-size: 48px">{{ 'label.gest.reserv_two' | trans }}</span>#}
+            {#</div>#}
+           <div class="row bg-white container-map ">
+
+                <div id="big_map" style="width:100%;height: 580px;" class="google-maps hide" data-icon-small="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_small.png') }}" data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}"></div>
+           </div>
         </div>
     </div>
     <div class="row text-right hidden-xs" style="background-color: #0c4d77">
