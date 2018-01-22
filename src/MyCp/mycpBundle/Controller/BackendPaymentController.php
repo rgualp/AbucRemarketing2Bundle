@@ -735,42 +735,45 @@ class BackendPaymentController extends Controller {
 
         $response= $this->render('mycpBundle:pdf:invoiceAgency.html.twig',array('reservations'=>$reservations,'user'=>$user,'ID'=>$pdfName));
 
-
+        $success=false;
 
         $pdfFilePath = $path . "$pdfName.pdf";
         if (file_exists($pdfFilePath)) {
 
         }
-
         else {
             $pdfService = $this->get('front_end.services.pdf');
+
             $success = $pdfService->storeHtmlAsPdf($response, $pdfFilePath);
-            $invoice= new paInvoice();
-            $invoice->setFilename($pdfName);
-            $invoice->setInvoicedate((new \DateTime()));
-            $em->persist($invoice);
-            $em->flush();
 
-            $repo=$em->getRepository('mycpBundle:generalReservation');
+            
+            if($success) {
+                $invoice = new paInvoice();
+                $invoice->setFilename($pdfName);
+                $invoice->setInvoicedate((new \DateTime()));
+                $em->persist($invoice);
+                $em->flush();
 
-            foreach ($reservations as $reserva) {
-                $gr = $repo->find($reserva['gen_res_id']);
-                $gr->setGenResStatus(10);
-                $gr->setGenResStatusDate(new \DateTime());
-                $gr->setInvoice($invoice);
-                $repo->addInvoice($gr->getGenResId(),$invoice->getId());
+                $repo = $em->getRepository('mycpBundle:generalReservation');
 
-                $em->persist($gr);
+                foreach ($reservations as $reserva) {
+                    $gr = $repo->find($reserva['gen_res_id']);
+                    $gr->setGenResStatus(10);
+                    $gr->setGenResStatusDate(new \DateTime());
+                    $gr->setInvoice($invoice);
+                    $repo->addInvoice($gr->getGenResId(), $invoice->getId());
 
+                    $em->persist($gr);
+
+                }
+                $em->flush();
             }
-            $em->flush();
-
         }
 
 
 
         return new JsonResponse([
-            'success' => true
+            'success' => $success
 
 
 

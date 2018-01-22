@@ -27,7 +27,7 @@
     <button rel="tooltip" title="Guardar los cambios realizados" class="tooltip_msg btn btn-success" type="submit">Guardar</button>
     {%set available = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_AVAILABLE')%}
     {%set reserved = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_RESERVED')%}
-    <a title="Nueva oferta" class="btn btn-info" href="{% if reservation.genresstatus == available or reservation.genresstatus == reserved %}{{ path('mycp_new_offer_to_client_ag', {'idClient': reservation.getGenResUserId.getUserId, 'idClientOfAg': client.getId,'reference':br}) }}{% else %}{{path('mycp_new_offer_to_client_ag', {'idClient': reservation.getGenResUserId.getUserId, 'idClientOfAg': client.getId, "attendedDate": reservation.genResDate | date("Y-m-d")})}}{% endif %}"><i class="icon-asterisk icon-white"></i> Oferta</a>
+    <a title="Nueva oferta" class="btn btn-info" href="{% if reservation.genresstatus == available or reservation.genresstatus == reserved %}{{ path('mycp_new_offer_to_client_ag', {'idClient': reservation.getGenResUserId.getUserId, 'idClientOfAg': client.getId,"attendedDate": reservation.genResDate | date("Y-m-d"),'reference':br}) }}{% else %}{{path('mycp_new_offer_to_client_ag', {'idClient': reservation.getGenResUserId.getUserId, 'idClientOfAg': client.getId, "attendedDate": reservation.genResDate | date("Y-m-d"),'reference':br})}}{% endif %}"><i class="icon-asterisk icon-white"></i> Oferta</a>
     <button rel="tooltip" title="Cancelar los cambios realizados" class="tooltip_msg btn" type="reset">Cancelar</button>
     &nbsp;&nbsp;&nbsp;
     <button rel="tooltip" title="Enviar por correo la reservación al cliente" {% if reservation.getGenResSaved!=0 %} onclick="send_message();" {% endif %}class="tooltip_msg {% if reservation.getGenResSaved==0 %}disabled{% endif %} btn btn-primary" type="{% if reservation.getGenResSaved!=0 %}submit{% else %}button{% endif %}">Enviar</button>
@@ -170,17 +170,17 @@
                 {% set maxSeason = reservation_rooms.getOwnResReservationToDate | season(reservation_rooms.getOwnResReservationFromDate, reservation_rooms.getOwnResReservationToDate, idDestination) %}
                 {%if rooms[flag]%}
                     {% if minSeason == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_LOW') or  maxSeason == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_LOW') %} <span class="badge badge-warning" style="color: #000" title="Se ha utilizado este precio para el cálculo final">{% endif %}
-                    Baja: {{ rooms[flag].getRoomPriceDownTo }} CUC
+                    Baja: {{ rooms[flag].getRoomPriceDownTo*user.getUserCurrency.getCurrCucChange }} {{ user.getUserCurrency.getCurrCode|upper }}
                     {% if minSeason == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_LOW') or  maxSeason == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_LOW') %}</span>{% endif %}
                     <br/>
 
                     {% if minSeason == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_HIGH') or  maxSeason == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_HIGH') %} <span class="badge badge-warning" style="color: #000" title="Se ha utilizado este precio para el cálculo final">{% endif %}
-                    Alta: {{ rooms[flag].getRoomPriceUpTo }} CUC
+                    Alta: {{ rooms[flag].getRoomPriceUpTo*user.getUserCurrency.getCurrCucChange }} {{ user.getUserCurrency.getCurrCode|upper }}
                     {% if minSeason == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_HIGH') or  maxSeason == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_HIGH') %} </span>{% endif %}
                     {%if rooms[flag].getRoomPriceSpecial is defined and rooms[flag].getRoomPriceSpecial != "" and rooms[flag].getRoomPriceSpecial != 0%}
                     <br/>
                     {% if minSeason == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_SPECIAL') or  maxSeason == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_SPECIAL') %} <span class="badge badge-warning" style="color: #000" title="Se ha utilizado este precio para el cálculo final">{% endif %}
-                    Especial: {{ rooms[flag].getRoomPriceSpecial }} CUC
+                    Especial: {{ rooms[flag].getRoomPriceSpecial*user.getUserCurrency.getCurrCucChange }} {{ user.getUserCurrency.getCurrCode|upper }}
                     {% if minSeason == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_SPECIAL') or  maxSeason == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_SPECIAL') %} </span>{% endif %}
                 {%endif%}
                 {%endif%}
@@ -201,7 +201,7 @@
             </td>
             <td>{{ 10 }}%</td>
             <td nowrap="nowrap">
-                {{reservation_rooms.getOwnResTotalInSite}}CUC
+                {{reservation_rooms.getOwnResTotalInSite*user.getUserCurrency.getCurrCucChange }} {{ user.getUserCurrency.getCurrCode|upper }}
                 {% if reservation_rooms.getTripleRoomCharged %}
                     <span class="badge badge-important" title="Este precio tiene incluido 10 CUC adicionales por noche pues la habitación es triple o doble y tiene 3 o más huéspedes">!</span>
                 {% endif %}</td>
@@ -275,18 +275,19 @@
             <td>{{ total_adults }}</td>
             <td>{{ total_kids }}</td>
             <td>{{ total_nights }}</td>
-            <td>{{ total_price}} CUC</td>
+            <td>{{ total_price*user.getUserCurrency.getCurrCucChange }} {{ user.getUserCurrency.getCurrCode|upper }}</td>
             {#<td>{{ total_price - ( total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100)}} CUC</td>#}
-           <td>{{ touristTax }} CUC</td>
-            <td>{{ transferTax }} CUC</td>
+           <td>{{ touristTax *user.getUserCurrency.getCurrCucChange }} {{ user.getUserCurrency.getCurrCode|upper }}</td>
+            <td>{{ transferTax*user.getUserCurrency.getCurrCucChange }} {{ user.getUserCurrency.getCurrCode|upper }}</td>
             {#<td>{%if total_price%}{{touristTax}} CUC{%else%} - {%endif%}</td>#}
             {#<td>{%if total_price%}{{currentServiceFee.fixedFee}} CUC{%else%} - {%endif%}</td>#}
             {% if user.getUserCurrency.getCurrCucChange is defined %}
             <td style="text-align: right">
-                <b>{{ completePayment }} CUC</b><br/>
-                <b>{{(completePayment * user.getUserCurrency.getCurrCucChange) |round(2, 'ceil')  }} {{ user.getUserCurrency.getCurrCode|upper }}</b></td>
-            {% else %}
-            <td style="text-align: right"><b>{{ completePayment }} CUC </b></td>
+              <b>{{(completePayment * user.getUserCurrency.getCurrCucChange) |round(2, 'ceil')  }} {{ user.getUserCurrency.getCurrCode|upper }}</b>
+              <br/>
+              <b>{{ completePayment }} CUC</b></td>
+             {% else %}
+            <td style="text-align: right"><b>{{ completePayment*user.getUserCurrency.getCurrCucChange }} {{ user.getUserCurrency.getCurrCode|upper }} </b></td>
             {% endif %}
         </tr>
         <tr>

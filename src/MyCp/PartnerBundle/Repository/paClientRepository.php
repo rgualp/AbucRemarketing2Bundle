@@ -4,7 +4,7 @@ namespace MyCp\PartnerBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use MyCp\mycpBundle\Entity\generalReservation;
-
+use MyCp\mycpBundle\Entity\ownershipReservation;
 /**
  * paClientRepository
  *
@@ -37,8 +37,49 @@ class paClientRepository extends EntityRepository {
         $qb->andWhere($subSelect);
         $qb->setParameter('booking_id', $idBooking);
 
-        return $qb->getQuery()->execute();
+        $result= $qb->getQuery()->execute();
+        $result2=array();
+        $ownResDistinct = $em
+            ->getRepository('mycpBundle:ownershipReservation')
+            ->getByBooking($idBooking);
+        foreach ($ownResDistinct as $own_r) {
 
+         $result2=   array_merge($result2,$this->getClientsByAccomodationForPartner($idBooking, $own_r["id"]));
+        }
+
+        if(count($result2)>count($result)){
+            return $result2;
+
+        }
+        else{
+
+           return $result;
+        }
+
+
+
+    }
+    function getClientsByAccomodationForPartner($id_booking, $own_id) {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT
+            
+            
+            c.fullname, c.id
+            FROM mycpBundle:ownershipReservation ore
+            JOIN ore.own_res_gen_res_id gre
+            JOIN gre.travelAgencyDetailReservations agencyReservation
+            JOIN agencyReservation.reservation detailReservation
+            JOIN detailReservation.client c
+            LEFT JOIN c.country co
+        WHERE ore.own_res_reservation_booking = :id_booking and gre.gen_res_own_id = :id_own and (ore.own_res_status = :reservedStatus)
+        GROUP BY c.fullname
+        ");
+
+        return $query
+            ->setParameter('id_booking', $id_booking)
+            ->setParameter('id_own', $own_id)
+            ->setParameter("reservedStatus", ownershipReservation::STATUS_RESERVED)
+            ->getArrayResult();
     }
 
 }

@@ -13,7 +13,7 @@
 {% if status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_CANCELLED') %} badge-important">Cancelada{%endif%}
 {% if status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PARTIAL_CANCELLED') %} badge-important">Parcialmente {%if wrap is defined and not wrap%}<br/>{%endif%} Cancelada{%endif%}
 {% if status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_OUTDATED') %} badge-inverse">Vencida{%endif%}
-{% if status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PENDING_PAYMENT_PARTNER') %} ">Pendiente a Pago {%endif%}
+{% if status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PENDING_PAYMENT_PARTNER') %}badge-success ">Pagado {%endif%}
 
 {%if showInDiv%}
 </div>

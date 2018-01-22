@@ -68,7 +68,7 @@
                         <dl class="dl-horizontal">
 
                             <dt><em class="rt">{{ "dashboard.booking.acomodation" | trans }}:</em></dt>
-                            <dd><span class="rst">{{ reservation.getGenResOwnId.getOwnMcpCode }}-{{ reservation.getGenResOwnId.getOwnName }}</span></dd>
+                            <dd><span class="rst"><a href="{{ path("partner_dashboard_page_detail_view_only",{'own_name':reservation.getGenResOwnId.getOwnName  | urlNormalize}) }}" target="_blank"><b style="font-style: italic;text-decoration: underline;">{{ reservation.getGenResOwnId.getOwnMcpCode }}-{{ reservation.getGenResOwnId.getOwnName }}</b></a></span></dd>
 
 
                             <dt><em class="rt">{{ "dashboard.booking.home.type" | trans }}:</em></dt>
@@ -211,7 +211,7 @@
         </table>
 
         {% if oneCanBeCanceled %}
-            <a id="btnCancel" data-url="{{ path("partner_frontend_cancel_reservations_callback") }}"><span class="rt"> {{ 'label.cancel' | trans }} </span></a>
+            <a style="float: right" id="btnCancel" data-url="{{ path("partner_frontend_cancel_reservations_callback") }}"><span class="rt"> {{ 'label.cancel' | trans }} </span></a>
         {% endif %}
 
         {% include 'PartnerBundle:Dashboard:general_reservation_action.html.twig' with {'status': reservation.getGenResStatus, 'id_res':id_res} %}
