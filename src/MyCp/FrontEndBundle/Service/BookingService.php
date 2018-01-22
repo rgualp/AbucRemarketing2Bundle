@@ -1330,8 +1330,15 @@ class BookingService extends Controller
         $references='';
         foreach ($own_res as $own){
             foreach ($clients[$own['id']] as $res_room){
+                    if($res_room['reference']!=""&&$res_room['reference']!=null) {
+                        if($references==''){
+                            $references .= $res_room['reference'];
+                        }
+                        else{
+                            $references .=','. $res_room['reference'];
+                        }
 
-                    $references.=$res_room['reference'].'.';
+                    }
             }
 
         }
