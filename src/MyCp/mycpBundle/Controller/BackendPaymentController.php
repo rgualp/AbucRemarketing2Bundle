@@ -735,7 +735,7 @@ class BackendPaymentController extends Controller {
 
         $response= $this->render('mycpBundle:pdf:invoiceAgency.html.twig',array('reservations'=>$reservations,'user'=>$user,'ID'=>$pdfName));
 
-
+        $success=false;
 
         $pdfFilePath = $path . "$pdfName.pdf";
         if (file_exists($pdfFilePath)) {
