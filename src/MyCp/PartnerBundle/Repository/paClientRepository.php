@@ -38,24 +38,22 @@ class paClientRepository extends EntityRepository {
         $qb->setParameter('booking_id', $idBooking);
 
         $result= $qb->getQuery()->execute();
+        $result2=array();
+        $ownResDistinct = $em
+            ->getRepository('mycpBundle:ownershipReservation')
+            ->getByBooking($idBooking);
+        foreach ($ownResDistinct as $own_r) {
 
+         $result2=   array_merge($result2,$this->getClientsByAccomodationForPartner($idBooking, $own_r["id"]));
+        }
 
-        if(count($result)){
-            return $result;
+        if(count($result2)>count($result)){
+            return $result2;
 
         }
         else{
 
-            $ownResDistinct = $em
-                ->getRepository('mycpBundle:ownershipReservation')
-                ->getByBooking($idBooking);
-            foreach ($ownResDistinct as $own_r) {
-
-                $result = $this->getClientsByAccomodationForPartner($idBooking, $own_r["id"]);
-            }
-
-
-            return $result;
+           return $result;
         }
 
 
