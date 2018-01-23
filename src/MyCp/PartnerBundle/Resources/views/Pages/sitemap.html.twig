@@ -289,7 +289,9 @@
     {% include 'PartnerBundle:Layout:navbar.html.twig' with { 'navbar_bg_class' : true } %}
 {% endblock %}
 {% block body %}
+    {{ include('PartnerBundle:Modal:modal-register-partner.html.twig') }}
     <div class="space space-70"></div>
+    
     <div class="col-md-12" style="overflow: hidden;">
         <div class="row" style="background-color: rgb(9, 78, 117);">
             <div class="col-md-1"></div>

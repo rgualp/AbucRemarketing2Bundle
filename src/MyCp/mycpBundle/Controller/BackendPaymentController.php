@@ -508,7 +508,7 @@ class BackendPaymentController extends Controller {
             $filter_date_from == 'null' && $filter_date_to == 'null' && $sort_by == 'null' && $filter_booking_number == 'null' && $filter_status == 'null') {
             $message = 'Debe llenar al menos un campo para filtrar.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
-            return $this->redirect($this->generateUrl('mycp_list_reservations_ag'));
+            return $this->redirect($this->generateUrl('mycp_list_reservations_ag_reserved'));
         }
 
         if ($filter_agency == 'null')
@@ -594,11 +594,94 @@ class BackendPaymentController extends Controller {
             'filter_status' => $filter_status,
             'filter_agency'=>$filter_agency,
             'filter_client' => $filter_client,
-            'date1'=>$mindate,
+            'date1'=>$mindate ,
             'date2'=>$maxdate
 
         ));
     }
+    public function list_ivoice_agAction($items_per_page, Request $request) {
+        $service_security = $this->get('Secure');
+        $service_security->verifyAccess();
+        $page = 1;
+        $filter_invoice = $request->get('filter_invoice');
+
+        $filter_agency=$request->get('filter_agency');
+        $filter_date_reserve = $request->get('filter_date_reserve');
+        $filter_date_reserve2 = $request->get('filter_date_reserve2');
+
+
+
+        if ($request->getMethod() == 'POST' && $filter_date_reserve == 'null' && $filter_date_reserve2 == 'null' && $filter_invoice=='null' && $filter_agency=='null') {
+            $message = 'Debe llenar al menos un campo para filtrar.';
+            $this->get('session')->getFlashBag()->add('message_error_local', $message);
+            return $this->redirect($this->generateUrl('mycp_list_ivoice_ag'));
+        }
+
+        if ($filter_agency == 'null')
+            $filter_agency = '';
+        if ($filter_date_reserve == 'null')
+            $filter_date_reserve = '';
+
+        if ($filter_date_reserve2 == 'null')
+            $filter_date_reserve2 = '';
+        if ($filter_invoice == 'null')
+            $filter_invoice = '';
+
+
+        if (isset($_GET['page']))
+            $page = $_GET['page'];
+        $filter_date_reserve = str_replace('_', '/', $filter_date_reserve);
+        $filter_date_reserve2 = str_replace('_', '/', $filter_date_reserve2);
+
+
+        $em = $this->getDoctrine()->getManager();
+        $paginator = $this->get('ideup.simple_paginator');
+        $paginator->setItemsPerPage($items_per_page);
+
+        $all = $paginator->paginate($em->getRepository('PartnerBundle:paInvoice')
+            ->getAllPag($filter_date_reserve,$filter_date_reserve2,$filter_invoice,$filter_agency,$items_per_page, $page, true))->getResult();
+        $reservations = $all['reservations'];
+        $filter_date_reserve_twig = str_replace('/', '_', $filter_date_reserve);
+        $filter_date_reserve2_twig = str_replace('/', '_', $filter_date_reserve2);
+
+
+        $totalItems = $all['totalItems'];
+        $last_page_number = ceil($totalItems / $items_per_page);
+
+
+
+
+        $start_page = ($page == 1) ? ($page) : ($page - 1);
+        $end_page = ($page == $last_page_number) ? ($last_page_number) : ($page + 1);
+        $all = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
+            ->getAllPagReserved(null,null,null,null, null, null, null, null, null, null, null, null, null, $page, true))->getResult();
+        $reservations1 = $all['reservations'];
+
+        $mindate=reset($reservations1)['gen_res_date'];
+        $maxdate=end($reservations1)['gen_res_date'];
+        return $this->render('mycpBundle:payment:list_ag_invoice.html.twig', array(
+            //'total_nights' => $total_nights,
+            'reservations' => $reservations,
+            'items_per_page' => $items_per_page,
+            'current_page' => $page,
+            'total_items' => $totalItems,
+            'last_page_number' => $last_page_number,
+            'start_page'=>$start_page,
+            'end_page'=>$end_page,
+            'filter_invoice'=>$filter_invoice,
+            'filter_agency'=>$filter_agency,
+            'filter_date_reserve' => $filter_date_reserve,
+            'filter_date_reserve2' => $filter_date_reserve2,
+
+            'filter_date_reserve_twig' => $filter_date_reserve_twig,
+            'filter_date_reserve2_twig' => $filter_date_reserve2_twig,
+            'date1'=>$mindate ,
+            'date2'=>$maxdate
+
+
+        ));
+    }
+
     public function invoice_ag_selectionAction($items_per_page, Request $request) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();

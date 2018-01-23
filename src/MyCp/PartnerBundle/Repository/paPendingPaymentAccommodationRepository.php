@@ -32,6 +32,7 @@ class paPendingPaymentAccommodationRepository extends EntityRepository {
         {
             $qb->andWhere("reservation.gen_res_id LIKE :id")
                 ->setParameter("id", '%'.$filter_number.'%');
+
         }
         if($filter_code != null && $filter_code != "" && $filter_code != "null")
         {
@@ -48,12 +49,13 @@ class paPendingPaymentAccommodationRepository extends EntityRepository {
             $qb->andWhere("booking.booking_id LIKE :booking")
                 ->setParameter("booking", '%'.$filter_booking.'%');
         }
-        if($filter_type != null && $filter_type != "" && $filter_type != "null")
+        if($filter_type != null && $filter_type != "" && $filter_type != "null" && $filter_type!='0')
         {
             $qb->andWhere("type.nom_id = :type")
                 ->setParameter("type", $filter_type);
+
         }
-        if($filter_method != null && $filter_method != "" && $filter_method != "null")
+        if($filter_method != null && $filter_method != "" && $filter_method != "null" && $filter_method!='0')
         {
             $qb->andWhere("status.nom_id = :status")
                 ->setParameter("status", $filter_method);
