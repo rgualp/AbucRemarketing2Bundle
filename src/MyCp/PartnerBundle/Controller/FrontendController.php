@@ -196,7 +196,13 @@ class FrontendController extends Controller
      */
     public function whoAreAction()
     {
-        return $this->render('PartnerBundle:Pages:who_we_are.html.twig', array());
+
+        $em = $this->getDoctrine()->getManager();
+        $form = $this->createForm(new paTravelAgencyType($this->get('translator')));
+        $packages = $em->getRepository('PartnerBundle:paPackage')->findAll();
+        return $this->render('PartnerBundle:Pages:who_we_are.html.twig', array(
+            'form' => $form->createView(),
+            'packages' => $packages));
     }
 
     /**
@@ -219,7 +225,14 @@ class FrontendController extends Controller
      */
     public function faqsAction()
     {
-        return $this->render('PartnerBundle:Pages:faqs.html.twig', array());
+        $em = $this->getDoctrine()->getManager();
+        $form = $this->createForm(new paTravelAgencyType($this->get('translator')));
+        $packages = $em->getRepository('PartnerBundle:paPackage')->findAll();
+
+        return $this->render('PartnerBundle:Pages:faqs.html.twig', array(
+                'form' => $form->createView(),
+                'packages' => $packages)
+        );
     }
 
     /**
@@ -227,7 +240,15 @@ class FrontendController extends Controller
      */
     public function legalAction()
     {
-        return $this->render('PartnerBundle:Pages:legal.html.twig', array());
+        $em = $this->getDoctrine()->getManager();
+        $form = $this->createForm(new paTravelAgencyType($this->get('translator')));
+        $packages = $em->getRepository('PartnerBundle:paPackage')->findAll();
+
+
+        return $this->render('PartnerBundle:Pages:legal.html.twig', array(
+                'form' => $form->createView(),
+                'packages' => $packages)
+        );
     }
 
     /**
@@ -235,7 +256,14 @@ class FrontendController extends Controller
      */
     public function sitemapAction()
     {
-        return $this->render('PartnerBundle:Pages:sitemap.html.twig', array());
+        $em = $this->getDoctrine()->getManager();
+        $form = $this->createForm(new paTravelAgencyType($this->get('translator')));
+        $packages = $em->getRepository('PartnerBundle:paPackage')->findAll();
+
+        return $this->render('PartnerBundle:Pages:sitemap.html.twig', array(
+                'form' => $form->createView(),
+                'packages' => $packages)
+        );
     }
 
     /**
@@ -243,7 +271,14 @@ class FrontendController extends Controller
      */
     public function contactusAction()
     {
-        return $this->render('PartnerBundle:Pages:contactus.html.twig', array());
+        $em = $this->getDoctrine()->getManager();
+        $form = $this->createForm(new paTravelAgencyType($this->get('translator')));
+        $packages = $em->getRepository('PartnerBundle:paPackage')->findAll();
+
+        return $this->render('PartnerBundle:Pages:contactus.html.twig', array(
+                'form' => $form->createView(),
+                'packages' => $packages)
+        );
     }
 
     /**

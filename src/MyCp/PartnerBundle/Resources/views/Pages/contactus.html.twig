@@ -9,6 +9,8 @@
     {%  include 'PartnerBundle:Layout:navbar.html.twig' with { 'navbar_bg_class' : true }  %}
 {% endblock %}
 {% block body %}
+    {#-----Modal-----#}
+    {{ include('PartnerBundle:Modal:modal-register-partner.html.twig') }}
     <div class="space space-70"></div>
     <div style="height: 200px"></div>
     <div class="col-md-12">
