@@ -13,6 +13,7 @@
     <ul class="breadcrumb">
         <li><a href="{{ path('mycp_backend_front') }}">Administración</a> <span class="divider">/</span></li>
         <li class="active">Reservas</li>
+
     </ul>
 
 {% endblock %}
@@ -36,6 +37,7 @@
     <ul class="nav nav-tabs" id="myTab">
 
         <li class="active"><a data-toggle="tab" href="#reservas">Reservas</a></li>
+        <li class=""><a href="{{path("mycp_list_ivoice_ag") }}">Facturas</a></li>
     </ul>
     <div class="tab-content" id="myTabContent">
         <div id="reservas" class="tab-pane fade active in">

@@ -28,4 +28,129 @@ class paInvoiceRepository extends EntityRepository {
         return  $data;
     }
 
+    function getAllPag($filter_date_reserve, $filter_date_reserve2,$filter_invoice,$filter_agency,$items_per_page = null, $page = null) {
+
+       $querry="Select inv.filename, inv.invoicedate,gre3.gen_res_id,
+        (Select SUM(gre.gen_res_total_in_site) FROM mycpBundle:generalReservation gre WHERE gre.invoice=inv.id )as total ,
+        (Select COUNT(gre2) FROM mycpBundle:generalReservation gre2 WHERE gre2.invoice=inv.id)as amount,
+        u.user_id
+        FROM mycpBundle:generalReservation gre3
+        JOIN gre3.invoice inv
+        JOIN gre3.gen_res_user_id u";
+
+        return $this->getByQueryPag($filter_date_reserve, $filter_date_reserve2,$filter_invoice,$filter_agency, $querry,$items_per_page, $page);
+    }
+
+    function getByQueryPag($filter_date_reserve, $filter_date_reserve2, $filter_invoice, $filter_agency, $querrySt, $items_per_page = null, $page = null) {
+
+
+
+        $array_agency=array();
+        $array_date_reserve = explode('/', $filter_date_reserve);
+        $array_date_reserve2 = explode('/', $filter_date_reserve2);
+
+        if(count($array_date_reserve) > 1)
+            $filter_date_reserve = $array_date_reserve[2] . '-' . $array_date_reserve[1] . '-' . $array_date_reserve[0];
+        if(count($array_date_reserve2) > 1)
+            $filter_date_reserve2 = $array_date_reserve2[2] . '-' . $array_date_reserve2[1] . '-' . $array_date_reserve2[0];
+
+        $groupby=' GROUP BY inv.id';
+
+
+        $em = $this->getEntityManager();
+
+        $where = "";
+
+
+        if($filter_date_reserve != "" && $filter_date_reserve != "null")
+            $where .= (($where != "") ? " AND " : " WHERE ") . " inv.invoicedate >= '$filter_date_reserve'";
+
+        if($filter_date_reserve2 != "" && $filter_date_reserve2 != "null")
+            $where .= (($where != "") ? " AND " : " WHERE ") . " inv.invoicedate <= '$filter_date_reserve2'";
+
+        if($filter_invoice != "" && $filter_invoice != "null")
+            $where .= (($where != "") ? " AND " : " WHERE ") . " inv.filename LIKE '%$filter_invoice%'";
+
+        if($filter_agency != "" && $filter_agency != "null")
+                $array_agency=explode(',',$filter_agency);
+
+        $querySt = $querrySt . $where . $groupby;
+
+        $query = $em->createQuery($querySt);
+
+        $qp = clone $query;
+        $total = count($qp->getScalarResult());
+
+        $data = ($items_per_page != null && $page != null) ? $query->setMaxResults($items_per_page)->setFirstResult(($page - 1) * $items_per_page)->getArrayResult() : $query->getArrayResult();
+
+
+
+        $queryStr1 = "SELECT ag.name,ag.id, packt.name as packname
+                    FROM PartnerBundle:paTourOperator tour
+                    JOIN tour.travelAgency ag
+                    JOIN PartnerBundle:paAgencyPackage pack WITH pack.travelAgency = ag.id
+                    JOIN pack.package packt
+                    JOIN tour.tourOperator u
+                    WHERE u.user_id = :user_id";
+
+        $query1 = $em->createQuery($queryStr1);
+
+        $query1->setMaxResults(1);
+
+        $userrepo= $em->getRepository('mycpBundle:user');
+
+        foreach ($data as $key => $reservation) {
+            $gen_res_id = $reservation['gen_res_id'];
+            $user_id = $reservation['user_id'];
+            $user=$userrepo->find($user_id);
+            if($user->ifTouroperator()==false)
+            {
+                $query1->setParameter('user_id', $user->getUserId());
+            }
+            else{
+                $query1->setParameter('user_id', $user->getMentor());
+            }
+            $query->setParameter('gen_res_id', $gen_res_id);
+
+
+            $r1=$query1->getArrayResult();
+            if(count($r1)){
+                $agency=$r1[0];
+                if($agency['packname']!='Especial'){
+                    unset($data[$key]);
+                    continue;
+                }
+                else{
+                    $data[$key]['ag_id'] = $agency['id'];
+
+                    $data[$key]['ag_name'] = $agency['name'];
+
+                }
+                if(count($array_agency)!=0){
+                    foreach ($array_agency as $agname){
+
+                        if($agency['id']!=$agname&& !in_array( $agency['id'] ,$array_agency ) ) {
+
+                            unset($data[$key]);
+                            continue;
+
+
+                        }
+
+
+                    }
+
+                }
+
+            }
+
+            else
+                unset($data[$key]);
+
+
+
+        }
+        return array("reservations" => $data, "totalItems" => $total);
+    }
+
 }
