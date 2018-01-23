@@ -6,6 +6,7 @@ use MyCp\mycpBundle\Entity\booking;
 use MyCp\mycpBundle\Entity\generalReservation;
 use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Form\restorePasswordUserType;
+use MyCp\PartnerBundle\Entity\paPendingPaymentAccommodation;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -512,9 +513,7 @@ class CartController extends Controller
         $booking->setPayAtService($total_pay_at_service);
         $em->persist($booking);
         $em->flush();
-
         $bookingId = $booking->getBookingId();
-
         switch($paymentMethod){
             case "skrill": return $this->forward('PartnerBundle:Payment:skrillPayment', array('bookingId' => $bookingId));
             case "postfinance": return $this->forward('PartnerBundle:Payment:postFinancePayment', array('bookingId' => $bookingId, 'method' => "POSTFINANCE"));
