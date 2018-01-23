@@ -21,15 +21,18 @@
                     </div>
                     </div>
 
-                    <div class="row-fluid">
-                    <div class="span3" id="fechas_modal" style="width: 180px;display:none"><label>Rango Fecha:</label>
-                        <input type="text" class="input-block-level" name="datefilter_modal" value="" />
-                        <input style="display: none" id="filter_date_reserve_modal" name="filter_date_reserve_modal" type="text" class=" input-block-level" />
-                        <input style="display: none" id="filter_date_reserve_modal2" name="filter_date_reserve_modal2" type="text" class=" input-block-level" />
-                        <input style="display: none" id="mindate"value="{{ date1|date('m/d/Y') }}">
-                        <input style="display: none" id="maxdate"value="{{ date2|date('m/d/Y') }}">
+                    <div class="row-fluid" id="fechas_modal1" style="display: none;">
+                        <div class="span12">
+                            <label>Desde</label>
+                            <input id="filter_date_reserve_modal" value="{{ date1|date('d/m/Y')}}" name="filter_date_reserve_modal"   class="input-block-level datepicker">
+                        </div>
+
                     </div>
-                    </div>
+                    <div class="row-fluid" id="fechas_modal2" style="display: none;">
+                    <div class="span12">
+                        <label>Hasta</label>
+                        <input name="filter_date_reserve_modal2"  value="{{ date2|date('d/m/Y')}}" id="filter_date_reserve_modal2" class="input-block-level datepicker">
+                    </div></div>
                 </div>
                 <img style="padding-top: 50px; display: none;
                    padding-left: 50px;" id='loading-indicator'src="{{ asset('bundles/mycp/images/loading.gif')}}"/>

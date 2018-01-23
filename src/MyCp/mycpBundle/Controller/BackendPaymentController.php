@@ -594,7 +594,7 @@ class BackendPaymentController extends Controller {
             'filter_status' => $filter_status,
             'filter_agency'=>$filter_agency,
             'filter_client' => $filter_client,
-            'date1'=>$mindate,
+            'date1'=>$mindate ,
             'date2'=>$maxdate
 
         ));

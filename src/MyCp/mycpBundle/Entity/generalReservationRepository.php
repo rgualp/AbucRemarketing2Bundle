@@ -224,7 +224,7 @@ class generalReservationRepository extends EntityRepository {
 
                 $data[$key]['br'] = $client['reference'];
 
-                if($filterbr != "" && $filterbr != "null"&&$client['reference']!=$filterbr){
+                if($filterbr != "" && $filterbr != "null"&& $client['reference']!= $filterbr){
                     unset($data[$key]);
                     continue;
                 }

@@ -69,13 +69,21 @@
                     </div>
                     <br>
                     <div class="row-fluid">
-                        <div class="span3"><label>Fecha Check in:</label>
-                            <input type="text" class="input-block-level" name="datefilter" value="{{ filter_date_reserve }}  {{ filter_date_reserve2 }}" />
-                            <input style="display: none" id="filter_date_reserve" name="filter_date_reserve" type="text" class=" input-block-level" value="{{ filter_date_reserve }}"/>
-                            <input style="display: none" id="filter_date_reserve2" name="filter_date_reserve2" type="text" class=" input-block-level" value="{{ filter_date_reserve2 }}"/>
-
-
+                        <div class="span3">
+                            <label>Check in Desde</label>
+                            <input id="filter_date_reserve" name="filter_date_reserve" value="{%if filter_date_reserve is defined and filter_date_reserve != null and filter_date_reserve != "" and filter_date_reserve != "null"%}{{filter_date_reserve }}{% endif %}"  class="input-block-level datepicker">
                         </div>
+                        <div class="span3">
+                            <label>Hasta</label>
+                            <input name="filter_date_reserve2" value="{%if filter_date_reserve2 is defined and filter_date_reserve2 != null and filter_date_reserve2 != "" and filter_date_reserve2 != "null"%}{{filter_date_reserve2 }}{%endif%}" id="filter_date_reserve2" class="input-block-level datepicker">
+                        </div>
+                        {#<div class="span3"><label>Fecha Check in:</label>#}
+                            {#<input type="text" class="input-block-level" name="datefilter" value="{{ filter_date_reserve }}  {{ filter_date_reserve2 }}" />#}
+                            {#<input style="display: none" id="filter_date_reserve" name="filter_date_reserve" type="text" class=" input-block-level" />#}
+                            {#<input style="display: none" id="filter_date_reserve2" name="filter_date_reserve2" type="text" class=" input-block-level" value="{{ filter_date_reserve2 }}"/>#}
+
+
+                        {#</div>#}
 
                         <div class="span3" style="display:none;"><label>Check in:</label>
                             <input id="filter_date_from" name="filter_date_from" type="text" class="datepicker input-block-level" value="{{ filter_date_from }}"/>
@@ -106,7 +114,8 @@
                             {% if filter_booking_number =='' %}{% set filter_booking_number='null' %}{% endif %}
                             {% if filter_status =='' %}{% set filter_status='null' %}{% endif %}
                             {% if filter_agency =='' %}{% set filter_agency='null' %}{% endif %}
-
+                            {% set mindate= date1|date('m/d/Y') %}
+                            {% set maxdate= date2|date('m/d/Y') %}
                             {% if sort_by=='' %}
                                 {% set sort_by=0 %}
                             {% endif %}
@@ -317,22 +326,10 @@
 
         }}
             );
-                $('input[name="datefilter_modal"]').daterangepicker({
-                    autoUpdateInput: false,
-                    locale: {
-                        cancelLabel: 'Clear'
-                    },
-                    minDate:$('#mindate').val(),
-                    maxDate:$('#maxdate').val(),
+
+            $('input[name="filter_date_reserve_modal"]').on('change', function(ev, picker) {
 
 
-
-                });
-                $('input[name="datefilter_modal"]').on('apply.daterangepicker', function(ev, picker) {
-                    $('#loading-indicator').show();
-                    $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
-                    $('#filter_date_reserve_modal').val(picker.startDate.format('DD/MM/YYYY'));
-                    $('#filter_date_reserve_modal2').val(picker.endDate.format('DD/MM/YYYY'));
                     var items_per_page ={{items_per_page}};
                     var filter_agency=$( "#filter_agency_modal option:selected" ).val();
                     if(filter_agency=='')filter_agency=null;
@@ -347,6 +344,7 @@
                     filter_date_from2 = filter_date_from2.replace('/', "_");
 
                     var url = "{{ path('mycp_invoice_selection')|escape('js') }}";
+                    $('#loading-indicator').show();
                     var url_submit=url+'/'+items_per_page+'/'+filter_date_from+'/'+filter_date_from2+'/'+filter_agency;
                     $.post(url_submit, {
 
@@ -363,11 +361,39 @@
                         }
                     });
                 });
-                $('input[name="datefilter_modal"]').on('cancel.daterangepicker', function(ev, picker) {
-                    $(this).val('');
-                    $('#filter_date_reserve_modal').val('');
-                    $('#filter_date_reserve_modal2').val('');
+
+            $('input[name="filter_date_reserve_modal2"]').on('change', function(ev, picker) {
+                $('#loading-indicator').show();
+                var items_per_page ={{items_per_page}};
+                var filter_agency=$( "#filter_agency_modal option:selected" ).val();
+                if(filter_agency=='')filter_agency=null;
+                var filter_date_from = $("#filter_date_reserve_modal").val();
+                if (filter_date_from == '')filter_date_from = 'null';
+                var filter_date_from2 = $("#filter_date_reserve_modal2").val();
+                if (filter_date_from2 == '')filter_date_from2 = 'null';
+                filter_date_from = filter_date_from.replace('/', "_");
+                filter_date_from = filter_date_from.replace('/', "_");
+
+                filter_date_from2 = filter_date_from2.replace('/', "_");
+                filter_date_from2 = filter_date_from2.replace('/', "_");
+
+                var url = "{{ path('mycp_invoice_selection')|escape('js') }}";
+                var url_submit=url+'/'+items_per_page+'/'+filter_date_from+'/'+filter_date_from2+'/'+filter_agency;
+                $.post(url_submit, {
+
+                }, function (data) {
+                    if (data.success == true) {
+
+                        totalPriceCalculator(data.reservations,data.invoice);
+                        $('#loading-indicator').hide();
+                    }
+                    else {
+
+                        $(".lblLoading").addClass("hidden");
+                        $('#loading-indicator').hide();
+                    }
                 });
+            });
 
 
             }
@@ -377,39 +403,42 @@
             event.preventDefault();
             $('#myModal').modal('show');
         })
+
+
+
         $('.datepicker').datepicker({
             format: 'dd/mm/yyyy',
             todayBtn: 'linked',
-            language: 'es'
-        });
-
-
-        $('input[name="datefilter"]').daterangepicker({
-            autoUpdateInput: false,
-            locale: {
-                cancelLabel: 'Clear'
-            },
-
+            language: 'es',
 
         });
 
-
-
-
-
-
-        $('input[name="datefilter"]').on('apply.daterangepicker', function(ev, picker) {
-            $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
-            $('#filter_date_reserve').val(picker.startDate.format('DD/MM/YYYY'));
-            $('#filter_date_reserve2').val(picker.endDate.format('DD/MM/YYYY'));
-        });
-
-
-        $('input[name="datefilter"]').on('cancel.daterangepicker', function(ev, picker) {
-            $(this).val('');
-            $('#filter_date_reserve').val('');
-            $('#filter_date_reserve2').val('');
-        });
+//        $('input[name="datefilter"]').daterangepicker({
+//            autoUpdateInput: false,
+//            locale: {
+//                cancelLabel: 'Clear'
+//            },
+//
+//
+//        });
+//
+//
+//
+//
+//
+//
+//        $('input[name="datefilter"]').on('apply.daterangepicker', function(ev, picker) {
+//            $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+//            $('#filter_date_reserve').val(picker.startDate.format('DD/MM/YYYY'));
+//            $('#filter_date_reserve2').val(picker.endDate.format('DD/MM/YYYY'));
+//        });
+//
+//
+//        $('input[name="datefilter"]').on('cancel.daterangepicker', function(ev, picker) {
+//            $(this).val('');
+//            $('#filter_date_reserve').val('');
+//            $('#filter_date_reserve2').val('');
+//        });
 
         function sendReservation(option) {
             $(".lblLoading").removeClass("hidden");
@@ -514,16 +543,20 @@
             $('#filter_agency_modal').attr('disabled', 'disabled');
             if(this.value!=''){
             $('#loading-indicator').show();
-            $("#fechas_modal").css('display','block');
+            $("#fechas_modal1").css('display','block');
+            $("#fechas_modal2").css('display','block');
 
-
-            $("#filter_date_reserve_modal").val("");
-            $("#filter_date_reserve_modal2").val("");
+//            $("#filter_date_reserve_modal").val("");
+//            $("#filter_date_reserve_modal2").val("");
                 var items_per_page ={{items_per_page}};
                 var filter_date_from = $("#filter_date_reserve_modal").val();
                 if (filter_date_from == '')filter_date_from = 'null';
                 var filter_date_from2 = $("#filter_date_reserve_modal2").val();
                 if (filter_date_from2 == '')filter_date_from2 = 'null';
+                filter_date_from2 = filter_date_from2.replace('/', "_");
+                filter_date_from = filter_date_from.replace('/', "_");
+                filter_date_from2 = filter_date_from2.replace('/', "_");
+                filter_date_from = filter_date_from.replace('/', "_");
                 var url = "{{ path('mycp_invoice_selection')|escape('js') }}";
                 var url_submit=url+'/'+items_per_page+'/'+filter_date_from+'/'+filter_date_from2+'/'+this.value;
                 $.post(url_submit, {
