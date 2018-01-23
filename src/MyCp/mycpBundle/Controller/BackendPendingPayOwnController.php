@@ -91,6 +91,7 @@ class BackendPendingPayOwnController extends Controller {
         $paginator->setItemsPerPage($items_per_page);
         $payments = $paginator->paginate($em->getRepository('PartnerBundle:paPendingPaymentAccommodation')->findAllByFilters($filter_number, $filter_code, $filter_method, $filter_payment_date_from, $filter_payment_date_to, $filter_agency, $filter_booking, $filter_destination, $filter_type, $filter_reservation_date_from, $filter_reservation_date_to))->getResult();
         $page = 1;
+        
         if (isset($_GET['page']))
             $page = $_GET['page'];
         return $this->render('mycpBundle:pendingOwnAgency:list.html.twig', array(

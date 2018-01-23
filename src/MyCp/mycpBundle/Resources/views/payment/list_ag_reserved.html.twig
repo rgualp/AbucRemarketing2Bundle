@@ -583,6 +583,7 @@
                     $('#loading-indicator').hide();
                     $("#succes-modal").html("Factura Generada con Exito");
 
+                    window.location.reload();
 
                 }
                 else {
@@ -594,8 +595,10 @@
             });}
             else if($('.amount').text()==' Reservas:0'){
                 $("#succes-modal").html("No hay Datos que Generar");
+
             }
             else{
+
                 $("#succes-modal").html("Por Favor Seleccione una agencia");
             }
         });
