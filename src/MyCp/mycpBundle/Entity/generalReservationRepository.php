@@ -85,7 +85,7 @@ class generalReservationRepository extends EntityRepository {
             $filter_date_from = $array_date_from[2] . '-' . $array_date_from[1] . '-' . $array_date_from[0];
         if(count($array_date_to) > 1)
             $filter_date_to = $array_date_to[2] . '-' . $array_date_to[1] . '-' . $array_date_to[0];
-        $groupby='';
+        $groupby="";
         $string_order = '';
         switch ($sort_by) {
             case OrderByHelper::DEFAULT_ORDER_BY:
@@ -93,8 +93,7 @@ class generalReservationRepository extends EntityRepository {
                 $string_order = "ORDER BY gre.gen_res_id DESC";
                 break;
             case OrderByHelper::RESERVATION_DATE:
-                $string_order = "ORDER BY gre.gen_res_date ASC ";
-                $groupby="" ;
+                $string_order = "GROUP BY gre.gen_res_id ORDER BY gre.gen_res_date ASC ";
                 break;
             case OrderByHelper::RESERVATION_ACCOMMODATION_CODE:
                 $string_order = "ORDER BY LENGTH(own.own_mcp_code) ASC, own.own_mcp_code ASC, gre.gen_res_id DESC";
