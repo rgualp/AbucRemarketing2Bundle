@@ -36,7 +36,7 @@ class CurrencyController extends Controller
                                           $route,
                                           $routeParams = null)
     {
-        $routeParams = empty($routeParams) ? array() : json_decode(urldecode($routeParams), true);
+        $routeParams = $this->getRequest()->get('_route_params');
 
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
