@@ -2,7 +2,7 @@
     {% if arrTransDest is defined %}
         <li><a rel="nofollow" href="{{ path('frontend_change_language_callback',{'lang': language.getLangCode|lower, 'route': route, 'routeParams': arrTransDest[language.getLangCode|lower] }) }}">{{ language.getLangName }}</a></li>
     {% else %}
-        <li><a rel="nofollow" href="{{ path('frontend_change_language_callback',{'lang': language.getLangCode|lower, 'route': route, 'routeParams': language.getLangName|lower }) }}">{{ language.getLangName }}</a></li>
+        <li><a rel="nofollow" href="{{ path('frontend_change_language_callback',{'lang': language.getLangCode|lower, 'route': route, 'routeParams': language.getLangCode|lower }) }}">{{ language.getLangName }}</a></li>
     {% endif %}
 {% endfor %}
 
