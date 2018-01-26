@@ -2,7 +2,7 @@
 {% if list | length%}
 <div class="col-md-12 m-t-md" id="list-ownership">
             {%for ownership in list%}
-                    <div class="col-md-6" style="padding-bottom: 25px;width: 40%;">
+                    <div class="col-md-6" style="padding-bottom: 25px;width: 46%;">
                             <div class="color-blue thumbnail elementList {% if ownership.OwnInmediateBooking or ownership.OwnInmediateBooking2 %}with-quick-ribbon{% endif %}" data-id="{{ ownership.own_id }}" >
                                 {% if ownership.OwnInmediateBooking2 %}
                                     <div class="quick-ribbon"  rel="tooltip" data-toggle="tooltip" data-placement="right" title=" {{ "label.reserv.inmediatly2" | trans}}">
