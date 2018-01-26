@@ -58,9 +58,18 @@ class DestinationController extends Controller {
         $locale = $this->get('translator')->getLocale();
         $original_destination_name = $destination_name;
         $destination_name = str_replace('-', ' ', $destination_name);
-
         $language = $em->getRepository('mycpBundle:lang')->findOneBy(array('lang_code' => $locale));
-        $destinationsLang = $em->getRepository('mycpBundle:destinationLang')->findOneBy(array('des_lang_name'=>$destination_name,'des_lang_lang'=>$language->getLangId()));
+
+        if($destination_name=='vinnales'){
+            $destiny=str_replace('nn', 'ñ', $destination_name);
+            $destinationsLang = $em->getRepository('mycpBundle:destinationLang')->findOneBy(array('des_lang_name'=>$destiny,'des_lang_lang'=>$language->getLangId()));
+
+        }
+        else{
+            $destinationsLang = $em->getRepository('mycpBundle:destinationLang')->findOneBy(array('des_lang_name'=>$destination_name,'des_lang_lang'=>$language->getLangId()));
+
+        }
+
 
         if ( $destinationsLang ){
             $destination = $destinationsLang->getDesLangDestination();

@@ -2070,9 +2070,9 @@ class DashboardController extends Controller
                                 ($ownDateFrom <= $end_timestamp && $ownDateTo >= $end_timestamp)) &&
                             $item->getOwnResSelectedRoomId() == $array_ids_rooms[$a]
                         ) {
-                            $insert = 0;
+//                            $insert = 0;
                             $showError = true;
-                            $showErrorOwnExist = true;
+//                            $showErrorOwnExist = true;
                         }
                     }
                 }
@@ -2142,6 +2142,7 @@ class DashboardController extends Controller
                 }
             }
         }
+
         $own_ids = array();
         if ($user_ids["user_id"] != null) {
             if (isset($check_dispo) && $check_dispo != '' && $check_dispo == 1 && !$showErrorOwnExist) {
@@ -2149,7 +2150,9 @@ class DashboardController extends Controller
                 $this->checkDispo($arrayIdCart, $request, false, $id_ownership, $completePayment);
             } elseif (isset($check_dispo) && $check_dispo != '' && $check_dispo == 2 && !$showErrorOwnExist) {
                 //Es que el usuario mando a hacer una reserva
+
                 $own_ids = $this->checkDispo($arrayIdCart, $request, true, $id_ownership, $completePayment);
+
             } else {
                 if (!$request->isXmlHttpRequest()) {
                     $message = $this->get('translator')->trans("ADD_TO_CEST_ERROR");
@@ -2422,7 +2425,7 @@ class DashboardController extends Controller
             //Enviando mail al reservation team
             foreach ($generalReservations as $genResId) {
                 //Enviando correo a solicitud@mycasaparticular.com
-                \MyCp\FrontEndBundle\Helpers\ReservationHelper::sendingEmailToReservationTeamPartner($genResId, $em, $this, $service_email, $service_time, $request, 'solicitud@mycasaparticular.com', 'no-reply@mycasaparticular.com');
+                \MyCp\FrontEndBundle\Helpers\ReservationHelper::sendingEmailToReservationTeamPartner($genResId, $em, $this, $service_email, $service_time, $request, 'solicitud.partner@mycasaparticular.com', 'no-reply@mycasaparticular.com');
             }
         }
         foreach ($arrayIdCart as $temp) {

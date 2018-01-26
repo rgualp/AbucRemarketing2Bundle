@@ -195,10 +195,6 @@ partner_dashboard_booking_proccess_detail:
 
 partner_dashboard_page_detail:
     locales:  { en: "/dashboard/accomodation/{own_name}", es: "/dashboard/accomodation/{own_name}", de: "/dashboard/accomodation/{own_name}", fr: "/dashboard/accomodation/{own_name}", it: "/dashboard/accomodation/{own_name}" }
-    defaults: { _controller: PartnerBundle:Dashboard:pageDetail }
-
-partner_dashboard_page_detail_view_only:
-    locales:  { en: "/dashboard/accomodation/details/{own_name}", es: "/dashboard/accomodation/details/{own_name}", de: "/dashboard/accomodation/details/{own_name}", fr: "/dashboard/accomodation/details/{own_name}", it: "/dashboard/accomodation/details/{own_name}" }
     defaults: { _controller: PartnerBundle:Dashboard:pageDetail,own_name:'' }
 
 partner_dashboard_add_favorites:

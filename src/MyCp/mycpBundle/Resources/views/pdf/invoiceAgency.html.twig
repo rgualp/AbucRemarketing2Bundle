@@ -70,22 +70,15 @@
         <table style="width:100%">
             <thead>
             <tr>
-                <th></th>
+
                 <th>BR</th>
                 <th>Cliente</th>
                 <th>Reservación</th>
                 <th>Booking</th>
                 <th>Alojamiento</th>
                 <th>Fecha Booking</th>
-
-
-
-
-                {#<th>Habit.</th>#}
-                {#<th>Huésp.</th>#}
                 <th>Check in</th>
                 <th>Check out</th>
-                {#<th>Noches</th>#}
                 <th>Pago Completo</th>
 
             </tr>
@@ -103,43 +96,31 @@
             {% set partially_cancelled = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PARTIAL_CANCELLED') %}
 
             {%for reservation in reservations%}
-                <tr class="{% if reservation.gen_res_status==available %}success{% endif %}{% if reservation.gen_res_status==reserved %}info{% endif %}{% if reservation.gen_res_status==not_available %}warning{% endif %} {% if reservation.gen_res_status==cancelled or reservation.gen_res_status==partially_cancelled %}error{% endif %}">
-                    <td>
-                        {% if reservation.gen_res_status==pending %}
-                            <input type="checkbox" name="check_reservations" class="ch_reservation" data-reservation-id="{{ reservation.gen_res_id }}"/>
-                        {% endif %}
-                        {% if reservation.isOffer > 0 %}
-                            <i class="icon-asterisk" title="Oferta enviada al cliente"/>
-                        {% endif %}
-                        {% if reservation.complete_payment > 0 %}
-                            <i class="glyphicons history" title="Pago Completo" style="color: green"></i>
+                <tr>
+                    <td align="center">
+                        {% if reservation.br=='' %}
+                           -
+                        {% elseif reservation.br =='null' %}
+                           -
+                        {% else %}
+                            {{ reservation.br }}
                         {% endif %}
                     </td>
 
-
-                    <td>{{ reservation.br }}</td>
-                    <td>{{ reservation.client }}</td>
-                    <td>{{ reservation.gen_res_id | getCASId }}</a></td>
-                    <td>{{ reservation.booking_id  }}</a></td>
-                    <td>
+                    <td align="center">{{ reservation.client }}</td>
+                    <td align="center">{{ reservation.gen_res_id | getCASId }}</a></td>
+                    <td align="center">{{ reservation.booking_id  }}</a></td>
+                    <td align="center">
                         {{ reservation.own_mcp_code }}
-                        {#{% if reservation.own_inmediate_booking %}#}
-                        {#<i class="glyphicons electricity" title="Reserva Rápida"></i>#}
-                        {#{% endif %}#}
+
 
                     </td>
-                    <td>{{ reservation.gen_res_date |date("d/m/Y") }}</td>
+                    <td align="center">{{ reservation.gen_res_date |date("d/m/Y") }}</td>
 
-
-
-
-
-                    {#<td>{{ reservation[1] }}</td>#}
-                    {#<td>{{ reservation[3]+reservation[5] }}</td>#}
-                    <td>{{ reservation.gen_res_from_date|date("d/m/Y") }}</td>
-                    <td>{{ reservation.gen_res_to_date|date("d/m/Y") }}</td>
+                    <td align="center">{{ reservation.gen_res_from_date|date("d/m/Y") }}</td>
+                    <td align="center">{{ reservation.gen_res_to_date|date("d/m/Y") }}</td>
                     {#<td>{{ reservation[9] }}</td>#}
-                    <td>{{ ((reservation.gen_res_total_in_site+(reservation.gen_res_total_in_site*0.1)+(reservation.gen_res_total_in_site+(reservation.gen_res_total_in_site*0.1))*0.1)*0.9)|round(2, 'ceil') }} EUR</td>
+                    <td align="center">{{ ((reservation.gen_res_total_in_site+(reservation.gen_res_total_in_site*0.1)+(reservation.gen_res_total_in_site+(reservation.gen_res_total_in_site*0.1))*0.1)*0.9)|round(2, 'ceil') }} EUR</td>
 
                 </tr>
             {%endfor%}
@@ -169,14 +150,8 @@
 
     </tr>
 </table>
-<br/><br/>
-<table style="width: 100%;">
-    <tr style="border-top:none;">
-        <td style="text-wrap: none; border-top:none;text-align: center;padding:0px" nowrap="nowrap">
-            <h1 class="h-green no-margin">{{"VOUCHER_PAYED" | trans({}, "messages")}}</h1>
-        </td>
-    </tr>
-</table>
+
+
 </body>
 </html>
 

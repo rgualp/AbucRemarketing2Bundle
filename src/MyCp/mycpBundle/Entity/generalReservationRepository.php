@@ -85,7 +85,7 @@ class generalReservationRepository extends EntityRepository {
             $filter_date_from = $array_date_from[2] . '-' . $array_date_from[1] . '-' . $array_date_from[0];
         if(count($array_date_to) > 1)
             $filter_date_to = $array_date_to[2] . '-' . $array_date_to[1] . '-' . $array_date_to[0];
-        $groupby='';
+        $groupby="";
         $string_order = '';
         switch ($sort_by) {
             case OrderByHelper::DEFAULT_ORDER_BY:
@@ -93,8 +93,7 @@ class generalReservationRepository extends EntityRepository {
                 $string_order = "ORDER BY gre.gen_res_id DESC";
                 break;
             case OrderByHelper::RESERVATION_DATE:
-                $string_order = "ORDER BY gre.gen_res_date ASC ";
-                $groupby="" ;
+                $string_order = "GROUP BY gre.gen_res_id ORDER BY gre.gen_res_date ASC ";
                 break;
             case OrderByHelper::RESERVATION_ACCOMMODATION_CODE:
                 $string_order = "ORDER BY LENGTH(own.own_mcp_code) ASC, own.own_mcp_code ASC, gre.gen_res_id DESC";
@@ -2143,6 +2142,8 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
         $qb->select("gres.gen_res_date as fecha, count(distinct gres.gen_res_user_id) as clientes, count(distinct gres.gen_res_id) as solicitudes, sum(owres.own_res_count_adults +owres.own_res_count_childrens ) as personas_involucradas, count(owres.own_res_id) as habitaciones, sum(DATE_DIFF(owres.own_res_reservation_to_date, owres.own_res_reservation_from_date)) as noches")
             ->from("mycpBundle:ownershipReservation", "owres")
             ->join("owres.own_res_gen_res_id", "gres")
+            ->join("gres.gen_res_user_id","u")
+            ->where("u.user_role <> 'ROLE_CLIENT_PARTNER'")
             ->groupBy("gres.gen_res_date");
 
         if($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "") {
@@ -2208,7 +2209,9 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
         $qb->select("gres.gen_res_date as fecha, count(distinct gres.gen_res_user_id) as clientes, count(distinct gres.gen_res_id) as solicitudes, sum(owres.own_res_count_adults +owres.own_res_count_childrens ) as personas_involucradas, count(owres.own_res_id) as habitaciones, sum(DATE_DIFF(owres.own_res_reservation_to_date, owres.own_res_reservation_from_date)) as noches")
             ->from("mycpBundle:ownershipReservation", "owres")
             ->join("owres.own_res_gen_res_id", "gres")
-            ->where("(gres.gen_res_status = " . generalReservation::STATUS_AVAILABLE . " or gres.gen_res_status = " . generalReservation::STATUS_RESERVED . " or gres.gen_res_status = " . generalReservation::STATUS_OUTDATED . " or gres.gen_res_status = " . generalReservation::STATUS_CANCELLED . ")")
+            ->join("gres.gen_res_user_id","u")
+            ->where("u.user_role <> 'ROLE_CLIENT_PARTNER'")
+            ->andwhere("(gres.gen_res_status = " . generalReservation::STATUS_AVAILABLE . " or gres.gen_res_status = " . generalReservation::STATUS_RESERVED . " or gres.gen_res_status = " . generalReservation::STATUS_OUTDATED . " or gres.gen_res_status = " . generalReservation::STATUS_CANCELLED . ")")
             ->groupBy("gres.gen_res_date");
 
         if($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "") {
@@ -2487,10 +2490,25 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             $bookingsArray = $qbBookings->getQuery()->getArrayResult();
 
             $qb->join("p.booking", "b")
-               ->andWhere("b.booking_id IN (:bookings)")
+                ->join("b.booking_own_reservations", "owres")
+                ->join("owres.own_res_gen_res_id", "gres")
+                ->join("gres.gen_res_user_id","u")
+                ->andwhere("u.user_role <> 'ROLE_CLIENT_PARTNER'")
+                ->andWhere("b.booking_id IN (:bookings)")
                 ->setParameter("bookings", $bookingsArray)
+
             ;
 
+        }
+        else{
+            $qb->join("p.booking", "b")
+                ->join("b.booking_own_reservations", "owres")
+                ->join("owres.own_res_gen_res_id", "gres")
+                ->join("gres.gen_res_user_id","u")
+                ->andwhere("u.user_role <> 'ROLE_CLIENT_PARTNER'")
+
+
+            ;
         }
 
         if($filter_date_from != null && $filter_date_from != "") {
@@ -2515,8 +2533,10 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             ->join("owres.own_res_reservation_booking", "b")
             ->join('mycpBundle:payment', 'p', Expr\Join::WITH, 'p.booking = b.booking_id')
             ->join("p.currency", "curr")
+            ->join("gres.gen_res_user_id","u")
+            ->where("u.user_role <> 'ROLE_CLIENT_PARTNER'")
             ->groupBy("fecha")
-            ->where("owres.own_res_status = :status")
+            ->andwhere("owres.own_res_status = :status")
             ->setParameter("status", ownershipReservation::STATUS_RESERVED)
         ;
 //        $qb->select('DATE(gres.gen_res_date) as fecha,

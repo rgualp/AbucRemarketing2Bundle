@@ -9,7 +9,7 @@
     </div>
     <div class="col-md-11 normal-font" style="font-size: 22px">
         <div class="row m-0">
-            {{ "booking.placeholder.code" | trans }}: <b>{{ item.own_mcp_code }}</b>. {{ "ARRIVAL_RESERVATION" | trans }}: <b>{{ item.own_res_reservation_from_date | date("d/m/Y") }}</b>. {{ "DEPARTURE_RESERVATION" | trans }}: <b>{{ item.own_res_reservation_to_date | date("d/m/Y") }}</b>. {{ "pa.accommodation" | trans }}:<a href="{{ path("partner_dashboard_page_detail_view_only",{'own_name':item.own_name  | urlNormalize}) }}" target="_blank"><b style="font-style: italic;text-decoration: underline;">{{ item.own_name }}</b></a> .
+            {{ "booking.placeholder.code" | trans }}: <b>{{ item.own_mcp_code }}</b>. {{ "ARRIVAL_RESERVATION" | trans }}: <b>{{ item.own_res_reservation_from_date | date("d/m/Y") }}</b>. {{ "DEPARTURE_RESERVATION" | trans }}: <b>{{ item.own_res_reservation_to_date | date("d/m/Y") }}</b>. {{ "pa.accommodation" | trans }}:<a href="{{ path("partner_dashboard_page_detail",{'own_name':item.own_name  | urlNormalize}) }}" target="_blank"><b style="font-style: italic;text-decoration: underline;">{{ item.own_name }}</b></a> .
             {{ "backend.package.destination" | trans }}: <b>{{ item.des_name }}</b>
         </div>
         <div class="row m-0">
