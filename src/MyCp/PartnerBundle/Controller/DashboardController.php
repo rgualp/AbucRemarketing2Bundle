@@ -2070,9 +2070,9 @@ class DashboardController extends Controller
                                 ($ownDateFrom <= $end_timestamp && $ownDateTo >= $end_timestamp)) &&
                             $item->getOwnResSelectedRoomId() == $array_ids_rooms[$a]
                         ) {
-                            $insert = 0;
+//                            $insert = 0;
                             $showError = true;
-                            $showErrorOwnExist = true;
+//                            $showErrorOwnExist = true;
                         }
                     }
                 }
@@ -2142,6 +2142,7 @@ class DashboardController extends Controller
                 }
             }
         }
+
         $own_ids = array();
         if ($user_ids["user_id"] != null) {
             if (isset($check_dispo) && $check_dispo != '' && $check_dispo == 1 && !$showErrorOwnExist) {
@@ -2149,7 +2150,9 @@ class DashboardController extends Controller
                 $this->checkDispo($arrayIdCart, $request, false, $id_ownership, $completePayment);
             } elseif (isset($check_dispo) && $check_dispo != '' && $check_dispo == 2 && !$showErrorOwnExist) {
                 //Es que el usuario mando a hacer una reserva
+
                 $own_ids = $this->checkDispo($arrayIdCart, $request, true, $id_ownership, $completePayment);
+
             } else {
                 if (!$request->isXmlHttpRequest()) {
                     $message = $this->get('translator')->trans("ADD_TO_CEST_ERROR");
