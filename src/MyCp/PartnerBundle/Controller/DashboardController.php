@@ -2422,7 +2422,7 @@ class DashboardController extends Controller
             //Enviando mail al reservation team
             foreach ($generalReservations as $genResId) {
                 //Enviando correo a solicitud@mycasaparticular.com
-                \MyCp\FrontEndBundle\Helpers\ReservationHelper::sendingEmailToReservationTeamPartner($genResId, $em, $this, $service_email, $service_time, $request, 'solicitud@mycasaparticular.com', 'no-reply@mycasaparticular.com');
+                \MyCp\FrontEndBundle\Helpers\ReservationHelper::sendingEmailToReservationTeamPartner($genResId, $em, $this, $service_email, $service_time, $request, 'solicitud.partner@mycasaparticular.com', 'no-reply@mycasaparticular.com');
             }
         }
         foreach ($arrayIdCart as $temp) {
