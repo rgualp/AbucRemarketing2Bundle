@@ -1393,7 +1393,42 @@ class ownershipRepository extends EntityRepository {
 
         return $results;
     }
+    function getRepeatedCoodenates() {
+        $em = $this->getEntityManager();
+        $query_string = "SELECT grp.minid,u.own_id as ownId,u.own_mcp_code ,u.own_name,u.own_address_street,u.own_address_number,
+u.own_address_province,u.own_address_municipality
 
+     , CONCAT('y-',u.own_geolocate_y, ' x-', u.own_geolocate_x) AS cordenadas
+FROM ownership u 
+  JOIN ownershipstatus ON ownershipstatus.status_id = u.own_status AND ownershipstatus.status_name = 'Activo'
+  
+  JOIN 
+  ( SELECT min(own_id) AS minid
+         , own_geolocate_y
+         , own_geolocate_x
+         , own_address_street
+         ,own_address_province
+         ,own_address_municipality
+    FROM ownership own
+    JOIN ownershipstatus ON ownershipstatus.status_id = own.own_status AND ownershipstatus.status_name = 'Activo'
+    GROUP BY own_geolocate_y, own_geolocate_x
+    HAVING COUNT(*) > 1
+  ) AS grp
+    ON u.own_geolocate_y = grp.own_geolocate_y
+    AND u.own_geolocate_x = grp.own_geolocate_x
+       
+  Group by u.own_address_street,u.own_address_municipality,u.own_address_province
+  HAVING COUNT(*)=1
+  ORDER BY u.own_geolocate_x ,u.own_geolocate_x
+       
+
+ ";
+
+
+        $stmt = $em->getConnection()->prepare($query_string);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
     function getByProvince($idProvince, $status = null) {
         $em = $this->getEntityManager();
         $whereByStatus = ($status != null) ? " AND o.own_status = :status" : "";
