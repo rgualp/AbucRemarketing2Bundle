@@ -13,7 +13,8 @@ use MyCp\mycpBundle\Helpers\SyncStatuses;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\roomRepository")
  */
-class room {
+class room
+{
 
     /**
      * @var integer
@@ -195,11 +196,34 @@ class room {
      */
     private $ical;
 
-    public function __construct() {
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ical_mycp", type="string", nullable=true)
+     */
+    private $ical_mycp;
+
+    public function __construct()
+    {
         $this->own_unavailability_details = new ArrayCollection();
         $this->room_sync_st = SyncStatuses::ADDED;
         $this->room_active = true;
         $this->creation_date = new \DateTime();
+    }
+
+    public static function getShortRoomType($roomType)
+    {
+
+        switch ($roomType) {
+            case "Habitación Triple":
+                return "HT";
+            case "Habitación doble":
+                return "HD";
+            case "Habitación doble (Dos camas)":
+                return "HD (Dos camas)";
+            case "Habitación individual":
+                return "HI";
+        }
     }
 
     /**
@@ -207,16 +231,24 @@ class room {
      *
      * @return integer
      */
-    public function getRoomId() {
+    public function getRoomId()
+    {
         return $this->room_id;
     }
 
-    public function getRoomNum() {
-        return $this->room_num;
+    public function setRoomId($id)
+    {
+        $this->room_id = $id;
     }
 
-    public function setRoomNum($room_num) {
-        $this->room_num = $room_num;
+    /**
+     * Get room_type
+     *
+     * @return string
+     */
+    public function getRoomType()
+    {
+        return $this->room_type;
     }
 
     /**
@@ -225,29 +257,9 @@ class room {
      * @param string $roomType
      * @return room
      */
-    public function setRoomType($roomType) {
+    public function setRoomType($roomType)
+    {
         $this->room_type = $roomType;
-
-        return $this;
-    }
-
-    /**
-     * Get room_type
-     *
-     * @return string
-     */
-    public function getRoomType() {
-        return $this->room_type;
-    }
-
-    /**
-     * Set room_beds
-     *
-     * @param integer $roomBeds
-     * @return room
-     */
-    public function setRoomBeds($roomBeds) {
-        $this->room_beds = $roomBeds;
 
         return $this;
     }
@@ -257,18 +269,20 @@ class room {
      *
      * @return integer
      */
-    public function getRoomBeds() {
+    public function getRoomBeds()
+    {
         return $this->room_beds;
     }
 
     /**
-     * Set room_price_up_from
+     * Set room_beds
      *
-     * @param string $roomPriceUpFrom
+     * @param integer $roomBeds
      * @return room
      */
-    public function setRoomPriceUpFrom($roomPriceUpFrom) {
-        $this->room_price_up_from = $roomPriceUpFrom;
+    public function setRoomBeds($roomBeds)
+    {
+        $this->room_beds = $roomBeds;
 
         return $this;
     }
@@ -278,18 +292,20 @@ class room {
      *
      * @return string
      */
-    public function getRoomPriceUpFrom() {
+    public function getRoomPriceUpFrom()
+    {
         return $this->room_price_up_from;
     }
 
     /**
-     * Set room_price_up_to
+     * Set room_price_up_from
      *
-     * @param string $roomPriceUpTo
+     * @param string $roomPriceUpFrom
      * @return room
      */
-    public function setRoomPriceUpTo($roomPriceUpTo) {
-        $this->room_price_up_to = $roomPriceUpTo;
+    public function setRoomPriceUpFrom($roomPriceUpFrom)
+    {
+        $this->room_price_up_from = $roomPriceUpFrom;
 
         return $this;
     }
@@ -299,18 +315,20 @@ class room {
      *
      * @return string
      */
-    public function getRoomPriceUpTo() {
+    public function getRoomPriceUpTo()
+    {
         return $this->room_price_up_to;
     }
 
     /**
-     * Set room_price_down_from
+     * Set room_price_up_to
      *
-     * @param string $roomPriceDownFrom
+     * @param string $roomPriceUpTo
      * @return room
      */
-    public function setRoomPriceDownFrom($roomPriceDownFrom) {
-        $this->room_price_down_from = $roomPriceDownFrom;
+    public function setRoomPriceUpTo($roomPriceUpTo)
+    {
+        $this->room_price_up_to = $roomPriceUpTo;
 
         return $this;
     }
@@ -320,18 +338,20 @@ class room {
      *
      * @return string
      */
-    public function getRoomPriceDownFrom() {
+    public function getRoomPriceDownFrom()
+    {
         return $this->room_price_down_from;
     }
 
     /**
-     * Set room_price_down_to
+     * Set room_price_down_from
      *
-     * @param string $roomPriceDownTo
+     * @param string $roomPriceDownFrom
      * @return room
      */
-    public function setRoomPriceDownTo($roomPriceDownTo) {
-        $this->room_price_down_to = $roomPriceDownTo;
+    public function setRoomPriceDownFrom($roomPriceDownFrom)
+    {
+        $this->room_price_down_from = $roomPriceDownFrom;
 
         return $this;
     }
@@ -341,18 +361,20 @@ class room {
      *
      * @return string
      */
-    public function getRoomPriceDownTo() {
+    public function getRoomPriceDownTo()
+    {
         return $this->room_price_down_to;
     }
 
     /**
-     * Set room_price_special
+     * Set room_price_down_to
      *
-     * @param string $roomPriceSpecial
+     * @param string $roomPriceDownTo
      * @return room
      */
-    public function setRoomPriceSpecial($roomPriceSpecial) {
-        $this->room_price_special = $roomPriceSpecial;
+    public function setRoomPriceDownTo($roomPriceDownTo)
+    {
+        $this->room_price_down_to = $roomPriceDownTo;
 
         return $this;
     }
@@ -362,18 +384,20 @@ class room {
      *
      * @return string
      */
-    public function getRoomPriceSpecial() {
+    public function getRoomPriceSpecial()
+    {
         return $this->room_price_special;
     }
 
     /**
-     * Set room_climate
+     * Set room_price_special
      *
-     * @param string $roomClimate
+     * @param string $roomPriceSpecial
      * @return room
      */
-    public function setRoomClimate($roomClimate) {
-        $this->room_climate = $roomClimate;
+    public function setRoomPriceSpecial($roomPriceSpecial)
+    {
+        $this->room_price_special = $roomPriceSpecial;
 
         return $this;
     }
@@ -383,18 +407,20 @@ class room {
      *
      * @return string
      */
-    public function getRoomClimate() {
+    public function getRoomClimate()
+    {
         return $this->room_climate;
     }
 
     /**
-     * Set room_audiovisual
+     * Set room_climate
      *
-     * @param string $roomAudiovisual
+     * @param string $roomClimate
      * @return room
      */
-    public function setRoomAudiovisual($roomAudiovisual) {
-        $this->room_audiovisual = $roomAudiovisual;
+    public function setRoomClimate($roomClimate)
+    {
+        $this->room_climate = $roomClimate;
 
         return $this;
     }
@@ -404,18 +430,20 @@ class room {
      *
      * @return string
      */
-    public function getRoomAudiovisual() {
+    public function getRoomAudiovisual()
+    {
         return $this->room_audiovisual;
     }
 
     /**
-     * Set room_smoker
+     * Set room_audiovisual
      *
-     * @param boolean $roomSmoker
+     * @param string $roomAudiovisual
      * @return room
      */
-    public function setRoomSmoker($roomSmoker) {
-        $this->room_smoker = $roomSmoker;
+    public function setRoomAudiovisual($roomAudiovisual)
+    {
+        $this->room_audiovisual = $roomAudiovisual;
 
         return $this;
     }
@@ -425,18 +453,20 @@ class room {
      *
      * @return boolean
      */
-    public function getRoomSmoker() {
+    public function getRoomSmoker()
+    {
         return $this->room_smoker;
     }
 
     /**
-     * Set room_active
+     * Set room_smoker
      *
-     * @param boolean $roomActive
+     * @param boolean $roomSmoker
      * @return room
      */
-    public function setRoomActive($roomActive) {
-        $this->room_active = $roomActive;
+    public function setRoomSmoker($roomSmoker)
+    {
+        $this->room_smoker = $roomSmoker;
 
         return $this;
     }
@@ -446,18 +476,20 @@ class room {
      *
      * @return boolean
      */
-    public function getRoomActive() {
+    public function getRoomActive()
+    {
         return $this->room_active;
     }
 
     /**
-     * Set room_safe
+     * Set room_active
      *
-     * @param boolean $roomSafe
+     * @param boolean $roomActive
      * @return room
      */
-    public function setRoomSafe($roomSafe) {
-        $this->room_safe = $roomSafe;
+    public function setRoomActive($roomActive)
+    {
+        $this->room_active = $roomActive;
 
         return $this;
     }
@@ -467,18 +499,20 @@ class room {
      *
      * @return boolean
      */
-    public function getRoomSafe() {
+    public function getRoomSafe()
+    {
         return $this->room_safe;
     }
 
     /**
-     * Set room_baby
+     * Set room_safe
      *
-     * @param boolean $roomBaby
+     * @param boolean $roomSafe
      * @return room
      */
-    public function setRoomBaby($roomBaby) {
-        $this->room_baby = $roomBaby;
+    public function setRoomSafe($roomSafe)
+    {
+        $this->room_safe = $roomSafe;
 
         return $this;
     }
@@ -488,18 +522,20 @@ class room {
      *
      * @return boolean
      */
-    public function getRoomBaby() {
+    public function getRoomBaby()
+    {
         return $this->room_baby;
     }
 
     /**
-     * Set room_bathroom
+     * Set room_baby
      *
-     * @param string $roomBathroom
+     * @param boolean $roomBaby
      * @return room
      */
-    public function setRoomBathroom($roomBathroom) {
-        $this->room_bathroom = $roomBathroom;
+    public function setRoomBaby($roomBaby)
+    {
+        $this->room_baby = $roomBaby;
 
         return $this;
     }
@@ -509,18 +545,20 @@ class room {
      *
      * @return string
      */
-    public function getRoomBathroom() {
+    public function getRoomBathroom()
+    {
         return $this->room_bathroom;
     }
 
     /**
-     * Set room_stereo
+     * Set room_bathroom
      *
-     * @param boolean $roomStereo
+     * @param string $roomBathroom
      * @return room
      */
-    public function setRoomStereo($roomStereo) {
-        $this->room_stereo = $roomStereo;
+    public function setRoomBathroom($roomBathroom)
+    {
+        $this->room_bathroom = $roomBathroom;
 
         return $this;
     }
@@ -530,18 +568,20 @@ class room {
      *
      * @return boolean
      */
-    public function getRoomStereo() {
+    public function getRoomStereo()
+    {
         return $this->room_stereo;
     }
 
     /**
-     * Set room_windows
+     * Set room_stereo
      *
-     * @param integer $roomWindows
+     * @param boolean $roomStereo
      * @return room
      */
-    public function setRoomWindows($roomWindows) {
-        $this->room_windows = $roomWindows;
+    public function setRoomStereo($roomStereo)
+    {
+        $this->room_stereo = $roomStereo;
 
         return $this;
     }
@@ -551,18 +591,20 @@ class room {
      *
      * @return integer
      */
-    public function getRoomWindows() {
+    public function getRoomWindows()
+    {
         return $this->room_windows;
     }
 
     /**
-     * Set room_balcony
+     * Set room_windows
      *
-     * @param integer $roomBalcony
+     * @param integer $roomWindows
      * @return room
      */
-    public function setRoomBalcony($roomBalcony) {
-        $this->room_balcony = $roomBalcony;
+    public function setRoomWindows($roomWindows)
+    {
+        $this->room_windows = $roomWindows;
 
         return $this;
     }
@@ -572,18 +614,20 @@ class room {
      *
      * @return integer
      */
-    public function getRoomBalcony() {
+    public function getRoomBalcony()
+    {
         return $this->room_balcony;
     }
 
     /**
-     * Set room_terrace
+     * Set room_balcony
      *
-     * @param boolean $roomTerrace
+     * @param integer $roomBalcony
      * @return room
      */
-    public function setRoomTerrace($roomTerrace) {
-        $this->room_terrace = $roomTerrace;
+    public function setRoomBalcony($roomBalcony)
+    {
+        $this->room_balcony = $roomBalcony;
 
         return $this;
     }
@@ -593,18 +637,20 @@ class room {
      *
      * @return boolean
      */
-    public function getRoomTerrace() {
+    public function getRoomTerrace()
+    {
         return $this->room_terrace;
     }
 
     /**
-     * Set room_yard
+     * Set room_terrace
      *
-     * @param boolean $roomYard
+     * @param boolean $roomTerrace
      * @return room
      */
-    public function setRoomYard($roomYard) {
-        $this->room_yard = $roomYard;
+    public function setRoomTerrace($roomTerrace)
+    {
+        $this->room_terrace = $roomTerrace;
 
         return $this;
     }
@@ -614,53 +660,56 @@ class room {
      *
      * @return boolean
      */
-    public function getRoomYard() {
+    public function getRoomYard()
+    {
         return $this->room_yard;
     }
 
     /**
-     * Set room_ownership
+     * Set room_yard
      *
-     * @param \MyCp\mycpBundle\Entity\ownership $roomOwnership
+     * @param boolean $roomYard
      * @return room
      */
-    public function setRoomOwnership(\MyCp\mycpBundle\Entity\ownership $roomOwnership = null) {
-        $this->room_ownership = $roomOwnership;
+    public function setRoomYard($roomYard)
+    {
+        $this->room_yard = $roomYard;
 
         return $this;
     }
 
-    /**
-     * Get room_ownership
-     *
-     * @return \MyCp\mycpBundle\Entity\ownership
-     */
-    public function getRoomOwnership() {
-        return $this->room_ownership;
-    }
-
-    public function setRoomId($id) {
-        $this->room_id = $id;
-    }
-
-    public function getSyncSt() {
+    public function getSyncSt()
+    {
         return $this->room_sync_st;
     }
 
-    public function setSyncSt($room_sync_st) {
+    public function setSyncSt($room_sync_st)
+    {
         $this->room_sync_st = $room_sync_st;
     }
 
-    public function getOwn_unavailability_details() {
+    public function getOwn_unavailability_details()
+    {
         return $this->own_unavailability_details;
     }
 
-    public function setOwn_unavailability_details($own_unavailability_details) {
+    /**
+     * Get own_unavailability_details
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getOwnUnavailabilityDetails()
+    {
+        return $this->own_unavailability_details;
+    }
+
+    public function setOwn_unavailability_details($own_unavailability_details)
+    {
         $this->own_unavailability_details = $own_unavailability_details;
     }
 
-    // <editor-fold defaultstate="collapsed" desc="Logic Methods">
-    public function getUd($dateFrom, $dateTo) {
+    public function getUd($dateFrom, $dateTo)
+    {
         foreach ($this->own_unavailability_details as $ud) {
             if ($ud->getUdFromDate()->format('Y-m-d') === $dateFrom && $ud->getUdToDate()->format('Y-m-d') === $dateTo) {
                 return $ud;
@@ -669,23 +718,30 @@ class room {
         return null;
     }
 
-// </editor-fold>
-
-    public function __toString() {
-        return (string) $this->room_id;
+    public function __toString()
+    {
+        return (string)$this->room_id;
     }
 
-    public function getMaximumNumberGuests() {
+    // <editor-fold defaultstate="collapsed" desc="Logic Methods">
+
+    public function getMaximumNumberGuests()
+    {
         return room::getTotalGuests($this->room_type);
     }
 
+// </editor-fold>
+
     public static function getTotalGuests($roomType)
     {
-         switch ($roomType) {
-            case "Habitación individual": return 1;
+        switch ($roomType) {
+            case "Habitación individual":
+                return 1;
             case "Habitación doble":
-            case "Habitación doble (Dos camas)": return 2;
-            case "Habitación Triple": return 3;
+            case "Habitación doble (Dos camas)":
+                return 2;
+            case "Habitación Triple":
+                return 3;
         }
         return 0;
     }
@@ -694,16 +750,16 @@ class room {
     {
         $bookingModality = $this->room_ownership->getBookingModality();
 
-        if($bookingModality != null && $bookingModality->isCompleteReservationMode())
-        {
+        if ($bookingModality != null && $bookingModality->isCompleteReservationMode()) {
             return $bookingModality->getPrice();
-        }
-        else{
-            switch($seasonType)
-            {
-                case \MyCp\mycpBundle\Entity\season::SEASON_TYPE_HIGH: return $this->room_price_up_to;
-                case \MyCp\mycpBundle\Entity\season::SEASON_TYPE_SPECIAL: return ($this->room_price_special != null && $this->room_price_special > 0) ? $this->room_price_special: $this->room_price_up_to;
-                default: return $this->room_price_down_to;
+        } else {
+            switch ($seasonType) {
+                case \MyCp\mycpBundle\Entity\season::SEASON_TYPE_HIGH:
+                    return $this->room_price_up_to;
+                case \MyCp\mycpBundle\Entity\season::SEASON_TYPE_SPECIAL:
+                    return ($this->room_price_special != null && $this->room_price_special > 0) ? $this->room_price_special : $this->room_price_up_to;
+                default:
+                    return $this->room_price_down_to;
             }
         }
 
@@ -713,18 +769,28 @@ class room {
     {
         $bookingModality = $this->room_ownership->getBookingModality();
 
-        if($bookingModality != null && $bookingModality->isCompleteReservationMode())
-        {
+        if ($bookingModality != null && $bookingModality->isCompleteReservationMode()) {
             return $bookingModality->getPrice();
-        }
-        else{
-            switch($seasonType)
-            {
-                case "top": return $this->room_price_up_to;
-                case "special": return ($this->room_price_special != null && $this->room_price_special > 0) ? $this->room_price_special: $this->room_price_up_to;
-                default: return $this->room_price_down_to;
+        } else {
+            switch ($seasonType) {
+                case "top":
+                    return $this->room_price_up_to;
+                case "special":
+                    return ($this->room_price_special != null && $this->room_price_special > 0) ? $this->room_price_special : $this->room_price_up_to;
+                default:
+                    return $this->room_price_down_to;
             }
         }
+    }
+
+    /**
+     * Get room_sync_st
+     *
+     * @return integer
+     */
+    public function getRoomSyncSt()
+    {
+        return $this->room_sync_st;
     }
 
     /**
@@ -733,19 +799,11 @@ class room {
      * @param integer $roomSyncSt
      * @return room
      */
-    public function setRoomSyncSt($roomSyncSt) {
+    public function setRoomSyncSt($roomSyncSt)
+    {
         $this->room_sync_st = $roomSyncSt;
 
         return $this;
-    }
-
-    /**
-     * Get room_sync_st
-     *
-     * @return integer
-     */
-    public function getRoomSyncSt() {
-        return $this->room_sync_st;
     }
 
     /**
@@ -754,7 +812,8 @@ class room {
      * @param \MyCp\mycpBundle\Entity\unavailabilityDetails $ownUnavailabilityDetails
      * @return room
      */
-    public function addOwnUnavailabilityDetail(\MyCp\mycpBundle\Entity\unavailabilityDetails $ownUnavailabilityDetails) {
+    public function addOwnUnavailabilityDetail(\MyCp\mycpBundle\Entity\unavailabilityDetails $ownUnavailabilityDetails)
+    {
         $this->own_unavailability_details[] = $ownUnavailabilityDetails;
 
         return $this;
@@ -765,33 +824,42 @@ class room {
      *
      * @param \MyCp\mycpBundle\Entity\unavailabilityDetails $ownUnavailabilityDetails
      */
-    public function removeOwnUnavailabilityDetail(\MyCp\mycpBundle\Entity\unavailabilityDetails $ownUnavailabilityDetails) {
+    public function removeOwnUnavailabilityDetail(\MyCp\mycpBundle\Entity\unavailabilityDetails $ownUnavailabilityDetails)
+    {
         $this->own_unavailability_details->removeElement($ownUnavailabilityDetails);
-    }
-
-    /**
-     * Get own_unavailability_details
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getOwnUnavailabilityDetails() {
-        return $this->own_unavailability_details;
     }
 
     public function isTriple()
     {
         $bookingModality = $this->getRoomOwnership()->getBookingModality();
         $completeReservationPrice = -1;
-        if($bookingModality != null and $bookingModality->getBookingModality()->getName() == bookingModality::COMPLETE_RESERVATION_BOOKING)
+        if ($bookingModality != null and $bookingModality->getBookingModality()->getName() == bookingModality::COMPLETE_RESERVATION_BOOKING)
             $completeReservationPrice = $bookingModality->getPrice();
 
         return ($this->room_type == "Habitación Triple" || $this->room_type == "Habitación doble" || $this->room_type == "Habitación doble (Dos camas)") && $completeReservationPrice == -1;
     }
 
-
-    public function getRoomCode()
+    /**
+     * Get room_ownership
+     *
+     * @return \MyCp\mycpBundle\Entity\ownership
+     */
+    public function getRoomOwnership()
     {
-        return $this->getRoomOwnership()->getOwnMcpCode()."-".$this->room_num;
+        return $this->room_ownership;
+    }
+
+    /**
+     * Set room_ownership
+     *
+     * @param \MyCp\mycpBundle\Entity\ownership $roomOwnership
+     * @return room
+     */
+    public function setRoomOwnership(\MyCp\mycpBundle\Entity\ownership $roomOwnership = null)
+    {
+        $this->room_ownership = $roomOwnership;
+
+        return $this;
     }
 
     public function getICalUrl($controller)
@@ -799,54 +867,80 @@ class room {
         return self::getCalendarUrl($this->getRoomCode(), $controller->getRequest());
     }
 
+    public function isContainExternalIcal(){
+        if ($this->ical == "" || is_null($this->ical))
+            return false;
+        return true;
+    }
+
+    public static function getCalendarUrl($roomCode, $request)
+    {
+        $filePattern = '/calendars/' . $roomCode . ".ics";
+        $filePath = $request->server->get('DOCUMENT_ROOT') . $filePattern;
+        if (!file_exists($filePath)) {
+            return "";
+        }
+        $url = $request->getUriForPath($filePattern);
+        if (strpos($url, "/web/app_dev.php") !== false)
+            $url = str_replace("/web/app_dev.php", "", $url);
+        else if (strpos($url, "/app_dev.php") !== false)
+            $url = str_replace("/app_dev.php", "", $url);
+        return $url;
+    }
+
+    public function getRoomCode()
+    {
+        return $this->getRoomOwnership()->getOwnMcpCode() . "-" . $this->room_num;
+    }
+
     public function getICalUrlFromRequest($request)
     {
         return self::getCalendarUrl($this->getRoomCode(), $request);
     }
 
-    public static function getCalendarUrl($roomCode, $request)
-    {
-        $url = $request->getUriForPath('/calendars/' . $roomCode . ".ics");
-
-        if (strpos($url, "/web/app_dev.php") !== false)
-            $url = str_replace("/web/app_dev.php", "", $url);
-        else if (strpos($url, "/app_dev.php") !== false)
-            $url = str_replace("/app_dev.php", "", $url);
-
-        return $url;
-    }
-
-    /*Logs functions*/
     public function getLogDescription()
     {
-        return "Habitación #".$this->getRoomNum();
+        return "Habitación #" . $this->getRoomNum();
     }
 
-    public static function getShortRoomType($roomType){
 
-        switch($roomType){
-            case "Habitación Triple": return "HT";
-            case "Habitación doble": return "HD";
-            case "Habitación doble (Dos camas)": return "HD (Dos camas)";
-            case "Habitación individual": return "HI";
-        }
+    /*Logs functions*/
+
+    public function getRoomNum()
+    {
+        return $this->room_num;
+    }
+
+    public function setRoomNum($room_num)
+    {
+        $this->room_num = $room_num;
     }
 
     /**
      * @return datetime
      */
-    public function getCreationDate() {
+    public function getCreationDate()
+    {
         return $this->creation_date;
     }
 
     /**
      * @param datetime $creation_date
      */
-    public function setCreationDate($creation_date) {
+    public function setCreationDate($creation_date)
+    {
         $this->creation_date = $creation_date;
     }
 
-
+    /**
+     * Get ical
+     *
+     * @return string
+     */
+    public function getIcal()
+    {
+        return $this->ical;
+    }
 
     /**
      * Set ical
@@ -858,7 +952,7 @@ class room {
     public function setIcal($ical)
     {
         $this->ical = $ical;
-        if($this->ical != null && $this->ical != '' && $this->getRoomOwnership() != null){
+        if ($this->ical != null && $this->ical != '' && $this->getRoomOwnership() != null) {
             $this->getRoomOwnership()->setWithIcal(true);
         }
 
@@ -866,12 +960,24 @@ class room {
     }
 
     /**
-     * Get ical
-     *
      * @return string
      */
-    public function getIcal()
+    public function getIcalMycp()
     {
-        return $this->ical;
+        return $this->ical_mycp;
+    }
+
+    /**
+     * @param string $ical_mycp
+     * @return room
+     */
+    public function setIcalMycp($ical_mycp)
+    {
+        $this->ical_mycp = $ical_mycp;
+        if ($this->ical != null && $this->ical != '' && $this->getRoomOwnership() != null) {
+            $this->getRoomOwnership()->setWithIcal(true);
+        }
+
+        return $this;
     }
 }

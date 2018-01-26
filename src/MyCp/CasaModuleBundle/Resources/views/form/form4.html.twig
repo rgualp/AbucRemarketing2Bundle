@@ -3,21 +3,39 @@
 {% endif %}
 {% if room is defined %}
     <div class="text-center col-md-4 col-sm-4 col-xs-12">
-        <button type="button" id="deactiveRoom_{{ room.RoomId }}" class="change-activate deactivate btn btn-default  dim {% if not room.RoomActive %} hide {% endif %}" data-href="{{ path('change_active_room') }}" data-idroom="{{ room.RoomId }}"><i class="glyphicons eye_close" style="color:#fff"></i> Desactivar</button>
-        <button type="button" id="activeRoom_{{ room.RoomId }}" class="change-activate activate btn btn-default  dim {% if  room.RoomActive %} hide {% endif %}" data-href="{{ path('change_active_room') }}" data-idroom="{{ room.RoomId }}"><i class="glyphicons eye_open" style="color:#fff"></i> Activar</button>
-        <button id="deleteRoom_{{ room.RoomId }}" type="button" class="btn btn-danger dim delete-room" data-idroom="{{ room.RoomId }}" data-href="{{ path('delete_room') }}" data-noroom="{{ room.RoomNum }}"><i class="glyphicons bin" style="color:#fff"></i> Eliminar</button>
+        <button type="button" id="deactiveRoom_{{ room.RoomId }}"
+                class="change-activate deactivate btn btn-default  dim {% if not room.RoomActive %} hide {% endif %}"
+                data-href="{{ path('change_active_room') }}" data-idroom="{{ room.RoomId }}"><i
+                    class="glyphicons eye_close" style="color:#fff"></i> Desactivar
+        </button>
+        <button type="button" id="activeRoom_{{ room.RoomId }}"
+                class="change-activate activate btn btn-default  dim {% if  room.RoomActive %} hide {% endif %}"
+                data-href="{{ path('change_active_room') }}" data-idroom="{{ room.RoomId }}"><i
+                    class="glyphicons eye_open" style="color:#fff"></i> Activar
+        </button>
+        <button id="deleteRoom_{{ room.RoomId }}" type="button" class="btn btn-danger dim delete-room"
+                data-idroom="{{ room.RoomId }}" data-href="{{ path('delete_room') }}" data-noroom="{{ room.RoomNum }}">
+            <i class="glyphicons bin" style="color:#fff"></i> Eliminar
+        </button>
     </div>
 {% endif %}
-<form class="form-horizontal col-xs-12" style="padding-bottom: 25px" id="{% if room is defined %}form-number-{{ index }}{% else %}form-number-{{ num }}{% endif %}" action="{{ path('save_step4') }}">
+<form class="form-horizontal col-xs-12" style="padding-bottom: 25px"
+      id="{% if room is defined %}form-number-{{ index }}{% else %}form-number-{{ num }}{% endif %}"
+      action="{{ path('save_step4') }}">
     <div class="row">
         {% if room is defined %}
-            <input type="hidden" class="form-control" id="{% if room is defined %}id-room-{{ index }}{% else %}id-room-{{ num }}{% endif %}" name="idRoom" value="{{ room.RoomId }}">
+            <input type="hidden" class="form-control"
+                   id="{% if room is defined %}id-room-{{ index }}{% else %}id-room-{{ num }}{% endif %}" name="idRoom"
+                   value="{{ room.RoomId }}">
         {% else %}
-            <input type="hidden" class="form-control" id="{% if room is defined %}id-room-{{ index }}{% else %}id-room-{{ num }}{% endif %}" name="idRoom" value="">
+            <input type="hidden" class="form-control"
+                   id="{% if room is defined %}id-room-{{ index }}{% else %}id-room-{{ num }}{% endif %}" name="idRoom"
+                   value="">
         {% endif %}
         <div class="m-t-20">
             <label for="comment">Tipo de habitación </label>
-            <img class="help-icon" data-href="help-step3-one" src="{{ asset('/bundles/mycpcasamodule/img/ayuda.png') }}">
+            <img class="help-icon" data-href="help-step3-one"
+                 src="{{ asset('/bundles/mycpcasamodule/img/ayuda.png') }}">
             <img class="help-icon hidden-xs" src="{{ asset('/bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}">
 
             <div class="row m-t-5">
@@ -26,24 +44,38 @@
                 </div>
                 <div class="col-md-5 col-xs-6">
                     {% if room is defined %}
-                        <span id="label_room_type_{{ room.RoomId }}" class="font-blue step-span">{{ room.RoomType }}</span>
+                        <span id="label_room_type_{{ room.RoomId }}"
+                              class="font-blue step-span">{{ room.RoomType }}</span>
                     {% endif %}
-                    <select id="select_room_type_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" name="room_type" class="form-control {% if room is defined %}hide{% endif %}">
-                        <option {% if room is defined and room.RoomType== 'Habitación individual' %} selected="TRUE" {% endif %} value="Habitación individual">Habitación individual</option>
-                        <option {% if room is defined and room.RoomType== 'Habitación doble' %} selected="TRUE" {% endif %} value="Habitación doble">Habitación doble</option>
-                        <option {% if room is defined and room.RoomType== 'Habitación doble (Dos camas)' %} selected="TRUE" {% endif %} value="Habitación doble (Dos camas)">Habitación doble (Dos camas)</option>
-                        <option {% if room is defined and room.RoomType== 'Habitación Triple' %} selected="TRUE" {% endif %} value="Habitación Triple">Habitación Triple</option>
+                    <select id="select_room_type_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
+                            name="room_type" class="form-control {% if room is defined %}hide{% endif %}">
+                        <option {% if room is defined and room.RoomType== 'Habitación individual' %} selected="TRUE" {% endif %}
+                                value="Habitación individual">Habitación individual
+                        </option>
+                        <option {% if room is defined and room.RoomType== 'Habitación doble' %} selected="TRUE" {% endif %}
+                                value="Habitación doble">Habitación doble
+                        </option>
+                        <option {% if room is defined and room.RoomType== 'Habitación doble (Dos camas)' %} selected="TRUE" {% endif %}
+                                value="Habitación doble (Dos camas)">Habitación doble (Dos camas)
+                        </option>
+                        <option {% if room is defined and room.RoomType== 'Habitación Triple' %} selected="TRUE" {% endif %}
+                                value="Habitación Triple">Habitación Triple
+                        </option>
                     </select>
 
                 </div>
                 {% if room is defined %}
-                    <button data-cmpdisabled="#label_room_type_{{ room.RoomId }}" data-cmpenabled="#select_room_type_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" class="btn btn-primary dim changeBtn col-xs-3" type="button">Cambiar</button>
+                    <button data-cmpdisabled="#label_room_type_{{ room.RoomId }}"
+                            data-cmpenabled="#select_room_type_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
+                            class="btn btn-primary dim changeBtn col-xs-3" type="button">Cambiar
+                    </button>
                 {% endif %}
             </div>
         </div>
         <div class="m-t-20">
             <label for="comment">No. De camas </label>
-            <img class="help-icon" data-href="help-step3-one" src="{{ asset('/bundles/mycpcasamodule/img/ayuda.png') }}">
+            <img class="help-icon" data-href="help-step3-one"
+                 src="{{ asset('/bundles/mycpcasamodule/img/ayuda.png') }}">
             <img class="help-icon hidden-xs" src="{{ asset('/bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}">
 
             <div class="row m-t-5">
@@ -52,16 +84,27 @@
                 </div>
                 <div class="col-md-5 col-xs-6">
                     {% if room is defined %}
-                        <span id="label_number_beds_{{ room.RoomId }}" class="font-blue step-span">{{ room.RoomBeds }}</span>
+                        <span id="label_number_beds_{{ room.RoomId }}"
+                              class="font-blue step-span">{{ room.RoomBeds }}</span>
                     {% endif %}
-                    <select id="select_number_beds_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" name="number_beds" class="form-control {% if room is defined %}hide{% endif %}">
-                        <option {% if room is defined and room.RoomBeds == 1 %} selected="TRUE" {% endif %} value="1">1</option>
-                        <option {% if room is defined and room.RoomBeds == 2 %} selected="TRUE" {% endif %} value="2">2</option>
-                        <option {% if room is defined and room.RoomBeds == 3 %} selected="TRUE" {% endif %} value="3">3</option>
+                    <select id="select_number_beds_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
+                            name="number_beds" class="form-control {% if room is defined %}hide{% endif %}">
+                        <option {% if room is defined and room.RoomBeds == 1 %} selected="TRUE" {% endif %} value="1">
+                            1
+                        </option>
+                        <option {% if room is defined and room.RoomBeds == 2 %} selected="TRUE" {% endif %} value="2">
+                            2
+                        </option>
+                        <option {% if room is defined and room.RoomBeds == 3 %} selected="TRUE" {% endif %} value="3">
+                            3
+                        </option>
                     </select>
                 </div>
                 {% if room is defined %}
-                    <button data-cmpdisabled="#label_number_beds_{{ room.RoomId }}" data-cmpenabled="#select_number_beds_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" class="btn btn-primary dim changeBtn col-xs-3" type="button">Cambiar</button>
+                    <button data-cmpdisabled="#label_number_beds_{{ room.RoomId }}"
+                            data-cmpenabled="#select_number_beds_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
+                            class="btn btn-primary dim changeBtn col-xs-3" type="button">Cambiar
+                    </button>
                 {% endif %}
             </div>
         </div>
@@ -74,7 +117,8 @@
                     <span class="text-price-step3">Precios</span>
                 </div>
                 <div class="col-md-2 col-xs-3">
-                    <img class="help-icon" data-href="help-step3-one" src="{{ asset('/bundles/mycpcasamodule/img/ayuda.png') }}">
+                    <img class="help-icon" data-href="help-step3-one"
+                         src="{{ asset('/bundles/mycpcasamodule/img/ayuda.png') }}">
                     <img class="help-icon hidden-xs" src="{{ asset('/bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}">
                 </div>
             </div>
@@ -92,20 +136,32 @@
                             {% if room is defined %}
                                 value="{{ (room.RoomPriceDownTo * ( 1 - commission / 100)) }}"
                             {% endif %}
-                            title="A recibir." id="r_input_price_low_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" type="text" class="price_low_season form-control {% if room is defined %}hide{% endif %} only-number" data-roomid="{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}">
+                            title="A recibir."
+                            id="r_input_price_low_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
+                            type="text"
+                            class="price_low_season form-control {% if room is defined %}hide{% endif %} only-number"
+                            data-roomid="{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}">
 
-                    <input id="input_price_low_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" type="text" class="form-control {#{% if room is defined %}hide{% endif %}#}hide only-number" name="price_low_season" value="{% if room is defined %}{{ room.RoomPriceDownTo }}{% endif %}" data-roomid="{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}">
+                    <input id="input_price_low_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
+                           type="text" class="form-control {#{% if room is defined %}hide{% endif %}#}hide only-number"
+                           name="price_low_season" value="{% if room is defined %}{{ room.RoomPriceDownTo }}{% endif %}"
+                           data-roomid="{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}">
                     <span class="input_price_low_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %} {% if room is defined %}hide{% endif %}"></span>
 
                     {% if room is defined %}
-                        <label class="font-blue label_price_low_season_{{ room.RoomId }}">{{ (room.RoomPriceDownTo * ( 1 - commission / 100)) }} CUC A recibir. </label>
+                        <label class="font-blue label_price_low_season_{{ room.RoomId }}">{{ (room.RoomPriceDownTo * ( 1 - commission / 100)) }}
+                            CUC A recibir. </label>
                         <br>
-                        <span id="label_price_low_season_{{ room.RoomId }}" class=" label_price_low_season_{{ room.RoomId }}"> {{ room.RoomPriceDownTo }} CUC En el sitio.</span>
+                        <span id="label_price_low_season_{{ room.RoomId }}"
+                              class=" label_price_low_season_{{ room.RoomId }}"> {{ room.RoomPriceDownTo }} CUC En el sitio.</span>
                     {% endif %}
                 </div>
                 {% if room is defined %}
                     <div class="col-md-1 col-xs-4">
-                        <button data-cmpdisabled=".label_price_low_season_{{ room.RoomId }}" data-cmpenabled="#r_input_price_low_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" class="btn btn-primary dim changeBtn" type="button">Cambiar</button>
+                        <button data-cmpdisabled=".label_price_low_season_{{ room.RoomId }}"
+                                data-cmpenabled="#r_input_price_low_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
+                                class="btn btn-primary dim changeBtn" type="button">Cambiar
+                        </button>
                     </div>
                 {% endif %}
             </div>
@@ -120,19 +176,31 @@
                             {% if room is defined %}
                                 value="{{ (room.RoomPriceUpTo * ( 1 - commission / 100)) }}"
                             {% endif %}
-                            title="A recibir." id="r_input_price_high_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" type="text" class="price_high_season form-control {% if room is defined %}hide{% endif %} only-number" data-roomid="{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}">
-                    <input id="input_price_high_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" type="text" class="form-control  {#{% if room is defined %}hide{% endif %}#}hide only-number" name="price_high_season" value="{% if room is defined %}{{ room.RoomPriceUpTo }}{% endif %}" data-roomid="{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}">
+                            title="A recibir."
+                            id="r_input_price_high_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
+                            type="text"
+                            class="price_high_season form-control {% if room is defined %}hide{% endif %} only-number"
+                            data-roomid="{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}">
+                    <input id="input_price_high_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
+                           type="text" class="form-control  {#{% if room is defined %}hide{% endif %}#}hide only-number"
+                           name="price_high_season" value="{% if room is defined %}{{ room.RoomPriceUpTo }}{% endif %}"
+                           data-roomid="{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}">
                     <span class="input_price_high_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %} {% if room is defined %}hide{% endif %}"></span>
 
                     {% if room is defined %}
-                        <label class="font-blue label_price_high_season_{{ room.RoomId }}">{{ (room.RoomPriceUpTo * ( 1 - commission / 100)) }} CUC A recibir. </label>
+                        <label class="font-blue label_price_high_season_{{ room.RoomId }}">{{ (room.RoomPriceUpTo * ( 1 - commission / 100)) }}
+                            CUC A recibir. </label>
                         <br>
-                        <span id="label_price_high_season_{{ room.RoomId }}" class=" label_price_high_season_{{ room.RoomId }}"> {{ room.RoomPriceUpTo }} CUC En el sitio.</span>
+                        <span id="label_price_high_season_{{ room.RoomId }}"
+                              class=" label_price_high_season_{{ room.RoomId }}"> {{ room.RoomPriceUpTo }} CUC En el sitio.</span>
                     {% endif %}
                 </div>
                 {% if room is defined %}
                     <div class="col-md-1 col-xs-4">
-                        <button data-cmpdisabled=".label_price_high_season_{{ room.RoomId }}" data-cmpenabled="#r_input_price_high_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" class="btn btn-primary dim changeBtn" type="button">Cambiar</button>
+                        <button data-cmpdisabled=".label_price_high_season_{{ room.RoomId }}"
+                                data-cmpenabled="#r_input_price_high_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
+                                class="btn btn-primary dim changeBtn" type="button">Cambiar
+                        </button>
                     </div>
                 {% endif %}
             </div>
@@ -147,19 +215,32 @@
                             {% if room is defined %}
                                 value="{{ (room.RoomPriceSpecial * ( 1 - commission / 100)) }}"
                             {% endif %}
-                            title="A recibir." id="r_input_price_special_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" type="text" class="price_special_season form-control {#{% if room is defined %}hide{% endif %}#}hide only-number" data-roomid="{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}">
-                    <input id="input_price_special_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" type="text" class="form-control {% if room is defined %}hide{% endif %} only-number" name="price_special_season" value="{% if room is defined %}{{ room.RoomPriceSpecial }}{% endif %}" data-roomid="{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}">
+                            title="A recibir."
+                            id="r_input_price_special_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
+                            type="text"
+                            class="price_special_season form-control {#{% if room is defined %}hide{% endif %}#}hide only-number"
+                            data-roomid="{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}">
+                    <input id="input_price_special_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
+                           type="text" class="form-control {% if room is defined %}hide{% endif %} only-number"
+                           name="price_special_season"
+                           value="{% if room is defined %}{{ room.RoomPriceSpecial }}{% endif %}"
+                           data-roomid="{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}">
                     <span class="input_price_special_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %} {% if room is defined %}hide{% endif %}"></span>
 
                     {% if room is defined %}
-                        <label class="font-blue label_price_special_season_{{ room.RoomId }}">{{ (room.RoomPriceSpecial * ( 1 - commission / 100)) }} CUC A recibir. </label>
+                        <label class="font-blue label_price_special_season_{{ room.RoomId }}">{{ (room.RoomPriceSpecial * ( 1 - commission / 100)) }}
+                            CUC A recibir. </label>
                         <br>
-                        <span id="label_price_special_season_{{ room.RoomId }}" class=" label_price_special_season_{{ room.RoomId }}"> {{ room.RoomPriceSpecial }} CUC En el sitio.</span>
+                        <span id="label_price_special_season_{{ room.RoomId }}"
+                              class=" label_price_special_season_{{ room.RoomId }}"> {{ room.RoomPriceSpecial }} CUC En el sitio.</span>
                     {% endif %}
                 </div>
                 {% if room is defined %}
                     <div class="col-md-1 col-xs-4">
-                        <button data-cmpdisabled=".label_price_special_season_{{ room.RoomId }}" data-cmpenabled="#r_input_price_special_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" class="btn btn-primary dim changeBtn" type="button">Cambiar</button>
+                        <button data-cmpdisabled=".label_price_special_season_{{ room.RoomId }}"
+                                data-cmpenabled="#r_input_price_special_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
+                                class="btn btn-primary dim changeBtn" type="button">Cambiar
+                        </button>
                     </div>
                 {% endif %}
             </div>
@@ -170,7 +251,8 @@
             </div>
             <div class="row text-step3">
                 <div class="col-md-11 col-xs-12">
-                    <p>A partir del precio definido por usted, MyCasaParticular cobra al TURISTA un pago por adelantado correspondiente al 20% del precio publicado en el sitio.</p>
+                    <p>A partir del precio definido por usted, MyCasaParticular cobra al TURISTA un pago por adelantado
+                        correspondiente al 20% del precio publicado en el sitio.</p>
                 </div>
             </div>
             <div class="row text-step3">
@@ -180,7 +262,8 @@
             </div>
             <div class="row text-step3">
                 <div class="col-md-11 col-xs-12">
-                    <p>El valor que hacemos público incluye el precio que usted pone a su alojamiento más la comisión nuestra.</p>
+                    <p>El valor que hacemos público incluye el precio que usted pone a su alojamiento más la comisión
+                        nuestra.</p>
                 </div>
             </div>
         </div>
@@ -191,7 +274,9 @@
                     <label class="control-label">Climatización</label>
                 </div>
                 <div class="col-md-8 col-xs-1">
-                    <input type="checkbox" {% if room is defined and room.RoomClimate== 'Aire acondicionado / Ventilador' %} checked="true" {% endif %} class="{% if room is defined %}js-switch-{{ index }}{% else %}js-switch-{{ num }}{% endif %} m-l-10" name="room_climate"/>
+                    <input type="checkbox" {% if room is defined and room.RoomClimate== 'Aire acondicionado / Ventilador' %} checked="true" {% endif %}
+                           class="{% if room is defined %}js-switch-{{ index }}{% else %}js-switch-{{ num }}{% endif %} m-l-10"
+                           name="room_climate"/>
                 </div>
             </div>
             <div class="row">
@@ -200,7 +285,9 @@
                     <label class="control-label">Audiovisuales</label>
                 </div>
                 <div class="col-md-8 col-xs-1">
-                    <input type="checkbox" {% if room is defined and room.RoomAudiovisual== 'TV+DVD / Video' %} checked="true" {% endif %} class="{% if room is defined %}js-switch-{{ index }}{% else %}js-switch-{{ num }}{% endif %} m-l-10" name="room_audiovisual"/>
+                    <input type="checkbox" {% if room is defined and room.RoomAudiovisual== 'TV+DVD / Video' %} checked="true" {% endif %}
+                           class="{% if room is defined %}js-switch-{{ index }}{% else %}js-switch-{{ num }}{% endif %} m-l-10"
+                           name="room_audiovisual"/>
                 </div>
             </div>
             <div class="row">
@@ -210,16 +297,27 @@
                 </div>
                 <div class="col-md-4 col-xs-6">
                     {% if room is defined %}
-                        <span id="label_room_bathroom_{{ room.RoomId }}" class="font-blue step-span">{{ room.RoomBathroom }}</span>
+                        <span id="label_room_bathroom_{{ room.RoomId }}"
+                              class="font-blue step-span">{{ room.RoomBathroom }}</span>
                     {% endif %}
-                    <select id="select_room_bathroom_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" name="room_bathroom" class="form-control {% if room is defined %}hide{% endif %}">
-                        <option {% if room is defined and room.RoomBathroom == 'Interior privado' %} selected="TRUE" {% endif %} value="Interior privado">Interior privado</option>
-                        <option {% if room is defined and room.RoomBathroom == 'Exterior privado' %} selected="TRUE" {% endif %} value="Exterior privado">Exterior privado</option>
-                        <option {% if room is defined and room.RoomBathroom == 'Compartido' %} selected="TRUE" {% endif %} value="Compartido">Compartido</option>
+                    <select id="select_room_bathroom_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
+                            name="room_bathroom" class="form-control {% if room is defined %}hide{% endif %}">
+                        <option {% if room is defined and room.RoomBathroom == 'Interior privado' %} selected="TRUE" {% endif %}
+                                value="Interior privado">Interior privado
+                        </option>
+                        <option {% if room is defined and room.RoomBathroom == 'Exterior privado' %} selected="TRUE" {% endif %}
+                                value="Exterior privado">Exterior privado
+                        </option>
+                        <option {% if room is defined and room.RoomBathroom == 'Compartido' %} selected="TRUE" {% endif %}
+                                value="Compartido">Compartido
+                        </option>
                     </select>
                 </div>
                 {% if room is defined %}
-                    <button data-cmpdisabled="#label_room_bathroom_{{ room.RoomId }}" data-cmpenabled="#select_room_bathroom_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" class="btn btn-primary dim changeBtn col-xs-3" type="button">Cambiar</button>
+                    <button data-cmpdisabled="#label_room_bathroom_{{ room.RoomId }}"
+                            data-cmpenabled="#select_room_bathroom_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
+                            class="btn btn-primary dim changeBtn col-xs-3" type="button">Cambiar
+                    </button>
                 {% endif %}
             </div>
             <div class="row">
@@ -229,18 +327,33 @@
                 </div>
                 <div class="col-md-2 col-xs-5">
                     {% if room is defined %}
-                        <span id="label_room_window_{{ room.RoomId }}" class="font-blue step-span">{{ room.RoomWindows }}</span>
+                        <span id="label_room_window_{{ room.RoomId }}"
+                              class="font-blue step-span">{{ room.RoomWindows }}</span>
                     {% endif %}
-                    <select id="select_room_window_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" name="room_window" class="form-control {% if room is defined %}hide{% endif %}">
-                        <option {% if room is defined and room.RoomWindows == 0 %} selected="TRUE" {% endif %} value="0">0</option>
-                        <option {% if room is defined and room.RoomWindows == 1 %} selected="TRUE" {% endif %} value="1">1</option>
-                        <option {% if room is defined and room.RoomWindows == 2 %} selected="TRUE" {% endif %} value="2">2</option>
-                        <option {% if room is defined and room.RoomWindows == 3 %} selected="TRUE" {% endif %} value="3">3</option>
-                        <option {% if room is defined and room.RoomWindows == 4 %} selected="TRUE" {% endif %} value="4">4</option>
+                    <select id="select_room_window_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
+                            name="room_window" class="form-control {% if room is defined %}hide{% endif %}">
+                        <option {% if room is defined and room.RoomWindows == 0 %} selected="TRUE" {% endif %}
+                                value="0">0
+                        </option>
+                        <option {% if room is defined and room.RoomWindows == 1 %} selected="TRUE" {% endif %}
+                                value="1">1
+                        </option>
+                        <option {% if room is defined and room.RoomWindows == 2 %} selected="TRUE" {% endif %}
+                                value="2">2
+                        </option>
+                        <option {% if room is defined and room.RoomWindows == 3 %} selected="TRUE" {% endif %}
+                                value="3">3
+                        </option>
+                        <option {% if room is defined and room.RoomWindows == 4 %} selected="TRUE" {% endif %}
+                                value="4">4
+                        </option>
                     </select>
                 </div>
                 {% if room is defined %}
-                    <button data-cmpdisabled="#label_room_window_{{ room.RoomId }}" data-cmpenabled="#select_room_window_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" class="btn btn-primary dim changeBtn col-xs-3" type="button">Cambiar</button>
+                    <button data-cmpdisabled="#label_room_window_{{ room.RoomId }}"
+                            data-cmpenabled="#select_room_window_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
+                            class="btn btn-primary dim changeBtn col-xs-3" type="button">Cambiar
+                    </button>
                 {% endif %}
             </div>
             <div class="row">
@@ -250,18 +363,33 @@
                 </div>
                 <div class="col-md-2 col-xs-5">
                     {% if room is defined %}
-                        <span id="label_room_balcony_{{ room.RoomId }}" class="font-blue step-span">{{ room.RoomBalcony }}</span>
+                        <span id="label_room_balcony_{{ room.RoomId }}"
+                              class="font-blue step-span">{{ room.RoomBalcony }}</span>
                     {% endif %}
-                    <select id="select_room_balcony_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" name="room_balcony" class="form-control {% if room is defined %}hide{% endif %}">
-                        <option {% if room is defined and room.RoomBalcony == 0 %} selected="TRUE" {% endif %} value="0">0</option>
-                        <option {% if room is defined and room.RoomBalcony == 1 %} selected="TRUE" {% endif %} value="1">1</option>
-                        <option {% if room is defined and room.RoomBalcony == 2 %} selected="TRUE" {% endif %} value="2">2</option>
-                        <option {% if room is defined and room.RoomBalcony == 3 %} selected="TRUE" {% endif %} value="3">3</option>
-                        <option {% if room is defined and room.RoomBalcony == 4 %} selected="TRUE" {% endif %} value="4">4</option>
+                    <select id="select_room_balcony_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
+                            name="room_balcony" class="form-control {% if room is defined %}hide{% endif %}">
+                        <option {% if room is defined and room.RoomBalcony == 0 %} selected="TRUE" {% endif %}
+                                value="0">0
+                        </option>
+                        <option {% if room is defined and room.RoomBalcony == 1 %} selected="TRUE" {% endif %}
+                                value="1">1
+                        </option>
+                        <option {% if room is defined and room.RoomBalcony == 2 %} selected="TRUE" {% endif %}
+                                value="2">2
+                        </option>
+                        <option {% if room is defined and room.RoomBalcony == 3 %} selected="TRUE" {% endif %}
+                                value="3">3
+                        </option>
+                        <option {% if room is defined and room.RoomBalcony == 4 %} selected="TRUE" {% endif %}
+                                value="4">4
+                        </option>
                     </select>
                 </div>
                 {% if room is defined %}
-                    <button data-cmpdisabled="#label_room_balcony_{{ room.RoomId }}" data-cmpenabled="#select_room_balcony_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" class="btn btn-primary dim changeBtn col-xs-3" type="button">Cambiar</button>
+                    <button data-cmpdisabled="#label_room_balcony_{{ room.RoomId }}"
+                            data-cmpenabled="#select_room_balcony_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
+                            class="btn btn-primary dim changeBtn col-xs-3" type="button">Cambiar
+                    </button>
                 {% endif %}
             </div>
             <div class="row">
@@ -270,7 +398,9 @@
                     <label class="control-label">Terraza</label>
                 </div>
                 <div class="col-md-1 col-xs-1 p-0">
-                    <input type="checkbox" {% if room is defined and room.RoomTerrace== 1 %} checked="true" {% endif %} class="{% if room is defined %}js-switch-{{ index }}{% else %}js-switch-{{ num }}{% endif %} m-l-10" name="room_terrace"/>
+                    <input type="checkbox" {% if room is defined and room.RoomTerrace== 1 %} checked="true" {% endif %}
+                           class="{% if room is defined %}js-switch-{{ index }}{% else %}js-switch-{{ num }}{% endif %} m-l-10"
+                           name="room_terrace"/>
                 </div>
             </div>
             <div class="row">
@@ -279,7 +409,9 @@
                     <label class="control-label">Patio</label>
                 </div>
                 <div class="col-md-1 col-xs-1 p-0">
-                    <input type="checkbox" {% if room is defined and room.RoomYard== 1 %} checked="true" {% endif %} class="{% if room is defined %}js-switch-{{ index }}{% else %}js-switch-{{ num }}{% endif %} m-l-10" name="room_yard"/>
+                    <input type="checkbox" {% if room is defined and room.RoomYard== 1 %} checked="true" {% endif %}
+                           class="{% if room is defined %}js-switch-{{ index }}{% else %}js-switch-{{ num }}{% endif %} m-l-10"
+                           name="room_yard"/>
                 </div>
             </div>
             <div class="row">
@@ -288,7 +420,9 @@
                     <label class="control-label">Fumador</label>
                 </div>
                 <div class="col-md-1 col-xs-1 p-0">
-                    <input type="checkbox" {% if room is defined and room.RoomSmoker== 1 %} checked="true" {% endif %} class="{% if room is defined %}js-switch-{{ index }}{% else %}js-switch-{{ num }}{% endif %} m-l-10" name="room_smoker"/>
+                    <input type="checkbox" {% if room is defined and room.RoomSmoker== 1 %} checked="true" {% endif %}
+                           class="{% if room is defined %}js-switch-{{ index }}{% else %}js-switch-{{ num }}{% endif %} m-l-10"
+                           name="room_smoker"/>
                 </div>
             </div>
             <div class="row">
@@ -297,7 +431,9 @@
                     <label class="control-label">Caja fuerte</label>
                 </div>
                 <div class="col-md-1 col-xs-1 p-0">
-                    <input type="checkbox" {% if room is defined and room.RoomSafe== 1 %} checked="true" {% endif %} class="{% if room is defined %}js-switch-{{ index }}{% else %}js-switch-{{ num }}{% endif %} m-l-10" name="room_safe"/>
+                    <input type="checkbox" {% if room is defined and room.RoomSafe== 1 %} checked="true" {% endif %}
+                           class="{% if room is defined %}js-switch-{{ index }}{% else %}js-switch-{{ num }}{% endif %} m-l-10"
+                           name="room_safe"/>
                 </div>
             </div>
             <div class="row">
@@ -306,7 +442,9 @@
                     <label class="control-label">Facilidades para bebé</label>
                 </div>
                 <div class="col-md-1 col-xs-1 p-0">
-                    <input type="checkbox" {% if room is defined and room.RoomBaby== 1 %} checked="true" {% endif %} class="{% if room is defined %}js-switch-{{ index }}{% else %}js-switch-{{ num }}{% endif %} m-l-10" name="room_baby"/>
+                    <input type="checkbox" {% if room is defined and room.RoomBaby== 1 %} checked="true" {% endif %}
+                           class="{% if room is defined %}js-switch-{{ index }}{% else %}js-switch-{{ num }}{% endif %} m-l-10"
+                           name="room_baby"/>
                 </div>
             </div>
             <div class="row">
@@ -315,16 +453,45 @@
                     <label class="control-label">Estéreo</label>
                 </div>
                 <div class="col-md-1 col-xs-1 p-0">
-                    <input type="checkbox" {% if room is defined and room.RoomStereo== 1 %} checked="true" {% endif %} class="{% if room is defined %}js-switch-{{ index }}{% else %}js-switch-{{ num }}{% endif %} m-l-10" name="room_stereo"/>
+                    <input type="checkbox" {% if room is defined and room.RoomStereo== 1 %} checked="true" {% endif %}
+                           class="{% if room is defined %}js-switch-{{ index }}{% else %}js-switch-{{ num }}{% endif %} m-l-10"
+                           name="room_stereo"/>
                 </div>
             </div>
             <div class="row m-t-5">
                 <div class="col-xs-12 col-md-3">
-                    <label>URL ICal</label>
+                    <label>URL ICal Externo</label>
                 </div>
-                <div class="col-xs-12 col-md-8">
-                    <input placeholder="iCal URL" type="text" class="form-control" name="ical" value="{% if room is defined %}{{ room.ical }}{% endif %}" data-roomid="{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}" title="Dirección url de su iCal">
+                <div class="col-xs-12 col-md-6">
+                    <input placeholder="iCal URL" type="text" class="form-control" id="external_ical" name="room_ical"
+                           value="{% if room is defined %}{{ room.ical }}{% endif %}"
+                           data-roomid="{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
+                           title="Dirección url de su iCal">
                 </div>
+                <div class="col-xs-12 col-md-3">
+                    <a><i class="glyphicons keys step-form-icon m-t-5"
+                          title="Importa otro calendario que utilices para esta habitaciòn y actualizaremos la disponibilidad por ese calendario de forma automàtica"></i></a>
+                    {% if room is defined %}
+                        <a onclick="Step4.updateIcalRoom($(this), $('#external_ical'))"
+                           data-href="{{ path("mycp_execute_ical_room", {'id_room': room.roomId }) }}"><i
+                                    class="glyphicons refresh step-form-icon m-t-5" title="Sincronizar disponibilidad"></i></a>
+                        <a onclick="Step4.cleanExternalIcalRoom($(this), $('#external_ical'))" data-external="{{ room.isContainExternalIcal() }}"
+                           data-href="{{ path("mycp_clean_external_ical_room", {'id_room': room.roomId}) }}"><i
+                                    class="glyphicons bin step-form-icon m-t-5" title="Eliminar enlace externo"></i></a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-md-5">
+                    <label>URL ICal MyCasaParticular</label>
+                </div>
+                <div class="col-xs-12 col-md-6">
+                    <input type="text" class="form-control" readonly="readonly" name="ical"
+                           value="{% if room is defined %}{{ room.getICalUrlFromRequest(app.request) }}{% endif %}"
+                           title="Dirección url de su iCal">
+                </div>
+                <i class="glyphicons bin step-form-icon m-t-5"
+                   title="Copia y pega el enlace en otras aplicaciones de iCAL"></i>
             </div>
         </div>
     </div>
