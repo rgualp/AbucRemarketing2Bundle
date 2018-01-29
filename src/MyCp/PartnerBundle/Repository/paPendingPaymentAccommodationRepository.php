@@ -73,7 +73,7 @@ class paPendingPaymentAccommodationRepository extends EntityRepository {
         }
         if($filter_destination!= null && $filter_destination != "" && $filter_destination != "null")
         {
-            $qb->andWhere("destination.des_name = :destination")
+            $qb->andWhere("destination.des_id = :destination")
                 ->setParameter("destination", $filter_destination);
         }
         if($filter_reservation_date_from != null && $filter_reservation_date_from != "" && $filter_reservation_date_from != "null")
