@@ -3,19 +3,21 @@
  * Copyright 2016.
  *========================================================================*/
 var Step4 = function () {
-    var id_active="11";
-    var html_nav_addTab="";
-    var url_add_tab="";
-    var dataStep4=new Array();
+    var id_active = "11";
+    var html_nav_addTab = "";
+    var url_add_tab = "";
+    var dataStep4 = new Array();
 
     /**
      * Para llenar un arreglo con los datos del paso 4
      */
-    var fillDataStep4=function(){
-        for(var i=0;i<$('#nav-tabs-backend li').size();i++){
-            var data={};
-            var form = $("#form-number-"+i);
-            $("#form-number-"+(i+1)).serializeArray().map(function(x){data[x.name] = x.value;});
+    var fillDataStep4 = function () {
+        for (var i = 0; i < $('#nav-tabs-backend li').size(); i++) {
+            var data = {};
+            var form = $("#form-number-" + i);
+            $("#form-number-" + (i + 1)).serializeArray().map(function (x) {
+                data[x.name] = x.value;
+            });
             dataStep4.push(data);
         }
     }
@@ -23,40 +25,40 @@ var Step4 = function () {
     /**
      * Para cuando se cambia de tab
      */
-    var changeTab=function(){
-        $(document).on( 'shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
+    var changeTab = function () {
+        $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
         });
     }
 
     /**
      * Para adicionar tab dinámicos
      */
-    var addContentTab=function(el){
+    var addContentTab = function (el) {
         HoldOn.open();
-        var data={'num':$('#nav-tabs-backend li').size()};
-        url_add_tab=el.data("href");
+        var data = {'num': $('#nav-tabs-backend li').size()};
+        url_add_tab = el.data("href");
         //Función q retorna el html de la respuesta
-        $.post( el.data("href"),data,
+        $.post(el.data("href"), data,
             function (data, status, response) {
                 if (status && status == 'success') {
                     //Le quito la clase al que esta activo en caso de que tenga algun tab
-                    $('#nav1'+id_active+'').removeClass('active');
-                    $('#tab1'+id_active+'').removeClass('active');
+                    $('#nav1' + id_active + '').removeClass('active');
+                    $('#tab1' + id_active + '').removeClass('active');
                     Step4.deleteEndTab();
                     //Lo adiciono y lo activo
-                    var id=$('#nav-tabs-backend li').size()+1;
-                    var text='Hab '+($('#nav-tabs-backend li').size()+1);
-                    $('#nav-tabs-backend').append('<li id="nav1'+id+'" class="active"><a id="'+id+'" data-toggle="tab" href="#tab1'+id+'" data-tab="'+id+'">'+text+'<span class="closeTab" onclick="Step4.closeTab($(this))">×</span></a></li>');
+                    var id = $('#nav-tabs-backend li').size() + 1;
+                    var text = 'Hab ' + ($('#nav-tabs-backend li').size() + 1);
+                    $('#nav-tabs-backend').append('<li id="nav1' + id + '" class="active"><a id="' + id + '" data-toggle="tab" href="#tab1' + id + '" data-tab="' + id + '">' + text + '<span class="closeTab" onclick="Step4.closeTab($(this))">×</span></a></li>');
                     //Adiciono el contenido del tab
-                    $('#tab-content-backend').append('<div id="tab1'+id+'" class="tab-pane active">'
-                        +data.html
-                        +'</div>');
-                    id_active=id;
-                    $('#nav1'+id_active+'').addClass('active');
-                    $('#tab1'+id_active+'').addClass('active');
+                    $('#tab-content-backend').append('<div id="tab1' + id + '" class="tab-pane active">'
+                        + data.html
+                        + '</div>');
+                    id_active = id;
+                    $('#nav1' + id_active + '').addClass('active');
+                    $('#tab1' + id_active + '').addClass('active');
                     Step4.addEndTab();
                     showRealPriceRoom();
-                    App.initializePlugins('.js-switch-'+($('#nav-tabs-backend li').size()-1));
+                    App.initializePlugins('.js-switch-' + ($('#nav-tabs-backend li').size() - 1));
                     HoldOn.close();
                 }
             });
@@ -65,16 +67,16 @@ var Step4 = function () {
     /**
      * Para salvar el paso
      */
-    var saveStep4=function(index){
-        if(index==4)
-        Step4.saveRoom(false);
+    var saveStep4 = function (index) {
+        if (index == 4)
+            Step4.saveRoom(false);
     }
 
     /**
      * Para cuando se click en el boton salvar
      */
-    var onclickBtnSaveRoom=function(){
-        $('#saveStepRoom').on('click',function(){
+    var onclickBtnSaveRoom = function () {
+        $('#saveStepRoom').on('click', function () {
             Step4.saveRoom(true);
         })
     }
@@ -82,40 +84,40 @@ var Step4 = function () {
     /**
      * Para cuando se modifica el precio de una habitación
      */
-    var showRealPriceRoom=function(){
-            $(".price_low_season").on('change', function (){
-                var roomId = $(this).data("roomid");
-               Step4.calculateRealRoomPrice("input_price_low_season_"+roomId, "span.input_price_low_season_"+roomId);
-            });
+    var showRealPriceRoom = function () {
+        $(".price_low_season").on('change', function () {
+            var roomId = $(this).data("roomid");
+            Step4.calculateRealRoomPrice("input_price_low_season_" + roomId, "span.input_price_low_season_" + roomId);
+        });
 
-            $(".price_high_season").on('change', function (){
-                var roomId = $(this).data("roomid");
-                Step4.calculateRealRoomPrice("input_price_high_season_"+roomId, "span.input_price_high_season_"+roomId);
-            });
+        $(".price_high_season").on('change', function () {
+            var roomId = $(this).data("roomid");
+            Step4.calculateRealRoomPrice("input_price_high_season_" + roomId, "span.input_price_high_season_" + roomId);
+        });
 
-            $(".price_special_season").on('change', function (){
-                var roomId = $(this).data("roomid");
-                Step4.calculateRealRoomPrice("input_price_special_season_"+roomId, "span.input_price_special_season_"+roomId);
-            });
+        $(".price_special_season").on('change', function () {
+            var roomId = $(this).data("roomid");
+            Step4.calculateRealRoomPrice("input_price_special_season_" + roomId, "span.input_price_special_season_" + roomId);
+        });
     }
 
     /**
      * Para activar o desactivar la habitacion
      */
-    var activeRoom=function(){
-        $('.change-activate').on('click',function(){
-            Step4.changeActiveRoom(($(this).hasClass('deactivate'))?false:true,$(this).data('idroom'),$(this).data('href'));
+    var activeRoom = function () {
+        $('.change-activate').on('click', function () {
+            Step4.changeActiveRoom(($(this).hasClass('deactivate')) ? false : true, $(this).data('idroom'), $(this).data('href'));
         });
     }
 
     /**
      * Para eliminar una habitacion
      */
-    var onclickBtnDeleteRoom=function(){
-        $('.delete-room').on('click',function(){
-            var idroom=$(this).data('idroom');
-            var url_delete_room=$(this).data('href');
-            var noroom=$(this).data('noroom');
+    var onclickBtnDeleteRoom = function () {
+        $('.delete-room').on('click', function () {
+            var idroom = $(this).data('idroom');
+            var url_delete_room = $(this).data('href');
+            var noroom = $(this).data('noroom');
             swal({
                 title: "",
                 text: "¿Está seguro que desea eliminar la habitación seleccionada?",
@@ -131,12 +133,12 @@ var Step4 = function () {
                 $.ajax({
                     type: 'post',
                     url: url_delete_room,
-                    data:  {idroom:idroom},
+                    data: {idroom: idroom},
                     success: function (data) {
                         HoldOn.close();
-                        if(data.success){
-                            $('#nav1'+noroom).remove(); //remove li of tab
-                            $('#tab1'+noroom).remove(); //remove respective tab content
+                        if (data.success) {
+                            $('#nav1' + noroom).remove(); //remove li of tab
+                            $('#tab1' + noroom).remove(); //remove respective tab content
                         }
                     }
                 });
@@ -147,30 +149,32 @@ var Step4 = function () {
     /**
      * Funcion para inicializar los plugins
      */
-    var initialicePlugins=function(){
+    var initialicePlugins = function () {
         //Si hay room inicializar
-        if($('#nav-tabs-backend').data('numroom')>0){
-            for(var i=0;i<=$('#nav-tabs-backend').data('numroom');i++)
-                App.initializePlugins('.js-switch-'+i);
+        if ($('#nav-tabs-backend').data('numroom') > 0) {
+            for (var i = 0; i <= $('#nav-tabs-backend').data('numroom'); i++)
+                App.initializePlugins('.js-switch-' + i);
         }
         else
-            App.initializePlugins('.js-switch-'+($('#nav-tabs-backend li').size()-1));
+            App.initializePlugins('.js-switch-' + ($('#nav-tabs-backend li').size() - 1));
     }
 
-    var isValidPrices = function(){
+    var isValidPrices = function () {
         var v = true;
         var s = '';
-        for(var i=0;i<$('#nav-tabs-backend li').size();i++){
-            var data={};
-            $("#form-number-"+(i + 1)).serializeArray().map(function(x){data[x.name] = x.value;});
+        for (var i = 0; i < $('#nav-tabs-backend li').size(); i++) {
+            var data = {};
+            $("#form-number-" + (i + 1)).serializeArray().map(function (x) {
+                data[x.name] = x.value;
+            });
 
             /*
              price_high_season
              price_low_season
              price_special_season
              */
-            if((data.hasOwnProperty('price_high_season') && (data['price_high_season'] == '' || data['price_high_season'] == 'NaN') ) || (data.hasOwnProperty('price_low_season') && (data['price_low_season'] == '' || data['price_low_season'] == 'NaN'))/* || (data.hasOwnProperty('price_special_season') && data['price_special_season'] == '')*/){
-                if(s == ''){
+            if ((data.hasOwnProperty('price_high_season') && (data['price_high_season'] == '' || data['price_high_season'] == 'NaN')) || (data.hasOwnProperty('price_low_season') && (data['price_low_season'] == '' || data['price_low_season'] == 'NaN'))/* || (data.hasOwnProperty('price_special_season') && data['price_special_season'] == '')*/) {
+                if (s == '') {
                     s = 'Hab ' + (i + 1);
                 }
                 else {
@@ -180,26 +184,25 @@ var Step4 = function () {
             }
         }
 
-        if (!v){
+        if (!v) {
             $('#li2 a').click();
             swal("El precio de las habitaciones " + s + " es obligatorio.", "", "error");
         }
         return v;
     };
 
-    var roundNumber = function(num, scale) {
+    var roundNumber = function (num, scale) {
         var number = Math.round(num * Math.pow(10, scale)) / Math.pow(10, scale);
-        if(num - number > 0) {
+        if (num - number > 0) {
             return (number + Math.floor(2 * Math.round((num - number) * Math.pow(10, (scale + 1))) / 10) / Math.pow(10, scale));
         } else {
             return number;
         }
     };
 
-    var normalizePrices = function(price, decimal)
-    {
+    var normalizePrices = function (price, decimal) {
         //return (Math.round(price * Math.pow(10,2))/Math.pow(10,2));
-        return parseFloat(parseFloat(Math.round(price*100)/100).toFixed(decimal));
+        return parseFloat(parseFloat(Math.round(price * 100) / 100).toFixed(decimal));
     }
 
     return {
@@ -213,95 +216,97 @@ var Step4 = function () {
             fillDataStep4();
             showRealPriceRoom();
             //Se captura el evento de guardar el paso
-            var event=App.getEvent();
-            event.clickBtnContinueAfter.add(saveStep4,this);
+            var event = App.getEvent();
+            event.clickBtnContinueAfter.add(saveStep4, this);
             initialicePlugins();
 
         },
-        isValidPrices:function(){
-          return isValidPrices();
+        isValidPrices: function () {
+            return isValidPrices();
         },
-        saveRoom:function(flag, callback){
-            if(!isValidPrices()){
+        saveRoom: function (flag, callback) {
+            if (!isValidPrices()) {
                 //alert('Precios invalidos');
                 return;
             }
             HoldOn.open();
             var rooms = new Array();
-            var url='';
-            for(var i=0;i<$('#nav-tabs-backend li').size();i++){
-                var data={};
-                if(url==''){
-                    var form = $("#form-number-"+(i + 1));
-                    url= form.attr('action');
+            var url = '';
+            for (var i = 0; i < $('#nav-tabs-backend li').size(); i++) {
+                var data = {};
+                if (url == '') {
+                    var form = $("#form-number-" + (i + 1));
+                    url = form.attr('action');
                 }
-                $("#form-number-"+(i + 1)).serializeArray().map(function(x){data[x.name] = x.value;});
+                $("#form-number-" + (i + 1)).serializeArray().map(function (x) {
+                    data[x.name] = x.value;
+                });
 
                 rooms.push(data);
             }
             //if(!App.equals(rooms,dataStep4)){
 
-                dataStep4=rooms;
-                /**
-                 * Para salvar las rooms
-                 */
+            dataStep4 = rooms;
+            /**
+             * Para salvar las rooms
+             */
 
-                $.ajax({
-                    type: 'post',
-                    url: url,
-                    data:  {rooms: rooms,idown:App.getOwnId()},
-                    success: function (data) {
-                        if(callback && typeof callback === "function"){
-                            callback();
-                        }
-                        else {
-                            var response=data;
-                            if(data.success){
-                                var j=1;
-                                for(var i=1;i<=$('#nav-tabs-backend li').size()-1;i++){
-                                    var idRoom=response.ids[parseInt(j)-parseInt(1)];
-                                    if($("#id-room-"+i).val()==""){
-                                        document.getElementById('id-room-'+i).value=idRoom;
-                                    }
+            $.ajax({
+                type: 'post',
+                url: url,
+                data: {rooms: rooms, idown: App.getOwnId()},
+                success: function (data) {
+                    if (callback && typeof callback === "function") {
+                        callback();
+                    }
+                    else {
+                        var response = data;
+                        if (data.success) {
+                            var j = 1;
+                            for (var i = 1; i <= $('#nav-tabs-backend li').size() - 1; i++) {
+                                var idRoom = response.ids[parseInt(j) - parseInt(1)];
+                                if ($("#id-room-" + i).val() == "") {
+                                    document.getElementById('id-room-' + i).value = idRoom;
                                 }
-
-                                HoldOn.close();
                             }
+
+                            HoldOn.close();
                         }
                     }
-                });
-           // }
+                }
+            });
+            // }
         },
-        getActiveTab:function(){
+        getActiveTab: function () {
             return id_active;
         },
-        addTabTabpanel:function(el){
+        addTabTabpanel: function (el) {
             addContentTab(el);
         },
-        closeTab:function(el) {
+        closeTab: function (el) {
             //there are multiple elements which has .closeTab icon so close the tab whose close icon is clicked
             var tabContentId = el.parent().data('tab');
             el.parent().parent().remove(); //remove li of tab
             $('#nav-tabs-backend a:last').tab('show'); // Select first tab
-            $('#tab1'+tabContentId).remove(); //remove respective tab content
+            $('#tab1' + tabContentId).remove(); //remove respective tab content
         },
-        addEndTab:function(){
-            $('#nav-tabs-backend').append('<li id="addTab" data-href="'+url_add_tab+'" onclick="Step4.addTabTabpanel($(this))" >'+html_nav_addTab+'</li>');
+        addEndTab: function () {
+            $('#nav-tabs-backend').append('<li id="addTab" data-href="' + url_add_tab + '" onclick="Step4.addTabTabpanel($(this))" >' + html_nav_addTab + '</li>');
             //Adiciono el contenido del tab
             $('#tab-content-backend').append('<div class="tab-pane" id="tab25"></div>');
         },
-        deleteEndTab:function(){
+        deleteEndTab: function () {
             //Remuevo el ultimo tab y lo adiciono
-            html_nav_addTab=$('#addTab').html();
+            html_nav_addTab = $('#addTab').html();
             $('#addTab').remove(); //remove li of tab
             $('#tab25').remove(); //remove respective tab content
         },
-        calculateRealRoomPrice: function(inputElement, spanElement){
+        calculateRealRoomPrice: function (inputElement, spanElement) {
             var rInputElement = $('#r_' + inputElement);
             var inputElement = $('#' + inputElement);
             var commission = $("#inputCommission").val();
 
-            if(rInputElement.val() != '' && rInputElement.val() != 0 && rInputElement.val() != '0'){
+            if (rInputElement.val() != '' && rInputElement.val() != 0 && rInputElement.val() != '0') {
                 var toTeceive = parseFloat(rInputElement.val());
                 var inSite = toTeceive / (1 - commission / 100);
                 inSite = normalizePrices(inSite, 2);
@@ -309,7 +314,7 @@ var Step4 = function () {
                  var b = normalizePrices(4.448, 2);*/
 
                 inputElement.val(inSite);
-                if(inSite > 0) {
+                if (inSite > 0) {
                     $(spanElement).html("En el sitio " + inSite + " CUC.");
                     $(spanElement).removeClass("hide");
                 }
@@ -321,25 +326,25 @@ var Step4 = function () {
             }
 
         },
-        changeActiveRoom:function(val,idroom,url){
+        changeActiveRoom: function (val, idroom, url) {
             HoldOn.open();
             $.ajax({
                 type: 'post',
                 url: url,
-                data:  {idroom:idroom,val:val,forced:false},
+                data: {idroom: idroom, val: val, forced: false},
                 success: function (data) {
                     HoldOn.close();
-                    if(data.success){
-                        if(!val){
-                            $('#deactiveRoom_'+idroom).addClass('hide');
-                            $('#activeRoom_'+idroom).removeClass('hide');
+                    if (data.success) {
+                        if (!val) {
+                            $('#deactiveRoom_' + idroom).addClass('hide');
+                            $('#activeRoom_' + idroom).removeClass('hide');
                         }
-                        else{
-                            $('#deactiveRoom_'+idroom).removeClass('hide');
-                            $('#activeRoom_'+idroom).addClass('hide');
+                        else {
+                            $('#deactiveRoom_' + idroom).removeClass('hide');
+                            $('#activeRoom_' + idroom).addClass('hide');
                         }
                     }
-                    else{
+                    else {
                         swal({
                             title: "¿Estás seguro?",
                             text: "La habitación que usted desea desactivar tiene reservas hechas, quiere desactivar la misma!",
@@ -351,22 +356,22 @@ var Step4 = function () {
                             cancelButtonText: "No",
                             closeOnConfirm: true
                         }, function () {
-                           HoldOn.open();
+                            HoldOn.open();
                             HoldOn.open();
                             $.ajax({
                                 type: 'post',
                                 url: url,
-                                data:  {idroom:idroom,val:val,forced:true},
+                                data: {idroom: idroom, val: val, forced: true},
                                 success: function (data) {
                                     HoldOn.close();
-                                    if(data.success){
-                                        if(!val){
-                                            $('#deactiveRoom_'+idroom).addClass('hide');
-                                            $('#activeRoom_'+idroom).removeClass('hide');
+                                    if (data.success) {
+                                        if (!val) {
+                                            $('#deactiveRoom_' + idroom).addClass('hide');
+                                            $('#activeRoom_' + idroom).removeClass('hide');
                                         }
-                                        else{
-                                            $('#deactiveRoom_'+idroom).removeClass('hide');
-                                            $('#activeRoom_'+idroom).addClass('hide');
+                                        else {
+                                            $('#deactiveRoom_' + idroom).removeClass('hide');
+                                            $('#activeRoom_' + idroom).addClass('hide');
                                         }
                                     }
                                 }
@@ -375,7 +380,62 @@ var Step4 = function () {
                     }
                 }
             });
+        },
+        updateIcalRoom: function (element, externalElement) {
+            var external = externalElement.val();
+            if (external == "") {
+                toastr.error('La habitacion debe tener una url de actualizacion asociada');
+
+            } else {
+                HoldOn.open();
+                var url = element.data("href");
+                var data = {"external": external};
+                $.ajax({
+                    type: 'post',
+                    url: url,
+                    data: data,
+                    success: function (data) {
+                        HoldOn.close();
+                        if (data.success) {
+                            toastr.info(data.message);
+                        } else {
+                            toastr.error('Ha ocurrido un error');
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        HoldOn.close();
+                        toastr.error('Ha ocurrido un error');
+                    }
+                });
+            }
+
+        },
+        cleanExternalIcalRoom: function (element, externalElement) {
+            var contain_external = element.data("external");
+            if (contain_external) {
+                HoldOn.open();
+                var url = element.data("href");
+                $.ajax({
+                    type: 'post',
+                    url: url,
+                    success: function (data) {
+
+                        if (data.success) {
+                            window.location = data["refreshUrl"];
+                            HoldOn.close();
+                            toastr.info(data.message);
+                        } else {
+                            toastr.error('Ha ocurrido un error');
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        HoldOn.close();
+                        toastr.error('Ha ocurrido un error');
+                    }
+                });
+            }
         }
+
     };
 }();
 //Start step4

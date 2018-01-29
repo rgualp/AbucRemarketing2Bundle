@@ -4,7 +4,6 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    {#<link rel="stylesheet" href="{{ asset('/bundles/mycpcasamodule/css/plugins/fullcalendar/fullcalendar.css') }}">#}
     <link rel="stylesheet" href="{{ asset('/bundles/mycp/css/datepicker.css') }}">
 {% endblock %}
 {% block content %}
@@ -12,7 +11,8 @@
         <div class="col-md-10 col-xs-12 white-bg">
             <div class="row">
                 <div class="col-sm-1 col-xs-3">
-                    <img src="{{ asset('bundles/mycpcasamodule/img/Disponibilidad.png') }}" class="img-title-step m-t-10">
+                    <img src="{{ asset('bundles/mycpcasamodule/img/Disponibilidad.png') }}"
+                         class="img-title-step m-t-10">
                 </div>
                 <div class="col-sm-8 col-xs-9">
                     <h2 class="font-blue">Disponibilidad</h2>
@@ -21,135 +21,163 @@
                     <h3 class="font-blue" style="margin-top: 15px;">Gestione la disponibilidad de sus habitaciones</h3>
                 </div>
             </div>
-     <div class="col-sm-12 padding-xs-0 m-t-20">
-         <div class="col-sm-9 col-xs-12 padding-xs-0">
-             <div class="tabbable font-black tab-mcp">
-                 <ul id="nav-tabs-dispo" class="nav nav-tabs mcp">
-                     {% for room in ownership.ownRooms %}
-                         <li id="nav{{ room.roomId }}" class="{% if loop.first %}active{% endif %}">
-                             <a href="#tab{{ room.roomId }}" data-toggle="tab" data-id="{{ room.roomId }}">
-                                 {% if not room.RoomActive %} <span style="font-size: 10px;margin-top: 10px;position: absolute;margin-left: -10px;color: red;">(desactivada)</span> {#<br>#} {% endif %}
-                                 Hab. {{ room.roomNum }}
-                             </a>
-                         </li>
-                      {% endfor %}
-                 </ul>
-                 <div id="tab-content-dispo" class="tab-content">
-                     {% for room in ownership.ownRooms %}
-                         <div id="tab{{ room.roomId }}" class="tab-pane {% if loop.first %}active{% endif %}" style="padding: 15px;" data-id="{{ room.roomId }}" >
-                             {#<h3>Habitación {{ room.roomNum }}</h3>#}
-                             <div class="row">
-                             <div class="col-md-12">
-                             <div id="loading-calendar{{ room.roomId }}" class="text-center">
-                                 <img src="{{ asset('bundles/mycp/images/ajax-loader-7.gif') }}">
-                             </div>
-                         <div id="calendar{{ room.roomId }}" class="fullcalendar">
+            <div class="col-sm-12 padding-xs-0 m-t-20">
+                <div class="col-sm-9 col-xs-12 padding-xs-0">
+                    <div class="tabbable font-black tab-mcp">
+                        <ul id="nav-tabs-dispo" class="nav nav-tabs mcp">
+                            {% for room in ownership.ownRooms %}
+                                <li id="nav{{ room.roomId }}" class="{% if loop.first %}active{% endif %}">
+                                    <a href="#tab{{ room.roomId }}" data-toggle="tab" data-id="{{ room.roomId }}">
+                                        {% if not room.RoomActive %} <span
+                                                style="font-size: 10px;margin-top: 10px;position: absolute;margin-left: -10px;color: red;">(desactivada)</span> {#<br>#} {% endif %}
+                                        Hab. {{ room.roomNum }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <div id="tab-content-dispo" class="tab-content">
+                            {% for room in ownership.ownRooms %}
+                                <div id="tab{{ room.roomId }}" class="tab-pane {% if loop.first %}active{% endif %}"
+                                     style="padding: 15px;" data-id="{{ room.roomId }}">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div id="loading-calendar{{ room.roomId }}" class="text-center">
+                                                <img src="{{ asset('bundles/mycp/images/ajax-loader-7.gif') }}">
+                                            </div>
+                                            <div id="calendar{{ room.roomId }}" class="fullcalendar">
 
-                         </div>
-                             </div>
-                         </div>
-                             <div class="row leyend-cal m-t-20 m-l-25">
-                                 <div class="col-md-4 col-xs-12">
-                                     <div class="row">
-                                         <div class="col-md-1 col-xs-1"><div class="circle circle-warning"></div> </div><span class="col-md-10 col-xs-10">{{ 'No disponible'|upper }}</span>
-                                     </div>
-                                 </div>
-                                 <div class="col-md-4 col-xs-12">
-                                     <div class="row">
-                                         <div class="col-md-1 col-xs-1"><div class="circle circle-info"></div></div><span class="col-md-10 col-xs-10">{{ 'Reservada MYCP'|upper }}</span>
-                                     </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row leyend-cal m-t-20 m-l-25">
+                                        <div class="col-md-4 col-xs-12">
+                                            <div class="row">
+                                                <div class="col-md-1 col-xs-1">
+                                                    <div class="circle circle-warning"></div>
+                                                </div>
+                                                <span class="col-md-10 col-xs-10">{{ 'No disponible'|upper }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-xs-12">
+                                            <div class="row">
+                                                <div class="col-md-1 col-xs-1">
+                                                    <div class="circle circle-info"></div>
+                                                </div>
+                                                <span class="col-md-10 col-xs-10">{{ 'Reservada MYCP'|upper }}</span>
+                                            </div>
 
-                                 </div>
-                                 <div class="col-md-4 col-xs-12">
-                                   <div class="row">
-                                   <div class="col-md-1 col-xs-1"><div class="circle circle-danger"></div></div><span class="col-md-10 col-xs-10">{{ 'Cancelada por cliente'|upper }}</span>
-                                   </div>
-                                 </div>
+                                        </div>
+                                        <div class="col-md-4 col-xs-12">
+                                            <div class="row">
+                                                <div class="col-md-1 col-xs-1">
+                                                    <div class="circle circle-danger"></div>
+                                                </div>
+                                                <span class="col-md-10 col-xs-10">{{ 'Cancelada por cliente'|upper }}</span>
+                                            </div>
+                                        </div>
 
-                             </div>
-                         </div>
-                     {% endfor %}
-                 </div>
-             </div>
-         </div>
-         <div class="col-sm-3 col-xs-12">
-             <div class="bg-gray row font-black">
-                 <form class="form-horizontal" id="form-unab" method="post" action="{{ path('save_unabailability') }}">
-                     <div class="form-group row">
-                         <label class="control-label">Habitación</label>
-                         <div class="row">
-                             <div class="col-sm-2 col-xs-2"><i class="glyphicons keys form-icon pull-right"></i></div>
-                             <div class="col-sm-10 col-xs-9">
-                                 <select class="form-control" name="room" id="">
-                                     {% for room in ownership.ownRooms %}
-                                     <option value="{{ room.roomId }}">
-                                         Habitación  {{ room.roomNum }}
-                                     </option>
-                                     {% endfor %}
-                                     </select>
-                                      </div>
-                             </div>
-                         </div>
-                     <div class="form-group row">
-                         <label class="control-label">Desde</label>
-                         <div class="row">
-                             <div class="col-sm-2 col-xs-2"><i class="glyphicons calendar form-icon pull-right"></i></div>
-                             <div class="col-sm-10 col-xs-9">
-                              <input type="text" id="date_from" name="date_from" class="form-control">
-                             </div>
-                             </div>
-                         </div>
-                     <div class="form-group row">
-                         <label class="control-label">Hasta</label>
-                         <div class="row">
-                             <div class="col-sm-2 col-xs-2"><i class="glyphicons calendar form-icon pull-right"></i></div>
-                             <div class="col-sm-10 col-xs-9">
-                                 <input type="text" id="date_to"  name="date_to" class="form-control">
-                             </div>
-                         </div>
-                     </div>
+                                    </div>
+                                    <div class="row">
+                                        {% set url_file = room.getICalUrlFromRequest(app.request) %}
+                                            <div id="url_ical_id" class="col-sm-12 col-md-12 col-xs-12" style="{{ url_file != "" ? 'display: block;' : 'display: none;'  }}">
+                                                <label style="padding-right: 0.5em;">Calendario</label>
+                                                <a href="{{ room.getICalUrlFromRequest(app.request) }}">{{ room.getICalUrlFromRequest(app.request) }}</a>
+                                            </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3 col-xs-12">
+                    <div class="bg-gray row font-black">
+                        <form class="form-horizontal" id="form-unab" method="post"
+                              action="{{ path('save_unabailability') }}">
+                            <div class="form-group row">
+                                <label class="control-label">Habitación</label>
+                                <div class="row">
+                                    <div class="col-sm-2 col-xs-2"><i class="glyphicons keys form-icon pull-right"></i>
+                                    </div>
+                                    <div class="col-sm-10 col-xs-9">
+                                        <select class="form-control" name="room" id="">
+                                            {% for room in ownership.ownRooms %}
+                                                <option value="{{ room.roomId }}">
+                                                    Habitación {{ room.roomNum }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="control-label">Desde</label>
+                                <div class="row">
+                                    <div class="col-sm-2 col-xs-2"><i
+                                                class="glyphicons calendar form-icon pull-right"></i></div>
+                                    <div class="col-sm-10 col-xs-9">
+                                        <input type="text" id="date_from" name="date_from" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="control-label">Hasta</label>
+                                <div class="row">
+                                    <div class="col-sm-2 col-xs-2"><i
+                                                class="glyphicons calendar form-icon pull-right"></i></div>
+                                    <div class="col-sm-10 col-xs-9">
+                                        <input type="text" id="date_to" name="date_to" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
 
-                     <div class="form-group row">
-                         <label class="control-label">Estado</label>
-                         <div class="row">
-                             <div class="col-sm-2 col-xs-2"><i class="glyphicons tag form-icon pull-right"></i></div>
-                             <div class="col-sm-10 col-xs-9">
-                                 <select class="form-control" name="status" id="">
-                                         <option value="0">No disponible</option>
-                                         <option value="1">Disponible</option>
-                                 </select>
-                             </div>
-                         </div>
-                     </div>
-                     <div class="row m-t-30 text-center margin-top-xs-10">
-                     <button type="submit" class="btn btn-primary dim">Guardar</button>
-                     <button type="reset" class="btn btn-default dim">Cancelar</button>
-                     </div>
-                     <div class="row text-center margin-top-xs-10">
-                         <i class="fa fa-refresh fa-spin hide" id="loading"></i>
-                     </div>
-                 </form>
-             </div>
-         </div>
-     </div>
-     </div>
+                            <div class="form-group row">
+                                <label class="control-label">Estado</label>
+                                <div class="row">
+                                    <div class="col-sm-2 col-xs-2"><i class="glyphicons tag form-icon pull-right"></i>
+                                    </div>
+                                    <div class="col-sm-10 col-xs-9">
+                                        <select class="form-control" name="status" id="">
+                                            <option value="0">No disponible</option>
+                                            <option value="1">Disponible</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row m-t-30 text-center margin-top-xs-10">
+                                <button type="submit" class="btn btn-primary dim">Guardar</button>
+                                <button type="reset" class="btn btn-default dim">Cancelar</button>
+                            </div>
+                            <div class="row text-center margin-top-xs-10">
+                                <i class="fa fa-refresh fa-spin hide" id="loading"></i>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="col-md-2 oneblue-bg col-content">
             <div id="help-step2-one" class="row">
                 <div class="col-md-12 m-t-20">
-                    <p>Utilice el formulario de la derecha para agregar no disponibildades en las habitaciones de su propiedad.</p>
+                    <p>Utilice el formulario de la derecha para agregar no disponibildades en las habitaciones de su
+                        propiedad.</p>
                 </div>
             </div>
             <div id="help-step2-two" class="row">
                 <div class="col-md-12 m-t-40">
-                    <p>Si da click sobre algún elemento del calendario etiquetado como "Reservada MyCp" o "Cancelada por cliente" se mostrará la página que contiene los detalles a la reservación correspondiente. Este tipo de elemento no sera editado ni eliminado.</p>
+                    <p>Si da click sobre algún elemento del calendario etiquetado como "Reservada MyCp" o "Cancelada por
+                        cliente" se mostrará la página que contiene los detalles a la reservación correspondiente. Este
+                        tipo de elemento no sera editado ni eliminado.</p>
                 </div>
             </div>
             <div id="help-step2-three" class="row">
                 <div class="col-md-12 m-t-40">
-                    <p>Los elementos etiquetados como "No disponibles" podrán ser modificados o eliminados sólo si la fecha en que ocurren es mayor o igual a la fecha del día de hoy. Para modificar o eliminar estos elementos, dé clic sobre ellos y se visualizará su información en el formulario que aparece en la derecha.</p>
+                    <p>Los elementos etiquetados como "No disponibles" podrán ser modificados o eliminados sólo si la
+                        fecha en que ocurren es mayor o igual a la fecha del día de hoy. Para modificar o eliminar estos
+                        elementos, dé clic sobre ellos y se visualizará su información en el formulario que aparece en
+                        la derecha.</p>
                 </div>
             </div>
-                   </div>
+        </div>
     </div>
 {% endblock %}
 
@@ -186,18 +214,15 @@
                     toastr.error('Ocurrió un error');
                 });
 
-                $envio.success(function(data){
-                    if(data['success']==true){
+                $envio.success(function (data) {
+                    if (data['success'] == true) {
                         toastr.success('Se guardó la información correctamente');
-                        var id= $('div.tab-pane.active').data('id');
-
-                        if(data['refreshPage'])
+                        var id = $('div.tab-pane.active').data('id');
+                        //TODO: Refresh contender de la ruta de descarga.
+                        if (data['refreshPage'])
                             window.location = data["refreshUrl"];
                         else {
-                            //$('#calendar' + id).fullCalendar('removeEvents');
                             $('#calendar' + id).fullCalendar('refetchEvents');
-                            //$('#calendar'+ id).fullCalendar('refetchEvents');
-                            //window.location = data["refreshUrl"];
                             $("#loading").addClass("hide");
                         }
                     }
@@ -207,23 +232,23 @@
                 });
 
             });
-          var dateTo= $('#date_to').datepicker({
-              format:'dd/mm/yyyy',
-              todayBtn:'linked',
-              language:'es',
-              autoclose: true,
-              startDate: yesterday, //new Date(),
-              minDate: new Date()
+            var dateTo = $('#date_to').datepicker({
+                format: 'dd/mm/yyyy',
+                todayBtn: 'linked',
+                language: 'es',
+                autoclose: true,
+                startDate: yesterday, //new Date(),
+                minDate: new Date()
             }).data('datepicker');
 
             $('#date_from').datepicker({
-                format:'dd/mm/yyyy',
-                todayBtn:'linked',
-                language:'es',
+                format: 'dd/mm/yyyy',
+                todayBtn: 'linked',
+                language: 'es',
                 autoclose: true,
                 minDate: new Date(),
                 startDate: yesterday//new Date()
-            }).on('changeDate', function(ev){
+            }).on('changeDate', function (ev) {
                 var date = new Date(ev.date);
                 dateTo.setStartDate(date);
                 date.setDate(date.getDate() + 1);
@@ -234,7 +259,6 @@
 
                 header: {
                     left: 'prev,next title',
-//                    center: '',
                     right: 'agendaDay month,agendaWeek'
                 },
                 editable: false,
@@ -243,7 +267,6 @@
                 lazyFetching: true,
                 lang: 'es',
                 'timezone': 'America/Havana',
-//                'eventTimeFormat': 'h:mmt',
                 eventSources: [
                     {
                         url: '{{ path('get_room_calendar') }}',
@@ -258,72 +281,39 @@
                         }
                     }
                 ],
-                {#events: function(start, end, timezone, callback) {#}
-                    {#$.ajax({#}
-                        {#url: '{{ path('get_room_calendar') }}',#}
-                        {#dataType: 'json',#}
-                        {#data: {#}
-                            {#// our hypothetical feed requires UNIX timestamps#}
-                            {#start: start.unix(),#}
-                            {#end: end.unix()#}
-                        {#},#}
-                        {#success: function(doc) {#}
-                            {#var events = [];#}
-                            {#$(doc).find('event').each(function() {#}
-                                {#events.push({#}
-                                    {#title: $(this).attr('title'),#}
-                                    {#start: $(this).attr('start') // will be parsed#}
-                                {#});#}
-                            {#});#}
-                            {#callback(events);#}
-                        {#}#}
-                    {#});#}
-                {#},#}
-                loading: function(bool) {
-                    if (bool)
-                    {
+
+                loading: function (bool) {
+                    if (bool) {
                         $('#loading-calendar{{ room.roomId }}').show();
 
                     }
-                    else
-                    {
+                    else {
                         $('#loading-calendar{{ room.roomId }}').hide();
 
 
                     }
                 },
-                eventRender: function(event, element, view){
-//                    console.log(element);
-//                    fc-day fc-widget-content fc-thu fc-future
-                    var st=event.start;
-//                    console.log(st._i);
-                    $('td.fc-day[data-date="'+st._i+'"]').addClass(''+event.className);
-                    $('td.fc-day-number[data-date="'+st._i+'"]').css('color','white');
+                eventRender: function (event, element, view) {
+                    var st = event.start;
+                    $('td.fc-day[data-date="' + st._i + '"]').addClass('' + event.className);
+                    $('td.fc-day-number[data-date="' + st._i + '"]').css('color', 'white');
                     element.addClass('hide');
 
 
                 },
-                dayClick: function( date, jsEvent, view){
-                   var data= date.format("YYYY-MM-DD");
-                   var todaysEvents = $('#calendar{{ room.roomId }}').fullCalendar('clientEvents', function(event) {
+                dayClick: function (date, jsEvent, view) {
+                    var data = date.format("YYYY-MM-DD");
+                    var todaysEvents = $('#calendar{{ room.roomId }}').fullCalendar('clientEvents', function (event) {
                         // Below statement returns the EVENT OBJECT of the clicked day after comparing the two dates
                         return (event.start._i == data);
                     });
-                    if (todaysEvents.length>0){
-                        if(todaysEvents[0].className=='circle-info')
-                        toastr.info(todaysEvents[0].title);
-//                        else if(todaysEvents[0].className=='circle-warning')
-//                        toastr.warning(todaysEvents[0].title);
-//                        else toastr.error(todaysEvents[0].title);
-
+                    if (todaysEvents.length > 0) {
+                        if (todaysEvents[0].className == 'circle-info')
+                            toastr.info(todaysEvents[0].title);
                     }
                 }
-//                dayRender: function(date, cell){
-//                    if (moment().diff(date,'days') > 0){
-//                        cell.css("background-color","silver");
-//                    }
-//                },
-            })
+
+            });
             {% endfor %}
         });
     </script>
