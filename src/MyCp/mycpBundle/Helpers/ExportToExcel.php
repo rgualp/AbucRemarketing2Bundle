@@ -3137,8 +3137,15 @@ ORDER BY gen_res_date ASC, user_user_name ASC, user_last_name ASC
 
         $data = $this->dataUsersReservations($idCliente);
 
-        if (count($data) > 0)
-            $excel = $this->createSheetUsersReservations($excel,"Cliente-Reservas", $idCliente, $data);
+        if (count($data) > 0) {
+            $excel = $this->createSheetUsersReservations($excel, "Cliente-Reservas", $idCliente, $data);
+        }
+         else{
+             $data = $this->dataUsersAgReservations($idCliente);
+             if(count($data))
+                 $excel = $this->createSheetUsersAgReservations($excel, "Cliente-Reservas", $idCliente, $data);
+
+         }
 
         $fileName = $this->getFileName($fileName."_".$idCliente);
         $this->save($excel, $fileName);
@@ -3202,6 +3209,63 @@ ORDER BY gen_res_date ASC, user_user_name ASC, user_last_name ASC
 
         return $results;
     }
+    private function dataUsersAgReservations($idCliente) {
+        $results = array();
+
+        $reportContent = $this->em->getRepository('mycpBundle:generalReservation')->getReservationsRoomsByClientAg($idCliente);
+
+        $index = 1;
+        $currentReservation = 0;
+        foreach ($reportContent as $content) {
+            $data = array();
+
+            if ($currentReservation != $content["gen_res_id"]) {
+                $data[0] = $index++;
+                $date = $content["gen_res_date"];
+                $data[1] = date('d/m/Y', $date->getTimestamp());
+                $data[2] = $content["gen_res_id"];
+                $data[3] = ownershipReservation::getStatusShortName($content["own_res_status"]);
+                $data[4] = $content["own_mcp_code"].(($content["own_inmediate_booking"]) ? " (RR)": "");
+                $data[5] = $content["own_name"];
+                $data[6] = $content["own_homeowner_1"].(($content["own_homeowner_2"] != "") ? " / ".$content["own_homeowner_2"]: "");
+                $phone = ($content["own_phone_number"] != "") ? $content["prov_phone_code"]." ".$content["own_phone_number"] : "";
+                $data[7] = $phone.($content["own_mobile_number"] != "" ? " / ".$content["own_mobile_number"] : "");
+                $data[8] = $content["own_commission_percent"]." %";
+
+            } else {
+                $data[0] = "";
+                $data[1] = "";
+                $data[2] = "";
+                $data[3] = "";
+                $data[4] = "";
+                $data[5] = "";
+                $data[6] = "";
+                $data[7] = "";
+                $data[8] = "";
+            }
+
+            $data[9] = room::getShortRoomType($content["own_res_room_type"]);
+            $data[10] = $content["own_res_count_adults"];
+            $data[11] = $content["own_res_count_childrens"];
+            $data[12] = $content["own_res_total_in_site"] / $content["nights"];
+            $date = $content["own_res_reservation_from_date"];
+            $data[13] = date('d/m/Y', $date->getTimestamp());
+            $data[14] = $content["nights"];
+            //
+
+            if ($currentReservation != $content["gen_res_id"]) {
+                $currentReservation = $content["gen_res_id"];
+                $data[15] = $content["gen_res_total_in_site"];
+            }
+            else {
+                $data[15] = "";
+            }
+            //
+            array_push($results, $data);
+        }
+
+        return $results;
+    }
 
     private function createSheetUsersReservations($excel, $sheetName, $idCliente, $data) {
 
@@ -3212,6 +3276,61 @@ ORDER BY gen_res_date ASC, user_user_name ASC, user_last_name ASC
         $sheet->setCellValue('a2', 'País: '.$client->getUserCountry()->getCoName());
         $sheet->setCellValue('c2', 'Idioma: '.$userTourist->getUserTouristLanguage()->getLangName());
         $sheet->setCellValue('e2', 'Moneda: '.$userTourist->getUserTouristCurrency()->getCurrCode());
+        $now = new \DateTime();
+        $sheet->setCellValue('a4', 'Generado: '.$now->format('d/m/Y H:s'));
+
+        $sheet->setCellValue('a6', 'No.');
+        $sheet->setCellValue('b6', 'Fecha');
+        $sheet->setCellValue('c6', 'Reserva');
+        $sheet->setCellValue('d6', 'Estado');
+        $sheet->setCellValue('e6', 'Alojamiento');
+        $sheet->setCellValue('f6', 'Nombre Alojamiento');
+        $sheet->setCellValue('g6', 'Propietario (s)');
+        $sheet->setCellValue('h6', 'Teléfono(s)');
+        $sheet->setCellValue('i6', 'Comisión');
+        $sheet->setCellValue('j6', 'Habitación');
+        $sheet->setCellValue('k6', 'Adultos');
+        $sheet->setCellValue('l6', 'Niños');
+        $sheet->setCellValue('m6', 'Precio-Habitación');
+        $sheet->setCellValue('n6', 'Llegada');
+        $sheet->setCellValue('o6', 'Noches');
+        $sheet->setCellValue('p6', 'Precio Total');
+
+        $sheet = $this->styleHeader("a6:p6", $sheet);
+        $style = array(
+            'font' => array(
+                'bold' => true,
+                'size' => 14
+            ),
+        );
+        $sheet->getStyle("a1")->applyFromArray($style);
+        $sheet->mergeCells("A1:p1");
+        $sheet->mergeCells("A4:p4");
+
+        $centerStyle = array(
+            'alignment' => array(
+                'horizontal' => \PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+            )
+        );
+        $sheet->getStyle("A1:k1")->applyFromArray($centerStyle);
+
+        $sheet->fromArray($data, ' ', 'A7');
+        $this->setColumnAutoSize("a", "p", $sheet);
+        /*$sheet->getStyle('j7:j'.(count($data) + 6))->getNumberFormat()->setFormatCode(\PHPExcel_Style_NumberFormat::FORMAT_DATE_DDMMYYYY);
+        $sheet->setAutoFilter("A7:j".(count($data) + 6));*/
+
+        return $excel;
+    }
+    private function createSheetUsersAgReservations($excel, $sheetName, $idCliente, $data) {
+
+        $client = $this->em->getRepository('PartnerBundle:paClient')->find($idCliente);
+        $client_agency = $client->getTravelAgency()->getTourOperators()->first()->getTourOperator();
+        $sheet = $this->createSheet($excel, $sheetName);
+        $sheet->setCellValue('a1', "Cliente: ".$client->getFullName());
+        $sheet->setCellValue('a2', 'País: '.$client->getTravelAgency()->getCountry()->getCoName());
+        $sheet->setCellValue('c2', 'Idioma: '.$client_agency->getUserLanguage()->getLangName());
+        $sheet->setCellValue('e2', 'Moneda: '.$client_agency->getUserCurrency()->getCurrCode());
+
         $now = new \DateTime();
         $sheet->setCellValue('a4', 'Generado: '.$now->format('d/m/Y H:s'));
 
