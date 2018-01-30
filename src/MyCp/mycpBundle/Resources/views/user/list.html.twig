@@ -182,7 +182,8 @@
                 {% for user in users.getIterator() %}
                     <tr>
                         <td>{{ user.getUserUserName }} {{ user.getUserLastName }}</td>
-                        <td>{{ user.getName }} {% if user.getName != user.userEmail %}<br/> {{ user.userEmail }}{% endif %}
+                        <td>{{ user.getName }} {% if user.getName != user.userEmail %}
+                                <br/> {{ user.userEmail }}{% endif %}
                         </td>
                         <td>{% if user.getUserSubrole.getRoleName is defined %}{{ user.getUserSubrole.getRoleName }}{% else %}{{ user.getUserRole }}{% endif %}</td>
                         <td>{{ user.getUserCity }} {% if user.getUserCountry and user.getUserCity %}/{% endif %} {% if user.getUserCountry %}{{ user.getUserCountry.getCoName }}{% endif %}</td>
@@ -216,7 +217,6 @@
         '@mycpBundle/Resources/public/js/common_list.js'
         '@mycpBundle/Resources/public/js/bootstrap-datepicker.js'
         '@mycpBundle/Resources/public/js/bootstrap-datepicker.es.js'
-        '@mycpBundle/Resources/public/js/paginator.js'
         filter='?uglifyjs2' %}
         <script src="{{ asset_url }}"></script>
     {% endjavascripts %}

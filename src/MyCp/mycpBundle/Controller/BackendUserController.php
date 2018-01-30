@@ -450,7 +450,7 @@ class BackendUserController extends Controller
         return $this->render('mycpBundle:user:newUserPartner.html.twig', array('form' => $form->createView(), 'data' => $data, 'id_role' => '', 'edit_user' => $id_user));
     }
 
-    function list_userAction($items_per_page)
+    function list_userAction(Request $request, $items_per_page)
     {
 
         $service_security = $this->get('Secure');
