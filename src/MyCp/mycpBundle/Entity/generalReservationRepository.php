@@ -3576,7 +3576,7 @@ order by LENGTH(o.own_mcp_code), o.own_mcp_code";
             JOIN resDet.reservation res
             JOIN res.client cl
             WHERE cl.id = :user_id $whereOwn
-            GROUP BY gre.gen_res_id
+            
             ORDER BY gre.gen_res_id DESC";
 
         $query = $em->createQuery($queryString);

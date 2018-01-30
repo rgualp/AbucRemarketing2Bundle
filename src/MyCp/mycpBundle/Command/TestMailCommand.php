@@ -41,7 +41,7 @@ class TestMailCommand extends ContainerAwareCommand
 		$mail_success= array();
 
 		$mails= array(
-			'yanet.moralesr@gmail.com',
+			'vhagar91@gmail.com',
 			'ander@mycasaparticular.com',
 			'arieskiemendoza@gmail.com',
             "anne.schweizer@abuc.ch",
