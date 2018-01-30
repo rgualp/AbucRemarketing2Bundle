@@ -2,29 +2,26 @@
 
 namespace MyCp\mycpBundle\Controller;
 
+use MyCp\FrontEndBundle\Helpers\Utils;
 use MyCp\mycpBundle\Entity\log;
+use MyCp\mycpBundle\Entity\role;
+use MyCp\mycpBundle\Entity\rolePermission;
+use MyCp\mycpBundle\Form\clientCasaType;
+use MyCp\mycpBundle\Form\clientPartnerType;
+use MyCp\mycpBundle\Form\clientStaffType;
+use MyCp\mycpBundle\Form\clientTouristType;
+use MyCp\mycpBundle\Helpers\BackendModuleName;
 use MyCp\mycpBundle\Helpers\DataBaseTables;
 use MyCp\mycpBundle\Helpers\Operations;
 use MyCp\mycpBundle\Helpers\RedirectCode;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use MyCp\mycpBundle\Entity\user;
-use MyCp\mycpBundle\Entity\userCasa;
-use MyCp\mycpBundle\Entity\role;
-use MyCp\mycpBundle\Entity\rolePermission;
-use MyCp\mycpBundle\Form\clientStaffType;
-use MyCp\mycpBundle\Form\clientCasaType;
-use MyCp\mycpBundle\Form\clientTouristType;
-use MyCp\mycpBundle\Form\clientPartnerType;
-use MyCp\mycpBundle\Entity\userPartner;
-use MyCp\mycpBundle\Helpers\BackendModuleName;
-use \MyCp\FrontEndBundle\Helpers\Utils;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class BackendUserController extends Controller {
+class BackendUserController extends Controller
+{
 
-    function new_user_staffAction($id_role, Request $request) {
+    function new_user_staffAction($id_role, Request $request)
+    {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
@@ -56,7 +53,7 @@ class BackendUserController extends Controller {
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 $service_log = $this->get('log');
-                $service_log->saveLog($user->getLogDescription()." (Usuario Staff)", BackendModuleName::MODULE_USER, log::OPERATION_INSERT, DataBaseTables::USER);
+                $service_log->saveLog($user->getLogDescription() . " (Usuario Staff)", BackendModuleName::MODULE_USER, log::OPERATION_INSERT, DataBaseTables::USER);
 
                 return $this->redirect($this->generateUrl('mycp_list_users'));
             } else {
@@ -67,7 +64,8 @@ class BackendUserController extends Controller {
         return $this->render('mycpBundle:user:newUserStaff.html.twig', array('form' => $form->createView(), 'data' => $data, 'id_role' => $id_role, 'message_error' => $data["error"], "role" => $role));
     }
 
-    function edit_user_staffAction($id_user, Request $request) {
+    function edit_user_staffAction($id_user, Request $request)
+    {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
@@ -77,7 +75,7 @@ class BackendUserController extends Controller {
         $count_errors = 0;
 
         $data['edit'] = true;
-        $user= $em->getRepository('mycpBundle:user')->findOneBy(array('user_id'=>$id_user));
+        $user = $em->getRepository('mycpBundle:user')->findOneBy(array('user_id' => $id_user));
 //        dump($user); die;
 
         $data['user_role'] = $user->getUserRole();
@@ -99,7 +97,7 @@ class BackendUserController extends Controller {
                 $message = 'Usuario actualizado satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
                 $service_log = $this->get('log');
-                $service_log->saveLog($user->getLogDescription()." (Usuario Staff)", BackendModuleName::MODULE_USER, log::OPERATION_UPDATE, DataBaseTables::USER);
+                $service_log->saveLog($user->getLogDescription() . " (Usuario Staff)", BackendModuleName::MODULE_USER, log::OPERATION_UPDATE, DataBaseTables::USER);
                 return $this->redirect($this->generateUrl('mycp_list_users'));
             }
         } else {
@@ -114,15 +112,16 @@ class BackendUserController extends Controller {
             $data_user['user_city'] = $user->getUserCity();
             $data_user['user_country'] = $user->getUserCountry()->getCoId();
             $data_user['locked'] = $user->getLocked();
-           // $data_user['user_role'] = $user->getUserRole();
-            $userRole = $em->getRepository('mycpBundle:role')->findOneBy(array('role_name'=>$user->getUserRole()));
+            // $data_user['user_role'] = $user->getUserRole();
+            $userRole = $em->getRepository('mycpBundle:role')->findOneBy(array('role_name' => $user->getUserRole()));
             $data_user['user_role'] = $userRole;
             $form->setData($data_user);
         }
         return $this->render('mycpBundle:user:newUserStaff.html.twig', array('form' => $form->createView(), 'data' => $data, 'id_role' => '', 'edit_user' => $id_user, 'message_error' => $data["error"]));
     }
 
-    function new_user_casaAction($id_role, Request $request) {
+    function new_user_casaAction($id_role, Request $request)
+    {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
@@ -152,7 +151,7 @@ class BackendUserController extends Controller {
                     $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                     $service_log = $this->get('log');
-                    $service_log->saveLog($user_casa->getUserCasaUser()->getLogDescription()." (Usuario Casa)", BackendModuleName::MODULE_USER, log::OPERATION_INSERT, DataBaseTables::USER);
+                    $service_log->saveLog($user_casa->getUserCasaUser()->getLogDescription() . " (Usuario Casa)", BackendModuleName::MODULE_USER, log::OPERATION_INSERT, DataBaseTables::USER);
 
                     return $this->redirect($this->generateUrl('mycp_list_users'));
                 }
@@ -163,7 +162,8 @@ class BackendUserController extends Controller {
         return $this->render('mycpBundle:user:newUserCasa.html.twig', array('form' => $form->createView(), 'data' => $data, 'id_role' => $id_role));
     }
 
-    function edit_user_casaAction($id_user, Request $request) {
+    function edit_user_casaAction($id_user, Request $request)
+    {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
@@ -201,15 +201,14 @@ class BackendUserController extends Controller {
                 $message = 'Usuario actualizado satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
                 $service_log = $this->get('log');
-                $service_log->saveLog($user_casa->getUserCasaUser()->getLogDescription()." (Usuario Casa)", BackendModuleName::MODULE_USER, log::OPERATION_UPDATE, DataBaseTables::USER);
+                $service_log->saveLog($user_casa->getUserCasaUser()->getLogDescription() . " (Usuario Casa)", BackendModuleName::MODULE_USER, log::OPERATION_UPDATE, DataBaseTables::USER);
                 $user = $this->get('security.context')->getToken()->getUser();
                 if ($user->getUserRole() == 'ROLE_CLIENT_STAFF')
                     return $this->redirect($this->generateUrl('mycp_list_users'));
                 else
                     return $this->redirect($this->generateUrl('mycp_backend_front'));
             }
-        }
-        else {
+        } else {
             $user_casa = $em->getRepository('mycpBundle:userCasa')->findOneBy(array('user_casa_user' => $id_user));
 //            $user_casa = $user_casa[0];
             $data_user['user_name'] = $user_casa->getUserCasaUser()->getName();
@@ -227,11 +226,12 @@ class BackendUserController extends Controller {
             $form->setData($data_user);
         }
         return $this->render('mycpBundle:user:newUserCasa.html.twig', array('form' => $form->createView(),
-                    'data' => $data, 'id_role' => '', 'edit_user' => $id_user,
-                    'user' => $data_user));
+            'data' => $data, 'id_role' => '', 'edit_user' => $id_user,
+            'user' => $data_user));
     }
 
-    function new_user_touristAction($id_role, Request $request) {
+    function new_user_touristAction($id_role, Request $request)
+    {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
@@ -243,8 +243,7 @@ class BackendUserController extends Controller {
         $data['languages'] = $langs;
         $count_errors = 0;
 
-        if($id_role == null)
-        {
+        if ($id_role == null) {
             $touristRole = $em->getRepository("mycpBundle:role")->findOneBy(array("role_name" => "ROLE_CLIENT_TOURIST"));
             $id_role = $touristRole->getRoleId();
         }
@@ -271,13 +270,15 @@ class BackendUserController extends Controller {
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 $service_log = $this->get('log');
-                $service_log->saveLog($userTourist->getUserTouristUser()->getLogDescription()." (Usuario Turista)", BackendModuleName::MODULE_USER, log::OPERATION_INSERT, DataBaseTables::USER);
+                $service_log->saveLog($userTourist->getUserTouristUser()->getLogDescription() . " (Usuario Turista)", BackendModuleName::MODULE_USER, log::OPERATION_INSERT, DataBaseTables::USER);
 
-                switch($operation)
-                {
-                    case Operations::SAVE_AND_EXIT: return $this->redirect($this->generateUrl('mycp_list_users'));
-                    case Operations::SAVE_USER_AND_NEW_OFFER: return $this->redirect($this->generateUrl('mycp_new_offer_to_client', array("idClient" => $userTourist->getUserTouristUser()->getUserId() )));
-                    default: return $this->redirect($this->generateUrl('mycp_list_users'));
+                switch ($operation) {
+                    case Operations::SAVE_AND_EXIT:
+                        return $this->redirect($this->generateUrl('mycp_list_users'));
+                    case Operations::SAVE_USER_AND_NEW_OFFER:
+                        return $this->redirect($this->generateUrl('mycp_new_offer_to_client', array("idClient" => $userTourist->getUserTouristUser()->getUserId())));
+                    default:
+                        return $this->redirect($this->generateUrl('mycp_list_users'));
                 }
 
             } else {
@@ -288,7 +289,8 @@ class BackendUserController extends Controller {
         return $this->render('mycpBundle:user:newUserTourist.html.twig', array('form' => $form->createView(), 'data' => $data, 'id_role' => $id_role));
     }
 
-    function edit_user_touristAction($id_user, Request $request) {
+    function edit_user_touristAction($id_user, Request $request)
+    {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
@@ -318,7 +320,7 @@ class BackendUserController extends Controller {
                 $message = 'Usuario actualizado satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
                 $service_log = $this->get('log');
-                $service_log->saveLog($userTourist->getUserTouristUser()->getLogDescription()." (Usuario Turista)", BackendModuleName::MODULE_USER, log::OPERATION_UPDATE, DataBaseTables::USER);
+                $service_log->saveLog($userTourist->getUserTouristUser()->getLogDescription() . " (Usuario Turista)", BackendModuleName::MODULE_USER, log::OPERATION_UPDATE, DataBaseTables::USER);
                 return $this->redirect($this->generateUrl('mycp_list_users'));
             }
         } else {
@@ -347,10 +349,11 @@ class BackendUserController extends Controller {
             $data_user['locked'] = ($user_tourist != null) ? $user_tourist->getUserTouristUser()->getLocked() : null;
             $form->setData($data_user);
         }
-        return $this->render('mycpBundle:user:newUserTourist.html.twig', array('form' => $form->createView(), 'data' => $data, 'id_role' => '', 'edit_user' => $id_user, 'tourist'=> $user_tourist));
+        return $this->render('mycpBundle:user:newUserTourist.html.twig', array('form' => $form->createView(), 'data' => $data, 'id_role' => '', 'edit_user' => $id_user, 'tourist' => $user_tourist));
     }
 
-    function new_user_partnerAction($id_role, Request $request) {
+    function new_user_partnerAction($id_role, Request $request)
+    {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
@@ -391,7 +394,8 @@ class BackendUserController extends Controller {
         return $this->render('mycpBundle:user:newUserPartner.html.twig', array('form' => $form->createView(), 'data' => $data, 'id_role' => $id_role));
     }
 
-    function edit_user_partnerAction($id_user, Request $request) {
+    function edit_user_partnerAction($id_user, Request $request)
+    {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
@@ -422,7 +426,7 @@ class BackendUserController extends Controller {
                 $message = 'Usuario actualizado satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
                 $service_log = $this->get('log');
-                $service_log->saveLog($userPartner->getTourOperator()->getLogDescription()." (Usuario Partner)", BackendModuleName::MODULE_USER, log::OPERATION_UPDATE, DataBaseTables::USER);
+                $service_log->saveLog($userPartner->getTourOperator()->getLogDescription() . " (Usuario Partner)", BackendModuleName::MODULE_USER, log::OPERATION_UPDATE, DataBaseTables::USER);
                 return $this->redirect($this->generateUrl('mycp_list_users'));
             }
         } else {
@@ -446,7 +450,9 @@ class BackendUserController extends Controller {
         return $this->render('mycpBundle:user:newUserPartner.html.twig', array('form' => $form->createView(), 'data' => $data, 'id_role' => '', 'edit_user' => $id_user));
     }
 
-    function list_userAction($items_per_page, Request $request) {
+    function list_userAction(Request $request, $items_per_page)
+    {
+
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $filter_user_name = $request->get('filter_user_name');
@@ -463,7 +469,7 @@ class BackendUserController extends Controller {
 
         if ($request->getMethod() == 'POST' && $filter_user_name == 'null' && $filter_role == 'null' && $filter_city == 'null' && $filter_country == 'null'
             && $filter_name == 'null' && $filter_last_name == 'null' && $filter_email == 'null'
-            && $filter_method == 'null'  && $filter_status == 'null'  && $filter_creation_date_from == 'null'  && $filter_creation_date_to == 'null'
+            && $filter_method == 'null' && $filter_status == 'null' && $filter_creation_date_from == 'null' && $filter_creation_date_to == 'null'
         ) {
             $message = 'Debe llenar al menos un campo para filtrar.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
@@ -493,36 +499,33 @@ class BackendUserController extends Controller {
         if ($filter_creation_date_from == 'null')
             $filter_creation_date_from = '';
 
-        $page = 1;
-        if (isset($_GET['page']))
-            $page = $_GET['page'];
-        $em = $this->getDoctrine()->getManager();
-        $paginator = $this->get('ideup.simple_paginator');
-        $paginator->setItemsPerPage($items_per_page);
-        $users = $paginator->paginate($em->getRepository('mycpBundle:user')->getAll($filter_user_name, $filter_role, $filter_city, $filter_country, $filter_name, $filter_last_name, $filter_email, $filter_method, $filter_status, $filter_creation_date_from, $filter_creation_date_to))->getResult();
-//        $service_log = $this->get('log');
-//        $service_log->saveLog('Visit', BackendModuleName::MODULE_USER);
 
+        $page = $request->get('page') == null ? 1 : $request->get('page');
+        $em = $this->getDoctrine()->getManager();
+        $paginator = $em->getRepository('mycpBundle:user')->getAllPaginate($filter_user_name, $filter_role, $filter_city, $filter_country, $filter_name, $filter_last_name, $filter_email, $filter_method, $filter_status, $filter_creation_date_from, $filter_creation_date_to, $page, $items_per_page);
         return $this->render('mycpBundle:user:list.html.twig', array(
-                    'users' => $users,
-                    'items_per_page' => $items_per_page,
-                    'current_page' => $page,
-                    'total_items' => $paginator->getTotalItems(),
-                    'filter_user_name' => $filter_user_name,
-                    'filter_role' => $filter_role,
-                    'filter_city' => $filter_city,
-                    'filter_country' => $filter_country,
-                    'filter_name' => $filter_name,
-                    'filter_last_name' => $filter_last_name,
-                    'filter_email' => $filter_email,
-                    'filter_method' => $filter_method,
-                    'filter_status' => $filter_status,
-                    'filter_creation_date_from' => $filter_creation_date_from,
-                    'filter_creation_date_to' => $filter_creation_date_to
+            'users' => $paginator,
+            'items_per_page' => $items_per_page,
+            'current_page' => $page,
+            'total_items' => $paginator->count(),
+            'num_pages' => $paginator->getNumPages(),
+            'filter_user_name' => $filter_user_name,
+            'filter_role' => $filter_role,
+            'filter_city' => $filter_city,
+            'filter_country' => $filter_country,
+            'filter_name' => $filter_name,
+            'filter_last_name' => $filter_last_name,
+            'filter_email' => $filter_email,
+            'filter_method' => $filter_method,
+            'filter_status' => $filter_status,
+            'filter_creation_date_from' => $filter_creation_date_from,
+            'filter_creation_date_to' => $filter_creation_date_to
         ));
     }
 
-    public function exportAction(Request $request) {
+
+    public function exportAction(Request $request)
+    {
         try {
             //$service_security = $this->get('Secure');
             //$service_security->verifyAccess();
@@ -565,17 +568,15 @@ class BackendUserController extends Controller {
             $em = $this->getDoctrine()->getManager();
             $users = $em->getRepository('mycpBundle:user')->getAll($filter_user_name, $filter_role, $filter_city, $filter_country, $filter_name, $filter_last_name, $filter_email, $filter_method, $filter_status, $filter_creation_date_from, $filter_creation_date_to);
 
-            if(count($users)) {
+            if (count($users)) {
                 $exporter = $this->get("mycp.service.export_to_excel");
                 return $exporter->exportUsers($users);
-            }
-            else {
+            } else {
                 $message = 'No hay datos para llenar el Excel a descargar.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
                 return $this->redirect($this->generateUrl("mycp_list_users"));
             }
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             $message = 'Ha ocurrido un error. Por favor, introduzca correctamente los valores para filtrar.';
             $this->get('session')->getFlashBag()->add('message_error_main', $message);
 
@@ -583,7 +584,8 @@ class BackendUserController extends Controller {
         }
     }
 
-    function delete_userAction($id_user) {
+    function delete_userAction($id_user)
+    {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $id_loged_user = $this->get('security.context')->getToken()->getUser()->getUserId();
@@ -657,7 +659,8 @@ class BackendUserController extends Controller {
         }
     }
 
-    function new_roleAction($id_role, Request $request) {
+    function new_roleAction($id_role, Request $request)
+    {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
@@ -742,7 +745,8 @@ class BackendUserController extends Controller {
         return $this->render('mycpBundle:user:newRole.html.twig', array('permissions' => $permissions, 'role' => $role, 'data' => $data, 'post' => $post));
     }
 
-    function delete_roleAction($id_role, Request $request) {
+    function delete_roleAction($id_role, Request $request)
+    {
         $em = $this->getDoctrine()->getManager();
         $role = $em->getRepository('mycpBundle:role')->find($id_role);
         $users = $em->getRepository('mycpBundle:user')->findBy(array('user_subrole' => $id_role));
@@ -776,21 +780,24 @@ class BackendUserController extends Controller {
         return $this->redirect($this->generateUrl('mycp_list_users'));
     }
 
-    function get_all_rolesAction($selected) {
+    function get_all_rolesAction($selected)
+    {
         $selected = strtoupper($selected);
         $em = $this->getDoctrine()->getManager();
         $roles = $em->getRepository('mycpBundle:role')->findAll();
         return $this->render('mycpBundle:utils:roles.html.twig', array('roles' => $roles, 'selected' => $selected));
     }
 
-    function getUsersCasaAction($exclude_own_id = null) {
+    function getUsersCasaAction($exclude_own_id = null)
+    {
         $em = $this->getDoctrine()->getManager();
         $users_casa = $em->getRepository('mycpBundle:userCasa')->getUsers($exclude_own_id);
 
         return $this->render('mycpBundle:utils:users_casa.html.twig', array('users' => $users_casa));
     }
 
-    function get_all_usersAction($post) {
+    function get_all_usersAction($post)
+    {
         $em = $this->getDoctrine()->getManager();
         $users = $em->getRepository('mycpBundle:user')->findAll();
         $selected = '';
@@ -800,19 +807,21 @@ class BackendUserController extends Controller {
         return $this->render('mycpBundle:utils:users.html.twig', array('selected' => $selected, 'users' => $users));
     }
 
-    function get_roles_staffAction() {
+    function get_roles_staffAction()
+    {
         $selected = '';
         $em = $this->getDoctrine()->getManager();
         $roles = $em->getRepository('mycpBundle:role')->getStaffRoles();
         return $this->render('mycpBundle:utils:roles.html.twig', array('roles' => $roles, 'selected' => $selected));
     }
 
-    function changeStatusAction($userId, Request $request) {
+    function changeStatusAction($userId, Request $request)
+    {
         try {
             $em = $this->getDoctrine()->getManager();
             $user = $em->getRepository('mycpBundle:user')->changeStatus($userId, true);
 
-            if($user !== false && $user->getUserEnabled()){
+            if ($user !== false && $user->getUserEnabled()) {
                 $this->sendEmailToOwn($user);
             }
 
@@ -827,18 +836,19 @@ class BackendUserController extends Controller {
         $previousUrl = $this->getRequest()->headers->get('referer');
 
         return $this->redirect($previousUrl);
-            // return $this->redirect($this->generateUrl('mycp_list_ownerships'));
+        // return $this->redirect($this->generateUrl('mycp_list_ownerships'));
 
     }
 
-    function sendEmailToOwn($user) {
+    function sendEmailToOwn($user)
+    {
         $ownership = $user->getUserUserCasa()->first()->getUserCasaOwnership();
         $userCasa = $user->getUserUserCasa()->first();
         $em = $this->getDoctrine()->getManager();
 
         //Enviar correo a los propietarios
         $accommodationEmail = ($ownership->getOwnEmail1()) ? $ownership->getOwnEmail1() : $ownership->getOwnEmail2();
-        if(isset($accommodationEmail) && $accommodationEmail != ""){
+        if (isset($accommodationEmail) && $accommodationEmail != "") {
             $userName = ($ownership->getOwnHomeowner1()) ? $ownership->getOwnHomeowner1() : $ownership->getOwnHomeowner2();
             $localOperationAssistant = $em->getRepository("mycpBundle:localOperationAssistant")->findOneBy(array("municipality" => $ownership->getOwnAddressMunicipality()->getMunId(), "active" => 1));
 
@@ -864,7 +874,7 @@ class BackendUserController extends Controller {
         $dir = $this->container->getParameter('user.dir.photos');
 
         $fileName = "no_photo.gif";
-        if($user->getUserPhoto() != null && file_exists($dir.$user->getUserPhoto()->getPhoName())) {
+        if ($user->getUserPhoto() != null && file_exists($dir . $user->getUserPhoto()->getPhoName())) {
             $fileName = $user->getUserPhoto()->getPhoName();
         }
 
@@ -872,13 +882,14 @@ class BackendUserController extends Controller {
 
         //return new Response("<img  class='img-polaroid' title='".$user->getUserCompleteName()."' src='".$dir.$fileName."'/>");
         return $this->render('mycpBundle:utils:userPhoto.html.twig', array(
-            'photoFullPath' => $dir.$fileName,
+            'photoFullPath' => $dir . $fileName,
             'changePhotoLink' => $changePhotoLink,
             'userCompleteName' => $user->getUserCompleteName()
         ));
     }
 
-    public function editUserAction($idUser, Request $request){
+    public function editUserAction($idUser, Request $request)
+    {
         /*$service_security = $this->get('Secure');
         $service_security->verifyAccess();*/
         $em = $this->getDoctrine()->getManager();
@@ -888,7 +899,7 @@ class BackendUserController extends Controller {
         $count_errors = 0;
 
         $data['edit'] = true;
-        $user= $em->getRepository('mycpBundle:user')->findOneBy(array('user_id'=>$idUser));
+        $user = $em->getRepository('mycpBundle:user')->findOneBy(array('user_id' => $idUser));
 //        dump($user); die;
 
         //$data['user_role'] = $user->getUserRole();
@@ -925,7 +936,7 @@ class BackendUserController extends Controller {
             $data_user['user_city'] = $user->getUserCity();
             $data_user['user_country'] = $user->getUserCountry()->getCoId();
             // $data_user['user_role'] = $user->getUserRole();
-            $userRole = $em->getRepository('mycpBundle:role')->findOneBy(array('role_name'=>$user->getUserRole()));
+            $userRole = $em->getRepository('mycpBundle:role')->findOneBy(array('role_name' => $user->getUserRole()));
             $data_user['user_role'] = $userRole;
             $form->setData($data_user);
         }
