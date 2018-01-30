@@ -169,7 +169,7 @@ class CancelReservationService extends Controller
             'refund' => $agencyRefund
         ));
 
-        $this->mailService->setTo(array(/*'sarahy_amor@yahoo.com', */'reservation@mycasaparticular.com', 'andy@hds.li'));
+        $this->mailService->setTo(array(/*'sarahy_amor@yahoo.com', */$travelAgency->getEmail(),$travelAgency->getContacts()->getEmail(),'reservation@mycasaparticular.com', 'andy@hds.li'));
         $this->mailService->setSubject("Cancelación de Agencia");
         $this->mailService->setFrom("reservation@mycasaparticular.com", 'MyCasaParticular.com');
         $this->mailService->setBody($emailBody->getContent());

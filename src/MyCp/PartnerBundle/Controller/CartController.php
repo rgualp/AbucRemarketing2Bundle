@@ -24,6 +24,44 @@ class CartController extends Controller
     /**
      * @return \Symfony\Component\HttpFoundation\Response
      */
+    public function countCartItemsAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $ids_gr = $request->get('ids');
+        $ids_gr = ($ids_gr != null) ? $ids_gr:array();
+        if(!$this->getUser()->ifTouroperator()){
+            $user1 = $this->getUser();
+        }
+        else{
+            $user1 = $this->getUser()->getMentor();
+        }
+
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $travelAgency = $tourOperator->getTravelAgency();
+
+        $tourOperator2 = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user1->getUserId()));
+        $userrepo= $em->getRepository('mycpBundle:user');
+        $travelAgency2 = $tourOperator2->getTravelAgency();
+        $travelAgencys=array();
+        if($user->ifTouroperator()==false)
+        {
+            $touroperators=$userrepo->getTourOperators($user->getUserId());
+            foreach ($touroperators as $operator){
+                $tourOperator1 = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $operator['user_id']));
+                array_push($travelAgencys,$tourOperator1->getTravelAgency());
+
+            }
+            $cartItems = $em->getRepository("PartnerBundle:paReservation")->getAllCartItems($travelAgency,$travelAgencys, $ids_gr);
+        }
+        else {
+            $cartItems = $em->getRepository("PartnerBundle:paReservation")->getCartItems($travelAgency, $ids_gr);
+        }
+
+        return $this->render('PartnerBundle:Cart:cart_count.html.twig', array(
+            'count' => count($cartItems),
+
+        ));
+    }
     public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();

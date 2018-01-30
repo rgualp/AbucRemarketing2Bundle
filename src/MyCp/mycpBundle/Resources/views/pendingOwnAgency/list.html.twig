@@ -39,7 +39,9 @@
                     <input id="filter_code" value="{{(filter_code != "null")?filter_code:''}}" class="input-block-level" name="filter_code" type="text"/>
                 </div>
                 <div class="span3"><label>Agencia:</label>
-                    <input id="filter_agency" value="{{(filter_agency != "null")?filter_agency:''}}" class="input-block-level" name="filter_agency" type="text"/>
+
+                    <input id="filter_agency" name="filter_agency" value="{{(filter_agency != "null")?filter_agency:''}}"  autocomplete="off" type="text" class="input-block-level" style="margin: 0 auto;" data-provide="typeahead" data-items="5" data-source='{{ render(controller('mycpBundle:BackendAgency:get_agency_names')) }}'>
+
                 </div>
                 <div class="span3"><label>Booking:</label>
                     <input id="filter_booking" value="{{(filter_booking != "null")?filter_booking:''}}" class="input-block-level" name="filter_booking" type="text"/>
