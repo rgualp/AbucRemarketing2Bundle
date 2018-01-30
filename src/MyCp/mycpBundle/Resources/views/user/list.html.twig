@@ -1,200 +1,224 @@
 {% extends 'mycpBundle:layout:backend.html.twig' %}
+
 {% block title %}Administración{% endblock %}
 {% block top_body %}
-<ul class="breadcrumb">
-    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
-    <li class="active">Usuarios</li>
-</ul>
+    <ul class="breadcrumb">
+        <li><a href="{{ path('mycp_backend_front') }}">Administración</a> <span class="divider">/</span></li>
+        <li class="active">Usuarios</li>
+    </ul>
 {% endblock %}
 {% block content %}
-<h2>Usuarios</h2>
-<hr/>
-{% for message in app.session.flashbag.get('message_error_local2') %}
-<div class="alert alert-error">{{ message }}</div>
-{% endfor %}
-{% if message_error is defined %}<label class="alert alert-error">{{message_error}}</label>{%endif%}
-<div class="row-fluid">
-    <div class="span6">
-        <select id="roles" class="span6">
-            {{ render(controller('mycpBundle:BackendUser:get_all_roles', {'selected': '0'})) }}
-        </select>&nbsp;
-        <a class="btn" style="margin-top: -10px" href="javascript:go_to_form()"><i class="icon-plus"></i> Adicionar usuario</a>
-    </div>
-    <div class="span6">
-        <a class="btn pull-right btn-danger" style="margin-left: 8px" href="javascript:go_to_delete_rol()"><i class="icon-minus icon-white"></i> Rol</a>
-        <a class="btn pull-right" style="margin-left: 8px" href="javascript:go_to_new_rol()"><i class="icon-plus"></i> Rol</a>
-        <select id="subroles" class="span6 pull-right">
-            {{ render(controller('mycpBundle:BackendUser:get_roles_staff')) }}
-        </select>
-    </div>
-</div>
-<br/>
-{% for message in app.session.flashbag.get('message_error_local') %}
-<div class="alert alert-error">{{ message }}</div>
-{% endfor %}
-<form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path('mycp_list_users')}}">
-    <div class="well well-small">
-        <div class="row-fluid">
-            <div class="span3">
-                <label>Nombre usuario:</label>
-                <input id="filter_user_name" value="{{filter_user_name}}" class="input-block-level" name="filter_user_name" type="text"/>
-            </div>
-            <div class="span3">
-                <label>Rol:</label>
-                <select class="input-block-level" name="filter_role" id="filter_role"/>
-                {{ render(controller('mycpBundle:BackendUser:get_all_roles', {'selected': filter_role})) }}
-                </select>
-            </div>
-            <div class="span3">
-                <label>Ciudad:</label>
-                <input id="filter_city" value="{{filter_city}}" class="input-block-level" name="filter_city" type="text"/>
-            </div>
-            <div class="span3">
-                <label>País:</label>
-                <select class="input-block-level" name="filter_country" id="filter_country"/>
-                {{ render(controller('mycpBundle:Public:get_countries', {'selected': filter_country})) }}
-                </select>
-            </div>
+    <h2>Usuarios</h2>
+    <hr/>
+    {% for message in app.session.flashbag.get('message_error_local2') %}
+        <div class="alert alert-error">{{ message }}</div>
+    {% endfor %}
+    {% if message_error is defined %}<label class="alert alert-error">{{ message_error }}</label>{% endif %}
+    <div class="row-fluid">
+        <div class="span6">
+            <select id="roles" class="span6">
+                {{ render(controller('mycpBundle:BackendUser:get_all_roles', {'selected': '0'})) }}
+            </select>&nbsp;
+            <a class="btn" style="margin-top: -10px" href="javascript:go_to_form()"><i class="icon-plus"></i> Adicionar
+                usuario</a>
         </div>
-        <div class="row-fluid">
-            <div class="span3"><label>Nombre</label><input id="filter_name" value="{{filter_name}}" class="input-block-level" name="filter_name" type="text"/></div>
-            <div class="span3"><label>Apellido</label><input id="filter_last_name" value="{{filter_last_name}}" class="input-block-level" name="filter_last_name" type="text"/></div>
-            <div class="span3"><label>Email</label><input id="filter_email" value="{{filter_email}}" class="input-block-level" name="filter_email" type="text"/></div>
-            <div class="span3">
-                <label>Método de registro:</label>
-                <select class="input-block-level" name="filter_method" id="filter_method"/>
+        <div class="span6">
+            <a class="btn pull-right btn-danger" style="margin-left: 8px" href="javascript:go_to_delete_rol()"><i
+                        class="icon-minus icon-white"></i> Rol</a>
+            <a class="btn pull-right" style="margin-left: 8px" href="javascript:go_to_new_rol()"><i
+                        class="icon-plus"></i> Rol</a>
+            <select id="subroles" class="span6 pull-right">
+                {{ render(controller('mycpBundle:BackendUser:get_roles_staff')) }}
+            </select>
+        </div>
+    </div>
+    <br/>
+    {% for message in app.session.flashbag.get('message_error_local') %}
+        <div class="alert alert-error">{{ message }}</div>
+    {% endfor %}
+    <form onkeypress="javascript:submit_filters(event);" id="filter" method="post"
+          action="{{ path('mycp_list_users') }}">
+        <div class="well well-small">
+            <div class="row-fluid">
+                <div class="span3">
+                    <label>Nombre usuario:</label>
+                    <input id="filter_user_name" value="{{ filter_user_name }}" class="input-block-level"
+                           name="filter_user_name" type="text"/>
+                </div>
+                <div class="span3">
+                    <label>Rol:</label>
+                    <select class="input-block-level" name="filter_role" id="filter_role"/>
+                    {{ render(controller('mycpBundle:BackendUser:get_all_roles', {'selected': filter_role})) }}
+                    </select>
+                </div>
+                <div class="span3">
+                    <label>Ciudad:</label>
+                    <input id="filter_city" value="{{ filter_city }}" class="input-block-level" name="filter_city"
+                           type="text"/>
+                </div>
+                <div class="span3">
+                    <label>País:</label>
+                    <select class="input-block-level" name="filter_country" id="filter_country"/>
+                    {{ render(controller('mycpBundle:Public:get_countries', {'selected': filter_country})) }}
+                    </select>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span3"><label>Nombre</label><input id="filter_name" value="{{ filter_name }}"
+                                                               class="input-block-level" name="filter_name"
+                                                               type="text"/></div>
+                <div class="span3"><label>Apellido</label><input id="filter_last_name" value="{{ filter_last_name }}"
+                                                                 class="input-block-level" name="filter_last_name"
+                                                                 type="text"/></div>
+                <div class="span3"><label>Email</label><input id="filter_email" value="{{ filter_email }}"
+                                                              class="input-block-level" name="filter_email"
+                                                              type="text"/></div>
+                <div class="span3">
+                    <label>Método de registro:</label>
+                    <select class="input-block-level" name="filter_method" id="filter_method"/>
                     <option></option>
-                    <option value="{{ constant('\\MyCp\\mycpBundle\\Helpers\\RegistrationMode::FACEBOOK') }}" {% if filter_method == constant('\\MyCp\\mycpBundle\\Helpers\\RegistrationMode::FACEBOOK') %} selected="true" {% endif %}>Facebook</option>
-                    <option  value="{{ constant('\\MyCp\\mycpBundle\\Helpers\\RegistrationMode::REGISTRATION') }}" {% if filter_method == constant('\\MyCp\\mycpBundle\\Helpers\\RegistrationMode::REGISTRATION') %} selected="true" {% endif %}>Registro</option>
-                </select>
+                    <option value="{{ constant('\\MyCp\\mycpBundle\\Helpers\\RegistrationMode::FACEBOOK') }}" {% if filter_method == constant('\\MyCp\\mycpBundle\\Helpers\\RegistrationMode::FACEBOOK') %} selected="true" {% endif %}>
+                        Facebook
+                    </option>
+                    <option value="{{ constant('\\MyCp\\mycpBundle\\Helpers\\RegistrationMode::REGISTRATION') }}" {% if filter_method == constant('\\MyCp\\mycpBundle\\Helpers\\RegistrationMode::REGISTRATION') %} selected="true" {% endif %}>
+                        Registro
+                    </option>
+                    </select>
+                </div>
             </div>
-        </div>
-        <div class="row-fluid">
-            <div class="span3">
-                <label>Estado</label>
-                <select class="input-block-level" name="filter_status" id="filter_status"/>
-                <option></option>
-                <option value="{{ constant('\\MyCp\\mycpBundle\\Helpers\\UserStatus::Active') }}" {% if filter_status == constant('\\MyCp\\mycpBundle\\Helpers\\UserStatus::Active') %} selected="true" {% endif %}>Activo</option>
-                <option value="{{ constant('\\MyCp\\mycpBundle\\Helpers\\UserStatus::Inactive') }}" {% if filter_status == constant('\\MyCp\\mycpBundle\\Helpers\\UserStatus::Inactive') %} selected="true" {% endif %}>Inactivo</option>
-                <option value="{{ constant('\\MyCp\\mycpBundle\\Helpers\\UserStatus::Locked') }}" {% if filter_status == constant('\\MyCp\\mycpBundle\\Helpers\\UserStatus::Locked') %} selected="true" {% endif %}>Bloqueado</option>
-                </select>
-            </div>
-            <div class="span4">
-                <label>Fecha de creación (Desde)</label>
-                <input id="filter_creation_date_from" value="{{filter_creation_date_from}}" class="datepicker input-block-level" name="filter_creation_date_from" type="text"/></div>
-            <div class="span3">
-                <label>Fecha de creación (Hasta)</label>
-                <input id="filter_creation_date_to" value="{{filter_creation_date_to}}" class="datepicker input-block-level" name="filter_creation_date_to" type="text"/></div>
-            <div class="span2">
-                {% if filter_user_name ==''%}{% set filter_user_name='null'%}{%endif%}
-                {% if filter_role ==''%}{% set filter_role='null'%}{%endif%}
-                {% if filter_city ==''%}{% set filter_city='null'%}{%endif%}
-                {% if filter_country ==''%}{% set filter_country='null'%}{%endif%}
-                {% if filter_name ==''%}{% set filter_name='null'%}{%endif%}
-                {% if filter_last_name ==''%}{% set filter_last_name='null'%}{%endif%}
-                {% if filter_email ==''%}{% set filter_email='null'%}{%endif%}
-                {% if filter_method ==''%}{% set filter_method='null'%}{%endif%}
-                {% if filter_status ==''%}{% set filter_status='null'%}{%endif%}
-                {% if filter_creation_date_from ==''%}{% set filter_creation_date_from='null'%}{%endif%}
-                {% if filter_creation_date_to ==''%}{% set filter_creation_date_to='null'%}{%endif%}
-                <label>&nbsp;</label>
-                <div class="row-fluid">
-                    <div class="span4">
-                        <a rel="tooltip" title="Filtrar listado" href="javascript:action_submit();" class="tooltip_msg btn btn-block btn-success"><i class="icon-filter icon-white"></i></a>
-                    </div>
-                    <div class="span4">
-                        <a rel="tooltip" title="Resetear filtrado " href="{{ path('mycp_list_users') }}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>
-                    </div>
-                    <div class="span4">
-                        <a {% if not users %}disabled="disabled"{% endif %} rel="tooltip" title="Exportar listado" href="{{ path('mycp_export_list_users',{'filter_user_name':filter_user_name,'filter_role':filter_role,'filter_city':filter_city,'filter_country':filter_country,'filter_name':filter_name,'filter_last_name':filter_last_name,'filter_email':filter_email, "filter_method": filter_method, "filter_status": filter_status, "filter_creation_date_from": filter_creation_date_from, "filter_creation_date_to": filter_creation_date_to})}}" class="tooltip_msg btn btn-block btn-info"><i class="icon-download-alt icon-white"></i></a>
+            <div class="row-fluid">
+                <div class="span3">
+                    <label>Estado</label>
+                    <select class="input-block-level" name="filter_status" id="filter_status"/>
+                    <option></option>
+                    <option value="{{ constant('\\MyCp\\mycpBundle\\Helpers\\UserStatus::Active') }}" {% if filter_status == constant('\\MyCp\\mycpBundle\\Helpers\\UserStatus::Active') %} selected="true" {% endif %}>
+                        Activo
+                    </option>
+                    <option value="{{ constant('\\MyCp\\mycpBundle\\Helpers\\UserStatus::Inactive') }}" {% if filter_status == constant('\\MyCp\\mycpBundle\\Helpers\\UserStatus::Inactive') %} selected="true" {% endif %}>
+                        Inactivo
+                    </option>
+                    <option value="{{ constant('\\MyCp\\mycpBundle\\Helpers\\UserStatus::Locked') }}" {% if filter_status == constant('\\MyCp\\mycpBundle\\Helpers\\UserStatus::Locked') %} selected="true" {% endif %}>
+                        Bloqueado
+                    </option>
+                    </select>
+                </div>
+                <div class="span4">
+                    <label>Fecha de creación (Desde)</label>
+                    <input id="filter_creation_date_from" value="{{ filter_creation_date_from }}"
+                           class="datepicker input-block-level" name="filter_creation_date_from" type="text"/></div>
+                <div class="span3">
+                    <label>Fecha de creación (Hasta)</label>
+                    <input id="filter_creation_date_to" value="{{ filter_creation_date_to }}"
+                           class="datepicker input-block-level" name="filter_creation_date_to" type="text"/></div>
+                <div class="span2">
+                    {% if filter_user_name =='' %}{% set filter_user_name='null' %}{% endif %}
+                    {% if filter_role =='' %}{% set filter_role='null' %}{% endif %}
+                    {% if filter_city =='' %}{% set filter_city='null' %}{% endif %}
+                    {% if filter_country =='' %}{% set filter_country='null' %}{% endif %}
+                    {% if filter_name =='' %}{% set filter_name='null' %}{% endif %}
+                    {% if filter_last_name =='' %}{% set filter_last_name='null' %}{% endif %}
+                    {% if filter_email =='' %}{% set filter_email='null' %}{% endif %}
+                    {% if filter_method =='' %}{% set filter_method='null' %}{% endif %}
+                    {% if filter_status =='' %}{% set filter_status='null' %}{% endif %}
+                    {% if filter_creation_date_from =='' %}{% set filter_creation_date_from='null' %}{% endif %}
+                    {% if filter_creation_date_to =='' %}{% set filter_creation_date_to='null' %}{% endif %}
+                    <label>&nbsp;</label>
+                    <div class="row-fluid">
+                        <div class="span4">
+                            <a rel="tooltip" title="Filtrar listado" href="javascript:action_submit();"
+                               class="tooltip_msg btn btn-block btn-success"><i class="icon-filter icon-white"></i></a>
+                        </div>
+                        <div class="span4">
+                            <a rel="tooltip" title="Resetear filtrado " href="{{ path('mycp_list_users') }}"
+                               class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>
+                        </div>
+                        <div class="span4">
+                            <a {% if not users %}disabled="disabled"{% endif %} rel="tooltip" title="Exportar listado"
+                               href="{{ path('mycp_export_list_users',{'filter_user_name':filter_user_name,'filter_role':filter_role,'filter_city':filter_city,'filter_country':filter_country,'filter_name':filter_name,'filter_last_name':filter_last_name,'filter_email':filter_email, "filter_method": filter_method, "filter_status": filter_status, "filter_creation_date_from": filter_creation_date_from, "filter_creation_date_to": filter_creation_date_to}) }}"
+                               class="tooltip_msg btn btn-block btn-info"><i
+                                        class="icon-download-alt icon-white"></i></a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</form>
-{% if users %}
-<div class="alert">
-    <div class="row-fluid">
-        <div class="pull-left">
-            Mostrando del {{items_per_page * current_page - items_per_page}} al {% if items_per_page * current_page >  total_items%}{{total_items }}{% else %}{{ items_per_page * current_page }}{% endif %} de {{total_items}} registros
+    </form>
+    {% if users %}
+        <div class="alert">
+            <div class="row-fluid">
+                <div class="pull-left">
+                    Mostrando del
+                    {{ items_per_page * current_page - items_per_page + 1 }}
+                    al {% if items_per_page * current_page >  total_items %}{{ total_items }}{% else %}{{ items_per_page * current_page }}{% endif %}
+                    de {{ total_items }} registros
+                </div>
+                <div class="pull-right">
+                    Mostrar:
+                    <a class="{% if items_per_page == 100 %}selected{% endif %}"
+                       href="{{ path('mycp_list_users',{'items_per_page':100,'filter_user_name':filter_user_name,'filter_role':filter_role,'filter_city':filter_city,'filter_country':filter_country,'filter_name':filter_name,'filter_last_name':filter_last_name,'filter_email':filter_email, "filter_method": filter_method, "filter_status": filter_status, "filter_creation_date_from": filter_creation_date_from, "filter_creation_date_to": filter_creation_date_to}) }}">100</a>
+                    <a class="{% if items_per_page == 300 %}selected{% endif %}"
+                       href="{{ path('mycp_list_users',{'items_per_page':300,'filter_user_name':filter_user_name,'filter_role':filter_role,'filter_city':filter_city,'filter_country':filter_country,'filter_name':filter_name,'filter_last_name':filter_last_name,'filter_email':filter_email, "filter_method": filter_method, "filter_status": filter_status, "filter_creation_date_from": filter_creation_date_from, "filter_creation_date_to": filter_creation_date_to}) }}">300</a>
+                    <a class="{% if items_per_page == 500 %}selected{% endif %}"
+                       href="{{ path('mycp_list_users',{'items_per_page':500,'filter_user_name':filter_user_name,'filter_role':filter_role,'filter_city':filter_city,'filter_country':filter_country,'filter_name':filter_name,'filter_last_name':filter_last_name,'filter_email':filter_email, "filter_method": filter_method, "filter_status": filter_status, "filter_creation_date_from": filter_creation_date_from, "filter_creation_date_to": filter_creation_date_to}) }}">500</a>
+                    <input class="hidden" name="items_per_page" value="100">
+                </div>
+            </div>
         </div>
-        <div class="pull-right">
-            Mostrar:
-            <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_users',{'items_per_page':100,'filter_user_name':filter_user_name,'filter_role':filter_role,'filter_city':filter_city,'filter_country':filter_country,'filter_name':filter_name,'filter_last_name':filter_last_name,'filter_email':filter_email, "filter_method": filter_method, "filter_status": filter_status, "filter_creation_date_from": filter_creation_date_from, "filter_creation_date_to": filter_creation_date_to})}}">100</a>
-            <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_list_users',{'items_per_page':300,'filter_user_name':filter_user_name,'filter_role':filter_role,'filter_city':filter_city,'filter_country':filter_country,'filter_name':filter_name,'filter_last_name':filter_last_name,'filter_email':filter_email, "filter_method": filter_method, "filter_status": filter_status, "filter_creation_date_from": filter_creation_date_from, "filter_creation_date_to": filter_creation_date_to})}}">300</a>
-            <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_users',{'items_per_page':500,'filter_user_name':filter_user_name,'filter_role':filter_role,'filter_city':filter_city,'filter_country':filter_country,'filter_name':filter_name,'filter_last_name':filter_last_name,'filter_email':filter_email, "filter_method": filter_method, "filter_status": filter_status, "filter_creation_date_from": filter_creation_date_from, "filter_creation_date_to": filter_creation_date_to})}}">500</a>
-            <input class="hidden" name="items_per_page" value="100">
+        <div id="list_result">
+            {{ include('@FrontEnd/utils/pagination.html.twig', {'paginate' : users, 'route': 'mycp_list_users', 'route_params': {'items_per_page':items_per_page,'filter_user_name':filter_user_name,'filter_role':filter_role,'filter_city':filter_city,'filter_country':filter_country,'filter_name':filter_name,'filter_last_name':filter_last_name,'filter_email':filter_email, "filter_method": filter_method, "filter_status": filter_status, "filter_creation_date_from": filter_creation_date_from, "filter_creation_date_to": filter_creation_date_to} }) }}
+            <table id="user_table" class="table table-striped table-hover" style="font-size: 12px">
+                <thead>
+                <tr>
+                    <th>Nombre Completo</th>
+                    <th>Usuario</th>
+                    <th>Rol</th>
+                    <th>Ciudad / País</th>
+                    <th>Creado</th>
+                    <th>Método</th>
+                    <th style="text-align: right">Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in users.getIterator() %}
+                    <tr>
+                        <td>{{ user.getUserUserName }} {{ user.getUserLastName }}</td>
+                        <td>{{ user.getName }} {% if user.getName != user.userEmail %}<br/> {{ user.userEmail }}{% endif %}
+                        </td>
+                        <td>{% if user.getUserSubrole.getRoleName is defined %}{{ user.getUserSubrole.getRoleName }}{% else %}{{ user.getUserRole }}{% endif %}</td>
+                        <td>{{ user.getUserCity }} {% if user.getUserCountry and user.getUserCity %}/{% endif %} {% if user.getUserCountry %}{{ user.getUserCountry.getCoName }}{% endif %}</td>
+                        <td>{% if user.userCreationDate %}{{ user.userCreationDate | date("d/m/Y H:i") }}{% endif %}</td>
+                        <td>{% if (user.facebook or user.userPassword == "") and user.userRole == "ROLE_CLIENT_TOURIST" %}Facebook{% else %}Registro {% endif %}</td>
+                        <td style="text-align: right">
+                            <a class="btn btn-mini"
+                               href="{% if user.getUserRole =='ROLE_CLIENT_STAFF' %}{{ path('mycp_edit_user_staff',{'id_user':user.getUserId}) }}{% elseif user.getUserRole =='ROLE_CLIENT_CASA' %}{{ path('mycp_edit_user_casa',{'id_user':user.getUserId}) }}{% elseif user.getUserRole =='ROLE_CLIENT_TOURIST' %}{{ path('mycp_edit_user_tourist',{'id_user':user.getUserId}) }}{% elseif user.getUserRole =='ROLE_CLIENT_PARTNER' %}{{ path('mycp_edit_user_partner',{'id_user':user.getUserId}) }}{% else %}{{ path('mycp_edit_user_staff',{'id_user':user.getUserId}) }}{% endif %}">Editar</a>
+                            {% if not user.isEnabled %}
+                                <a class="btn btn-mini btn-info"
+                                   href="{{ path("mycp_change_status_user", {"userId": user.userId}) }}">Activar</a>
+                            {% endif %}
+                            <button data='{{ path('mycp_delete_user',{'id_user':user.getUserId}) }}'
+                                    class="btn btn-mini btn-danger delete">Eliminar
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {{ include('@FrontEnd/utils/pagination.html.twig', {'paginate' : users, 'route': 'mycp_list_users' }) }}
         </div>
-    </div>
-</div>
-<div class="paginator-cont span11">
-    {{ simple_paginator_render('mycp_list_users',null,{
-'container_class': 'paginator',
-'previousPageText': '«',
-'nextPageText': '»',
-'currentClass': 'current',
-'firstPageText': 'Primera',
-'lastPageText': 'Última',
-'route_params': {'items_per_page':items_per_page,'filter_user_name':filter_user_name,'filter_role':filter_role,'filter_city':filter_city,'filter_country':filter_country,'filter_name':filter_name,'filter_last_name':filter_last_name,'filter_email':filter_email, "filter_method": filter_method, "filter_status": filter_status, "filter_creation_date_from": filter_creation_date_from, "filter_creation_date_to": filter_creation_date_to}
-}) }}
-</div>
-<table class="table table-striped table-hover" style="font-size: 12px">
-    <thead>
-    <tr>
-        <th>Nombre Completo</th>
-        <th>Usuario</th>
-        <th>Rol</th>
-        <th>Ciudad / País</th>
-        <th>Creado</th>
-        <th>Método</th>
-        <th style="text-align: right">Acciones</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for user in users %}
-    <tr>
-        <td>{{user.getUserUserName}} {{user.getUserLastName}}</td>
-        <td>{{user.getName}} {% if user.getName != user.userEmail %}<br/> {{ user.userEmail }}{% endif %}</td>
-        <td>{% if user.getUserSubrole.getRoleName is defined %}{{user.getUserSubrole.getRoleName}}{%else%}{{user.getUserRole}}{%endif%}</td>
-        <td>{{user.getUserCity}} {% if user.getUserCountry and user.getUserCity %}/{% endif %} {% if user.getUserCountry %}{{user.getUserCountry.getCoName}}{% endif %}</td>
-        <td>{% if user.userCreationDate %}{{ user.userCreationDate | date("d/m/Y H:i") }}{% endif %}</td>
-        <td>{% if (user.facebook or user.userPassword == "") and user.userRole == "ROLE_CLIENT_TOURIST" %}Facebook{% else %}Registro {% endif %}</td>
-        <td style="text-align: right">
-            <a class="btn btn-mini" href="{% if user.getUserRole =='ROLE_CLIENT_STAFF'%}{{ path('mycp_edit_user_staff',{'id_user':user.getUserId})}}{% elseif user.getUserRole =='ROLE_CLIENT_CASA'%}{{ path('mycp_edit_user_casa',{'id_user':user.getUserId})}}{% elseif user.getUserRole =='ROLE_CLIENT_TOURIST'%}{{ path('mycp_edit_user_tourist',{'id_user':user.getUserId})}}{% elseif user.getUserRole =='ROLE_CLIENT_PARTNER'%}{{ path('mycp_edit_user_partner',{'id_user':user.getUserId})}}{% else %}{{ path('mycp_edit_user_staff',{'id_user':user.getUserId})}}{% endif %}">Editar</a>
-            {% if not user.isEnabled %}
-                <a class="btn btn-mini btn-info" href="{{ path("mycp_change_status_user", {"userId": user.userId}) }}">Activar</a>
-            {% endif %}
-            <button data='{{ path('mycp_delete_user',{'id_user':user.getUserId}) }}' class="btn btn-mini btn-danger delete">Eliminar</button>
-        </td>
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>
-<div class="paginator-cont span11">
-    {{ simple_paginator_render('mycp_list_users',null,{
-'container_class': 'paginator',
-'previousPageText': '«',
-'nextPageText': '»',
-'currentClass': 'current',
-'firstPageText': 'Primera',
-'lastPageText': 'Última',
-'route_params': {'items_per_page':items_per_page,'filter_user_name':filter_user_name,'filter_role':filter_role,'filter_city':filter_city,'filter_country':filter_country,'filter_name':filter_name,'filter_last_name':filter_last_name,'filter_email':filter_email, "filter_method": filter_method, "filter_status": filter_status, "filter_creation_date_from": filter_creation_date_from, "filter_creation_date_to": filter_creation_date_to}
-}) }}
-</div>
     {% else %}
-    <p> <div class="alert alert-block">No hay Usuarios disponibles.</div></p>
+        <p>
+        <div class="alert alert-block">No hay Usuarios disponibles.</div></p>
     {% endif %}
-{% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Confirma que desea eliminar el elemento?','confirmation_action_label':'Eliminar'}%}
+    {% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Confirma que desea eliminar el elemento?','confirmation_action_label':'Eliminar'} %}
 {% endblock %}
 {% block javascripts %}
     {% javascripts
-    '@mycpBundle/Resources/public/js/common_list.js'
-    '@mycpBundle/Resources/public/js/bootstrap-datepicker.js'
-    '@mycpBundle/Resources/public/js/bootstrap-datepicker.es.js'
-    filter='?uglifyjs2'
-    %}
-    <script src="{{ asset_url }}"></script>
+        '@mycpBundle/Resources/public/js/common_list.js'
+        '@mycpBundle/Resources/public/js/bootstrap-datepicker.js'
+        '@mycpBundle/Resources/public/js/bootstrap-datepicker.es.js'
+        '@mycpBundle/Resources/public/js/paginator.js'
+        filter='?uglifyjs2' %}
+        <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
     <script type="text/javascript">
         $('.datepicker').datepicker({
@@ -204,112 +228,102 @@
         });
 
 
-        url_new_role="{{ path('mycp_new_role' ,{'id_role':'-1'}) }}";
-        url_new_role=url_new_role.replace('/-1','');
-        url_delete_role="{{ path('mycp_delete_role' ,{'id_role':'-1'}) }}";
-        url_delete_role=url_delete_role.replace('/-1','');
-        function go_to_form()
-        {
-            form=$('#roles').val();
-            id_role=$('#roles option:selected').attr('class');
+        url_new_role = "{{ path('mycp_new_role' ,{'id_role':'-1'}) }}";
+        url_new_role = url_new_role.replace('/-1', '');
+        url_delete_role = "{{ path('mycp_delete_role' ,{'id_role':'-1'}) }}";
+        url_delete_role = url_delete_role.replace('/-1', '');
+
+        function go_to_form() {
+            form = $('#roles').val();
+            id_role = $('#roles option:selected').attr('class');
             //alert(id_role);
-            if(form.indexOf('ROLE_CLIENT_CASA')===0)
-            {
-                new_url='{{ path('mycp_new_user_casa',{'id_role':'-1'}) }}';
-                new_url=new_url.replace('/-1','');
-                $(location).attr('href',new_url+'/'+id_role);
+            if (form.indexOf('ROLE_CLIENT_CASA') === 0) {
+                new_url = '{{ path('mycp_new_user_casa',{'id_role':'-1'}) }}';
+                new_url = new_url.replace('/-1', '');
+                $(location).attr('href', new_url + '/' + id_role);
             }
-            if(form.indexOf('ROLE_CLIENT_TOURIST')===0)
-            {
-                new_url='{{ path('mycp_new_user_tourist',{'id_role':'-1'}) }}';
-                new_url=new_url.replace('/-1','');
-                $(location).attr('href',new_url+'/'+id_role);
+            if (form.indexOf('ROLE_CLIENT_TOURIST') === 0) {
+                new_url = '{{ path('mycp_new_user_tourist',{'id_role':'-1'}) }}';
+                new_url = new_url.replace('/-1', '');
+                $(location).attr('href', new_url + '/' + id_role);
             }
-            if(form.indexOf('ROLE_CLIENT_PARTNER')===0)
-            {
-                new_url='{{ path('mycp_new_user_partner',{'id_role':'-1'}) }}';
-                new_url=new_url.replace('/-1','');
-                $(location).attr('href',new_url+'/'+id_role);
+            if (form.indexOf('ROLE_CLIENT_PARTNER') === 0) {
+                new_url = '{{ path('mycp_new_user_partner',{'id_role':'-1'}) }}';
+                new_url = new_url.replace('/-1', '');
+                $(location).attr('href', new_url + '/' + id_role);
             }
-            if(form.indexOf('ROLE_CLIENT_STAFF')===0)
-            {
-                new_url='{{ path('mycp_new_user_staff',{'id_role':'-1'}) }}';
-                new_url=new_url.replace('/-1','');
-                $(location).attr('href',new_url+'/'+id_role);
+            if (form.indexOf('ROLE_CLIENT_STAFF') === 0) {
+                new_url = '{{ path('mycp_new_user_staff',{'id_role':'-1'}) }}';
+                new_url = new_url.replace('/-1', '');
+                $(location).attr('href', new_url + '/' + id_role);
             }
-            else
-            {
-                new_url='{{ path('mycp_new_user_staff',{'id_role':'-1'}) }}';
-                new_url=new_url.replace('/-1','');
-                $(location).attr('href',new_url+'/'+id_role);
+            else {
+                new_url = '{{ path('mycp_new_user_staff',{'id_role':'-1'}) }}';
+                new_url = new_url.replace('/-1', '');
+                $(location).attr('href', new_url + '/' + id_role);
             }
 
         }
 
-        function go_to_new_rol()
-        {
-            id_role=$('#subroles option:selected').attr('class');
-            if(id_role)
-                $(location).attr('href',url_new_role+'/'+id_role);
+        function go_to_new_rol() {
+            id_role = $('#subroles option:selected').attr('class');
+            if (id_role)
+                $(location).attr('href', url_new_role + '/' + id_role);
         }
 
-        function go_to_delete_rol()
-        {
-            id_role=$('#subroles option:selected').attr('class');
-            if(id_role)
-                $(location).attr('href',url_delete_role+'/'+id_role);
+        function go_to_delete_rol() {
+            id_role = $('#subroles option:selected').attr('class');
+            if (id_role)
+                $(location).attr('href', url_delete_role + '/' + id_role);
         }
-        function submit_filters(ev)
-        {
-            if(ev.keyCode==13)
-            {
+
+        function submit_filters(ev) {
+            if (ev.keyCode == 13) {
                 action_submit();
             }
         }
 
-        function action_submit()
-        {
+        function action_submit() {
             //items_per_page: 100,filter_user_name:'',filter_role:'',filter_city:'',filter_country:'',filter_name:'',filter_last_name:'',filter_email:''}
-            var items_per_page={{items_per_page}};
+            var items_per_page ={{ items_per_page }};
 
-            var filter_user_name=$('#filter_user_name').val();
-            if(filter_user_name=='')filter_user_name='null';
+            var filter_user_name = $('#filter_user_name').val();
+            if (filter_user_name == '') filter_user_name = 'null';
 
-            var filter_role=$('#filter_role').val();
-            filter_role=filter_role.toLowerCase();
-            if(filter_role=='')filter_role='null';
+            var filter_role = $('#filter_role').val();
+            filter_role = filter_role.toLowerCase();
+            if (filter_role == '') filter_role = 'null';
 
-            var filter_city=$('#filter_city').val();
-            if(filter_city=='')filter_city='null';
+            var filter_city = $('#filter_city').val();
+            if (filter_city == '') filter_city = 'null';
 
-            var filter_country=$('#filter_country').val();
-            if(filter_country=='')filter_country='null';
+            var filter_country = $('#filter_country').val();
+            if (filter_country == '') filter_country = 'null';
 
-            var filter_name=$('#filter_name').val();
-            if(filter_name=='')filter_name='null';
+            var filter_name = $('#filter_name').val();
+            if (filter_name == '') filter_name = 'null';
 
-            var filter_last_name=$('#filter_last_name').val();
-            if(filter_last_name=='')filter_last_name='null';
+            var filter_last_name = $('#filter_last_name').val();
+            if (filter_last_name == '') filter_last_name = 'null';
 
-            var filter_email=$('#filter_email').val();
-            if(filter_email=='')filter_email='null';
+            var filter_email = $('#filter_email').val();
+            if (filter_email == '') filter_email = 'null';
 
-            var filter_method=$('#filter_method').val();
-            if(filter_method=='')filter_method='null';
+            var filter_method = $('#filter_method').val();
+            if (filter_method == '') filter_method = 'null';
 
-            var filter_status=$('#filter_status').val();
-            if(filter_status=='')filter_status='null';
+            var filter_status = $('#filter_status').val();
+            if (filter_status == '') filter_status = 'null';
 
-            var filter_creation_date_from=$('#filter_creation_date_from').val();
-            if(filter_creation_date_from=='')filter_creation_date_from='null';
+            var filter_creation_date_from = $('#filter_creation_date_from').val();
+            if (filter_creation_date_from == '') filter_creation_date_from = 'null';
 
-            var filter_creation_date_to=$('#filter_creation_date_to').val();
-            if(filter_creation_date_to=='')filter_creation_date_to='null';
+            var filter_creation_date_to = $('#filter_creation_date_to').val();
+            if (filter_creation_date_to == '') filter_creation_date_to = 'null';
 
-            url_submit=$('#filter').attr('action');
-
-            url_submit=url_submit+'/'+items_per_page+'/'+filter_user_name+'/'+filter_role+'/'+filter_city+'/'+filter_country+'/'+filter_name+'/'+filter_last_name+'/'+filter_email+'/'+filter_method+'/'+filter_status+'/'+filter_creation_date_from+'/'+filter_creation_date_to;
-            $('#filter').attr('action',url_submit);
+            url_submit = $('#filter').attr('action');
+            url_submit = url_submit + '/' + items_per_page + '/' + filter_user_name + '/' + filter_role + '/' + filter_city + '/' + filter_country + '/' + filter_name + '/' + filter_last_name + '/' + filter_email + '/' + filter_method + '/' + filter_status + '/' + filter_creation_date_from + '/' + filter_creation_date_to;
+            $('#filter').attr('action', url_submit);
             $('#filter').submit();
         }
 

@@ -1,0 +1,61 @@
+{% if route_params is not defined %}
+    {% set route_params = [] %}
+{% endif %}
+
+<div class="row">
+    <div class="paginator-cont">
+        <ul class="paginator">
+            {% if paginate.getCurrentPage() > 11 %}
+                <li>
+                    {% set route_params = route_params|merge({ page: 1 }) %}
+                    <a href="{{ path(route, route_params) }}">««</a>
+                </li>
+            {% endif %}
+            {% if paginate.getCurrentPage() > 1 %}
+                <li>
+                    {% set route_params = route_params|merge({ page: paginate.getCurrentPage()-1 < 1 ? 1 : paginate.getCurrentPage()-1 }) %}
+                    <a href="{{ path(route, route_params) }}">«</a>
+                </li>
+            {% endif %}
+
+            {# Render each page number #}
+
+            {% if paginate.getNumPages() > 1 %}
+                {% if paginate.getNumPages() > 10 %}
+                    {% set minPage = paginate.getCurrentPage() - 10 %}
+                    {% if minPage <= 0 %}
+                        {% set minPage = 1 %}
+                    {% endif %}
+                    {% set maxPage = minPage + 10 %}
+                    {% for i in minPage..maxPage %}
+                        <li class="{{ i == paginate.getCurrentPage() ? 'current' : 'disabled' }}">
+                            {% set route_params = route_params|merge({ page: i  }) %}
+                            <a href="{{ path(route, route_params) }}">{{ i }}</a>
+                        </li>
+                    {% endfor %}
+                {% else %}
+                    {% for i in 1..paginate.getNumPages() %}
+                        <li>
+                            {% set route_params = route_params|merge({ page: i  }) %}
+                            <a href="{{ path(route, {page: i}) }}">{{ i }}</a>
+                        </li>
+                    {% endfor %}
+                {% endif %}
+            {% endif %}
+
+            {# `»` arrow #}
+            {% if paginate.getCurrentPage() < paginate.getNumPages() %}
+                <li>
+                    {% set route_params = route_params|merge({ page: paginate.getCurrentPage() + 1 }) %}
+                    <a href="{{ path(route,route_params) }}">»</a>
+                </li>
+            {% endif %}
+            {% if paginate.getNumPages() > 10 %}
+                <li>
+                    {% set route_params = route_params|merge({ page: paginate.getNumPages() }) %}
+                    <a href="{{ path(route, route_params) }}">»»</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
