@@ -2,268 +2,276 @@
 
 namespace MyCp\FrontEndBundle\Controller;
 
-use MyCp\FrontEndBundle\Helpers\Utils;
 use MyCp\mycpBundle\Entity\bookingModality;
 use MyCp\mycpBundle\Entity\ownership;
-use MyCp\mycpBundle\Entity\ownershipReservation;
-use MyCp\mycpBundle\Helpers\OrderByHelper;
-use MyCp\mycpBundle\Helpers\SearchUtils;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use MyCp\FrontEndBundle\Helpers\Utils;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use MyCp\mycpBundle\Entity\ownershipReservation;
+use MyCp\mycpBundle\Entity\season;
+use MyCp\mycpBundle\Helpers\OrderByHelper;
+use MyCp\mycpBundle\Helpers\SearchUtils;
 
 class OwnershipController extends Controller
 {
 
     public function getReservationCalendarAction(Request $request)
-    {
-        $from = $request->get('from');
-        $to = $request->get('to');
-        $fromBackend = $request->get('backend');
-        $timer = $this->get("Time");
-        $fromBackend = ($fromBackend != "" && $fromBackend);
+{
+    $from = $request->get('from');
+    $to = $request->get('to');
+    $fromBackend = $request->get('backend');
+    $timer = $this->get("Time");
+    $fromBackend = ($fromBackend != "" && $fromBackend);
 
-        $reservation_from = explode('/', $from);
-        $dateFrom = new \DateTime();
-        $start_timestamp = mktime(0, 0, 0, $reservation_from[1], $reservation_from[0], $reservation_from[2]);
-        $dateFrom->setTimestamp($start_timestamp);
+    $reservation_from = explode('/', $from);
+    $dateFrom = new \DateTime();
+    $start_timestamp = mktime(0, 0, 0, $reservation_from[1], $reservation_from[0], $reservation_from[2]);
+    $dateFrom->setTimestamp($start_timestamp);
 
-        $reservation_to = explode('/', $to);
-        $dateTo = new \DateTime();
-        $end_timestamp = mktime(0, 0, 0, $reservation_to[1], $reservation_to[0], $reservation_to[2]);
-        $dateTo->setTimestamp($end_timestamp);
-        $owner_id = $request->get('own_id');
+    $reservation_to = explode('/', $to);
+    $dateTo = new \DateTime();
+    $end_timestamp = mktime(0, 0, 0, $reservation_to[1], $reservation_to[0], $reservation_to[2]);
+    $dateTo->setTimestamp($end_timestamp);
+    $owner_id = $request->get('own_id');
 
         $nights = $timer->nights($dateFrom->getTimestamp(), $dateTo->getTimestamp());
         $dateTo->setTimestamp(strtotime("-1 day", $end_timestamp));
-        /* if($dateFrom==$dateTo){
-             $dateTo->setTimestamp(strtotime("+1 day", $end_timestamp));
-         }*/
+       /* if($dateFrom==$dateTo){
+            $dateTo->setTimestamp(strtotime("+1 day", $end_timestamp));
+        }*/
         if (!$owner_id) {
             return $this->redirect($this->generateUrl('frontend_search_ownership'));
             //throw $this->createNotFoundException();
         }
 
-        $em = $this->getDoctrine()->getManager();
+    $em = $this->getDoctrine()->getManager();
 
-        $ownership = $em->getRepository('mycpBundle:ownership')->find($owner_id);
-        $bookingModality = $ownership->getBookingModality();
+    $ownership = $em->getRepository('mycpBundle:ownership')->find($owner_id);
+    $bookingModality = $ownership->getBookingModality();
 
-        $completeReservationPrice = 0;
-        if ($bookingModality != null and $bookingModality->getBookingModality()->getName() == bookingModality::COMPLETE_RESERVATION_BOOKING)
-            $completeReservationPrice = $bookingModality->getPrice();
+    $completeReservationPrice = 0;
+    if($bookingModality != null and $bookingModality->getBookingModality()->getName() == bookingModality::COMPLETE_RESERVATION_BOOKING)
+        $completeReservationPrice = $bookingModality->getPrice();
 
-        /*$general_reservations = $em->getRepository('mycpBundle:generalReservation')->findBy(array('gen_res_own_id' => $owner_id));
-        $reservations = array();
-        foreach ($general_reservations as $gen_res) {
-            $own_reservations = $em->getRepository('mycpBundle:ownershipReservation')->getReservationReservedByGeneralAndDate($gen_res->getGenResId(), $dateFrom, $dateTo);//findBy(array('own_res_gen_res_id' => $gen_res->getGenResId()));
-            foreach ($own_reservations as $own_res) {
-                array_push($reservations, $own_res);
-            }
-        }*/
+    /*$general_reservations = $em->getRepository('mycpBundle:generalReservation')->findBy(array('gen_res_own_id' => $owner_id));
+    $reservations = array();
+    foreach ($general_reservations as $gen_res) {
+        $own_reservations = $em->getRepository('mycpBundle:ownershipReservation')->getReservationReservedByGeneralAndDate($gen_res->getGenResId(), $dateFrom, $dateTo);//findBy(array('own_res_gen_res_id' => $gen_res->getGenResId()));
+        foreach ($own_reservations as $own_res) {
+            array_push($reservations, $own_res);
+        }
+    }*/
 
-        $roomsAux = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $owner_id, 'room_active' => true), array("room_num" => "ASC"));
+    $roomsAux = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $owner_id, 'room_active' => true), array("room_num" => "ASC"));
 
-        $rooms = ($completeReservationPrice > 0) ? array($roomsAux[0]) : $roomsAux;
-        $service_time = $this->get('Time');
-        $array_dates = $service_time->datesBetween($start_timestamp, $end_timestamp);
+    $rooms = ($completeReservationPrice > 0) ? array($roomsAux[0]) : $roomsAux;
+    $service_time = $this->get('Time');
+    $array_dates = $service_time->datesBetween($start_timestamp, $end_timestamp);
 
-        $array_no_available = array();
-        $no_available_days = array();
-        $no_available_days_ready = array();
-        $array_prices = array();
-        $prices_dates = array();
+    $array_no_available = array();
+    $no_available_days = array();
+    $no_available_days_ready = array();
+    $array_prices = array();
+    $prices_dates = array();
 
 
-        foreach ($rooms as $room) {
-            $temp_local = array();
-            $unavailable_room = $em->getRepository('mycpBundle:unavailabilityDetails')->getRoomDetailsByRoomAndDates($room->getRoomId(), $dateFrom, $dateTo);
-            $flag = 0;
-            if ($unavailable_room) {
-                foreach ($unavailable_room as $ur) {
-                    $unavailable_days = $service_time->datesBetween($ur->getUdFromDate()->getTimestamp(), $ur->getUdToDate()->getTimestamp());
-                    // unavailable details
+    foreach ($rooms as $room) {
+        $temp_local = array();
+        $unavailable_room = $em->getRepository('mycpBundle:unavailabilityDetails')->getRoomDetailsByRoomAndDates($room->getRoomId(), $dateFrom, $dateTo);
+        $flag = 0;
+        if ($unavailable_room) {
+            foreach ($unavailable_room as $ur) {
+                $unavailable_days = $service_time->datesBetween($ur->getUdFromDate()->getTimestamp(), $ur->getUdToDate()->getTimestamp());
+                // unavailable details
+                $array_no_available[$room->getRoomId()] = $room->getRoomId();
+                $flag = 1;
+                /*if ($start_timestamp <= $ur->getUdFromDate()->getTimestamp() &&
+                        $end_timestamp >= $ur->getUdToDate()->getTimestamp()) {
                     $array_no_available[$room->getRoomId()] = $room->getRoomId();
                     $flag = 1;
-                    /*if ($start_timestamp <= $ur->getUdFromDate()->getTimestamp() &&
-                            $end_timestamp >= $ur->getUdToDate()->getTimestamp()) {
-                        $array_no_available[$room->getRoomId()] = $room->getRoomId();
-                        $flag = 1;
-                    }
+                }
 
-                    if ($start_timestamp >= $ur->getUdFromDate()->getTimestamp() &&
-                            $start_timestamp <= $ur->getUdToDate()->getTimestamp() &&
-                            $end_timestamp >= $ur->getUdToDate()->getTimestamp()) {
-                        $array_no_available[$room->getRoomId()] = $room->getRoomId();
-                        $flag = 1;
-                    }
+                if ($start_timestamp >= $ur->getUdFromDate()->getTimestamp() &&
+                        $start_timestamp <= $ur->getUdToDate()->getTimestamp() &&
+                        $end_timestamp >= $ur->getUdToDate()->getTimestamp()) {
+                    $array_no_available[$room->getRoomId()] = $room->getRoomId();
+                    $flag = 1;
+                }
 
-                    if ($start_timestamp <= $ur->getUdFromDate()->getTimestamp() &&
-                            $end_timestamp <= $ur->getUdToDate()->getTimestamp() &&
-                            $end_timestamp >= $ur->getUdFromDate()->getTimestamp()) {
+                if ($start_timestamp <= $ur->getUdFromDate()->getTimestamp() &&
+                        $end_timestamp <= $ur->getUdToDate()->getTimestamp() &&
+                        $end_timestamp >= $ur->getUdFromDate()->getTimestamp()) {
 
-                        $array_no_available[$room->getRoomId()] = $room->getRoomId();
-                        $flag = 1;
-                    }
+                    $array_no_available[$room->getRoomId()] = $room->getRoomId();
+                    $flag = 1;
+                }
 
-                    if ($start_timestamp >= $ur->getUdFromDate()->getTimestamp() &&
-                            $end_timestamp <= $ur->getUdToDate()->getTimestamp()) {
-                        $array_no_available[$room->getRoomId()] = $room->getRoomId();
-                        $flag = 1;
-                    }*/
-                    $temp = array();
-                    foreach ($unavailable_days as $unav_date) {
-                        for ($s = 0; $s < count($array_dates) - 1; $s++) {
-                            if ($array_dates[$s] == $unav_date) {
-                                array_push($temp, $s + 1);
-                            }
+                if ($start_timestamp >= $ur->getUdFromDate()->getTimestamp() &&
+                        $end_timestamp <= $ur->getUdToDate()->getTimestamp()) {
+                    $array_no_available[$room->getRoomId()] = $room->getRoomId();
+                    $flag = 1;
+                }*/
+                $temp = array();
+                foreach ($unavailable_days as $unav_date) {
+                    for ($s = 0; $s < count($array_dates) - 1; $s++) {
+                        if ($array_dates[$s] == $unav_date) {
+                            array_push($temp, $s + 1);
                         }
                     }
-                    if ($flag == 1) {
-                        $temp_local = array_merge($temp_local, $temp);
-                        $no_available_days_ready[$room->getRoomId()] = $temp_local;
-                    }
+                }
+                if ($flag == 1) {
+                    $temp_local = array_merge($temp_local, $temp);
+                    $no_available_days_ready[$room->getRoomId()] = $temp_local;
                 }
             }
+        }
 
-            $reservations = $em->getRepository('mycpBundle:ownershipReservation')->getReservationReservedByRoomAndDateForCalendar($room->getRoomId(), $dateFrom, $dateTo);
-            foreach ($reservations as $reservation) {
-                $reservationStartDate = $reservation->getOwnResReservationFromDate()->getTimestamp();
-                $reservationEndDate = $reservation->getOwnResReservationToDate()->getTimestamp();
-                $date = new \DateTime();
-                $date->setTimestamp(strtotime("-1 day", $reservationEndDate));
-                $reservationEndDate = $date->getTimestamp();
+        /*dump($room->getRoomId());
+        dump($dateFrom);
+        dump($dateTo); die;*/
+        $reservations = $em->getRepository('mycpBundle:ownershipReservation')->getReservationReservedByRoomAndDateForCalendar($room->getRoomId(), $dateFrom, $dateTo);
+        //var_dump("Habitacion id ". $room->getRoomId(). ": REservaciones " .count($reservations). ". Desde: ".date("d-m-Y",$dateFrom->getTimestamp()). ". Hasta: ".date("d-m-Y",$dateTo->getTimestamp())."<br/>");
+        foreach ($reservations as $reservation) {
+            $reservationStartDate = $reservation->getOwnResReservationFromDate()->getTimestamp();
+            $reservationEndDate = $reservation->getOwnResReservationToDate()->getTimestamp();
+            $date = new \DateTime();
+            $date->setTimestamp(strtotime("-1 day", $reservationEndDate));
+            $reservationEndDate = $date->getTimestamp();
+
+            $array_no_available[$room->getRoomId()] = $room->getRoomId();
+
+            /*if ($start_timestamp <= $reservationStartDate && $end_timestamp >= $reservationEndDate) {
 
                 $array_no_available[$room->getRoomId()] = $room->getRoomId();
-
-                /*if ($start_timestamp <= $reservationStartDate && $end_timestamp >= $reservationEndDate) {
-
-                    $array_no_available[$room->getRoomId()] = $room->getRoomId();
-                }
-
-                if ($start_timestamp >= $reservationStartDate && $start_timestamp <= $reservationEndDate &&
-                        $end_timestamp >= $reservationEndDate) {
-
-                    $array_no_available[$room->getRoomId()] = $room->getRoomId();
-                }
-
-                if ($start_timestamp <= $reservationStartDate && $end_timestamp <= $reservationEndDate &&
-                        $end_timestamp >= $reservationStartDate) {
-
-                    $array_no_available[$room->getRoomId()] = $room->getRoomId();
-                }
-
-                if ($start_timestamp >= $reservationStartDate && $end_timestamp <= $reservationEndDate) {
-
-                    $array_no_available[$room->getRoomId()] = $room->getRoomId();
-                }*/
-
-                $array_numbers_check = array();
-                $cont_numbers = 1;
-                foreach ((array)$array_dates as $date) {
-
-                    if ($date >= $reservationStartDate && $date <= $reservationEndDate && $date != $dateTo->getTimestamp()) {
-                        array_push($array_numbers_check, $cont_numbers);
-                    }
-                    $cont_numbers++;
-                }
-                array_push($no_available_days, array(
-                    $room->getRoomId() => $room->getRoomId(),
-                    'check' => $array_numbers_check
-                ));
             }
 
+            if ($start_timestamp >= $reservationStartDate && $start_timestamp <= $reservationEndDate &&
+                    $end_timestamp >= $reservationEndDate) {
 
-            $total_price_room = 0;
-            $prices_dates_temp = array();
-            $x = 1;
-            /* if ($request->getMethod() != 'POST') {
-              //$x = 2;
-              } */
-            $destination_id = ($ownership->getOwnDestination() != null) ? $ownership->getOwnDestination()->getDesId() : null;
-            $seasons = $em->getRepository("mycpBundle:season")->getSeasons($from, $to, $destination_id);
-            for ($a = 0; $a < count($array_dates) - $x; $a++) {
-
-                $season_type = $service_time->seasonTypeByDate($seasons, $array_dates[$a]);
-                $roomPrice = ($completeReservationPrice > 0) ? $completeReservationPrice : $room->getPriceBySeasonType($season_type);
-
-                $total_price_room += $roomPrice;
-                array_push($prices_dates_temp, $roomPrice);
+                $array_no_available[$room->getRoomId()] = $room->getRoomId();
             }
-            array_push($array_prices, $total_price_room);
-            array_push($prices_dates, $prices_dates_temp);
-        }
 
-        foreach ($no_available_days as $item) {
-            $keys = array_keys($item);
-            if (!isset($no_available_days_ready[$item[$keys[0]]]))
-                $no_available_days_ready[$item[$keys[0]]] = array();
-            $no_available_days_ready[$item[$keys[0]]] = array_merge($no_available_days_ready[$item[$keys[0]]], $item['check']);
-        }
-        $array_dates_keys = array();
-        $count = 1;
-        foreach ($array_dates as $date) {
-            $array_dates_keys[$count] = array('day_number' => date('d', $date), 'day_name' => date('D', $date));
-            $count++;
-        }
-        $flag_room = 0;
-        $price_subtotal = 0;
-        $do_operation = true;
-        $available_rooms = array();
-        $avail_array_prices = array();
-        foreach ($rooms as $room_2) {
+            if ($start_timestamp <= $reservationStartDate && $end_timestamp <= $reservationEndDate &&
+                    $end_timestamp >= $reservationStartDate) {
 
-            foreach ($array_no_available as $no_avail) {
-                if ($room_2->getRoomId() == $no_avail) {
-                    $do_operation = false;
+                $array_no_available[$room->getRoomId()] = $room->getRoomId();
+            }
+
+            if ($start_timestamp >= $reservationStartDate && $end_timestamp <= $reservationEndDate) {
+
+                $array_no_available[$room->getRoomId()] = $room->getRoomId();
+            }*/
+
+            $array_numbers_check = array();
+            $cont_numbers = 1;
+            foreach ((array)$array_dates as $date) {
+
+                if ($date >= $reservationStartDate && $date <= $reservationEndDate && $date != $dateTo->getTimestamp()) {
+                    array_push($array_numbers_check, $cont_numbers);
                 }
+                $cont_numbers++;
             }
-            if ($do_operation == true) {
-                $price_subtotal += $array_prices[$flag_room];
-                array_push($available_rooms, $room_2->getRoomId());
-                array_push($avail_array_prices, $array_prices[$flag_room]);
-            }
-            $do_operation = true;
-            $flag_room++;
-        }
-        $tripleChargeRoom = $this->container->getParameter('configuration.triple.room.charge');
-        $mobileDetector = $this->get('mobile_detect.mobile_detector');
-
-        if ($mobileDetector->isMobile()) {
-            return $this->render('MyCpMobileFrontendBundle:ownership:ownershipReservationCalendar.html.twig', array(
-                'array_dates' => $array_dates_keys,
-                'rooms' => $rooms,
-                'array_prices' => $array_prices,
-                'ownership' => $ownership,
-                'no_available_days' => $no_available_days_ready,
-                'prices_dates' => $prices_dates,
-                'reservations' => $array_no_available,
-                'fromBackend' => $fromBackend,
-                'nights' => $nights,
-                'tripleChargeRoom' => $tripleChargeRoom,
-                'isCompletePayment' => ($completeReservationPrice > 0),
-                'completeReservationPrice' => $completeReservationPrice
-            ));
-        } else {
-            //$no_available_days_ready[351]=array(11,12,13,14,15,21,22);
-            return $this->render('FrontEndBundle:ownership:ownershipReservationCalendar.html.twig', array(
-                'array_dates' => $array_dates_keys,
-                'rooms' => $rooms,
-                'array_prices' => $array_prices,
-                'ownership' => $ownership,
-                'no_available_days' => $no_available_days_ready,
-                'prices_dates' => $prices_dates,
-                'reservations' => $array_no_available,
-                'fromBackend' => $fromBackend,
-                'nights' => $nights,
-                'tripleChargeRoom' => $tripleChargeRoom,
-                'isCompletePayment' => ($completeReservationPrice > 0),
-                'completeReservationPrice' => $completeReservationPrice
+            array_push($no_available_days, array(
+                $room->getRoomId() => $room->getRoomId(),
+                'check' => $array_numbers_check
             ));
         }
+
+
+        $total_price_room = 0;
+        $prices_dates_temp = array();
+        $x = 1;
+        /* if ($request->getMethod() != 'POST') {
+          //$x = 2;
+          } */
+        $destination_id = ($ownership->getOwnDestination() != null) ? $ownership->getOwnDestination()->getDesId() : null;
+        $seasons = $em->getRepository("mycpBundle:season")->getSeasons($from, $to, $destination_id);
+        for ($a = 0; $a < count($array_dates) - $x; $a++) {
+
+            $season_type = $service_time->seasonTypeByDate($seasons, $array_dates[$a]);
+            $roomPrice = ($completeReservationPrice > 0) ? $completeReservationPrice : $room->getPriceBySeasonType($season_type);
+
+            $total_price_room += $roomPrice;
+            array_push($prices_dates_temp, $roomPrice);
+        }
+        array_push($array_prices, $total_price_room);
+        array_push($prices_dates, $prices_dates_temp);
     }
+
+    foreach ($no_available_days as $item) {
+        $keys = array_keys($item);
+        if (!isset($no_available_days_ready[$item[$keys[0]]]))
+            $no_available_days_ready[$item[$keys[0]]] = array();
+        $no_available_days_ready[$item[$keys[0]]] = array_merge($no_available_days_ready[$item[$keys[0]]], $item['check']);
+    }
+    //var_dump($no_available_days);
+    $array_dates_keys = array();
+    $count = 1;
+    foreach ($array_dates as $date) {
+        $array_dates_keys[$count] = array('day_number' => date('d', $date), 'day_name' => date('D', $date));
+        $count++;
+    }
+    $flag_room = 0;
+    $price_subtotal = 0;
+    $do_operation = true;
+    $available_rooms = array();
+    $avail_array_prices = array();
+    foreach ($rooms as $room_2) {
+
+        foreach ($array_no_available as $no_avail) {
+            if ($room_2->getRoomId() == $no_avail) {
+                $do_operation = false;
+            }
+        }
+        if ($do_operation == true) {
+            $price_subtotal += $array_prices[$flag_room];
+            array_push($available_rooms, $room_2->getRoomId());
+            array_push($avail_array_prices, $array_prices[$flag_room]);
+        }
+        $do_operation = true;
+        $flag_room++;
+    }
+    $tripleChargeRoom = $this->container->getParameter('configuration.triple.room.charge');
+    $mobileDetector = $this->get('mobile_detect.mobile_detector');
+
+    if ($mobileDetector->isMobile()) {
+        return $this->render('MyCpMobileFrontendBundle:ownership:ownershipReservationCalendar.html.twig', array(
+            'array_dates' => $array_dates_keys,
+            'rooms' => $rooms,
+            'array_prices' => $array_prices,
+            'ownership' => $ownership,
+            'no_available_days' => $no_available_days_ready,
+            'prices_dates' => $prices_dates,
+            'reservations' => $array_no_available,
+            'fromBackend' => $fromBackend,
+            'nights' => $nights,
+            'tripleChargeRoom' => $tripleChargeRoom,
+            'isCompletePayment' => ($completeReservationPrice > 0),
+            'completeReservationPrice' => $completeReservationPrice
+        ));
+    } else {
+        //$no_available_days_ready[351]=array(11,12,13,14,15,21,22);
+        return $this->render('FrontEndBundle:ownership:ownershipReservationCalendar.html.twig', array(
+            'array_dates' => $array_dates_keys,
+            'rooms' => $rooms,
+            'array_prices' => $array_prices,
+            'ownership' => $ownership,
+            'no_available_days' => $no_available_days_ready,
+            'prices_dates' => $prices_dates,
+            'reservations' => $array_no_available,
+            'fromBackend' => $fromBackend,
+            'nights' => $nights,
+            'tripleChargeRoom' => $tripleChargeRoom,
+            'isCompletePayment' => ($completeReservationPrice > 0),
+            'completeReservationPrice' => $completeReservationPrice
+        ));
+    }
+}
 
     public function ownDetailsDirectAction($own_code)
     {
@@ -586,11 +594,11 @@ class OwnershipController extends Controller
         $allLanguages = $em->getRepository("mycpBundle:lang")->findBy(array('lang_active' => 1));
 
         $langCountry = array(
-            'en' => 'en-US',
-            'es' => 'es-ES',
-            'de' => 'de-DE',
-            'it' => 'it-IT',
-            'fr' => 'fr-FR'
+                'en' => 'en-US',
+                'es' => 'es-ES',
+                'de' => 'de-DE',
+                'it' => 'it-IT',
+                'fr' => 'fr-FR'
         );
 
         $mobileDetector = $this->get('mobile_detect.mobile_detector');
@@ -736,13 +744,11 @@ class OwnershipController extends Controller
         ));
     }
 
-    public function searchAction(Request $request, $text = null, $arriving_date = null, $departure_date = null, $guests = 0, $rooms = 0, $inmediate = "null", $order_price = 'null', $order_comments = 'null', $order_books = 'null', $start = null, $limit = null)
+    public function searchAction(Request $request, $text = null, $arriving_date = null, $departure_date = null, $guests = 0, $rooms = 0, $inmediate = "null", $order_price = 'null', $order_comments = 'null', $order_books = 'null')
     {
 
         $em = $this->getDoctrine()->getManager();
-        $session = $this->get('request')->getSession();
-        $items_per_page = 20;
-        $page = 0;
+        $session = $this->getRequest()->getSession();
 
         if ($session->get('search_order') == null || $session->get('search_order') == '')
             $session->set('search_order', OrderByHelper::DEFAULT_ORDER_BY);
@@ -757,10 +763,14 @@ class OwnershipController extends Controller
         $session->set('inmediate', $inmediate);
         $today = new \DateTime();
 
+
+        //$provinces = $em->getRepository('mycpBundle:province')->findOneBy(array('prov_name' => $prov_name));
+
         $arrTransProv = array(
             'la-habana' => 'La Habana',
             'havana' => 'La Habana',
             'havanna' => 'La Habana',
+            'havana' => 'La Habana',
             'lavana' => 'La Habana',
             'isla-de-la-juventud' => 'Isla de la Juventud',
             'isle-of-youth' => 'Isla de la Juventud',
@@ -771,14 +781,14 @@ class OwnershipController extends Controller
 
         $search_text = ($text != null && $text != '' && $text != $this->get('translator')->trans('PLACE_WATERMARK')) ? Utils::getTextFromNormalized($text) : null;
 
-        if (array_key_exists($text, $arrTransProv)) {
+        if (array_key_exists($text, $arrTransProv)){
             $search_text = $arrTransProv[$text];
         }
 
         $provinces = $em->getRepository('mycpBundle:province')->findOneBy(array('prov_name' => $search_text));
         $province_name = 'no';
 
-        if ($provinces) {
+        if ($provinces){
             $province_name = $provinces->getProvName();
         }
 
@@ -795,18 +805,22 @@ class OwnershipController extends Controller
         } else
             $departure = date_add($today, date_interval_create_from_date_string("2 days"))->format('d-m-Y');
 
+
+        /*if ($arrival == null)
+            $arrival = $today->format('d-m-Y');
+        if ($departure == null)
+            $departure = date_add($today, date_interval_create_from_date_string("2 days"))->format('d-m-Y');*/
+
         $check_filters = $session->get("filter_array");
         $room_filter = $session->get("filter_room");
 
         $session->set("filter_array", $check_filters);
         $session->set("filter_room", $room_filter);
-        if (!is_null($limit))
-            $items_per_page = $limit;
-        if (!is_null($start))
-            $page = $limit;
-        $list = $em->getRepository('mycpBundle:ownership')->search($this, $search_text, $arrival, $departure, $search_guests, $search_rooms, $session->get('search_order'), $room_filter, $check_filters, $inmediate, $page, $items_per_page);
+        $list = $em->getRepository('mycpBundle:ownership')->search($this, $search_text, $arrival, $departure, $search_guests, $search_rooms, $session->get('search_order'), $room_filter, $check_filters, $inmediate);
+
 
         $paginator = $this->get('ideup.simple_paginator');
+        $items_per_page = 15;
         $paginator->setItemsPerPage($items_per_page);
         $result_list = $paginator->paginate($list)->getResult();
         $page = 1;
@@ -859,6 +873,7 @@ class OwnershipController extends Controller
                 'show_paginator' => true,
                 'awards' => $awards,
                 "lastPage" => $paginator->getLastPage(),
+                "inmediate" => $inmediate,
                 "province_name" => $province_name
             ));
         else
@@ -885,6 +900,7 @@ class OwnershipController extends Controller
                 'show_paginator' => true,
                 'awards' => $awards,
                 "lastPage" => $paginator->getLastPage(),
+                "inmediate" => $inmediate,
                 "province_name" => $province_name
             ));
     }
@@ -1031,7 +1047,7 @@ class OwnershipController extends Controller
 
     public function researchAction()
     {
-        $request = $this->get('request');
+        $request = $this->getRequest();
         $session = $request->getSession();
 
 
@@ -1039,7 +1055,8 @@ class OwnershipController extends Controller
         if (isset($_GET['page']))
             $page = $_GET['page'];
 
-        $items_per_page = 20;
+
+        $items_per_page = 18;
         if ($page == 1) {
             $em = $this->getDoctrine()->getManager();
 
@@ -1175,7 +1192,6 @@ class OwnershipController extends Controller
         else if ($session->get('search_view_results') != null && $session->get('search_view_results') == 'PHOTOS')
             $response = $this->renderView('FrontEndBundle:ownership:searchMosaicOwnershipv2.html.twig', array(
                 'list' => $list,
-                'paginator'=>$paginator,
                 'cant_pages' => $cant_pages,
                 'items_per_page' => $items_per_page,
                 'total_items' => $total_items,
@@ -1391,7 +1407,8 @@ class OwnershipController extends Controller
             foreach ($list as $own) {
                 $prize = ($own->getOwnMinimumPrice()) * ($session->get('curr_rate') == null ? 1 : $session->get('curr_rate'));
 
-                if ($own->getCompleteReservationMode()) {
+                if($own->getCompleteReservationMode())
+                {
                     $prize = ($own->getBookingModality()->getPrice()) * ($session->get('curr_rate') == null ? 1 : $session->get('curr_rate'));
                 }
 
@@ -1453,6 +1470,7 @@ class OwnershipController extends Controller
 
         setcookie("mycp_favorites_ownerships", $string_favorites, time() + 3600);
 
+        //var_dump($_COOKIE["mycp_favorites_ownerships"]);
         return $this->redirect($this->generateUrl('frontend_details_ownership', array('ownerid' => $id_ownership)));
     }
 
@@ -1609,7 +1627,8 @@ class OwnershipController extends Controller
         }
 
         $filters['own_type'] = array(str_replace("-", " ", ucfirst($type)));
-        $list = $em->getRepository('mycpBundle:ownership')->search($this, null, null, null, '1', '1', $session->get('search_order'), false, $filters, 0, null, null, false);
+        //dump($filters); die;
+        $list = $em->getRepository('mycpBundle:ownership')->search($this, null, null, null, '1', '1', $session->get('search_order'), false, $filters,0,null,null,false);
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 20;
         $paginator->setItemsPerPage($items_per_page);
@@ -1719,11 +1738,11 @@ class OwnershipController extends Controller
         $page = $request->request->get('page');
         //$_GET['page'] = $page;
 
-        if ($page == 1) {
+        if ($page == 1){
             $list = $em->getRepository('mycpBundle:ownership')->top20($locale, ((strtolower($category) != "todos") ? $category : null));
             $top_rated_list = $list->getResult();
             $session->set("top_rated_list", $top_rated_list);
-        } else {
+        }else{
             $top_rated_list = $session->get("top_rated_list");
         }
         $own_top20_list = $paginator->paginate($top_rated_list)->getResult();
@@ -1795,8 +1814,7 @@ class OwnershipController extends Controller
         ));
     }
 
-    public function autoCompleteTextListAction()
-    {
+    public function autoCompleteTextListAction(){
         $em = $this->getDoctrine()->getManager();
         $text = $em->getRepository('mycpBundle:ownership')->autocompleteTextList();
 
@@ -1924,40 +1942,39 @@ class OwnershipController extends Controller
     /**
      * @param Request $request
      */
-    public function searchByDestinationAction(Request $request)
-    {
+    public function searchByDestinationAction(Request $request){
         $prov_array = $request->request->get('prov_array');
         $em = $this->getDoctrine()->getManager();
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
         $user_id = $user_ids['user_id'];
         $session_id = $user_ids['session_id'];
-        $where = "";
-        if (count($prov_array)) {
-            $i = 0;
+        $where="";
+        if(count($prov_array)){
+            $i=0;
             foreach ($prov_array as $item) {
-                if ($i == 0)
-                    $where .= "prov.prov_id=$item";
+                if($i==0)
+                    $where.="prov.prov_id=$item";
                 else
-                    $where .= " OR prov.prov_id=$item ";
+                    $where.=" OR prov.prov_id=$item ";
                 $i++;
             }
         }
         $query_string = SearchUtils::getBasicQuery(false, $user_id, $session_id);
-        $query_string = $query_string['query'];
-        if ($where != '')
-            $query_string .= " AND o.own_inmediate_booking_2=1 AND $where ";
+        $query_string=$query_string['query'];
+        if($where!='')
+            $query_string.=" AND o.own_inmediate_booking_2=1 AND $where ";
         else
-            $query_string .= " AND o.own_inmediate_booking_2=1 ";
+            $query_string.=" AND o.own_inmediate_booking_2=1 ";
         $owns_id = "0";
-        $reservations = SearchUtils::ownNotAvailable($em);
+        $reservations=SearchUtils::ownNotAvailable($em);
         foreach ($reservations as $res)
             $owns_id .= "," . $res["own_id"];
         $query_string = $query_string . " AND o.own_id NOT IN ($owns_id)";
         $query = $em->createQuery($query_string);
-        if ($session_id != null) {
+        if($session_id != null){
             $query->setParameter('session_id', $session_id);
         }
-        if ($user_id != null) {
+        if($user_id != null){
             $query->setParameter('user_id', $user_id);
         }
         $result = $query->setFirstResult(0)->setMaxResults(6)->getResult();
