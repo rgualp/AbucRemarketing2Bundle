@@ -16,34 +16,41 @@
         });
     }
 
-    window.fbAsyncInit = function() {
+    window.fbAsyncInit = function () {
         FB.init({
-            appId      : '{{ fb_app_id }}',
-            xfbml      : true,
-            version    : 'v2.9'
+            appId: '{{ fb_app_id }}',
+            cookie: true,
+            xfbml: true,
+            version: 'v2.9'
         });
     };
 
-    (function(d, s, id){
+    (function (d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {return;}
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_US/sdk.js";
+        if (d.getElementById(id)) {
+            return;
+        }
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
 
 
     function loginSuccessful() {
+        var $FB_STATUS = $("#status"),
+            $FB_COUNTRY = $("#FacebookLoginType_country"),
+            $FB_NAME = $("#FacebookLoginType_name"),
+            $FB_LASTNAME = $("#FacebookLoginType_lastName"),
+            $FB_EMAIL = $("#FacebookLoginType_email"),
+            $EMAIL_ROW = $("#emailRow"),
+            $COUNTRY_ROW = $("#countryRow");
 
-        //hide all non-facebook related forms
-        /*$(".hidden-fb-auth").hide();
-        $(".btn-fb-login").hide();*/
         $(".hidden-fb-auth *").attr("disabled", "disabled").off('click');
         $(".btn-fb-login").attr("disabled", "disabled").off('click');
         $(".fb-login-form").css("padding-top", 0);
 
         FB.api('/me', {fields: 'email, name, last_name, gender, locale'}, function (response) {
-            //console.log(response);
             var name = response.name;
             var email = response.email;
             var lastName = response.last_name;
@@ -58,44 +65,38 @@
             $("#FacebookLoginType_email").val(email);
             $("#FacebookLoginType_lastName").val((lastName  !== undefined)?lastName:name);
             $("#FacebookLoginType_gender").val(gender);
-
-          //  $("#FacebookLoginType_country").val(city);
-            data={
+            data = {
                 email: email
             };
             $.ajax({
                 type: "POST",
                 url: "{{ path('check_email') }}",
                 data: data,
-                success: function(data){
+                success: function (data) {
                     $("#continueAfterLogin").removeClass("hide").fadeIn();
                     $("#facebookTitle").removeClass("hide").fadeIn();
-                 if (data['exists']==false){
-                     $("#status")
-                             .html('{{ "FACEBOOK_SECOND_STEP" | trans }}')
-                             .removeClass('hide')
-                             .fadeIn();
-                  //alert(true);
-                     $("#FacebookLoginType_country").removeClass('hide').fadeIn();
-                     $("#FacebookLoginType_country").prev().removeClass('hide').fadeIn();
-                     $("#FacebookLoginType_name").removeClass('hide').fadeIn();
-                     $("#FacebookLoginType_name").prev().removeClass('hide').fadeIn();
-                     $("#FacebookLoginType_lastName").removeClass('hide').fadeIn();
-                     $("#FacebookLoginType_lastName").prev().removeClass('hide').fadeIn();
-                     $("#FacebookLoginType_email").removeClass('hide').fadeIn();
-                     $("#FacebookLoginType_email").prev().removeClass('hide').fadeIn();
+                    if (data['exists'] == false) {
+                        $FB_STATUS.html("Status");
+                        $("#status").removeClass('hide').fadeIn();
+                        $FB_COUNTRY.removeClass('hide').fadeIn();
+                        $FB_COUNTRY.prev().removeClass('hide').fadeIn();
+                        $FB_NAME.removeClass('hide').fadeIn();
+                        $FB_NAME.prev().removeClass('hide').fadeIn();
+                        $FB_LASTNAME.removeClass('hide').fadeIn();
+                        $FB_LASTNAME.prev().removeClass('hide').fadeIn();
+                        $FB_EMAIL.removeClass('hide').fadeIn();
+                        $FB_EMAIL.prev().removeClass('hide').fadeIn();
 
-                     $("#emailRow").removeClass('hide').fadeIn();
-                     $("#countryRow").removeClass('hide').fadeIn();
-                 }
-                    else{
-                     $("#emailRow").addClass('hide');
-                     $("#countryRow").addClass('hide');
-                     $("#loginFacebookBtn").addClass('hide');
-
-                     $("#facebookForm").submit();
-                 }
-                 //
+                        $EMAIL_ROW.removeClass('hide').fadeIn();
+                        $COUNTRY_ROW.removeClass('hide').fadeIn();
+                    }
+                    else {
+                        $EMAIL_ROW.addClass('hide');
+                        $COUNTRY_ROW.addClass('hide');
+                        $("#loginFacebookBtn").addClass('hide');
+                        $("#facebookForm").submit();
+                    }
+                    //
                 }
             });
 
