@@ -39,9 +39,20 @@ class TestMailCommand extends ContainerAwareCommand
 		$this->loadConfig();
 		$mail_fails= array();
 		$mail_success= array();
+        $container = $this->getContainer();
+        $emailService = $container->get('mycp.service.email_manager');
+        $subject = "Reporte de ventas MyCasaParticular";
+        $templatingService = $container->get('templating');
+        $body = $templatingService
+            ->renderResponse('mycpBundle:mail:salesReportMail.html.twig', array(
 
-		$mails= array(
+            ));
+        $emailService->sendEmail('orlando@hds.li', $subject,  $body, 'no-responder@mycasaparticular.com', '');
+
+
+        $mails= array(
 			'vhagar91@gmail.com',
+            'orlando@hds.li',
 			'ander@mycasaparticular.com',
 			'arieskiemendoza@gmail.com',
             "anne.schweizer@abuc.ch",
@@ -69,9 +80,9 @@ class TestMailCommand extends ContainerAwareCommand
 			$this->notification_email->setBody($body);
 			$this->notification_email->setEmailType($email_type);
 
-			$status= $this->notification_email->sendEmail();
+            $status= $this->notification_email->sendEmail();
 			if($status){
-				$output->writeln('<info>'.$mail.'</info>');
+				$output->writeln('<info>'.$mail. $status.'</info>');
 				$mail_success[]= $mail;
 			}else{
 				$output->writeln('<error>'.$mail.'</error>');
