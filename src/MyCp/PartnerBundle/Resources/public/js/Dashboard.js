@@ -223,17 +223,8 @@ var Dashboard = function () {
 
                 $("#accommodationName").html(accommodationName);
 
-               /* $("#divResult").slimScroll({
-                    height: '550px',
-                    railOpacity: 0.9,
-                    color: '#ffffff',
-                    opacity: 1,
-                    alwaysVisible: false
-                });*/
 
-                //if (!hasContent) {
                     result.html(loadingText);
-                    //Mostrar listado de reservaciones abiertas
                     $.post(_url, {'accommodationId': selectedAccommodationForReserve}, function (data) {
                         result.html(data);
                         result.data("content", true);
