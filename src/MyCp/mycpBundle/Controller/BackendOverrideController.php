@@ -50,7 +50,7 @@ class BackendOverrideController extends Controller
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
-
+//        dump("asdasd");die;
         $overrideUser = new overrideuser();
         $form = $this->createForm(new overrideUserType(), $overrideUser);
 
@@ -119,35 +119,42 @@ class BackendOverrideController extends Controller
      */
     public function overrideAction(Request $request, $id)
     {
+        $isOverride = false;
         //TODO: Refactorizar para impedir la suplantacion en un usuario que esta siendo suplantado.
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
         $overrideUser = new overrideuser();
-
         if ($id != '') {
             $overrideUser = $em->getRepository('mycpBundle:overrideuser')->find($id);
             $user_override_by = $overrideUser->getOverrideBy();
             $user_override_to = $overrideUser->getOverrideTo();
+            $isOverride = true;
         } else {
             $user_override_by = $em->getRepository('mycpBundle:user')->find($request->get('idOverrideBy'));
             $user_override_to = $em->getRepository('mycpBundle:user')->find($request->get('idOverrideTo'));
-            $overrideUser->setReason($request->get('reason'));
-            $overrideUser->setOverrideTo($user_override_to);
-            $overrideUser->setOverrideBy($user_override_by);
+            $res = $em->getRepository('mycpBundle:overrideuser')->findBy(array('override_to' => $request->get('idOverrideTo'), 'override_by' => $request->get('idOverrideBy')));
+            if (!count($res)) {
+                $isOverride = true;
+                $overrideUser->setReason($request->get('reason'));
+                $overrideUser->setOverrideTo($user_override_to);
+                $overrideUser->setOverrideBy($user_override_by);
+            }
         }
 
+        if ($isOverride) {
+            $overrideUser->setOverrideDate(new \DateTime(date('Y-m-d')));
+            $overrideUser->setOverridePassword($user_override_to->getUserPassword());
+            $overrideUser->setOverrideEnable(true);
+            $em->persist($overrideUser);
 
-        $overrideUser->setOverrideDate(new \DateTime(date('Y-m-d')));
-        $overrideUser->setOverridePassword($user_override_to->getUserPassword());
-        $overrideUser->setOverrideEnable(true);
-        $em->persist($overrideUser);
-
-        $user_override_to->setUserPassword($user_override_by->getUserPassword());
-        $em->persist($user_override_to);
-        $em->flush();
-
-        return $request->isXmlHttpRequest() ? new JsonResponse(array('success' => true)) : $this->redirect($this->generateUrl('mycp_list_override_user'));
+            $user_override_to->setUserPassword($user_override_by->getUserPassword());
+            $em->persist($user_override_to);
+            $message = 'Suplantación realizada satisfactoriamente.';
+            $this->get('session')->getFlashBag()->add('message_ok', $message);
+            $em->flush();
+        }
+        return $request->isXmlHttpRequest() ? new JsonResponse(array('success' => true,'override' => $isOverride )) : $this->redirect($this->generateUrl('mycp_list_override_user'));
     }
 
 }

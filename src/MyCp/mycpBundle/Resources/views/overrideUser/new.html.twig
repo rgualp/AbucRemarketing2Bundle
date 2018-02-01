@@ -106,7 +106,11 @@
                         success:function (response) {
                             HoldOn.close();
                             if(response.success){
-                                window.location.href = "{{ url('mycp_list_override_user') }}";
+                                if(response.override){
+                                    window.location.href = "{{ url('mycp_list_override_user') }}";
+                                }else{
+                                    toastr.error("El usuario ya posee una suplantación.");
+                                }
                             }
                         }
                     });
@@ -126,6 +130,7 @@
                         success:function (response) {
                             HoldOn.close();
                             if(response.success){
+                                console.log(response.name);
                                 lbName.text(response.name);
                                 input.val(response.iduser);
                             }
