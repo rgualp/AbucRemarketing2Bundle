@@ -41,7 +41,7 @@ class TestMailCommand extends ContainerAwareCommand
 		$mail_success= array();
         $container = $this->getContainer();
         $emailService = $container->get('mycp.service.email_manager');
-        $subject = "Reporte de ventas MyCasaParticular";
+        $subject = "Reporte de ventas MyCasaParticular PRUEBAs";
         $templatingService = $container->get('templating');
         $body = $templatingService
             ->renderResponse('mycpBundle:mail:salesReportMail.html.twig', array(

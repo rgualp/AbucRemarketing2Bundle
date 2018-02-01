@@ -202,7 +202,7 @@
                         <td>{{ reservation[3]+reservation[5] }}</td>
                         <td>{{ reservation[7]|date("d/m/Y") }}</td>
                         <td>{{ reservation[9] }}</td>
-                        <td>{{ ((reservation.gen_res_total_in_site+(reservation.gen_res_total_in_site*0.1)+(reservation.gen_res_total_in_site+(reservation.gen_res_total_in_site*0.1))*0.1)*0.9)|round(2, 'ceil') }} EUR</td>
+                        <td>{{ ((reservation.gen_res_total_in_site+(reservation.gen_res_total_in_site*0.1)+(reservation.gen_res_total_in_site+(reservation.gen_res_total_in_site*0.1))*0.1)*0.9)|round(2, 'common') }} EUR</td>
                         <td>
                             {% include 'mycpBundle:utils:general_reservation_status_name.html.twig' with {'status': reservation.gen_res_status,'wrap': false, 'showInDiv': true} %}
                         </td>

@@ -264,7 +264,7 @@
                                     {#/*'<em class="rt">{{"dashboard.booking.rooms" | trans}}:</em> <span class="rst">' + data.rooms.length + '</span> ' +*/#}
                                 '<em class="rt">{{"dashboard.booking.adults" | trans}}:</em> <span class="rst">' + adults + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.childrens" | trans}}:</em> <span class="rst">' + childrens + '</span> ' +
-                                '<em class="rt">{{"dashboard.booking.totalprice" | trans}}:</em> <span class="rst">' + parseFloat(totalPrice+(totalPrice*0.1)+(totalPrice+(totalPrice*0.1))*0.1).toFixed(2) +'-'+ curr_code + '</span> ' +
+                                '<em class="rt">{{"dashboard.booking.totalprice" | trans}}:</em> <span class="rst">' + roundTo((totalPrice+(totalPrice*0.1)+(totalPrice+(totalPrice*0.1))*0.1),2)+'-'+ curr_code + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.bookingcode" | trans}}:</em> <span class="rst">' + booking_code + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.bookingdate" | trans}}:</em> <span class="rst">' + date + '</span> ';
 
@@ -306,7 +306,15 @@
         oTableReserved.ajax.reload();
 
     }
+    function roundTo(n, digits) {
+        if (digits === undefined) {
+            digits = 0;
+        }
 
+        var multiplicator = Math.pow(10, digits);
+        n = parseFloat((n * multiplicator).toFixed(11));
+        return Math.round(n) / multiplicator;
+    }
     function clearReservedAction() {
         var inputs = $("#form-booking-reserved input,select");
         inputs.each(function () {

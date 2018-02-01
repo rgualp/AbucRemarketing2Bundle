@@ -152,7 +152,7 @@
                             <a title="Detalles" href="{{ path('mycp_details_agencyus', {'id':reservation.user_id,'ida':reservation.ag_id}) }}">{{ reservation.ag_name }}</a>
                         </td>
                         <td>{{ reservation.amount }}</td>
-                        <td>{{ ((reservation.total+(reservation.total*0.1)+(reservation.total+(reservation.total*0.1))*0.1)*0.9)| round(2, 'ceil')}}EUR</td>
+                        <td>{{ ((reservation.total+(reservation.total*0.1)+(reservation.total+(reservation.total*0.1))*0.1)*0.9)| round(2, 'common')}}EUR</td>
 
 
                         <td style="text-align: right">

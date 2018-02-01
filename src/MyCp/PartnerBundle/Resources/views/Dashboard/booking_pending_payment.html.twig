@@ -180,7 +180,7 @@
                                     {#{{"dashboard.booking.rooms" | trans}}:</em> <span class="rst">' + data.rooms.length + '</span> ' +*/#}
                                 '<em class="rt">{{"dashboard.booking.adults" | trans}}:</em> <span class="rst">' + adults + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.childrens" | trans}}:</em> <span class="rst">' + childrens + '</span> ' +
-                                '<em class="rt">{{"dashboard.booking.totalprice" | trans}}:</em> <span class="rst">' + parseFloat(totalPrice).toFixed(2) +'-'+ curr_code + '</span> ' +
+                                '<em class="rt">{{"dashboard.booking.totalprice" | trans}}:</em> <span class="rst">' + roundTo(totalPrice,2) +'-'+ curr_code + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.bookingcode" | trans}}:</em> <span class="rst">' + booking_code + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.bookingdate" | trans}}:</em> <span class="rst">' + date + '</span> ';
 
@@ -221,7 +221,15 @@
     function filterPendingPaymentAction() {
         oTablePendingPayment.ajax.reload();
     }
+    function roundTo(n, digits) {
+        if (digits === undefined) {
+            digits = 0;
+        }
 
+        var multiplicator = Math.pow(10, digits);
+        n = parseFloat((n * multiplicator).toFixed(11));
+        return Math.round(n) / multiplicator;
+    }
     function clearPendingPaymentAction() {
         var inputs = $("#form-booking-pending-payment input,select");
         inputs.each(function () {

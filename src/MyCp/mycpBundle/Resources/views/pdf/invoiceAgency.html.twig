@@ -53,7 +53,7 @@
     {% set totalpayment = totalpayment +(reservation.gen_res_total_in_site+(reservation.gen_res_total_in_site*0.1)+(reservation.gen_res_total_in_site+(reservation.gen_res_total_in_site*0.1))*0.1) %}
 
 {% endfor %}
-<p>Estado: Pendiente a Pago <br> Cantidad de Reservas :{{reservations|length  }} <br> Pago Completo : {{ (totalpayment*0.9) |round(2, 'ceil')}} EUR </p>
+<p>Estado: Pendiente a Pago <br> Cantidad de Reservas :{{reservations|length  }} <br> Pago Completo : {{ (totalpayment*0.9) |round(2, 'common')}} EUR </p>
 
     <hr class="hr-grey-wide"/>
 
@@ -120,7 +120,7 @@
                     <td align="center">{{ reservation.gen_res_from_date|date("d/m/Y") }}</td>
                     <td align="center">{{ reservation.gen_res_to_date|date("d/m/Y") }}</td>
                     {#<td>{{ reservation[9] }}</td>#}
-                    <td align="center">{{ ((reservation.gen_res_total_in_site+(reservation.gen_res_total_in_site*0.1)+(reservation.gen_res_total_in_site+(reservation.gen_res_total_in_site*0.1))*0.1)*0.9)|round(2, 'ceil') }} EUR</td>
+                    <td align="center">{{ ((reservation.gen_res_total_in_site+(reservation.gen_res_total_in_site*0.1)+(reservation.gen_res_total_in_site+(reservation.gen_res_total_in_site*0.1))*0.1)*0.9)|round(2, 'common') }} EUR</td>
 
                 </tr>
             {%endfor%}

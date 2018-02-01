@@ -1,6 +1,15 @@
 /**
  * Created by vhagar on 15/01/2018.
  */
+function roundTo(n, digits) {
+    if (digits === undefined) {
+        digits = 0;
+    }
+
+    var multiplicator = Math.pow(10, digits);
+    n = parseFloat((n * multiplicator).toFixed(11));
+    return Math.round(n) / multiplicator;
+}
 function totalPriceCalculator(reservations,invoice)
 {   var total=0;
     Object.keys(reservations).forEach(function(key){
@@ -19,7 +28,7 @@ function totalPriceCalculator(reservations,invoice)
         '</div>'+
         '<br/>'+
         '<div class="text-right pull-left col-md-3">'+
-        '<span class="h3 text-muted total"><strong> Monto Total:'+parseFloat(total*0.9).toFixed(2)+'EUR</strong></span>'+
+        '<span class="h3 text-muted total"><strong> Monto Total:'+roundTo((total*0.9),2)+'EUR</strong></span>'+
         '</div>'+
         '</div>'
     );

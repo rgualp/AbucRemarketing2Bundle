@@ -196,7 +196,7 @@
                             var rooms = '<em class="rt">{{"dashboard.booking.room_types" | trans}}:</em> <span class="rst">' + s_room_types + '</span> ' +
                                     '<em class="rt">{{"dashboard.booking.adults" | trans}}:</em> <span class="rst">' + adults + '</span> ' +
                                     '<em class="rt">{{"dashboard.booking.childrens" | trans}}:</em> <span class="rst">' + childrens + '</span> ' +
-                                    '<em class="rt">{{"dashboard.booking.totalprice" | trans}}:</em> <span class="rst">' + parseFloat(totalPrice).toFixed(2) +'-'+ curr_code + '</span> ';
+                                    '<em class="rt">{{"dashboard.booking.totalprice" | trans}}:</em> <span class="rst">' + floatTo(totalPrice,2)+'-'+ curr_code + '</span> ';
 
                             html = '<div class="row"> ' +
                                     '<div class="col-xs-12"> ' +
@@ -269,7 +269,15 @@
     function filterAvailabilityAction() {
         oTableAvailability.ajax.reload();
     }
+    function roundTo(n, digits) {
+        if (digits === undefined) {
+            digits = 0;
+        }
 
+        var multiplicator = Math.pow(10, digits);
+        n = parseFloat((n * multiplicator).toFixed(11));
+        return Math.round(n) / multiplicator;
+    }
     function clearAvailabilityAction() {
         var inputs = $("#form-booking-availability input,select");
         inputs.each(function () {

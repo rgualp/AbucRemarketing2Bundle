@@ -231,7 +231,7 @@
                                 '<em class="rt">{{"dashboard.booking.from" | trans}}:</em> <span class="rst">' + data.from + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.to" | trans}}:</em> <span class="rst">' + data.to + '</span> ' +
                             '<em class="rt">{{"dashboard.booking.to" | trans}}:</em> <span class="rst">' + data.to + '</span> ' +
-                            '<em class="rt">{{"dashboard.booking.totalprice" | trans}}:</em> <span class="rst">' + parseFloat(totalPrice).toFixed(2) + curr_code + '</span> ' +
+                            '<em class="rt">{{"dashboard.booking.totalprice" | trans}}:</em> <span class="rst">' + roundTo(totalPrice,2) + curr_code + '</span> ' +
 
                             rooms + '<br>' +
                                 '<a data-href="{{ path("partner_dashboard_booking_detail") }}/' + data.id + '" onClick="executeAjaxEle(this)"> <span class="rt" style="float: right;"> {{ 'dashboard.booking.detail' | trans }} </span> </a>' +
@@ -253,7 +253,15 @@
     function filterPendingAction() {
         oTablePending.ajax.reload();
     }
+    function roundTo(n, digits) {
+        if (digits === undefined) {
+            digits = 0;
+        }
 
+        var multiplicator = Math.pow(10, digits);
+        n = parseFloat((n * multiplicator).toFixed(11));
+        return Math.round(n) / multiplicator;
+    }
     function clearPendingAction() {
         var inputs = $("#form-booking-pending input,select");
         inputs.each(function () {
