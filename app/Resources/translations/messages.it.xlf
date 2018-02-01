@@ -2720,9 +2720,7 @@
             </trans-unit>
             <trans-unit id="680">
                 <source>ADD_TO_CART_ERROR</source>
-                <target>Una camera esiste già nella wishlist e di date selezionato si scontra con la quale è
-                    memorizzato. Si prega di cambiare l'intervallo di date.
-                </target>
+                <target>Una camera esiste già nella wishlist e di date selezionato si scontra con la quale è memorizzato. Si prega di cambiare l'intervallo di date.</target>
             </trans-unit>
             <trans-unit id="681">
                 <source>ADDRESS_STREET</source>
