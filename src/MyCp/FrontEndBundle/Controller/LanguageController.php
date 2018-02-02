@@ -83,7 +83,8 @@ class LanguageController extends Controller
         $em = $this->getDoctrine()->getManager();
 
 
-        $routeParams = $this->getRequest()->get('_route_params');
+//        $routeParams = $this->getRequest()->get('_route_params');
+        $routeParams = empty($routeParams) ? array() : json_decode(urldecode($routeParams), true);
         $routeParams['_locale'] = $lang;
         $routeParams['locale'] = $lang;
         $newRoute = $this->get('router')->generate($route, $routeParams);

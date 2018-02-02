@@ -13,7 +13,7 @@ function roundTo(n, digits) {
 function totalPriceCalculator(reservations,invoice)
 {   var total=0;
     Object.keys(reservations).forEach(function(key){
-        total += (reservations[key].gen_res_total_in_site+(reservations[key].gen_res_total_in_site*0.1)+(reservations[key].gen_res_total_in_site+(reservations[key].gen_res_total_in_site*0.1))*0.1)
+        total += roundTo((reservations[key].gen_res_total_in_site+(reservations[key].gen_res_total_in_site*0.1)+(reservations[key].gen_res_total_in_site+(reservations[key].gen_res_total_in_site*0.1))*0.1)*0.9,2)
 
     });
 
@@ -28,7 +28,7 @@ function totalPriceCalculator(reservations,invoice)
         '</div>'+
         '<br/>'+
         '<div class="text-right pull-left col-md-3">'+
-        '<span class="h3 text-muted total"><strong> Monto Total:'+roundTo((total*0.9),2)+'EUR</strong></span>'+
+        '<span class="h3 text-muted total"><strong> Monto Total:'+roundTo(total,2)+'EUR</strong></span>'+
         '</div>'+
         '</div>'
     );

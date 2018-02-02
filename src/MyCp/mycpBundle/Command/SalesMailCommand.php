@@ -30,7 +30,7 @@ class SalesMailCommand extends ContainerAwareCommand
 
         $output->writeln(date(DATE_W3C) . ': Starting sales reports command...');
 
-        $directoryFile = $exporter->createExcelForSalesReportsCommand();
+//        $directoryFile = $exporter->createExcelForSalesReportsCommand();
 
         $emailService = $container->get('mycp.service.email_manager');
         $templatingService = $container->get('templating');
@@ -46,7 +46,7 @@ class SalesMailCommand extends ContainerAwareCommand
             $subject = "Reporte de ventas MyCasaParticular";
 
             if ($emailArg != null || $emailArg != "") {
-                $emailService->sendEmail($emailArg, $subject,  $body, 'no-responder@mycasaparticular.com', $directoryFile);
+
                 $output->writeln('Successfully sent sales report email to address '.$emailArg);
             }
             else{

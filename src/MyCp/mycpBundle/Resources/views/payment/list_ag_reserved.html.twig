@@ -20,10 +20,10 @@
 {% block content %}
     {% set totalpayment=0 %}
  {% for reservation in reservations %}
-     {% set totalpayment = totalpayment +(reservation.gen_res_total_in_site+(reservation.gen_res_total_in_site*0.1)+(reservation.gen_res_total_in_site+(reservation.gen_res_total_in_site*0.1))*0.1) %}
+     {% set totalpayment = (totalpayment +((reservation.gen_res_total_in_site+(reservation.gen_res_total_in_site*0.1)+(reservation.gen_res_total_in_site+(reservation.gen_res_total_in_site*0.1))*0.1)*0.9)|round(2, 'common')) %}
 
  {% endfor %}
-    <h2>Reservas :{{reservations|length  }} Pago Completo : {{ (totalpayment*0.9) |round(2, 'common')}} EUR </h2>
+    <h2>Reservas :{{reservations|length  }} Pago Completo : {{ (totalpayment)|round(2,'common') }} EUR </h2>
 
 
 
