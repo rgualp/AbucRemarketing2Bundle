@@ -2,11 +2,11 @@
 
 namespace MyCp\mycpBundle\Entity;
 
+use DateTime as DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use MyCp\mycpBundle\Helpers\SyncStatuses;
-use \DateTime as DateTime;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -16,7 +16,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\ownershipRepository")
  * @ORM\EntityListeners({"MyCp\mycpBundle\Listener\OwnershipListener"})
  */
-class ownership {
+class ownership
+{
     /**
      * All allowed statuses
      */
@@ -521,7 +522,7 @@ class ownership {
      */
     private $own_general_reservations;
 
-     /**
+    /**
      * @ORM\OneToMany(targetEntity="ownershipKeywordLang",mappedBy="okl_ownership")
      */
     private $ownershipKeywordOwnership;
@@ -682,7 +683,8 @@ class ownership {
     /**
      * Constructor
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->own_rooms = new ArrayCollection();
         $this->own_description_langs = new ArrayCollection();
         $this->own_general_reservations = new ArrayCollection();
@@ -721,7 +723,8 @@ class ownership {
      *
      * @return integer
      */
-    public function getOwnId() {
+    public function getOwnId()
+    {
         return $this->own_id;
     }
 
@@ -736,34 +739,24 @@ class ownership {
     }
 
     /**
+     * Get own_last_update
+     *
+     * @return datetime
+     */
+    public function getOwnLastUpdate()
+    {
+        return $this->own_last_update;
+    }
+
+    /**
      * Set own_last_update
      *
      * @param datetime $ownLastUpdate
      * @return ownership
      */
-    public function setOwnLastUpdate($ownLastUpdate) {
+    public function setOwnLastUpdate($ownLastUpdate)
+    {
         $this->own_last_update = $ownLastUpdate;
-
-        return $this;
-    }
-
-    /**
-     * Get own_last_update
-     *
-     * @return datetime
-     */
-    public function getOwnLastUpdate() {
-        return $this->own_last_update;
-    }
-
-    /**
-     * Set own_creation_date
-     *
-     * @param DateTime $ownCreationDate
-     * @return ownership
-     */
-    public function setOwnCreationDate($ownCreationDate) {
-        $this->own_creation_date = $ownCreationDate;
 
         return $this;
     }
@@ -771,24 +764,26 @@ class ownership {
     /**
      * @return DateTime
      */
-    public function getOwnAvailabilityUpdate() {
+    public function getOwnAvailabilityUpdate()
+    {
         return $this->own_availability_update;
     }
 
     /**
      * @param DateTime $own_availability_update
      */
-    public function setOwnAvailabilityUpdate($own_availability_update) {
+    public function setOwnAvailabilityUpdate($own_availability_update)
+    {
         $this->own_availability_update = $own_availability_update;
     }
-
 
     /**
      * Get own_destination
      *
      * @return destination
      */
-    public function getOwnDestination() {
+    public function getOwnDestination()
+    {
         return $this->own_destination;
     }
 
@@ -798,17 +793,20 @@ class ownership {
      * @param destination $ownDestination
      * @return ownership
      */
-    public function setOwnDestination($ownDestination) {
+    public function setOwnDestination($ownDestination)
+    {
         $this->own_destination = $ownDestination;
 
         return $this;
     }
+
     /**
      * Get own_ranking
      *
      * @return integer
      */
-    public function getOwnRanking() {
+    public function getOwnRanking()
+    {
         return $this->own_ranking;
     }
 
@@ -818,7 +816,8 @@ class ownership {
      * @param integer $ownRanking
      * @return ownership
      */
-    public function setOwnRanking($ownRanking) {
+    public function setOwnRanking($ownRanking)
+    {
         $this->own_ranking = $ownRanking;
 
         return $this;
@@ -829,18 +828,20 @@ class ownership {
      *
      * @return datetime
      */
-    public function getOwnCreationDate() {
+    public function getOwnCreationDate()
+    {
         return $this->own_creation_date;
     }
 
     /**
-     * Set own_visit_date
+     * Set own_creation_date
      *
-     * @param datetime $ownVisitDate
+     * @param DateTime $ownCreationDate
      * @return ownership
      */
-    public function setOwnVisitDate($ownVisitDate) {
-        $this->own_visit_date = $ownVisitDate;
+    public function setOwnCreationDate($ownCreationDate)
+    {
+        $this->own_creation_date = $ownCreationDate;
 
         return $this;
     }
@@ -850,18 +851,20 @@ class ownership {
      *
      * @return datetime
      */
-    public function getOwnVisitDate() {
+    public function getOwnVisitDate()
+    {
         return $this->own_visit_date;
     }
 
     /**
-     * Set own_saler
+     * Set own_visit_date
      *
-     * @param string $ownSaler
+     * @param datetime $ownVisitDate
      * @return ownership
      */
-    public function setOwnSaler($ownSaler) {
-        $this->own_saler = $ownSaler;
+    public function setOwnVisitDate($ownVisitDate)
+    {
+        $this->own_visit_date = $ownVisitDate;
 
         return $this;
     }
@@ -871,18 +874,20 @@ class ownership {
      *
      * @return string
      */
-    public function getOwnSaler() {
+    public function getOwnSaler()
+    {
         return $this->own_saler;
     }
 
     /**
-     * Set own_not_recommendable
+     * Set own_saler
      *
-     * @param string $ownNotRecommendable
+     * @param string $ownSaler
      * @return ownership
      */
-    public function setOwnNotRecommendable($ownNotRecommendable) {
-        $this->own_not_recommendable = $ownNotRecommendable;
+    public function setOwnSaler($ownSaler)
+    {
+        $this->own_saler = $ownSaler;
 
         return $this;
     }
@@ -892,39 +897,20 @@ class ownership {
      *
      * @return boolean
      */
-    public function getOwnNotRecommendable() {
+    public function getOwnNotRecommendable()
+    {
         return $this->own_not_recommendable;
     }
 
     /**
-     * Set own_name
+     * Set own_not_recommendable
      *
-     * @param string $ownName
+     * @param string $ownNotRecommendable
      * @return ownership
      */
-    public function setOwnName($ownName) {
-        $this->own_name = $ownName;
-
-        return $this;
-    }
-
-    /**
-     * Get own_name
-     *
-     * @return string
-     */
-    public function getOwnName() {
-        return $this->own_name;
-    }
-
-    /**
-     * Set own_licence_number
-     *
-     * @param string $ownLicenceNumber
-     * @return ownership
-     */
-    public function setOwnLicenceNumber($ownLicenceNumber) {
-        $this->own_licence_number = $ownLicenceNumber;
+    public function setOwnNotRecommendable($ownNotRecommendable)
+    {
+        $this->own_not_recommendable = $ownNotRecommendable;
 
         return $this;
     }
@@ -934,39 +920,20 @@ class ownership {
      *
      * @return string
      */
-    public function getOwnLicenceNumber() {
+    public function getOwnLicenceNumber()
+    {
         return $this->own_licence_number;
     }
 
     /**
-     * Set own_mcp_code
+     * Set own_licence_number
      *
-     * @param string $ownMcpCode
+     * @param string $ownLicenceNumber
      * @return ownership
      */
-    public function setOwnMcpCode($ownMcpCode) {
-        $this->own_mcp_code = $ownMcpCode;
-
-        return $this;
-    }
-
-    /**
-     * Get own_mcp_code
-     *
-     * @return string
-     */
-    public function getOwnMcpCode() {
-        return $this->own_mcp_code;
-    }
-
-    /**
-     * Set own_address_street
-     *
-     * @param string $ownAddressStreet
-     * @return ownership
-     */
-    public function setOwnAddressStreet($ownAddressStreet) {
-        $this->own_address_street = $ownAddressStreet;
+    public function setOwnLicenceNumber($ownLicenceNumber)
+    {
+        $this->own_licence_number = $ownLicenceNumber;
 
         return $this;
     }
@@ -976,18 +943,20 @@ class ownership {
      *
      * @return string
      */
-    public function getOwnAddressStreet() {
+    public function getOwnAddressStreet()
+    {
         return $this->own_address_street;
     }
 
     /**
-     * Set own_address_number
+     * Set own_address_street
      *
-     * @param string $ownAddressNumber
+     * @param string $ownAddressStreet
      * @return ownership
      */
-    public function setOwnAddressNumber($ownAddressNumber) {
-        $this->own_address_number = $ownAddressNumber;
+    public function setOwnAddressStreet($ownAddressStreet)
+    {
+        $this->own_address_street = $ownAddressStreet;
 
         return $this;
     }
@@ -997,18 +966,20 @@ class ownership {
      *
      * @return string
      */
-    public function getOwnAddressNumber() {
+    public function getOwnAddressNumber()
+    {
         return $this->own_address_number;
     }
 
     /**
-     * Set own_address_between_street_1
+     * Set own_address_number
      *
-     * @param string $ownAddressBetweenStreet1
+     * @param string $ownAddressNumber
      * @return ownership
      */
-    public function setOwnAddressBetweenStreet1($ownAddressBetweenStreet1) {
-        $this->own_address_between_street_1 = $ownAddressBetweenStreet1;
+    public function setOwnAddressNumber($ownAddressNumber)
+    {
+        $this->own_address_number = $ownAddressNumber;
 
         return $this;
     }
@@ -1018,18 +989,20 @@ class ownership {
      *
      * @return string
      */
-    public function getOwnAddressBetweenStreet1() {
+    public function getOwnAddressBetweenStreet1()
+    {
         return $this->own_address_between_street_1;
     }
 
     /**
-     * Set own_address_between_street_2
+     * Set own_address_between_street_1
      *
-     * @param string $ownAddressBetweenStreet2
+     * @param string $ownAddressBetweenStreet1
      * @return ownership
      */
-    public function setOwnAddressBetweenStreet2($ownAddressBetweenStreet2) {
-        $this->own_address_between_street_2 = $ownAddressBetweenStreet2;
+    public function setOwnAddressBetweenStreet1($ownAddressBetweenStreet1)
+    {
+        $this->own_address_between_street_1 = $ownAddressBetweenStreet1;
 
         return $this;
     }
@@ -1039,18 +1012,20 @@ class ownership {
      *
      * @return string
      */
-    public function getOwnAddressBetweenStreet2() {
+    public function getOwnAddressBetweenStreet2()
+    {
         return $this->own_address_between_street_2;
     }
 
     /**
-     * Set own_mobile_number
+     * Set own_address_between_street_2
      *
-     * @param string $ownMobileNumber
+     * @param string $ownAddressBetweenStreet2
      * @return ownership
      */
-    public function setOwnMobileNumber($ownMobileNumber) {
-        $this->own_mobile_number = $ownMobileNumber;
+    public function setOwnAddressBetweenStreet2($ownAddressBetweenStreet2)
+    {
+        $this->own_address_between_street_2 = $ownAddressBetweenStreet2;
 
         return $this;
     }
@@ -1060,18 +1035,20 @@ class ownership {
      *
      * @return string
      */
-    public function getOwnMobileNumber() {
+    public function getOwnMobileNumber()
+    {
         return $this->own_mobile_number;
     }
 
     /**
-     * Set own_homeowner_1
+     * Set own_mobile_number
      *
-     * @param string $ownHomeowner1
+     * @param string $ownMobileNumber
      * @return ownership
      */
-    public function setOwnHomeowner1($ownHomeowner1) {
-        $this->own_homeowner_1 = $ownHomeowner1;
+    public function setOwnMobileNumber($ownMobileNumber)
+    {
+        $this->own_mobile_number = $ownMobileNumber;
 
         return $this;
     }
@@ -1081,18 +1058,20 @@ class ownership {
      *
      * @return string
      */
-    public function getOwnHomeowner1() {
+    public function getOwnHomeowner1()
+    {
         return $this->own_homeowner_1;
     }
 
     /**
-     * Set own_homeowner_2
+     * Set own_homeowner_1
      *
-     * @param string $ownHomeowner2
+     * @param string $ownHomeowner1
      * @return ownership
      */
-    public function setOwnHomeowner2($ownHomeowner2) {
-        $this->own_homeowner_2 = $ownHomeowner2;
+    public function setOwnHomeowner1($ownHomeowner1)
+    {
+        $this->own_homeowner_1 = $ownHomeowner1;
 
         return $this;
     }
@@ -1102,18 +1081,20 @@ class ownership {
      *
      * @return string
      */
-    public function getOwnHomeowner2() {
+    public function getOwnHomeowner2()
+    {
         return $this->own_homeowner_2;
     }
 
     /**
-     * Set own_phone_number
+     * Set own_homeowner_2
      *
-     * @param string $ownPhoneNumber
+     * @param string $ownHomeowner2
      * @return ownership
      */
-    public function setOwnPhoneNumber($ownPhoneNumber) {
-        $this->own_phone_number = $ownPhoneNumber;
+    public function setOwnHomeowner2($ownHomeowner2)
+    {
+        $this->own_homeowner_2 = $ownHomeowner2;
 
         return $this;
     }
@@ -1123,18 +1104,20 @@ class ownership {
      *
      * @return string
      */
-    public function getOwnPhoneNumber() {
+    public function getOwnPhoneNumber()
+    {
         return $this->own_phone_number;
     }
 
     /**
-     * Set own_email_1
+     * Set own_phone_number
      *
-     * @param string $ownEmail1
+     * @param string $ownPhoneNumber
      * @return ownership
      */
-    public function setOwnEmail1($ownEmail1) {
-        $this->own_email_1 = $ownEmail1;
+    public function setOwnPhoneNumber($ownPhoneNumber)
+    {
+        $this->own_phone_number = $ownPhoneNumber;
 
         return $this;
     }
@@ -1144,18 +1127,20 @@ class ownership {
      *
      * @return string
      */
-    public function getOwnEmail1() {
+    public function getOwnEmail1()
+    {
         return $this->own_email_1;
     }
 
     /**
-     * Set own_email_2
+     * Set own_email_1
      *
-     * @param string $ownEmail2
+     * @param string $ownEmail1
      * @return ownership
      */
-    public function setOwnEmail2($ownEmail2) {
-        $this->own_email_2 = $ownEmail2;
+    public function setOwnEmail1($ownEmail1)
+    {
+        $this->own_email_1 = $ownEmail1;
 
         return $this;
     }
@@ -1165,18 +1150,20 @@ class ownership {
      *
      * @return string
      */
-    public function getOwnEmail2() {
+    public function getOwnEmail2()
+    {
         return $this->own_email_2;
     }
 
     /**
-     * Set own_category
+     * Set own_email_2
      *
-     * @param string $ownCategory
+     * @param string $ownEmail2
      * @return ownership
      */
-    public function setOwnCategory($ownCategory) {
-        $this->own_category = $ownCategory;
+    public function setOwnEmail2($ownEmail2)
+    {
+        $this->own_email_2 = $ownEmail2;
 
         return $this;
     }
@@ -1186,18 +1173,20 @@ class ownership {
      *
      * @return string
      */
-    public function getOwnCategory() {
+    public function getOwnCategory()
+    {
         return $this->own_category;
     }
 
     /**
-     * Set own_type
+     * Set own_category
      *
-     * @param string $ownType
+     * @param string $ownCategory
      * @return ownership
      */
-    public function setOwnType($ownType) {
-        $this->own_type = $ownType;
+    public function setOwnCategory($ownCategory)
+    {
+        $this->own_category = $ownCategory;
 
         return $this;
     }
@@ -1207,18 +1196,20 @@ class ownership {
      *
      * @return string
      */
-    public function getOwnType() {
+    public function getOwnType()
+    {
         return $this->own_type;
     }
 
     /**
-     * Set own_facilities_breakfast
+     * Set own_type
      *
-     * @param boolean $ownFacilitiesBreakfast
+     * @param string $ownType
      * @return ownership
      */
-    public function setOwnFacilitiesBreakfast($ownFacilitiesBreakfast) {
-        $this->own_facilities_breakfast = $ownFacilitiesBreakfast;
+    public function setOwnType($ownType)
+    {
+        $this->own_type = $ownType;
 
         return $this;
     }
@@ -1228,18 +1219,20 @@ class ownership {
      *
      * @return boolean
      */
-    public function getOwnFacilitiesBreakfast() {
+    public function getOwnFacilitiesBreakfast()
+    {
         return $this->own_facilities_breakfast;
     }
 
     /**
-     * Set own_facilities_breakfast_price
+     * Set own_facilities_breakfast
      *
-     * @param string $ownFacilitiesBreakfastPrice
+     * @param boolean $ownFacilitiesBreakfast
      * @return ownership
      */
-    public function setOwnFacilitiesBreakfastPrice($ownFacilitiesBreakfastPrice) {
-        $this->own_facilities_breakfast_price = $ownFacilitiesBreakfastPrice;
+    public function setOwnFacilitiesBreakfast($ownFacilitiesBreakfast)
+    {
+        $this->own_facilities_breakfast = $ownFacilitiesBreakfast;
 
         return $this;
     }
@@ -1249,18 +1242,20 @@ class ownership {
      *
      * @return string
      */
-    public function getOwnFacilitiesBreakfastPrice() {
+    public function getOwnFacilitiesBreakfastPrice()
+    {
         return $this->own_facilities_breakfast_price;
     }
 
     /**
-     * Set own_facilities_dinner
+     * Set own_facilities_breakfast_price
      *
-     * @param boolean $ownFacilitiesDinner
+     * @param string $ownFacilitiesBreakfastPrice
      * @return ownership
      */
-    public function setOwnFacilitiesDinner($ownFacilitiesDinner) {
-        $this->own_facilities_dinner = $ownFacilitiesDinner;
+    public function setOwnFacilitiesBreakfastPrice($ownFacilitiesBreakfastPrice)
+    {
+        $this->own_facilities_breakfast_price = $ownFacilitiesBreakfastPrice;
 
         return $this;
     }
@@ -1270,18 +1265,20 @@ class ownership {
      *
      * @return boolean
      */
-    public function getOwnFacilitiesDinner() {
+    public function getOwnFacilitiesDinner()
+    {
         return $this->own_facilities_dinner;
     }
 
     /**
-     * Set own_facilities_dinner_price_from
+     * Set own_facilities_dinner
      *
-     * @param string $ownFacilitiesDinnerPriceFrom
+     * @param boolean $ownFacilitiesDinner
      * @return ownership
      */
-    public function setOwnFacilitiesDinnerPriceFrom($ownFacilitiesDinnerPriceFrom) {
-        $this->own_facilities_dinner_price_from = $ownFacilitiesDinnerPriceFrom;
+    public function setOwnFacilitiesDinner($ownFacilitiesDinner)
+    {
+        $this->own_facilities_dinner = $ownFacilitiesDinner;
 
         return $this;
     }
@@ -1291,18 +1288,20 @@ class ownership {
      *
      * @return string
      */
-    public function getOwnFacilitiesDinnerPriceFrom() {
+    public function getOwnFacilitiesDinnerPriceFrom()
+    {
         return $this->own_facilities_dinner_price_from;
     }
 
     /**
-     * Set own_facilities_dinner_price_to
+     * Set own_facilities_dinner_price_from
      *
-     * @param string $ownFacilitiesDinnerPriceTo
+     * @param string $ownFacilitiesDinnerPriceFrom
      * @return ownership
      */
-    public function setOwnFacilitiesDinnerPriceTo($ownFacilitiesDinnerPriceTo) {
-        $this->own_facilities_dinner_price_to = $ownFacilitiesDinnerPriceTo;
+    public function setOwnFacilitiesDinnerPriceFrom($ownFacilitiesDinnerPriceFrom)
+    {
+        $this->own_facilities_dinner_price_from = $ownFacilitiesDinnerPriceFrom;
 
         return $this;
     }
@@ -1312,18 +1311,20 @@ class ownership {
      *
      * @return string
      */
-    public function getOwnFacilitiesDinnerPriceTo() {
+    public function getOwnFacilitiesDinnerPriceTo()
+    {
         return $this->own_facilities_dinner_price_to;
     }
 
     /**
-     * Set own_facilities_parking
+     * Set own_facilities_dinner_price_to
      *
-     * @param boolean $ownFacilitiesParking
+     * @param string $ownFacilitiesDinnerPriceTo
      * @return ownership
      */
-    public function setOwnFacilitiesParking($ownFacilitiesParking) {
-        $this->own_facilities_parking = $ownFacilitiesParking;
+    public function setOwnFacilitiesDinnerPriceTo($ownFacilitiesDinnerPriceTo)
+    {
+        $this->own_facilities_dinner_price_to = $ownFacilitiesDinnerPriceTo;
 
         return $this;
     }
@@ -1333,18 +1334,20 @@ class ownership {
      *
      * @return boolean
      */
-    public function getOwnFacilitiesParking() {
+    public function getOwnFacilitiesParking()
+    {
         return $this->own_facilities_parking;
     }
 
     /**
-     * Set own_facilities_parking_price
+     * Set own_facilities_parking
      *
-     * @param string $ownFacilitiesParkingPrice
+     * @param boolean $ownFacilitiesParking
      * @return ownership
      */
-    public function setOwnFacilitiesParkingPrice($ownFacilitiesParkingPrice) {
-        $this->own_facilities_parking_price = $ownFacilitiesParkingPrice;
+    public function setOwnFacilitiesParking($ownFacilitiesParking)
+    {
+        $this->own_facilities_parking = $ownFacilitiesParking;
 
         return $this;
     }
@@ -1354,18 +1357,20 @@ class ownership {
      *
      * @return string
      */
-    public function getOwnFacilitiesParkingPrice() {
+    public function getOwnFacilitiesParkingPrice()
+    {
         return $this->own_facilities_parking_price;
     }
 
     /**
-     * Set own_water_jacuzee
+     * Set own_facilities_parking_price
      *
-     * @param boolean $ownWaterJacuzee
+     * @param string $ownFacilitiesParkingPrice
      * @return ownership
      */
-    public function setOwnWaterJacuzee($ownWaterJacuzee) {
-        $this->own_water_jacuzee = $ownWaterJacuzee;
+    public function setOwnFacilitiesParkingPrice($ownFacilitiesParkingPrice)
+    {
+        $this->own_facilities_parking_price = $ownFacilitiesParkingPrice;
 
         return $this;
     }
@@ -1375,18 +1380,20 @@ class ownership {
      *
      * @return boolean
      */
-    public function getOwnWaterJacuzee() {
+    public function getOwnWaterJacuzee()
+    {
         return $this->own_water_jacuzee;
     }
 
     /**
-     * Set own_water_sauna
+     * Set own_water_jacuzee
      *
-     * @param boolean $ownWaterSauna
+     * @param boolean $ownWaterJacuzee
      * @return ownership
      */
-    public function setOwnWaterSauna($ownWaterSauna) {
-        $this->own_water_sauna = $ownWaterSauna;
+    public function setOwnWaterJacuzee($ownWaterJacuzee)
+    {
+        $this->own_water_jacuzee = $ownWaterJacuzee;
 
         return $this;
     }
@@ -1396,18 +1403,20 @@ class ownership {
      *
      * @return boolean
      */
-    public function getOwnWaterSauna() {
+    public function getOwnWaterSauna()
+    {
         return $this->own_water_sauna;
     }
 
     /**
-     * Set own_water_piscina
+     * Set own_water_sauna
      *
-     * @param boolean $ownWaterPiscina
+     * @param boolean $ownWaterSauna
      * @return ownership
      */
-    public function setOwnWaterPiscina($ownWaterPiscina) {
-        $this->own_water_piscina = $ownWaterPiscina;
+    public function setOwnWaterSauna($ownWaterSauna)
+    {
+        $this->own_water_sauna = $ownWaterSauna;
 
         return $this;
     }
@@ -1417,18 +1426,20 @@ class ownership {
      *
      * @return boolean
      */
-    public function getOwnWaterPiscina() {
+    public function getOwnWaterPiscina()
+    {
         return $this->own_water_piscina;
     }
 
     /**
-     * Set own_description_bicycle_parking
+     * Set own_water_piscina
      *
-     * @param boolean $ownDescriptionBicycleParking
+     * @param boolean $ownWaterPiscina
      * @return ownership
      */
-    public function setOwnDescriptionBicycleParking($ownDescriptionBicycleParking) {
-        $this->own_description_bicycle_parking = $ownDescriptionBicycleParking;
+    public function setOwnWaterPiscina($ownWaterPiscina)
+    {
+        $this->own_water_piscina = $ownWaterPiscina;
 
         return $this;
     }
@@ -1438,18 +1449,20 @@ class ownership {
      *
      * @return boolean
      */
-    public function getOwnDescriptionBicycleParking() {
+    public function getOwnDescriptionBicycleParking()
+    {
         return $this->own_description_bicycle_parking;
     }
 
     /**
-     * Set own_description_pets
+     * Set own_description_bicycle_parking
      *
-     * @param boolean $ownDescriptionPets
+     * @param boolean $ownDescriptionBicycleParking
      * @return ownership
      */
-    public function setOwnDescriptionPets($ownDescriptionPets) {
-        $this->own_description_pets = $ownDescriptionPets;
+    public function setOwnDescriptionBicycleParking($ownDescriptionBicycleParking)
+    {
+        $this->own_description_bicycle_parking = $ownDescriptionBicycleParking;
 
         return $this;
     }
@@ -1459,18 +1472,20 @@ class ownership {
      *
      * @return boolean
      */
-    public function getOwnDescriptionPets() {
+    public function getOwnDescriptionPets()
+    {
         return $this->own_description_pets;
     }
 
     /**
-     * Set own_description_laundry
+     * Set own_description_pets
      *
-     * @param boolean $ownDescriptionLaundry
+     * @param boolean $ownDescriptionPets
      * @return ownership
      */
-    public function setOwnDescriptionLaundry($ownDescriptionLaundry) {
-        $this->own_description_laundry = $ownDescriptionLaundry;
+    public function setOwnDescriptionPets($ownDescriptionPets)
+    {
+        $this->own_description_pets = $ownDescriptionPets;
 
         return $this;
     }
@@ -1480,18 +1495,20 @@ class ownership {
      *
      * @return boolean
      */
-    public function getOwnDescriptionLaundry() {
+    public function getOwnDescriptionLaundry()
+    {
         return $this->own_description_laundry;
     }
 
     /**
-     * Set own_description_internet
+     * Set own_description_laundry
      *
-     * @param boolean $ownDescriptionInternet
+     * @param boolean $ownDescriptionLaundry
      * @return ownership
      */
-    public function setOwnDescriptionInternet($ownDescriptionInternet) {
-        $this->own_description_internet = $ownDescriptionInternet;
+    public function setOwnDescriptionLaundry($ownDescriptionLaundry)
+    {
+        $this->own_description_laundry = $ownDescriptionLaundry;
 
         return $this;
     }
@@ -1501,18 +1518,20 @@ class ownership {
      *
      * @return boolean
      */
-    public function getOwnDescriptionInternet() {
+    public function getOwnDescriptionInternet()
+    {
         return $this->own_description_internet;
     }
 
     /**
-     * Set own_address_province
+     * Set own_description_internet
      *
-     * @param province $ownAddressProvince
+     * @param boolean $ownDescriptionInternet
      * @return ownership
      */
-    public function setOwnAddressProvince(province $ownAddressProvince = null) {
-        $this->own_address_province = $ownAddressProvince;
+    public function setOwnDescriptionInternet($ownDescriptionInternet)
+    {
+        $this->own_description_internet = $ownDescriptionInternet;
 
         return $this;
     }
@@ -1522,18 +1541,20 @@ class ownership {
      *
      * @return province
      */
-    public function getOwnAddressProvince() {
+    public function getOwnAddressProvince()
+    {
         return $this->own_address_province;
     }
 
     /**
-     * Set own_address_municipality
+     * Set own_address_province
      *
-     * @param municipality $ownAddressMunicipality
+     * @param province $ownAddressProvince
      * @return ownership
      */
-    public function setOwnAddressMunicipality(municipality $ownAddressMunicipality = null) {
-        $this->own_address_municipality = $ownAddressMunicipality;
+    public function setOwnAddressProvince(province $ownAddressProvince = null)
+    {
+        $this->own_address_province = $ownAddressProvince;
 
         return $this;
     }
@@ -1543,8 +1564,22 @@ class ownership {
      *
      * @return municipality
      */
-    public function getOwnAddressMunicipality() {
+    public function getOwnAddressMunicipality()
+    {
         return $this->own_address_municipality;
+    }
+
+    /**
+     * Set own_address_municipality
+     *
+     * @param municipality $ownAddressMunicipality
+     * @return ownership
+     */
+    public function setOwnAddressMunicipality(municipality $ownAddressMunicipality = null)
+    {
+        $this->own_address_municipality = $ownAddressMunicipality;
+
+        return $this;
     }
 
     /**
@@ -1553,7 +1588,8 @@ class ownership {
      * @param room $ownRooms
      * @return ownership
      */
-    public function addOwnRoom(room $ownRooms) {
+    public function addOwnRoom(room $ownRooms)
+    {
         $this->own_rooms[] = $ownRooms;
         $this->own_rooms_total++;
         return $this;
@@ -1564,7 +1600,8 @@ class ownership {
      *
      * @param room $ownRooms
      */
-    public function removeOwnRoom(room $ownRooms) {
+    public function removeOwnRoom(room $ownRooms)
+    {
         $this->own_rooms->removeElement($ownRooms);
         $this->own_rooms_total--;
     }
@@ -1574,8 +1611,19 @@ class ownership {
      *
      * @return Collection
      */
-    public function getOwnRooms() {
+    public function getOwnRooms()
+    {
         return $this->own_rooms;
+    }
+
+    /**
+     * Get own_top_20
+     *
+     * @return boolean
+     */
+    public function getOwnTop20()
+    {
+        return $this->own_top_20;
     }
 
     /**
@@ -1584,29 +1632,9 @@ class ownership {
      * @param boolean $ownTop20
      * @return ownership
      */
-    public function setOwnTop20($ownTop20) {
+    public function setOwnTop20($ownTop20)
+    {
         $this->own_top_20 = $ownTop20;
-
-        return $this;
-    }
-
-    /**
-     * Get own_top_20
-     *
-     * @return boolean
-     */
-    public function getOwnTop20() {
-        return $this->own_top_20;
-    }
-
-    /**
-     * Set own_selection
-     *
-     * @param boolean $ownSelection
-     * @return ownership
-     */
-    public function setOwnSelection($ownSelection) {
-        $this->own_selection = $ownSelection;
 
         return $this;
     }
@@ -1616,18 +1644,20 @@ class ownership {
      *
      * @return boolean
      */
-    public function getOwnSelection() {
+    public function getOwnSelection()
+    {
         return $this->own_selection;
     }
 
     /**
-     * Set own_rating
+     * Set own_selection
      *
-     * @param float $ownRating
+     * @param boolean $ownSelection
      * @return ownership
      */
-    public function setOwnRating($ownRating) {
-        $this->own_rating = $ownRating;
+    public function setOwnSelection($ownSelection)
+    {
+        $this->own_selection = $ownSelection;
 
         return $this;
     }
@@ -1637,8 +1667,22 @@ class ownership {
      *
      * @return float
      */
-    public function getOwnRating() {
+    public function getOwnRating()
+    {
         return $this->own_rating;
+    }
+
+    /**
+     * Set own_rating
+     *
+     * @param float $ownRating
+     * @return ownership
+     */
+    public function setOwnRating($ownRating)
+    {
+        $this->own_rating = $ownRating;
+
+        return $this;
     }
 
     /**
@@ -1647,7 +1691,8 @@ class ownership {
      * @param integer $ownMaximumNumberGuests
      * @return ownership
      */
-    public function setOwnMaximumNumberGuests($ownMaximumNumberGuests) {
+    public function setOwnMaximumNumberGuests($ownMaximumNumberGuests)
+    {
         $this->own_maximun_number_guests = $ownMaximumNumberGuests;
 
         return $this;
@@ -1658,8 +1703,19 @@ class ownership {
      *
      * @return integer
      */
-    public function getOwnMaximumNumberGuests() {
+    public function getOwnMaximumNumberGuests()
+    {
         return $this->own_maximun_number_guests;
+    }
+
+    /**
+     * Get own_minimum_price
+     *
+     * @return float
+     */
+    public function getOwnMinimumPrice()
+    {
+        return $this->own_minimum_price;
     }
 
     /**
@@ -1668,29 +1724,9 @@ class ownership {
      * @param float $ownMinimumPrice
      * @return ownership
      */
-    public function setOwnMinimumPrice($ownMinimumPrice) {
+    public function setOwnMinimumPrice($ownMinimumPrice)
+    {
         $this->own_minimum_price = $ownMinimumPrice;
-
-        return $this;
-    }
-
-    /**
-     * Get own_minimum_price
-     *
-     * @return float
-     */
-    public function getOwnMinimumPrice() {
-        return $this->own_minimum_price;
-    }
-
-    /**
-     * Set own_maximum_price
-     *
-     * @param float $ownMaximumPrice
-     * @return ownership
-     */
-    public function setOwnMaximumPrice($ownMaximumPrice) {
-        $this->own_maximum_price = $ownMaximumPrice;
 
         return $this;
     }
@@ -1700,18 +1736,20 @@ class ownership {
      *
      * @return float
      */
-    public function getOwnMaximumPrice() {
+    public function getOwnMaximumPrice()
+    {
         return $this->own_maximum_price;
     }
 
     /**
-     * Set own_comments_total
+     * Set own_maximum_price
      *
-     * @param integer $ownCommentsTotal
+     * @param float $ownMaximumPrice
      * @return ownership
      */
-    public function setOwnCommentsTotal($ownCommentsTotal) {
-        $this->own_comments_total = $ownCommentsTotal;
+    public function setOwnMaximumPrice($ownMaximumPrice)
+    {
+        $this->own_maximum_price = $ownMaximumPrice;
 
         return $this;
     }
@@ -1721,16 +1759,77 @@ class ownership {
      *
      * @return integer
      */
-    public function getOwnCommentsTotal() {
+    public function getOwnCommentsTotal()
+    {
         return $this->own_comments_total;
+    }
+
+    /**
+     * Set own_comments_total
+     *
+     * @param integer $ownCommentsTotal
+     * @return ownership
+     */
+    public function setOwnCommentsTotal($ownCommentsTotal)
+    {
+        $this->own_comments_total = $ownCommentsTotal;
+
+        return $this;
     }
 
     /**
      * Retur object as string
      * @return string
      */
-    public function __toString() {
-        return $this->getOwnMcpCode()." - ".$this->getOwnName();
+    public function __toString()
+    {
+        return $this->getOwnMcpCode() . " - " . $this->getOwnName();
+    }
+
+    /**
+     * Get own_mcp_code
+     *
+     * @return string
+     */
+    public function getOwnMcpCode()
+    {
+        return $this->own_mcp_code;
+    }
+
+    /**
+     * Set own_mcp_code
+     *
+     * @param string $ownMcpCode
+     * @return ownership
+     */
+    public function setOwnMcpCode($ownMcpCode)
+    {
+        $this->own_mcp_code = $ownMcpCode;
+
+        return $this;
+    }
+
+    /**
+     * Get own_name
+     *
+     * @return string
+     */
+    public function getOwnName()
+    {
+        return $this->own_name;
+    }
+
+    /**
+     * Set own_name
+     *
+     * @param string $ownName
+     * @return ownership
+     */
+    public function setOwnName($ownName)
+    {
+        $this->own_name = $ownName;
+
+        return $this;
     }
 
     /**
@@ -1738,34 +1837,24 @@ class ownership {
      */
 
     /**
+     * Get own_maximun_number_guests
+     *
+     * @return integer
+     */
+    public function getOwnMaximunNumberGuests()
+    {
+        return $this->own_maximun_number_guests;
+    }
+
+    /**
      * Set own_maximun_number_guests
      *
      * @param integer $ownMaximunNumberGuests
      * @return ownership
      */
-    public function setOwnMaximunNumberGuests($ownMaximunNumberGuests) {
+    public function setOwnMaximunNumberGuests($ownMaximunNumberGuests)
+    {
         $this->own_maximun_number_guests = $ownMaximunNumberGuests;
-
-        return $this;
-    }
-
-    /**
-     * Get own_maximun_number_guests
-     *
-     * @return integer
-     */
-    public function getOwnMaximunNumberGuests() {
-        return $this->own_maximun_number_guests;
-    }
-
-    /**
-     * Set own_facilities_notes
-     *
-     * @param string $ownFacilitiesNotes
-     * @return ownership
-     */
-    public function setOwnFacilitiesNotes($ownFacilitiesNotes) {
-        $this->own_facilities_notes = $ownFacilitiesNotes;
 
         return $this;
     }
@@ -1775,18 +1864,20 @@ class ownership {
      *
      * @return string
      */
-    public function getOwnFacilitiesNotes() {
+    public function getOwnFacilitiesNotes()
+    {
         return $this->own_facilities_notes;
     }
 
     /**
-     * Set own_langs
+     * Set own_facilities_notes
      *
-     * @param string $ownLangs
+     * @param string $ownFacilitiesNotes
      * @return ownership
      */
-    public function setOwnLangs($ownLangs) {
-        $this->own_langs = $ownLangs;
+    public function setOwnFacilitiesNotes($ownFacilitiesNotes)
+    {
+        $this->own_facilities_notes = $ownFacilitiesNotes;
 
         return $this;
     }
@@ -1796,18 +1887,20 @@ class ownership {
      *
      * @return string
      */
-    public function getOwnLangs() {
+    public function getOwnLangs()
+    {
         return $this->own_langs;
     }
 
     /**
-     * Set own_geolocate_x
+     * Set own_langs
      *
-     * @param string $ownGeolocateX
+     * @param string $ownLangs
      * @return ownership
      */
-    public function setOwnGeolocateX($ownGeolocateX) {
-        $this->own_geolocate_x = $ownGeolocateX;
+    public function setOwnLangs($ownLangs)
+    {
+        $this->own_langs = $ownLangs;
 
         return $this;
     }
@@ -1817,18 +1910,20 @@ class ownership {
      *
      * @return string
      */
-    public function getOwnGeolocateX() {
+    public function getOwnGeolocateX()
+    {
         return $this->own_geolocate_x;
     }
 
     /**
-     * Set own_geolocate_y
+     * Set own_geolocate_x
      *
-     * @param string $ownGeolocateY
+     * @param string $ownGeolocateX
      * @return ownership
      */
-    public function setOwnGeolocateY($ownGeolocateY) {
-        $this->own_geolocate_y = $ownGeolocateY;
+    public function setOwnGeolocateX($ownGeolocateX)
+    {
+        $this->own_geolocate_x = $ownGeolocateX;
 
         return $this;
     }
@@ -1838,18 +1933,20 @@ class ownership {
      *
      * @return string
      */
-    public function getOwnGeolocateY() {
+    public function getOwnGeolocateY()
+    {
         return $this->own_geolocate_y;
     }
 
     /**
-     * Set own_phone_code
+     * Set own_geolocate_y
      *
-     * @param string $ownPhoneCode
+     * @param string $ownGeolocateY
      * @return ownership
      */
-    public function setOwnPhoneCode($ownPhoneCode) {
-        $this->own_phone_code = $ownPhoneCode;
+    public function setOwnGeolocateY($ownGeolocateY)
+    {
+        $this->own_geolocate_y = $ownGeolocateY;
 
         return $this;
     }
@@ -1859,39 +1956,20 @@ class ownership {
      *
      * @return string
      */
-    public function getOwnPhoneCode() {
+    public function getOwnPhoneCode()
+    {
         return $this->own_phone_code;
     }
 
     /**
-     * Set own_status
+     * Set own_phone_code
      *
-     * @param ownershipStatus $ownStatus
+     * @param string $ownPhoneCode
      * @return ownership
      */
-    public function setOwnStatus(ownershipStatus $ownStatus = null) {
-        $this->own_status = $ownStatus;
-
-        return $this;
-    }
-
-    /**
-     * Get own_status
-     *
-     * @return ownershipStatus
-     */
-    public function getOwnStatus() {
-        return $this->own_status;
-    }
-
-    /**
-     * Set own_comment
-     *
-     * @param string $ownComment
-     * @return ownership
-     */
-    public function setOwnComment($ownComment) {
-        $this->own_comment = $ownComment;
+    public function setOwnPhoneCode($ownPhoneCode)
+    {
+        $this->own_phone_code = $ownPhoneCode;
 
         return $this;
     }
@@ -1901,18 +1979,20 @@ class ownership {
      *
      * @return string
      */
-    public function getOwnComment() {
+    public function getOwnComment()
+    {
         return $this->own_comment;
     }
 
     /**
-     * Set own_commission_percent
+     * Set own_comment
      *
-     * @param integer $ownCommissionPercent
+     * @param string $ownComment
      * @return ownership
      */
-    public function setOwnCommissionPercent($ownCommissionPercent) {
-        $this->own_commission_percent = $ownCommissionPercent;
+    public function setOwnComment($ownComment)
+    {
+        $this->own_comment = $ownComment;
 
         return $this;
     }
@@ -1922,15 +2002,31 @@ class ownership {
      *
      * @return integer
      */
-    public function getOwnCommissionPercent() {
+    public function getOwnCommissionPercent()
+    {
         return $this->own_commission_percent;
     }
 
-    public function getSyncSt() {
+    /**
+     * Set own_commission_percent
+     *
+     * @param integer $ownCommissionPercent
+     * @return ownership
+     */
+    public function setOwnCommissionPercent($ownCommissionPercent)
+    {
+        $this->own_commission_percent = $ownCommissionPercent;
+
+        return $this;
+    }
+
+    public function getSyncSt()
+    {
         return $this->own_sync_st;
     }
 
-    public function setSyncSt($own_sync_st) {
+    public function setSyncSt($own_sync_st)
+    {
         $this->own_sync_st = $own_sync_st;
     }
 
@@ -1939,17 +2035,34 @@ class ownership {
      *
      * @return integer
      */
-    public function getOwnRoomsTotal() {
+    public function getOwnRoomsTotal()
+    {
         return count($this->own_rooms);
+    }
+
+    /**
+     * Set own_rooms_total
+     *
+     * @param integer $ownRoomsTotal
+     * @return ownership
+     */
+    public function setOwnRoomsTotal($ownRoomsTotal)
+    {
+        $this->own_rooms_total = $ownRoomsTotal;
+
+        return $this;
+    }
+
+    public function getFullAddress()
+    {
+        return $this->own_address_street . ", No." . $this->own_address_number . ", " . $this->own_address_municipality . ", " . $this->own_address_province;
     }
 
 //-----------------------------------------------------------------------------
     // <editor-fold defaultstate="collapsed" desc="Logic Methods">
-    public function getFullAddress() {
-        return $this->own_address_street . ", No." . $this->own_address_number . ", " . $this->own_address_municipality . ", " . $this->own_address_province;
-    }
 
-    public function getRoom($room_num) {
+    public function getRoom($room_num)
+    {
         foreach ($this->own_rooms as $room) {
             if ($room->getRoomNum() == $room_num) {
                 return $room;
@@ -1958,19 +2071,17 @@ class ownership {
         return null;
     }
 
-// </editor-fold>
-
     /**
-     * Set own_rooms_total
+     * Get own_sync_st
      *
-     * @param integer $ownRoomsTotal
-     * @return ownership
+     * @return integer
      */
-    public function setOwnRoomsTotal($ownRoomsTotal) {
-        $this->own_rooms_total = $ownRoomsTotal;
-
-        return $this;
+    public function getOwnSyncSt()
+    {
+        return $this->own_sync_st;
     }
+
+// </editor-fold>
 
     /**
      * Set own_sync_st
@@ -1978,19 +2089,11 @@ class ownership {
      * @param integer $ownSyncSt
      * @return ownership
      */
-    public function setOwnSyncSt($ownSyncSt) {
+    public function setOwnSyncSt($ownSyncSt)
+    {
         $this->own_sync_st = $ownSyncSt;
 
         return $this;
-    }
-
-    /**
-     * Get own_sync_st
-     *
-     * @return integer
-     */
-    public function getOwnSyncSt() {
-        return $this->own_sync_st;
     }
 
     /**
@@ -1998,7 +2101,8 @@ class ownership {
      *
      * @return photo
      */
-    public function getOwnOwnerPhoto() {
+    public function getOwnOwnerPhoto()
+    {
         return $this->own_owner_photo;
     }
 
@@ -2008,7 +2112,8 @@ class ownership {
      * @param photo $ownPhoto
      * @return ownership
      */
-    public function setOwnOwnerPhoto($ownPhoto) {
+    public function setOwnOwnerPhoto($ownPhoto)
+    {
         $this->own_owner_photo = $ownPhoto;
 
         return $this;
@@ -2019,7 +2124,8 @@ class ownership {
      *
      * @return boolean
      */
-    public function getOwnSendedToTeam() {
+    public function getOwnSendedToTeam()
+    {
         return $this->own_sended_to_team;
     }
 
@@ -2029,7 +2135,8 @@ class ownership {
      * @param boolean $ownSended
      * @return ownership
      */
-    public function setOwnSendedToTeam($ownSended) {
+    public function setOwnSendedToTeam($ownSended)
+    {
         $this->own_sended_to_team = $ownSended;
 
         return $this;
@@ -2040,7 +2147,8 @@ class ownership {
      *
      * @return datetime
      */
-    public function getOwnPublishDate() {
+    public function getOwnPublishDate()
+    {
         return $this->own_publish_date;
     }
 
@@ -2050,7 +2158,8 @@ class ownership {
      * @param datetime $publishDate
      * @return ownership
      */
-    public function setOwnPublishDate($publishDate) {
+    public function setOwnPublishDate($publishDate)
+    {
         $this->own_publish_date = $publishDate;
 
         return $this;
@@ -2061,7 +2170,8 @@ class ownership {
      *
      * @return boolean
      */
-    public function getOwnInmediateBooking() {
+    public function getOwnInmediateBooking()
+    {
         return $this->own_inmediate_booking;
     }
 
@@ -2071,20 +2181,9 @@ class ownership {
      * @param boolean $inmediateBooking
      * @return ownership
      */
-    public function setOwnInmediateBooking($inmediateBooking) {
+    public function setOwnInmediateBooking($inmediateBooking)
+    {
         $this->own_inmediate_booking = $inmediateBooking;
-
-        return $this;
-    }
-
-    /**
-     * Set own_automatic_mcp_code
-     *
-     * @param int $ownAutomaticMcpCode
-     * @return ownership
-     */
-    public function setOwnAutomaticMcpCode($ownAutomaticMcpCode) {
-        $this->own_automatic_mcp_code = $ownAutomaticMcpCode;
 
         return $this;
     }
@@ -2094,19 +2193,21 @@ class ownership {
      *
      * @return int
      */
-    public function getOwnAutomaticMcpCode() {
+    public function getOwnAutomaticMcpCode()
+    {
 
         return $this->own_automatic_mcp_code;
     }
 
     /**
-     * Set own_mcp_code_generated
+     * Set own_automatic_mcp_code
      *
-     * @param string $ownMcpCodeGenerated
+     * @param int $ownAutomaticMcpCode
      * @return ownership
      */
-    public function setOwnMcpCodeGenerated($ownMcpCodeGenerated) {
-        $this->own_mcp_code_generated = $ownMcpCodeGenerated;
+    public function setOwnAutomaticMcpCode($ownAutomaticMcpCode)
+    {
+        $this->own_automatic_mcp_code = $ownAutomaticMcpCode;
 
         return $this;
     }
@@ -2116,19 +2217,22 @@ class ownership {
      *
      * @return string
      */
-    public function getOwnMcpCodeGenerated() {
+    public function getOwnMcpCodeGenerated()
+    {
 
         return $this->own_mcp_code_generated;
     }
 
     /**
-     * Set own_cubacoupon
+     * Set own_mcp_code_generated
      *
-     * @param boolean $ownCubaCoupon
+     * @param string $ownMcpCodeGenerated
      * @return ownership
      */
-    public function setOwnCubaCoupon($ownCubaCoupon) {
-        $this->own_cubacoupon = $ownCubaCoupon;
+    public function setOwnMcpCodeGenerated($ownMcpCodeGenerated)
+    {
+        $this->own_mcp_code_generated = $ownMcpCodeGenerated;
+
         return $this;
     }
 
@@ -2137,9 +2241,22 @@ class ownership {
      *
      * @return boolean
      */
-    public function getOwnCubaCoupon() {
+    public function getOwnCubaCoupon()
+    {
 
         return $this->own_cubacoupon;
+    }
+
+    /**
+     * Set own_cubacoupon
+     *
+     * @param boolean $ownCubaCoupon
+     * @return ownership
+     */
+    public function setOwnCubaCoupon($ownCubaCoupon)
+    {
+        $this->own_cubacoupon = $ownCubaCoupon;
+        return $this;
     }
 
     /**
@@ -2213,12 +2330,17 @@ class ownership {
         $this->photos = $photos;
         return $this;
     }
-     public function addPhoto($photo){
-         $this->photos->add($photo);
-     }
-    public function removePhoto($photo){
-         $this->photos->removeElement($photo);
-     }
+
+    public function addPhoto($photo)
+    {
+        $this->photos->add($photo);
+    }
+
+    public function removePhoto($photo)
+    {
+        $this->photos->removeElement($photo);
+    }
+
     /**
      * @return boolean
      */
@@ -2237,12 +2359,9 @@ class ownership {
         return $this;
     }
 
-
-
-    /*Logs functions*/
     public function getLogDescription()
     {
-        return "Alojamiento ".$this->getOwnMcpCode();
+        return "Alojamiento " . $this->getOwnMcpCode();
     }
 
     /**
@@ -2252,6 +2371,9 @@ class ownership {
     {
         return $this->owners;
     }
+
+
+    /*Logs functions*/
 
     /**
      * @param mixed $owners
@@ -2267,6 +2389,16 @@ class ownership {
      * @return boolean
      */
     public function isWaitingForRevision()
+    {
+        return $this->waiting_for_revision;
+    }
+
+    /**
+     * Get waitingForRevision
+     *
+     * @return boolean
+     */
+    public function getWaitingForRevision()
     {
         return $this->waiting_for_revision;
     }
@@ -2299,8 +2431,6 @@ class ownership {
         return $this;
     }
 
-
-
     /**
      * @return array
      */
@@ -2329,22 +2459,7 @@ class ownership {
 
     public function getCodeAndName()
     {
-        return $this->getOwnMcpCode()." - ".$this->getOwnName();
-    }
-
-
-    /**
-     * Set ownRentalType
-     *
-     * @param string $ownRentalType
-     *
-     * @return ownership
-     */
-    public function setOwnRentalType($ownRentalType)
-    {
-        $this->own_rental_type = $ownRentalType;
-
-        return $this;
+        return $this->getOwnMcpCode() . " - " . $this->getOwnName();
     }
 
     /**
@@ -2358,13 +2473,17 @@ class ownership {
     }
 
     /**
-     * Get waitingForRevision
+     * Set ownRentalType
      *
-     * @return boolean
+     * @param string $ownRentalType
+     *
+     * @return ownership
      */
-    public function getWaitingForRevision()
+    public function setOwnRentalType($ownRentalType)
     {
-        return $this->waiting_for_revision;
+        $this->own_rental_type = $ownRentalType;
+
+        return $this;
     }
 
     /**
@@ -2559,8 +2678,6 @@ class ownership {
         $this->payments->removeElement($payment);
     }
 
-
-
     /**
      * @return mixed
      */
@@ -2601,6 +2718,29 @@ class ownership {
     public function isActive()
     {
         return $this->getOwnStatus()->getStatusId() == ownershipStatus::STATUS_ACTIVE;
+    }
+
+    /**
+     * Get own_status
+     *
+     * @return ownershipStatus
+     */
+    public function getOwnStatus()
+    {
+        return $this->own_status;
+    }
+
+    /**
+     * Set own_status
+     *
+     * @param ownershipStatus $ownStatus
+     * @return ownership
+     */
+    public function setOwnStatus(ownershipStatus $ownStatus = null)
+    {
+        $this->own_status = $ownStatus;
+
+        return $this;
     }
 
     /**
@@ -2797,6 +2937,16 @@ class ownership {
     }
 
     /**
+     * Get confidence
+     *
+     * @return boolean
+     */
+    public function getConfidence()
+    {
+        return $this->confidence;
+    }
+
+    /**
      * @param boolean $confidence
      * @return mixed
      */
@@ -2845,17 +2995,6 @@ class ownership {
     public function removeModalityUpdateFrequency(accommodationModalityFrequency $modalityUpdateFrequency)
     {
         $this->modalityUpdateFrequency->removeElement($modalityUpdateFrequency);
-    }
-
-
-    /**
-     * Get confidence
-     *
-     * @return boolean
-     */
-    public function getConfidence()
-    {
-        return $this->confidence;
     }
 
     /**
@@ -2919,28 +3058,32 @@ class ownership {
     /**
      * @return int
      */
-    public function getModifying() {
+    public function getModifying()
+    {
         return $this->modifying;
     }
 
     /**
      * @param int $modifying
      */
-    public function setModifying($modifying) {
+    public function setModifying($modifying)
+    {
         $this->modifying = $modifying;
     }
 
     /**
      * @return DateTime
      */
-    public function getOwnHotDate() {
+    public function getOwnHotDate()
+    {
         return $this->own_hot_date;
     }
 
     /**
      * @param DateTime $own_hot_date
      */
-    public function setOwnHotDate($own_hot_date) {
+    public function setOwnHotDate($own_hot_date)
+    {
         $this->own_hot_date = $own_hot_date;
     }
 
@@ -2961,12 +3104,12 @@ class ownership {
     }
 
     /**
- * Add transferMethodPayment
- *
- * @param transferMethodPayment $transferMethodPayment
- *
- * @return ownership
- */
+     * Add transferMethodPayment
+     *
+     * @param transferMethodPayment $transferMethodPayment
+     *
+     * @return ownership
+     */
     public function addTransferMethodPayment(transferMethodPayment $transferMethodPayment)
     {
         $this->transferMethodsPayment[] = $transferMethodPayment;
@@ -3079,7 +3222,6 @@ class ownership {
     }
 
 
-
     /**
      * Get withIcal
      *
@@ -3105,6 +3247,11 @@ class ownership {
     public function getCompleteReservationMode()
     {
         return ($this->bookingModality != null && $this->bookingModality->getBookingModality()->getName() == bookingModality::COMPLETE_RESERVATION_BOOKING);
+    }
+
+    public function isRentalTypeFull()
+    {
+        return self::ACCOMMODATION_RENTAL_TYPE_FULL == $this->own_type ? true : false;
     }
 
 

@@ -316,7 +316,7 @@
                                   <span class="label label-warning">Inactiva</span>
                                 {%endif%}
                               {%endif%}
-                              {%if post['room_ical_url_'~i] is defined%}
+                              {%if post['room_ical_url_'~i] is defined and post['room_ical_url_'~i] is not empty %}
                               <input type="hidden" name="room_ical_url_{{ i }}" value="{{post['room_ical_url_'~i]}}"/>
                               <a class="btn btn-mini btn-info" href="{{post['room_ical_url_'~i]}}" title="Descargar calendario (.ics)"><i class="icon-calendar"></i></a>
                               {%endif%}
