@@ -50,7 +50,6 @@ class BackendOverrideController extends Controller
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
-//        dump("asdasd");die;
         $overrideUser = new overrideuser();
         $form = $this->createForm(new overrideUserType(), $overrideUser);
 
@@ -120,7 +119,6 @@ class BackendOverrideController extends Controller
     public function overrideAction(Request $request, $id)
     {
         $isOverride = false;
-        //TODO: Refactorizar para impedir la suplantacion en un usuario que esta siendo suplantado.
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
