@@ -1723,10 +1723,8 @@ class BackendOwnershipController extends Controller
         $room = $em->getRepository('mycpBundle:room')->find($id_room);
         $calendarService = $this->get('mycp.service.calendar');
         if (!is_null($room)) {
-            if (is_null($room->getIcal()) || $room->getIcal() == "") {
-                $room->setIcal($external_url);
-                $em->flush();
-            }
+            $room->setIcal($external_url);
+            $em->flush();
             $calendarService->readICalOfRoom($room);
         }
         return new JsonResponse(array(
