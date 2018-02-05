@@ -731,8 +731,12 @@ class BackendReservationAgController extends Controller {
                                     //Adiciono el id de la casa al arreglo de casas
                                     $array_id_ownership[] = $ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId();
                                 }
+                              }
 
-                            }
+                            //Eliminar pago completo
+                            $general=$em->getRepository('mycpBundle:generalReservation')->find($ownershipReservation->getOwnResGenResId());
+                            $cancelReservationService->DeleteCompletePayment($general, $tourOperator->getTravelAgency());
+
                         }
                     }
                     if($form_data['type']==$nomCancelFromAgency->getNomId())//Si el tipo de cancelación  es de agencia
@@ -843,7 +847,7 @@ class BackendReservationAgController extends Controller {
                                 $cancelPaymentType= $em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_name" => "cancel_payment_accommodation", "nom_category" => "paymentPendingType"));
                                 foreach($array_id_ownership as $item){
                                     $ownership = $em->getRepository('mycpBundle:ownership')->find($item['idown']);
-                                    $firstNightPayment = $pendingPayments["ownerships"][$item['idown']];
+                                     $firstNightPayment = $pendingPayments["ownerships"][$item['idown']];
                                     //Se registra un Pago Pendiente a Propietario por modulo agencia
                                     $pending_own=new paPendingPaymentAccommodation();
                                     $pending_own->setCancelPayment($obj);
@@ -860,6 +864,10 @@ class BackendReservationAgController extends Controller {
                                     $dateRangeFrom = $service_time->add("+3 days",$item['arrival_date']->format('Y/m/d'), "Y/m/d");
                                     $pending_own->setPayDate(\MyCp\mycpBundle\Helpers\Dates::createFromString($dateRangeFrom, '/', 1));
                                     $em->persist($pending_own);
+                                    //Eliminar pago completo
+                                    $general = $em->getRepository('mycpBundle:generalReservation')->find($item['ownershipReservations'][0]->getOwnResGenResId());
+                                    $cancelReservationService->DeleteCompletePayment($general, $tourOperator->getTravelAgency());
+
 
                                     try {
                                         //Notificar Pago Pendiente a Propietario
