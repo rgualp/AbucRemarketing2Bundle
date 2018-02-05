@@ -473,9 +473,9 @@
                        title="Importa otro calendario que utilices para esta habitacion y actualizaremos la disponibilidad por ese calendario de forma automàtica"></i>
                     {% if room is defined %}
                         <a onclick="Step4.updateIcalRoom($(this), $('#external_ical_{{ room.RoomId }}'))"
-                           data-href="{{ path("mycp_execute_ical_room", {'id_room': room.roomId }) }}"><i
-                                    class="glyphicons refresh step-form-icon m-t-5" title="Sincronizar disponibilidad"></i></a>
-                        <a onclick="Step4.cleanExternalIcalRoom($(this), $('#external_ical'))" data-external="{{ room.isContainExternalIcal() }}"
+                           data-href="{{ path("mycp_execute_ical_room", {'id_room': room.roomId }) }}"><i  style="margin: 0.1em; color: #bdbdbd;"
+                                    class="fa fa-refresh fa-2x step-form-icon m-t-5" title="Sincronizar disponibilidad"></i></a>
+                        <a onclick="Step4.cleanExternalIcalRoom($(this), $('#external_ical_{{ room.RoomId }}'))" data-external="{{ room.isContainExternalIcal() }}"
                            data-href="{{ path("mycp_clean_external_ical_room", {'id_room': room.roomId}) }}"><i
                                     style="margin: 0.1em; color: #bdbdbd;"
                                     class="fa fa-trash fa-2x step-form-icon m-t-5" title="Eliminar enlace externo"></i></a>
