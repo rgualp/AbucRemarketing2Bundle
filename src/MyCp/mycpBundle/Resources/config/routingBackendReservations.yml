@@ -141,3 +141,11 @@ mycp_send_voucher_reservation_booking:
 mycp_confirm_payment_reservation:
     pattern:  /confirm-payment/{id_reservation}
     defaults: { _controller: mycpBundle:BackendReservation:confirmPayment }
+
+mycp_download_voucher_reservation:
+    path:  /download-voucher/{bookingId}
+    defaults: { _controller: mycpBundle:BackendReservation:downloadVoucher }
+
+mycp_send_voucher_to_client:
+    path:  /send-voucher-to-client/{bookingId}
+    defaults: { _controller: mycpBundle:BackendReservation:sendVoucherToClient }
