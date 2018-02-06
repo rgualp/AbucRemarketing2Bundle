@@ -9,6 +9,29 @@ use Symfony\Component\HttpFoundation\Request;
 class CurrencyController extends Controller
 {
 
+    public function setCurrency($newcurrency) {
+        $request = $this->getRequest();
+
+        // get last requested path
+        $referer = $request->headers->get('referer');
+        $lastPath = substr($referer, strpos($referer, $request->getBaseUrl()));
+        $lastPath = str_replace($request->getBaseUrl(), '', $lastPath);
+
+        // get last route
+        $matcher = $this->get('router');
+        $parameters = $matcher->match($lastPath);
+
+        // set new locale (to session and to the route parameters)
+
+
+        // default parameters has to be unsetted!
+        $route = $parameters['_route'];
+        unset($parameters['_route']);
+        unset($parameters['_controller']);
+
+
+        return $this->generateUrl($route, $parameters);
+    }
     public function getCurrenciesAction(Request $request, $params, $route, $routeParams = null)
     {
         $em = $this->getDoctrine()->getManager();
@@ -64,6 +87,6 @@ class CurrencyController extends Controller
             }
         }
 
-        return $this->redirect($this->generateUrl($route, $routeParams));
+        return $this->redirect($this->setCurrency($currencyCode));
     }
 }

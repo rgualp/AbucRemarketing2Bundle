@@ -4,7 +4,7 @@ $(function () {
 
     startCustom();
     startTypeHead();
-    initActivitiesMap();
+    // initActivitiesMap();
 });
 
 function startCustom() {

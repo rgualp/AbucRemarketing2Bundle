@@ -2,14 +2,41 @@
 
 namespace MyCp\FrontEndBundle\Controller;
 
+
 use BeSimple\I18nRoutingBundle\Tests\Routing\RouterTest;
 use MyCp\FrontEndBundle\Helpers\Utils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
+
 class LanguageController extends Controller
 {
+
+    public function setLocale($newLocale) {
+        $request = $this->getRequest();
+
+        // get last requested path
+        $referer = $request->headers->get('referer');
+        $lastPath = substr($referer, strpos($referer, $request->getBaseUrl()));
+        $lastPath = str_replace($request->getBaseUrl(), '', $lastPath);
+
+        // get last route
+        $matcher = $this->get('router');
+        $parameters = $matcher->match($lastPath);
+
+        // set new locale (to session and to the route parameters)
+        $parameters['_locale'] = $newLocale;
+        $parameters['locale']=$newLocale;
+
+        // default parameters has to be unsetted!
+        $route = $parameters['_route'];
+        unset($parameters['_route']);
+        unset($parameters['_controller']);
+
+
+        return $this->generateUrl($route, $parameters);
+    }
     public function getLanguagesAction($route, $routeParams = null)
     {
         $routeParams = empty($routeParams) ? array() : $routeParams;
@@ -83,11 +110,8 @@ class LanguageController extends Controller
         $em = $this->getDoctrine()->getManager();
 
 
-//        $routeParams = $this->getRequest()->get('_route_params');
-        $routeParams = empty($routeParams) ? array() : json_decode(urldecode($routeParams), true);
-        $routeParams['_locale'] = $lang;
-        $routeParams['locale'] = $lang;
-        $newRoute = $this->get('router')->generate($route, $routeParams);
+
+        $newlang=$lang;
 
         //Guardar en userTourist el lenguaje q cambio
         $lang = $em->getRepository('mycpBundle:lang')->findOneBy(array('lang_code' => $lang));
@@ -107,6 +131,7 @@ class LanguageController extends Controller
             }
         }
 
-        return $this->redirect($newRoute);
+
+        return $this->redirect($this->setLocale($newlang));
     }
 }

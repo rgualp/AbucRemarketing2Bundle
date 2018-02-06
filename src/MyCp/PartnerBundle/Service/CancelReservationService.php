@@ -36,10 +36,11 @@ class CancelReservationService extends Controller
         $cancelPaymentType= $em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_name" => "cancel_payment_accommodation", "nom_category" => "paymentPendingType"));
 
         $refunds = $this->getRefunds($isCancelFromAgency, $cancelDate, $generalReservation, ($travelAgency->getCommission() / 100), $totalInSite, $totalNights, $totalRooms, $firstNightPrice, $booking);
+
         $agencyRefund = $refunds["agencyRefund"];
         $accommodationRefund = $refunds["accommodationRefund"];
 
-        $this->updateCompletePayment($generalReservation, $travelAgency, $agencyRefund);
+        $this->deleteCompletePayment($generalReservation, $travelAgency, $agencyRefund);
         $this->createAgencyPendingPayment($generalReservation, $travelAgency, $agencyRefund, $booking, $cancelPayment, $cancelPaymentType);
         $this->createAccommodationPendingPayment($generalReservation, $travelAgency, $accommodationRefund, $booking, $cancelPayment, $cancelPaymentType, $pendingPaymentStatusPending);
 
@@ -111,7 +112,28 @@ class CancelReservationService extends Controller
         }
 
     }
+    public function deleteCompletePayment($generalReservation, $travelAgency, $agencyRefund)
+    {
 
+
+        $completePaymentType = $this->em->getRepository("mycpBundle:nomenclator")->findOneBy(array(
+            "nom_name" => "complete_payment",
+            "nom_category" => "paymentPendingType"
+        ));
+
+        //Modificar pago completo. Si el monto a cancelar es el mismo que tiene el pago, se cancela
+        $completePayment = $this->em->getRepository("PartnerBundle:paPendingPaymentAccommodation")->findOneBy(array(
+            "reservation" => $generalReservation,
+            "agency" => $travelAgency,
+            "type" => $completePaymentType
+        ));
+
+        if($completePayment != null) {
+
+            $this->em->remove($completePayment);
+        }
+
+    }
     private function createAgencyPendingPayment($generalReservation, $travelAgency, $agencyRefund, $booking, $cancelPayment, $cancelPaymentType){
         //Craer un pago pendiente de agencia
         $paymentSkrill = $this->em->getRepository("mycpBundle:payment")->findOneBy(array("booking" => $booking->getBookingId()));
