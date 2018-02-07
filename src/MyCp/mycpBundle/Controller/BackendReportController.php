@@ -1917,6 +1917,7 @@ ORDER BY own.own_mcp_code ASC
         $clientsSummary = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummary($dateFrom, $dateTo, $accommodationModality);
         $clientsSummaryAvailable = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryAvailable($dateFrom, $dateTo, $accommodationModality);
         $clientsSummaryPayments = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryPaymentsFacturation($dateFrom, $dateTo, $accommodationModality);
+        $payment=$em->getRepository("mycpBundle:generalReservation")->getPaymentByDate($dateFrom, $dateTo, $accommodationModality);
 
         $tc = 0;
         $ts = 0;
@@ -1952,14 +1953,14 @@ ORDER BY own.own_mcp_code ASC
         $tpip = 0;
         $tnp = 0;
         $tfr = 0;
-        foreach($clientsSummaryPayments as $item)
+        foreach($clientsSummaryPayments as $i=>$item)
         {
             $tcp += $item["clientes"];
             $trp += $item["solicitudes"];
             $thp += $item["habitaciones"];
             $tpip += $item["personas_involucradas"];
             $tnp += $item["noches"];
-            $tfr += $item["facturacion"];
+            $tfr += $payment[$i]["facturacion"];
         }
 
         $summary = array(
@@ -1975,7 +1976,8 @@ ORDER BY own.own_mcp_code ASC
             'dateTo' => $dateTo,
             'accommodationModality' => $em->getRepository("mycpBundle:nomenclator")->find($accommodationModality),
             'summary' => $summary,
-            "dateFilter" => "d/m/Y"
+            "dateFilter" => "d/m/Y",
+            "payment"=>$payment
         ));
         $name='clientsSummayReportDaily';
         require_once($this->get('kernel')->getRootDir() . '/config/dompdf_config.inc.php');
