@@ -14,8 +14,8 @@ class CurrencyController extends Controller
 
         // get last requested path
         $referer = $request->headers->get('referer');
-        $lastPath = substr($referer, strpos($referer, $request->getBaseUrl()));
-        $lastPath = str_replace($request->getBaseUrl(), '', $lastPath);
+        $lastPath = substr($referer, strpos($referer, $request->getHost()));
+        $lastPath = str_replace($request->getHost(), '', $lastPath);
 
         // get last route
         $matcher = $this->get('router');

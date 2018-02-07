@@ -258,36 +258,37 @@ class GeneralReservationService extends Controller
                     $reservation->setGenResStatusDate(new \DateTime());
 
                     //Enviar oferta con 3 casas de reserva inmediata
-                    $service_email = $this->container->get('Email');
-                    $emailManager = $this->container->get('mycp.service.email_manager');
+                    if($reservation->getGenResUserId()->getRoles()!='ROLE_CLIENT_PARTNER') {
+                        $service_email = $this->container->get('Email');
+                        $emailManager = $this->container->get('mycp.service.email_manager');
 
-                    $user_tourist = $this->em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $reservation->getGenResUserId()));
 
-                    if($user_tourist==null) {
-                        $user_tourist = $this->em->getRepository('mycpBundle:user')->find($reservation->getGenResUserId());
-                        $userLocale = strtolower($user_tourist->getUserLanguage()->getLangCode());
+                        $user_tourist = $this->em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $reservation->getGenResUserId()));
+
+                        if ($user_tourist == null) {
+                            $user_tourist = $this->em->getRepository('mycpBundle:user')->find($reservation->getGenResUserId());
+                            $userLocale = strtolower($user_tourist->getUserLanguage()->getLangCode());
+                        } else {
+                            $userLocale = strtolower($user_tourist->getUserTouristLanguage()->getLangCode());
+                        }
+
+                        $ownership = $this->em->getRepository('mycpBundle:ownership')->find($reservation->getGenResOwnId()->getOwnId());
+
+                        $owns_in_destination = $this->em->getRepository("mycpBundle:ownership")->getRecommendableAccommodations($reservation->getGenResFromDate(), $reservation->getGenResToDate(), $ownership->getOwnMinimumPrice(), $ownership->getOwnAddressMunicipality()->getMunId(), $ownership->getOwnAddressProvince()->getProvId(), 3, $ownership->getOwnId(), $reservation->getGenResUserId()->getUserId(), null, true);
+
+                        $emailBody = $emailManager->getViewContent('FrontEndBundle:mails:sendOffer.html.twig',
+                            array('user' => $reservation->getGenResUserId(),
+                                'owns_in_destination' => $owns_in_destination,
+                                'user_locale' => $userLocale));
+
+                        $subject = $this->get('translator')->trans(
+                            'NEW_OFFER_TOURIST_SUBJECT',
+                            array(),
+                            'messages',
+                            $userLocale
+                        );
+                        $service_email->sendEmail($subject, 'reservation@mycasaparticular.com', 'MyCasaParticular.com', $reservation->getGenResUserId()->getUserEmail(), $emailBody);
                     }
-                    else{
-                    $userLocale = strtolower($user_tourist->getUserTouristLanguage()->getLangCode());
-                    }
-
-                    $ownership = $this->em->getRepository('mycpBundle:ownership')->find($reservation->getGenResOwnId()->getOwnId());
-
-                    $owns_in_destination = $this->em->getRepository("mycpBundle:ownership")->getRecommendableAccommodations($reservation->getGenResFromDate(), $reservation->getGenResToDate(), $ownership->getOwnMinimumPrice(), $ownership->getOwnAddressMunicipality()->getMunId(), $ownership->getOwnAddressProvince()->getProvId(), 3, $ownership->getOwnId(), $reservation->getGenResUserId()->getUserId(),null,true);
-
-                    $emailBody = $emailManager->getViewContent('FrontEndBundle:mails:sendOffer.html.twig',
-                        array('user' => $reservation->getGenResUserId(),
-                            'owns_in_destination' =>$owns_in_destination,
-                            'user_locale' => $userLocale));
-
-                    $subject= $this->get('translator')->trans(
-                        'NEW_OFFER_TOURIST_SUBJECT',
-                        array(),
-                        'messages',
-                        $userLocale
-                    );
-                    $service_email->sendEmail($subject, 'reservation@mycasaparticular.com', 'MyCasaParticular.com', $reservation->getGenResUserId()->getUserEmail(), $emailBody);
-
                 } else if ($available_total > 0 && $available_total == $details_total) {
                     $status = generalReservation::STATUS_AVAILABLE;
 

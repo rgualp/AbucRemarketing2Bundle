@@ -13,13 +13,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class LanguageController extends Controller
 {
 
-    public function setLocale($newLocale) {
+    public function setLocale($newLocale ) {
         $request = $this->getRequest();
 
         // get last requested path
         $referer = $request->headers->get('referer');
-        $lastPath = substr($referer, strpos($referer, $request->getBaseUrl()));
-        $lastPath = str_replace($request->getBaseUrl(), '', $lastPath);
+        $logger = $this->container->get('logger');
+        $logger->warning($this->getRequest()->getHost());
+        //get Host
+        $lastPath = substr($referer, strpos($referer, $request->getHost()));
+        $lastPath = str_replace($request->getHost(),'', $lastPath);
 
         // get last route
         $matcher = $this->get('router');
