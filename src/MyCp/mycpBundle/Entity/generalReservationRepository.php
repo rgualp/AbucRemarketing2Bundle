@@ -2456,6 +2456,8 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             ->join("p.currency", "curr")
             ->groupBy("fecha");
 
+
+
         if($accommodationModality != null && $accommodationModality != "" && $accommodationModality != "null" && $accommodationModality > 0 )
         {
             $qbAccommodations = $em->createQueryBuilder()
@@ -2474,6 +2476,9 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
                 ->select("DISTINCT b.booking_id")
                 ->join("b.booking_own_reservations", "owres")
                 ->join("owres.own_res_gen_res_id", "gres")
+
+                ->join("gres.gen_res_user_id","u")
+                ->andwhere("u.user_role <> 'ROLE_CLIENT_PARTNER'")
                 ->join('mycpBundle:room', 'r', Expr\Join::WITH, 'r.room_id = owres.own_res_selected_room_id')
                 ->where("r.room_ownership IN (:accommodations)")
                 ->setParameter("accommodations", $accommodationsArray)
@@ -2490,10 +2495,7 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             $bookingsArray = $qbBookings->getQuery()->getArrayResult();
 
             $qb->join("p.booking", "b")
-                ->join("b.booking_own_reservations", "owres")
-                ->join("owres.own_res_gen_res_id", "gres")
-                ->join("gres.gen_res_user_id","u")
-                ->andwhere("u.user_role <> 'ROLE_CLIENT_PARTNER'")
+
                 ->andWhere("b.booking_id IN (:bookings)")
                 ->setParameter("bookings", $bookingsArray)
 
@@ -2501,12 +2503,29 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
 
         }
         else{
-            $qb->join("p.booking", "b")
+            $qbBookings = $em->createQueryBuilder()
+                ->from("mycpBundle:booking", "b")
+                ->select("DISTINCT b.booking_id")
                 ->join("b.booking_own_reservations", "owres")
                 ->join("owres.own_res_gen_res_id", "gres")
+
                 ->join("gres.gen_res_user_id","u")
                 ->andwhere("u.user_role <> 'ROLE_CLIENT_PARTNER'")
 
+            ;
+            if($filter_date_from != null && $filter_date_from != "" && ($filter_date_to == null || $filter_date_to == "")) {
+                $qbBookings->andWhere("gres.gen_res_date >= '$filter_date_from'");
+            }
+
+            if($filter_date_to != null && $filter_date_to != "" && ($filter_date_from == null || $filter_date_from == "")) {
+                $qbBookings->andWhere("gres.gen_res_date <= '$filter_date_to'");
+            }
+
+            $bookingsArray = $qbBookings->getQuery()->getArrayResult();
+            $qb->join("p.booking", "b")
+
+                ->andWhere("b.booking_id IN (:bookings)")
+                ->setParameter("bookings", $bookingsArray)
 
             ;
         }

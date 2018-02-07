@@ -14,6 +14,30 @@ class LanguageController extends Controller
      * @param null $routeParams
      * @return Response
      */
+    public function setLocale($newLocale) {
+        $request = $this->getRequest();
+
+        // get last requested path
+        $referer = $request->headers->get('referer');
+        $lastPath = substr($referer, strpos($referer, $request->getBaseUrl()));
+        $lastPath = str_replace($request->getBaseUrl(), '', $lastPath);
+
+        // get last route
+        $matcher = $this->get('router');
+        $parameters = $matcher->match($lastPath);
+
+        // set new locale (to session and to the route parameters)
+        $parameters['_locale'] = $newLocale;
+        $parameters['locale']=$newLocale;
+
+        // default parameters has to be unsetted!
+        $route = $parameters['_route'];
+        unset($parameters['_route']);
+        unset($parameters['_controller']);
+
+
+        return $this->generateUrl($route, $parameters);
+    }
     public function getLanguagesAction($route, $routeParams = null)
     {
         $routeParams = empty($routeParams) ? array() : $routeParams;
@@ -41,10 +65,8 @@ class LanguageController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $routeParams = empty($routeParams) ? array() : json_decode(urldecode($routeParams), true);
-        $routeParams['_locale'] = $lang;
-        $routeParams['locale'] = $lang;
-        $newRoute = $this->get('router')->generate($route, $routeParams);
+
+        $newRoute = $this->setLocale($lang);
 
         //Guardar en usuario el lenguaje que cambio
         $lang = $em->getRepository('mycpBundle:lang')->findOneBy(array('lang_code' => $lang));

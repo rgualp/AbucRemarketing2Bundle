@@ -662,6 +662,7 @@ class BackendReservationAgController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $id = $request->get('id');
         $reservations_ids= $request->get('checked');
+
         $reservations_ids=explode(",",$reservations_ids);
         $templatingService = $this->container->get('templating');
         $emailService = $this->container->get('mycp.service.email_manager');
@@ -691,6 +692,7 @@ class BackendReservationAgController extends Controller {
                 $agency = $tourOperator->getTravelAgency();
                 $nomCancelFromAgency = $em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => "acpt_from_agency", "nom_category" => "agencyCancelPaymentType"));
                 $nomCancelFromHost = $em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => "acpt_from_host", "nom_category" => "agencyCancelPaymentType"));
+
 
                 //Obtener los datos del formulario
                 $form_data=$request->get('mycp_partnerbundle_pacancelpayment');
@@ -731,8 +733,9 @@ class BackendReservationAgController extends Controller {
                                     //Adiciono el id de la casa al arreglo de casas
                                     $array_id_ownership[] = $ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId();
                                 }
+                              }
 
-                            }
+
                         }
                     }
                     if($form_data['type']==$nomCancelFromAgency->getNomId())//Si el tipo de cancelación  es de agencia
@@ -843,7 +846,7 @@ class BackendReservationAgController extends Controller {
                                 $cancelPaymentType= $em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_name" => "cancel_payment_accommodation", "nom_category" => "paymentPendingType"));
                                 foreach($array_id_ownership as $item){
                                     $ownership = $em->getRepository('mycpBundle:ownership')->find($item['idown']);
-                                    $firstNightPayment = $pendingPayments["ownerships"][$item['idown']];
+                                     $firstNightPayment = $pendingPayments["ownerships"][$item['idown']];
                                     //Se registra un Pago Pendiente a Propietario por modulo agencia
                                     $pending_own=new paPendingPaymentAccommodation();
                                     $pending_own->setCancelPayment($obj);
@@ -860,6 +863,12 @@ class BackendReservationAgController extends Controller {
                                     $dateRangeFrom = $service_time->add("+3 days",$item['arrival_date']->format('Y/m/d'), "Y/m/d");
                                     $pending_own->setPayDate(\MyCp\mycpBundle\Helpers\Dates::createFromString($dateRangeFrom, '/', 1));
                                     $em->persist($pending_own);
+                                    //Eliminar pago completo
+
+                                    $general=$em->getRepository('mycpBundle:generalReservation')->find($item['ownershipReservations'][0]->getOwnResGenResId());
+                                    $cancelReservationService->DeleteCompletePayment($general, $tourOperator->getTravelAgency());
+
+
 
                                     try {
                                         //Notificar Pago Pendiente a Propietario
