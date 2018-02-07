@@ -81,12 +81,3 @@ mycp_execute_ical_ownership:
 mycp_execute_all_ical_ownership:
     pattern:  /all/ical
     defaults: { _controller: mycpBundle:BackendOwnership:execute_all_ical }
-
-mycp_execute_ical_room:
-    path:  /ical/room/{id_room}
-    defaults: { _controller: mycpBundle:BackendOwnership:execute_ical_room}
-    methods: [POST]
-
-mycp_clean_external_ical_room:
-    path:  /ical_clean/room/{id_room}
-    defaults: { _controller: mycpBundle:BackendOwnership:clean_external_ical_room}
