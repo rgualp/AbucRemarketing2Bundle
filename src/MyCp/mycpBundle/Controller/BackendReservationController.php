@@ -358,13 +358,12 @@ class BackendReservationController extends Controller {
                 array_push($total_nights, $temp_total_nights);
             }*/
 
-            $totalItems = $em->getRepository("mycpBundle:generalReservation")->getTotalReservations($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $filter_booking_number, $filter_status);
             return $this->render('mycpBundle:reservation:list.html.twig', array(
                 //'total_nights' => $total_nights,
                 'reservations' => $reservations,
                 'items_per_page' => $items_per_page,
                 'current_page' => $page,
-                'total_items' => $totalItems,
+                'total_items' => count($reservations),
                 'filter_date_reserve' => $filter_date_reserve,
                 'filter_offer_number' => $filter_offer_number,
                 'filter_booking_number' => $filter_booking_number,
