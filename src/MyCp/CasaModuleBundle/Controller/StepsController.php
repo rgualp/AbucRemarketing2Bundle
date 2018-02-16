@@ -1338,8 +1338,6 @@ class StepsController extends Controller
 
     public function execute_ical_roomAction($id_room, Request $request)
     {
-        $service_security = $this->get('Secure');
-        $service_security->verifyAccess();
         $external_url = $request->request->get('external');
         $em = $this->getDoctrine()->getManager();
         $room = $em->getRepository('mycpBundle:room')->find($id_room);
