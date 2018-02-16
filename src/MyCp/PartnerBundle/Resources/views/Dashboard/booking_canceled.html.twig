@@ -276,7 +276,8 @@
                             '<a data-href="{{ path("partner_dashboard_booking_detail_cancel") }}/' + data.id + '/' + data.cancelDate + '/' + data.cancelAmount + '/' + data.cancelCurrencyCode + '" onClick="executeAjaxEle(this)"> <span class="rt" style="float: right;"> {{ 'dashboard.booking.detail' | trans }} </span> </a>' +
                                                        '</div> ' +
                             '</div>';
-                            html +='<a href="{{ path("partner_download_voucher") }}/' + booking_code + '"> <span class="rt" style="float: right; margin-right: 20px;"> {{ "partner.download.voucher" | trans }} </span> </a>' +
+                            html += '<a data-href="{{ path("partner_dashboard_booking_detail") }}/' + data.id + '" onClick="executeAjaxEle(this)"> <span class="rt" style="float: right;"> {{ 'dashboard.booking.detail' | trans }} </span> </a>' +
+                                '<a href="{{ path("partner_download_voucher") }}/' + booking_code + '"> <span class="rt" style="float: right; margin-right: 20px;"> {{ "partner.download.voucher" | trans }} </span> </a>' +
                                 '</div> ' +
                                 '</div>';
                         }
@@ -301,7 +302,11 @@
                             rooms + '<br>' +
                                 '<a data-href="{{ path("partner_dashboard_booking_detail_cancel") }}/' + data.id + '/' + data.cancelDate + '/' + data.cancelAmount + '/' + data.cancelCurrencyCode + '" onClick="executeAjaxEle(this)"> <span class="rt" style="float: right;"> {{ 'dashboard.booking.detail' | trans }} </span> </a>' +
                         '</div> ' +
-                        '</div>';}
+                        '</div>';
+                            html += '<a data-href="{{ path("partner_dashboard_booking_detail") }}/' + data.id + '" onClick="executeAjaxEle(this)"> <span class="rt" style="float: right;"> {{ 'dashboard.booking.detail' | trans }} </span> </a>' +
+                                  '</div> ' +
+                                '</div>';
+                        }
                         return html;
                     }
                 }
