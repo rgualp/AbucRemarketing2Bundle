@@ -179,4 +179,41 @@ class ProfileController extends Controller
             'dir'=>$fileName
         ]);
     }
+    public function saveAvatarfromApkAction(Request $request)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+
+        //subir photo
+        $dir = $this->container->getParameter('user.dir.photos');
+        $encode= $request->get('image');
+        $user_mail=$request->get('mail');
+        $user= $em->getRepository("mycpBundle:user")->findOneBy(array("user_email" => $user_mail));
+        //decode the image
+       $fileName= base64_to_jpeg($encode,$dir);
+        if (isset($file_name)) {
+            $photo = new photo();
+            //Redimensionando la foto del usuario
+            \MyCp\mycpBundle\Helpers\Images::resize($dir . $fileName, 150);
+            $photo->setPhoName($fileName);
+            $user->setUserPhoto($photo);
+            $em->persist($photo);
+        }
+        $em->persist($user);
+        return new JsonResponse([
+            'success' => true,
+            'dir'=>$fileName
+        ]);
+    }
+}
+function base64_to_jpeg($base64_string, $dir) {
+
+    $img = str_replace('data:image/png;base64,', '', $base64_string);
+    $img = str_replace(' ', '+', $img);
+    $data = base64_decode($img);
+    $file_name=uniqid('user-') . '-photo.jpg';
+    $file = $dir . $file_name;
+    $success = file_put_contents($file, $data);
+
+    return $file_name;
 }

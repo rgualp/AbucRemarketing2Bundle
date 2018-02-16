@@ -162,3 +162,7 @@ my_cp_mobile_frontend:
 _imagine:
     resource: .
     type:     imagine
+
+frontend_partner_avatar:
+    pattern:  /avatar/{user}
+    defaults: { _controller: PartnerBundle:Profile:saveAvatarfromApk, user:''}

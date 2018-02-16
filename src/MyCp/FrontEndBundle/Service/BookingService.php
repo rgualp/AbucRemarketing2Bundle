@@ -641,6 +641,12 @@ class BookingService extends Controller
         $em = $this->em;
         $repository = $em->getRepository('mycpBundle:generalReservation');
         $paginator = $repository->getReservationsPartnerByStatusArray($user->getUserId(), array(generalReservation::STATUS_RESERVED),array('booking_code'=>$bookingId),0,1000);
+
+        if(count($paginator['data']==0)){
+           $paginator = $repository->getReservationsPartnerByStatusArray($user->getUserId(), array(generalReservation::STATUS_CANCELLED),array('booking_code'=>$bookingId),0,1000);
+
+       }
+
         $booking = $em->getRepository('mycpBundle:booking')->find($bookingId);
         $result=array_merge($this->calculateBookingDetailsPartner($bookingId,$user),array('data'=>$paginator['data'],'bookingId'=>$bookingId,'user'=>$user,'own_res1'=>$paginator['data'],'booking'=>$booking,'user_locale'=> strtolower($user->getUserLanguage()->getLangCode()),'user_currency'=>$user->getUserCurrency()));
 
@@ -651,6 +657,10 @@ class BookingService extends Controller
         $em = $this->em;
         $repository = $em->getRepository('mycpBundle:generalReservation');
         $paginator = $repository->getReservationsPartnerByStatusArray($user->getUserId(),array(generalReservation::STATUS_RESERVED),array('booking_code'=>$bookingId, 'partner_client_id'=>$idClient),0,1000);
+        if(count($paginator['data']==0)){
+            $paginator = $repository->getReservationsPartnerByStatusArray($user->getUserId(), array(generalReservation::STATUS_CANCELLED),array('booking_code'=>$bookingId),0,1000);
+
+        }
         $booking = $em->getRepository('mycpBundle:booking')->find($bookingId);
         $array_destination=array();
         foreach ($this->calculateBookingDetailsPartnerClient($bookingId,$user, $idClient)['own_res']as $own){
