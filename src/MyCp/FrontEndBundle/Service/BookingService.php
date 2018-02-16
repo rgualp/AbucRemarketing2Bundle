@@ -1417,8 +1417,27 @@ class BookingService extends Controller
                     }
                 }
             }
+            try {
+                $emailService->sendEmailMultiplesAttach(
+                    $subject . ' BR:'. $references,
+                    'send@mycasaparticular.com',
+                    $subject . ' - MyCasaParticular.com',
+                    'facturas@cubatravelnetwork.com',
+                    $body,
+                    $attachPaths //varios attachments
+                );
+
+                $logger->info('Successfully sent email to agency contact ' . $userEmail . ', PDF path : ' .
+                    (isset($pdfFilePath) ? $pdfFilePath : '<empty>'));
+            } catch (\Exception $e) {
+                $logger->error(sprintf(
+                    'EMAIL: Could not send Email to agency contact. Booking ID: %s, Email: %s',
+                    $bookingId, $userEmail));
+                $logger->error($e->getMessage());
+            }
         }
     }
+
 
     private function sendEmailstoReservationAndAccommodationPartner($user, $isSpecial, $emailService, $dataArray){
         $arrayNightsByOwnershipReservation = $dataArray["arrayNightsByOwnershipReservation"];
