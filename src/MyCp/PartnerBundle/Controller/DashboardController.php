@@ -371,7 +371,7 @@ class DashboardController extends Controller
 
         }
 
-        $data['prices']= $totalprices.$curr['code'];
+        $data['prices']= $totalprices.' '.$curr['code'];
 
         return new JsonResponse($data);
     }
@@ -591,10 +591,12 @@ class DashboardController extends Controller
                 'destination' => $reservation->getGenResOwnId()->getOwnDestination()->getDesName(),
                 'date' => $reservation->getGenResDate()->format('d-m-Y'),
                 'client_dates' => $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getClient()->getFullName(),
+                'reference' => ($reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getReference() != null && $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getReference() !='')?$reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getReference():'-',
+
                 'own_name' => $reservation->getGenResOwnId()->getOwnName(),
-                'cancelDate' => ($pendingPayment != null) ? $pendingPayment->getCreatedDate()->format('d-m-Y'): null,
-                'cancelAmount'  => ($pendingPayment != null && $paymentCurrencyChangeRate != null) ?  number_format($pendingPayment->getAmount() * $paymentCurrencyChangeRate, 2) : null,
-                'cancelCurrencyCode' => ($currencyEntity != null) ? $currencyEntity->getCurrCode(): null
+                'cancelDate' => ($reservation != null) ? $reservation->getGenResStatusDate()->format('d-m-Y'): '-',
+                'cancelAmount'  => ($pendingPayment != null && $paymentCurrencyChangeRate != null) ?  number_format($pendingPayment->getAmount() * $paymentCurrencyChangeRate, 2) : 0,
+                'cancelCurrencyCode' => ($currencyEntity != null) ? $currencyEntity->getCurrCode(): 'EUR'
             );
 
             $ownReservations = $reservation->getOwn_reservations();
@@ -643,7 +645,36 @@ class DashboardController extends Controller
 
             $data['aaData'][] = $arrTmp;
         }
+        $datas = $this->getReservationsData($filters, 1, false, $draw, generalReservation::STATUS_CANCELLED);
+        $reservationes = $datas['aaData'];
+        $totalprices =0;
 
+        foreach ($reservationes as $reserva){
+            $id=$reserva->getGenResId();
+            $em = $this->getDoctrine()->getManager();
+            $reservation = $em->getRepository('mycpBundle:generalReservation')->find($id);
+            $ownership_reservations = $reservation->getOwnReservations();
+
+            $service_time = $this->get('time');
+
+
+            $price_temp=0;
+            foreach ($ownership_reservations as $res) {
+
+
+                $total_price = $res->getPriceTotal($service_time) ;
+
+                $price_temp += $total_price;
+
+
+
+
+            }
+            $totalprices+=round((($price_temp+($price_temp*0.1)+($price_temp+($price_temp*0.1))*0.1)*$curr['change']),2);
+
+        }
+
+        $data['prices']= $totalprices.' '.$curr['code'];;
         return new JsonResponse($data);
     }
     /*End BookingCanceled*/
