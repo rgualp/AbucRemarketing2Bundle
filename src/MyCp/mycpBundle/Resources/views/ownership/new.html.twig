@@ -425,7 +425,7 @@
                         <div class="span3"><label>Precio hasta</label></div>
                     </div>
                     <div class="row-fluid">
-                        <div class="span3"><label>Desayuno incluido (*)</label></div>
+                        <div class="span3"><label>Desayuno (*)</label></div>
                         <div class="span3">{% if errors['facilities_breakfast'] is defined %}<label class="error">{{errors['facilities_breakfast']|trim(':')}}</label>{%endif%}
                             <select class="input-block-level" name="facilities_breakfast">
                                 {{ render(controller('mycpBundle:BackendOwnership:get_facilities_breakfast_list', {'post':post})) }}
@@ -443,7 +443,7 @@
                         <div class="span3"><input placeholder="Hasta" value="{% if(post['facilities_dinner_price_to'] is defined) %}{{post['facilities_dinner_price_to']}}{% endif %}" type="text" class="input-block-level" name="facilities_dinner_price_to"/></div>
                     </div>
                     <div class="row-fluid">
-                        <div class="span3"><label>Parqueo incluido (*)</label></div>
+                        <div class="span3"><label>Parqueo (*)</label></div>
                         <div class="span3">{% if errors['facilities_parking'] is defined %}<label class="error">{{errors['facilities_parking']|trim(':')}}</label>{%endif%}
                             <select class="input-block-level" name="facilities_parking">
                                 {{ render(controller('mycpBundle:BackendOwnership:get_facilities_parking_list', {'post':post})) }}
