@@ -1338,7 +1338,6 @@ class StepsController extends Controller
 
     public function execute_ical_roomAction($id_room, Request $request)
     {
-
         $external_url = $request->request->get('external');
         $em = $this->getDoctrine()->getManager();
         $room = $em->getRepository('mycpBundle:room')->find($id_room);
