@@ -641,6 +641,12 @@ class BookingService extends Controller
         $em = $this->em;
         $repository = $em->getRepository('mycpBundle:generalReservation');
         $paginator = $repository->getReservationsPartnerByStatusArray($user->getUserId(), array(generalReservation::STATUS_RESERVED),array('booking_code'=>$bookingId),0,1000);
+
+        if(count($paginator['data']==0)){
+           $paginator = $repository->getReservationsPartnerByStatusArray($user->getUserId(), array(generalReservation::STATUS_CANCELLED),array('booking_code'=>$bookingId),0,1000);
+
+       }
+
         $booking = $em->getRepository('mycpBundle:booking')->find($bookingId);
         $result=array_merge($this->calculateBookingDetailsPartner($bookingId,$user),array('data'=>$paginator['data'],'bookingId'=>$bookingId,'user'=>$user,'own_res1'=>$paginator['data'],'booking'=>$booking,'user_locale'=> strtolower($user->getUserLanguage()->getLangCode()),'user_currency'=>$user->getUserCurrency()));
 
@@ -651,6 +657,10 @@ class BookingService extends Controller
         $em = $this->em;
         $repository = $em->getRepository('mycpBundle:generalReservation');
         $paginator = $repository->getReservationsPartnerByStatusArray($user->getUserId(),array(generalReservation::STATUS_RESERVED),array('booking_code'=>$bookingId, 'partner_client_id'=>$idClient),0,1000);
+        if(count($paginator['data']==0)){
+            $paginator = $repository->getReservationsPartnerByStatusArray($user->getUserId(), array(generalReservation::STATUS_CANCELLED),array('booking_code'=>$bookingId),0,1000);
+
+        }
         $booking = $em->getRepository('mycpBundle:booking')->find($bookingId);
         $array_destination=array();
         foreach ($this->calculateBookingDetailsPartnerClient($bookingId,$user, $idClient)['own_res']as $own){
@@ -1407,8 +1417,27 @@ class BookingService extends Controller
                     }
                 }
             }
+            try {
+                $emailService->sendEmailMultiplesAttach(
+                    $subject . ' BR:'. $references,
+                    'send@mycasaparticular.com',
+                    $subject . ' - MyCasaParticular.com',
+                    'facturas@cubatravelnetwork.com',
+                    $body,
+                    $attachPaths //varios attachments
+                );
+
+                $logger->info('Successfully sent email to agency contact ' . $userEmail . ', PDF path : ' .
+                    (isset($pdfFilePath) ? $pdfFilePath : '<empty>'));
+            } catch (\Exception $e) {
+                $logger->error(sprintf(
+                    'EMAIL: Could not send Email to agency contact. Booking ID: %s, Email: %s',
+                    $bookingId, $userEmail));
+                $logger->error($e->getMessage());
+            }
         }
     }
+
 
     private function sendEmailstoReservationAndAccommodationPartner($user, $isSpecial, $emailService, $dataArray){
         $arrayNightsByOwnershipReservation = $dataArray["arrayNightsByOwnershipReservation"];

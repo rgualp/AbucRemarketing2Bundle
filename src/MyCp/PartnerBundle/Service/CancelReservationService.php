@@ -184,19 +184,36 @@ class CancelReservationService extends Controller
 
     private function sendTeamCancelReservation($travelAgency, $agencyRefund, $generalReservation, $booking)
     {
+        $logger = $this->get('logger');
+        // Send email to customer
+        $service_email = $this->get('Email');
         $emailBody = $this->templating->renderResponse('FrontEndBundle:mails:rt_agency_cancel.html.twig', array(
             'travelAgency' => $travelAgency,
             'reservation' => $generalReservation,
             'booking' => $booking,
             'refund' => $agencyRefund
         ));
+        try {
+            $service_email->sendEmail(
+                "Cancelación de Agencia", 'reservation@mycasaparticular.com', 'MyCasaParticular.com', 'facturas@cubatravelnetwork.com', $emailBody
+            );
+            $service_email->sendEmail(
+                "Cancelación de Agencia", 'reservation@mycasaparticular.com', 'MyCasaParticular.com', 'reservation@mycasaparticular.com', $emailBody
+            );
 
-        $this->mailService->setTo(array(/*'sarahy_amor@yahoo.com', */$travelAgency->getEmail(),$travelAgency->getContacts()->getEmail(),'reservation@mycasaparticular.com', 'andy@hds.li'));
-        $this->mailService->setSubject("Cancelación de Agencia");
-        $this->mailService->setFrom("reservation@mycasaparticular.com", 'MyCasaParticular.com');
-        $this->mailService->setBody($emailBody->getContent());
-        $this->mailService->setEmailType("PARTNER_CANCEL");
+            $logger->info('Successfully sent email to reservation team. Booking ID: ' . $booking->getBookingId());
+        } catch (\Exception $e) {
+            $logger->error('EMAIL: Could not send Email to reservation team. Booking ID: ' . $booking->getBookingId());
+            $logger->error($e->getMessage());
+        }
 
-        return $this->mailService->sendEmail();
+//        $this->mailService->setTo(array($travelAgency->getEmail(),'reservation@mycasaparticular.com', 'facturas@cubatravelnetwork.com'));
+//        $this->mailService->setSubject("Cancelación de Agencia");
+//        $this->mailService->setFrom("reservation@mycasaparticular.com", 'MyCasaParticular.com');
+//        $this->mailService->setBody($emailBody->getContent());
+//        $this->mailService->setEmailType("PARTNER_CANCEL");
+//
+//        return $this->mailService->sendEmail();
     }
+
 }

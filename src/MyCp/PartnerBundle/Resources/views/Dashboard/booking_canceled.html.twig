@@ -1,8 +1,9 @@
 {% set formFilter = form_search_booking_canceled.createView() %}
 <div class="ibox card">
     <div class="ibox-title card">
-        <span class="title-card">{{ "dashboard.booking.canceled" | trans }}</span>
-
+        <div id="appended">
+        <span class="title-card" id="title-card">{{ "dashboard.booking.canceled" | trans }} : </span>
+        </div>
         <div class="ibox-tools">
             <a class="collapse-link">
                 <i class="fa fa-chevron-up"></i>
@@ -164,7 +165,11 @@
     var oTableCanceled = '';
 
     $(document).ready(function () {
-        oTableCanceled = $('#table-booking-canceled').DataTable({
+        oTableCanceled = $('#table-booking-canceled').on('xhr.dt', function ( e, settings, json, xhr ) {
+            $('#deletedd').remove();
+            $('#appended').append("<span class='title-card' id='deletedd' >"+" "+json.iTotalRecords+ ' {{"payment.online_payment" | trans}}:'+" "+json.prices+"</span>");
+
+        } ).DataTable({
             "language": {
                 "url": "{{ asset('bundles/layout/js/plugins/dataTables/locale/') }}{{ app.request.locale }}.json"
             },
@@ -192,6 +197,7 @@
                     "mData": null,
                     "aTargets": [0],
                     "mRender": function (data, type, full) {
+
                         var adults = 0;
                         var childrens = 0;
                         var totalPrice = 0;
@@ -199,6 +205,7 @@
                         var booking_code ='';
                         var date = '';
                         var room_types = [];
+
                         for(var i = 0; i < data.rooms.length; i++){
                             var room = data.rooms[i];
                             adults += room.adults;
@@ -234,38 +241,72 @@
                                     s_room_types += " ," + key + "(" + room_types[key] + ")";
                                 }
                             }
+
                         }
+
                         var rooms = '<em class="rt">{{"dashboard.booking.room_types" | trans}}:</em> <span class="rst">' + s_room_types + '</span> ' +
                                 {#/*'<em class="rt">{{"dashboard.booking.rooms" | trans}}:</em> <span class="rst">' + data.rooms.length + '</span> ' +*/#}
                             '<em class="rt">{{"dashboard.booking.adults" | trans}}:</em> <span class="rst">' + adults + '</span> ' +
                             '<em class="rt">{{"dashboard.booking.childrens" | trans}}:</em> <span class="rst">' + childrens + '</span> ' +
-                            '<em class="rt">{{"dashboard.booking.totalprice" | trans}}:</em> <span class="rst">' + roundTo(totalPrice,2) +'-'+ curr_code + '</span> ' +
+                            '<em class="rt">{{"dashboard.booking.totalprice" | trans}}:</em> <span class="rst">' + roundTo((totalPrice+(totalPrice*0.1)+(totalPrice+(totalPrice*0.1))*0.1),2)+'-'+ curr_code + '</span> ' +
                             '<em class="rt">{{"dashboard.booking.bookingcode" | trans}}:</em> <span class="rst">' + booking_code + '</span> ' +
                             '<em class="rt">{{"dashboard.booking.bookingdate" | trans}}:</em> <span class="rst">' + date + '</span> ';
 
-                        var html = '<div class="row"> ' +
+                        if(booking_code!=null && booking_code!=''){
+                            var html = '<div class="row"> ' +
                                 '<div class="col-xs-12"> ' +
 
-                            '<em class="rt">{{"dashboard.booking.br" | trans}}:</em> <span class="rst">' + data.reference + '</span> ' +
-                            '<em class="rt">{{"dashboard.booking.client_dates" | trans}}:</em> <span class="rst">' + data.client_dates + '</span> ' +
+                                '<em class="rt">{{"dashboard.booking.br" | trans}}:</em> <span class="rst">' + data.reference + '</span> ' +
+                                '<em class="rt">{{"dashboard.booking.client_dates" | trans}}:</em> <span class="rst">' + data.client_dates + '</span> ' +
 
-                            '<em class="rt">{{"dashboard.booking.cas" | trans}}:</em> <span class="rst">' + data.cas + '</span> ' +
+                                '<em class="rt">{{"dashboard.booking.cas" | trans}}:</em> <span class="rst">' + data.cas + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.date" | trans}}:</em> <span class="rst">' + data.date + '</span> ' +
-                            '<em class="rt">{{"dashboard.booking.acomodation" | trans}}:'+'<a href="{{ path("partner_dashboard_page_detail") }}/' + data.own_name + '" target="_blank"> <span style="color: blue;text-decoration: underline;">' + data.own_mcp_code + '-'+ data.own_name +  '</span> </a>' +
-                            '<em class="rt">{{"dashboard.booking.destination" | trans}}:</em> <span class="rst">' + data.destination + '</span> ' +
+                                '<em class="rt">{{"dashboard.booking.acomodation" | trans}}:'+'<a href="{{ path("partner_dashboard_page_detail") }}/' + data.own_name + '" target="_blank"> <span style="color: blue;text-decoration: underline;">' + data.own_mcp_code + '-'+ data.own_name +  '</span> </a>' +
+                                '<em class="rt">{{"dashboard.booking.destination" | trans}}:</em> <span class="rst">' + data.destination + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.from" | trans}}:</em> <span class="rst">' + data.from + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.to" | trans}}:</em> <span class="rst">' + data.to + '</span> ' +
                                 '<em class="rt">{{"cancelPayment.cancelDate" | trans}}:</em> <span class="rst">' + data.cancelDate + '</span> ' +
                                 '<em class="rt">{{"cancelPayment.refundAmount" | trans}}:</em> <span class="rst">' + data.cancelAmount + ' ' + data.cancelCurrencyCode + '</span> ' +
+
                                 '<em class="rt">{{"dashboard.booking.bookingcode" | trans}}:</em> <span class="rst">' + booking_code + '</span> ' +
-                                '<em class="rt">{{"dashboard.booking.bookingdate" | trans}}:</em> <span class="rst">' + date + '</span> ';
-                        '<em class="rt">{{"dashboard.booking.totalprice" | trans}}:</em> <span class="rst">' + parseFloat(totalPrice).toFixed(2) + curr_code + '</span> ';
+                                '<em class="rt">{{"dashboard.booking.bookingdate" | trans}}:</em> <span class="rst">' + date + '</span> '+
+                                '<em class="rt">{{"dashboard.booking.totalprice" | trans}}:</em> <span class="rst">' + parseFloat(totalPrice).toFixed(2) + curr_code + '</span> ';
 
+                            rooms + '<br>' +
+                            '<a data-href="{{ path("partner_dashboard_booking_detail_cancel") }}/' + data.id + '/' + data.cancelDate + '/' + data.cancelAmount + '/' + data.cancelCurrencyCode + '" onClick="executeAjaxEle(this)"> <span class="rt" style="float: right;"> {{ 'dashboard.booking.detail' | trans }} </span> </a>' +
+                                                       '</div> ' +
+                            '</div>';
+                            html += '<a data-href="{{ path("partner_dashboard_booking_detail") }}/' + data.id + '" onClick="executeAjaxEle(this)"> <span class="rt" style="float: right;"> {{ 'dashboard.booking.detail' | trans }} </span> </a>' +
+                                '<a href="{{ path("partner_download_voucher") }}/' + booking_code + '"> <span class="rt" style="float: right; margin-right: 20px;"> {{ "partner.download.voucher" | trans }} </span> </a>' +
+                                '</div> ' +
+                                '</div>';
+                        }
+                        else {
+                            var html = '<div class="row"> ' +
+                                '<div class="col-xs-12"> ' +
 
-                        rooms + '<br>' +
+                                '<em class="rt">{{"dashboard.booking.br" | trans}}:</em> <span class="rst">' + data.reference + '</span> ' +
+                                '<em class="rt">{{"dashboard.booking.client_dates" | trans}}:</em> <span class="rst">' + data.client_dates + '</span> ' +
+
+                                '<em class="rt">{{"dashboard.booking.cas" | trans}}:</em> <span class="rst">' + data.cas + '</span> ' +
+                                '<em class="rt">{{"dashboard.booking.date" | trans}}:</em> <span class="rst">' + data.date + '</span> ' +
+                                '<em class="rt">{{"dashboard.booking.acomodation" | trans}}:'+'<a href="{{ path("partner_dashboard_page_detail") }}/' + data.own_name + '" target="_blank"> <span style="color: blue;text-decoration: underline;">' + data.own_mcp_code + '-'+ data.own_name +  '</span> </a>' +
+                                '<em class="rt">{{"dashboard.booking.destination" | trans}}:</em> <span class="rst">' + data.destination + '</span> ' +
+                                '<em class="rt">{{"dashboard.booking.from" | trans}}:</em> <span class="rst">' + data.from + '</span> ' +
+                                '<em class="rt">{{"dashboard.booking.to" | trans}}:</em> <span class="rst">' + data.to + '</span> ' +
+                                '<em class="rt">{{"cancelPayment.cancelDate" | trans}}:</em> <span class="rst">' + data.cancelDate + '</span> ' +
+                                '<em class="rt">{{"cancelPayment.refundAmount" | trans}}:</em> <span class="rst">' + data.cancelAmount + ' ' + data.cancelCurrencyCode + '</span> ' +
+
+                                 '<em class="rt">{{"dashboard.booking.totalprice" | trans}}:</em> <span class="rst">' + parseFloat(totalPrice).toFixed(2) + curr_code + '</span> ';
+
+                            rooms + '<br>' +
                                 '<a data-href="{{ path("partner_dashboard_booking_detail_cancel") }}/' + data.id + '/' + data.cancelDate + '/' + data.cancelAmount + '/' + data.cancelCurrencyCode + '" onClick="executeAjaxEle(this)"> <span class="rt" style="float: right;"> {{ 'dashboard.booking.detail' | trans }} </span> </a>' +
                         '</div> ' +
                         '</div>';
+                            html += '<a data-href="{{ path("partner_dashboard_booking_detail") }}/' + data.id + '" onClick="executeAjaxEle(this)"> <span class="rt" style="float: right;"> {{ 'dashboard.booking.detail' | trans }} </span> </a>' +
+                                  '</div> ' +
+                                '</div>';
+                        }
                         return html;
                     }
                 }

@@ -25,11 +25,11 @@ class paClientRepository extends EntityRepository {
             ->join('pard.reservation', 'par')
             ->join('par.client', 'client');
 
-        $qb->andWhere('(r.gen_res_status = :gen_res_status or r.gen_res_status = :gen_res_status1 or r.gen_res_status = :gen_res_status2)');
+        $qb->andWhere('(r.gen_res_status = :gen_res_status or r.gen_res_status = :gen_res_status1 or r.gen_res_status = :gen_res_status2 or r.gen_res_status = :gen_res_status3)');
         $qb->setParameter('gen_res_status1', generalReservation::STATUS_PARTIAL_RESERVED);
         $qb->setParameter('gen_res_status', generalReservation::STATUS_RESERVED);
         $qb->setParameter('gen_res_status2', generalReservation::STATUS_PENDING_PAYMENT_PARTNER);
-
+        $qb->setParameter('gen_res_status3', generalReservation::STATUS_CANCELLED);
         $subSelect = "SELECT COUNT(owres_1) FROM mycpBundle:ownershipReservation AS owres_1
                       JOIN owres_1.own_res_reservation_booking AS b WHERE owres_1.own_res_gen_res_id = r.gen_res_id
                       AND b.booking_id = :booking_id";
