@@ -1338,15 +1338,16 @@ class StepsController extends Controller
 
     public function execute_ical_roomAction($id_room, Request $request)
     {
-        $service_security = $this->get('Secure');
-        $service_security->verifyAccess();
+
         $external_url = $request->request->get('external');
         $em = $this->getDoctrine()->getManager();
         $room = $em->getRepository('mycpBundle:room')->find($id_room);
         $calendarService = $this->get('mycp.service.calendar');
         if (!is_null($room)) {
-            $room->setIcal($external_url);
-            $em->flush();
+            if ($external_url != ""){
+                $room->setIcal($external_url);
+                $em->flush();
+            }
             $calendarService->readICalOfRoom($room);
         }
         return new JsonResponse(array(
