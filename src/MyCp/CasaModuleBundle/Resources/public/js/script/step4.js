@@ -410,7 +410,7 @@ var Step4 = function () {
             }
 
         },
-        cleanExternalIcalRoom: function (element, externalElement) {
+        cleanExternalIcalRoom: function (element) {
             var contain_external = element.data("external");
             if (contain_external) {
                 HoldOn.open();
@@ -422,15 +422,15 @@ var Step4 = function () {
 
                         if (data.success) {
                             window.location = data["refreshUrl"];
-                            HoldOn.close();
                             toastr.info(data.message);
                         } else {
                             toastr.error('Ha ocurrido un error');
                         }
+                        HoldOn.close();
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
-                        HoldOn.close();
                         toastr.error('Ha ocurrido un error');
+                        HoldOn.close();
                     }
                 });
             }

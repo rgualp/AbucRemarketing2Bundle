@@ -28,7 +28,6 @@
                       <label class="control-label">Descripción</label>
                     {{ form_widget(form.description, {'attr':{'class':'form-control'}}) }}
                     {% else %}
-                        {#{{ dump(form.vars.value.ownPhoPhoto.photoLangs[0].phoLangDescription) }}#}
                         <span class="font-blue step-span" {% if form.vars.value.ownPhoPhoto.photoLangs|length >0 %}title="{{ form.vars.value.ownPhoPhoto.photoLangs[0].phoLangDescription }}"{% endif %}>
                             {% if form.vars.value.ownPhoPhoto.photoLangs|length >0 %}
                                 {{ form.vars.value.ownPhoPhoto.photoLangs[0].phoLangDescription | slice(0,9) }}...
@@ -41,7 +40,6 @@
                         {{ form_widget(form.description, {'attr':{'class':'form-control hide', 'value':(form.vars.value.ownPhoPhoto.photoLangs | length > 0) ? form.vars.value.ownPhoPhoto.photoLangs[0].phoLangDescription : ""}}) }}
                     {% endif %}
                 </div>
-            {#{{ dump(form.vars.value) }}#}
             {{ form_widget(form.own_pho_id, {'attr':{'value':(form.vars.value!=null)?form.vars.value.ownPhoId:''}}) }}
 
 
@@ -91,8 +89,9 @@
 
             <div class="row">
                 <div class="col-sm-12 text-center m-t-20">
-                    <h2 style="color: #b3b3b3;"> Puede subir hasta 50 imágenes</h2>
-                    <h3 style="color: #adadad; font-size: 27px; font-weight: 100;"> La primera imagen será la principal</h3>
+                    <h3 style="color: #b3b3b3;"> Puede subir hasta 50 imágenes</h3>
+                    <h3 style="color: #adadad;"> La primera imagen será la principal</h3>
+                    <h3 style="color: #adadad;"> Se le recomienda subir las imágenes de uno en una. Es decir, Adicionar imagen, seleccionar el botón Guardar y adicionar otra imagen.</h3>
                 </div>
             </div>
             {#{{ form_widget(photoForm) }}#}
