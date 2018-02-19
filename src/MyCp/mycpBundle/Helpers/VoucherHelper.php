@@ -116,8 +116,6 @@ class VoucherHelper
 
                 $locale = $controller->get('translator');
                 $subject = $locale->trans($subjectTranslatedKey, array(), "messages", $userLocale);
-                dump($body);
-                die;
                 $emailService->sendEmail(
                     $user->getUserEmail(), $subject, $body, 'no-reply@mycasaparticular.com', $pdfFilePath
                 );
