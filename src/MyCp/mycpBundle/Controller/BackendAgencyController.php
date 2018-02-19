@@ -117,13 +117,17 @@ class BackendAgencyController extends Controller {
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
         $agency = $em->getRepository('PartnerBundle:paTravelAgency')->getById($id);
+        $obj = $em->getRepository('PartnerBundle:paTravelAgency')->find($id);
         $responsable=$em->getRepository('PartnerBundle:paTravelAgency')->getResponsable($id);
-        if (empty($agency)) {
+        $parent=$em->getRepository('mycpBundle:user')->findOneBy(array("user_email" => $obj->getEmail()));
+
+        $touroperators= $parent->getChildrens();
+        if (empty($touroperators)) {
             $agency=$responsable;// list is empty.
             $hastouroperators=false;
         }
 
-        return $this->render('mycpBundle:agency:details.html.twig', array('agency' => $agency,'responsable'=>$responsable[0],'hastour'=>$hastouroperators));
+        return $this->render('mycpBundle:agency:details.html.twig', array('agency' => $agency,'responsable'=>$responsable[0],'hastour'=>$hastouroperators,'touroperators'=>$touroperators));
     }
 
     public function details_AgencybyUserAction($id,$ida, Request $request) {
@@ -132,20 +136,20 @@ class BackendAgencyController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('mycpBundle:user')->find($id);
         $hastouroperators=true;
-        if($user->getMentor()==null) {
-            $agency = $em->getRepository('PartnerBundle:paTravelAgency')->getById($ida);
-            $responsable = $em->getRepository('PartnerBundle:paTravelAgency')->getResponsableByUser($id);
-        }
-        else{
-            $responsable = $em->getRepository('PartnerBundle:paTravelAgency')->getResponsableByUser($user->getMentor());
-            $agency = $em->getRepository('PartnerBundle:paTravelAgency')->getByUserId($id);
-        }
-        if (empty($agency)) {
+
+        $responsable = $em->getRepository('PartnerBundle:paTravelAgency')->getResponsableByUser($user);
+        $agency = $em->getRepository('PartnerBundle:paTravelAgency')->getByUserId($id);
+        $obj = $em->getRepository('PartnerBundle:paTravelAgency')->find($ida);
+
+        $parent=$em->getRepository('mycpBundle:user')->findOneBy(array("user_email" => $obj->getEmail()));
+
+        $touroperators= $parent->getChildrens();
+        if (empty($touroperators)) {
             $agency=$responsable;// list is empty.
             $hastouroperators=false;
         }
 
-        return $this->render('mycpBundle:agency:details.html.twig', array('agency' => $agency,'responsable'=>$responsable[0],'hastour'=>$hastouroperators));
+        return $this->render('mycpBundle:agency:details.html.twig', array('agency' => $agency,'responsable'=>$responsable[0],'hastour'=>$hastouroperators,'touroperators'=>$touroperators));
     }
 
     public function edit_AgencyAction($id, Request $request) {
@@ -157,9 +161,12 @@ class BackendAgencyController extends Controller {
         $obj = $em->getRepository('PartnerBundle:paTravelAgency')->find($id);
         $agency = $em->getRepository('PartnerBundle:paTravelAgency')->getById($id);
         $responsable=$em->getRepository('PartnerBundle:paTravelAgency')->getResponsable($id);
+        $parent=$em->getRepository('mycpBundle:user')->findOneBy(array("user_email" => $obj->getEmail()));
+        $touroperators= $parent->getChildrens();
+
         $errors = array();
-        if (empty($agency)) {
-            $agency=$responsable;// list is empty.
+        if (empty($touroperators)) {
+            // list is empty.
             $hastouroperators=false;
         }
 
@@ -195,22 +202,32 @@ class BackendAgencyController extends Controller {
             'agency' => $agency,
             'responsable'=>$responsable[0],
             'packages' => $packagesByAgency,
-            'hastour'=>$hastouroperators
+            'hastour'=>$hastouroperators,
+            'touroperators'=>$touroperators
         ));
     }
     #Eliminar Operadores
-    public function deleteTourOperatorAction($id,$idagency){
+    public function deleteTourOperatorAction($idmaster,$idslave,$idagency){
         $em = $this->getDoctrine()->getManager();
-        $em->getRepository('mycpBundle:user')->deleteTourOperators($id);
 
+        $user = $em->getRepository('mycpBundle:user')->find($idmaster);
+        $child = $em->getRepository('mycpBundle:user')->find($idslave);
+        $user->removeChildren($child);
+        $em->persist($user);
+        $em->flush();
         return $this->redirect($this->generateUrl('mycp_edit_agency',array('id'=>$idagency)));
     }
     public function addTourOperatorAction($idmaster,$idslave,$idagency){
         $em = $this->getDoctrine()->getManager();
-        $result=$em->getRepository('mycpBundle:user')->addTourOperators($idmaster,$idslave);
+        $user = $em->getRepository('mycpBundle:user')->find($idmaster);
+        $child = $em->getRepository('mycpBundle:user')->find($idslave);
+        $user->addChildren($child);
+        $em->persist($user);
+        $em->flush();
+
 
       #  return $this->redirect($this->generateUrl('mycp_edit_agency',array('id'=>$idagency)));
-       return new JsonResponse(array('result'=>$result,'id'=>$idslave));
+       return new JsonResponse(array('result'=>"OK",'id'=>$idslave));
     }
     public function enable_AgencyAction($id,$activar){
 

@@ -203,13 +203,10 @@ class generalReservationRepository extends EntityRepository {
             $gen_res_id = $reservation['gen_res_id'];
             $user_id = $reservation['user_id'];
             $user=$userrepo->find($user_id);
-            if($user->ifTouroperator()==false)
-            {
-                $query1->setParameter('user_id', $user->getUserId());
-            }
-            else{
-                $query1->setParameter('user_id', $user->getMentor());
-            }
+
+            $query1->setParameter('user_id', $user->getUserId());
+
+
             $query->setParameter('gen_res_id', $gen_res_id);
 
             $r = $query->getArrayResult();
@@ -401,13 +398,11 @@ class generalReservationRepository extends EntityRepository {
             $query->setParameter('gen_res_id', $gen_res_id);
             $user_id = $reservation['user_id'];
             $user=$userrepo->find($user_id);
-            if($user->ifTouroperator()==false)
-            {
+
                 $query1->setParameter('user_id', $user->getUserId());
-            }
-            else{
-                $query1->setParameter('user_id', $user->getMentor());
-            }
+
+
+
             $r = $query->getArrayResult();
             $r1=$query1->getArrayResult();
             if(count($r)){
@@ -3714,12 +3709,12 @@ order by LENGTH(o.own_mcp_code), o.own_mcp_code";
 
         $qb->join('r.gen_res_user_id', 'u');
 
-        if(sizeof($touroperators) > 0){
+        if(count($touroperators) > 0){
 
-            foreach ($touroperators as $mentor){
-                $qb->orWhere('(u.user_id = '.$mentor['user_id'].')');
+            foreach ($touroperators as $user){
+                $qb->orWhere('(u.user_id = '.$user->getUserId().')');
 //                $qb->andWhere('u.user_id = :user_id'.$i);
-//                $qb->setParameter('user_id', $mentor);
+
 //                $i++;
             }
 

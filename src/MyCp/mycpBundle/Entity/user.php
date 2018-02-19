@@ -207,12 +207,25 @@ class user implements AdvancedUserInterface,  \Serializable
      */
     private $online;
 
+
+
+    // ...
+
     /**
-     * One user has One user .
-     * @ORM\OneToOne(targetEntity="user")
-     * @ORM\JoinColumn(name="mentor_id", referencedColumnName="user_id")
+     * Many Users have Many Users.
+     * @ORM\ManyToMany(targetEntity="user", mappedBy="myChildrens")
      */
-    private $mentor;
+    private $parents;
+
+    /**
+     * Many Users have many Users.
+     * @ORM\ManyToMany(targetEntity="user", inversedBy="parents")
+     * @ORM\JoinTable(name="parents",
+     *      joinColumns={@ORM\JoinColumn(name="parent_user_id", referencedColumnName="user_id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="children_user_id", referencedColumnName="user_id")}
+     *      )
+     */
+    private $myChildrens;
 
     public function __construct() {
         $this->comments = new ArrayCollection();
@@ -223,6 +236,8 @@ class user implements AdvancedUserInterface,  \Serializable
         $this->locked = false;
         $this->user_enabled = true;
         $this->facebook = false;
+        $this->parents = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->myChildrens = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
@@ -1168,38 +1183,60 @@ class user implements AdvancedUserInterface,  \Serializable
         return $this->facebook;
     }
 
-    /**
-     * Set mentor
-     *
-     * @param \MyCp\mycpBundle\Entity\user $mentor
-     *
-     * @return user
-     */
-    public function setMentor(\MyCp\mycpBundle\Entity\user $mentor = null)
-    {
-        $this->mentor = $mentor;
 
-        return $this;
+
+
+
+    public function getChildrens()
+    {
+        return $this->myChildrens->toArray();
     }
-
-    /**
-     * Get mentor
-     *
-     * @return \MyCp\mycpBundle\Entity\user
-     */
-    public function getMentor()
+    public function getParents()
     {
-        return $this->mentor;
+        return $this->parents->toArray();
     }
-
-    public function ifTouroperator()
+    /**
+     * @param  user $user
+     * @return void
+     */
+    public function addChildren(user $user)
     {
-        if($this->mentor==Null){
-            return false;
+        if (!$this->myChildrens->contains($user)) {
+            $this->myChildrens->add($user);
+            $user->addParent($this);
         }
-        else{
-            return true;
-        }
+    }
+    /**
+     * @param  user $user
+     * @return void
+     */
+    private function addParent(user $user)
+    {
+        if (!$this->parents->contains($user)) {
+            $this->parents->add($user);
 
+        }
+    }
+    /**
+     * @param  user $user
+     * @return void
+     */
+    private function removeParent(user $user)
+    {
+        if (!$this->parents->contains($user)) {
+            $this->parents->add($user);
+
+        }
+    }
+    /**
+     * @param  user $user
+     * @return void
+     */
+    public function removeChildren(user $user)
+    {
+        if ($this->myChildrens->contains($user)) {
+            $this->myChildrens->removeElement($user);
+            $user->removeParent($this);
+        }
     }
 }

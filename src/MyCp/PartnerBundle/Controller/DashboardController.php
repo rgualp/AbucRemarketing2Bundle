@@ -867,10 +867,9 @@ class DashboardController extends Controller
         $repository = $em->getRepository('PartnerBundle:paGeneralReservation');
         $userrepo= $em->getRepository('mycpBundle:user');
         $touroperators= array();
-        if(!$user->ifTouroperator())
-        {
-            $touroperators=$userrepo->getTourOperators($user->getUserId());
-        }
+
+         $touroperators=$userrepo->getAllTourOperators($touroperators,$user);
+
         #region PAGINADO
         $page = ($start > 0) ? $start / $limit + 1 : 1;
         $paginator = $repository->getReservationsPartner($user->getUserId(), $filters, $start, $limit,$touroperators);
@@ -1033,10 +1032,9 @@ class DashboardController extends Controller
         $repository = $em->getRepository('mycpBundle:generalReservation');
         $userrepo= $em->getRepository('mycpBundle:user');
         $touroperators= array();
-        if($user->ifTouroperator()==false)
-        {
-            $touroperators=$userrepo->getTourOperators($user->getUserId());
-        }
+
+        $touroperators=$userrepo->getAllTourOperators($touroperators,$user);
+
         #region PAGINADO
         if($limit==false){
 
@@ -1774,12 +1772,9 @@ class DashboardController extends Controller
     public function getReservationCalendarAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        if(!$this->getUser()->ifTouroperator()){
-            $user = $this->getUser();
-        }
-        else{
-            $user = $this->getUser()->getMentor();
-        }
+
+        $user = $this->getUser();
+
         $currentTourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
         $currentTravelAgency = $currentTourOperator->getTravelAgency();
         $agencyPackage = $currentTravelAgency->getAgencyPackages()[0];
@@ -2011,13 +2006,10 @@ class DashboardController extends Controller
 
         $check_dispo = $request->get('check_dispo');
         $em = $this->getDoctrine()->getManager();
-        $user = $this->getUser();
-        if(!$this->getUser()->ifTouroperator()){
-            $user1 = $this->getUser();
-        }
-        else{
-            $user1 = $this->getUser()->getMentor();
-        }
+        $user1 = $this->getUser();
+
+
+
         $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user1->getUserId()));
         $travelAgency = $tourOperator->getTravelAgency();
         $completePayment = $travelAgency->getAgencyPackages()[0]->getPackage()->getCompletePayment();

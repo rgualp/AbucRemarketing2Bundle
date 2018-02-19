@@ -299,11 +299,11 @@ class generalReservation {
      *
      * @param \MyCp\PartnerBundle\Entity\paInvoice $invoice
      *
-     * @return user
+     * @return mixed
      */
     public function setInvoice(\MyCp\PartnerBundle\Entity\paInvoice  $invoice)
     {
-        $this->mentor = $invoice;
+        $this->invoice = $invoice;
 
         return $this;
     }

@@ -29,33 +29,22 @@ class CartController extends Controller
         $user = $this->getUser();
         $ids_gr = $request->get('ids');
         $ids_gr = ($ids_gr != null) ? $ids_gr:array();
-        if(!$this->getUser()->ifTouroperator()){
-            $user1 = $this->getUser();
-        }
-        else{
-            $user1 = $this->getUser()->getMentor();
-        }
+
 
         $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
         $travelAgency = $tourOperator->getTravelAgency();
 
-        $tourOperator2 = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user1->getUserId()));
-        $userrepo= $em->getRepository('mycpBundle:user');
-        $travelAgency2 = $tourOperator2->getTravelAgency();
-        $travelAgencys=array();
-        if($user->ifTouroperator()==false)
-        {
-            $touroperators=$userrepo->getTourOperators($user->getUserId());
-            foreach ($touroperators as $operator){
-                $tourOperator1 = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $operator['user_id']));
-                array_push($travelAgencys,$tourOperator1->getTravelAgency());
+         $userrepo= $em->getRepository('mycpBundle:user');
+          $travelAgencys=array();
+     $touroperators=array();
+        $touroperators=$userrepo->getAllTourOperators($touroperators,$user);
+        foreach ($touroperators as $operator){
+            $tourOperator1 = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $operator->getUserId()));
+            array_push($travelAgencys,$tourOperator1->getTravelAgency());
 
-            }
+        }
             $cartItems = $em->getRepository("PartnerBundle:paReservation")->getAllCartItems($travelAgency,$travelAgencys, $ids_gr);
-        }
-        else {
-            $cartItems = $em->getRepository("PartnerBundle:paReservation")->getCartItems($travelAgency, $ids_gr);
-        }
+
 
         return $this->render('PartnerBundle:Cart:cart_count.html.twig', array(
             'count' => count($cartItems),
@@ -78,34 +67,24 @@ class CartController extends Controller
         $session->remove("ri_ids");
 
         $user = $this->getUser();
-        if(!$this->getUser()->ifTouroperator()){
-            $user1 = $this->getUser();
-        }
-        else{
-            $user1 = $this->getUser()->getMentor();
-        }
+
         $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
         $travelAgency = $tourOperator->getTravelAgency();
-        $tourOperator2 = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user1->getUserId()));
 
-        $travelAgency2 = $tourOperator2->getTravelAgency();
+
         $packageService = $this->get("mycp.partner.package.service");
         $userrepo= $em->getRepository('mycpBundle:user');
         $touroperators= array();
         $travelAgencys=array();
-        if($user->ifTouroperator()==false)
-        {
-            $touroperators=$userrepo->getTourOperators($user->getUserId());
+
+        $touroperators=$userrepo->getAllTourOperators($touroperators,$user);
             foreach ($touroperators as $operator){
-                $tourOperator1 = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $operator['user_id']));
+                $tourOperator1 = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $operator->getUserId()));
                 array_push($travelAgencys,$tourOperator1->getTravelAgency());
 
             }
-            $cartItems = $em->getRepository("PartnerBundle:paReservation")->getAllCartItems($travelAgency,$travelAgencys, $ids_gr);
-        }
-        else {
-            $cartItems = $em->getRepository("PartnerBundle:paReservation")->getCartItems($travelAgency, $ids_gr);
-        }
+        $cartItems = $em->getRepository("PartnerBundle:paReservation")->getAllCartItems($travelAgency,$travelAgencys, $ids_gr);
+
         $reservations = array();
         $reservationsIds = array();
 
@@ -133,7 +112,7 @@ class CartController extends Controller
             "items" => $cartItems,
             "details" => $details,
             "disablePaymentButton" => (count($ids_gr) > 0),
-            "isSpecialPackage" => $packageService->isSpecialPackageFromAgency($travelAgency2)
+            "isSpecialPackage" => $packageService->isSpecialPackageFromAgency($travelAgency)
         ));
     }
 
