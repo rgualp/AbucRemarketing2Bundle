@@ -92,8 +92,49 @@
                                         {% set url_file = room.getICalUrlFromRequest(app.request) %}
                                         <div id="url_ical_id" class="col-sm-12 col-md-12 col-xs-12"
                                              style="{{ url_file != "" ? 'display: block;' : 'display: none;' }}">
-                                            <label style="padding-right: 0.5em;">Calendario</label>
+                                           <img style="width: 10%; height: 50%;" src="{{ asset('img/apple_touch_icons/apple_touch_ipad.png') }}" title="Enlace MyCasaParticular" alt="my casa particular"/>
                                             <a href="{{ room.getICalUrlFromRequest(app.request) }}">{{ room.getICalUrlFromRequest(app.request) }}</a>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xs-12">
+                                            <span style="padding-right: 0.5em;margin-left: 1em;">
+                                                <i class="fa fa-calendar fa-2x step-form-icon m-t-5" title="Enlace de actualización externo"></i>
+                                            </span>
+                                            {% if  room.isContainExternalIcal() %}
+                                                <a href="{{ room.getICal() }}">{{ room.getICal() }}</a>
+                                            {% else %}
+                                                <span>Enlace de actualización externo no asociado</span>
+                                            {% endif %}
+
+                                            {% if room is defined %}
+                                                <a data-external="{{ room.isContainExternalIcal() }}"
+                                                   data-href="{{ path("mycp_clean_external_ical_room", {'id_room': room.roomId}) }}"
+                                                   data-refresh="{{ path('my_cp_casa_module_calendar') }}"
+                                                   class="clean_calendar pull-right">
+                                                    <i style="margin: 0.1em; color: #bdbdbd;"
+                                                       class="fa fa-trash fa-2x step-form-icon m-t-5"
+                                                       title="Eliminar enlace externo"></i>
+                                                </a>
+                                                <a data-href="{{ path("mycp_execute_ical_room", {'id_room': room.roomId }) }}"
+                                                   data-refresh="{{ path('my_cp_casa_module_calendar') }}"
+                                                   class="pull-right">
+                                                    <i style="margin: 0.1em; color: #bdbdbd;"
+                                                       class="fa fa-edit fa-2x step-form-icon m-t-5"
+                                                       title="Editar url sincronizacion"></i>
+                                                </a>
+                                                <a onclick="Step4.updateIcalRoom($(this), $('#external_ical_{{ room.RoomId }}'))"
+                                                   data-href="{{ path("mycp_execute_ical_room", {'id_room': room.roomId }) }}"
+                                                   class="pull-right">
+                                                    <i style="margin: 0.1em; color: #bdbdbd;"
+                                                       class="fa fa-refresh fa-2x step-form-icon m-t-5"
+                                                       title="Sincronizar disponibilidad"></i>
+                                                </a>
+
+                                                <i style="margin: 0.1em; color: #bdbdbd;"
+                                                   class="fa fa-warning fa-2x step-form-icon m-t-5 pull-right"
+                                                   title="Importa otro calendario que utilices para esta habitación y actualizaremos la disponibilidad por ese calendario."></i>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>
@@ -200,6 +241,32 @@
                         la derecha.</p>
                 </div>
             </div>
+        </div>
+    </div>
+    <div id="edit_modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Editar Url</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="new_url" id="new_url">
+                            <h4>Url externa para actualizar el calendario de la habitación</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <a id="send_new_url" href="" type="button" class="btn btn-primary" data-refresh="">Enviar</a>
+                </div>
+            </div>
+            n
+
         </div>
     </div>
 {% endblock %}
@@ -338,6 +405,69 @@
 
             });
             {% endfor %}
+
+            $('.clean_calendar').click(function () {
+                var contain_external = $(this).data("external");
+                if (contain_external) {
+                    var refresh = $(this).data("refresh");
+                    HoldOn.open();
+                    $.ajax({
+                        type: 'post',
+                        url: $(this).data("href"),
+                        data: {'refresh': refresh},
+                        success: function (data) {
+                            if (data.success) {
+                                window.location = refresh;
+                                toastr.info(data.message);
+                            } else {
+                                toastr.error('Ha ocurrido un error');
+
+                            }
+                            HoldOn.close();
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            toastr.error('Ha ocurrido un error');
+                            HoldOn.close();
+                        }
+                    });
+                }
+            });
+
+            var $LINKSEND = $('a#send_new_url'),
+                $IEDIT = $('i.fa-edit'),
+                $EDITMODAL = $('#edit_modal');
+
+            $IEDIT.click(function () {
+                $LINKSEND.attr('href', $(this).parent().data('href'));
+                $LINKSEND.attr('data-refresh', $(this).parent().data('refresh'));
+                $EDITMODAL.modal('show');
+            });
+            $LINKSEND.click(function (event) {
+                event.preventDefault();
+                HoldOn.open();
+                var url = $LINKSEND.attr('href');
+                var data = {"external": $('input#new_url').val()};
+                var refresh = $LINKSEND.data("refresh");
+                $.ajax({
+                    type: 'post',
+                    url: url,
+                    data: data,
+                    success: function (data) {
+                        HoldOn.close();
+                        if (data.success) {
+                            window.location = refresh;
+                            toastr.info(data.message);
+                        } else {
+                            toastr.error('Ha ocurrido un error');
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        HoldOn.close();
+                        toastr.error('Ha ocurrido un error');
+                    }
+                });
+            });
         });
+
     </script>
 {% endblock %}

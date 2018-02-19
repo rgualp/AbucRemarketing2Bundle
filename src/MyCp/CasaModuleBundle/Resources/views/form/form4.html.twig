@@ -458,26 +458,46 @@
                            name="room_stereo"/>
                 </div>
             </div>
-            <div class="row m-t-5">
-                <div class="col-xs-12 col-md-3">
-                    <label>URL ICal Externo</label>
+            <div class="row">
+                <div class="col-xs-12 col-md-2">
+                    <img style="width: 50%;" src="{{ asset('img/apple_touch_icons/apple_touch_ipad.png') }}" title="Enlace MyCasaParticular" alt="my casa particular"/>
                 </div>
-                <div class="col-xs-12 col-md-6">
-                    <input placeholder="iCal URL" type="text" class="form-control" id="external_ical" name="room_ical"
+                <div class="col-xs-12 col-md-8">
+                    <input type="text" class="form-control" readonly="readonly" name="ical"
+                           value="{% if room is defined %}{{ room.getICalUrlFromRequest(app.request) }}{% endif %}"
+                           title="Dirección url de su iCal">
+                </div>
+                <div class="col-xs-12 col-md-2">
+                    <i style="margin: 0.1em; color: #bdbdbd;" class="fa fa-warning fa-2x step-form-icon m-t-5"
+                       title="Copia y pega el enlace en otras aplicaciones de iCAL"></i>
+                </div>
+
+            </div>
+            <div class="row m-t-5">
+                <div class="col-xs-12 col-md-2">
+
+              <span style="padding-right: 0.5em;margin-left: 1em;">
+                  <i class="fa fa-calendar fa-2x step-form-icon m-t-5" title="Enlace de actualización externo"></i>
+              </span>
+
+                </div>
+                <div class="col-xs-12 col-md-8">
+                    <input placeholder="iCal URL" type="text" class="form-control"
+                           id="{% if room is defined %}external_ical_{{ room.RoomId }}{% endif %}" name="room_ical"
                            value="{% if room is defined %}{{ room.ical }}{% endif %}"
                            data-roomid="{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
                            title="Dirección url de su iCal">
                 </div>
-                <div class="col-xs-12 col-md-3">
+                <div class="col-xs-12 col-md-2">
                     <i style="margin: 0.1em; color: #bdbdbd;" class="fa fa-warning fa-2x step-form-icon m-t-5"
-                       title="Importa otro calendario que utilices para esta habitacion y actualizaremos la disponibilidad por ese calendario de forma automàtica"></i>
+                       title="Importa otro calendario que utilices para esta habitación y actualizaremos la disponibilidad por ese calendario de forma automàtica"></i>
                     {% if room is defined %}
-                        <a onclick="Step4.updateIcalRoom($(this), $('#external_ical'))"
+                        <a onclick="Step4.updateIcalRoom($(this), $('#external_ical_{{ room.RoomId }}'))"
                            data-href="{{ path("mycp_execute_ical_room", {'id_room': room.roomId }) }}"><i
                                     style="margin: 0.1em; color: #bdbdbd;"
                                     class="fa fa-refresh fa-2x step-form-icon m-t-5"
                                     title="Sincronizar disponibilidad"></i></a>
-                        <a onclick="Step4.cleanExternalIcalRoom($(this), $('#external_ical'))"
+                        <a onclick="Step4.cleanExternalIcalRoom($(this), $('#external_ical_{{ room.RoomId }}'))"
                            data-external="{{ room.isContainExternalIcal() }}"
                            data-href="{{ path("mycp_clean_external_ical_room", {'id_room': room.roomId}) }}"><i
                                     style="margin: 0.1em; color: #bdbdbd;"
@@ -485,18 +505,7 @@
                     {% endif %}
                 </div>
             </div>
-            <div class="row">
-                <div class="col-xs-12 col-md-5">
-                    <label>URL ICal MyCasaParticular</label>
-                </div>
-                <div class="col-xs-12 col-md-6">
-                    <input type="text" class="form-control" readonly="readonly" name="ical"
-                           value="{% if room is defined %}{{ room.getICalUrlFromRequest(app.request) }}{% endif %}"
-                           title="Dirección url de su iCal">
-                </div>
-                <i style="margin: 0.1em; color: #bdbdbd;" class="fa fa-warning fa-2x step-form-icon m-t-5"
-                   title="Copia y pega el enlace en otras aplicaciones de iCAL"></i>
-            </div>
+
         </div>
     </div>
 </form>

@@ -116,8 +116,6 @@ class VoucherHelper
 
                 $locale = $controller->get('translator');
                 $subject = $locale->trans($subjectTranslatedKey, array(), "messages", $userLocale);
-                dump($body);
-                die;
                 $emailService->sendEmail(
                     $user->getUserEmail(), $subject, $body, 'no-reply@mycasaparticular.com', $pdfFilePath
                 );
@@ -173,7 +171,7 @@ class VoucherHelper
         }
     }
 
-    public static function sendVoucherToClientByBooking($entity_manager, $bookingService, $emailService, $controller, $idBooking, $subjectTranslatedKey, $email, $message = null, $replaceExistingVoucher = false)
+    public static function sendVoucherToClientByBooking($entity_manager, $bookingService, $emailService, $controller, $idBooking, $subjectTranslatedKey, $message = null, $replaceExistingVoucher = false)
     {
         try {
             $booking = $entity_manager->getRepository('mycpBundle:booking')->find($idBooking);
@@ -183,12 +181,14 @@ class VoucherHelper
 
             $pdfFilePath = $bookingService->createBookingVoucherIfNotExisting($idBooking, $replaceExistingVoucher);
             $userLocale = strtolower($userTourist->getUserTouristLanguage()->getLangCode());
+            $userEmail = $userTourist->getUserTouristUser()->getUserEmail();
             $body = $bookingService->getPrintableBookingConfirmationResponse($idBooking);
 
             $locale = $controller->get('translator');
             $subject = $locale->trans($subjectTranslatedKey, array(), "messages", $userLocale);
+
             $emailService->sendEmail(
-                $email, $subject, $body, 'no-reply@mycasaparticular.com', $pdfFilePath
+                $userEmail, $subject, $body, 'no-reply@mycasaparticular.com', $pdfFilePath
             );
 
             $message = 'Se ha enviado satisfactoriamente el voucher asociado al booking ' . $idBooking;

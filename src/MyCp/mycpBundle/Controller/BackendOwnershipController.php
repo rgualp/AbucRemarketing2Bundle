@@ -1715,40 +1715,4 @@ class BackendOwnershipController extends Controller
             'ownership' => count($ownerships)
         ]);
     }
-
-    public function execute_ical_roomAction($id_room, Request $request)
-    {
-        $external_url = $request->request->get('external');
-        $em = $this->getDoctrine()->getManager();
-        $room = $em->getRepository('mycpBundle:room')->find($id_room);
-        $calendarService = $this->get('mycp.service.calendar');
-        if (!is_null($room)) {
-            if (is_null($room->getIcal()) || $room->getIcal() == "") {
-                $room->setIcal($external_url);
-                $em->flush();
-            }
-            $calendarService->readICalOfRoom($room);
-        }
-        return new JsonResponse(array(
-                'success' => true,
-                'message' => "Calendario de la habitacion actualizado con exito.",
-                'room' => $id_room)
-        );
-    }
-
-    public function clean_external_ical_roomAction(Request $request, $id_room)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $room = $em->getRepository('mycpBundle:room')->find($id_room);
-        if (!is_null($room)) {
-            $room->setIcal("");
-            $em->flush();
-        }
-        return new JsonResponse(array(
-                'success' => true,
-                'message' => "Vinculo externo de la habitacion eliminado con exito.",
-                'room' => $id_room,
-                "refreshUrl" => $this->generateUrl("show_room"))
-        );
-    }
 }

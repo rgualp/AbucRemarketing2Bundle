@@ -9,6 +9,7 @@
 namespace MyCp\CasaModuleBundle\Controller;
 
 
+use BeSimple\SoapBundle\ServiceDefinition\Annotation\Method;
 use Doctrine\Common\Collections\ArrayCollection;
 use MyCp\CasaModuleBundle\Form\ownershipStep1Type;
 use MyCp\CasaModuleBundle\Form\ownershipStepPhotosType;
@@ -1326,6 +1327,55 @@ class StepsController extends Controller
         }
 
         return $html;
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="mycp_execute_ical_room", path="/mycp_execute_ical_room/{id_room}")
+     * @Method("POST")
+     */
+
+    public function execute_ical_roomAction($id_room, Request $request)
+    {
+        $external_url = $request->request->get('external');
+        $em = $this->getDoctrine()->getManager();
+        $room = $em->getRepository('mycpBundle:room')->find($id_room);
+        $calendarService = $this->get('mycp.service.calendar');
+        if (!is_null($room)) {
+            if ($external_url != ""){
+                $room->setIcal($external_url);
+                $em->flush();
+            }
+            $calendarService->readICalOfRoom($room);
+        }
+        return new JsonResponse(array(
+                'success' => true,
+                'message' => "Calendario de la habitacion actualizado con exito.",
+                'room' => $id_room)
+        );
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="mycp_clean_external_ical_room", path="/mycp_clean_external_ical_room/{id_room}")
+     * @Method("POST")
+     */
+    public function clean_external_ical_roomAction(Request $request, $id_room)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $room = $em->getRepository('mycpBundle:room')->find($id_room);
+        if (!is_null($room)) {
+            $room->setIcal("");
+            $em->flush();
+        }
+        return new JsonResponse(array(
+                'success' => true,
+                'message' => "Vinculo externo de la habitacion eliminado con exito.",
+                'room' => $id_room,
+                "refreshUrl" => $this->generateUrl("show_room"))
+        );
     }
 
 }

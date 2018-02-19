@@ -2,24 +2,23 @@
 
 namespace MyCp\mycpBundle\Controller;
 
-use MyCp\FrontEndBundle\Helpers\Utils;
 use MyCp\mycpBundle\Entity\log;
-use MyCp\mycpBundle\Entity\ownershipReservation;
-use MyCp\mycpBundle\Helpers\DataBaseTables;
-use MyCp\mycpBundle\Helpers\FileIO;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
 use MyCp\mycpBundle\Entity\unavailabilityDetails;
 use MyCp\mycpBundle\Form\unavailabilityDetailsType;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use MyCp\mycpBundle\Helpers\SyncStatuses;
-use MyCp\mycpBundle\Helpers\Dates;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
+use MyCp\mycpBundle\Helpers\DataBaseTables;
+use MyCp\mycpBundle\Helpers\Dates;
+use MyCp\mycpBundle\Helpers\FileIO;
+use MyCp\mycpBundle\Helpers\SyncStatuses;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
-class BackendUnavailabilityDetailsController extends Controller {
+class BackendUnavailabilityDetailsController extends Controller
+{
 
-    public function listAction($items_per_page, Request $request) {
+    public function listAction($items_per_page, Request $request)
+    {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $page = 1;
@@ -33,7 +32,7 @@ class BackendUnavailabilityDetailsController extends Controller {
         $filter_code = $request->get('filter_code');
         $filter_destination = $request->get('filter_destination');
         if ($request->getMethod() == 'POST' && $filter_name == 'null' && $filter_active == 'null' && $filter_province == 'null' && $filter_municipality == 'null' &&
-                $filter_type == 'null' && $filter_category == 'null' && $filter_code == 'null' && $filter_destination == 'null'
+            $filter_type == 'null' && $filter_category == 'null' && $filter_code == 'null' && $filter_destination == 'null'
         ) {
             $message = 'Debe llenar al menos un campo para filtrar.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
@@ -50,29 +49,30 @@ class BackendUnavailabilityDetailsController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
         $ownerships = $paginator->paginate($em->getRepository('mycpBundle:ownership')->getAll(
-                                $filter_code, $filter_active, $filter_category, $filter_province, $filter_municipality, $filter_destination, $filter_type, $filter_name
-                ))->getResult();
+            $filter_code, $filter_active, $filter_category, $filter_province, $filter_municipality, $filter_destination, $filter_type, $filter_name
+        ))->getResult();
 
 //        $service_log = $this->get('log');
 //        $service_log->saveLog('Visit', BackendModuleName::MODULE_UNAVAILABILITY_DETAILS);
 
         return $this->render('mycpBundle:unavailabilityDetails:list.html.twig', array(
-                    'ownerships' => $ownerships,
-                    'items_per_page' => $items_per_page,
-                    'current_page' => $page,
-                    'total_items' => $paginator->getTotalItems(),
-                    'filter_code' => $filter_code,
-                    'filter_name' => $filter_name,
-                    'filter_active' => $filter_active,
-                    'filter_category' => $filter_category,
-                    'filter_province' => $filter_province,
-                    'filter_municipality' => $filter_municipality,
-                    'filter_type' => $filter_type,
-                    'filter_destination' => $filter_destination,
+            'ownerships' => $ownerships,
+            'items_per_page' => $items_per_page,
+            'current_page' => $page,
+            'total_items' => $paginator->getTotalItems(),
+            'filter_code' => $filter_code,
+            'filter_name' => $filter_name,
+            'filter_active' => $filter_active,
+            'filter_category' => $filter_category,
+            'filter_province' => $filter_province,
+            'filter_municipality' => $filter_municipality,
+            'filter_type' => $filter_type,
+            'filter_destination' => $filter_destination,
         ));
     }
 
-    public function list_roomsAction($id_ownership, $items_per_page, Request $request) {
+    public function list_roomsAction($id_ownership, $items_per_page, Request $request)
+    {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $page = 1;
@@ -84,24 +84,29 @@ class BackendUnavailabilityDetailsController extends Controller {
         $rooms = $paginator->paginate($em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $id_ownership, "room_active" => true)))->getResult();
 
         $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
-        return $this->render('mycpBundle:unavailabilityDetails:roomsList.html.twig', array(
-                    'rooms' => $rooms,
-                    'id_ownership' => $id_ownership,
-                    'ownership' => $ownership,
-                    'items_per_page' => $items_per_page,
-                    'current_page' => $page,
-                    'total_items' => $paginator->getTotalItems(),
+        $view = 'mycpBundle:unavailabilityDetails:roomsList.html.twig';
+        if ($ownership->isRentalTypeFull()) {
+            $view = 'mycpBundle:unavailabilityDetails:roomsFullTypeList.html.twig';
+        }
+        return $this->render($view, array(
+            'rooms' => $rooms,
+            'id_ownership' => $id_ownership,
+            'ownership' => $ownership,
+            'items_per_page' => $items_per_page,
+            'current_page' => $page,
+            'total_items' => $paginator->getTotalItems(),
         ));
     }
 
-    public function getUnavailabilityDetailsJSONAction($idRoom,Request $request) {
+    public function getUnavailabilityDetailsJSONAction($idRoom, Request $request)
+    {
         $em = $this->getDoctrine()->getManager();
         $user = $this->get('security.context')->getToken()->getUser();
         $startParam = $request->get('start');
         $endParam = $request->get('end');
 
-        $unDet = $em->getRepository('mycpBundle:unavailabilityDetails')->getAllNotDeletedByDateAndRoom($idRoom,$startParam, $endParam);
-        $reser = $em->getRepository('mycpBundle:ownershipReservation')->getReservationReservedByRoom($idRoom,$startParam, $endParam);
+        $unDet = $em->getRepository('mycpBundle:unavailabilityDetails')->getAllNotDeletedByDateAndRoom($idRoom, $startParam, $endParam);
+        $reser = $em->getRepository('mycpBundle:ownershipReservation')->getReservationReservedByRoom($idRoom, $startParam, $endParam);
 
         $unDetCounter = count($unDet);
         $reservationCounter = count($reser);
@@ -111,7 +116,8 @@ class BackendUnavailabilityDetailsController extends Controller {
         return $this->render('mycpBundle:unavailabilityDetails:room_calendar.json.twig', array("details" => $unDet, "reservations" => $reser, "detailCount" => $unDetCounter, 'reservationCount' => $reservationCounter, 'now' => $now));
     }
 
-    public function room_detailsAction($id_room, $num_room, $items_per_page, Request $request) {
+    public function room_detailsAction($id_room, $num_room, $items_per_page, Request $request)
+    {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $page = 1;
@@ -124,18 +130,19 @@ class BackendUnavailabilityDetailsController extends Controller {
         $room = $em->getRepository('mycpBundle:room')->find($id_room);
         $ownership = $room->getRoomOwnership();
         return $this->render('mycpBundle:unavailabilityDetails:detailsList.html.twig', array(
-                    'room' => $room,
-                    'details' => $details,
-                    'num_room' => $num_room,
-                    'id_room' => $id_room,
-                    'ownership' => $ownership,
-                    'items_per_page' => $items_per_page,
-                    'current_page' => $page,
-                    'total_items' => $paginator->getTotalItems(),
+            'room' => $room,
+            'details' => $details,
+            'num_room' => $num_room,
+            'id_room' => $id_room,
+            'ownership' => $ownership,
+            'items_per_page' => $items_per_page,
+            'current_page' => $page,
+            'total_items' => $paginator->getTotalItems(),
         ));
     }
 
-    public function newAction($id_room, $num_room, Request $request) {
+    public function newAction($id_room, $num_room, Request $request)
+    {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
 
@@ -201,15 +208,16 @@ class BackendUnavailabilityDetailsController extends Controller {
         }
 
         return $this->render('mycpBundle:unavailabilityDetails:new.html.twig', array(
-                    'room' => $room,
-                    'num_room' => $num_room,
-                    'id_room' => $id_room,
-                    'ownership' => $ownership,
-                    'form' => $form->createView()
+            'room' => $room,
+            'num_room' => $num_room,
+            'id_room' => $id_room,
+            'ownership' => $ownership,
+            'form' => $form->createView()
         ));
     }
 
-    public function editAction($id_detail, $num_room, Request $request) {
+    public function editAction($id_detail, $num_room, Request $request)
+    {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
 
@@ -224,9 +232,9 @@ class BackendUnavailabilityDetailsController extends Controller {
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $uDetails->setUdFromDate(Dates::createFromString($post_form['ud_from_date']))
-                        ->setUdToDate(Dates::createFromString($post_form['ud_to_date']))
-                        ->setUdReason($post_form['ud_reason'])
-                        ->setRoom($room);
+                    ->setUdToDate(Dates::createFromString($post_form['ud_to_date']))
+                    ->setUdReason($post_form['ud_reason'])
+                    ->setRoom($room);
                 //       ->setSyncSt(SyncStatuses::UPDATED);
                 $em->persist($uDetails);
                 $em->flush();
@@ -245,16 +253,28 @@ class BackendUnavailabilityDetailsController extends Controller {
         }
 
         return $this->render('mycpBundle:unavailabilityDetails:new.html.twig', array(
-                    'room' => $room,
-                    'num_room' => $num_room,
-                    'id_room' => $room->getRoomId(),
-                    'ownership' => $ownership,
-                    'form' => $form->createView(),
-                    'edit_detail' => $uDetails->getUdId()
+            'room' => $room,
+            'num_room' => $num_room,
+            'id_room' => $room->getRoomId(),
+            'ownership' => $ownership,
+            'form' => $form->createView(),
+            'edit_detail' => $uDetails->getUdId()
         ));
     }
 
-    public function deleteAction($id_detail, $num_room) {
+    private function updateICal($room)
+    {
+        try {
+            $calendarService = $this->get('mycp.service.calendar');
+            $calendarService->createICalForRoom($room->getRoomId(), $room->getRoomCode());
+            return "Se actualizó satisfactoriamente el fichero .ics asociado a esta habitación.";
+        } catch (\Exception $e) {
+            return "Ha ocurrido un error mientras se actualizaba el fichero .ics de la habitación. Error: " . $e->getMessage();
+        }
+    }
+
+    public function deleteAction($id_detail, $num_room)
+    {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
@@ -277,22 +297,14 @@ class BackendUnavailabilityDetailsController extends Controller {
         return $this->redirect($this->generateUrl('mycp_list_room_details_unavailabilityDetails', array('id_room' => $room->getRoomId(), 'num_room' => $num_room)));
     }
 
-    function downloadFileAction($fileName){
+    function downloadFileAction($fileName)
+    {
         $filePath = $this->container->getParameter("configuration.dir.udetails");
         return FileIO::download($filePath, $fileName);
     }
 
-    private function updateICal($room) {
-        try {
-            $calendarService = $this->get('mycp.service.calendar');
-            $calendarService->createICalForRoom($room->getRoomId(), $room->getRoomCode());
-            return "Se actualizó satisfactoriamente el fichero .ics asociado a esta habitación.";
-        } catch (\Exception $e) {
-            return "Ha ocurrido un error mientras se actualizaba el fichero .ics de la habitación. Error: " . $e->getMessage();
-        }
-    }
-
-    public function createEventCallbackAction(Request $request) {
+    public function createEventCallbackAction(Request $request)
+    {
         /*$service_security = $this->get('Secure');
         $service_security->verifyAccess();*/
 
@@ -313,17 +325,16 @@ class BackendUnavailabilityDetailsController extends Controller {
         $eventId = -1;
 
         $s = $repo->existInDateAndRoom($idRoom, $date_from, $date_to);
-        if($s){
+        if ($s) {
             $errorMessage = 'Ya existe una no disponibilidad en este rango';
-        }
-        else{
+        } else {
             $uDetails = $repo->findOneBy(array(
                 "ud_from_date" => $date_from,
                 "ud_to_date" => $date_to,
                 "room" => $idRoom
             ));
 
-            if($uDetails == null)
+            if ($uDetails == null)
                 $uDetails = new unavailabilityDetails();
 
             $uDetails->setUdFromDate($date_from)
@@ -344,8 +355,8 @@ class BackendUnavailabilityDetailsController extends Controller {
 
         $response = array(
             "errorMessage" => $errorMessage,
-            "eventId" => "1-".$eventId,
-            "title" => "Hab. #".$room->getRoomNum()." - No disponible",
+            "eventId" => "1-" . $eventId,
+            "title" => "Hab. #" . $room->getRoomNum() . " - No disponible",
             "url" => $this->generateUrl("mycp_edit_unavailabilityDetails", array("id_detail" => $eventId, "num_room" => $room->getRoomNum()))
         );
 
@@ -364,20 +375,20 @@ class BackendUnavailabilityDetailsController extends Controller {
         ));
     }
 
-    public function createUnavailabilities($reservations, $unavailabilities, $selectedRange){
+    public function createUnavailabilities($reservations, $unavailabilities, $selectedRange)
+    {
         $newUnavailabilities = [];
         $newUnavailability = [];
 
         $cursorDate = $selectedRange['start'];
-        while($cursorDate <= $selectedRange['end']){
-            if($this->isInRanges($reservations, $cursorDate) || $this->isInRanges($unavailabilities, $cursorDate)){
-                if(count($newUnavailability) > 0){
+        while ($cursorDate <= $selectedRange['end']) {
+            if ($this->isInRanges($reservations, $cursorDate) || $this->isInRanges($unavailabilities, $cursorDate)) {
+                if (count($newUnavailability) > 0) {
                     $newUnavailabilities[] = $newUnavailability;
                     $newUnavailability = [];
                 }
-            }
-            else{
-                if(count($newUnavailability) <= 0){
+            } else {
+                if (count($newUnavailability) <= 0) {
                     $newUnavailability['from'] = clone $cursorDate;
                 }
                 $newUnavailability['to'] = clone $cursorDate;
@@ -386,40 +397,39 @@ class BackendUnavailabilityDetailsController extends Controller {
             $cursorDate->modify('+1 day');
             $cursorDate = new \DateTime($cursorDate->format('Y-m-d'));
         }
-        if(count($newUnavailability) > 0){
+        if (count($newUnavailability) > 0) {
             $newUnavailabilities[] = $newUnavailability;
         }
 
         return $newUnavailabilities;
     }
 
-    public function isInRanges($ranges, $date){
+    public function isInRanges($ranges, $date)
+    {
         foreach ($ranges as $key => $obj) {
             $range = [];
-            if(is_array($obj)){ //entonces son las reservaciones
+            if (is_array($obj)) { //entonces son las reservaciones
                 $range['from'] = $obj['own_res_reservation_from_date'];
                 $range['to'] = clone $obj['own_res_reservation_to_date'];
                 $range['to']->modify('-1 day');
-            }
-            else{//entonces son las no disponibilidades
+            } else {//entonces son las no disponibilidades
                 $range['from'] = $obj->getUdFromDate();
                 $range['to'] = $obj->getUdToDate();
             }
 
-            if($this->isInRange($range, $date)){
+            if ($this->isInRange($range, $date)) {
                 return true;
-            }
-            else if($date < $range['from']){
+            } else if ($date < $range['from']) {
                 return false;
-            }
-            else if($date > $range['to']){
+            } else if ($date > $range['to']) {
                 unset($ranges[$key]);
             }
         }
         return false;
     }
 
-    public function isInRange($range, $date){
+    public function isInRange($range, $date)
+    {
         return ($date >= $range['from'] && $date <= $range['to']);
     }
 }
