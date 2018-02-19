@@ -25,12 +25,10 @@ class PackageService extends Controller
     public function getActivePackage()
     {
 
-        if(!$this->getUser()->ifTouroperator()){
-            $user = $this->getUser();
-        }
-        else{
-        $user = $this->getUser()->getMentor();
-        }
+
+        $user = $this->getUser();
+
+
         $tourOperator = $this->em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
         $travelAgency = $tourOperator->getTravelAgency();
 

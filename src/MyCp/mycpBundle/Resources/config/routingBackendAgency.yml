@@ -23,8 +23,8 @@ mycp_add_touroperator_agency:
     defaults: { _controller: mycpBundle:BackendAgency:addTourOperator,idmaster:'',idslave:'',idagency:''}
 
 mycp_delete_touroperator_agency:
-    pattern:  /deleteoperator/{id}/{idagency}
-    defaults: { _controller: mycpBundle:BackendAgency:deleteTourOperator}
+    pattern:  /deleteoperator/{idmaster}/{idslave}/{idagency}
+    defaults: { _controller: mycpBundle:BackendAgency:deleteTourOperator,idmaster:'',idslave:'',idagency:''}
 
 mycp_enable_agency:
     pattern:  /enable/{id}/{activar}

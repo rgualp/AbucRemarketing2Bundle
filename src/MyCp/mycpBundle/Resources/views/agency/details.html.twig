@@ -89,13 +89,13 @@
             </tr>
             </thead>
             <tbody>
-            {% for own in agency %}
+            {% for own in touroperators %}
 
                 <tr>
 
-                    <td>{{ own.touroperador }} {{ responsable.touroperador_last_name }}</td>
-                    <td>{{ own.user_email }}</td>
-                    <td>{{ own.user_phone }}, {{ own.contact_mobile }}</td>
+                    <td>{{ own.getUserUserName() }} {{ own.getUserLastName }}</td>
+                    <td>{{ own.getUserEmail() }}</td>
+                    <td>{{ own.getUserPhone() }}</td>
 
 
 

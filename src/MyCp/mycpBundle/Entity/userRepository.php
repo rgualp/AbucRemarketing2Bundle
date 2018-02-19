@@ -606,17 +606,19 @@ class userRepository extends EntityRepository
             ->getQuery()->getOneOrNullResult();
     }
 
-    public function getTourOperators($userid)
-    {
-        $em = $this->getEntityManager();
-        return $em->createQueryBuilder()
-            ->select("u.user_id")
-            ->from("mycpBundle:user", "u")
-            ->Where("u.mentor = :mentor_id")
-            ->setParameter("mentor_id", $userid)
-            ->andWhere("(u.locked is null or u.locked = 0)")
-            ->andWhere("u.user_enabled = 1")
-            ->getQuery()->getResult();
+
+
+    public function getAllTourOperators(array $touroperators,user $user){
+     $tem_tours= $user->getChildrens();
+     foreach ($tem_tours as $child){
+      array_push($touroperators,$child);
+      if(count($child->getChildrens())>0){
+         $result= $this->getAllTourOperators($touroperators,$child);
+         $touroperators=$result;
+      }
+     }
+     return $touroperators;
+
 
     }
 
@@ -626,40 +628,13 @@ class userRepository extends EntityRepository
         return $em->createQueryBuilder()
             ->select("u")
             ->from("mycpBundle:user", "u")
-            ->Where("u.mentor is null")
             ->andWhere("u.user_subrole = 3")
             ->andWhere("u.user_enabled = 1")
             ->getQuery()->getResult();
 
     }
 
-    public function addTourOperators($idmaster, $idslave)
-    {
-        $em = $this->getEntityManager();
-        $q = $em->createQueryBuilder();
-        $q->update('mycpBundle:user', 'u');
-        $q->set('u.mentor', $idmaster);
-        $q->set('u.locked', 0);
-        $q->where('u.user_id =:mentor_id');
-        $q->setParameter('mentor_id', $idslave);
-        $results = $q->getQuery()->execute();
 
-        return true;
-    }
-
-    public function deleteTourOperators($userid)
-    {
-
-        $em = $this->getEntityManager();
-        $q = $em->createQueryBuilder();
-        $q->update('mycpBundle:user', 'u');
-        $q->set('u.mentor', 'NULL');
-
-        $q->where('u.user_id =:mentor_id');
-        $q->setParameter('mentor_id', $userid);
-        $results = $q->getQuery()->execute();
-        return true;
-    }
 
 
 }
