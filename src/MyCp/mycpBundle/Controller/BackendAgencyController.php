@@ -156,14 +156,16 @@ class BackendAgencyController extends Controller {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $hastouroperators=true;
-
+        $touroperators=array();
         $em = $this->getDoctrine()->getManager();
         $obj = $em->getRepository('PartnerBundle:paTravelAgency')->find($id);
         $agency = $em->getRepository('PartnerBundle:paTravelAgency')->getById($id);
         $responsable=$em->getRepository('PartnerBundle:paTravelAgency')->getResponsable($id);
-        $parent=$em->getRepository('mycpBundle:user')->findOneBy(array("user_email" => $obj->getEmail()));
-        $touroperators= $parent->getChildrens();
 
+        $parent=$em->getRepository('mycpBundle:user')->findOneBy(array("user_email" => $obj->getEmail()));
+       if($parent) {
+           $touroperators = $parent->getChildrens();
+       }
         $errors = array();
         if (empty($touroperators)) {
             // list is empty.
