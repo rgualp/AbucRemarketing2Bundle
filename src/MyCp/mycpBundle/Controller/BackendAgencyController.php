@@ -119,9 +119,11 @@ class BackendAgencyController extends Controller {
         $agency = $em->getRepository('PartnerBundle:paTravelAgency')->getById($id);
         $obj = $em->getRepository('PartnerBundle:paTravelAgency')->find($id);
         $responsable=$em->getRepository('PartnerBundle:paTravelAgency')->getResponsable($id);
-        $parent=$em->getRepository('mycpBundle:user')->findOneBy(array("user_email" => $responsable[0]["touroperador"], "user_name" => $responsable[0]["touroperador"]));
+        if($responsable!=null) {
+            $parent = $em->getRepository('mycpBundle:user')->findOneBy(array("user_email" => $responsable[0]["touroperador"], "user_name" => $responsable[0]["touroperador"]));
 
-        $touroperators= $parent->getChildrens();
+            $touroperators = $parent->getChildrens();
+        }
         if (empty($touroperators)) {
             $agency=$responsable;// list is empty.
             $hastouroperators=false;
@@ -142,11 +144,11 @@ class BackendAgencyController extends Controller {
         $obj = $em->getRepository('PartnerBundle:paTravelAgency')->find($ida);
 
         if($responsable!=null) {
-            $parent = $em->getRepository('mycpBundle:user')->findOneBy(array("user_email" => $responsable[0]["touroperador"], "user_name" => $responsable[0]["touroperador"]));
+            $parent = $em->getRepository('mycpBundle:user')->findOneBy(array("user_email" => $responsable[0]["touroperador"], "user_email" => $responsable[0]["user_email"]));
 
             $touroperators = $parent->getChildrens();
         }
-        $touroperators= $parent->getChildrens();
+
         if (empty($touroperators)) {
             $agency=$responsable;// list is empty.
             $hastouroperators=false;
@@ -165,7 +167,7 @@ class BackendAgencyController extends Controller {
         $agency = $em->getRepository('PartnerBundle:paTravelAgency')->getById($id);
         $responsable=$em->getRepository('PartnerBundle:paTravelAgency')->getResponsable($id);
         if($responsable!=null) {
-            $parent = $em->getRepository('mycpBundle:user')->findOneBy(array("user_email" => $responsable[0]["touroperador"], "user_name" => $responsable[0]["touroperador"]));
+            $parent = $em->getRepository('mycpBundle:user')->findOneBy(array("user_email" => $responsable[0]["touroperador"], "user_email" => $responsable[0]["user_email"]));
 
             $touroperators = $parent->getChildrens();
         }
