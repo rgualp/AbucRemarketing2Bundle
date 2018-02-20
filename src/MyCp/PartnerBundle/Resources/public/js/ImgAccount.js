@@ -92,30 +92,7 @@ var ImgAccount = function () {
      * Funcion para cuando se da click en el boton subir imagen
      */
     var onclickBtnUploadImg=function(){
-        $('#img-file').on('click',function(){
-            $('#imputfile').click();
-            var form = $('#image-upload-form');
-            form.fileupload({
-                url: form.attr('action'),
-                type: 'POST',
-                datatype: 'xml',
-                add: function (event, data) {
-                    data.submit();
-                },
-                progress: function (e, data) {
-                },
-                fail: function (e, data) {
-                },
-                done: function (event, data) {
-                    if(!data.result.success)
-                        return false;
-                    else{
-                        ImgAccount.showResponse(data.result);
-                    }
 
-                }
-            });
-        })
     }
 
     return {

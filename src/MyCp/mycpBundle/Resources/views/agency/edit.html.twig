@@ -200,19 +200,19 @@
                 </thead>
                 <tbody>
                 {% if hastour %}
-                {% for own in agency %}
+                {% for own in touroperators %}
 
                     <tr>
 
-                        <td>{{ own.touroperador }} {{ own.touroperador_last_name }}</td>
-                        <td>{{ own.user_email }}</td>
-                        <td>{{ own.user_phone }}, {{ own.contact_mobile }}</td>
+                        <td>{{ own.getUserUserName() }} {{ own.getUserLastName }}</td>
+                        <td>{{ own.getUserEmail() }}</td>
+                        <td>{{ own.getUserPhone() }}</td>
 
 
 
                         <td style="text-align: right">
 
-                          <a class="btn btn-mini btn-danger desactivate" href="{{ path('mycp_delete_touroperator_agency',{'id':own.touroperador_id,'idagency':own.id}) }}" title="Eliminar - {{own.touroperador}}"><i class="icon-trash"></i></a>
+                          <a class="btn btn-mini btn-danger desactivate" href="{{ path('mycp_delete_touroperator_agency',{'idmaster': responsable.touroperador_id,'idslave':own.getUserId(),'idagency':id_agency}) }}" title="Eliminar - {{own.getUserUserName()}}"><i class="icon-trash"></i></a>
                         </td>
                     </tr>
 
