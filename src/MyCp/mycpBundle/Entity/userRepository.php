@@ -609,14 +609,18 @@ class userRepository extends EntityRepository
 
 
     public function getAllTourOperators(array $touroperators,user $user){
+     if(!in_array($user,$touroperators)) {
+         array_push($touroperators, $user);
+     }
      $tem_tours= $user->getChildrens();
      foreach ($tem_tours as $child){
+      if(!in_array($child,$touroperators)){
       array_push($touroperators,$child);
       if(count($child->getChildrens())>0){
          $result= $this->getAllTourOperators($touroperators,$child);
          $touroperators=$result;
       }
-     }
+     }}
      return $touroperators;
 
 
