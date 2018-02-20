@@ -193,7 +193,12 @@ class paTravelAgencyRepository extends EntityRepository
           ag.phone as ag_phone,
           ag.phoneAux as ag_phone_aux,
           ag.email as contact_mail,
-         
+          us.user_id as touroperador_id,
+          us.user_user_name as touroperador,
+          
+          us.user_last_name as touroperador_last_name,
+          us.user_email as user_email,
+          us.user_phone as user_phone,
           co.co_name as name_country,
           contact.phone as contact_phone,
           contact.mobile as contact_mobile,
@@ -206,7 +211,7 @@ class paTravelAgencyRepository extends EntityRepository
         FROM PartnerBundle:paTravelAgency ag
         JOIN PartnerBundle:paTourOperator pat WITH ag.id = pat.travelAgency
         JOIN PartnerBundle:paContact contact WITH ag.id = contact.travelAgency
-        JOIN mycpBundle:user us WITH pat.tourOperator = us.user_id
+        JOIN mycpBundle:user us WITH pat.tourOperator = us.mentor
         JOIN mycpBundle:country co WITH co.co_id = ag.country
        
         WHERE ag.id = :filter_id
@@ -251,7 +256,7 @@ class paTravelAgencyRepository extends EntityRepository
         FROM PartnerBundle:paTravelAgency ag
         JOIN PartnerBundle:paTourOperator pat WITH ag.id = pat.travelAgency
         JOIN PartnerBundle:paContact contact WITH ag.id = contact.travelAgency
-        JOIN mycpBundle:user us WITH pat.tourOperator = us.user_id
+        JOIN mycpBundle:user us WITH pat.tourOperator = us.mentor
         JOIN mycpBundle:country co WITH co.co_id = ag.country
        
         WHERE us.user_id = :filter_id

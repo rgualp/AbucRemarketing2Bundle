@@ -103,10 +103,13 @@ class paInvoiceRepository extends EntityRepository {
             $gen_res_id = $reservation['gen_res_id'];
             $user_id = $reservation['user_id'];
             $user=$userrepo->find($user_id);
-
-            $query1->setParameter('user_id', $user->getUserId());
-
-
+            if($user->ifTouroperator()==false)
+            {
+                $query1->setParameter('user_id', $user->getUserId());
+            }
+            else{
+                $query1->setParameter('user_id', $user->getMentor());
+            }
             $query->setParameter('gen_res_id', $gen_res_id);
 
 

@@ -11,15 +11,14 @@
         <div class="row">
             <div class="col-md-2 profile-element">
                 {{include('PartnerBundle:Profile:img-account.html.twig')}}
-
                 {% if app.user.UserPhoto is not null %}
                     {% set avatar_img =  asset('uploads/userImages/'~app.user.UserPhoto.phoName) %}
                 {% else %}
                     {% set avatar_img = asset('bundles/frontend/img/user-no-photo.png') %}
                 {% endif %}
                 <div class="profile-image">
-
-                    <img id="logo_agency" src="{{ avatar_img}}" class="img dashboard-avatar" style="display: block;width: 150px;height: 80px;margin-left: 14px;top:-10px">
+                    <span class="img-circle dashboard-avatar" style="background: url({{ avatar_img}}) transparent no-repeat scroll center center / cover;display: block;width: 80px;height: 80px;margin-left: 14px;top:-10px">
+                    </span>
                 </div>
             </div>
             <div class="col-md-2">
@@ -109,41 +108,7 @@
 </div>
 <script  type="text/javascript">
     //Start ImgAccount
-//    ImgAccount.init();
-    $(document).ready(
-        $('#img-file').on('click',function(){
-
-            $('#imputfile').trigger('click');
-
-        }),
-        $('#imputfile').on('change',function () {
-            var form = $('#image-upload-form');
-
-            form.fileupload({
-                url: form.attr('action'),
-                type: 'POST',
-                datatype: 'xml',
-                add: function (event, data) {
-                    data.submit();
-
-                },
-                progress: function (e, data) {
-                },
-                fail: function (e, data) {
-                },
-                done: function (event, data) {
-                    if(!data.result.success)
-                        return false;
-                    else{
-                        $('#logo_agency').attr('src', event.target.result);
-                        ImgAccount.showResponse(data.result);
-                    }
-
-                }
-            });
-            }
-        )
-    )
+    ImgAccount.init();
 
     $(".form-agency").validate({
         submitHandler: function(form) {

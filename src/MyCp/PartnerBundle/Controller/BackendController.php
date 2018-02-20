@@ -38,9 +38,16 @@ class BackendController extends Controller
         $user = $this->getUser();
         $userrepo= $em->getRepository('mycpBundle:user');
         $touroperators= array();
-        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
-        $travelAgency = $tourOperator->getTravelAgency();
-
+        if($user->ifTouroperator()==true)
+        {
+            $mentor=$user->getMentor();
+            $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $mentor->getUserId()));
+            $travelAgency = $tourOperator->getTravelAgency();
+        }
+        else {
+            $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+            $travelAgency = $tourOperator->getTravelAgency();
+        }
         $packageService = $this->get("mycp.partner.package.service");
         $isSpecialPackage = $packageService->isSpecialPackageFromAgency($travelAgency);
         $form = ($isSpecialPackage) ? $this->createForm(new paReservationExtendedType($this->get('translator'), $travelAgency)) : $this->createForm(new paReservationType($this->get('translator'), $travelAgency));
@@ -103,9 +110,12 @@ class BackendController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-
-        $user = $this->getUser();
-
+        if(!$this->getUser()->ifTouroperator()){
+            $user = $this->getUser();
+        }
+        else{
+            $user = $this->getUser()->getMentor();
+        }
         $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
 
         $packageService = $this->get("mycp.partner.package.service");

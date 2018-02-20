@@ -185,7 +185,7 @@ class generalReservationRepository extends EntityRepository {
                     WHERE pard.reservationDetail = :gen_res_id";
         $query = $em->createQuery($queryStr);
         $query->setMaxResults(1);
-        $queryStr1 = "SELECT ag.name,ag.id, packt.name as packname, u.user_id
+        $queryStr1 = "SELECT ag.name,ag.id, packt.name as packname
                     FROM PartnerBundle:paTourOperator tour
                     JOIN tour.travelAgency ag
                     JOIN PartnerBundle:paAgencyPackage pack WITH pack.travelAgency = ag.id
@@ -203,10 +203,13 @@ class generalReservationRepository extends EntityRepository {
             $gen_res_id = $reservation['gen_res_id'];
             $user_id = $reservation['user_id'];
             $user=$userrepo->find($user_id);
-
-            $query1->setParameter('user_id', $user->getUserId());
-
-
+            if($user->ifTouroperator()==false)
+            {
+                $query1->setParameter('user_id', $user->getUserId());
+            }
+            else{
+                $query1->setParameter('user_id', $user->getMentor());
+            }
             $query->setParameter('gen_res_id', $gen_res_id);
 
             $r = $query->getArrayResult();
@@ -233,7 +236,7 @@ class generalReservationRepository extends EntityRepository {
                     }
                     else{
                         $data[$key]['ag_id'] = $agency['id'];
-                        $data[$key]['tour_id']=$agency['user_id'];
+
                         $data[$key]['ag_name'] = $agency['name'];
 
                     }
@@ -241,30 +244,18 @@ class generalReservationRepository extends EntityRepository {
 
 
                 if(count($array_agency)!=0){
-                $touoperators=array();
-
                 foreach ($array_agency as $agname){
 
-                   $agencyrepo=$em->getRepository("PartnerBundle:paTravelAgency")->find($agname);
-                   $temp=$em->getRepository("mycpBundle:user")->getAllTourOperators($touoperators,$agencyrepo->getTourOperators()[0]->getTourOperator());
-                   if(count($touoperators)>0){
-                       array_merge($touoperators,$temp);
-                   }
-                   else{
-                       $touoperators=$temp;
-
-                   }
-
-
-
-                }
-                    if(!in_array( $userrepo->find($data[$key]['tour_id']) ,$touoperators ) ) {
+                    if($agency['id']!=$agname&& !in_array( $agency['id'] ,$array_agency ) ) {
 
                         unset($data[$key]);
                         continue;
 
 
                     }
+
+
+                }
 
             }
 
@@ -410,11 +401,13 @@ class generalReservationRepository extends EntityRepository {
             $query->setParameter('gen_res_id', $gen_res_id);
             $user_id = $reservation['user_id'];
             $user=$userrepo->find($user_id);
-
+            if($user->ifTouroperator()==false)
+            {
                 $query1->setParameter('user_id', $user->getUserId());
-
-
-
+            }
+            else{
+                $query1->setParameter('user_id', $user->getMentor());
+            }
             $r = $query->getArrayResult();
             $r1=$query1->getArrayResult();
             if(count($r)){
@@ -3721,12 +3714,12 @@ order by LENGTH(o.own_mcp_code), o.own_mcp_code";
 
         $qb->join('r.gen_res_user_id', 'u');
 
-        if(count($touroperators) > 0){
+        if(sizeof($touroperators) > 0){
 
-            foreach ($touroperators as $user){
-                $qb->orWhere('(u.user_id = '.$user->getUserId().')');
+            foreach ($touroperators as $mentor){
+                $qb->orWhere('(u.user_id = '.$mentor['user_id'].')');
 //                $qb->andWhere('u.user_id = :user_id'.$i);
-
+//                $qb->setParameter('user_id', $mentor);
 //                $i++;
             }
 

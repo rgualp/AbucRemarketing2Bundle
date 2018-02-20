@@ -23,10 +23,16 @@ class ProfileController extends Controller
     public function profileAgencyAction(){
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
-
-        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
-        $agency = $tourOperator->getTravelAgency();
-
+        if($user->ifTouroperator()==true)
+        {
+            $mentor=$user->getMentor();
+            $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $mentor->getUserId()));
+            $agency = $tourOperator->getTravelAgency();
+        }
+        else {
+            $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+            $agency = $tourOperator->getTravelAgency();
+        }
 //        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
 //        $agency = $tourOperator->getTravelAgency();
         $form = $this->createForm(new paTravelAgencyType($this->get('translator'),true),$agency);
