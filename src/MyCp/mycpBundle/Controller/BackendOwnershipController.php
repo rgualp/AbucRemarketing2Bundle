@@ -70,14 +70,12 @@ class BackendOwnershipController extends Controller
         if ($request->getMethod() == 'POST') {
             $post = $request->request->getIterator()->getArrayCopy();
             $files = $request->files->get('images');
-
             if ($files['files'][0] === null) {
                 $data['error'] = 'Debe seleccionar una imagen.';
             } else {
                 $count_errors = 0;
                 foreach ($files['files'] as $file) {
                     if ($file->getClientMimeType() != 'image/jpeg' && $file->getClientMimeType() != 'image/gif' && $file->getClientMimeType() != 'image/png') {
-//$file->getClientSize()< 102400
                         $data['error'] = 'Extensión de fichero no admitida.';
                         $count_errors++;
                         break;
@@ -98,7 +96,12 @@ class BackendOwnershipController extends Controller
                     $insertErrors = 0;
                     foreach ($files['files'] as $file) {
                         try {
+                            $ownershipPhoto = $em->getRepository('mycpBundle:ownershipPhoto')->getPhotosByIdOwnership($id_ownership);
+                            foreach ($ownershipPhoto as $photo) {
+                                $photo->getOwnPhoPhoto()->setFront(false);
+                            }
                             $em->getRepository("mycpBundle:ownershipPhoto")->createPhotoFromRequest($ownership, $file, $this->container, $post);
+                            $em->getRepository("mycpBundle:ownershipPhoto")->updatePrincipalPhoto($ownership);
                         } catch (\Exception $e) {
                             $insertErrors++;
                             $message = 'Ha ocurrido un error. ' . $e->getMessage();
@@ -231,6 +234,29 @@ class BackendOwnershipController extends Controller
         $service_log = $this->get('log');
         $service_log->saveLog($ownership->getLogDescription() . ' (Fotos)', BackendModuleName::MODULE_OWNERSHIP, log::OPERATION_DELETE, DataBaseTables::OWNERSHIP_PHOTO);
 
+        return $this->redirect($this->generateUrl('mycp_list_photos_ownership', array('id_ownership' => $id_ownership)));
+    }
+
+    public function setPhotoCoverPageAction($id_ownership, $id_photo)
+    {
+//
+//        $service_security = $this->get('Secure');
+//        $service_security->verifyAccess();
+        $em = $this->getDoctrine()->getManager();
+        $ownershipPhoto = $em->getRepository('mycpBundle:ownershipPhoto')->getPhotosByIdOwnership($id_ownership);
+        foreach ($ownershipPhoto as $photo) {
+            if ($photo->getOwnPhoPhoto()->getPhoId() == $id_photo) {
+                $photo->getOwnPhoPhoto()->setFront(true);
+            } else
+                $photo->getOwnPhoPhoto()->setFront(false);
+        }
+        $em->flush();
+        $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
+        $em->getRepository("mycpBundle:ownershipPhoto")->updatePrincipalPhoto($ownership);
+        $message = 'Foto de portada actualizada satisfactoriamente.';
+        $this->get('session')->getFlashBag()->add('message_ok', $message);
+        $service_log = $this->get('log');
+        $service_log->saveLog($ownership->getLogDescription() . ' (Fotos)', BackendModuleName::MODULE_OWNERSHIP, log::OPERATION_UPDATE, DataBaseTables::PHOTO);
         return $this->redirect($this->generateUrl('mycp_list_photos_ownership', array('id_ownership' => $id_ownership)));
     }
 
@@ -1643,14 +1669,7 @@ class BackendOwnershipController extends Controller
         $ownerships = $paginator->paginate($em->getRepository('mycpBundle:ownership')->getAll(
             $filter_code, $filter_active, $filter_category, $filter_province, $filter_municipality, $filter_destination, $filter_type, $filter_name, $filter_saler, $filter_visit_date, $filter_other, $filter_commission, true, $filter_start_creation_date, $filter_end_creation_date
         ))->getResult();
-        /* $data = array();
-          foreach ($ownerships as $ownership) {
-          $photos = $em->getRepository('mycpBundle:ownershipPhoto')->findBy(array('own_pho_own' => $ownership->getOwnId()));
-          $data[$ownership->getOwnId() . '_photo_count'] = count($photos);
-          } */
 
-//        $service_log = $this->get('log');
-//        $service_log->saveLog('Visit', BackendModuleName::MODULE_OWNERSHIP);
         return $this->render('mycpBundle:ownership:list_hot.html.twig', array(
             'ownerships' => $ownerships,
             //'photo_count' => $data,
@@ -1695,10 +1714,10 @@ class BackendOwnershipController extends Controller
             }
         }
 
-        return new JsonResponse([
-            'success' => true,
-            'ownership' => $ownership->getOwnMcpCode()
-        ]);
+        return new JsonResponse(array(
+                'success' => true,
+                'ownership' => $ownership->getOwnMcpCode())
+        );
     }
 
     public function execute_all_icalAction(Request $request)
@@ -1710,9 +1729,9 @@ class BackendOwnershipController extends Controller
             $this->execute_ical($ownership['own_id']);
         }
 
-        return new JsonResponse([
+        return new JsonResponse(array(
             'success' => true,
             'ownership' => count($ownerships)
-        ]);
+        ));
     }
 }

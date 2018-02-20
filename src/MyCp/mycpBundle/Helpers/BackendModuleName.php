@@ -82,6 +82,7 @@ class DataBaseTables {
     const DESTINATION_PHOTO = "destinationPhoto";
     const OWNERSHIP = "ownership";
     const OWNERSHIP_PHOTO = "ownershipPhoto";
+    const PHOTO = "photo";
     const ROOM = "room";
     const BATCH_PROCESS = "batchProcess";
     const UNAVAILABILITY_DETAILS = "unavailabilityDetails";

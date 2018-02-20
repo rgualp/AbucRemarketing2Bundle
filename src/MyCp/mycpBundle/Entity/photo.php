@@ -50,6 +50,30 @@ class photo
 
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(name="cover", type="boolean", nullable=true)
+     */
+    private $front = false;
+
+    /**
+     * @return bool
+     */
+    public function isFront()
+    {
+        return $this->front;
+    }
+
+    /**
+     * @param bool $front
+     */
+    public function setFront($front)
+    {
+        $this->front = $front;
+    }
+
+
+    /**
      * Get pho_id
      *
      * @return integer 
