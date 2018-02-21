@@ -653,7 +653,7 @@ class BookingService extends Controller
         return $this->render('PartnerBundle:Voucher:voucherReservation.html.twig',$result);
     }
 
-    public function getPrintableBookingConfirmationForClientResponsePartner($bookingId, $user,$idClient){
+    public function getPrintableBookingConfirmationForClientResponsePartner($bookingId, $user,$idClient,$travelAgency){
         $em = $this->em;
         $repository = $em->getRepository('mycpBundle:generalReservation');
         $paginator = $repository->getReservationsPartnerByStatusArray($user->getUserId(),array(generalReservation::STATUS_RESERVED),array('booking_code'=>$bookingId, 'partner_client_id'=>$idClient),0,1000);
@@ -676,7 +676,7 @@ class BookingService extends Controller
 
         }
         $partnerClient = $em->getRepository("PartnerBundle:paClient")->find($idClient);
-        $result=array_merge($this->calculateBookingDetailsPartnerClient($bookingId,$user, $idClient),array('data'=>$paginator['data'],'bookingId'=>$bookingId,'user'=>$user,'own_res1'=>$paginator['data'],'booking'=>$booking,'user_locale'=> strtolower($user->getUserLanguage()->getLangCode()),'user_currency'=>$user->getUserCurrency(), 'client'=> $partnerClient,'destinys'=>$array_destination));
+        $result=array_merge($this->calculateBookingDetailsPartnerClient($bookingId,$user, $idClient),array('agency'=>$travelAgency->getName(),'data'=>$paginator['data'],'bookingId'=>$bookingId,'user'=>$user,'own_res1'=>$paginator['data'],'booking'=>$booking,'user_locale'=> strtolower($user->getUserLanguage()->getLangCode()),'user_currency'=>$user->getUserCurrency(), 'client'=> $partnerClient,'destinys'=>$array_destination));
 
         return $this->render('PartnerBundle:Voucher:voucherClient.html.twig',$result);
     }
@@ -972,14 +972,14 @@ class BookingService extends Controller
         return $pdfFilePath;
     }
 
-    public function createBookingVoucherForClientsIfNotExistsPartner($bookingId, $user,$replaceExistingVoucher = false)
+    public function createBookingVoucherForClientsIfNotExistsPartner($bookingId, $user,$travelAgency,$replaceExistingVoucher = false)
     {
         $pdfFiles = array();
         $clients = $this->em->getRepository("PartnerBundle:paClient")->getClientsFromBooking($bookingId, $user);
 
         foreach($clients as $client)
         {
-            $response = $this->getPrintableBookingConfirmationForClientResponsePartner($bookingId,$user, $client["id"]);
+            $response = $this->getPrintableBookingConfirmationForClientResponsePartner($bookingId,$user, $client["id"],$travelAgency);
 
             // dump($response);die;
             $pdfFilePath = $this->getVoucherFilePathByUserBookingClient($user->getUserId(), $bookingId, $client["id"]);
@@ -1306,7 +1306,7 @@ class BookingService extends Controller
         }
 
         $pdfFilePath = $this->createBookingVoucherIfNotExistingPartner($bookingId,$user);
-        $pdfClientFilePaths = $this->createBookingVoucherForClientsIfNotExistsPartner($bookingId, $user);
+        $pdfClientFilePaths = $this->createBookingVoucherForClientsIfNotExistsPartner($bookingId, $user,$travelAgency);
 
         $filePaths = array_merge(array($pdfFilePath), $pdfClientFilePaths);
         $zipFileName = $this->zipService->createZipFile("vouchers_".$bookingId."_".$user->getUserId().".zip", $filePaths, $this->voucherDirectoryPath);
@@ -1417,6 +1417,8 @@ class BookingService extends Controller
                     }
                 }
             }
+
+            if(strpos($travelAgency->getEmail(), 'cubatravelnetwork')!== false){
             try {
                 $emailService->sendEmailMultiplesAttach(
                     $subject . ' BR:'. $references,
@@ -1434,7 +1436,7 @@ class BookingService extends Controller
                     'EMAIL: Could not send Email to agency contact. Booking ID: %s, Email: %s',
                     $bookingId, $userEmail));
                 $logger->error($e->getMessage());
-            }
+            }}
         }
     }
 
@@ -1622,7 +1624,7 @@ class BookingService extends Controller
         }
 
         $pdfFilePath = $this->createBookingVoucherIfNotExistingPartner($bookingId,$user);
-        $pdfClientFilePaths = $this->createBookingVoucherForClientsIfNotExistsPartner($bookingId, $user);
+        $pdfClientFilePaths = $this->createBookingVoucherForClientsIfNotExistsPartner($bookingId, $user,$travelAgency);
 
         $filePaths = array_merge(array($pdfFilePath), $pdfClientFilePaths);
         $zipFileName = $this->zipService->createZipFile("vouchers_".$bookingId."_".$user->getUserId().".zip", $filePaths, $this->voucherDirectoryPath);

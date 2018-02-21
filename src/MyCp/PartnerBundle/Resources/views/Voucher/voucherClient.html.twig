@@ -68,7 +68,7 @@
         <td>{{ client.fullname }}</td>
     </tr>
     <tr>
-        <td><b>Cuba Travel Network References{#{"label.name.agency"|trans({}, "messages", user_locale)}#}:</b></td>
+        <td><b>{{ agency }}-References{#{"label.name.agency"|trans({}, "messages", user_locale)}#}:</b></td>
         <td colspan="3">
             {% set own1 = own_res[0] %}
            {{ own_res_rooms[own1.id][0].reference }}
@@ -212,7 +212,7 @@
 </table>
 <br>
 <br>
-
+{% if agency=='Cuba Travel Network' %}
 <h3 class="h-green h-green-line"  style="padding-bottom: 5px">
     <img src="bundles/frontend/img/map-signal.png" alt="{{"House" | trans}}">
     CONTACT US
@@ -257,7 +257,7 @@
     </tr>
 </table>
 
-
+{% endif %}
 
 
 </body>

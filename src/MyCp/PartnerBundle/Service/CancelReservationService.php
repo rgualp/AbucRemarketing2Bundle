@@ -194,9 +194,12 @@ class CancelReservationService extends Controller
             'refund' => $agencyRefund
         ));
         try {
-            $service_email->sendEmail(
-                "Cancelación de Agencia", 'reservation@mycasaparticular.com', 'MyCasaParticular.com', 'facturas@cubatravelnetwork.com', $emailBody
-            );
+            if(strpos($travelAgency->getEmail(), 'cubatravelnetwork')!== false) {
+
+                $service_email->sendEmail(
+                    "Cancelación de Agencia", 'reservation@mycasaparticular.com', 'MyCasaParticular.com', 'facturas@cubatravelnetwork.com', $emailBody
+                );
+            }
             $service_email->sendEmail(
                 "Cancelación de Agencia", 'reservation@mycasaparticular.com', 'MyCasaParticular.com', 'reservation@mycasaparticular.com', $emailBody
             );
