@@ -1,6 +1,6 @@
 
 frontend_userCasa_home:
-    locales:  { en: "/accommodation", es: "/alojamiento", de: "/unterkunft", fr: "/unterkunft", it: "/unterkunft" }
+    locales:  { en: "/accommodation", es: "/alojamiento", de: "/unterkunft", fr: "/logement", it: "/alloggio" }
     defaults: { _controller: FrontEndBundle:UserCasa:home}
 
 frontend_userCasa_activateAccount:
