@@ -15,7 +15,7 @@ class Version20180222104858 extends AbstractMigration
      */
     public function up(Schema $schema)
     {
-        $this->addSql("ALTER TABLE photo ADD front TINYINT(1) DEFAULT NULL;");
+        $this->addSql("ALTER TABLE photo ADD cover TINYINT(1) DEFAULT NULL;");
 
     }
 
