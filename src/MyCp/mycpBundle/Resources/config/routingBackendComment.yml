@@ -34,6 +34,6 @@ mycp_change_positive:
     pattern:  /change-positive
     defaults: { _controller: mycpBundle:BackendComment:changePositiveCallback}
 
-mycp_replicate_comments:
-    path:  /replicate
-    defaults: { _controller: mycpBundle:BackendComment:replicateComment}
+#mycp_replicate_comments:
+#    path:  /replicate
+#    defaults: { _controller: mycpBundle:BackendComment:replicateComment}

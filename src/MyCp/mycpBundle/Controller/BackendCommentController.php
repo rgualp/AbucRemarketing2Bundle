@@ -361,43 +361,43 @@ class BackendCommentController extends Controller
 
         return new Response($commentContent, 200);
     }
-
-    public function replicateCommentAction(Request $request)
-    {
-        $origin_code = $request->get('origin');
-        $destination_code = $request->get('destination');
-        $em = $this->getDoctrine()->getManager();
-        $origin = $em->getRepository('mycpBundle:ownership')->createQueryBuilder('ownership')->where('ownership.own_mcp_code = :code')->setParameter('code', $origin_code)->getQuery()->getSingleResult();
-        $destination = $em->getRepository('mycpBundle:ownership')->createQueryBuilder('ownership')->where('ownership.own_mcp_code = :code')->setParameter('code', $destination_code)->getQuery()->getSingleResult();
-        if (!is_null($origin) && !is_null($destination)) {
-            $originComments = $origin->getComments();
-            if (!is_null($originComments) && count($originComments) > 0) {
-                foreach ($originComments as $comment) {
-                    $newComment = new comment();
-                    $newComment->setComByClient($comment->getComByClient());
-                    $newComment->setComComments($comment->getComComments());
-                    $newComment->setComOwnership($destination);
-                    $newComment->setComUser($comment->getComUser());
-                    $newComment->setComDate($comment->getComDate());
-                    $newComment->setComPublic($comment->getComPublic());
-                    $newComment->setComRate($comment->getComRate());
-                    $newComment->setPositive($comment->getPositive());
-                    $em->persist($newComment);
-                    $em->flush();
-                }
-
-            }
-
-            $message = 'Comentarios replicados satisfactoriamente.';
-            $message_type = 'message_ok';
-            $success = true;
-        } else {
-            $message = 'Verifique los codigos de los alojamientos.';
-            $message_type = 'message_error_main';
-            $success = false;
-        }
-        $this->get('session')->getFlashBag()->add($message_type, $message);
-        return new JsonResponse(array('success' => $success));
-
-    }
+//
+//    public function replicateCommentAction(Request $request)
+//    {
+//        $origin_code = $request->get('origin');
+//        $destination_code = $request->get('destination');
+//        $em = $this->getDoctrine()->getManager();
+//        $origin = $em->getRepository('mycpBundle:ownership')->createQueryBuilder('ownership')->where('ownership.own_mcp_code = :code')->setParameter('code', $origin_code)->getQuery()->getSingleResult();
+//        $destination = $em->getRepository('mycpBundle:ownership')->createQueryBuilder('ownership')->where('ownership.own_mcp_code = :code')->setParameter('code', $destination_code)->getQuery()->getSingleResult();
+//        if (!is_null($origin) && !is_null($destination)) {
+//            $originComments = $origin->getComments();
+//            if (!is_null($originComments) && count($originComments) > 0) {
+//                foreach ($originComments as $comment) {
+//                    $newComment = new comment();
+//                    $newComment->setComByClient($comment->getComByClient());
+//                    $newComment->setComComments($comment->getComComments());
+//                    $newComment->setComOwnership($destination);
+//                    $newComment->setComUser($comment->getComUser());
+//                    $newComment->setComDate($comment->getComDate());
+//                    $newComment->setComPublic($comment->getComPublic());
+//                    $newComment->setComRate($comment->getComRate());
+//                    $newComment->setPositive($comment->getPositive());
+//                    $em->persist($newComment);
+//                    $em->flush();
+//                }
+//
+//            }
+//
+//            $message = 'Comentarios replicados satisfactoriamente.';
+//            $message_type = 'message_ok';
+//            $success = true;
+//        } else {
+//            $message = 'Verifique los codigos de los alojamientos.';
+//            $message_type = 'message_error_main';
+//            $success = false;
+//        }
+//        $this->get('session')->getFlashBag()->add($message_type, $message);
+//        return new JsonResponse(array('success' => $success));
+//
+//    }
 }
