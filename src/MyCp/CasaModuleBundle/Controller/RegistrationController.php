@@ -272,6 +272,7 @@ class RegistrationController extends Controller
 
                     $this->get('session')->getFlashBag()->add('message_ok', $message);
                     $this->get('session')->getFlashBag()->add('message_ok', 'Para autenticarse utilice el código de su casa: '.$ownship->getOwnMcpCode());
+                    $this->get('session')->set('activatingUser', true);
                     return $this->redirect($this->generateUrl('my_cp_casa_login'));
                 }
             }
