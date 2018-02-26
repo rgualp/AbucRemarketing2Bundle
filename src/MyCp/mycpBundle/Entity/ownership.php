@@ -3251,7 +3251,7 @@ class ownership
 
     public function isRentalTypeFull()
     {
-        return self::ACCOMMODATION_RENTAL_TYPE_FULL == $this->own_type ? true : false;
+        return self::ACCOMMODATION_RENTAL_TYPE_FULL == $this->getOwnRentalType() ? true : false;
     }
 
 
