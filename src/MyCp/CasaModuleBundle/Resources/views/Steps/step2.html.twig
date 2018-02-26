@@ -190,6 +190,7 @@
                                 <div class="col-sm-1 col-xs-1 p-0">
                                     <i class="glyphicons globe form-icon pull-right"></i>
                                 </div>
+
                                 <div class="col-sm-10 col-xs-11">
                                     {% if ownership.ownGeolocateX and  ownership.ownGeolocateY%}
                                         <span id="label_ownership_step1_geolocate" class="font-blue step-span">{{ ownership.ownGeolocateY|number_format(4) }}, {{ ownership.ownGeolocateX|number_format(4) }}</span>
@@ -201,6 +202,9 @@
                                     {% endif %}
                                 </div>
 
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-xs-12" style="color: red">
+                            Usted puede ubicar su alojamiento en el mapa, arrastrando el puntero hacia la posición exacta de su alojamiento o escriba las coordenada de posicionamiento de su alojamiento(x,y).
                         </div>
                         <div class="col-md-12 col-xs-12 p-0 m-t-10">
                             <div id="map_canvas">
