@@ -5,13 +5,7 @@
 var Step6 = function () {
 
     var collectionHolderPhotos;
-    // setup an "add a course" link
-    //var addCourseLink = $('<a id="add-course" href="#" class="btn-add-link">' +
-    //    '<i class="fa fa-plus-circle"></i>' +
-    //    '</a>');
-    //
-    //$('#btnAddDishes').append(addCourseLink);
-    var addPhotoLink=$('#addPhotoLink');
+    var addPhotoLink = $('#addPhotoLink');
     var newPhotoLi = $('<li></li>');
 
     var inits = function () {
@@ -20,7 +14,7 @@ var Step6 = function () {
 
         // add a delete course link to all of the existing tag form li elements
         collectionHolderPhotos.find('li').each(function (index) {
-            addPhotoFormDeleteLink($(this),index);
+            addPhotoFormDeleteLink($(this), index);
         });
 
         // add the "add a Photo" anchor and li to the Photos ul
@@ -35,29 +29,20 @@ var Step6 = function () {
             e.preventDefault();
 
             // add a new tag form (see next code block)
-            if(collectionHolderPhotos.find('li').length>51){
+            if (collectionHolderPhotos.find('li').length > 51) {
                 swal("Alcanzó el máximo de imagenes permitidas", "", "error");
             }
-            else{
+            else {
                 addPhotoForm(collectionHolderPhotos, newPhotoLi);
                 var temp = collectionHolderPhotos.find('li').length - 2;
-                $("#mycp_mycpbundle_ownership_step_photos_photos_"+temp+"_file").click();
+                $("#mycp_mycpbundle_ownership_step_photos_photos_" + temp + "_file").click();
             }
-            //$('#form_type_sabrus_event_new_event_menu_Photos_'+temp+'_title').focus();
-            //$('#form_type_sabrus_event_new_event_menu_Photos_'+temp+'_title').rules( "add", {
-            //    required: false
-            //});
-            //$('#form_type_sabrus_event_new_event_menu_Photos_'+temp+'_description').rules( "add", {
-            //    required: false
-            //});
 
         });
-        //addPhotoForm(collectionHolderPhotos, newPhotoLi);
         onclickBtnSavePhoto();
     }
 
     function addPhotoForm(collectionHolder, newLinkLi) {
-
 
         // Get the data-prototype explained earlier
         var prototype = collectionHolder.data('prototype');
@@ -80,32 +65,29 @@ var Step6 = function () {
         addPhotoFormDeleteLink(newFormLi, index);
 
     }
-    $(document).on('mouseover', 'li.col-sm-4', function(){
-        //alert('in');
-        $( this ).find('.btn-minus-link').removeClass('hide');
-        $( this ).find('.set-picture-link').removeClass('hide');
-        $( this ).find('.picture-link-m').css('box-shadow','5px 5px 10px rgba(0, 0, 0, 0.4)');
-        $( this ).find('.picture-link').css('box-shadow','5px 5px 10px rgba(0, 0, 0, 0.4)');
+
+    $(document).on('mouseover', 'li.col-sm-4', function () {
+        $(this).find('.btn-minus-link').removeClass('hide');
+        $(this).find('.set-picture-link').removeClass('hide');
+        $(this).find('.front-picture-link').removeClass('hide');
+
+        $(this).find('.picture-link-m').css('box-shadow', '5px 5px 10px rgba(0, 0, 0, 0.4)');
+        $(this).find('.picture-link').css('box-shadow', '5px 5px 10px rgba(0, 0, 0, 0.4)');
     });
-    $(document).on('mouseleave', 'li.col-sm-4', function(){
-        //alert('out');
-        $( this ).find('.btn-minus-link').addClass('hide');
-        $( this ).find('.set-picture-link').addClass('hide');
-        $( this ).find('.picture-link-m').css('box-shadow','none');
-        $( this ).find('.picture-link').css('box-shadow','none');
+    $(document).on('mouseleave', 'li.col-sm-4', function () {
+        $(this).find('.btn-minus-link').addClass('hide');
+        $(this).find('.set-picture-link').addClass('hide');
+        $(this).find('.front-picture-link').addClass('hide');
+
+        $(this).find('.picture-link-m').css('box-shadow', 'none');
+        $(this).find('.picture-link').css('box-shadow', 'none');
     });
-    //$( "div.enterleave" )
-    //    .mouseenter(function() {
-    //        n += 1;
-    //        $( this ).find( "span" ).text( "mouse enter x " + n );
-    //    })
-    //    .mouseleave(function() {
-    //        $( this ).find( "span" ).text( "mouse leave" );
-    //    });
+
+
     function addPhotoFormDeleteLink(mediaFormLi, index) {
         index += 1;
         var inde;
-        if(index>=10)
+        if (index >= 10)
             inde = $('<h4 style="padding: 40px 9px 15px;">' + index + '</h4>');
         else
             inde = $('<h4>' + index + '</h4>');
@@ -115,27 +97,32 @@ var Step6 = function () {
         var modFormA = $('<a class="btn btn-primary set-picture-link hide">' +
             'Cambiar' +
             '</a>');
+        var frontForm = $('<a class="btn btn-primary front-picture-link hide" style="position: absolute; left: 30%; top: 58px; box-shadow: 0 0 0 #4e7f28 inset, 0 5px 0 0 #4e7f28, 0 0 0 #999999;">' +
+            'Portada' +
+            '</a>');
+
         mediaFormLi.append(modFormA);
         mediaFormLi.append(removeFormA);
-        //mediaFormLi.append(inde);
+        mediaFormLi.append(frontForm);
+
         modFormA.on('click', function (e) {
             e.preventDefault();
             //alert('epa');
-            var pos=parseInt(index)-1;
-            var name='mycp_mycpbundle_ownership_step_photos[photos]['+pos+'][file]';
-            var nameD='mycp_mycpbundle_ownership_step_photos[photos]['+pos+'][description]';
-            $("input[name='"+name+"']").click();
-            $("input[name='"+nameD+"']").removeClass('hide');
-            $("input[name='"+nameD+"']").prev().removeClass('hide');
-            $("input[name='"+nameD+"']").parent().find('span.step-span').addClass('hide');
+            var pos = parseInt(index) - 1;
+            var name = 'mycp_mycpbundle_ownership_step_photos[photos][' + pos + '][file]';
+            var nameD = 'mycp_mycpbundle_ownership_step_photos[photos][' + pos + '][description]';
+            $("input[name='" + name + "']").click();
+            $("input[name='" + nameD + "']").removeClass('hide');
+            $("input[name='" + nameD + "']").prev().removeClass('hide');
+            $("input[name='" + nameD + "']").parent().find('span.step-span').addClass('hide');
 
         });
-          removeFormA.on('click', function (e) {
+        removeFormA.on('click', function (e) {
             // prevent the link from creating a "#" on the URL
             e.preventDefault();
 
             // remove the li for the tag form
-            if(mediaFormLi.hasClass('uploaded')){
+            if (mediaFormLi.hasClass('uploaded')) {
                 swal({
                     title: "",
                     text: "¿Está seguro que desea eliminar la imagen seleccionada?",
@@ -148,7 +135,7 @@ var Step6 = function () {
                     closeOnConfirm: true
                 }, function () {
                     HoldOn.open();
-                    var url=mediaFormLi.data('url');
+                    var url = mediaFormLi.data('url');
                     $.post(url,
                         function (success) {
                             if (success == 'Ok') {
@@ -167,69 +154,109 @@ var Step6 = function () {
 
                 });
             }
-            else{
-            mediaFormLi.remove();
+            else {
+                mediaFormLi.remove();
             }
         });
+        frontForm.on('click', function (e) {
+            e.preventDefault();
+            if (mediaFormLi.hasClass('uploaded')) {
+                swal({
+                    title: "",
+                    text: "¿Está seguro que desea establecer la imagen como portada?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#e94b3d",
+                    cancelButtonColor: "#64a433",
+                    confirmButtonText: "Sí",
+                    cancelButtonText: "No",
+                    closeOnConfirm: true
+                }, function () {
+                    HoldOn.open();
+                    var url = mediaFormLi.data('cover');
+                    var refresh = mediaFormLi.data('refresh');
+                    $.post(url,
+                        function (success) {
+                            if (success) {
+                                toastr.info("Foto de portada actualizada satisfactoriamente.");
+                                window.location = refresh;
+                            }
+                            else {
+                                toastr.error('Ha ocurrido un error');
+                            }
+                        }
+                    ).fail(function () {
+                        toastr.error('Ha ocurrido un error');
+                    });
+                    HoldOn.close();
+
+                });
+            }
+
+        });
     }
-   //$(document).on('click', '.picture-link', function(){
-   // var name=$(this).data('input');
-   //    $("input[name='"+name+"']").click();
-   //});
-    $(document).on('change', '.photo-input', function(){
-       var fileName = $(this).val();
-        readURL(''+$(this).attr('id'));
-   });
+
+
+    $(document).on('change', '.photo-input', function () {
+        var fileName = $(this).val();
+        readURL('' + $(this).attr('id'));
+    });
+
     function readURL(input) {
-        if ($('#'+input)[0].files) {
+        if ($('#' + input)[0].files) {
 
             var reader = new FileReader();
             var res = input.replace("_file", "");
             reader.onload = function (e) {
-                $('#thumb-'+res)
+                $('#thumb-' + res)
                     .attr('src', e.target.result);
-                    //.width('100%')
-                    //.height('100%');
-                $('#thumb-'+res).next().addClass('hide');
-                $('#thumb-'+res).removeClass('hide');
+                //.width('100%')
+                //.height('100%');
+                $('#thumb-' + res).next().addClass('hide');
+                $('#thumb-' + res).removeClass('hide');
             };
 
-            reader.readAsDataURL($('#'+input)[0].files[0]);
+            reader.readAsDataURL($('#' + input)[0].files[0]);
             //console.log(reader);
             //alert(reader.readAsDataURL(input.files[0]));
-        }}
+        }
+    }
 
-    var saveStep6=function(index){
-        if(index==6) {
+    var saveStep6 = function (index) {
+        if (index == 6) {
             HoldOn.open();
             var _url = $('#mycp_mycpbundle_ownership_step_photos').attr('action');
-            //var values = $('#mycp_mycpbundle_ownership_step_photos').serialize();
             var form = $('#mycp_mycpbundle_ownership_step_photos');
             if (typeof form != 'undefined') {
                 var form = document.getElementById("mycp_mycpbundle_ownership_step_photos");
-                var $envio = $.ajax({
+                $.ajax({
                     url: _url,
                     //data: values,
                     data: new FormData(form),
                     processData: false,
                     contentType: false,
                     idAccommodation: App.getOwnId(),
-                    type: 'POST'
-                });
-                $envio.error(function (data) {
-                    HoldOn.close();
-                });
-                $envio.success(function (data) {
-                    HoldOn.close();
+                    type: 'POST',
+                    success: function (data) {
+                        if (data.success) {
+                            toastr.info("Foto adicionada satisfactoriamente.");
+                        } else {
+                            toastr.error('Ha ocurrido un error');
+                        }
+                        HoldOn.close();
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        toastr.error('Ha ocurrido un error');
+                        HoldOn.close();
+                    }
                 });
 
             }
         }
     }
 
-    var onclickBtnSavePhoto=function(){
-        $('#saveStepPhotos').on('click',function(){
-            HoldOn.open();
+    var onclickBtnSavePhoto = function () {
+        $('#saveStepPhotos').on('click', function () {
             saveStep6(6);
         });
     }
@@ -237,8 +264,8 @@ var Step6 = function () {
         //main function to initiate template pages
         init: function () {
             //IMPORTANT!!!: Do not modify the call order.
-            var event=App.getEvent();
-            event.clickBtnContinueAfter.add(saveStep6,this, -1);
+            var event = App.getEvent();
+            event.clickBtnContinueAfter.add(saveStep6, this, -1);
             inits();
 
         },

@@ -13,6 +13,7 @@ use BeSimple\SoapBundle\ServiceDefinition\Annotation\Method;
 use Doctrine\Common\Collections\ArrayCollection;
 use MyCp\CasaModuleBundle\Form\ownershipStep1Type;
 use MyCp\CasaModuleBundle\Form\ownershipStepPhotosType;
+use MyCp\mycpBundle\Entity\log;
 use MyCp\mycpBundle\Entity\owner;
 use MyCp\mycpBundle\Entity\ownerAccommodation;
 use MyCp\mycpBundle\Entity\ownership;
@@ -591,6 +592,30 @@ class StepsController extends Controller
     }
 
     /**
+     * @param $id_ownership
+     * @param $id_photo
+     * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
+     * @Route(name="update_coverpage_photo", path="/photo/update_cover/{id_ownership}/{id_photo}")
+     * @Method("POST")
+     */
+    public function updateCoverPageAction($id_ownership, $id_photo)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $ownershipPhoto = $em->getRepository('mycpBundle:ownershipPhoto')->getPhotosByIdOwnership($id_ownership);
+        foreach ($ownershipPhoto as $photo) {
+            if ($photo->getOwnPhoPhoto()->getPhoId() == $id_photo) {
+                $photo->getOwnPhoPhoto()->setFront(true);
+            } else
+                $photo->getOwnPhoPhoto()->setFront(false);
+        }
+        $em->flush();
+        $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
+        $em->getRepository("mycpBundle:ownershipPhoto")->updatePrincipalPhoto($ownership);
+        return new JsonResponse(true);
+
+    }
+
+    /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response|NotFoundHttpException
      * @Route(name="show_property", path="/datos")
@@ -1002,9 +1027,9 @@ class StepsController extends Controller
         //Actualizar la frecuencia de actualizacion
         $em->getRepository("mycpBundle:accommodationCalendarFrequency")->addFrequencyByRoom($room);
         return new JsonResponse(array(
-            'success' => true,
-            "refreshPage" => ($status != 0),
-            "refreshUrl" => $this->generateUrl("my_cp_casa_module_calendar"))
+                'success' => true,
+                "refreshPage" => ($status != 0),
+                "refreshUrl" => $this->generateUrl("my_cp_casa_module_calendar"))
         );
     }
 
@@ -1343,7 +1368,7 @@ class StepsController extends Controller
         $room = $em->getRepository('mycpBundle:room')->find($id_room);
         $calendarService = $this->get('mycp.service.calendar');
         if (!is_null($room)) {
-            if ($external_url != ""){
+            if ($external_url != "") {
                 $room->setIcal($external_url);
                 $em->flush();
             }
