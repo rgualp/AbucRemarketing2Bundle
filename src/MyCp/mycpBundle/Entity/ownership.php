@@ -2463,30 +2463,6 @@ class ownership
     }
 
     /**
-     * Get ownRentalType
-     *
-     * @return string
-     */
-    public function getOwnRentalType()
-    {
-        return $this->own_rental_type;
-    }
-
-    /**
-     * Set ownRentalType
-     *
-     * @param string $ownRentalType
-     *
-     * @return ownership
-     */
-    public function setOwnRentalType($ownRentalType)
-    {
-        $this->own_rental_type = $ownRentalType;
-
-        return $this;
-    }
-
-    /**
      * Add ownDescriptionLang
      *
      * @param \MyCp\mycpBundle\Entity\ownershipDescriptionLang $ownDescriptionLang
@@ -3221,7 +3197,6 @@ class ownership
         return $this;
     }
 
-
     /**
      * Get withIcal
      *
@@ -3252,6 +3227,38 @@ class ownership
     public function isRentalTypeFull()
     {
         return self::ACCOMMODATION_RENTAL_TYPE_FULL == $this->getOwnRentalType() ? true : false;
+    }
+
+    /**
+     * Get ownRentalType
+     *
+     * @return string
+     */
+    public function getOwnRentalType()
+    {
+        return $this->own_rental_type;
+    }
+
+    /**
+     * Set ownRentalType
+     *
+     * @param string $ownRentalType
+     *
+     * @return ownership
+     */
+    public function setOwnRentalType($ownRentalType)
+    {
+        $this->own_rental_type = $ownRentalType;
+
+        return $this;
+    }
+
+    public function getPrinicipalPhotoName()
+    {
+        if (!is_null($this->data) && !is_null($this->data->getPrincipalPhoto()) && !is_null($this->data->getPrincipalPhoto()->getOwnPhoPhoto())) {
+            return $this->data->getPrincipalPhoto()->getOwnPhoPhoto()->getPhoName();
+        }
+        return null;
     }
 
 

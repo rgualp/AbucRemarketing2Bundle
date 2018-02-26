@@ -90,13 +90,21 @@
                         <div role="tabpanel" class="tab-pane fade active in" id="tab_general"
                              aria-labelledby="home-tab">
                             <div class="bg-gray m-t-20 col-md-11 font-black">
+                                {% set front = false %}
                                 {% for i,photo in photoForm.photos %}
                                     {% if ownership.photos[i].OwnPhoPhoto.front %}
+                                        {% set front = true %}
                                         <img src="{{ asset('uploads/ownershipImages/thumbnails/'~photo.vars.value.ownPhoPhoto.phoName) }}"
                                              class="picture-link-m" width="100%"
                                              height="100%">
+
                                     {% endif %}
                                 {% endfor %}
+                                {% if not front %}
+                                    <img src="{{ asset('uploads/ownershipImages/thumbnails/'~ownership.getPrinicipalPhotoName()) }}"
+                                         class="picture-link-m" width="100%"
+                                         height="100%">
+                                {% endif %}
                             </div>
                         </div>
 
