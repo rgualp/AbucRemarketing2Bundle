@@ -16,7 +16,7 @@ class Version20180226144024 extends AbstractMigration
     public function up(Schema $schema)
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql("UPDATE  'ownership' SET  'own_type' =  'Apartamento' WHERE  'own_type' =  'Propiedad completa'");
+        $this->addSql("UPDATE  ownership SET  own_type =  'Apartamento' WHERE  own_type =  'Propiedad completa'");
 
     }
 
