@@ -140,10 +140,9 @@ class ownershipStep1Type extends AbstractType
                     'class' => 'form-control',
                 ),
                 'choices' => array(
-                    'Casa particular' => 'Casa particular',
-                    'Apartamento' => 'Apartamento',
-                    'Villa con piscina' => 'Villa con piscina',
-                    'Penthouse' => 'Penthouse'
+                    'Reserva Inmediata' => 'Reserva Inmediata',
+                    'Reserva Ràpida' => 'Reserva Ràpida',
+                    'Por solicitudes' => 'Por solicitudes'
                 )
             ));
     }
