@@ -31,6 +31,14 @@ class ownership
     const ACCOMMODATION_RENTAL_TYPE_FULL = "Propiedad completa";
     const ACCOMMODATION_RENTAL_TYPE_PER_ROOMS = "Por habitaciones";
 
+
+    /**
+     * All allowed modality reservation
+     */
+    const MODALITY_RESERVATION_INSTANT = "Reserva Inmediata";
+    const MODALITY_RESERVATION_QUICKLY = "Reserva Rapida";
+    const MODALITY_RESERVATION_DEMAND = "Reserva por Solicitudes";
+
     /**
      * Contains all possible statuses
      *
@@ -679,6 +687,29 @@ class ownership
      * @ORM\Column(name="with_ical", type="boolean", nullable=true)
      */
     private $withIcal;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="payment_after_days", type="boolean", nullable=true)
+     */
+    private $own_paymentAfterDays;
+
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="payment_client_arrived", type="boolean", nullable=true)
+     */
+    private $own_paymentClientArrived;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="own_modality_reservation", type="string", nullable=true)
+     */
+    private $own_modalityReservation;
 
     /**
      * Constructor
@@ -3261,6 +3292,52 @@ class ownership
         return null;
     }
 
+    /**
+     * @return bool
+     */
+    public function isOwnPaymentAfterDays()
+    {
+        return $this->own_paymentAfterDays;
+    }
 
+    /**
+     * @param bool $own_paymentAfterDays
+     */
+    public function setOwnPaymentAfterDays($own_paymentAfterDays)
+    {
+        $this->own_paymentAfterDays = $own_paymentAfterDays;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isOwnPaymentClientArrived()
+    {
+        return $this->own_paymentClientArrived;
+    }
+
+    /**
+     * @param bool $own_paymentClientArrived
+     */
+    public function setOwnPaymentClientArrived($own_paymentClientArrived)
+    {
+        $this->own_paymentClientArrived = $own_paymentClientArrived;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOwnModalityReservation()
+    {
+        return $this->own_modalityReservation;
+    }
+
+    /**
+     * @param string $own_modalityReservation
+     */
+    public function setOwnModalityReservation($own_modalityReservation)
+    {
+        $this->own_modalityReservation = $own_modalityReservation;
+    }
 }
 

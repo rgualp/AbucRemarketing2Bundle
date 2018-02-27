@@ -63,18 +63,23 @@ var Step2 = function () {
             $("#mycp_mycpbundle_ownership_step1").validate();
             var _url=$('#mycp_mycpbundle_ownership_step1').attr('action');
             var values = $('#mycp_mycpbundle_ownership_step1').serialize();
-
+            HoldOn.open();
             var $envio = $.ajax({
                 url: _url,
                 data: values,
                 type: 'POST'
             });
             $envio.error(function(data){
-                //
+                toastr.error('Ha ocurrido un error');
             });
             $envio.success(function(data){
-        //
+                if (data.success) {
+                    toastr.info("Datos guardados satisfactoriamente.");
+                } else {
+                    toastr.error('Ha ocurrido un error');
+                }
             });
+            HoldOn.close();
         }
     }
 

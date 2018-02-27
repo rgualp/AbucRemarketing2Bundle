@@ -127,7 +127,7 @@ class StepsController extends Controller
 
             $em->persist($ownership);
             $em->flush();
-            return new JsonResponse('ok');
+            return new JsonResponse(array('success' => true));
 
         }
         return $this->render('MyCpCasaModuleBundle:Ownership:step1.html.twig', array(

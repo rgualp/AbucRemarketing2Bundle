@@ -4,6 +4,7 @@ namespace MyCp\CasaModuleBundle\Form;
 
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
@@ -77,7 +78,6 @@ class ownershipStep1Type extends AbstractType
                 'choices' => array(
                     'Casa particular' => 'Casa particular',
                     'Apartamento' => 'Apartamento',
-//                    'Propiedad completa'=>'Propiedad completa',
                     'Villa con piscina' => 'Villa con piscina',
                     'Penthouse' => 'Penthouse'
                 )
@@ -132,6 +132,19 @@ class ownershipStep1Type extends AbstractType
                 'property' => 'des_name',
                 'required' => false,
                 'multiple' => false
+            ))
+            ->add('ownPaymentAfterDays', 'checkbox')
+            ->add('ownPaymentClientArrived', 'checkbox')
+            ->add('ownModalityReservation', 'choice', array(
+                'attr' => array(
+                    'class' => 'form-control',
+                ),
+                'choices' => array(
+                    'Casa particular' => 'Casa particular',
+                    'Apartamento' => 'Apartamento',
+                    'Villa con piscina' => 'Villa con piscina',
+                    'Penthouse' => 'Penthouse'
+                )
             ));
     }
 
