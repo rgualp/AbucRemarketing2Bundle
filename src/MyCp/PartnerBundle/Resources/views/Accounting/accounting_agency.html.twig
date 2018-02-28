@@ -75,6 +75,7 @@
 
                     <div class="btn-group m-t-n-xs pull-right">
                         <div class="btn-group m-t-n-xs pull-right"><a class="btn btn-sm btn-search" data-toggle="modal" title="New Deposit" data-target="#deposit"> Nuevo Deposito </a></div>
+                        <div class="btn-group m-t-n-xs pull-right"><a class="btn btn-sm btn-search" data-toggle="modal" title="Conciliar"  onClick="showconcil(this)"> Conciliar </a></div>
                         {#<div class="btn-group m-t-n-xs pull-right"><a class="btn btn-sm btn-search" onClick="clearProccessAction(this)"> Exportar a Excel </a></div>#}
                         <div class="btn-group m-t-n-xs pull-right" style="margin-left: 5px"><a class="btn btn-sm btn-search" onClick="filterAccountingAction(this)"> {{ 'btn.search' | trans }} </a></div>
 
@@ -199,6 +200,87 @@
             <div class="modal-footer" style="background-color: #25323b !important;border-top: 0px">
                 <div class="form-group" style="float:  right;">
                     <button class="btn btn-primary " name="submit" onclick="insertDepositAction(this)" >Registrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal fade" id="conciliar" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header modal-header-agency" style="background-color: #25323b !important;">
+                <button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body modal-agency">
+                <div class="row text-center">
+                    <p class="m-r-12">Enviar Conciliación</p>
+                </div>
+                <form class="form-horizontal form-agency "  method="post" id="form-conciliar">
+
+                    <div class="col">
+
+                        <div class="row text-center">
+
+                            <div class="contact">
+                                <div class="col-md-3">
+                                    <div class="inner-addon left-addon">
+                                        <i class="glyphicon glyphicons calendar"></i>
+                                        <div class="input-group date">
+                                            <input type="text" id="date" name="date" required="required" class="form-control" placeholder="Desde"  data-toggle="tooltip" data-container="body">
+                                            <span class="input-group-addon hide"><i class="fa fa-calendar"></i></span>
+
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+
+
+
+
+                                <div class="col-md-3">
+                                    <div class="inner-addon left-addon">
+                                        <i class="glyphicon glyphicons calendar"></i>
+                                        <div class="input-group date">
+                                            <input type="text" id="date_to" name="date_to" required="required" class="form-control" placeholder="Hasta"  data-toggle="tooltip" data-container="body">
+                                            <span class="input-group-addon hide"><i class="fa fa-calendar"></i></span>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group" id="append"> <!-- Message field -->
+
+                    </div>
+                    <div class="row">
+                        <div class="checkbox checkbox-info" style="margin-left: 40px">
+                            <input id="terms" type="checkbox" name="terms">
+                            <label for="checkbox4" style="font-size: 16px;font-family: MyriadProRegular">
+                                Usted Confima que los valores Debe,Haber y Saldo mostrados son verdaderos y                                        desea conciliarlos con el equipo de MyCasaParticular
+                            </label>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+
+
+
+
+            <div class="modal-footer" style="background-color: #25323b !important;border-top: 0px">
+
+                <div class="form-group" style="float:  right;">
+                    <button class="btn btn-primary " name="submit" onclick="insertDepositAction(this)" >Enviar</button>
                 </div>
             </div>
         </div>
@@ -425,6 +507,11 @@
         oTableReserved.ajax.reload();
         HoldOn.close();
     }
+    function showconcil() {
+        HoldOn.open();
+        oTableReserved.ajax.reload();
+        HoldOn.close();
+    }
     function insertDepositAction() {
        var validator= $("#form-deposit").validate({
             submitHandler: function(form) {
@@ -499,6 +586,80 @@
 
 
     }
+    function sendConcilAction() {
+        var validator= $("#form-conciliar").validate({
+            submitHandler: function(form) {
+                //form.submit();
+            },
+            errorElement: 'span',
+            errorClass: 'has-error',
+            errorPlacement: function(error, element) {
+                if (element.attr("name") == "fname" || element.attr("name") == "lname" ) {
+                    error.insertAfter("#lastname");
+                } else {
+                    error.insertAfter(element);
+                }
+            },
+            ignore: "",
+            invalidHandler: function(event, validator) { //display error alert on form submit
+            },
+            rules: {
+                'date':{
+                    required: true,
+                    date: true
+                },
+                'date_to':{
+                    required: true,
+                    date: true
+                },
+
+                'terms':{
+                    required:true
+                }
+            },
+            highlight: function (element, clsError) { // hightlight error inputs
+                element = $(element);
+                element.parent().addClass(clsError);
+            },
+            unhighlight: function (element, clsError) { // revert the change done by hightlight
+                element = $(element);
+                element.parent().removeClass(clsError);
+            },
+            success: function(label) {
+                label.closest('.input-group').removeClass('has-error');
+                label.remove();
+            }
+        });
+        if(!validator.form()){
+            return;
+        }
+        var url= "{{ path('partner_dashboard_sumary_accounting_add_deposit') }}";
+        HoldOn.open();
+        var date=$('#date').val();
+        var description=$('#message').val();
+        var cash=$('#cash').val();
+        $.ajax({
+            type:"GET",
+            url:url,
+            data:{'date':date,'description':description,'cash':cash},
+            success:function (response) {
+
+                if(response.success){
+
+                    oTableReserved.ajax.reload();
+                    HoldOn.close();
+                    $('#deposit').modal('hide');
+                }
+                else{
+                    HoldOn.close();
+                }
+            }
+        });
+
+
+
+
+    }
     function roundTo(n, digits) {
         if (digits === undefined) {
             digits = 0;
@@ -508,21 +669,6 @@
         n = parseFloat((n * multiplicator).toFixed(11));
         return Math.round(n) / multiplicator;
     }
-    function clearReservedAction() {
-        var inputs = $("#form-accounting input,select");
-        inputs.each(function () {
-            var input = $(this);
-            var val = input.val();
-            var name = input.attr('name');
-            if (val && val != '' && name && name != '') {
-                input.val('');
-                if (input.hasClass('chosen-select-deselect')) {
-                    input.chosen().trigger("chosen:updated");
-                }
-            }
-        });
 
-        oTableReserved.ajax.reload();
-    }
 
 </script>
