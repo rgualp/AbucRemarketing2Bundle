@@ -96,7 +96,6 @@
                             {{ rooms | length }} {% if rooms | length == 1 %} {{ "ROOM_SINGULAR" | trans }}. {% else %} {{ "ROOM_PLURAL" | trans }}. {% endif %}
                         {% endif %}
                         {{ "FROM_PRICES" | trans }} {{ promoPrice | price }} {{ nightPriceTextTag | trans }}
-
                     </h1>
                 </div>
                 {% if ownership.award %}

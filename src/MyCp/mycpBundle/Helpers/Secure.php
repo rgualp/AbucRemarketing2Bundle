@@ -22,8 +22,6 @@ class Secure
     public function onKernelResponse(FilterResponseEvent $event)
     {
         $token = $this->security_context->getToken();
-        var_dump($token);
-        exit;
         if ($token != null && $token->getUser() != 'anon.') {
             $user = $this->security_context->getToken()->getUser();
             if ($user->getUserEnabled() != 1 || $this->security_context->isGranted('ROLE_CLIENT_TOURIST')) {
