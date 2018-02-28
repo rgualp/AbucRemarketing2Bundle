@@ -107,7 +107,28 @@ class paTravelAgency extends baseEntity
      * @ORM\Column(name="commission", type="decimal", precision=2)
      */
     private $commission;
+    /**
+     *
+     * @ORM\OneToOne(targetEntity="MyCp\PartnerBundle\Entity\paAccount")
+     * @ORM\JoinColumn(name="account", referencedColumnName="account_id")
+     */
+    private $account;
 
+    /**
+     * @return mixed
+     */
+    public function getAccount()
+    {
+        return $this->account;
+    }
+
+    /**
+     * @param mixed $account
+     */
+    public function setAccount($account)
+    {
+        $this->account = $account;
+    }
 
     public function __construct() {
         parent::__construct();

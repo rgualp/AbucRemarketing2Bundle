@@ -2,9 +2,13 @@
 
 namespace MyCp\PartnerBundle\Controller;
 
+use MyCp\FrontEndBundle\Form\registerUserType;
 use MyCp\mycpBundle\Entity\user;
 use MyCp\mycpBundle\Form\restorePasswordUserType;
 use MyCp\mycpBundle\Helpers\UserMails;
+use MyCp\PartnerBundle\Entity\paAccount;
+use MyCp\PartnerBundle\Entity\paContact;
+use MyCp\PartnerBundle\Form\paContactType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -175,6 +179,63 @@ class FrontendController extends Controller
                 $tourOperator->setTravelAgency($obj);
                 $em->persist($tourOperator);
                 $em->flush();
+                //Create Account
+                if($package->getName()=='Especial'){
+                    $account=new paAccount();
+                    $account->setBalance(0);
+                    $em->persist($account);
+                    $em->flush();
+                    $obj->setAccount($account);
+                    $em->persist($obj);
+                    $em->flush();
+                }
+                return $this->redirect($this->generateUrl('frontend_partner_home'));
+                //return $this->redirect($this->generateUrl('frontend_partner_registeracountpage'));
+            }
+
+        }
+    }
+    /**
+     * @param Request $request
+     */
+    public function addContactAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $session = $request->getSession();
+        $user = $this->getUser();
+
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $agency = $tourOperator->getTravelAgency();
+
+        $obj = new paContact();
+        $errors = array();
+        $form = $this->createForm(new paContactType($this->get('translator')), $obj);
+
+        if(!$request->get('formEmpty')) {
+            $form->handleRequest($request);
+            $post = $request->get('partner_agency');
+
+            $validate_email = \MyCp\FrontEndBundle\Helpers\Utils::validateEmail($post['contacts']['__name__']['email']);
+            if(!$validate_email)
+                $errors['user_email'] = $this->get('translator')->trans("EMAIL_INVALID_MESSAGE");
+
+            if(count($errors)) {
+
+                $message = (array_key_exists('used_email', $errors)) ? $errors['used_email'] : $errors['user_email'];
+
+                $this->get('session')->getFlashBag()->add('message_error_emailagency', $message);
+                return $this->redirect($this->generateUrl('frontend_partner_home'));
+            }
+            else {
+                $obj->setName($post['contacts']['__name__']['name']);
+                 $obj->setEmail($post['contacts']['__name__']['email']);
+                $obj->setPhone($post['contacts']['__name__']['phone']);
+                $obj->setMobile($post['contacts']['__name__']['mobile']);
+                $obj->setTravelAgency($agency);
+
+                $em->persist($obj);
+                $em->flush();
+
 
                 return $this->redirect($this->generateUrl('frontend_partner_home'));
                 //return $this->redirect($this->generateUrl('frontend_partner_registeracountpage'));
@@ -183,6 +244,102 @@ class FrontendController extends Controller
         }
     }
 
+    /**
+     * @param Request $request
+     */
+    public function addTourOperatorAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $session = $request->getSession();
+        $user = $this->getUser();
+
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $agency = $tourOperator->getTravelAgency();
+
+        $obj = new user();
+        $errors = array();
+        $data = array();
+        $data['countries'] = $em->getRepository('mycpBundle:country')->findAllByAlphabetical();
+        $form = $this->createForm(new registerUserType($this->get('translator'),$data));
+
+        if(!$request->get('formEmpty')) {
+            $form->handleRequest($request);
+            $post = $request->get('mycp_frontendbundle_register_usertype');
+
+            $user_db = $em->getRepository('mycpBundle:user')->findBy(array(
+                'user_email' => $post['user_email'],
+                'user_created_by_migration' => false));
+            if($user_db) {
+                $errors['used_email'] = $this->get('translator')->trans("USER_EMAIL_IN_USE");
+            }
+            $validate_email = \MyCp\FrontEndBundle\Helpers\Utils::validateEmail($post['user_email']);
+            if(!$validate_email)
+                $errors['user_email'] = $this->get('translator')->trans("EMAIL_INVALID_MESSAGE");
+
+            if(count($errors)) {
+                $message = (array_key_exists('used_email', $errors)) ? $errors['used_email'] : $errors['user_email'];
+                $this->get('session')->getFlashBag()->add('message_error_emailagency', $message);
+                return $this->redirect($this->generateUrl('frontend_partner_home'));
+            }
+            else {
+
+                $factory = $this->get('security.encoder_factory');
+                $encoder = $factory->getEncoder($user);
+
+                $password = $encoder->encodePassword($request->get('password'), $user->getSalt());
+
+                $role=$post['user_role'];
+
+                if($role==1){
+                    $obj->setUserRole("ROLE_CLIENT_PARTNER") ;
+                    $obj->setUserSubrole($em->getRepository('mycpBundle:role')->findby(array('role_name'=>"ROLE_CLIENT_PARTNER"))[0]);
+                    $tourOperators=$agency->getTourOperators();
+                    foreach ($tourOperators as $touruser){
+                        $obj->addChildren($touruser->getTourOperator());
+                    }
+                }
+                elseif ($role==0){
+                    $obj->setUserRole("ROLE_CLIENT_PARTNER_TOUROPERATOR") ;
+                    $obj->setUserSubrole($em->getRepository('mycpBundle:role')->findby(array('role_name'=>"ROLE_CLIENT_PARTNER_TOUROPERATOR"))[0]);
+
+                }
+                else{
+                    $obj->setUserRole("ROLE_ECONOMY_PARTNER") ;
+                    $obj->setUserSubrole($em->getRepository('mycpBundle:role')->findby(array('role_name'=>"ROLE_ECONOMY_PARTNER"))[0]);
+                    $tourOperators=$agency->getTourOperators();
+                    foreach ($tourOperators as $touruser){
+                        $obj->addChildren($touruser->getTourOperator());
+                    }
+
+                }
+                $obj->setUserPassword($password);
+                $obj->setUserName($post['user_email']);
+                $obj->setUserEnabled(true);
+                $obj->setUserCreatedByMigration(false);
+                $obj->setUserUserName($post['user_user_name']);
+                $obj->setUserLastName($post['user_last_name']);
+                $obj->setUserEmail($post['user_email']);
+                $obj->setUserCountry($em->getRepository('mycpBundle:country')->find($post['user_country']));
+                $em->persist($obj);
+                $em->flush();
+                $user->addChildren($obj);
+                $em->persist($user);
+                $em->flush();
+
+
+                //Create tour operator
+                $tourOperator = new paTourOperator();
+                $tourOperator->setTourOperator($obj);
+                $tourOperator->setTravelAgency($agency);
+                $em->persist($tourOperator);
+                $em->flush();
+
+                return $this->redirect($this->generateUrl('frontend_partner_home'));
+                //return $this->redirect($this->generateUrl('frontend_partner_registeracountpage'));
+            }
+
+        }
+    }
     /**
      * @return \Symfony\Component\HttpFoundation\Response
      */

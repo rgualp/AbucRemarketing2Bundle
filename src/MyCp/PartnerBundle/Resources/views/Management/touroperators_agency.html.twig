@@ -1,0 +1,191 @@
+<div class="ibox" style="background-color: #0d4e76">
+    <div class="ibox-title" style="background-color: #0d4e76">
+        <div class="ibox-tools">
+            <a class="collapse-link">
+                <i class="fa fa-chevron-up" style="color: #fff"></i>
+            </a>
+            <a class="close-link">
+                <i class="fa fa-times" style="color: #fff"></i>
+            </a>
+        </div>
+        <div class="row">
+
+            <div class="col-md-2">
+                <span class="color-white MyriadProBold" style="font-size: 24px;position: relative;top: -19px;">{{"dashboard.operators" | trans}}</span>
+
+            </div>
+            <div class="col-md-8 text-right m-t-md" style="line-height: 1; float: right">
+                <span style="color: #fff;font-size: 24px;font-family: MyriadProRegular">{{ 'label.account.agency.one' | trans | raw }}</span></br>
+                <span style="color: #fff;font-family: MyriadProLightCondIt; font-size: 23px;font-weight: 600;">{{ 'label.account.agency.two' | trans }}</span>
+            </div>
+        </div>
+    </div>
+    <div class="ibox-content" style="background-color: #0d4e76">
+        {#Include twig profile#}
+        <div class="col-md-2">
+           <a data-toggle="modal" title="New Tour Operator" data-target="#usuario"><i class="glyphicons user" style="margin-bottom: 10px"></i> <i class="glyphicons plus" style="margin-bottom: 10px;font-size: 15px "></i> </a>
+
+        </div>
+        <table class="table" style="background: white">
+            <tbody>
+            {% for contact in touroperators %}
+                <tr style="font-size: large">
+
+
+                    <td>
+                        {% if contact.getTourOperator().getUserPhoto() is not null %}
+                            {% set avatar_img =  asset('uploads/userImages/'~contact.getTourOperator().getUserPhoto().getPhoName()) %}
+                        {% else %}
+                            {% set avatar_img = asset('bundles/frontend/img/user-no-photo.png') %}
+                        {% endif %}
+                        <img src="{{ avatar_img}}" class="img-circle" width="60">
+                    </td>
+                    <td>
+                        <h4>
+                            <b>{{ contact.getTourOperator().getUserCompleteName() }}</b>
+                        </h4>
+                        <a href="{{ contact.getTourOperator().getUserEmail() }}">{{ contact.getTourOperator().getUserEmail() }}</a>
+                    </td>
+                    <td>
+
+                        <p>{{ contact.getTourOperator().getUserPhone() }}</p>
+
+                    </td>
+                    <td>
+                        <p>{{ contact.getTourOperator().getUserCountry() }}</p>
+                    </td>
+                    <td>
+                        <p>{{ contact.getTourOperator().getRoles()[0] }}</p>
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <a class="" data-id="{{ contact.getTourOperator().getUserId() }}" data-urlsuccess="{{ path("frontend_partner_home") }}" data-url="{{ path("partner_dashboard_delete_contact") }}"><i class="glyphicons edit" style="margin-bottom: 10px; color: #0d4e76 !important;"></i> {{ "backend.edit" | trans }}</a>
+
+
+                        </div>
+
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="modal inmodal fade" id="usuario" tabindex="-1" role="dialog"  aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header modal-header-agency" style="background-color: #25323b !important;">
+                        <button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                    </div>
+                    <div class="modal-body modal-agency pb-0">
+                        <form class="form-horizontal form-agency" action="{{ path('frontend_partner_addtouroperator') }}" method="post" id="form-touroperator">
+
+                            <div class="col">
+
+                                <div class="row text-right">
+                                    <p class="m-r-12">{{ 'label.form.agency.touroperator' | trans }}</p>
+                                    <div class="contact">
+                                        <div class="col-md-6">
+                                            <div class="inner-addon left-addon">
+                                                <i class="glyphicon glyphicons user"></i>
+                                                {{ form_widget(form_user.user_user_name, { 'attr': {'placeholder': 'label.name.agency'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                                            </div>
+                                            <div class="inner-addon left-addon">
+                                                <i class="glyphicon glyphicons user"></i>
+                                                {{ form_widget(form_user.user_last_name, { 'attr': {'placeholder': 'label.name.agency'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                                            </div>
+                                            <div class="inner-addon left-addon">
+                                                <i class="glyphicon glyphicons globe_af"></i>
+                                                {{ form_widget(form_user.user_country, { 'attr': {'data-placeholder': 'label.name.country'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="inner-addon left-addon">
+                                                <i class="glyphicon glyphicons envelope"></i>
+                                                {{ form_widget(form_user.user_email, { 'attr': {'placeholder': 'label.name.email'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                                            </div>
+
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="inner-addon left-addon">
+                                                <i class="glyphicon glyphicons keys"></i>
+                                                <input placeholder="{{ 'label.password' | trans }}" type="password" class="form-control" name="password" id="password" aria-required="true" aria-invalid="false">
+                                            </div>
+                                            <div class="inner-addon left-addon">
+                                                <i class="glyphicon glyphicons keys"></i>
+                                                <input placeholder="{{ 'label.password.repeat' | trans }}" type="password" class="form-control" name="confirm" id="confirm" aria-required="true" aria-invalid="true">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="inner-addon left-addon">
+                                                <i class="glyphicon glyphicons keys"></i>
+                                                {{ form_widget(form_user.user_role, { 'attr': {'data-placeholder': 'label.form.role'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="row text-right" style="float:  right;">
+                                    <button class="btn btn-primary " >ADD</button>
+                                </div>
+
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="modal-footer" style="background-color: #25323b !important;border-top: 0px">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script  type="text/javascript">
+    $(document).ready(function () {
+
+        var onDeleteContactButton = function () {
+            $(".deleteContact").on('click', function () {
+                var that = $(this);
+
+                swal({
+                    title: "Eliminar Contacto de Agencia",
+                    text: "Esta seguro",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: $("#alertMessages").data("confirmbutton"),
+                    cancelButtonText: $("#alertMessages").data("cancelbutton"),
+                    closeOnConfirm: false
+                }, function () {
+
+                    var id = that.data("id");
+                    var _url = that.data("url");
+
+
+
+                    $.post(_url, {
+                        'contact_id': id
+                    }, function (response) {
+                        if (response.success) {
+                            if (response.html != "") {
+                                /*result.html(response.html);
+                                 onDeleteFromCartButton();
+                                 onViewMoreButton();
+                                 onCheckDetailsInCartButton();
+                                 onEmptyCartButton();
+                                 onPayActionButton();*/
+                                window.location.href = that.data("urlsuccess");
+                            }
+                        }
+                    });
+                });
+            });
+        }
+        onDeleteContactButton();
+    })
+</script>

@@ -55,7 +55,14 @@ frontend_partner_change_password_user:
 frontend_partner_registeragency:
     locales:  { en: "/register/agency", es: "/registrar/agencia", de: "/register/agency", fr: "/register/agency", it: "/register/agency" }
     defaults: { _controller: PartnerBundle:Frontend:registerAgency }
+#Register contact
+frontend_partner_addcontact:
+    locales:  { en: "/register/contact", es: "/registrar/contacto", de: "/register/contact", fr: "/register/contact", it: "/register/contact" }
+    defaults: { _controller: PartnerBundle:Frontend:addContact }
 
+frontend_partner_addtouroperator:
+    locales:  { en: "/register/touroperator", es: "/registrar/touroperator", de: "/register/touroperator", fr: "/register/touroperator", it: "/register/touroperator" }
+    defaults: { _controller: PartnerBundle:Frontend:addTourOperator }
 #Activate account
 frontend_partner_activateacount:
     locales:  { en: "/activateaccount/{token}", es: "/activateaccount/{token}", de: "/activateaccount/{token}", fr: "/activateaccount/{token}", it: "/activateaccount/{token}" }
@@ -214,6 +221,14 @@ partnet_dashboard_profile_agency:
     locales:  { en: "/dashboard/agency/profile", es: "/dashboard/agency/perfil", de: "/dashboard/agency/profile", fr: "/dashboard/agency/profile", it: "/dashboard/agency/profile" }
     defaults: { _controller: PartnerBundle:Profile:profileAgency }
 
+partnet_dashboard_contacts_agency:
+    locales:  { en: "/dashboard/agency/contacts", es: "/dashboard/agency/contactos", de: "/dashboard/agency/contacts", fr: "/dashboard/agency/contacts", it: "/dashboard/agency/contacts" }
+    defaults: { _controller: PartnerBundle:Profile:contactsAgency }
+
+partnet_dashboard_touroperators_agency:
+    locales:  { en: "/dashboard/agency/touroperators", es: "/dashboard/agency/touroperadores", de: "/dashboard/agency/touroperators", fr: "/dashboard/agency/touroperators", it: "/dashboard/agency/touroperators" }
+    defaults: { _controller: PartnerBundle:Profile:touroperatorsAgency}
+
 partnet_dashboard_changepassword_agency:
     locales:  { en: "/dashboard/agency/cambiarclave", es: "/dashboard/agency/changepassword", de: "/dashboard/agency/changepassword", fr: "/dashboard/agency/changepassword", it: "/dashboard/agency/changepassword" }
     defaults: { _controller: PartnerBundle:Profile:changePassword }
@@ -263,6 +278,10 @@ partner_dashboard_cart_show_reservation_details:
 partner_dashboard_delete_from_cart:
     locales:  { en: "/dashboard/delete-from-cart", es: "/dashboard/delete-from-cart", de: "/dashboard/delete-from-cart", fr: "/dashboard/delete-from-cart", it: "/dashboard/delete-from-cart" }
     defaults: { _controller: PartnerBundle:Cart:deleteFromCart }
+
+partner_dashboard_delete_contact:
+    locales:  { en: "/dashboard/deletecontact", es: "/dashboard/deletecontact", de: "/dashboard/deletecontact", fr: "/dashboard/deletecontact", it: "/dashboard/deletecontact" }
+    defaults: { _controller: PartnerBundle:Profile:contactsDelete }
 
 partner_dashboard_empty_cart:
     locales:  { en: "/dashboard/empty-cart", es: "/dashboard/vaciar-carrito", de: "/dashboard/empty-cart", fr: "/dashboard/empty-cart", it: "/dashboard/empty-cart" }
@@ -379,3 +398,17 @@ partner_dashboard_booking_pending_payment:
 partner_dashboard_booking_list_pending_payment:
     locales:  { en: "/dashboard/booking/pending-payment/list", es: "/dashboard/booking/pendientes-pago/list", de: "/dashboard/booking/pending-payment/list", fr: "/dashboard/booking/pending-payment/list", it: "/dashboard/booking/pending-payment/list" }
     defaults: { _controller: PartnerBundle:Dashboard:listBookingPendingPayment }
+
+partner_dashboard_accounting:
+    locales:  { en: "/dashboard/accounting", es: "/dashboard/accounting", de: "/dashboard/accounting", fr: "/dashboard/accounting", it: "/dashboard/accounting" }
+    defaults: { _controller: PartnerBundle:Accountig:indexAccounting }
+
+partner_dashboard_sumary_accounting:
+    locales:  { en: "/dashboard/accounting/sumary", es: "/dashboard/accounting/sumary", de: "/dashboard/accounting/sumary", fr: "/dashboard/accounting/sumary", it: "/dashboard/accounting/sumary" }
+    defaults: { _controller: PartnerBundle:Accountig:sumaryAccounting }
+
+partner_dashboard_sumary_accounting_add_deposit:
+    locales:  { en: "/dashboard/accounting/sumary/deposit", es: "/dashboard/accounting/sumary/deposit", de: "/dashboard/accounting/sumary/deposit", fr: "/dashboard/accounting/sumary/deposit", it: "/dashboard/accounting/sumary/deposit" }
+    defaults: { _controller: PartnerBundle:Accountig:addDeposit }
+
+

@@ -3748,6 +3748,7 @@ order by LENGTH(o.own_mcp_code), o.own_mcp_code";
             $qb->setParameter('gen_res_status', $status);
         }
 
+
         elseif($status == generalReservation::STATUS_CANCELLED)
         {
 
@@ -3776,6 +3777,8 @@ order by LENGTH(o.own_mcp_code), o.own_mcp_code";
             $destination = (array_key_exists('destination', $filters) && isset($filters['destination']));
             $from = (array_key_exists('from', $filters) && isset($filters['from']));
             $from_between = (array_key_exists('from_between', $filters) && isset($filters['from_between']));
+            $to_between = (array_key_exists('to_between', $filters) && isset($filters['to_between']));
+            $to_limit = (array_key_exists('to_limit', $filters) && isset($filters['to_limit']));
             $to = (array_key_exists('to', $filters) && isset($filters['to']));
             $date = (array_key_exists('date', $filters) && isset($filters['date']));
             $room_number = (array_key_exists('room_number', $filters) && isset($filters['room_number']));
@@ -3842,6 +3845,243 @@ order by LENGTH(o.own_mcp_code), o.own_mcp_code";
                 $qb->andWhere('r.gen_res_from_date <= :date_b');
                 $qb->setParameter('date_a', Dates::createForQuery($filters['from_between'][0], 'd-m-Y'));
                 $qb->setParameter('date_b', Dates::createForQuery($filters['from_between'][1], 'd-m-Y'));
+
+            }
+            if($to_between) {
+                $qb->andWhere('r.gen_res_to_date >= :date_a');
+                $qb->andWhere('r.gen_res_to_date <= :date_b');
+                $qb->andWhere('r.gen_res_id != :cas');
+                $qb->setParameter('cas', Dates::createForQuery($filters['to_between'][0], 'd-m-Y'));
+                $qb->setParameter('date_a', Dates::createForQuery($filters['to_between'][1], 'd-m-Y'));
+                $qb->setParameter('date_b', Dates::createForQuery($filters['to_between'][2], 'd-m-Y'));
+                $qb->orderBy('r.gen_res_to_date','ASC');
+
+            }
+            if($to_limit) {
+
+                $qb->andWhere('r.gen_res_to_date <= :date_b');
+
+                $qb->setParameter('date_b', Dates::createForQuery($filters['to_limit'], 'd-m-Y'));
+                $qb->orderBy('r.gen_res_to_date','ASC');
+            }
+            if($to) {
+                $qb->andWhere('r.gen_res_to_date = :gen_res_to_date');
+                $qb->setParameter('gen_res_to_date', Dates::createForQuery($filters['to'], 'd-m-Y'));
+            }
+            if($date) {
+                $qb->andWhere('r.gen_res_date = :gen_res_date');
+                $qb->setParameter('gen_res_date', Dates::createForQuery($filters['date'], 'd-m-Y'));
+            }
+            if($room_number) {
+                $subSelect = "SELECT COUNT(owres_r) FROM mycpBundle:ownershipReservation AS owres_r WHERE owres_r.own_res_gen_res_id = r.gen_res_id";
+                $subSelect = "(" . $subSelect . ") = :room_number";
+                /*$qb->addSelect($subSelect);*/
+                $qb->andWhere($subSelect);
+                $qb->setParameter('room_number', $filters['room_number']);
+            }
+            if($adults_number) {
+                $subSelect = "SELECT SUM(owres_a.own_res_count_adults) FROM mycpBundle:ownershipReservation AS owres_a WHERE owres_a.own_res_gen_res_id = r.gen_res_id";
+                $subSelect = "(" . $subSelect . ") = :adults_number";
+                $qb->andWhere($subSelect);
+                $qb->setParameter('adults_number', $filters['adults_number']);
+            }
+            if($booking_code) {
+                $subSelect = "SELECT COUNT(owres_1) FROM mycpBundle:ownershipReservation AS owres_1
+JOIN owres_1.own_res_reservation_booking AS b WHERE owres_1.own_res_gen_res_id = r.gen_res_id AND b.booking_id = :booking_id";
+                $subSelect = "(" . $subSelect . ") > 0";
+                $qb->andWhere($subSelect);
+                $qb->setParameter('booking_id', $filters['booking_code']);
+            }
+            if($booking_date) {
+                $subSelect = "SELECT COUNT(owres_2) FROM mycpBundle:ownershipReservation AS owres_2
+JOIN owres_2.own_res_reservation_booking AS b1 JOIN b1.payments AS p WHERE owres_2.own_res_gen_res_id = r.gen_res_id AND p.created >= :created1  AND p.created <= :created2";
+                $subSelect = "(" . $subSelect . ") > 0";
+                $qb->andWhere($subSelect);
+                $a = Dates::createForQuery($filters['booking_date'], 'd-m-Y');
+                $a1 = $a . " 00:00:00.000000";
+                $a2 = $a . " 23:59:59.000000";
+                $qb->setParameter('created1', $a1);
+                $qb->setParameter('created2', $a2);
+            }
+
+            if($client_dates) {
+                $qb->andWhere('client.fullname LIKE :client_dates');
+                $qb->setParameter('client_dates', '%' . trim($filters['client_dates']) . '%');
+            }
+            if($br) {
+                $qb->andWhere('par.reference LIKE :br');
+                $qb->setParameter('br', '%' . trim($filters['br']) . '%');
+            }
+            if($partner_client_id) {
+                $qb->andWhere('client.id = :partner_client_id');
+                $qb->setParameter('partner_client_id', $filters['partner_client_id']);
+            }
+        }
+
+        $count = 0;
+        if($limit !== false) {
+            $qbAux = clone $qb;
+            $qbAux->select('count(r.gen_res_id)');
+            $count = $qbAux->getQuery()->getSingleScalarResult();
+
+            $qb->setFirstResult($start);
+            $qb->setMaxResults($limit);
+        }
+
+        $data = $qb->getQuery()->execute();
+        $count = ($count == 0) ? (count($data)) : ($count);
+        return array('data' => $data, 'count' => $count);
+    }
+    function getReservationsPartnerAccountig($idUser, $status, array $filters, $start, $limit,array $touroperators) {
+
+
+        $qb = $this->createQueryBuilder('r');
+
+        $qb->join('r.gen_res_user_id', 'u');
+
+        if(count($touroperators) > 0){
+
+            foreach ($touroperators as $user){
+                $qb->orWhere('(u.user_id = '.$user->getUserId().')');
+//                $qb->andWhere('u.user_id = :user_id'.$i);
+
+//                $i++;
+            }
+
+
+        }
+        $qb->orWhere('u.user_id = :user_id');
+        $qb->setParameter('user_id', $idUser);
+
+
+        $qb->join('r.travelAgencyDetailReservations', 'pard');
+        $qb->join('pard.reservation', 'par');
+        $qb->join('par.client', 'client');
+
+
+        if($status == generalReservation::STATUS_RESERVED)
+        {
+            $qb->andWhere('(r.gen_res_status = :gen_res_status or r.gen_res_status = :gen_res_status1 or r.gen_res_status = :gen_res_status2)');
+            $qb->setParameter('gen_res_status1', generalReservation::STATUS_PARTIAL_RESERVED);
+            $qb->setParameter('gen_res_status2', generalReservation::STATUS_PENDING_PAYMENT_PARTNER);
+            $qb->setParameter('gen_res_status', $status);
+        }
+
+
+        elseif($status == generalReservation::STATUS_CANCELLED)
+        {
+
+            $qb->andWhere('(r.gen_res_status = :gen_res_status or r.gen_res_status = :gen_res_status1)');
+            $qb->setParameter('gen_res_status1', generalReservation::STATUS_PARTIAL_CANCELLED);
+            $qb->setParameter('gen_res_status', $status);
+//            $qb->leftJoin("r.pendingPayments", "pending");
+//            $qb->andWhere("pending.cancelPayment IS NOT NULL");
+
+        }
+        else{
+            $qb->andWhere('r.gen_res_status = :gen_res_status');
+            $qb->setParameter('gen_res_status', $status);
+        }
+
+        $qb->orderBy("r.gen_res_id", "DESC");
+
+        if(isset($filters)) {
+            $re = '/^[A-z]{2}[0-9]{2,}$/';
+
+            $cas = (array_key_exists('cas', $filters) && isset($filters['cas']));
+            $br = (array_key_exists('br', $filters) && isset($filters['br']));
+            $own_name = (array_key_exists('own_name', $filters) && isset($filters['own_name']));
+            $code = (array_key_exists('code', $filters) && isset($filters['code']));
+//            $acomodation=(array_key_exists('acomodation', $filters) && isset($filters['acomodation']));
+            $destination = (array_key_exists('destination', $filters) && isset($filters['destination']));
+            $from = (array_key_exists('from', $filters) && isset($filters['from']));
+            $from_between = (array_key_exists('from_between', $filters) && isset($filters['from_between']));
+            $to_between = (array_key_exists('to_between', $filters) && isset($filters['to_between']));
+            $to_limit = (array_key_exists('to_limit', $filters) && isset($filters['to_limit']));
+            $to = (array_key_exists('to', $filters) && isset($filters['to']));
+            $date = (array_key_exists('date', $filters) && isset($filters['date']));
+            $room_number = (array_key_exists('room_number', $filters) && isset($filters['room_number']));
+            $adults_number = (array_key_exists('adults_number', $filters) && isset($filters['adults_number']));
+            $booking_code = (array_key_exists('booking_code', $filters) && isset($filters['booking_code']));
+            $booking_date = (array_key_exists('booking_date', $filters) && isset($filters['booking_date']));
+            $invoice_code = (array_key_exists('invoice_code', $filters) && isset($filters['invoice_code']));
+            $invoice_date = (array_key_exists('invoice_date', $filters) && isset($filters['invoice_date']));
+            $client_dates = (array_key_exists('client_dates', $filters) && isset($filters['client_dates']));
+            $partner_client_id = (array_key_exists('partner_client_id', $filters) && isset($filters['partner_client_id']));
+            $cancel_date = (array_key_exists('cancel_date', $filters) && isset($filters['cancel_date']));
+
+            if($invoice_code) {
+                $qb->join('r.invoice','i');
+                $qb->adWhere('i.filename LIKE :filename');
+                $qb->setParameter('filename', $invoice_code);
+            }
+            if($invoice_date) {
+                $a = Dates::createForQuery($filters['invoice_date'], 'd-m-Y');
+                $qb->join('r.invoice','i');
+                $qb->andWhere('i.invoicedate = :dateinvoice');
+                $qb->setParameter('dateinvoice', $a);
+            }
+            if($cancel_date) {
+                $a = Dates::createForQuery($filters['cancel_date'], 'd-m-Y');
+
+                $qb->andWhere('r.gen_res_status_date = :gen_res_status_date');
+                $qb->setParameter('gen_res_status_date', $a);
+            }
+            if($cas) {
+                $qb->andWhere('r.gen_res_id = :gen_res_id');
+                $qb->setParameter('gen_res_id', $filters['cas']);
+            }
+            if($own_name || $code || $destination) {
+                $qb->join('r.gen_res_own_id', 'o');
+
+                if($own_name) {
+                    $qb->andWhere('o.own_name LIKE :own_name');
+                    $qb->setParameter('own_name', '%' . trim($filters['own_name']) . '%');
+                }
+                if($code) {
+                    if(preg_match($re,$filters['code'])==1){
+                        $qb->andWhere('o.own_mcp_code LIKE :own_mcp_code');
+                        $qb->setParameter('own_mcp_code', '%' . trim($filters['code']) . '%');
+                    }
+                    else{
+                        $qb->andWhere('o.own_name LIKE :own_name');
+                        $qb->setParameter('own_name', '%' . trim($filters['code']) . '%');
+                    }
+
+                }
+                if($destination) {
+                    $qb->join('o.own_destination', 'd');
+                    $qb->andWhere('d.des_id = :des_id');
+                    $qb->setParameter('des_id', $filters['destination']);
+                }
+            }
+            if($from) {
+                $qb->andWhere('r.gen_res_from_date = :gen_res_from_date');
+                $qb->setParameter('gen_res_from_date', Dates::createForQuery($filters['from'], 'd-m-Y'));
+            }
+            if($from_between) {
+                $qb->andWhere('r.gen_res_from_date >= :date_a');
+                $qb->andWhere('r.gen_res_from_date <= :date_b');
+                $qb->setParameter('date_a', Dates::createForQuery($filters['from_between'][0], 'd-m-Y'));
+                $qb->setParameter('date_b', Dates::createForQuery($filters['from_between'][1], 'd-m-Y'));
+
+            }
+            if($to_between) {
+                $qb->andWhere('r.gen_res_to_date >= :date_a');
+                $qb->andWhere('r.gen_res_to_date <= :date_b');
+                $qb->andWhere('r.gen_res_id != :cas');
+                $qb->setParameter('cas', Dates::createForQuery($filters['to_between'][0], 'd-m-Y'));
+                $qb->setParameter('date_a', Dates::createForQuery($filters['to_between'][1], 'd-m-Y'));
+                $qb->setParameter('date_b', Dates::createForQuery($filters['to_between'][2], 'd-m-Y'));
+                $qb->orderBy('r.gen_res_to_date','ASC');
+
+            }
+            if($to_limit) {
+
+                $qb->andWhere('r.gen_res_to_date <= :date_b');
+
+                $qb->setParameter('date_b', Dates::createForQuery($filters['to_limit'], 'd-m-Y'));
+                $qb->orderBy('r.gen_res_to_date','ASC');
             }
             if($to) {
                 $qb->andWhere('r.gen_res_to_date = :gen_res_to_date');

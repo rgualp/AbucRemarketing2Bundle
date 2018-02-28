@@ -2398,12 +2398,43 @@
 
 
 
+<trans-unit id="42" resname="dashboard.contacts">
+   <source>dashboard.contacts</source>
+<target state="new">Contactos</target>
+ </trans-unit>
+ <trans-unit id="43" resname="dashboard.operators">
+    <source>dashboard.operators</source>
+ <target state="new">Tour Operadores</target>
+  </trans-unit>
+   <trans-unit id="44" resname="dashboard.accounting">
+      <source>dashboard.accounting</source>
+   <target state="new">Contabilidad</target>
+    </trans-unit>
+    <trans-unit id="45" resname="label.form.agency.touroperator">
+          <source>label.form.agency.touroperator</source>
+       <target state="new">Llene los datos del Tour Operador</target>
+        </trans-unit>
 
-
-
-
-
-
+   <trans-unit id="46" resname="label.form.role">
+          <source>label.form.role</source>
+       <target state="new">Rol</target>
+        </trans-unit>
+     <trans-unit id="47" resname="label.delete.contact">
+              <source>label.delete.contact</source>
+           <target state="new">Eliminar Contacto de Agencia</target>
+            </trans-unit>
+<trans-unit id="48" resname="label.delete.contact1">
+              <source>label.delete.contact1</source>
+           <target state="new">Esta Seguro?</target>
+            </trans-unit>
+<trans-unit id="49" resname="label.accounting.from">
+              <source>label.accounting.from</source>
+           <target state="new">Desde</target>
+            </trans-unit>
+<trans-unit id="50" resname="label.accounting.to">
+              <source>label.accounting.to</source>
+           <target state="new">Hasta</target>
+            </trans-unit>
 
     </body>
   </file>

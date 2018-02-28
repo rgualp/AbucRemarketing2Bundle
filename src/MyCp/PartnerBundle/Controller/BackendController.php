@@ -58,7 +58,10 @@ class BackendController extends Controller
             "formFilterOwnerShip"=>$formFilterOwnerShip->createView(),
             'form'=>$form->createView(),
             'inAction'=>$inAction,
-            "isSpecialPackage" => $isSpecialPackage
+            'agency'=>$travelAgency,
+            "isSpecialPackage" => $isSpecialPackage,
+            "balance"=>$travelAgency->getAccount()->getBalance(),
+            "role"=>$user->getRoles()[0]
         ));
     }
 

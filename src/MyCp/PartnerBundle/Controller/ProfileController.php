@@ -2,6 +2,9 @@
 
 namespace MyCp\PartnerBundle\Controller;
 
+use MyCp\FrontEndBundle\Form\profileUserType;
+use MyCp\FrontEndBundle\Form\registerTourOperatorType;
+use MyCp\FrontEndBundle\Form\registerUserType;
 use MyCp\mycpBundle\Form\restorePasswordUserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -9,7 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use MyCp\PartnerBundle\Entity\paTravelAgency;
 use MyCp\PartnerBundle\Entity\paTourOperator;
-
+use MyCp\mycpBundle\Form\clientPartnerType;
 use MyCp\PartnerBundle\Form\paTravelAgencyType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use MyCp\mycpBundle\Entity\user;
@@ -38,6 +41,76 @@ class ProfileController extends Controller
                 'form'=>$form->createView(),
                 'email'=>$agency->getEmail(),
                 'packages' => $packagesByAgency
+            ))
+        ]);
+    }
+
+    public function contactsAgencyAction(){
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $agency = $tourOperator->getTravelAgency();
+        $contacts= $agency->getContacts();
+//        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+//        $agency = $tourOperator->getTravelAgency();
+        $form = $this->createForm(new paTravelAgencyType($this->get('translator'),true),$agency);
+        $packagesByAgency = $em->getRepository("PartnerBundle:paAgencyPackage")->getPackagesByAgency($agency->getId());
+
+        return new JsonResponse([
+            'success' => true,
+            'id' => 'id_dashboard_profile_agency',
+            'html' => $this->renderView('PartnerBundle:Management:contacts_agency.html.twig', array(
+                'form'=>$form->createView(),
+                'email'=>$agency->getEmail(),
+                'packages' => $packagesByAgency,
+                'contacts'=>$contacts
+            ))
+        ]);
+    }
+    /**
+     * @param Request $request
+     */
+    public function contactsDeleteAction(Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $contact_id = $request->get("contact_id");
+        $contact = $em->getRepository("PartnerBundle:paContact")->find($contact_id);
+        $em->remove($contact);
+        $em->flush();
+
+        return new JsonResponse([
+            'success' => true,
+
+            'message' => ""
+
+        ]);
+    }
+
+    public function touroperatorsAgencyAction(){
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $agency = $tourOperator->getTravelAgency();
+        $tourOperators=$agency->getTourOperators();
+        $countries = $em->getRepository('mycpBundle:country')->findAll();
+        $data['countries'] = $countries;
+        $data['error'] = "";
+        $count_errors = 0;
+
+        $form = $this->createForm(new registerTourOperatorType($this->get('translator'),$data));
+
+        $packagesByAgency = $em->getRepository("PartnerBundle:paAgencyPackage")->getPackagesByAgency($agency->getId());
+        return new JsonResponse([
+            'success' => true,
+            'id' => 'id_dashboard_profile_agency',
+            'html' => $this->renderView('PartnerBundle:Management:touroperators_agency.html.twig', array(
+
+                'email'=>$agency->getEmail(),
+                'packages' => $packagesByAgency,
+                'touroperators'=>$tourOperators,
+                'form_user'=>$form->createView()
             ))
         ]);
     }
@@ -153,6 +226,9 @@ class ProfileController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $agency = $tourOperator->getTravelAgency();
+        $tourOperators=$agency->getTourOperators();
         //subir photo
         $dir = $this->container->getParameter('user.dir.photos');
         $file = $request->files->get('file');
@@ -163,11 +239,16 @@ class ProfileController extends Controller
             //Redimensionando la foto del usuario
             \MyCp\mycpBundle\Helpers\Images::resize($dir . $fileName, 150);
             $photo->setPhoName($fileName);
-            $user->setUserPhoto($photo);
             $em->persist($photo);
+            $em->flush();
+            foreach ($tourOperators as $tour) {
+                $tour->setUserPhoto($photo);
+                $em->persist($tour);
+                $em->flush();
+            }
+
         }
-        $em->persist($user);
-        $em->flush();
+
         return new JsonResponse([
             'success' => true,
             'dir'=>$fileName

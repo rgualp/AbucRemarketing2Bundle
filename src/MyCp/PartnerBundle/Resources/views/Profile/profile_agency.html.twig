@@ -85,15 +85,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="row contact">
-                    <div class="col-md-12">
-                        <span style="font-size: 24px;font-family: MyriadProBold;color: #64a432">{{ 'label.account.agency.contact' | trans }}</span>
-                    </div>
-                    <div data-prototype="{% filter escape %}{% include 'PartnerBundle:Prototype:prototype.html.twig' with { 'item': form.contacts.vars.prototype } %}{% endfilter %}"></div>
-                    {% for m in form.contacts %}
-                        {% include 'PartnerBundle:Prototype:prototype.html.twig' with { 'item': m } %}
-                    {% endfor %}
-                </div>
+                {#<div class="row contact">#}
+                    {#<div class="col-md-12">#}
+                        {#<span style="font-size: 24px;font-family: MyriadProBold;color: #64a432">{{ 'label.account.agency.contact' | trans }}</span>#}
+                    {#</div>#}
+                    {#<div data-prototype="{% filter escape %}{% include 'PartnerBundle:Prototype:prototype.html.twig' with { 'item': form.contacts.vars.prototype } %}{% endfilter %}"></div>#}
+                    {#{% for m in form.contacts %}#}
+                        {#{% include 'PartnerBundle:Prototype:prototype.html.twig' with { 'item': m } %}#}
+                    {#{% endfor %}#}
+                {#</div>#}
             </div>
         </form>
         <div class="row">
@@ -124,6 +124,7 @@
                 type: 'POST',
                 datatype: 'xml',
                 add: function (event, data) {
+
                     data.submit();
 
                 },

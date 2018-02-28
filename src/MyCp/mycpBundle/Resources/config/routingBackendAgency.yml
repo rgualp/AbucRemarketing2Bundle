@@ -37,3 +37,7 @@ mycp_list_agency_checkin:
 mycp_get_user:
    pattern:  /user
    defaults: { _controller: mycpBundle:BackendAgency:get_user }
+
+mycp_accounting_add_re:
+    path:  /accounting/re
+    defaults: { _controller: mycpBundle:BackendAgency:addReintegro }

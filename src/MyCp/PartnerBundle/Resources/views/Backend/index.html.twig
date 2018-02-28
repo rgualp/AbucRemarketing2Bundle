@@ -210,10 +210,16 @@
 {% block body %}
     <div class="row" style="background-color: #06354f">
         <div class="container m-t-sm" style="width: 96%">
+            {% if balance <= 0 %}
+            <div class="alert alert-danger" role="alert">
+                <div class="glyphicon glyphicon-alert" style="padding-left: 10px;padding-right: 10px"></div>
+                <b style="font-size: large"> Cuenta sin saldo. Registre un depósito para poder continuar con las reservas.</b>
+            </div>
+            {% else %}
             <div class="col-md-12">
                 {% include 'PartnerBundle:Backend:searcher.html.twig' %}
             </div>
-
+         {% endif %}
 
         </div>
         <div class="col-md-7 " style="display: inline-block;padding-left: 30px;">

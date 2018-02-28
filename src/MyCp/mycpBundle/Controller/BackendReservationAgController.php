@@ -367,6 +367,7 @@ class BackendReservationAgController extends Controller {
             'post' => $post,
             'errors' => $errors,
             'reservation' => $reservation,
+            'user_id'=>$reservation->getGenResUserId()->getUserId(),
             'br'=>$reference['reference'],
             'user' => $user,
             'client'=>$client,

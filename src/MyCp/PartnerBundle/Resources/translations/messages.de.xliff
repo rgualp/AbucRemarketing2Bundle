@@ -2381,7 +2381,44 @@
                                                         <source>partner.invoice.date</source>
                                                           <target state="new">Invoice Date</target>
                                                   </trans-unit>
+<trans-unit id="42" resname="dashboard.contacts">
+   <source>dashboard.contacts</source>
+<target state="new">Contacts</target>
+ </trans-unit>
+ <trans-unit id="43" resname="dashboard.operators">
+    <source>dashboard.operators</source>
+ <target state="new">Tour Operators</target>
+  </trans-unit>
+   <trans-unit id="44" resname="dashboard.accounting">
+      <source>dashboard.accounting</source>
+   <target state="new">Accounting</target>
+    </trans-unit>
+    <trans-unit id="45" resname="label.form.agency.touroperator">
+                  <source>label.form.agency.touroperator</source>
+               <target state="new">Indicate the data of the Tour Operator for the agency</target>
+                </trans-unit>
 
+               <trans-unit id="46" resname="label.form.role">
+                              <source>label.form.role</source>
+                           <target state="new">Role</target>
+                            </trans-unit>
+     <trans-unit id="47" resname="label.delete.contact">
+                         <source>label.delete.contact</source>
+                      <target state="new">Delete Agency Contact</target>
+               </trans-unit>
+<trans-unit id="48" resname="label.delete.contact1>
+              <source>label.delete.contact1</source>
+           <target state="new">Are you Shure?"</target>
+            </trans-unit>
+
+  <trans-unit id="49" resname="label.accounting.from">
+                <source>label.accounting.from</source>
+             <target state="new">From</target>
+              </trans-unit>
+  <trans-unit id="50" resname="label.accounting.to">
+                <source>label.accounting.to</source>
+             <target state="new">To</target>
+              </trans-unit>
         </body>
   </file>
 </xliff>
