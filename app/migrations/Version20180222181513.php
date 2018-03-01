@@ -24,7 +24,7 @@ class Version20180222181513 extends AbstractMigration
         $this->addSql(' ALTER TABLE pa_travel_agency ADD account INT DEFAULT NULL;');
         $this->addSql(' ALTER TABLE pa_travel_agency ADD CONSTRAINT FK_E49923767D3656A4 FOREIGN KEY (account) REFERENCES pa_account (account_id);');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_E49923767D3656A4 ON pa_travel_agency (account);');
-//        $this->addSql('ALTER TABLE generalreservation CHANGE gen_res_to_date gen_res_to_date DATETIME NOT NULL;');
+
 
 
 

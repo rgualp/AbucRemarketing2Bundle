@@ -19,6 +19,8 @@ class Version20180221132628 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
         $this->addSql("insert into role(role_name, role_parent, role_fixed) values ('ROLE_ECONOMY_PARTNER', 3, 1)");
         $this->addSql("insert into role(role_name, role_parent, role_fixed) values ('ROLE_CLIENT_PARTNER_TOUROPERATOR', 3, 1)");
+
+
         $this->addSql("UPDATE pa_tour_operator SET pa_tour_operator.travel_agency = 37
 where pa_tour_operator.tourOperator=32531 or 
 pa_tour_operator.tourOperator=40601 or

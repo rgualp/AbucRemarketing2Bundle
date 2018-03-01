@@ -3,6 +3,7 @@
 namespace MyCp\PartnerBundle\Controller;
 
 use MyCp\mycpBundle\Helpers\Dates;
+use MyCp\PartnerBundle\Entity\paAccount;
 use MyCp\PartnerBundle\Entity\paReservationDetail;
 use MyCp\PartnerBundle\Form\paReservationExtendedType;
 use MyCp\PartnerBundle\Form\paReservationType;
@@ -50,6 +51,15 @@ class BackendController extends Controller
         //proccess, pending, availability, notavailability, reserved, beaten, canceled, checkin
         $inAction = array();
 
+
+        if($travelAgency->getAccount()==null){
+            $new_account=new paAccount();
+            $new_account->setBalance(3000);
+            $travelAgency->setAccount($new_account);
+            $em->persist($new_account);
+            $em->persist($travelAgency);
+            $em->flush();
+        }
         return $this->render('PartnerBundle:Backend:index.html.twig', array(
             "locale" => "es",
             "owns_categories" => null,

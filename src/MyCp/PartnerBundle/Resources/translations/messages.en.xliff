@@ -2437,6 +2437,71 @@
                <source>label.accounting.to</source>
             <target state="new">To</target>
              </trans-unit>
+
+ <trans-unit id="51" resname="label.accounting.alert.danger">
+               <source>label.accounting.alert.danger</source>
+            <target state="new">Account without balance Register a deposit to continue with reservations.</target>
+             </trans-unit>
+ <trans-unit id="52" resname="label.accounting.alert.warning">
+    <source>label.accounting.alert.warning</source>
+    <target state="new">Your account is close to the established limit.</target>
+  </trans-unit>
+  <trans-unit id="53" resname="label.accounting.alert.lesdanger">
+     <source>label.accounting.alert.lesdanger</source>
+     <target state="new">Your account has exceeded the allowed limit. Make a deposit.</target>
+   </trans-unit>
+    <trans-unit id="54" resname="label.accounting.new.deposit">
+         <source>label.accounting.new.deposit</source>
+         <target state="new">New deposit</target>
+       </trans-unit>
+       <trans-unit id="55" resname="label.accounting.conciliation">
+             <source>label.accounting.conciliation</source>
+             <target state="new">Conciliate</target>
+           </trans-unit>
+            <trans-unit id="56" resname="label.accounting.description">
+                         <source>label.accounting.description</source>
+                         <target state="new">Description</target>
+                       </trans-unit>
+                   <trans-unit id="57" resname="label.accounting.debit">
+                               <source>label.accounting.debit</source>
+                               <target state="new">Debit</target>
+                             </trans-unit>
+                <trans-unit id="58" resname="label.accounting.credit">
+                 <source>label.accounting.credit</source>
+                  <target state="new">Credit</target>
+                   </trans-unit>
+                   <trans-unit id="59" resname="label.accounting.balance">
+                         <source>label.accounting.balance</source>
+                          <target state="new">Balance</target>
+                           </trans-unit>
+    <trans-unit id="60" resname="label.accounting.register.deposit">
+   <source>label.accounting.register.deposit</source>
+  <target state="new">Register Deposit in Account</target>
+  </trans-unit>
+    <trans-unit id="61" resname="label.accounting.deposit">
+        <source>label.accounting.deposit</source>
+       <target state="new">Deposit</target>
+       </trans-unit>
+       <trans-unit id="62" resname="label.accounting.send.council">
+                  <source>label.accounting.send.council</source>
+                 <target state="new">Send Conciliation</target>
+                 </trans-unit>
+  <trans-unit id="63" resname="label.accounting.check">
+       <source>label.accounting.check</source>
+        <target state="new">You confirm that the debit, credit and balance values ​​shown are true and you wish to reconcile them with the MyCasaParticular team?</target>
+           </trans-unit>
+           <trans-unit id="64" resname="label.accounting.send">
+                          <source>label.accounting.send</source>
+                 <target state="new">Send</target>
+             </trans-unit>
+                  <trans-unit id="65" resname="label.table.norecord">
+           <source>label.table.norecord</source>
+               <target state="new">This month have no records</target>
+             </trans-unit>
+              <trans-unit id="66" resname="label.accounting.account">
+                                                          <source>label.accounting.account</source>
+                                                         <target state="new">Account Balance:</target>
+                                                         </trans-unit>
     </body>
   </file>
 </xliff>

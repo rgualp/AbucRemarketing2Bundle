@@ -3,7 +3,7 @@
 <div class="ibox card">
     <div class="ibox-title card">
         <div id="appended">
-        <span class="title-card" id="title-card">Estado de cuenta: ${{ balance }} {{ coin|lower }}</span>
+        <span class="title-card" id="title-card">{{ 'label.accounting.account'|trans }} ${{ balance }} {{ coin|lower }}</span>
         </div>
         <div class="ibox-tools">
             <a class="collapse-link">
@@ -17,17 +17,17 @@
     {% if balance <= 0 %}
     <div class="alert alert-danger" role="alert">
         <div class="glyphicon glyphicon-alert" style="padding-left: 10px;padding-right: 10px"></div>
-        <b style="font-size: large"> Cuenta sin saldo. Registre un depósito para poder continuar con las reservas.</b>
+        <b style="font-size: large"> {{ 'label.accounting.alert.danger'|trans }}</b>
     </div>
     {% elseif balance>=500 and balance <= 800 %}
     <div class="alert alert-warning" role="alert">
         <div class="glyphicon glyphicon-exclamation-sign" style="padding-left: 10px;padding-right: 10px"></div>
-       <b style="font-size: large"> Su cuenta está próxima al límite establecido.</b>
+       <b style="font-size: large"> {{ 'label.accounting.alert.warning'|trans }}</b>
     </div>
     {% elseif balance>0 and balance <= 500 %}
         <div class="alert alert-danger" role="alert">
             <div class="glyphicon glyphicon-exclamation-sign" style="padding-left: 10px;padding-right: 10px"></div>
-           <b style="font-size: large">Su cuenta ha sobrepasado el límite permitido. Realice un depósito.</b>
+           <b style="font-size: large">{{ 'label.accounting.alert.lesdanger'|trans }}</b>
         </div>
     {% endif %}
     <div class="ibox-content card">
@@ -74,8 +74,8 @@
                 <div class="col-lg-2 field-filter pull-right">
 
                     <div class="btn-group m-t-n-xs pull-right">
-                        <div class="btn-group m-t-n-xs pull-right"><a class="btn btn-sm btn-search" data-toggle="modal" title="New Deposit" data-target="#deposit"> Nuevo Deposito </a></div>
-                        <div class="btn-group m-t-n-xs pull-right"><a class="btn btn-sm btn-search" data-toggle="modal" title="Conciliar"  onClick="showconcil(this)"> Conciliar </a></div>
+                        <div class="btn-group m-t-n-xs pull-right"><a class="btn btn-sm btn-search" data-toggle="modal" title="New Deposit" data-target="#deposit"> {{'label.accounting.new.deposit'|trans  }} </a></div>
+                        <div class="btn-group m-t-n-xs pull-right"><a class="btn btn-sm btn-search" data-toggle="modal" title="Conciliar"  onClick="showconcil(this)"> {{ 'label.accounting.conciliation'|trans }} </a></div>
                         {#<div class="btn-group m-t-n-xs pull-right"><a class="btn btn-sm btn-search" onClick="clearProccessAction(this)"> Exportar a Excel </a></div>#}
                         <div class="btn-group m-t-n-xs pull-right" style="margin-left: 5px"><a class="btn btn-sm btn-search" onClick="filterAccountingAction(this)"> {{ 'btn.search' | trans }} </a></div>
 
@@ -99,18 +99,18 @@
 
                                     <th>No.</th>
 
-                                    <th>Fecha</th>
+                                    <th>{{ 'today.date'|trans }}</th>
 
-                                    <th>Descripción</th>
-
-
-                                    <th>Debe</th>
+                                    <th>{{ 'label.accounting.description'|trans }}</th>
 
 
-                                    <th>Haber</th>
+                                    <th>{{ 'label.accounting.debit'|trans }}</th>
 
 
-                                    <th><b>SALDO</b></th>
+                                    <th>{{ 'label.accounting.credit'|trans }}</th>
+
+
+                                    <th><b>{{ 'label.accounting.balance'|trans }}</b></th>
 
                                     <th style="background: #0a4d77 !important;"></th>
 
@@ -147,7 +147,7 @@
             </div>
             <div class="modal-body modal-agency">
                 <div class="row text-center">
-                    <p class="m-r-12">Registrar Deposito en Cuenta</p>
+                    <p class="m-r-12">{{ 'label.accounting.register.deposit' |trans}}</p>
                 </div>
                 <form class="form-horizontal form-agency "  method="post" id="form-deposit">
 
@@ -160,7 +160,7 @@
                                     <div class="inner-addon left-addon">
                                         <i class="glyphicon glyphicons calendar"></i>
                                         <div class="input-group date">
-                                            <input type="text" id="date" name="date" required="required" class="form-control" placeholder="Desde"  data-toggle="tooltip" data-container="body">
+                                            <input type="text" id="date" name="date" required="required" class="form-control" placeholder="{{ 'label.accounting.from'|trans }}"  data-toggle="tooltip" data-container="body">
                                             <span class="input-group-addon hide"><i class="fa fa-calendar"></i></span>
 
                                         </div>
@@ -176,7 +176,7 @@
                                 <div class="col-md-3">
                                     <div class="inner-addon left-addon">
                                         <i class="glyphicon glyphicons money"></i>
-                                        <input type="text" name="cash" id="cash" required="required" placeholder="Deposito" data-toggle="tooltip" data-container="body" class="form-control">
+                                        <input type="text" name="cash" id="cash" required="required" placeholder="{{ 'label.accounting.deposit'|trans }}" data-toggle="tooltip" data-container="body" class="form-control">
                                     </div>
 
                                 </div>
@@ -185,7 +185,7 @@
                         </div>
 
                         <div class="form-group"> <!-- Message field -->
-                            <label class="control-label " for="message">Description</label>
+                            <label class="control-label " for="message">{{ 'label.accounting.description'|trans }}</label>
                             <textarea class="form-control" cols="40" id="message" name="message"   rows="10" style="color: black;"></textarea>
                         </div>
 
@@ -199,7 +199,7 @@
 
             <div class="modal-footer" style="background-color: #25323b !important;border-top: 0px">
                 <div class="form-group" style="float:  right;">
-                    <button class="btn btn-primary " name="submit" onclick="insertDepositAction(this)" >Registrar</button>
+                    <button class="btn btn-primary " name="submit" onclick="insertDepositAction(this)" >{{ 'label.accounting.register.deposit'|trans }}</button>
                 </div>
             </div>
         </div>
@@ -214,7 +214,7 @@
             </div>
             <div class="modal-body modal-agency">
                 <div class="row text-center">
-                    <p class="m-r-12">Enviar Conciliación</p>
+                    <p class="m-r-12">{{ 'label.accounting.send.council'|trans }}</p>
                 </div>
                 <form class="form-horizontal form-agency "  method="post" id="form-conciliar">
 
@@ -227,7 +227,7 @@
                                     <div class="inner-addon left-addon">
                                         <i class="glyphicon glyphicons calendar"></i>
                                         <div class="input-group date">
-                                            <input type="text" id="date" name="date" required="required" class="form-control" placeholder="Desde"  data-toggle="tooltip" data-container="body">
+                                            <input type="text" id="date_from" name="date_from" required="required" class="form-control" placeholder="{{ 'label.accounting.from' |trans}}"  data-toggle="tooltip" data-container="body">
                                             <span class="input-group-addon hide"><i class="fa fa-calendar"></i></span>
 
                                         </div>
@@ -244,7 +244,7 @@
                                     <div class="inner-addon left-addon">
                                         <i class="glyphicon glyphicons calendar"></i>
                                         <div class="input-group date">
-                                            <input type="text" id="date_to" name="date_to" required="required" class="form-control" placeholder="Hasta"  data-toggle="tooltip" data-container="body">
+                                            <input type="text" id="date_to" name="date_to" required="required" class="form-control" placeholder="{{ 'label.accounting.to'|trans }}"  data-toggle="tooltip" data-container="body">
                                             <span class="input-group-addon hide"><i class="fa fa-calendar"></i></span>
 
                                         </div>
@@ -259,13 +259,16 @@
                     </div>
 
                     <div class="form-group" id="append"> <!-- Message field -->
+                    <div id="deleted">
+
+                    </div>
 
                     </div>
                     <div class="row">
                         <div class="checkbox checkbox-info" style="margin-left: 40px">
                             <input id="terms" type="checkbox" name="terms">
                             <label for="checkbox4" style="font-size: 16px;font-family: MyriadProRegular">
-                                Usted Confima que los valores Debe,Haber y Saldo mostrados son verdaderos y                                        desea conciliarlos con el equipo de MyCasaParticular
+                            {{ 'label.accounting.check'|trans }}
                             </label>
                         </div>
                     </div>
@@ -280,7 +283,7 @@
             <div class="modal-footer" style="background-color: #25323b !important;border-top: 0px">
 
                 <div class="form-group" style="float:  right;">
-                    <button class="btn btn-primary " name="submit" onclick="insertDepositAction(this)" >Enviar</button>
+                    <button class="btn btn-primary " name="submit" onclick="sendConcilAction(this)" >{{ 'label.accounting.send'|trans }}</button>
                 </div>
             </div>
         </div>
@@ -323,7 +326,12 @@
 
 
     $(document).ready(function () {
-
+        $("#date_from").bind("change paste keyup", function() {
+            loadforcouncil();
+        });
+        $("#date_to").bind("change paste keyup", function() {
+            loadforcouncil();
+        });
         var currentdate = new Date();
         var datetime = currentdate.getDate() + "/"
             + (currentdate.getMonth()+1)  + "/"
@@ -340,7 +348,7 @@
                 "url": "{{ asset('bundles/layout/js/plugins/dataTables/locale/') }}{{ app.request.locale }}.json"
             },
             dom: 'Bfrtip',
-
+            oLanguage: { "sEmptyTable": "{{ 'label.table.norecord'|trans }}" },
             lengthChange: false,
             buttons: [
 
@@ -408,7 +416,7 @@
                 },
                 "dataSrc":"",
                  error: function (xhr, error, thrown) {
-                    alert( 'Error' );
+                    console.log( 'Error' );
                 }
 
             },
@@ -450,7 +458,7 @@
 
                 // Total over all pages
                 total = api
-                    .column( 3 )
+                    .column(3)
                     .data()
                     .reduce( function (a, b) {
                         return intVal(a) + intVal(b);
@@ -482,7 +490,7 @@
 
                 // Update footer
                 $( api.column( 4 ).footer() ).html(
-                    '$'+total1
+                    '$'+roundTo(total1,2)
                 );
 
                 // Update footer
@@ -500,18 +508,95 @@
                 $('.buttons-pdf').html('<span class="glyphicon glyphicon-file" data-toggle="tooltip" title="Export To Pdf"/>')
             }
         });
+
+      
     });
 
+    function loadforcouncil() {
+        var url= "{{ path('partner_dashboard_sumary_accounting') }}";
+        HoldOn.open();
+
+        var date=$('#date_from').val();
+        var date_to=$('#date_to').val();
+
+
+        $.ajax({
+            type:"GET",
+            url:url,
+            data:{'booking_reserved_filter_form':{'from':date,'to':date_to}},
+            success:function (response) {
+
+                if(response){
+                    $('#deleted').remove();
+                    var debe=0;
+                    var haber=0;
+                    var saldo=0;
+
+
+
+                    $.each(
+                        response,
+                        function(index, value) {
+                        if(value.debit!=null&&value.debit!=''){
+
+                            debe+=parseFloat(value.debit);
+
+                        }
+                        else{
+
+                            haber+=parseFloat(value.credit);
+
+                        }
+
+                        }
+                    );
+
+                    saldo = debe-haber;
+                    var html='<div id="deleted" class="row text-center" style="padding-top: 15px">' +
+                            '<table  style="border-radius: 5px;\n' +
+                        '    width: 100%;\n' +
+                        '    float: none;">'+
+                            '<thead>'+
+                            '<th style="text-align: center;">'+
+                            "{{ 'label.accounting.debit'|trans }}" +
+                            '</th>'+
+                            '<th style="text-align: center;">'+
+                            "{{ 'label.accounting.credit' |trans}}"+
+                             '</th>'+
+                            '<th style="text-align: center;">'+
+                            "{{ 'label.accounting.balance'|trans }}"+
+                           '</th>'+
+                            '</thead>'+
+                            '<tbody>'+
+                            ' <td id="debit" value="'+debe+'">'+roundTo(debe,2)+'</td>'+
+                          ' <td id="credit" value="'+haber+'">'+roundTo(haber,2)+'</td>'+
+                         ' <td id="balance" value="'+saldo+'">'+roundTo(saldo,2)+'</td>'+
+
+                            '</tbody>'+
+                         '</table>'+
+                        '</div>';
+                    $('#append').append(html);
+                    HoldOn.close();
+
+                }
+                else{
+                    HoldOn.close();
+                }
+            }
+        });
+    }
     function filterAccountingAction() {
         HoldOn.open();
         oTableReserved.ajax.reload();
         HoldOn.close();
     }
     function showconcil() {
-        HoldOn.open();
-        oTableReserved.ajax.reload();
-        HoldOn.close();
+        loadforcouncil();
+        $('#conciliar').modal('toggle');
+
+
     }
+
     function insertDepositAction() {
        var validator= $("#form-deposit").validate({
             submitHandler: function(form) {
@@ -604,7 +689,7 @@
             invalidHandler: function(event, validator) { //display error alert on form submit
             },
             rules: {
-                'date':{
+                'date_from':{
                     required: true,
                     date: true
                 },
@@ -633,22 +718,24 @@
         if(!validator.form()){
             return;
         }
-        var url= "{{ path('partner_dashboard_sumary_accounting_add_deposit') }}";
+        var url= "{{ path('partner_dashboard_sumary_accounting_conciliation') }}";
         HoldOn.open();
-        var date=$('#date').val();
-        var description=$('#message').val();
-        var cash=$('#cash').val();
+        var from=$('#date_from').val();
+        var to=$('#date_to').val();
+        var debit=$('#debit').text();
+        var credit=$('#credit').text();
+        var balance=$('#balance').text();
         $.ajax({
             type:"GET",
             url:url,
-            data:{'date':date,'description':description,'cash':cash},
+            data:{'from':from,'to':to,'debit':debit,'credit':credit,'balance':balance},
             success:function (response) {
 
                 if(response.success){
 
-                    oTableReserved.ajax.reload();
+
                     HoldOn.close();
-                    $('#deposit').modal('hide');
+                    $('#conciliar').modal('hide');
                 }
                 else{
                     HoldOn.close();

@@ -411,4 +411,6 @@ partner_dashboard_sumary_accounting_add_deposit:
     locales:  { en: "/dashboard/accounting/sumary/deposit", es: "/dashboard/accounting/sumary/deposit", de: "/dashboard/accounting/sumary/deposit", fr: "/dashboard/accounting/sumary/deposit", it: "/dashboard/accounting/sumary/deposit" }
     defaults: { _controller: PartnerBundle:Accountig:addDeposit }
 
-
+partner_dashboard_sumary_accounting_conciliation:
+    locales:  { en: "/dashboard/accounting/sumary/dconciliation", es: "/dashboard/accounting/sumary/conciliation", de: "/dashboard/accounting/sumary/conciliation", fr: "/dashboard/accounting/sumary/conciliation", it: "/dashboard/accounting/sumary/conciliation" }
+    defaults: { _controller: PartnerBundle:Accountig:sendConciliation }

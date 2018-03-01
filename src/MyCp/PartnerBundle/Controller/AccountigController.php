@@ -38,11 +38,12 @@ class AccountigController extends Controller
         $agency = $tourOperator->getTravelAgency();
         $account =$agency->getAccount();
         $curr = $this->getCurr($request);
+        $balance=round($account->getBalance()*$curr['change'],2);
         return new JsonResponse([
             'success' => true,
 
             'id' => 'id_dashboard_accounting',
-            'html' => $this->renderView('PartnerBundle:Accounting:accounting_agency.html.twig',array('coin'=>$curr['code'],'balance'=>$account->getBalance()*$curr['change'])),
+            'html' => $this->renderView('PartnerBundle:Accounting:accounting_agency.html.twig',array('coin'=>$curr['code'],'balance'=>$balance)),
             'msg' => 'Vista accounting summary'
 
 
@@ -210,8 +211,8 @@ class AccountigController extends Controller
         $draw = $request->get('draw') + 1;
         $curr=$this->getCurr($request);
         #endregion PAGINADO
-        if(count($ledge)>0) {
-            if (count($ledge) == 1) {
+        if($account->getBalance()>0) {
+            if (count($ledge) == 0) {
                 $today = date('d-m-Y');
 
                 $this->InitializeLedger($start, $limit, $draw, $account, $curr, $today);
@@ -225,30 +226,37 @@ class AccountigController extends Controller
                 $this->UpdateLedger($start, $limit, $draw, $account, $curr, $last_ledger_cas, $last_created_date, $today);
             }
             $today = date('d-m-Y');
+            $today = date('d-m-Y', strtotime($today . ' +1 day'));
             $first = date('01-m-Y');
+
             $dates = array();
             $to = (array_key_exists('to', $filters) && isset($filters['to']));
             $from = (array_key_exists('from', $filters) && isset($filters['from']));
 
             if ($from) {
+                if($filters['from']!='')
                 $first = $filters['from'];
             }
             if ($to) {
+                if($filters['to']!='')
                 $today = $filters['to'];
             }
-            $today = date('d-m-Y', strtotime($today . ' +1 day'));
+
             $dates = array("to_between" => array($first, $today));
             $data = $ledgers_repo->getallLedger($account->getId(), $dates);
 
-            $ledgers = array(array('no'=>1,
-                'description'=>'Estado de la cuenta al inicio del día '.$data[0]['created']->format('d-m-Y'),
-                "created"=>$data[0]['created']->format('d-m-Y'),
-                'credit'=>'',
-                'debit'=>round(($data[0]['balance']+$data[0]['credit'])* $curr['change'],2),
-                'balance'=>round(($data[0]['balance']+$data[0]['credit'])* $curr['change'],2))
+            $count=0;
+            $ledgers=array();
+            if(count($data)>0) {
+                $ledgers = array(array('no' => 1,
+                    'description' => 'Estado de la cuenta al inicio del día ' . $data[0]['created']->format('d-m-Y'),
+                    "created" => $data[0]['created']->format('d-m-Y'),
+                    'credit' => '',
+                    'debit' => round(($data[0]['balance'] + $data[0]['credit']) * $curr['change'], 2),
+                    'balance' => round(($data[0]['balance'] + $data[0]['credit']) * $curr['change'], 2))
                 );
-            $count = 1;
-
+                $count = 1;
+            }
             foreach ($data as $ledge) {
 
                 $arrTmp = array();
@@ -332,6 +340,64 @@ class AccountigController extends Controller
 
 
         }
+   public function sendConciliationAction( Request $request){
+        try{
+            $today = date('d-m-Y');
+            $today = date('d-m-Y', strtotime($today . ' +1 day'));
+            $first = date('01-m-Y');
+            $user = $this->getUser();
+            $curr=$this->getCurr($request);
+            $em = $this->getDoctrine()->getManager();
+            $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+            $agency = $tourOperator->getTravelAgency();
+            $account =$agency->getAccount();
 
+            $debit=$request->get('debit');
+            $credit=$request->get('credit');
+            $balance=$request->get('balance');
+            $from=$request->get('from');
+            $to=$request->get('to');
+            $obj=new paAccountLedgers();
+            $obj->setAccount($account);
+            if ($from=='') {
+
+              $from = $first;
+            }
+            if ($to=='') {
+                $to=$today;
+            }
+
+            $service_email = $this->get('Email');
+            $emailBody = $this->renderView('FrontEndBundle:mails:rt_agency_conciliation.html.twig', array(
+                'travelAgency' => $agency,
+                'debit' => $debit,
+                'credit'=>$credit,
+                'balance'=>$balance,
+                'from'=>$from,
+                'to'=>$to
+
+            ));
+            $service_email->sendEmail(
+                "Conciliacion", 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', 'contabilidad@mycasaparticular.com', $emailBody
+            );
+            $service_email->sendEmail(
+                "Conciliacion", 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', 'contabilidad1@mycasaparticular.com', $emailBody
+            );
+            $service_email->sendEmail(
+                "Conciliacion", 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', 'laura@hds.li', $emailBody
+            );
+
+
+            return new JsonResponse(array('success'=>true,'message'=>'Para comensar operaciones añada un primer deposito'));
+
+        }
+        catch (Exception $a){
+            return new JsonResponse(array('success'=>false,'message'=>'Para comensar operaciones añada un primer deposito'));
+
+        }
+
+
+
+    }
 
 }
