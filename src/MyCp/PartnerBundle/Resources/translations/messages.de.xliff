@@ -2485,6 +2485,10 @@
                                                                                        <source>label.accounting.account</source>
                                                                                       <target state="new">Account Balance:</target>
                                                                                       </trans-unit>
+ <trans-unit id="67" resname="label.accounting.registerby">
+                                             <source>label.accounting.registerby</source>
+                                            <target state="new">Register by:</target>
+                                            </trans-unit>
         </body>
   </file>
 </xliff>

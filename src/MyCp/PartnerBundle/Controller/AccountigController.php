@@ -296,7 +296,6 @@ class AccountigController extends Controller
            $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
            $agency = $tourOperator->getTravelAgency();
            $account =$agency->getAccount();
-
            $date=$request->get('date');
            $desc=$request->get('description');
            $cash=$request->get('cash')/$curr['change'];
@@ -305,8 +304,8 @@ class AccountigController extends Controller
 
            $balance=$obj->setDebit($cash,$account->getBalance());
            $account->setBalance($balance);
-           $desc=$desc. ' Resistrado por:'.$user->getUsername().','.date('d-m-Y').','.date('h:i-A').'';
-
+           $desc=$desc.'-'. $this->get('translator')->trans('label.accounting.registerby').$user->getUsername().','.date('d-m-Y').','.date('h:i-A').'';
+           dump($desc);die;
           $obj->setDescription($desc);
           $em->persist($obj);
           $em->persist($account);

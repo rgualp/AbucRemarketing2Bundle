@@ -54,7 +54,7 @@ class BackendController extends Controller
 
         if($travelAgency->getAccount()==null){
             $new_account=new paAccount();
-            $new_account->setBalance(3000);
+            $new_account->setBalance(3333);
             $travelAgency->setAccount($new_account);
             $em->persist($new_account);
             $em->persist($travelAgency);

@@ -2499,6 +2499,11 @@
                                              <source>label.accounting.account</source>
                                             <target state="new">Estado de Cuenta:</target>
                                             </trans-unit>
+  <trans-unit id="67" resname="label.accounting.registerby">
+                                             <source>label.accounting.registerby</source>
+                                            <target state="new">Registrado por:</target>
+                                            </trans-unit>
     </body>
+
   </file>
 </xliff>
