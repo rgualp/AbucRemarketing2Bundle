@@ -495,7 +495,7 @@
 
                 // Update footer
                 $( api.column( 3 ).footer() ).html(
-                    '$'+total +'</br>'+'$'+(total-total1)
+                    '$'+total +'</br>'+'$'+roundTo((total-total1),2)
             );
 
             },
