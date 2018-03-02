@@ -1014,9 +1014,9 @@
         <source>dashboard.btn.booking.paid</source>
         <target state="new">Paid</target>
       </trans-unit>
-      <trans-unit id="72abe0f8a13fd98c4394677822f9d601a14310fe" resname="dashboard.profile">
-        <source>dashboard.profile</source>
-        <target state="new">My profile</target>
+      <trans-unit id="72abe0f8a13fd98c4394677822f9d601a14310fe" resname="dashboard.profile.agency">
+        <source>dashboard.profile.agency</source>
+        <target state="new">Agency Profile</target>
       </trans-unit>
       <trans-unit id="800d9cf2f6cfbe44c52f821f371d51fa99371192" resname="dashboard.text_reserv_one">
         <source>dashboard.text_reserv_one</source>
