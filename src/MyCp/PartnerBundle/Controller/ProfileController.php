@@ -40,7 +40,8 @@ class ProfileController extends Controller
             'html' => $this->renderView('PartnerBundle:Profile:profile_agency.html.twig', array(
                 'form'=>$form->createView(),
                 'email'=>$agency->getEmail(),
-                'packages' => $packagesByAgency
+                'packages' => $packagesByAgency,
+                'agency'=>$agency
             ))
         ]);
     }

@@ -12,8 +12,8 @@
             <div class="col-md-2 profile-element">
                 {{include('PartnerBundle:Profile:img-account.html.twig')}}
 
-                {% if app.user.UserPhoto is not null %}
-                    {% set avatar_img =  asset('uploads/userImages/'~app.user.UserPhoto.phoName) %}
+                {% if agency.getUserPhoto is not null %}
+                    {% set avatar_img =  asset('bundles/partner/img/logos/'~agency.getUserPhoto.phoName) %}
                 {% else %}
                     {% set avatar_img = asset('bundles/frontend/img/user-no-photo.png') %}
                 {% endif %}
