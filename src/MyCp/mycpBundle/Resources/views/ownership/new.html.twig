@@ -135,7 +135,7 @@
                 <li class=""><a data-toggle="tab" href="#sales">Ventas</a></li>
                 <li class=""><a {% if errors_tab['user_tab'] is defined %} class="tab_errors" {% endif %} data-toggle="tab" href="#usuario">Usuario</a></li>
                 {% if data['edit_ownership'] is defined %}
-                    <li class=""><a data-toggle="tab" href="#modality">Modalidad</a></li>
+                    <li class=""><a data-toggle="tab" href="#modality">Tipo de Renta</a></li>
                     <li class=""><a data-toggle="tab" href="#comentarios">Comentarios</a></li>
                 {% endif %}
             </ul>
@@ -723,7 +723,7 @@
     <div id="modality" class="tab-pane fade">
         <div class="row-fluid">
             <div class="span6">
-                <label>Modalidad</label>
+                <label>Tipo de Renta</label>
                 {% if errors['modality'] is defined %}<label class="error">{{errors['modality']|trim(':')}}</label>{%endif%}
                 <select class="input-block-level" name="modality" id="dllModality">
                     {{ render(controller('mycpBundle:BackendOwnership:getBookingModality', {'post':post})) }}
