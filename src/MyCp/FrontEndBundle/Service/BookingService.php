@@ -641,14 +641,15 @@ class BookingService extends Controller
         $em = $this->em;
         $repository = $em->getRepository('mycpBundle:generalReservation');
         $paginator = $repository->getReservationsPartnerByStatusArray($user->getUserId(), array(generalReservation::STATUS_RESERVED),array('booking_code'=>$bookingId),0,1000);
-
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $travelAgency = $tourOperator->getTravelAgency();
         if(count($paginator['data']==0)){
            $paginator = $repository->getReservationsPartnerByStatusArray($user->getUserId(), array(generalReservation::STATUS_CANCELLED),array('booking_code'=>$bookingId),0,1000);
 
        }
 
         $booking = $em->getRepository('mycpBundle:booking')->find($bookingId);
-        $result=array_merge($this->calculateBookingDetailsPartner($bookingId,$user),array('data'=>$paginator['data'],'bookingId'=>$bookingId,'user'=>$user,'own_res1'=>$paginator['data'],'booking'=>$booking,'user_locale'=> strtolower($user->getUserLanguage()->getLangCode()),'user_currency'=>$user->getUserCurrency()));
+        $result=array_merge($this->calculateBookingDetailsPartner($bookingId,$user),array('agency'=>$travelAgency,'data'=>$paginator['data'],'bookingId'=>$bookingId,'user'=>$user,'own_res1'=>$paginator['data'],'booking'=>$booking,'user_locale'=> strtolower($user->getUserLanguage()->getLangCode()),'user_currency'=>$user->getUserCurrency()));
 
         return $this->render('PartnerBundle:Voucher:voucherReservation.html.twig',$result);
     }
@@ -676,7 +677,7 @@ class BookingService extends Controller
 
         }
         $partnerClient = $em->getRepository("PartnerBundle:paClient")->find($idClient);
-        $result=array_merge($this->calculateBookingDetailsPartnerClient($bookingId,$user, $idClient),array('agency'=>$travelAgency->getName(),'data'=>$paginator['data'],'bookingId'=>$bookingId,'user'=>$user,'own_res1'=>$paginator['data'],'booking'=>$booking,'user_locale'=> strtolower($user->getUserLanguage()->getLangCode()),'user_currency'=>$user->getUserCurrency(), 'client'=> $partnerClient,'destinys'=>$array_destination));
+        $result=array_merge($this->calculateBookingDetailsPartnerClient($bookingId,$user, $idClient),array('agency'=>$travelAgency,'data'=>$paginator['data'],'bookingId'=>$bookingId,'user'=>$user,'own_res1'=>$paginator['data'],'booking'=>$booking,'user_locale'=> strtolower($user->getUserLanguage()->getLangCode()),'user_currency'=>$user->getUserCurrency(), 'client'=> $partnerClient,'destinys'=>$array_destination));
 
         return $this->render('PartnerBundle:Voucher:voucherClient.html.twig',$result);
     }

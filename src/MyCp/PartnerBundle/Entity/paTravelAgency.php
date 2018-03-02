@@ -113,7 +113,34 @@ class paTravelAgency extends baseEntity
      * @ORM\JoinColumn(name="account", referencedColumnName="account_id")
      */
     private $account;
+    /**
+     * @ORM\ManyToOne(targetEntity="MyCp\mycpBundle\Entity\photo",inversedBy="")
+     * @ORM\JoinColumn(name="agency_logo",referencedColumnName="pho_id")
+     */
+    private $agency_logo;
 
+    /**
+     * Set agency_logo
+     *
+     * @param \MyCp\mycpBundle\Entity\photo $agencyPhoto
+     * @return paTravelAgency
+     */
+    public function setUserPhoto(\MyCp\mycpBundle\Entity\photo $agencyPhoto = null)
+    {
+        $this->agency_logo = $agencyPhoto;
+
+        return $this;
+    }
+
+    /**
+     * Get agency_logo
+     *
+     * @return \MyCp\mycpBundle\Entity\photo
+     */
+    public function getUserPhoto()
+    {
+        return $this->agency_logo;
+    }
     /**
      * @return mixed
      */

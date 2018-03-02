@@ -144,7 +144,7 @@ class AccountigController extends Controller
 //            $em->flush();
 //
 //        }
-        $em->clear();
+
         return true;
     }
    public function UpdateLedger( $start, $limit, $draw,$account,$curr,$last_ledger_cas,$from,$to){
@@ -188,7 +188,7 @@ class AccountigController extends Controller
 //            $em->flush();
 //
 //        }
-        $em->clear();
+        
         return true;
     }
    public function sumaryAccountingAction(Request $request)

@@ -228,30 +228,30 @@ class ProfileController extends Controller
         $user = $this->getUser();
         $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
         $agency = $tourOperator->getTravelAgency();
-        $tourOperators=$agency->getTourOperators();
+
         //subir photo
-        $dir = $this->container->getParameter('user.dir.photos');
-        $file = $request->files->get('file');
+        $dir = $this->container->getParameter('agency.dir.logo');
+        $file = $request->files->get('image');
+
         if (isset($file)) {
             $photo = new photo();
-            $fileName = uniqid('user-') . '-photo.jpg';
+            $fileName = uniqid('agency-') . '-logo.jpg';
             $file->move($dir, $fileName);
             //Redimensionando la foto del usuario
             \MyCp\mycpBundle\Helpers\Images::resize($dir . $fileName, 150);
             $photo->setPhoName($fileName);
             $em->persist($photo);
             $em->flush();
-            foreach ($tourOperators as $tour) {
-                $tour->setUserPhoto($photo);
-                $em->persist($tour);
-                $em->flush();
-            }
+            $agency->setUserPhoto($photo);
+            $em->persist($agency);
+            $em->flush();
 
         }
 
         return new JsonResponse([
             'success' => true,
             'dir'=>$fileName
+
         ]);
     }
     public function saveAvatarfromApkAction(Request $request)

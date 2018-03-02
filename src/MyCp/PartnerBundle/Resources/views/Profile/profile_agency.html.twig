@@ -117,31 +117,39 @@
 
         }),
         $('#imputfile').on('change',function () {
-            var form = $('#image-upload-form');
+            var url= "{{ path('partnet_dashboard_avatar_agency') }}";
 
-            form.fileupload({
-                url: form.attr('action'),
-                type: 'POST',
-                datatype: 'xml',
-                add: function (event, data) {
 
-                    data.submit();
+            var $fileInput = $(this),
+                file = this.files[0],
+                fileType = file.type.split('/')[1];
 
-                },
-                progress: function (e, data) {
-                },
-                fail: function (e, data) {
-                },
-                done: function (event, data) {
-                    if(!data.result.success)
-                        return false;
-                    else{
-                        $('#logo_agency').attr('src', event.target.result);
-                        ImgAccount.showResponse(data.result);
+            if(true){
+                var formData = new FormData;
+                formData.append('image', file);
+
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    data: formData,
+
+                    beforeSend: function(){
+                        HoldOn.open();
+                    },
+                    complete: function(){
+                        HoldOn.close();
+                    },
+                    success: function(response){
+                        console.log(response);
+                    },
+                    error: function(e,a,b){
+                        console.log(e,a,b);
                     }
-
-                }
-            });
+                });
+            }
             }
         )
     )
@@ -363,4 +371,7 @@
         closeBttn.addEventListener( 'click', toggleOverlay );
         closeBttnDeactivate.addEventListener( 'click', toggleOverlayDeactivate );
     })();
+
+
+
 </script>

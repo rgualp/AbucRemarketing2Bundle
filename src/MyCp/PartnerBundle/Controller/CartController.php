@@ -248,13 +248,15 @@ class CartController extends Controller
         $user = $this->getUser();
         $currentTourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
         $currentTravelAgency = $currentTourOperator->getTravelAgency();
+
         $agencyPackage = $currentTravelAgency->getAgencyPackages()[0];
         $completePayment = $agencyPackage->getPackage()->getCompletePayment();
 
         $packageService = $this->get("mycp.partner.package.service");
         $isSpecial = $packageService->isSpecialPackageFromAgency($currentTravelAgency);
-
+        
         $list = $em->getRepository('PartnerBundle:paReservation')->getDetailsByIds($ownReservationIds);
+
         $payments = array();
 
         $totalPrepayment = 0;
