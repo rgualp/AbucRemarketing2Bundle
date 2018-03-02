@@ -87,11 +87,11 @@
                                         <div class="col-md-6">
                                             <div class="inner-addon left-addon">
                                                 <i class="glyphicon glyphicons user"></i>
-                                                {{ form_widget(form_user.user_user_name, { 'attr': {'placeholder': 'label.name.agency'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                                                {{ form_widget(form_user.user_user_name, { 'attr': {'placeholder': 'FORMS_NAME'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                                             </div>
                                             <div class="inner-addon left-addon">
                                                 <i class="glyphicon glyphicons user"></i>
-                                                {{ form_widget(form_user.user_last_name, { 'attr': {'placeholder': 'label.name.agency'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                                                {{ form_widget(form_user.user_last_name, { 'attr': {'placeholder': 'FORMS_LASTNAME'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
                                             </div>
                                             <div class="inner-addon left-addon">
                                                 <i class="glyphicon glyphicons globe_af"></i>
@@ -129,7 +129,7 @@
                                 </div>
 
                                 <div class="row text-right" style="float:  right;">
-                                    <button class="btn btn-primary " >ADD</button>
+                                    <button class="btn btn-primary " >{{ 'pa.modal.reservation.add'|trans }}</button>
                                 </div>
 
                             </div>
