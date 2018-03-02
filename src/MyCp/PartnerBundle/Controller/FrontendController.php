@@ -237,7 +237,7 @@ class FrontendController extends Controller
                 $em->flush();
 
 
-                return $this->redirect($this->generateUrl('frontend_partner_home'));
+                return new JsonResponse(array('success'=>true,'message'=>'Para comensar operaciones añada un primer deposito'));
                 //return $this->redirect($this->generateUrl('frontend_partner_registeracountpage'));
             }
 
@@ -337,7 +337,7 @@ class FrontendController extends Controller
                 $em->persist($tourOperator);
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('frontend_partner_home'));
+                return new JsonResponse(array('success'=>true,'message'=>'Para comensar operaciones añada un primer deposito'));
                 //return $this->redirect($this->generateUrl('frontend_partner_registeracountpage'));
             }
 

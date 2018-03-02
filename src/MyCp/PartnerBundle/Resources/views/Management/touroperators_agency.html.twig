@@ -128,16 +128,16 @@
                                     </div>
                                 </div>
 
-                                <div class="row text-right" style="float:  right;">
-                                    <button class="btn btn-primary " >{{ 'pa.modal.reservation.add'|trans }}</button>
-                                </div>
+
 
                             </div>
 
                         </form>
                     </div>
                     <div class="modal-footer" style="background-color: #25323b !important;border-top: 0px">
-
+                        <div class="row text-right" style="margin-right: 30px">
+                            <button class="btn btn-primary " onclick="addTourOperatorAction(this)">{{ 'pa.modal.reservation.add'|trans }}</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -188,4 +188,106 @@
         }
         onDeleteContactButton();
     })
+    function addTourOperatorAction() {
+        var validator= $("#form-touroperator").validate({
+            submitHandler: function(form) {
+                //form.submit();
+            },
+            errorElement: 'span',
+            errorClass: 'has-error',
+            errorPlacement: function(error, element) {
+                if (element.attr("name") == "fname" || element.attr("name") == "lname" ) {
+                    error.insertAfter("#lastname");
+                } else {
+                    error.insertAfter(element);
+                }
+            },
+            ignore: "",
+            invalidHandler: function(event, validator) { //display error alert on form submit
+            },
+            rules: {
+                'mycp_frontendbundle_register_usertype[user_user_name]':{
+                    required: true,
+                },
+                'mycp_frontendbundle_register_usertype[user_last_name]': {
+                    required: true,
+
+
+                },
+                'mycp_frontendbundle_register_usertype[user_email]':{
+                    required:true,
+                    email:true
+                },
+                'password':{
+                    required:true,
+
+
+                },
+                'confirm':{
+                    required:true,
+
+
+                },
+                ' mycp_frontendbundle_register_usertype[user_role]':{
+                    required:true,
+
+
+                }
+
+            },
+            highlight: function (element, clsError) { // hightlight error inputs
+                element = $(element);
+                element.parent().addClass(clsError);
+            },
+            unhighlight: function (element, clsError) { // revert the change done by hightlight
+                element = $(element);
+                element.parent().removeClass(clsError);
+            },
+            success: function(label) {
+                label.closest('.input-group').removeClass('has-error');
+                label.remove();
+            }
+        });
+        if(!validator.form()){
+            return;
+        }
+        var inputs = $("#form-touroperator input,select");
+        var params={};
+        inputs.each(function () {
+
+            var input = $(this);
+            var val = input.val();
+            var name = input.attr('name');
+            if (val && val != '' && name && name != '') {
+
+                params[input.attr('name')] = val;
+            }
+        });
+        var url= "{{ path('frontend_partner_addtouroperator') }}";
+        HoldOn.open();
+
+
+        $.ajax({
+            type:"GET",
+            url:url,
+            data:params,
+            success:function (response) {
+
+                if(response.success){
+
+
+                    HoldOn.close();
+                    $('#usuario').modal('hide');
+                    window.location.reload();
+                }
+                else{
+                    HoldOn.close();
+                }
+            }
+        });
+
+
+
+
+    }
 </script>
