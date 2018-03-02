@@ -305,7 +305,7 @@ class AccountigController extends Controller
            $balance=$obj->setDebit($cash,$account->getBalance());
            $account->setBalance($balance);
            $desc=$desc.'-'. $this->get('translator')->trans('label.accounting.registerby').$user->getUsername().','.date('d-m-Y').','.date('h:i-A').'';
-           dump($desc);die;
+
           $obj->setDescription($desc);
           $em->persist($obj);
           $em->persist($account);

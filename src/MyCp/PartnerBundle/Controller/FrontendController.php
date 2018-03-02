@@ -252,7 +252,7 @@ class FrontendController extends Controller
         $em = $this->getDoctrine()->getManager();
         $session = $request->getSession();
         $user = $this->getUser();
-
+        $userrepo= $em->getRepository('mycpBundle:user');
         $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
         $agency = $tourOperator->getTravelAgency();
 
@@ -295,7 +295,7 @@ class FrontendController extends Controller
                     $obj->setUserSubrole($em->getRepository('mycpBundle:role')->findby(array('role_name'=>"ROLE_CLIENT_PARTNER"))[0]);
                     $tourOperators=$agency->getTourOperators();
                     foreach ($tourOperators as $touruser){
-                        $obj->addChildren($touruser->getTourOperator());
+                        $obj->addChildren($userrepo->find($touruser->getTourOperator()->getUserId()));
                     }
                 }
                 elseif ($role==0){
@@ -307,8 +307,11 @@ class FrontendController extends Controller
                     $obj->setUserRole("ROLE_ECONOMY_PARTNER") ;
                     $obj->setUserSubrole($em->getRepository('mycpBundle:role')->findby(array('role_name'=>"ROLE_ECONOMY_PARTNER"))[0]);
                     $tourOperators=$agency->getTourOperators();
+
                     foreach ($tourOperators as $touruser){
-                        $obj->addChildren($touruser->getTourOperator());
+
+                        $obj->addChildren($userrepo->find($touruser->getTourOperator()->getUserId()));
+
                     }
 
                 }
