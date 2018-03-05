@@ -149,7 +149,9 @@ class AccountigController extends Controller
     }
    public function UpdateLedger( $start, $limit, $draw,$account,$curr,$last_ledger_cas,$from,$to){
         $em = $this->getDoctrine()->getManager();
-        $filters=array("to_between"=>array($last_ledger_cas,$from,$to));
+
+        $filters = array("to_between" => array($last_ledger_cas, $from, $to));
+
         $reservations_reserved=$this->getReservationsData($filters,$start,$limit,$draw,generalReservation::STATUS_RESERVED);
 
         foreach ($reservations_reserved as $reservation){
@@ -219,11 +221,17 @@ class AccountigController extends Controller
 
             } else {
                 $last_created_date = $ledgers_repo->getLastLedger($account->getId())->getCreated();
-                $last_ledger_cas = $ledgers_repo->getLastLedgerCas($account->getId())->getCas();
+
+                $last_ledger_cas = $ledgers_repo->getLastLedgerCas($account->getId());
+                $cas=null;
+                if($last_ledger_cas!=null)    {
+                   $cas= $last_ledger_cas->getCas();
+                }
+
 
                 $today = date('d-m-Y');
 
-                $this->UpdateLedger($start, $limit, $draw, $account, $curr, $last_ledger_cas, $last_created_date, $today);
+                $this->UpdateLedger($start, $limit, $draw, $account, $curr, $cas, $last_created_date, $today);
             }
             $today = date('d-m-Y');
             $today = date('d-m-Y', strtotime($today . ' +1 day'));

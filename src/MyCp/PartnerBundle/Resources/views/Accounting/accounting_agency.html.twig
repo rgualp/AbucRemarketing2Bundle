@@ -618,7 +618,7 @@
             rules: {
                 'date':{
                     required: true,
-                    date: true
+
                 },
                 'cash': {
                     required: true,
@@ -659,8 +659,9 @@
                 if(response.success){
 
                     oTableReserved.ajax.reload();
-                    HoldOn.close();
+
                     $('#deposit').modal('hide');
+                    HoldOn.close();
                 }
                 else{
                     HoldOn.close();
