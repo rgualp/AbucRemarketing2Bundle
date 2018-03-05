@@ -1710,6 +1710,9 @@ class DashboardController extends Controller
         $user = $pdfservice->getUserFromBooking($booking);
         $clients = $em->getRepository("PartnerBundle:paClient")->getClientsFromBooking($bookingId, $user);
 
+        $currentTourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $currentTravelAgency = $currentTourOperator->getTravelAgency();
+
         $name = 'voucher' . $booking->getBookingUserId() . '_' . $booking->getBookingId() . '.pdf';
         $name_client= 'voucher' . $user->getUserId(). '_' . $bookingId . '_' . $clients[0]['id'] .'.pdf';
         $nameZip = 'vouchers_'.$booking->getBookingId(). '_' . $booking->getBookingUserId() . '.zip';
@@ -1723,7 +1726,7 @@ class DashboardController extends Controller
         else{
 
             $pdfFilePath = $pdfservice->createBookingVoucherIfNotExistingPartner($bookingId,$user,true);
-            $pdfClientFilePaths = $pdfservice->createBookingVoucherForClientsIfNotExistsPartner($bookingId, $user,true);
+            $pdfClientFilePaths = $pdfservice->createBookingVoucherForClientsIfNotExistsPartner($bookingId, $user,$currentTravelAgency,true);
 
             $filePaths = array_merge(array($pdfFilePath), $pdfClientFilePaths);
             $zipFileName = $pdfservice->zipService->createZipFile("vouchers_".$bookingId."_".$user->getUserId().".zip", $filePaths, $pdfservice->voucherDirectoryPath);
