@@ -256,14 +256,20 @@ class AccountigController extends Controller
             $count=0;
             $ledgers=array();
             if(count($data)>0) {
-                $ledgers = array(array('no' => 1,
-                    'description' => 'Estado de la cuenta al inicio del día ' . $data[0]['created']->format('d-m-Y'),
-                    "created" => $data[0]['created']->format('d-m-Y'),
-                    'credit' => '',
-                    'debit' => round(($data[0]['balance'] + $data[0]['credit']) * $curr['change'], 2),
-                    'balance' => round(($data[0]['balance'] + $data[0]['credit']) * $curr['change'], 2))
-                );
-                $count = 1;
+                if( $data[0]['credit']>0) {
+                    $ledgers = array(array('no' => 1,
+                        'description' => 'Estado de la cuenta al inicio del día ' . $data[0]['created']->format('d-m-Y'),
+                        "created" => $data[0]['created']->format('d-m-Y'),
+                        'credit' => '',
+                        'debit' => round(($data[0]['balance'] + $data[0]['credit']) * $curr['change'], 2),
+                        'balance' => round(($data[0]['balance'] + $data[0]['credit']) * $curr['change'], 2))
+                    );
+                    $count = 1;
+                }
+                else{
+                    $count = 0;
+                }
+
             }
             foreach ($data as $ledge) {
 
