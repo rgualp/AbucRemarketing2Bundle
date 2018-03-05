@@ -2503,6 +2503,10 @@
                                              <source>label.accounting.registerby</source>
                                             <target state="new">Registrado por:</target>
                                             </trans-unit>
+  <trans-unit id="68" resname="label.agency.message.account">
+                                               <source>label.agency.message.account</source>
+                                              <target state="new">Usted a elejido el paquete ESPECIAL para agencias antes de comensar cualquier operacion contactenos a travez:</target>
+                                              </trans-unit>
     </body>
 
   </file>
