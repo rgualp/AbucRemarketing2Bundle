@@ -322,10 +322,19 @@
 </style>
 <script type="text/javascript">
     var oTableReserved = '';
-
+    $(".date").datepicker({
+        todayBtn: "linked",
+        format: 'dd-mm-yyyy',
+        keyboardNavigation: false,
+        forceParse: false,
+        calendarWeeks: true,
+        autoclose: true,
+        endDate  : 'now'
+    });
 
 
     $(document).ready(function () {
+
         $("#date_from").bind("change paste keyup", function() {
             loadforcouncil();
         });
@@ -619,6 +628,7 @@
                 'date':{
                     required: true,
 
+
                 },
                 'cash': {
                     required: true,
@@ -693,11 +703,11 @@
             rules: {
                 'date_from':{
                     required: true,
-                    date: true
+
                 },
                 'date_to':{
                     required: true,
-                    date: true
+
                 },
 
                 'terms':{

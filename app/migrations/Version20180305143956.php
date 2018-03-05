@@ -30,7 +30,7 @@ pa_tour_operator.tourOperator=41068 or
 pa_tour_operator.tourOperator=41069 or 
 pa_tour_operator.tourOperator=41348
 ;");
-        $this->addSql("UPDATE user SET user.user_role = 'ROLE_CLIENT_PARTNER_TOUROPERATOR',user.user_subrole=19
+        $this->addSql("UPDATE user SET user.user_role = 'ROLE_CLIENT_PARTNER_TOUROPERATOR',user.user_subrole=17
 where user.user_id=32531 or 
 user.user_id=40601 or
 user.user_id=40898 or
