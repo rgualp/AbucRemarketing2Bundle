@@ -358,7 +358,16 @@
                     ' Tour Operator:'+ "{{ app.user.getUserUserName }}",
 
                     customize: function(doc) {
-
+                        var colCount = new Array();
+                        var length = $('#reports_show tbody tr:first-child td').length;
+                        console.log('length / number of td in report one record = '+length);
+                        $('#reports_show').find('tbody tr:first-child td').each(function(){
+                            if($(this).attr('colspan')){
+                                for(var i=1;i<=$(this).attr('colspan');$i++){
+                                    colCount.push('*');
+                                }
+                            }else{ colCount.push(parseFloat(100 / length)+'%'); }
+                        });
 
                         doc.content.splice( 0, 0, {
                             margin: [ 0, 0, 0, 5 ],
@@ -371,7 +380,8 @@
                         doc.styles.tableFooter = {
                             fillColor:"#64a433",
 
-                        }
+                        };
+
 
                     },
                     footer: true,
