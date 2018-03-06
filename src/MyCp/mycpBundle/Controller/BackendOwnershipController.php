@@ -760,7 +760,6 @@ class BackendOwnershipController extends Controller
 
     public function new_ownershipAction(Request $request)
     {
-
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
@@ -858,9 +857,7 @@ class BackendOwnershipController extends Controller
                             $data['count_errors'] += 1;
                         }
                         $file = $request->files->get('user_photo');
-//var_dump($file); exit();
                         if ($file && $file->getClientMimeType() != 'image/jpeg' && $file->getClientMimeType() != 'image/gif' && $file->getClientMimeType() != 'image/png') {
-//$file->getClientSize()< 102400
                             $errors['user_photo'] = 'Extensión de fichero no admitida.';
                             $data['count_errors'] += 1;
                         }
@@ -873,7 +870,7 @@ class BackendOwnershipController extends Controller
                         }
                     }
 
-//Verificando que no existan otras propiedades con el mismo nombre
+                    //Verificando que no existan otras propiedades con el mismo nombre
                     if (!array_key_exists('edit_ownership', $post)) {
 
                         $similar_names = $em->getRepository('mycpBundle:ownership')->findBy(array('own_name' => $post['ownership_name']));
@@ -894,29 +891,6 @@ class BackendOwnershipController extends Controller
                             }
                         }
                     }
-
-//Verificando que no existan otras propiedades con el mismo código
-
-                    /*if (!array_key_exists('edit_ownership', $post)) {
-
-                        $similar = $em->getRepository('mycpBundle:ownership')->findBy(array('own_mcp_code' => $post['ownership_mcp_code']));
-                        if (count($similar) > 0) {
-                            $errors['ownership_mcp_code'] = 'Ya existe una propiedad con este código. Por favor, introduzca un código diferente.';
-                            $data["count_errors"]+=1;
-                        }
-                    } else {
-                        $own = $em->getRepository('mycpBundle:ownership')->find($post['edit_ownership']);
-
-                        if (isset($own)) {
-                            if ($own->getOwnMcpCode() != $post['ownership_mcp_code']) {
-                                $similar = $em->getRepository('mycpBundle:ownership')->findBy(array('own_mcp_code' => $post['ownership_mcp_code']));
-                                if (count($similar) > 0) {
-                                    $errors['ownership_mcp_code'] = 'Ya existe una propiedad con este código. Por favor, introduzca un código diferente.';
-                                    $data["count_errors"]+=1;
-                                }
-                            }
-                        }
-                    }*/
                     $count++;
                 }
 
@@ -1038,9 +1012,6 @@ class BackendOwnershipController extends Controller
                         if ($old_address_street != $new_address_street || $old_number != $new_number || $old_between_street_1 != $new_between_street_1 || $old_between_street_2 != $new_between_street_2) {
                             $any_edit = true;
                             $service_log->saveLog($db_ownership->getLogDescription() . ' (Cambio dirección)', BackendModuleName::MODULE_OWNERSHIP, log::OPERATION_UPDATE, DataBaseTables::OWNERSHIP);
-
-                            //$service_log->saveLog('Edit entity. Change address from ' . $old_address_street . ' street #' . $old_number . ' between ' . $old_between_street_1 . ' and ' . $old_between_street_2 .
-                            //        ' to ' . $new_address_street . ' street #' . $new_number . ' between ' . $new_between_street_1 . ' and ' . $new_between_street_2, BackendModuleName::MODULE_OWNERSHIP);
                         }
 
                         $old_phone_number = $db_ownership->getOwnPhoneNumber();
@@ -1052,8 +1023,6 @@ class BackendOwnershipController extends Controller
                         if ($old_phone_number != $new_phone_number OR $old_phone_code != $new_phone_code) {
                             $any_edit = true;
                             $service_log->saveLog($db_ownership->getLogDescription() . ' (Cambio en el número de teléfono)', BackendModuleName::MODULE_OWNERSHIP, log::OPERATION_UPDATE, DataBaseTables::OWNERSHIP);
-                            //$service_log->saveLog('Edit entity. Change phone number from ' . $old_phone_code . ' ' . $old_phone_number . ' to '
-                            //        . $new_phone_code . ' ' . $new_phone_number, BackendModuleName::MODULE_OWNERSHIP);
                         }
 
                         if ($any_edit == false) {
@@ -1065,26 +1034,14 @@ class BackendOwnershipController extends Controller
 
                         //Enviar correo a los propietarios
                         if ($new_status == ownershipStatus::STATUS_ACTIVE && ($old_status == ownershipStatus::STATUS_IN_PROCESS or $old_status == ownershipStatus::STATUS_BATCH_PROCESS)) {
-                            /*$id_ownership = $post['edit_ownership'];
-                            $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);*/
                             $publishDate = $ownership->getOwnPublishDate();
 
                             if (!isset($publishDate) || $publishDate == null) {
                                 $ownership->setOwnPublishDate(new \DateTime());
                                 $em->persist($ownership);
-
                                 $em->flush();
-
-                                /*UserMails::sendOwnersMail($this,
-                                    $post['ownership_email_1'],
-                                    $post['ownership_email_2'],
-                                    $post['ownership_homeowner_1'],
-                                    $post['ownership_homeowner_2'],
-                                    $post['ownership_name'],
-                                    $ownership->getOwnMcpCode());*/
                             }
                         }
-
                         $message = 'La propiedad ' . $ownership->getOwnMcpCode() . ' ha sido actualizada satisfactoriamente.';
                     } else {
 
@@ -1094,11 +1051,6 @@ class BackendOwnershipController extends Controller
                         $message = 'La propiedad ' . $ownership->getOwnMcpCode() . ' ha sido añadida satisfactoriamente.';
                         $service_log = $this->get('log');
                         $service_log->saveLog($ownership->getLogDescription(), BackendModuleName::MODULE_OWNERSHIP, log::OPERATION_INSERT, DataBaseTables::OWNERSHIP);
-
-                        //Enviar correo a los propietarios
-                        /*if ($post['status'] == ownershipStatus::STATUS_ACTIVE)
-                            UserMails::sendOwnersMail($this, $post['ownership_email_1'], $post['ownership_email_2'], $post['ownership_homeowner_1'], $post['ownership_homeowner_2'], $post['ownership_name'], $ownership->getOwnMcpCode());
-                        */
                     }
                     $this->get('session')->getFlashBag()->add('message_ok', $message);
 
@@ -1458,7 +1410,6 @@ class BackendOwnershipController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $listModality = $em->getRepository("mycpBundle:bookingModality")->findAll();
-
         return $this->render('mycpBundle:utils:list_modality.html.twig', array('selected' => $selected, 'list' => $listModality));
     }
 

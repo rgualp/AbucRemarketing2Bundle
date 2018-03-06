@@ -13,7 +13,7 @@ use BeSimple\SoapBundle\ServiceDefinition\Annotation\Method;
 use Doctrine\Common\Collections\ArrayCollection;
 use MyCp\CasaModuleBundle\Form\ownershipStep1Type;
 use MyCp\CasaModuleBundle\Form\ownershipStepPhotosType;
-use MyCp\mycpBundle\Entity\log;
+use MyCp\mycpBundle\Entity\accommodationBookingModality;
 use MyCp\mycpBundle\Entity\owner;
 use MyCp\mycpBundle\Entity\ownerAccommodation;
 use MyCp\mycpBundle\Entity\ownership;
@@ -124,6 +124,16 @@ class StepsController extends Controller
 
             if ($ownership->getOwnCommissionPercent() == null || $ownership->getOwnCommissionPercent() == "")
                 $ownership->setOwnCommissionPercent(20);
+            $accommodationBookingModality = $em->getRepository("mycpBundle:accommodationBookingModality")->findOneBy(array("accommodation" => $ownership->getOwnId()));
+            $bookingModality = $em->getRepository('mycpBundle:bookingModality')->findOneBy(array('name' => $ownership->getOwnRentalType()));
+            if (is_null($accommodationBookingModality)) {
+                $accommodationBookingModality = new accommodationBookingModality();
+                $accommodationBookingModality->setAccommodation($ownership);
+            }
+            $accommodationBookingModality->setBookingModality($bookingModality);
+            $accommodationBookingModality->setPrice($request->get('modality_price'));
+            $em->persist($accommodationBookingModality);
+
 
             $em->persist($ownership);
             $em->flush();

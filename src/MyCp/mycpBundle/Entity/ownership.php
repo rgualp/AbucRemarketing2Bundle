@@ -28,7 +28,7 @@ class ownership
     /**
      * All allowed rental type
      */
-    const ACCOMMODATION_RENTAL_TYPE_FULL = "Propiedad completa";
+    const ACCOMMODATION_RENTAL_TYPE_FULL = "Propiedad Completa";
     const ACCOMMODATION_RENTAL_TYPE_PER_ROOMS = "Por habitaciones";
 
 
@@ -3284,10 +3284,10 @@ class ownership
         return $this;
     }
 
-    public function getPrinicipalPhotoName()
+    public function getPrinicipalPhoto()
     {
-        if (!is_null($this->data) && !is_null($this->data->getPrincipalPhoto()) && !is_null($this->data->getPrincipalPhoto()->getOwnPhoPhoto())) {
-            return $this->data->getPrincipalPhoto()->getOwnPhoPhoto()->getPhoName();
+        if (!is_null($this->data) && !is_null($this->data->getPrincipalPhoto())) {
+            return $this->data->getPrincipalPhoto()->getOwnPhoPhoto();
         }
         return null;
     }
