@@ -2,6 +2,7 @@
 
 namespace MyCp\PartnerBundle\Controller;
 
+use MyCp\PartnerBundle\Form\profileUserAgnecy;
 use MyCp\FrontEndBundle\Form\profileUserType;
 use MyCp\FrontEndBundle\Form\registerTourOperatorType;
 use MyCp\FrontEndBundle\Form\registerUserType;
@@ -46,6 +47,38 @@ class ProfileController extends Controller
         ]);
     }
 
+    public function profileUserAction(){
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $data = array();
+        $data['countries'] = $em->getRepository('mycpBundle:country')->findAll();
+        $data['currencies'] = $em->getRepository('mycpBundle:currency')->findAll();
+        $data['languages'] = $em->getRepository('mycpBundle:lang')->findBy(array('lang_active' => 1), array('lang_name' => 'ASC'));
+        $complete_user = array(
+            'user_user_name' => $user->getUserUserName(),
+            'user_last_name' => $user->getUserLastName(),
+            'user_email' => $user->getUserEmail(),
+            'user_phone' => $user->getUserPhone(),
+
+            'user_address' => $user->getUserAddress(),
+            'user_city' => $user->getUserCity(),
+            'user_newsletter' => $user->getUserNewsletters(),
+            'user_country' => $user->getUserCountry() != null ? $user->getUserCountry()->getCoId() : '',
+
+               );
+
+//        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+//        $agency = $tourOperator->getTravelAgency();
+        $form = $this->createForm(new profileUserAgnecy($this->get('translator'),$data),$complete_user);
+        return new JsonResponse([
+            'success' => true,
+            'id' => 'id_dashboard_profile_agency',
+            'html' => $this->renderView('PartnerBundle:Profile:profile_user.html.twig', array(
+                'form'=>$form->createView(),
+
+            ))
+        ]);
+    }
     public function contactsAgencyAction(){
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
@@ -220,10 +253,16 @@ class ProfileController extends Controller
                 return new JsonResponse(['success' => true, 'message' => $this->get('translator')->trans("msg.modific.satisfactory"),'username'=>$user->getUserLastName()]);
         }
     }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+
     /**
      * @param Request $request
      */
-    public function saveAvatarAction(Request $request)
+    public function saveLogoAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
@@ -248,6 +287,34 @@ class ProfileController extends Controller
             $em->flush();
 
         }
+
+        return new JsonResponse([
+            'success' => true,
+            'dir'=>$fileName
+
+        ]);
+    }
+    public function saveAvatarAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        //subir photo
+        $dir = $this->container->getParameter('user.dir.photos');
+        $file = $request->files->get('image');
+        if (isset($file)) {
+            $photo = new photo();
+            $fileName = uniqid('user-') . '-photo.jpg';
+            $file->move($dir, $fileName);
+            //Redimensionando la foto del usuario
+            \MyCp\mycpBundle\Helpers\Images::resize($dir . $fileName, 150);
+            $photo->setPhoName($fileName);
+            $user->setUserPhoto($photo);
+            $em->persist($photo);
+        }
+
+        $em->persist($user);
+        $em->flush();
+
 
         return new JsonResponse([
             'success' => true,

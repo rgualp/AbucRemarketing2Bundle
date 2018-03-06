@@ -2507,6 +2507,12 @@
                                                <source>label.agency.message.account</source>
                                               <target state="new">Usted a elejido el paquete ESPECIAL para agencias antes de comensar cualquier operacion contactenos a travez:</target>
                                               </trans-unit>
+
+   <trans-unit id="69" resname="dashboard.profile.user">
+                                                 <source>dashboard.profile.user</source>
+                                                <target state="new">Mi Perfil</target>
+                                                </trans-unit>
+
     </body>
 
   </file>

@@ -38,7 +38,7 @@
                         {% else %}
                             {% set avatar_img = asset('bundles/frontend/img/user-no-photo.png') %}
                         {% endif %}
-                        <img src="{{ avatar_img}}" class="img-circle" width="60">
+                        <img height="50" src="{{ avatar_img}}" class="img-circle" width="60">
                     </td>
                     <td>
                         <h4>
@@ -58,11 +58,11 @@
                         <p>{{ contact.getTourOperator().getRoles()[0] }}</p>
                     </td>
                     <td>
-                        <div class="btn-group">
-                            <a class="" data-id="{{ contact.getTourOperator().getUserId() }}" data-urlsuccess="{{ path("frontend_partner_home") }}" data-url="{{ path("partner_dashboard_delete_contact") }}"><i class="glyphicons edit" style="margin-bottom: 10px; color: #0d4e76 !important;"></i> {{ "backend.edit" | trans }}</a>
+                        {#<div class="btn-group">#}
+                            {#<a class="" data-id="{{ contact.getTourOperator().getUserId() }}" data-urlsuccess="{{ path("frontend_partner_home") }}" data-url="{{ path("partner_dashboard_delete_contact") }}"><i class="glyphicons edit" style="margin-bottom: 10px; color: #0d4e76 !important;"></i> {{ "backend.edit" | trans }}</a>#}
 
 
-                        </div>
+                        {#</div>#}
 
                     </td>
                 </tr>
@@ -113,17 +113,10 @@
                                             </div>
                                             <div class="inner-addon left-addon">
                                                 <i class="glyphicon glyphicons keys"></i>
-                                                <input placeholder="{{ 'label.password.repeat' | trans }}" type="password" class="form-control" name="confirm" id="confirm" aria-required="true" aria-invalid="true">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="inner-addon left-addon">
-                                                <i class="glyphicon glyphicons keys"></i>
                                                 {{ form_widget(form_user.user_role, { 'attr': {'data-placeholder': 'label.form.role'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect' }}) }}
                                             </div>
-
                                         </div>
+
 
                                     </div>
                                 </div>

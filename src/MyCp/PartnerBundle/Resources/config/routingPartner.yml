@@ -221,6 +221,10 @@ partnet_dashboard_profile_agency:
     locales:  { en: "/dashboard/agency/profile", es: "/dashboard/agency/perfil", de: "/dashboard/agency/profile", fr: "/dashboard/agency/profile", it: "/dashboard/agency/profile" }
     defaults: { _controller: PartnerBundle:Profile:profileAgency }
 
+partnet_dashboard_profile_user:
+    locales:  { en: "/dashboard/agency/user", es: "/dashboard/agency/user", de: "/dashboard/agency/user", fr: "/dashboard/agency/profile", it: "/dashboard/agency/user" }
+    defaults: { _controller: PartnerBundle:Profile:profileUser }
+
 partnet_dashboard_contacts_agency:
     locales:  { en: "/dashboard/agency/contacts", es: "/dashboard/agency/contactos", de: "/dashboard/agency/contacts", fr: "/dashboard/agency/contacts", it: "/dashboard/agency/contacts" }
     defaults: { _controller: PartnerBundle:Profile:contactsAgency }
@@ -241,6 +245,10 @@ partnet_dashboard_deactivate_agency:
 partnet_dashboard_new_open_reservation:
     locales:  { en: "/dashboard/new-reservation", es: "/dashboard/new-reservation", de: "/dashboard/new-reservation", fr: "/dashboard/new-reservation", it: "/dashboard/new-reservation" }
     defaults: { _controller: PartnerBundle:Backend:newReservation }
+
+partnet_dashboard_logo_agency:
+    locales:  { en: "/dashboard/agency/logo", es: "/dashboard/agency/logo", de: "/dashboard/agency/logo", fr: "/dashboard/agency/logo", it: "/dashboard/agency/logo" }
+    defaults: { _controller: PartnerBundle:Profile:saveLogo }
 
 partnet_dashboard_avatar_agency:
     locales:  { en: "/dashboard/agency/avatar", es: "/dashboard/agency/avatar", de: "/dashboard/agency/avatar", fr: "/dashboard/agency/avatar", it: "/dashboard/agency/avatar" }

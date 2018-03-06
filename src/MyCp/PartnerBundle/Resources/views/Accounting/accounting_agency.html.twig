@@ -159,7 +159,7 @@
                                 <div class="col-md-3">
                                     <div class="inner-addon left-addon">
                                         <i class="glyphicon glyphicons calendar"></i>
-                                        <div class="input-group date">
+                                        <div class="input-group fecha date">
                                             <input type="text" id="date" name="date" required="required" class="form-control" placeholder="{{ 'label.accounting.from'|trans }}"  data-toggle="tooltip" data-container="body">
                                             <span class="input-group-addon hide"><i class="fa fa-calendar"></i></span>
 
@@ -199,7 +199,7 @@
 
             <div class="modal-footer" style="background-color: #25323b !important;border-top: 0px">
                 <div class="form-group" style="float:  right;">
-                    <button class="btn btn-primary " name="submit" onclick="insertDepositAction(this)" >{{ 'label.accounting.register.deposit'|trans }}</button>
+                    <button class="btn btn-primary " style="font-size: large" name="submit" onclick="insertDepositAction(this)" >{{ 'label.accounting.register.deposit'|trans }}</button>
                 </div>
             </div>
         </div>
@@ -226,7 +226,7 @@
                                 <div class="col-md-3">
                                     <div class="inner-addon left-addon">
                                         <i class="glyphicon glyphicons calendar"></i>
-                                        <div class="input-group date">
+                                        <div class="input-group fecha date">
                                             <input type="text" id="date_from" name="date_from" required="required" class="form-control" placeholder="{{ 'label.accounting.from' |trans}}"  data-toggle="tooltip" data-container="body">
                                             <span class="input-group-addon hide"><i class="fa fa-calendar"></i></span>
 
@@ -243,7 +243,7 @@
                                 <div class="col-md-3">
                                     <div class="inner-addon left-addon">
                                         <i class="glyphicon glyphicons calendar"></i>
-                                        <div class="input-group date">
+                                        <div class="input-group fecha date">
                                             <input type="text" id="date_to" name="date_to" required="required" class="form-control" placeholder="{{ 'label.accounting.to'|trans }}"  data-toggle="tooltip" data-container="body">
                                             <span class="input-group-addon hide"><i class="fa fa-calendar"></i></span>
 
@@ -282,7 +282,7 @@
 
             <div class="modal-footer" style="background-color: #25323b !important;border-top: 0px">
 
-                <div class="form-group" style="float:  right;">
+                <div class="form-group" style="float:  right; font-size: large">
                     <button class="btn btn-primary " name="submit" onclick="sendConcilAction(this)" >{{ 'label.accounting.send'|trans }}</button>
                 </div>
             </div>
@@ -306,11 +306,12 @@
         color: #64a433;!important;
     }
 
-    .buttons-pdf{
 
+    .buttons-pdf{
+        border-color: white;
         font-size: medium;!important;
         margin-top: 5px;!important;
-        background-color: #d6d7da;!important;
+        background-color: white;!important;
         /*border-color: #1ab394; !important;*/
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
@@ -318,11 +319,12 @@
         position: relative;
         float: left;
         color: #64a433;!important;
+
     }
 </style>
 <script type="text/javascript">
     var oTableReserved = '';
-    $(".date").datepicker({
+    $(".fecha").datepicker({
         todayBtn: "linked",
         format: 'dd-mm-yyyy',
         keyboardNavigation: false,
@@ -355,9 +357,10 @@
         oTableReserved = $('#table-accounting').DataTable({
             "language": {
                 "url": "{{ asset('bundles/layout/js/plugins/dataTables/locale/') }}{{ app.request.locale }}.json"
+
             },
             dom: 'Bfrtip',
-           
+
             lengthChange: false,
             buttons: [
 
@@ -515,10 +518,14 @@
 
             },
             initComplete: function () {
-                $('.buttons-pdf').html('<span class="glyphicons download" style="color: #0d4e76 !important;" data-toggle="tooltip" title="Export To Pdf"/>')
+              $('.buttons-pdf').html('<span class="glyphicons download" style="color: #0d4e76 !important;" data-toggle="tooltip" title="Export To Pdf"/>')
             }
         });
-
+        oTableReserved.on('preXhr.dt', function(e, settings, data){
+            $(this).dataTable().api().clear();
+            settings.iDraw = 0;   //set to 0, which means "initial draw" which with a clear table will show "loading..." again.
+            $(this).dataTable().api().draw();
+        });
 
     });
 
@@ -672,6 +679,7 @@
 
                     $('#deposit').modal('hide');
                     HoldOn.close();
+
                 }
                 else{
                     HoldOn.close();

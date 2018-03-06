@@ -2511,6 +2511,10 @@
                                                <source>label.agency.message.account</source>
                                               <target state="new">You have chosen the SPECIAL package for agencies before starting any operation contact us:</target>
                                               </trans-unit>
+                                              <trans-unit id="69" resname="dashboard.profile.user">
+                                                                                               <source>dashboard.profile.user</source>
+                                                                                              <target state="new">My Profile</target>
+                                                                                              </trans-unit>
     </body>
   </file>
 </xliff>
