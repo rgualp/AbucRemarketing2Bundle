@@ -1737,11 +1737,11 @@
       </trans-unit>
       <trans-unit id="2e6d2f051a2c1c75d4cc8c949d7c105d6397adc8" resname="label.take">
         <source>label.take</source>
-        <target state="new">label.take</target>
+        <target state="new">Take</target>
       </trans-unit>
       <trans-unit id="8e0d8ae84bdfbb10c7c5353569e999e3083e019a" resname="label.take.picture">
         <source>label.take.picture</source>
-        <target state="new">label.take.picture</target>
+        <target state="new">Take Picture</target>
       </trans-unit>
       <trans-unit id="709db0f50ecfa8b6c83fb61430e82bd5bc0b1188" resname="label.terms.legal">
         <source>label.terms.legal</source>
