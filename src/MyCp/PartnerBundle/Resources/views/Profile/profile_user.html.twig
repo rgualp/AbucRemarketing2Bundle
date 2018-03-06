@@ -123,7 +123,7 @@
                         },
                         success: function(response){
                                console.log(response);
-                                var imageURL='/uploads/userImages/' + response.dir;
+                                var imageURL='/uploads/userImages/'+response.dir;
                                 $(".dashboard-avatar").css("background", 'url('+imageURL+') transparent no-repeat scroll center center / cover');
                                 $(".navbar-avatar").css("background", 'url('+imageURL+') transparent no-repeat scroll center center / cover');
 

@@ -144,9 +144,9 @@
                     },
                     success: function(response){
 
-                        var imageURL='/bundles/partner/img/logos/' + response.dir ;
+                        var imageURL='/bundles/partner/img/logos/'+response.dir ;
 
-                        $(".dashboard-avatar").css("background", 'url('+imageURL+') transparent no-repeat scroll center center / cover');
+                        $("#logo_agency").css("background", 'url('+imageURL+') transparent no-repeat scroll center center / cover');
 
                     },
                     error: function(e,a,b){
