@@ -38,7 +38,7 @@ class ContactService extends Controller
         try {
             $emailService->sendEmail(
                 $subject,
-                'casa@mycasaparticular.com',
+                'info@mycasaparticular.com',
                 $subject . ' - MyCasaParticular.com',
                 $userEmail,
                 $body,
@@ -77,7 +77,7 @@ class ContactService extends Controller
                 'phone' => $ownerPhone
             ));
             $service_email->sendTemplatedEmail(
-                'Contacto de propietario', $ownerEmail, 'casa@mycasaparticular.com', $content->getContent());
+                'Contacto de propietario', $ownerEmail, 'info@mycasaparticular.com', $content->getContent());
 
             $message = $this->get('translator')->trans("USER_CONTACT_OWNER_SUCCESS");
             $this->get('session')->getFlashBag()->add('message_global_success', $message);

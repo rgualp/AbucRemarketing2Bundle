@@ -138,7 +138,7 @@ class RegistrationController extends Controller
                    'secret_token' => $userCasa->getUserCasaSecretToken(),
                    'user_locale' => "es"));
 
-           $emailManager->sendEmail($accommodationEmail, $emailSubject, $emailBody, "casa@mycasaparticular.com");*/
+           $emailManager->sendEmail($accommodationEmail, $emailSubject, $emailBody, "info@mycasaparticular.com");*/
 
            $message = 'La propiedad '.$ownership->getOwnMcpCode().' ha sido añadida satisfactoriamente.';
 

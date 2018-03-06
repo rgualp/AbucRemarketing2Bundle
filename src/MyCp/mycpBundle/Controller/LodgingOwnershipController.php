@@ -235,7 +235,7 @@ class LodgingOwnershipController extends Controller
     {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $to_email = 'casa@mycasaparticular.com';
+        $to_email = 'info@mycasaparticular.com';
         $user = $this->get('security.context')->getToken()->getUser();
         $ownership = null;
         $user_casa = null;

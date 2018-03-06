@@ -200,7 +200,7 @@ class Email
         ));
 
         $this->sendEmail(
-            "Bienvenido a MyCasaParticular", 'casa@mycasaparticular.com', 'MyCasaParticular.com', $email_to, $content
+            "Bienvenido a MyCasaParticular", 'info@mycasaparticular.com', 'MyCasaParticular.com', $email_to, $content
         );
     }
 
@@ -218,7 +218,7 @@ class Email
         ));
 
         $this->sendEmail(
-            "Bienvenido a MyCasaParticular", 'casa@mycasaparticular.com', 'MyCasaParticular.com', $email_to, $content
+            "Bienvenido a MyCasaParticular", 'info@mycasaparticular.com', 'MyCasaParticular.com', $email_to, $content
         );
     }
 
@@ -239,7 +239,7 @@ class Email
         ));
 
         $this->sendEmail(
-            "Creación de cuenta de usuario", 'casa@mycasaparticular.com', 'MyCasaParticular.com', $email_to, $content
+            "Creación de cuenta de usuario", 'info@mycasaparticular.com', 'MyCasaParticular.com', $email_to, $content
         );
     }
 
@@ -265,7 +265,7 @@ class Email
         ));
 
         $this->sendEmail(
-            "Creación de cuenta de usuario", 'casa@mycasaparticular.com', 'MyCasaParticular.com', $email_to, $content
+            "Creación de cuenta de usuario", 'info@mycasaparticular.com', 'MyCasaParticular.com', $email_to, $content
         );
     }
 
@@ -285,7 +285,7 @@ class Email
         ));
 
         $this->sendEmail(
-            "Active su cuenta en MyCasaParticular.com", 'casa@mycasaparticular.com', 'MyCasaParticular.com', $email_to, $content
+            "Active su cuenta en MyCasaParticular.com", 'info@mycasaparticular.com', 'MyCasaParticular.com', $email_to, $content
         );
     }
 
