@@ -478,6 +478,7 @@ class BackendOwnershipController extends Controller
         $post['modality'] = (isset($accommodationBooking)) ? $accommodationBooking->getBookingModality()->getId() : 0;
 
         $post['modality_price'] = (isset($accommodationBooking)) ? $accommodationBooking->getPrice() : 0;
+        $post['own_modalityReservation'] = $ownership->getOwnModalityReservation();
 
         $users_owner = $em->getRepository('mycpBundle:userCasa')->findBy(array('user_casa_ownership' => $id_ownership));
 
@@ -1411,6 +1412,15 @@ class BackendOwnershipController extends Controller
         $em = $this->getDoctrine()->getManager();
         $listModality = $em->getRepository("mycpBundle:bookingModality")->findAll();
         return $this->render('mycpBundle:utils:list_modality.html.twig', array('selected' => $selected, 'list' => $listModality));
+    }
+
+    public function getModalityReservationAction($post)
+    {
+        $selected = '';
+        if (isset($post['own_modalityReservation']))
+            $selected = $post['own_modalityReservation'];
+        $listModality = array('Reserva Inmediata', 'Reserva Rápida', 'Por solicitudes');
+        return $this->render('mycpBundle:utils:list_modalityReservation.html.twig', array('selected' => $selected, 'list' => $listModality));
     }
 
     public function get_statusAction($post)

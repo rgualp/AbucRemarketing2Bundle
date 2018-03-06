@@ -141,7 +141,7 @@ class ownershipStep1Type extends AbstractType
                 ),
                 'choices' => array(
                     'Reserva Inmediata' => 'Reserva Inmediata',
-                    'Reserva Ràpida' => 'Reserva Ràpida',
+                    'Reserva Rápida' => 'Reserva Rápida',
                     'Por solicitudes' => 'Por solicitudes'
                 )
             ));

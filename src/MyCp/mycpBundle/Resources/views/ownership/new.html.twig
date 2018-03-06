@@ -561,14 +561,13 @@
 <label class="checkbox">
     <input type="checkbox" {% if post['selection'] is defined and (post['selection'] ==1) %} checked="TRUE" {% endif %} name="selection"> Habilitar para Casa Selección
 </label><br/>
-<h3 class="title">Reserva Rápida</h3>
-<label class="checkbox">
-    <input type="checkbox" {% if post['inmediate_booking'] is defined and (post['inmediate_booking'] ==1) %} checked="TRUE" {% endif %} name="inmediate_booking"> Habilitar para Reserva Rápida
-</label><br/>
-<h3 class="title">Reserva Inmediata</h3>
-<label class="checkbox">
-    <input type="checkbox" {% if post['inmediate_booking_2'] is defined and (post['inmediate_booking_2'] ==1) %} checked="TRUE" {% endif %} name="inmediate_booking_2"> Habilitar para Reserva Inmediata
-</label><br/>
+
+<h3 class="title">Modalidad de Reserva</h3>
+<select name="own_modalityReservation" class="input-block-level" id="own_modalityReservation">
+    {{ render(controller('mycpBundle:BackendOwnership:getModalityReservation', {'post':post})) }}
+</select>
+<br/>
+
 {% if is_granted('ROLE_CLIENT_STAFF') %}
 <h3 class="title">No Recomendable</h3>
 <label class="checkbox">

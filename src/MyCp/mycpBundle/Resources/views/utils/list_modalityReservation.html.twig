@@ -1,0 +1,5 @@
+<option value=""></option>
+{% for mod in list %}
+    <option {% if selected is defined and selected == mod %} selected="selected" {% endif %}
+            value="{{ mod }}"> {{ mod }}</option>
+{% endfor %}

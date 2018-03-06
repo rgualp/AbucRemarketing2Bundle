@@ -769,6 +769,7 @@ class ownershipRepository extends EntityRepository
             $em->persist($accommodationBookingModality);
         }
         $ownership->setOwnRentalType($modality->getName());
+        $ownership->setOwnModalityReservation($data["own_modalityReservation"]);
         $em->flush();
         $this->calculateAccommodationCategory($ownership);
         return $ownership;
