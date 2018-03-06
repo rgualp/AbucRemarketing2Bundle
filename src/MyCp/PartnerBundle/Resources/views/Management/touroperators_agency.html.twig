@@ -55,7 +55,14 @@
                         <p>{{ contact.getTourOperator().getUserCountry() }}</p>
                     </td>
                     <td>
-                        <p>{{ contact.getTourOperator().getRoles()[0] }}</p>
+                       {% if contact.getTourOperator().getRoles()[0]=='ROLE_CLIENT_PARTNER_TOUROPERATOR' %}
+                        <p>{{ 'dashboard.operators'|trans }}</p>
+                        {% elseif contact.getTourOperator().getRoles()[0]=='ROLE_CLIENT_PARTNER' %}
+                            <p>{{ 'dashboard.admin'|trans }}</p>
+
+                        {% else %}
+                           <p>{{ 'dashboard.accounting'|trans }}</p>
+                       {% endif %}
                     </td>
                     <td>
                         {#<div class="btn-group">#}
