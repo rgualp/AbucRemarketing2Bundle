@@ -4178,7 +4178,7 @@
             <trans-unit id="1019">
                 <source>PREPAYMENT_TOOLTIP</source>
                 <target>It is the payment for the pre-booking and booking services, it is made online, and it is equal
-                    to the sum of the Client Service Fee, plus the Lodging Fee, plus the Fixed Fee. It is not included
+                    to the sum of the Client Service Fee, plus the Lodging Fee. It is not included
                     in the payment to be done at the casa, (Casa Payment)
                 </target>
             </trans-unit>

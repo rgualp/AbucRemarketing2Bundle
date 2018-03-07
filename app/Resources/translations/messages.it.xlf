@@ -4271,8 +4271,8 @@
             <trans-unit id="1039">
                 <source>PREPAYMENT_TOOLTIP</source>
                 <target>Pagamento per i servizi di gestione di pre-prenotazione e prenotazione, si effettia in forma
-                    online, costituisce la somma delle Tariffe per il servizio al cliente, Tariffe sull’alloggio e la
-                    Tariffa fissa. Non include il pagamento che si deve effettuare in casa. (Pagamento in casa)
+                    online, costituisce la somma delle Tariffe per il servizio al cliente, Tariffe sull’alloggio
+                    . Non include il pagamento che si deve effettuare in casa. (Pagamento in casa)
                 </target>
             </trans-unit>
             <trans-unit id="1040">

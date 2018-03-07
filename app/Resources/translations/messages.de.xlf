@@ -4215,7 +4215,7 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
             <trans-unit id="1019">
                 <source>PREPAYMENT_TOOLTIP</source>
                 <target>Online-Zahlung für Dienste mit Bezug auf Management der Vorbuchung und Reservierung . Es handelt
-                    sich um die Summe: Preis für den Kundendienst + Unterkunftsgebühr+ Feste Gebühr. Es enthaltet nicht
+                    sich um die Summe: Preis für den Kundendienst + Unterkunftsgebühr. Es enthaltet nicht
                     die Zahlung, der vor Ort geleistet wird (Barzahlung vor Ort)
                 </target>
             </trans-unit>
