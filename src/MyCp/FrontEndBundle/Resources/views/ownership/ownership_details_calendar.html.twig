@@ -78,12 +78,13 @@
                           data-one-5-nights-percent = "{{ currentServiceFee.one5NightsPercent }}"
                           data-fixed-tax = "{{ currentServiceFee.fixedFee }}"></span>
                 </div>
+                {% set currSymbol = app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol %}
+
                 {#<div class="col-sm-1">#}
                     {#<label>+</label>#}
                 {#</div>#}
                 {#<div class="col-sm-2" rel="tooltip" title="{{ 'SERVICE_FIXED_TAX_TITLE' | trans()}}">#}
-                    {#{% set currSymbol = app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol %}#}
-                    {#{{ 'SERVICE_FIXED_TAX' | trans }}<br/>#}
+                       {#{{ 'SERVICE_FIXED_TAX' | trans }}<br/>#}
                     {#{{ currSymbol }}#}
                     {#<span id="service_recharge">{{ (currentServiceFee.fixedFee * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))) | number_format(2) }}</span>#}
                 {#</div>#}
@@ -137,7 +138,7 @@
                         <input type="hidden"  value="{% if ownership.OwnInmediateBooking2 %}2{% else %}1{% endif %}" name="check_dispo" id="check_dispo"/>
                     <div class="col-sm-6">
                         {% if ownership.OwnInmediateBooking2 %}
-                            <button style="padding: 5px 10px" type="submit" class="btn btn-primary" id="reservedOwnerShip" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
+                            <button style="padding: 5px 10px;float:right" type="submit" class="btn btn-primary" id="reservedOwnerShip" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
                                 <i class="fa fa-check"></i> {{ 'RESERVATION_RESERVE' | trans }}
                             </button>
                             {% else %}
