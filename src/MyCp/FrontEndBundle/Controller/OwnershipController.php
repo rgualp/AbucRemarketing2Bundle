@@ -30,6 +30,7 @@ class OwnershipController extends Controller
 
     $reservation_from = explode('/', $from);
     $dateFrom = new \DateTime();
+    dump($reservation_from);die;
     $start_timestamp = mktime(0, 0, 0, $reservation_from[1], $reservation_from[0], $reservation_from[2]);
     $dateFrom->setTimestamp($start_timestamp);
 

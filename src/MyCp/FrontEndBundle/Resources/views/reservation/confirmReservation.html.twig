@@ -153,8 +153,9 @@
                 <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ ((own_res_payments[own.id].touristTax)) | number_format(2) }}</h4></td>
             </tr>
             {% set fixedTax = 0 %}
-            {% if own_res | length == 1 %}
+            {% if (own_res | length == 1) and service_charge_total>0  %}
                 {% set fixedTax = service_charge_total %}
+
             <tr>
                 <td><b>{{"SERVICE_FIXED_TAX"|trans}}</b></td>
                 <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ fixedTax | number_format(2)}}</h4></td>
@@ -184,7 +185,7 @@
                 <td>-{{ "SERVICES_TOTAL_COST" | trans }}</td>
                 <td class="text-right">{{ currency_symbol }} {{ ((own_res_payments[own.id].touristTax)) | number_format(2) }}</td>
             </tr>
-            {% if own_res | length == 1 %}
+            {% if (own_res | length == 1) and fixedTax>0 %}
                 <tr>
                     <td>-{{"SERVICE_FIXED_TAX"|trans}}</td>
                     <td class="text-right">{{ currency_symbol }} {{ fixedTax | number_format(2)}}</td>
@@ -229,10 +230,12 @@
             <td><b>{{"SERVICES_TOTAL_COST"|trans}}</b></td>
             <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ (tourist_tax_total) | number_format(2) }}</h4></td>
         </tr>
+        {% if fixedTax>0 %}
         <tr>
             <td><b>{{"SERVICE_FIXED_TAX"|trans}}</b></td>
             <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ service_charge_total | number_format(2)}}</h4></td>
         </tr>
+        {% endif %}
         <tr class="b-cyan">
             <td><b>{{ "PRICE_TOTAL_TO_PAY" | trans }}</b></td>
             <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ ((total_prepayment + total_servicing_price)) | number_format(2) }}</h4></td>
@@ -249,11 +252,12 @@
             <td>- {{"SERVICES_TOTAL_COST"|trans}}</td>
             <td class="text-right">{{ currency_symbol }} {{ (tourist_tax_total) | number_format(2) }}</td>
         </tr>
+        {% if fixedTax>0 %}
         <tr>
             <td>- {{"SERVICE_FIXED_TAX"|trans}}</td>
             <td class="text-right">{{ currency_symbol }} {{ service_charge_total | number_format(2)}}</td>
         </tr>
-
+{% endif %}
         <tr>
             <td colspan="2"><b>{{ "PAY_AT_ACCOMMODATION" | trans }}</b></td>
         </tr>
