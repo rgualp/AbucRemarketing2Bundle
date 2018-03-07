@@ -323,6 +323,19 @@ class ownershipRepository extends EntityRepository
             $em->persist($accommodationBookingModality);
         }
 
+        $ownership->setOwnRentalType($modality->getName());
+        $ownership->setOwnModalityReservation($data["own_modalityReservation"]);
+        if (isset($data["own_paymentAfterDays"]) && $data["own_paymentAfterDays"] != "") {
+            $ownership->setOwnPaymentAfterDays(true);
+        } else {
+            $ownership->setOwnPaymentAfterDays(false);
+        }
+        if (isset($data["own_paymentClientArrived"]) && $data["own_paymentClientArrived"] != "") {
+            $ownership->setOwnPaymentClientArrived(true);
+        } else {
+            $ownership->setOwnPaymentClientArrived(false);
+        }
+
         $em->flush();
 
         $this->calculateAccommodationCategory($ownership);
@@ -770,6 +783,16 @@ class ownershipRepository extends EntityRepository
         }
         $ownership->setOwnRentalType($modality->getName());
         $ownership->setOwnModalityReservation($data["own_modalityReservation"]);
+        if (isset($data["own_paymentAfterDays"]) && $data["own_paymentAfterDays"] != "") {
+            $ownership->setOwnPaymentAfterDays(true);
+        } else {
+            $ownership->setOwnPaymentAfterDays(false);
+        }
+        if (isset($data["own_paymentClientArrived"]) && $data["own_paymentClientArrived"] != "") {
+            $ownership->setOwnPaymentClientArrived(true);
+        } else {
+            $ownership->setOwnPaymentClientArrived(false);
+        }
         $em->flush();
         $this->calculateAccommodationCategory($ownership);
         return $ownership;
@@ -2848,7 +2871,7 @@ class ownershipRepository extends EntityRepository
         $em->flush();
     }
 
-    public function getPaymentMethodsList($filter_name, $filter_code, $filter_destination, $filter_province)
+    public function getPaymentMethodsList($filter_name, $filter_code, $filter_destination, $filter_province, $limit = 100, $offset = 0)
     {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder()
@@ -2881,7 +2904,8 @@ class ownershipRepository extends EntityRepository
                 ->setParameter("filter_province", $filter_province);
         }
 
-        return $qb->getQuery()->getResult();
+        return DoctrineHelp::paginate($qb->getQuery(), $offset, $limit);
+
     }
 
 }
