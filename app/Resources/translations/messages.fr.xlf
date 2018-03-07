@@ -4280,7 +4280,7 @@ Vous pouvez aussi consulter nos Règles de Confidentialité, les FAQ et nos Cond
             <trans-unit id="1039">
                 <source>PREPAYMENT_TOOLTIP</source>
                 <target>Paiement pour les services de gestion de pré-réservation et réservation, effectué sur le site et
-                    qui constitue la somme des frais du service, des tarifs au logement. Ce paiement
+                    qui constitue la somme des frais du service, des tarifs au logement et des frais fixe. Ce paiement
                     ne comprend pas le montant qui doit être effectué une fois à la maison (paiement à la maison).
                 </target>
             </trans-unit>
