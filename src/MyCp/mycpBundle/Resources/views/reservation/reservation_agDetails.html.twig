@@ -290,7 +290,12 @@
             <td style="text-align: right">
               <b>{{(completePayment * user.getUserCurrency.getCurrCucChange) |round(2, 'ceil')  }} {{ user.getUserCurrency.getCurrCode|upper }}</b>
               <br/>
-              <b>{{ completePayment }} CUC</b></td>
+              <b>{{ completePayment }} CUC</b>
+              <br>
+              <b> Pago a propietario: {{ ((total_price)-((total_price)*0.2))|round(2,'ceil') }} CUC</b>
+
+              </td>
+
              {% else %}
             <td style="text-align: right"><b>{{ completePayment*user.getUserCurrency.getCurrCucChange }} {{ user.getUserCurrency.getCurrCode|upper }} </b></td>
             {% endif %}

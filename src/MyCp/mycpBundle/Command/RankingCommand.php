@@ -98,7 +98,7 @@ class RankingCommand extends ContainerAwareCommand {
         foreach($accommodationsRankingValues as $rankingValue)
         {
             //Enviar correo
-            $from_email= 'casa@mycasaparticular.com';
+            $from_email= 'info@mycasaparticular.com';
             $from_name= 'MyCasaParticular.com';
             $email_type= 'RANKING_EMAIL';
             $emailValues = array("subject" => "", "content" => "");

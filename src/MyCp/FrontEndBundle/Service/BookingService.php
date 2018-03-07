@@ -1258,7 +1258,7 @@ class BookingService extends Controller
         //Buscar la agencia y sus contactos
         $travelAgency = $this->em->getRepository("PartnerBundle:paTravelAgency")->findOneBy(array("email" => $user->getUserEmail()));
         $isSpecial = $travelAgency->getAgencyPackages()[0]->getPackage()->isSpecial();
-
+        $isEconomic= $travelAgency->getAgencyPackages()[0]->getPackage()->isEconomic();
         //$userTourist = $this->getUserTourist($userId, $bookingId);
         $ownershipReservations = $this->getOwnershipReservations($bookingId);
         $rooms = $this->getRoomsFromReservations($ownershipReservations);
@@ -1329,7 +1329,7 @@ class BookingService extends Controller
         );
 
         $this->sendEmailsToAgencyPartner($user, $travelAgency, $isSpecial, $emailService, $dataArray,$result);
-        $this->sendEmailstoReservationAndAccommodationPartner($user, $isSpecial, $emailService, $dataArray);
+        $this->sendEmailstoReservationAndAccommodationPartner($user, $isSpecial,$isEconomic, $emailService, $dataArray);
 
     }
 //   Enviar correo vaucher partner
@@ -1442,7 +1442,7 @@ class BookingService extends Controller
     }
 
 
-    private function sendEmailstoReservationAndAccommodationPartner($user, $isSpecial, $emailService, $dataArray){
+    private function sendEmailstoReservationAndAccommodationPartner($user, $isSpecial,$isEconomic, $emailService, $dataArray){
         $arrayNightsByOwnershipReservation = $dataArray["arrayNightsByOwnershipReservation"];
         $paymentPending = $dataArray["paymentPending"];
         $rooms = $dataArray["rooms"];
@@ -1478,6 +1478,34 @@ class BookingService extends Controller
 
                 $bodyRes = $this->render(
                     'PartnerBundle:Mail:rt_payment_confirmation_special.html.twig',
+                    array(
+                        'user' => $user,
+                        'user_tourist' => $user,
+                        'reservations' => $owns,
+                        'nights' => $arrayNightsByOwnershipReservation,
+                        'payment_pending' => $paymentPending,
+                        'rooms' => $rooms,
+                        'booking' => $bookingId,
+                        'client' => $client
+                    )
+                );
+            }
+            elseif ($isEconomic){
+                $bodyOwner = $this->render(
+                    'PartnerBundle:Mail:email_house_confirmation_economic.html.twig',
+                    array(
+                        'user' => $user,
+                        'user_tourist' => $user,
+                        'reservations' => $owns,
+                        'nights' => $arrayNightsByOwnershipReservation,
+                        'rooms' => $rooms,
+                        'booking' => $bookingId,
+                        'client' => $client
+                    )
+                );
+
+                $bodyRes = $this->render(
+                    'PartnerBundle:Mail:rt_payment_confirmation_economic.html.twig',
                     array(
                         'user' => $user,
                         'user_tourist' => $user,
@@ -1576,7 +1604,7 @@ class BookingService extends Controller
         //Buscar la agencia y sus contactos
         $travelAgency = $this->em->getRepository("PartnerBundle:paTravelAgency")->findOneBy(array("email" => $user->getUserEmail()));
         $isSpecial = $travelAgency->getAgencyPackages()[0]->getPackage()->isSpecial();
-
+        $isEconomic= $travelAgency->getAgencyPackages()[0]->getPackage()->isEconomic();
         //$userTourist = $this->getUserTourist($userId, $bookingId);
         $ownershipReservations = $this->getOwnershipReservations($bookingId);
         $rooms = $this->getRoomsFromReservations($ownershipReservations);
@@ -1644,7 +1672,7 @@ class BookingService extends Controller
         );
 
         $this->sendEmailsToAgencyPartner($user, $travelAgency, $isSpecial, $emailService, $dataArray);
-        $this->sendEmailstoReservationAndAccommodationPartner($user, $isSpecial, $emailService, $dataArray);
+        $this->sendEmailstoReservationAndAccommodationPartner($user, $isSpecial,$isEconomic, $emailService, $dataArray);
     }
 
     /**

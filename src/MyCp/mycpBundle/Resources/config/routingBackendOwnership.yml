@@ -81,3 +81,7 @@ mycp_execute_ical_ownership:
 mycp_execute_all_ical_ownership:
     pattern:  /all/ical
     defaults: { _controller: mycpBundle:BackendOwnership:execute_all_ical }
+
+mycp_update_ownership_coverpage:
+    path:  /update_cover_page/{id_ownership}/{id_photo}
+    defaults: { _controller: mycpBundle:BackendOwnership:setPhotoCoverPage }
