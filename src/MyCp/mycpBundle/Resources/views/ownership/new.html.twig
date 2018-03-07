@@ -135,7 +135,7 @@
                 <li class=""><a data-toggle="tab" href="#sales">Ventas</a></li>
                 <li class=""><a {% if errors_tab['user_tab'] is defined %} class="tab_errors" {% endif %} data-toggle="tab" href="#usuario">Usuario</a></li>
                 {% if data['edit_ownership'] is defined %}
-                    <li class=""><a data-toggle="tab" href="#modality">Tipo de Renta</a></li>
+                    <li class=""><a data-toggle="tab" href="#modality">Reservaciones</a></li>
                     <li class=""><a data-toggle="tab" href="#comentarios">Comentarios</a></li>
                 {% endif %}
             </ul>
@@ -732,6 +732,20 @@
                 <label>Precio</label>
                 <input value="{% if(post['modality_price'] is defined) %}{{post['modality_price']}}{% endif %}" class="input-block-level" type="text" name="modality_price" id="iModality" disabled="disabled" required="true"/>
             </div>
+        </div>
+        <br/>
+        <div class="row-fluid">
+         <div class="col-xs-12">
+                <label>¿Acepta recibir clientes de agencias de viajes?</label>
+                <legend></legend>
+                <label class="checkbox">
+                    <input type="checkbox" {% if post['own_paymentAfterDays'] is defined and post['own_paymentAfterDays']  %} checked="checked" {% endif %} name="own_paymentAfterDays"> Está de acuerdo en recibir el pago 10 días después de la salida del cliente.
+                </label>
+
+                <label class="checkbox">
+                    <input type="checkbox" {% if post['own_paymentClientArrived'] is defined and post['own_paymentClientArrived'] %} checked="checked" {% endif %} name="own_paymentClientArrived"> Prefiere recibir el dinero a la llegada del cliente.
+                </label><br/>
+        </div>
         </div>
     </div>
 {% endif %}

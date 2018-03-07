@@ -430,7 +430,6 @@ class BackendOwnershipController extends Controller
         $ownership = new ownership();
         $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
         $languages = $em->getRepository('mycpBundle:lang')->getAll();
-        //$ownershipGeneralLangs = $em->getRepository('mycpBundle:ownershipGeneralLang')->findBy(array('ogl_ownership' => $id_ownership));
         $ownershipDescriptionLangs = $em->getRepository('mycpBundle:ownershipDescriptionLang')->findBy(array('odl_ownership' => $id_ownership));
         $ownershipKeywordsLangs = $em->getRepository('mycpBundle:ownershipKeywordLang')->findBy(array('okl_ownership' => $id_ownership));
         $accommodationBooking = $em->getRepository("mycpBundle:accommodationBookingModality")->findOneBy(array("accommodation" => $id_ownership));
@@ -479,6 +478,10 @@ class BackendOwnershipController extends Controller
 
         $post['modality_price'] = (isset($accommodationBooking)) ? $accommodationBooking->getPrice() : 0;
         $post['own_modalityReservation'] = $ownership->getOwnModalityReservation();
+        $post['own_paymentAfterDays'] = $ownership->isOwnPaymentAfterDays();
+        $post['own_paymentClientArrived'] = $ownership->isOwnPaymentClientArrived();
+
+
 
         $users_owner = $em->getRepository('mycpBundle:userCasa')->findBy(array('user_casa_ownership' => $id_ownership));
 
