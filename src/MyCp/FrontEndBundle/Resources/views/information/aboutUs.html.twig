@@ -85,22 +85,38 @@
         <div class="row"  style="margin-bottom: 20px;background-color: #f5f5f5;padding: 10px 0px;">
             <div class="col-sm-4">
             <div>
-                    <h3 class="no-margin margin-b-t">{{ "OUR_OFFICE"|trans }}</h3>
+                    <h3 class="no-margin margin-b-t">{{ "OUR_OFFICE"|trans }},{{"ADDRESS_MCP_COUNTRY" | trans}}</h3>
                     ABUC media network GmbH<br/>
-                    MyCasaParticular.com<br/><br/>
-                    Peter Merian-Strasse 54<br/>
-                    4052 Basel<br/>
-                    {{"ADDRESS_MCP_COUNTRY" | trans}}<br/><br/>
+                    Pedro Torres Cobas<br/>
+                    Lindenstrasse 33<br/>
+                    4102<br/>
+
                     {#<em class="icon-headphones"></em> {{"FORMS_PHONE" | trans}}: {{mycasa_office_phone}}<br/>#}
-                    <div class="col-sm-1" style="padding:0; width:20px"><em class="icon-mail-reply"></em></div>
+                    <div class="col-sm-1" style="padding:0; width:20px"><i class="glyphicon glyphicons phone_alt"></i></div>
                     <div class="col-sm-8" style="padding:0">
-                    info@mycasaparticular.com<br/>
-                    reservation@mycasaparticular.com
+                        (+41) 61 588 09 56<br/>
+
+                    </div>
+            </div>
+                <div>
+                    </br></br>
+                    <h3 class="no-margin margin-b-t">{{ "OUR_OFFICE"|trans }},Cuba</h3>
+                    Customer experience<br/>
+                    San Nicolás #358 <br/>
+                    Centro Habana, La Habana<br/>
+
+                    {#<em class="icon-headphones"></em> {{"FORMS_PHONE" | trans}}: {{mycasa_office_phone}}<br/>#}
+                    <div class="col-sm-1" style="padding:0; width:20px"><i class="glyphicon glyphicons phone_alt"></i></div>
+                    <div class="col-sm-8" style="padding:0">
+                        (+53) 55599750<br/>
+
                     </div>
                 </div>
             </div>
+
             <div class="col-sm-8">
-                <img alt="{{"MyCasaParticular" | trans}}" title="{{"MyCasaParticular" | trans}}" class="img-polaroid" src='https://maps.googleapis.com/maps/api/staticmap?center={{mycasa_office_geolocate_x}},{{mycasa_office_geolocate_y}}&zoom=15&size=630x400&sensor=false&markers=icon:{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}%7C{{mycasa_office_geolocate_x}},{{mycasa_office_geolocate_y}}&a.jpg'/>
+                <img alt="{{"MyCasaParticular" | trans}}" title="{{"MyCasaParticular" | trans}}" class="img-polaroid" src='https://maps.googleapis.com/maps/api/staticmap?&zoom=3.9&size=630x400&sensor=false&markers=icon:{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}%7C{{mycasa_office_geolocate_x}},{{mycasa_office_geolocate_y}}&a.jpg&markers=icon:{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}%7C23.1136,-82.3666&a.jpg
+'/>
             </div>
 
         </div>
