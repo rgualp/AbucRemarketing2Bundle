@@ -82,44 +82,63 @@
             </div>
         </div>
         <hr class="hr-grey" style="margin-bottom: 40px"/>
-        <div class="row"  style="margin-bottom: 20px;background-color: #f5f5f5;padding: 10px 0px;">
-            <div class="col-sm-4">
-            <div>
-                    <h3 class="no-margin margin-b-t">{{ "OUR_OFFICE"|trans }},{{"ADDRESS_MCP_COUNTRY" | trans}}</h3>
-                    ABUC media network GmbH<br/>
-                    Pedro Torres Cobas<br/>
-                    Lindenstrasse 33<br/>
-                    4102<br/>
 
-                    {#<em class="icon-headphones"></em> {{"FORMS_PHONE" | trans}}: {{mycasa_office_phone}}<br/>#}
-                    <div class="col-sm-1" style="padding:0; width:20px"><i class="glyphicon glyphicons phone_alt"></i></div>
-                    <div class="col-sm-8" style="padding:0">
-                        (+41) 61 588 09 56<br/>
 
-                    </div>
+        <div class="tabbable tabs-left">
+            <ul class="nav nav-tabs" style="height: 320px;">
+
+                <li class="active" >
+                    <a data-toggle="tab" href="#id_suiza">
+
+                        <h3 class="no-margin margin-b-t">{{ "OUR_OFFICE"|trans }},{{"ADDRESS_MCP_COUNTRY" | trans}}</h3>
+                        ABUC media network GmbH<br/>
+                        Pedro Torres Cobas<br/>
+                        Lindenstrasse 33<br/>
+                        4102<br/>
+                        {#<em class="icon-headphones"></em> {{"FORMS_PHONE" | trans}}: {{mycasa_office_phone}}<br/>#}
+                        <div class= style="padding:0">
+                            <i class="glyphicon glyphicons phone_alt"></i>
+                            (+41) 61 588 09 56
+
+                        </div>
+
+                    </a>
+                </li>
+                <li >
+                    <a data-toggle="tab" href="#id_cuba">
+
+                        <h3 class="no-margin margin-b-t">{{ "OUR_OFFICE"|trans }},Cuba</h3>
+                        Customer experience<br/>
+                        San Nicolás #358 <br/>
+                        Centro Habana, La Habana<br/>
+
+                        {#<em class="icon-headphones"></em> {{"FORMS_PHONE" | trans}}: {{mycasa_office_phone}}<br/>#}
+
+                        <div class= style="padding:0">
+                            <i class="glyphicon glyphicons phone_alt"></i>
+                            (+53) 55599750
+
+                        </div>
+
+
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content">
+
+            <div id="id_suiza" class="tab-pane active">
+                 <img style="box-sizing: content-box;" alt="{{"MyCasaParticular" | trans}}" title="{{"MyCasaParticular" | trans}}" class="img-polaroid" src='https://maps.googleapis.com/maps/api/staticmap?&zoom=2&size=430x320&sensor=false&markers=icon:{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}%7C{{mycasa_office_geolocate_x}},{{mycasa_office_geolocate_y}}&a.jpg'/>
+
             </div>
-                <div>
-                    </br></br>
-                    <h3 class="no-margin margin-b-t">{{ "OUR_OFFICE"|trans }},Cuba</h3>
-                    Customer experience<br/>
-                    San Nicolás #358 <br/>
-                    Centro Habana, La Habana<br/>
+                <div id="id_cuba" class="tab-pane">
+                    <img style="box-sizing: content-box;" alt="{{"MyCasaParticular" | trans}}" title="{{"MyCasaParticular" | trans}}" class="img-polaroid" src='https://maps.googleapis.com/maps/api/staticmap?&zoom=2&size=430x320&sensor=false&markers=icon:{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}%7C23.113656,-82.36679&a.jpg'/>
 
-                    {#<em class="icon-headphones"></em> {{"FORMS_PHONE" | trans}}: {{mycasa_office_phone}}<br/>#}
-                    <div class="col-sm-1" style="padding:0; width:20px"><i class="glyphicon glyphicons phone_alt"></i></div>
-                    <div class="col-sm-8" style="padding:0">
-                        (+53) 55599750<br/>
-
-                    </div>
                 </div>
-            </div>
 
-            <div class="col-sm-8">
-                <img alt="{{"MyCasaParticular" | trans}}" title="{{"MyCasaParticular" | trans}}" class="img-polaroid" src='https://maps.googleapis.com/maps/api/staticmap?&zoom=3.9&size=630x400&sensor=false&markers=icon:{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}%7C{{mycasa_office_geolocate_x}},{{mycasa_office_geolocate_y}}&a.jpg&markers=icon:{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}%7C23.1136,-82.3666&a.jpg
-'/>
             </div>
-
         </div>
+
+
     </div>
 {% block include_javascripts %}
 
