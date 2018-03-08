@@ -4395,6 +4395,10 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
                 <source>PAGINATOR_RECORD</source>
                 <target>Datensätzen</target>
             </trans-unit>
+             <trans-unit id="4801">
+                                                                <source>label.colaborators</source>
+                                                                <target>Mitarbeiter</target>
+                                               </trans-unit>
         </body>
     </file>
 </xliff>

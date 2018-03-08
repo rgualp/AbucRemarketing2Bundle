@@ -4352,6 +4352,10 @@
                 <source>PAGINATOR_RECORD</source>
                 <target>registros</target>
             </trans-unit>
+            <trans-unit id="4801">
+                            <source>label.colaborators</source>
+                            <target>Colaboradores</target>
+           </trans-unit>
         </body>
     </file>
 </xliff>
