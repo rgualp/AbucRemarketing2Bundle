@@ -2150,7 +2150,7 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             ->from("mycpBundle:ownershipReservation", "owres")
             ->join("owres.own_res_gen_res_id", "gres")
             ->join("gres.gen_res_user_id","u")
-            ->where("u.user_role <> 'ROLE_CLIENT_PARTNER'")
+            ->where("u.user_role = 'ROLE_CLIENT_TOURIST'")
             ->groupBy("gres.gen_res_date");
 
         if($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "") {
@@ -2217,7 +2217,7 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             ->from("mycpBundle:ownershipReservation", "owres")
             ->join("owres.own_res_gen_res_id", "gres")
             ->join("gres.gen_res_user_id","u")
-            ->where("u.user_role <> 'ROLE_CLIENT_PARTNER'")
+            ->where("u.user_role = 'ROLE_CLIENT_TOURIST'")
             ->andwhere("(gres.gen_res_status = " . generalReservation::STATUS_AVAILABLE . " or gres.gen_res_status = " . generalReservation::STATUS_RESERVED . " or gres.gen_res_status = " . generalReservation::STATUS_OUTDATED . " or gres.gen_res_status = " . generalReservation::STATUS_CANCELLED . ")")
             ->groupBy("gres.gen_res_date");
 
@@ -2485,7 +2485,7 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
                 ->join("owres.own_res_gen_res_id", "gres")
 
                 ->join("gres.gen_res_user_id","u")
-                ->andwhere("u.user_role <> 'ROLE_CLIENT_PARTNER'")
+                ->andwhere("u.user_role = 'ROLE_CLIENT_TOURIST'")
                 ->join('mycpBundle:room', 'r', Expr\Join::WITH, 'r.room_id = owres.own_res_selected_room_id')
                 ->where("r.room_ownership IN (:accommodations)")
                 ->setParameter("accommodations", $accommodationsArray)
@@ -2517,7 +2517,7 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
                 ->join("owres.own_res_gen_res_id", "gres")
 
                 ->join("gres.gen_res_user_id","u")
-                ->andwhere("u.user_role <> 'ROLE_CLIENT_PARTNER'")
+                ->andwhere("u.user_role = 'ROLE_CLIENT_TOURIST'")
 
             ;
             if($filter_date_from != null && $filter_date_from != "" && ($filter_date_to == null || $filter_date_to == "")) {
@@ -2560,7 +2560,7 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             ->join('mycpBundle:payment', 'p', Expr\Join::WITH, 'p.booking = b.booking_id')
             ->join("p.currency", "curr")
             ->join("gres.gen_res_user_id","u")
-            ->where("u.user_role <> 'ROLE_CLIENT_PARTNER'")
+            ->where("u.user_role = 'ROLE_CLIENT_TOURIST'")
             ->groupBy("fecha")
             ->andwhere("owres.own_res_status = :status")
             ->setParameter("status", ownershipReservation::STATUS_RESERVED)
@@ -3155,7 +3155,7 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
         if($filter_status != "") {
             $where .= (($where != "") ? " AND " : " WHERE ") . " getClientStatus(u.user_id, gres.gen_res_date) = :filter_status";
         }
-        $where .= (($where != "") ? " AND " : " WHERE ") . " u.user_role <> 'ROLE_CLIENT_PARTNER' ";
+        $where .= (($where != "") ? " AND " : " WHERE ") . " u.user_role = 'ROLE_CLIENT_TOURIST' ";
 
         $queryString = "SELECT gres.gen_res_date,u.user_user_name, u.user_last_name, u.user_id,u.user_role,
             SUM(DATEDIFF(owres.own_res_reservation_to_date, owres.own_res_reservation_from_date)) as nights,
