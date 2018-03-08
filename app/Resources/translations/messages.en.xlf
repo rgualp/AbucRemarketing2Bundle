@@ -4350,6 +4350,10 @@
                 <source>PAGINATOR_RECORD</source>
                 <target>records</target>
             </trans-unit>
+             <trans-unit id="4801">
+                                        <source>label.colaborators</source>
+                                        <target>Collaborators</target>
+                       </trans-unit>
         </body>
     </file>
 </xliff>

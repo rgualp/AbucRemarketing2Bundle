@@ -4421,6 +4421,10 @@
                 <source>PAGINATOR_RECORD</source>
                 <target>record</target>
             </trans-unit>
+             <trans-unit id="4801">
+                                                    <source>label.colaborators</source>
+                                                    <target>Contributori</target>
+                                   </trans-unit>
         </body>
     </file>
 </xliff>

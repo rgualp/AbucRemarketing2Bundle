@@ -170,14 +170,23 @@
                         </li>
                         <li><a target="_blank" title="Blog MyCasaParticular"
                                href="http://blog.mycasaparticular.com">{{ "BLOG" | trans }}</a></li>
+                        <li><a rel="nofollow" title="My Casa Particular - {{ "SITE_MAP" | trans }}"
+                               href="{{ path ('frontend_sitemap_information') }}">{{ "SITE_MAP" | trans }}</a></li>
                     </ul>
                 </div>
                 <div class="col-xs-2">
-                    <div class="col-xs-12">
-                        <div class="footer-title">{{ "OUR_SERVICES" | trans }}</div>
+                    <div class="col-xs-13">
+                        <div class="footer-title">{{ "label.colaborators" | trans }}</div>
                         <ul>
-                            <li><a rel="nofollow" title="My Casa Particular - {{ "SITE_MAP" | trans }}"
-                                   href="{{ path ('frontend_sitemap_information') }}">{{ "SITE_MAP" | trans }}</a></li>
+                            <li><a target="_blank"  title="Cuba Bicycling Tours"
+                                   href="http://cubabicyclingtours.com">Cuba Bicycling Tours</a></li>
+                            {% if app.request.locale =='es' %}
+                            <li><a target="_blank"  title="Strawberry Tours"
+                                   href="https://strawberrytours.com/es/habana">Strawberry Tours</a></li>
+                            {% else %}
+                                <li><a target="_blank"  title="Strawberry Tours"
+                                       href="https://strawberrytours.com/havana">Strawberry Tours</a></li>
+                            {% endif %}
                         </ul>
                     </div>
 
