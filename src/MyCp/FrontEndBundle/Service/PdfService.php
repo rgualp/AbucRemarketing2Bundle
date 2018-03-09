@@ -3,7 +3,7 @@
 namespace MyCp\FrontEndBundle\Service;
 
 use Symfony\Component\HttpFoundation\Response;
-
+use Font_Metrics;
 
 class PdfService implements PdfServiceInterface
 {
