@@ -113,7 +113,8 @@
                 <li id="{{ item.getOwnPhoPhoto.getPhoId }}"
                     {% if cont ==0 %}class="grey"{% set cont=1 %}{% else %}{% set cont=0 %}{% endif %}>
                     <div class="row-fluid" style="padding: 0">
-                        {% if item.getOwnPhoPhoto().isFront() == false or item.getOwnPhoPhoto().isFront() is null %}
+
+                        {% if  item.getOwnPhoPhoto.getPhoId != ownership.getPrinicipalPhoto.getPhoId and (item.getOwnPhoPhoto().isFront() == false or item.getOwnPhoPhoto().isFront() is null) %}
                             <div class="span1"><input type="checkbox" name="check_photo" class="ch_photo"
                                                       data-id="{{ item.getOwnPhoPhoto.getPhoId }}"/></div>
                         {% endif %}
@@ -137,15 +138,15 @@
                                    href="{{ path('mycp_edit_photos_ownership',{'id_photo':item.getOwnPhoPhoto.getPhoId,'id_ownership':id_ownership}) }}"
                                    title="Editar"><i class="icon-edit"></i></a>
                             </div>
-                            {% if item.getOwnPhoPhoto().isFront() == false or item.getOwnPhoPhoto().isFront() is null %}
+                            {% if item.getOwnPhoPhoto.getPhoId != ownership.getPrinicipalPhoto.getPhoId and (item.getOwnPhoPhoto().isFront() == false or item.getOwnPhoPhoto().isFront() is null) %}
                                 <a class="btn btn-mini btn-success"
                                    href="{{ path('mycp_update_ownership_coverpage',{'id_ownership':id_ownership,'id_photo':item.getOwnPhoPhoto.getPhoId}) }}"
                                    title="Establecer como portada">
                                     <i class="icon-check"></i>
                                 </a>
                                 <button class="btn btn-mini btn-danger delete"
-                                   data="{{ path('mycp_delete_photos_ownership',{'id_ownership':id_ownership,'id_photo':item.getOwnPhoPhoto.getPhoId}) }}"
-                                   title="Eliminar"><i class="icon-trash"></i></button>
+                                        data="{{ path('mycp_delete_photos_ownership',{'id_ownership':id_ownership,'id_photo':item.getOwnPhoPhoto.getPhoId}) }}"
+                                        title="Eliminar"><i class="icon-trash"></i></button>
                             {% endif %}
 
                         </div>

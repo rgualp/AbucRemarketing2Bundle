@@ -2154,7 +2154,7 @@
               </trans-unit>
               <trans-unit id="546">
                   <source>USER_ACTIVATE_ACCOUNT_SUCCESS</source>
-                  <target>Gracias. Su usuario ha sido activado satisfactoriamente.</target>
+                  <target>Gracias. Su usuario ha sido activado satisfactoriamente. Ahora usted debe acceder al sistema para completar los datos de su propiedad y PUBLICAR su alojamiento en nuestro sitio.</target>
               </trans-unit>
               <trans-unit id="547">
                   <source>USER_ACTIVATE_ERROR</source>
