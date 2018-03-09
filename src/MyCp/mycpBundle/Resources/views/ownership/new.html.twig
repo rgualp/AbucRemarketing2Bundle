@@ -736,15 +736,11 @@
         <br/>
         <div class="row-fluid">
          <div class="col-xs-12">
-                <label>¿Acepta recibir clientes de agencias de viajes?</label>
+                <label>¿Acepta trabajar con agencias de viajes?</label>
                 <legend></legend>
                 <label class="checkbox">
                     <input type="checkbox" {% if post['own_paymentAfterDays'] is defined and post['own_paymentAfterDays']  %} checked="checked" {% endif %} name="own_paymentAfterDays"> Está de acuerdo en recibir el pago 10 días después de la salida del cliente.
                 </label>
-
-                <label class="checkbox">
-                    <input type="checkbox" {% if post['own_paymentClientArrived'] is defined and post['own_paymentClientArrived'] %} checked="checked" {% endif %} name="own_paymentClientArrived"> Prefiere recibir el dinero a la llegada del cliente.
-                </label><br/>
         </div>
         </div>
     </div>
