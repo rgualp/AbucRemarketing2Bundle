@@ -1,3 +1,4 @@
+<option value=""></option>
 {% for mod in list %}
     <option {% if selected is defined and selected == mod.id %} selected="selected" {% endif %} value="{{ mod.id }}" data-hasPrice="{{ (mod.name == constant('\\MyCp\\mycpBundle\\Entity\\bookingModality::COMPLETE_RESERVATION_BOOKING')) ? 1 : 0 }}"> {{ mod.name }}</option>
 {% endfor %}
