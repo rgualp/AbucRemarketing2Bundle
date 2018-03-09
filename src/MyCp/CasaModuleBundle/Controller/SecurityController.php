@@ -8,7 +8,6 @@
 
 namespace MyCp\CasaModuleBundle\Controller;
 
-use MyCp\FrontEndBundle\Form\changePasswordUserType;
 use MyCp\mycpBundle\Entity\user;
 use MyCp\mycpBundle\Form\restorePasswordUserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -19,6 +18,8 @@ class SecurityController extends Controller
 {
     public function loginAction($urlLogin, Request $request)
     {
+        $activating = $this->get('session')->get('activatingUser');
+        $this->get('session')->set('activatingUser', false);
         $session = $request->getSession();
         $request->setLocale('es');
         if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
@@ -31,6 +32,7 @@ class SecurityController extends Controller
             'last_username' => $session->get(SecurityContext::LAST_USERNAME),
             'error' => $error,
             'urlLogin' => $urlLogin,
+            'activating' => $activating
         ));
     }
 
@@ -72,7 +74,8 @@ class SecurityController extends Controller
         ));
     }
 
-    public function changePasswordAction($string, Request $request) {
+    public function changePasswordAction($string, Request $request)
+    {
         $em = $this->getDoctrine()->getManager();
         $errors = array();
         $form = $this->createForm(new \MyCp\mycpBundle\Form\changePasswordUserType());

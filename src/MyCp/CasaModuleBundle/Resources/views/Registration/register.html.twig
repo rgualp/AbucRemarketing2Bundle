@@ -1,23 +1,25 @@
 {% extends 'MyCpCasaModuleBundle::layout_clean.html.twig' %}
     {% block stylesheets %}
         {% stylesheets
-        '@MyCpCasaModuleBundle/Resources/public/css/plugins/iCheck/custom.css'
-        '@MyCpCasaModuleBundle/Resources/public/css/plugins/chosen/chosen.css'
-        filter='?uglifycss'
-        %}
-        <link rel="stylesheet" href="{{ asset_url }}" />
+            '@MyCpCasaModuleBundle/Resources/public/css/plugins/iCheck/custom.css'
+            '@MyCpCasaModuleBundle/Resources/public/css/plugins/chosen/chosen.css'
+            filter='?uglifycss' %}
+            <link rel="stylesheet" href="{{ asset_url }}"/>
         {% endstylesheets %}
         <style>
-            .has-error .c-muni{
+            .has-error .c-muni {
                 margin-top: 35px;
             }
-            .has-error .chosen-container-single .chosen-single{
+
+            .has-error .chosen-container-single .chosen-single {
                 border: 1px solid #a94442;
             }
-            .chosen .help-block{
+
+            .chosen .help-block {
                 margin-top: 12%;
                 position: absolute;
             }
+
             /* enable absolute positioning */
             .inner-addon {
                 position: relative;
@@ -29,21 +31,35 @@
                 padding: 5px;
                 border-right: 1px solid #b3b3b3;
                 pointer-events: none;
-                z-index:1;
+                z-index: 1;
                 font-size: 19px;
                 margin-top: 4px;
             }
 
             /* align icon */
-            .left-addon .glyphicon  { left:  0px;}
-            .right-addon .glyphicon { right: 0px;}
+            .left-addon .glyphicon {
+                left: 0px;
+            }
+
+            .right-addon .glyphicon {
+                right: 0px;
+            }
 
             /* add padding  */
-            .left-addon input  { padding-left:  40px; width: 95%;height: 38px }
-            .right-addon input { padding-right: 40px; }
+            .left-addon input {
+                padding-left: 40px;
+                width: 95%;
+                height: 38px
+            }
+
+            .right-addon input {
+                padding-right: 40px;
+            }
+
             .chosen-container-single .chosen-single div b {
                 margin-top: 7px;
             }
+
             .chosen-container-single .chosen-single span {
                 display: block;
                 margin-left: 28px;
@@ -51,6 +67,7 @@
                 text-overflow: ellipsis;
                 white-space: nowrap;
             }
+
             .chosen-container-single .chosen-single {
                 background-color: #fff;
                 background-image: none;
@@ -71,13 +88,19 @@
                 padding: 6px 12px;
                 width: 95%;
             }
+
             .chosen-container-single .chosen-single abbr {
                 top: 13px;
             }
+
             #terms-error {
                 margin-top: 2px;
                 min-width: 230px;
                 font-size: 14px;
+            }
+
+            .animate {
+                border: solid red;
             }
         </style>
     {% endblock %}
@@ -107,7 +130,8 @@
         {% endfor %}
         {% if error is defined and error is not null %}
             <div class="alert alert-danger alert-dismissable">
-                <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>{{ error.message | trans }}</div>
+                <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×
+                </button>{{ error.message | trans }}</div>
         {% endif %}
         {% if errors is defined and errors is not empty %}
             <div class="alert alert-danger alert-dismissable">
@@ -123,13 +147,15 @@
                     <div class="col-md-12 text-center">
                         <h3 class="font-blue">Si ya es un usuario. ¡Empieza!</h3>
                     </div>
-                    <div class="col-md-12 bg-gray">
+                    <div id="login-container" class="col-md-12 bg-gray">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group row">
                                     <div class="inner-addon left-addon">
                                         <i class="glyphicon glyphicons user"></i>
-                                        <input type="text" class="form-control" id="inputUsername" placeholder="Código de la Casa" name="_username"   value="{{ last_username|default('') }}"/>
+                                        <input type="text" class="form-control stopInterval" id="inputUsername"
+                                               placeholder="Código de la Casa" name="_username"
+                                               value="{{ last_username|default('') }}"/>
                                     </div>
                                 </div>
                             </div>
@@ -139,11 +165,14 @@
                                 <div class="form-group row">
                                     <div class="inner-addon left-addon">
                                         <i class="glyphicon glyphicons lock"></i>
-                                        <input type="password" class="form-control" placeholder="Contraseña" id="inputPassword"  name="_password"/>
+                                        <input type="password" class="form-control stopInterval"
+                                               placeholder="Contraseña"
+                                               id="inputPassword" name="_password"/>
                                     </div>
                                 </div>
                                 <label>
-                                    <input type="checkbox" id="remember_me" class="i-checks" name="_remember_me" /> Recordar contraseña
+                                    <input type="checkbox" id="remember_me" class="i-checks" name="_remember_me"/>
+                                    Recordar contraseña
                                 </label>
                             </div>
                         </div>
@@ -160,11 +189,20 @@
             <div class="col-sm-12 text-center">
                 <img width="120" src="{{ asset("bundles/frontend/img/mycasarenta/logo1.png") }}">
             </div>
-            <div class="col-sm-12 m-t-10 m-b-10 text-center"><a target="_blank" title="Descargar la Aplicación de MyCasa Renta" href="https://play.google.com/store/apps/details?id=hds.aplications.com.homedroid" class="btn btn-danger" style="background-color: rgb(0, 0, 0); font-size: 19px;"><i class="fa fa-android"></i> Descargar Aplicación</a></div>
-            <div class="col-sm-12 text-center m-b-10"><a target="_blank" title="Descargar Instructivo de MyCasa Renta" href="{{ path("my_casarenta_manual_download") }}" class="btn btn-danger"><i class="fa fa-download"></i> Descargar Instructivo</a></div>
+            <div class="col-sm-12 m-t-10 m-b-10 text-center"><a target="_blank"
+                                                                title="Descargar la Aplicación de MyCasa Renta"
+                                                                href="https://play.google.com/store/apps/details?id=hds.aplications.com.homedroid"
+                                                                class="btn btn-danger"
+                                                                style="background-color: rgb(0, 0, 0); font-size: 19px;"><i
+                            class="fa fa-android"></i> Descargar Aplicación</a></div>
+            <div class="col-sm-12 text-center m-b-10"><a target="_blank" title="Descargar Instructivo de MyCasa Renta"
+                                                         href="{{ path("my_casarenta_manual_download") }}"
+                                                         class="btn btn-danger"><i class="fa fa-download"></i> Descargar
+                    Instructivo</a></div>
         </div>
         <div class="col-md-8">
-            <form role="form" action="{{ path('my_cp_casa_module_registration') }}" method="post" id="registerOwn" class="form-registerOwn">
+            <form role="form" action="{{ path('my_cp_casa_module_registration') }}" method="post" id="registerOwn"
+                  class="form-registerOwn">
                 <div class="col-md-12 text-center">
                     <h3 class="font-blue">Registre su propiedad. Verá que fácil es!</h3>
                 </div>
@@ -174,7 +212,8 @@
                             <div class="form-group row">
                                 <div class="inner-addon left-addon">
                                     <i class="glyphicon glyphicons home"></i>
-                                    <input type="text" name="own_name" required minlength="6" class="form-control" placeholder="Nombre de la casa" style="width: 97%">
+                                    <input type="text" name="own_name" required minlength="6" class="form-control"
+                                           placeholder="Nombre de la casa" style="width: 97%">
                                 </div>
                             </div>
                         </div>
@@ -184,13 +223,16 @@
                             <div class="form-group row">
                                 <div class="inner-addon left-addon">
                                     <i class="glyphicon glyphicons nameplate"></i>
-                                    <input type="text" name="own_license_number" required minlength="3" class="form-control" placeholder="Número de la licencia">
+                                    <input type="text" name="own_license_number" required minlength="3"
+                                           class="form-control" placeholder="Número de la licencia">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="inner-addon left-addon chosen">
                                     <i class="glyphicon glyphicons google_maps"></i>
-                                    <select data-placeholder="Seleccione la Provincia" required class="form-control chosen-select-deselect" name="own_province" id="own_province">
+                                    <select data-placeholder="Seleccione la Provincia" required
+                                            class="form-control chosen-select-deselect" name="own_province"
+                                            id="own_province">
                                         {{ render(controller('mycpBundle:Public:get_provinces', {'post': {'ownership_address_province':''}})) }}
                                     </select>
                                 </div>
@@ -198,7 +240,9 @@
                             <div class="form-group row">
                                 <div class="inner-addon left-addon chosen c-muni">
                                     <i class="glyphicon glyphicons google_maps"></i>
-                                    <select data-placeholder="Seleccione el Municipio" required class="form-control chosen-select-deselect" name="own_municipality" id="own_municipality">
+                                    <select data-placeholder="Seleccione el Municipio" required
+                                            class="form-control chosen-select-deselect" name="own_municipality"
+                                            id="own_municipality">
                                         {{ render(controller('mycpBundle:Public:get_mun', {'post': {'ownership_address_municipality':''}})) }}
                                     </select>
                                 </div>
@@ -208,19 +252,25 @@
                             <div class="form-group row">
                                 <div class="inner-addon left-addon">
                                     <i class="glyphicon glyphicons user"></i>
-                                    <input type="text" required name="own_homeowner_1" {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}value="{{ app.user.userUserName~' '~app.user.userLastName }}" {% endif %} class="form-control" placeholder="Nombre del propietario principal">
+                                    <input type="text" required name="own_homeowner_1"
+                                           {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}value="{{ app.user.userUserName~' '~app.user.userLastName }}" {% endif %}
+                                           class="form-control" placeholder="Nombre del propietario principal">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="inner-addon left-addon">
                                     <i class="glyphicon glyphicons envelope"></i>
-                                    <input type="email" {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}value="{{ app.user.userEmail }}" {% endif %}required name="own_email_1" class="form-control" placeholder="Correo principal">
+                                    <input type="email"
+                                           {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}value="{{ app.user.userEmail }}"
+                                           {% endif %}required name="own_email_1" class="form-control"
+                                           placeholder="Correo principal">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="inner-addon left-addon">
                                     <i class="glyphicon glyphicons phone_alt"></i>
-                                    <input type="text" name="own_phone" required minlength="6" digits="true"  class="form-control" placeholder="Teléfono">
+                                    <input type="text" name="own_phone" required minlength="6" digits="true"
+                                           class="form-control" placeholder="Teléfono">
                                 </div>
                             </div>
                         </div>
@@ -232,20 +282,26 @@
                         <div class="panel bg-yellow" style="padding: 0">
                             <div class="" role="tab" id="headingOne">
                                 <h4 class="panel-title">
-                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+                                       aria-expanded="true" aria-controls="collapseOne">
                                         <MARQUEE>
-                                            <p class="m-t-10 font-blue" style="font-weight: bold; animation-duration: 3s;animation-name: slidein; animation-iteration-count: infinite;">La inscripción de su propiedad tiene un costo de 30 CUC. {#<span style="color: red">Nuevo!!!! Hasta el 1ero de Noviembre las casas que se inscriban en el sitio tendrán un 20% de descuento. Regístrate ahora por 24 CUC.</span>#}</p>
+                                            <p class="m-t-10 font-blue"
+                                               style="font-weight: bold; animation-duration: 3s;animation-name: slidein; animation-iteration-count: infinite;">
+                                                La inscripción de su propiedad tiene un costo de 30
+                                                CUC. {#<span style="color: red">Nuevo!!!! Hasta el 1ero de Noviembre las casas que se inscriban en el sitio tendrán un 20% de descuento. Regístrate ahora por 24 CUC.</span>#}</p>
                                         </MARQUEE>
                                     </a>
                                 </h4>
                             </div>
-                            <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                            <div id="collapseOne" class="panel-collapse collapse" role="tabpanel"
+                                 aria-labelledby="headingOne">
                                 <div class="panel-body">
                                     <p>
                                         <b>Podrá realizar el pago del siguiente modo:</b></br>
                                         Mediante transferencia bancaria a nuestra cuenta de BANDEC:</br>
                                         <b>9200 0699 9392 5852</b> a nombre de <b>Candida Cobas Ochoa.</b></br>
-                                        Realizar su pago directamente en nuestras oficinas centrales en la dirección:</br>
+                                        Realizar su pago directamente en nuestras oficinas centrales en la
+                                        dirección:</br>
                                         Calle San Nicolás # 358 (bajos) % San Rafael y San Miguel CP 10200.</br>
                                         Municipio Centro Habana, Provincia La Habana, Cuba.
                                     </p>
@@ -255,12 +311,14 @@
                         <div class="panel bg-yellow" style="padding: 0">
                             <div class="" role="tab" id="headingTwo">
                                 <h4 class="panel-title">
-                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                                       href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                         <h4 class="font-blue">Términos y condiciones del pago por su inscripción</h4>
                                     </a>
                                 </h4>
                             </div>
-                            <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                            <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel"
+                                 aria-labelledby="headingTwo">
                                 <div class="panel-body">
                                     <p>Usted podrá tener visibilidad de su casa publicada sin realizar su pago por un</br>
                                         periodo de 15 días, tiempo  en el que deberá realizar su abonado. De no realizarlo</br>
@@ -274,9 +332,9 @@
                     </div>
 
 
-
-
-                    <p>Por favor revise nuestros <h3 class="font-blue"><a target="_blank" href="{{ path('frontend_legal_terms.es') }}"> Términos y condiciones generales de uso</a></h3></p>
+                    <p>Por favor revise nuestros
+                    <h3 class="font-blue"><a target="_blank" href="{{ path('frontend_legal_terms.es') }}"> Términos y
+                            condiciones generales de uso</a></h3></p>
                     <div class="form-group row" style="margin-bottom: 0px">
                         <label> <input type="checkbox" name="terms" required value="accepted" class="i-checks">
                             <div class="col-md-12"><h3>Acepte para continuar</h3></div>
@@ -293,49 +351,47 @@
 {% endblock %}
 {% block javascripts %}
     {% javascripts
-    '@FrontEndBundle/Resources/public/js/jquery-validation/jquery.validate.min.js'
-    '@MyCpCasaModuleBundle/Resources/public/js/plugins/iCheck/icheck.min.js'
-    '@MyCpCasaModuleBundle/Resources/public/js/plugins/chosen/chosen.jquery.js'
-    filter='?uglifyjs2'
-    %}
-    <script src="{{ asset_url }}"></script>
+        '@FrontEndBundle/Resources/public/js/jquery-validation/jquery.validate.min.js'
+        '@MyCpCasaModuleBundle/Resources/public/js/plugins/iCheck/icheck.min.js'
+        '@MyCpCasaModuleBundle/Resources/public/js/plugins/chosen/chosen.jquery.js'
+        filter='?uglifyjs2' %}
+        <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
-    <script type="text/javascript" src="{{ asset('bundles/frontend/js/jquery-validation/localization/messages_es.js') }}"></script>
+    <script type="text/javascript"
+            src="{{ asset('bundles/frontend/js/jquery-validation/localization/messages_es.js') }}"></script>
     <script type="text/javascript">
-        $(document).on('ready', function(){
+        $(document).on('ready', function () {
             var config = {
-                '.chosen-select'           : {},
-                '.chosen-select-deselect'  : {allow_single_deselect:true},
-                '.chosen-select-no-single' : {disable_search_threshold:10},
-                '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
-                '.chosen-select-width'     : {width:"95%"}
+                '.chosen-select': {},
+                '.chosen-select-deselect': {allow_single_deselect: true},
+                '.chosen-select-no-single': {disable_search_threshold: 10},
+                '.chosen-select-no-results': {no_results_text: 'Oops, nothing found!'},
+                '.chosen-select-width': {width: "95%"}
             }
             for (var selector in config) {
                 $(selector).chosen(config[selector]);
             }
             $('.i-checks').iCheck({
-//             checkboxClass: 'icheckbox_square-green',
                 checkboxClass: 'iradio_square-green',
                 radioClass: 'iradio_square-green'
             });
             url = "{{ path('mycp_get_mun_by_prov_chosen', { 'country_code': '-1' }) }}";
-            url=url.replace('/-1','');
-            $('#own_province').change(function(){
+            url = url.replace('/-1', '');
+            $('#own_province').change(function () {
                 code = $('#own_province').val();
-                if(code!='')
-                {
+                if (code != '') {
                     $('#own_municipality').html('<option value="">Cargando...</option>');
 
-                    var municipalitySelect=$('#own_municipality');
+                    var municipalitySelect = $('#own_municipality');
                     $.ajax({
-                        type:"POST",
-                        url:url + '/' + code,
-                        success:function (data) {
+                        type: "POST",
+                        url: url + '/' + code,
+                        success: function (data) {
                             data = (data['aaData']) ? (data['aaData']) : ([]);
 
                             municipalitySelect.html('');
                             for (var i = 0, total = data.length; i < total; i++) {
-                                if (i == 0){
+                                if (i == 0) {
                                     municipalitySelect.append('<option selected="selected" value=""></option>');
                                 }
                                 municipalitySelect.append('<option value="' + data[i]['id'] + '">' + data[i]['name'] + '</option>');
@@ -347,7 +403,7 @@
                 }
             });
             $("#registerOwn").validate({
-                submitHandler: function(form) {
+                submitHandler: function (form) {
                     form.submit();
                 },
                 ignore: "",
@@ -355,30 +411,45 @@
                 errorClass: 'help-block', // default input error message class
                 focusInvalid: false // do not focus the last invalid input
                 ,
-                invalidHandler: function(event, validator) { //display error alert on form submit
+                invalidHandler: function (event, validator) { //display error alert on form submit
 
                 },
-                rules: {
-//                 'mycp_frontendbundle_change_password_usertype[user_password][Clave]':{
-//                     required: true,
-//                     minlength: 6
-//                 },
-//                 'mycp_frontendbundle_change_password_usertype[user_password][Repetir]': {
-//                     equalTo: "#mycp_frontendbundle_change_password_usertype_user_password_Clave"
-//                 }
-                },
+                rules: {},
 
 
-                highlight: function(element) { // hightlight error inputs
+                highlight: function (element) { // hightlight error inputs
                     $(element)
-                            .closest('.form-group').addClass('has-error'); // set error class to the control group
+                        .closest('.form-group').addClass('has-error'); // set error class to the control group
                 },
 
-                success: function(label) {
+                success: function (label) {
                     label.closest('.form-group').removeClass('has-error');
                     label.remove();
                 }
             });
+
+            {% if activating is defined and activating == true %}
+            var $LOGIN_CONTAINER = $("div#login-container");
+            var flag = true;
+            var animation = function () {
+                if (flag) {
+                    $LOGIN_CONTAINER.addClass('animate');
+                    flag = false;
+                } else {
+                    $LOGIN_CONTAINER.removeClass('animate');
+                    flag = true;
+                }
+
+            };
+            var refreshIntervalId = setInterval(animation, 1000);
+            $('input.stopInterval').click(function () {
+                clearInterval(refreshIntervalId);
+                $LOGIN_CONTAINER.removeClass('animate');
+            });
+            {% endif %}
+
+
+
 
         })
     </script>

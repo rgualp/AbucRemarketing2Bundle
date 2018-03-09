@@ -1,92 +1,61 @@
-{# Parche de paginacion, por el mecanismo de plantillas de la apliacion #}
-<style>
-    ul {
-        padding: 0;
-        margin: 0 0 10px 25px;
-    }
+{% if route_params is not defined %}
+    {% set route_params = [] %}
+{% endif %}
 
-    ul.paginator :first-child {
-        border-left-width: 1px;
-        border-radius: 3px 0 0 3px;
-    }
-
-    ul.paginator :last-child {
-        border-radius: 0 3px 3px 0;
-    }
-
-    ul.paginator > li {
-        display: inline;
-        line-height: 20px;
-        -moz-border-bottom-colors: none;
-        -moz-border-left-colors: none;
-        -moz-border-right-colors: none;
-        -moz-border-top-colors: none;
-        background-color: #FFFFFF;
-        border-color: #DDDDDD;
-        border-image: none;
-        border-style: solid;
-        border-width: 1px 1px 1px 0;
-        float: left;
-        line-height: 20px;
-        padding: 4px 12px;
-        text-decoration: none;
-    }
-
-    ul.paginator {
-        border-radius: 4px 4px 4px 4px;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-        display: inline-block;
-        margin: 20px 0px;
-        margin-top: 10px;
-        margin-bottom: 10px;
-    }
-
-    .paginator-alert {
-        padding: 8px 35px 8px 14px;
-        margin-bottom: 20px;
-        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-        -webkit-border-radius: 4px;
-        -moz-border-radius: 4px;
-        border-radius: 4px;
-
-        background-color: #dff0d8;
-        border-color: #d6e9c6;
-        color: #468847;
-    }
-</style>
 <div class="row">
-    <div class="paginator-cont col-sm-6 col-md-6">
+    <div class="paginator-cont">
         <ul class="paginator">
-            {% if paginator.currentPage > 1 %}
-                <li><a class="ajax_paginator" data-page="{{ paginator.previousPage }}"
-                       href="#">{{ 'PAGINATOR_PREVIOUS'|trans }}</a>
+            {% if paginate.getCurrentPage() > 11 %}
+                <li>
+                    {% set route_params = route_params|merge({ page: 1 }) %}
+                    <a href="{{ path(route, route_params) }}">««</a>
                 </li>
-            {% else %}
-                <li class="left_disabled"><a href="#">{{ 'PAGINATOR_PREVIOUS'|trans }}</a></li>
+            {% endif %}
+            {% if paginate.getCurrentPage() > 1 %}
+                <li>
+                    {% set route_params = route_params|merge({ page: paginate.getCurrentPage()-1 < 1 ? 1 : paginate.getCurrentPage()-1 }) %}
+                    <a href="{{ path(route, route_params) }}">«</a>
+                </li>
             {% endif %}
 
-            {% for page in paginator.minPageInRange..paginator.maxPageInRange %}
-                {% if page == paginator.currentPage %}
-                    <li><a class="current ajax_paginator" data-page="{{ page }}" href="#">{{ page }}</a></li>
-                {% else %}
-                    <li><a class="ajax_paginator" data-page="{{ page }}" href="#">{{ page }}</a></li>
-                {% endif %}
-            {% endfor %}
+            {# Render each page number #}
 
-            {% if paginator.currentPage < paginator.lastPage %}
-                <li class="right"><a class="ajax_paginator" data-page="{{ paginator.nextPage }}"
-                                     href="#">{{ 'PAGINATOR_NEXT'|trans }}</a>
+            {% if paginate.getNumPages() > 1 %}
+                {% if paginate.getNumPages() > 10 %}
+                    {% set minPage = paginate.getCurrentPage() - 10 %}
+                    {% if minPage <= 0 %}
+                        {% set minPage = 1 %}
+                    {% endif %}
+                    {% set maxPage = minPage + 10 %}
+                    {% for i in minPage..maxPage %}
+                        <li class="{{ i == paginate.getCurrentPage() ? 'current' : 'disabled' }}">
+                            {% set route_params = route_params|merge({ page: i  }) %}
+                            <a href="{{ path(route, route_params) }}">{{ i }}</a>
+                        </li>
+                    {% endfor %}
+                {% else %}
+                    {% for i in 1..paginate.getNumPages() %}
+                        <li>
+                            {% set route_params = route_params|merge({ page: i  }) %}
+                            <a href="{{ path(route, {page: i}) }}">{{ i }}</a>
+                        </li>
+                    {% endfor %}
+                {% endif %}
+            {% endif %}
+
+            {# `»` arrow #}
+            {% if paginate.getCurrentPage() < paginate.getNumPages() %}
+                <li>
+                    {% set route_params = route_params|merge({ page: paginate.getCurrentPage() + 1 }) %}
+                    <a href="{{ path(route,route_params) }}">»</a>
                 </li>
-            {% else %}
-                <li class="right_disabled">{{ 'PAGINATOR_NEXT'|trans }}</li>
+            {% endif %}
+            {% if paginate.getNumPages() > 10 %}
+                <li>
+                    {% set route_params = route_params|merge({ page: paginate.getNumPages() }) %}
+                    <a href="{{ path(route, route_params) }}">»»</a>
+                </li>
             {% endif %}
         </ul>
-    </div>
-    <div class="row">
-        <div class="paginator-alert col-sm-6 col-md-6">
-            {{ 'PAGINATOR_SHOW'|trans }} {{ items_per_page * paginator.currentPage - items_per_page + 1 }}
-            {{ 'PAGINATOR_TO'|trans }} {% if items_per_page * paginator.currentPage >  total_items %}{{ total_items }}{% else %}{{ items_per_page * paginator.currentPage }}{% endif %}
-            {{ 'PAGINATOR_OF'|trans }} {{ total_items }} {{ 'PAGINATOR_RECORD'|trans }}
-        </div>
     </div>
 </div>

@@ -28,8 +28,16 @@ class ownership
     /**
      * All allowed rental type
      */
-    const ACCOMMODATION_RENTAL_TYPE_FULL = "Propiedad completa";
+    const ACCOMMODATION_RENTAL_TYPE_FULL = "Propiedad Completa";
     const ACCOMMODATION_RENTAL_TYPE_PER_ROOMS = "Por habitaciones";
+
+
+    /**
+     * All allowed modality reservation
+     */
+    const MODALITY_RESERVATION_INSTANT = "Reserva Inmediata";
+    const MODALITY_RESERVATION_QUICKLY = "Reserva Rapida";
+    const MODALITY_RESERVATION_DEMAND = "Reserva por Solicitudes";
 
     /**
      * Contains all possible statuses
@@ -679,6 +687,29 @@ class ownership
      * @ORM\Column(name="with_ical", type="boolean", nullable=true)
      */
     private $withIcal;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="payment_after_days", type="boolean", nullable=true)
+     */
+    private $own_paymentAfterDays;
+
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="payment_client_arrived", type="boolean", nullable=true)
+     */
+    private $own_paymentClientArrived;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="own_modality_reservation", type="string", nullable=true)
+     */
+    private $own_modalityReservation;
 
     /**
      * Constructor
@@ -2463,30 +2494,6 @@ class ownership
     }
 
     /**
-     * Get ownRentalType
-     *
-     * @return string
-     */
-    public function getOwnRentalType()
-    {
-        return $this->own_rental_type;
-    }
-
-    /**
-     * Set ownRentalType
-     *
-     * @param string $ownRentalType
-     *
-     * @return ownership
-     */
-    public function setOwnRentalType($ownRentalType)
-    {
-        $this->own_rental_type = $ownRentalType;
-
-        return $this;
-    }
-
-    /**
      * Add ownDescriptionLang
      *
      * @param \MyCp\mycpBundle\Entity\ownershipDescriptionLang $ownDescriptionLang
@@ -3221,7 +3228,6 @@ class ownership
         return $this;
     }
 
-
     /**
      * Get withIcal
      *
@@ -3251,9 +3257,87 @@ class ownership
 
     public function isRentalTypeFull()
     {
-        return self::ACCOMMODATION_RENTAL_TYPE_FULL == $this->own_type ? true : false;
+        return self::ACCOMMODATION_RENTAL_TYPE_FULL == $this->getOwnRentalType() ? true : false;
     }
 
+    /**
+     * Get ownRentalType
+     *
+     * @return string
+     */
+    public function getOwnRentalType()
+    {
+        return $this->own_rental_type;
+    }
 
+    /**
+     * Set ownRentalType
+     *
+     * @param string $ownRentalType
+     *
+     * @return ownership
+     */
+    public function setOwnRentalType($ownRentalType)
+    {
+        $this->own_rental_type = $ownRentalType;
+
+        return $this;
+    }
+
+    public function getPrinicipalPhoto()
+    {
+        if (!is_null($this->data) && !is_null($this->data->getPrincipalPhoto())) {
+            return $this->data->getPrincipalPhoto()->getOwnPhoPhoto();
+        }
+        return null;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isOwnPaymentAfterDays()
+    {
+        return $this->own_paymentAfterDays;
+    }
+
+    /**
+     * @param bool $own_paymentAfterDays
+     */
+    public function setOwnPaymentAfterDays($own_paymentAfterDays)
+    {
+        $this->own_paymentAfterDays = $own_paymentAfterDays;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isOwnPaymentClientArrived()
+    {
+        return $this->own_paymentClientArrived;
+    }
+
+    /**
+     * @param bool $own_paymentClientArrived
+     */
+    public function setOwnPaymentClientArrived($own_paymentClientArrived)
+    {
+        $this->own_paymentClientArrived = $own_paymentClientArrived;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOwnModalityReservation()
+    {
+        return $this->own_modalityReservation;
+    }
+
+    /**
+     * @param string $own_modalityReservation
+     */
+    public function setOwnModalityReservation($own_modalityReservation)
+    {
+        $this->own_modalityReservation = $own_modalityReservation;
+    }
 }
 
