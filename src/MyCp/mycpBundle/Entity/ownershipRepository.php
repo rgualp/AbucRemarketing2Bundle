@@ -780,8 +780,10 @@ class ownershipRepository extends EntityRepository
             $accommodationBookingModality->setBookingModality($modality)
                 ->setPrice($price);
             $em->persist($accommodationBookingModality);
+            $ownership->setOwnRentalType($modality->getName());
         }
-        $ownership->setOwnRentalType($modality->getName());
+
+
         $ownership->setOwnModalityReservation($data["own_modalityReservation"]);
         if (isset($data["own_paymentAfterDays"]) && $data["own_paymentAfterDays"] != "") {
             $ownership->setOwnPaymentAfterDays(true);
