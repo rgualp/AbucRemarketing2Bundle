@@ -1412,7 +1412,7 @@ class BackendOwnershipController extends Controller
         $selected = '';
         if (isset($post['own_modalityReservation']))
             $selected = $post['own_modalityReservation'];
-        $listModality = array('Reserva Inmediata', 'Reserva Rápida', 'Por solicitudes');
+        $listModality = array('Por solicitudes','Reserva Inmediata', 'Reserva Rápida');
         return $this->render('mycpBundle:utils:list_modalityReservation.html.twig', array('selected' => $selected, 'list' => $listModality));
     }
 
