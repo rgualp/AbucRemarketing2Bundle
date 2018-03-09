@@ -802,12 +802,11 @@ class OwnershipController extends Controller
 
         $session->set("filter_array", $check_filters);
         $session->set("filter_room", $room_filter);
-        $list = $em->getRepository('mycpBundle:ownership')->search($this, $search_text, $arrival, $departure, $search_guests, $search_rooms, $session->get('search_order'), $room_filter, $check_filters, $inmediate, 1, 20);
-        dump($list);die;
-        //$paginator = $this->get('ideup.simple_paginator');
-        //$items_per_page = 15;
-        //$paginator->setItemsPerPage($items_per_page);
-        //$result_list = $paginator->paginate($list)->getResult();
+        $list = $em->getRepository('mycpBundle:ownership')->search($this, $search_text, $arrival, $departure, $search_guests, $search_rooms, $session->get('search_order'), $room_filter, $check_filters, $inmediate);
+        $paginator = $this->get('ideup.simple_paginator');
+        $items_per_page = 15;
+        $paginator->setItemsPerPage($items_per_page);
+        $result_list = $paginator->paginate($list)->getResult();
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
@@ -1131,7 +1130,7 @@ class OwnershipController extends Controller
 
             $inmediate = ($request->request->get('own_inmediate_booking2') == 'true' || $request->request->get('own_inmediate_booking2') == '1') ? 1 : null;
             $session->set('inmediate', $inmediate);
-            $results_list = $em->getRepository('mycpBundle:ownership')->search($this, $session->get('search_text'), $session->get('search_arrival_date'), $session->get('search_departure_date'), $session->get('search_guests'), $session->get('search_rooms'), $session->get('search_order'), $room_filter, $check_filters, $inmediate, $page, 20);
+            $results_list = $em->getRepository('mycpBundle:ownership')->search($this, $session->get('search_text'), $session->get('search_arrival_date'), $session->get('search_departure_date'), $session->get('search_guests'), $session->get('search_rooms'), $session->get('search_order'), $room_filter, $check_filters, $inmediate);
             $own_ids = "0";
             foreach ($results_list as $own)
                 $own_ids .= "," . $own['own_id'];

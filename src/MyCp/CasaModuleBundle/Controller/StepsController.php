@@ -611,13 +611,7 @@ class StepsController extends Controller
     public function updateCoverPageAction($id_ownership, $id_photo)
     {
         $em = $this->getDoctrine()->getManager();
-        $ownershipPhoto = $em->getRepository('mycpBundle:ownershipPhoto')->getPhotosByIdOwnership($id_ownership);
-        foreach ($ownershipPhoto as $photo) {
-            if ($photo->getOwnPhoPhoto()->getPhoId() == $id_photo) {
-                $photo->getOwnPhoPhoto()->setFront(true);
-            } else
-                $photo->getOwnPhoPhoto()->setFront(false);
-        }
+        $this->get('mycp.coverimage.service')->updateCoverAccomodation($id_photo, $id_ownership);
         $em->flush();
         $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
         $em->getRepository("mycpBundle:ownershipPhoto")->updatePrincipalPhoto($ownership);

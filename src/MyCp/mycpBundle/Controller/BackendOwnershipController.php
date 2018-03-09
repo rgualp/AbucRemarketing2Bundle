@@ -239,17 +239,8 @@ class BackendOwnershipController extends Controller
 
     public function setPhotoCoverPageAction($id_ownership, $id_photo)
     {
-//
-//        $service_security = $this->get('Secure');
-//        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
-        $ownershipPhoto = $em->getRepository('mycpBundle:ownershipPhoto')->getPhotosByIdOwnership($id_ownership);
-        foreach ($ownershipPhoto as $photo) {
-            if ($photo->getOwnPhoPhoto()->getPhoId() == $id_photo) {
-                $photo->getOwnPhoPhoto()->setFront(true);
-            } else
-                $photo->getOwnPhoPhoto()->setFront(false);
-        }
+        $this->get('mycp.coverimage.service')->updateCoverAccomodation($id_photo, $id_ownership);
         $em->flush();
         $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
         $em->getRepository("mycpBundle:ownershipPhoto")->updatePrincipalPhoto($ownership);
@@ -480,7 +471,6 @@ class BackendOwnershipController extends Controller
         $post['own_modalityReservation'] = $ownership->getOwnModalityReservation();
         $post['own_paymentAfterDays'] = $ownership->isOwnPaymentAfterDays();
         $post['own_paymentClientArrived'] = $ownership->isOwnPaymentClientArrived();
-
 
 
         $users_owner = $em->getRepository('mycpBundle:userCasa')->findBy(array('user_casa_ownership' => $id_ownership));
