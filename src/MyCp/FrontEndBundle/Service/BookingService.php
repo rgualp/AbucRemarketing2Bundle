@@ -1128,7 +1128,7 @@ class BookingService extends Controller
         try {
             $emailService->sendEmail(
                 $subject,
-                'send@mycasaparticular.com',
+                'no-reply@mycasaparticular.com',
                 $subject . ' - MyCasaParticular.com',
                 $userEmail,
                 $body,
@@ -1376,7 +1376,7 @@ class BookingService extends Controller
         try {
             $emailService->sendEmailMultiplesAttach(
                 $subject . ' BR:'. $references,
-                'send@mycasaparticular.com',
+                'no-reply@mycasaparticular.com',
                 $subject . ' - MyCasaParticular.com',
                 $userEmail,
                 $body,
@@ -1400,7 +1400,7 @@ class BookingService extends Controller
                     try {
                         $emailService->sendEmailMultiplesAttach(
                             $subject . ' BR:'. $references,
-                            'send@mycasaparticular.com',
+                            'no-reply@mycasaparticular.com',
                             $subject . ' - MyCasaParticular.com',
                             $contact->getEmail(),
                             $body,
@@ -1422,7 +1422,7 @@ class BookingService extends Controller
             try {
                 $emailService->sendEmailMultiplesAttach(
                     $subject . ' BR:'. $references,
-                    'send@mycasaparticular.com',
+                    'no-reply@mycasaparticular.com',
                     $subject . ' - MyCasaParticular.com',
                     'facturas@cubatravelnetwork.com',
                     $body,
