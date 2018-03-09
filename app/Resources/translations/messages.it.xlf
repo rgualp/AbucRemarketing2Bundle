@@ -4264,8 +4264,7 @@
             </trans-unit>
             <trans-unit id="1038">
                 <source>ACCOMMODATION_TOTAL_COST_PLURAL_TOOLTIP</source>
-                <target>Si riferisce alla somma dell’ Importo per l’alloggio , le Tariffe per il servizio al cliente e
-                    la Tariffa fissa. È uguale alla somma del Pagamento online per i servizi con il Pagamento in casa.
+                <target>Si riferisce alla somma dell’ Importo per l’alloggio , le Tariffe per il servizio al cliente.È uguale alla somma del Pagamento online per i servizi con il Pagamento in casa.
                 </target>
             </trans-unit>
             <trans-unit id="1039">

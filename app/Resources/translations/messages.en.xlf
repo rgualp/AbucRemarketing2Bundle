@@ -4171,7 +4171,7 @@
             </trans-unit>
             <trans-unit id="1018">
                 <source>ACCOMMODATION_TOTAL_COST_PLURAL_TOOLTIP</source>
-                <target>It refers to the sum of the Lodging Price plus the Client Service Fee, and the Fixed Fee. It is
+                <target>It refers to the sum of the Lodging Price plus the Client Service Fee. It is
                     equal to the sum of the Online Prepayment for the Services plus the Casa Payment.
                 </target>
             </trans-unit>

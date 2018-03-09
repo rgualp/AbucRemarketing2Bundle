@@ -4208,7 +4208,7 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
             </trans-unit>
             <trans-unit id="1018">
                 <source>ACCOMMODATION_TOTAL_COST_PLURAL_TOOLTIP</source>
-                <target>Es bezieht sich auf die Summe : Betrag für Unterkunft + Dienstgebühr+ Feste Gebühr. Es ist die
+                <target>Es bezieht sich auf die Summe : Betrag für Unterkunft + Dienstgebühr. Es ist die
                     Summe der Online-Zahlungen für Dienste mit der Zahlung vor Ort (in Casa Particular).
                 </target>
             </trans-unit>

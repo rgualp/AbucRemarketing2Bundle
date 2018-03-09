@@ -4272,7 +4272,7 @@ Vous pouvez aussi consulter nos Règles de Confidentialité, les FAQ et nos Cond
             </trans-unit>
             <trans-unit id="1038">
                 <source>ACCOMMODATION_TOTAL_COST_PLURAL_TOOLTIP</source>
-                <target>C’est la somme du montant pour hébergement, des frais du service au client et des frais fixes.
+                <target>C’est la somme du montant pour hébergement, des frais du service au client .
                     Cela correspond également à la somme du paiement en ligne pour les services avec le paiement qui
                     doit être effectué à la maison.
                 </target>
