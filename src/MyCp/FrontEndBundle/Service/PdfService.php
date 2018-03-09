@@ -81,6 +81,10 @@ class PdfService implements PdfServiceInterface
         //$dompdf->set_paper("a4", "landscape");
         $dompdf->set_paper("a4");
         $dompdf->render();
+        $canvas = $dompdf->get_canvas();
+        $font = Font_Metrics::get_font("helvetica", "bold");
+        $canvas->page_text(550, 20, "Page: {PAGE_NUM} of {PAGE_COUNT}", $font, 6, array(0,0,0));
+
         return $dompdf;
     }
 }
