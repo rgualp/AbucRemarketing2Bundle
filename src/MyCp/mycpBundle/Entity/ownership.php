@@ -35,9 +35,9 @@ class ownership
     /**
      * All allowed modality reservation
      */
-    const MODALITY_RESERVATION_INSTANT = "Reserva Inmediata";
-    const MODALITY_RESERVATION_QUICKLY = "Reserva Rapida";
-    const MODALITY_RESERVATION_DEMAND = "Reserva por Solicitudes";
+    const MODALITY_IMMEDIATE_BOOKING = "Reserva Inmediata";
+    const MODALITY_QUICKLY_BOOKING = "Reserva Rapida";
+    const MODALITY_DEFAULT_BOOKING = "Reserva por Solicitudes";
 
     /**
      * Contains all possible statuses
@@ -3337,7 +3337,22 @@ class ownership
      */
     public function setOwnModalityReservation($own_modalityReservation)
     {
+        /**
+         * Se intenta garantizar que se sincronice la informacion del la modalidad de reserva.
+         */
         $this->own_modalityReservation = $own_modalityReservation;
+        if ($own_modalityReservation == self::MODALITY_IMMEDIATE_BOOKING) {
+            $this->own_inmediate_booking = true;
+            $this->own_inmediate_booking_2 = false;
+        } else {
+            if ($own_modalityReservation == self::MODALITY_QUICKLY_BOOKING) {
+                $this->own_inmediate_booking_2 = true;
+                $this->own_inmediate_booking = false;
+            } else {
+                $this->own_inmediate_booking = false;
+                $this->own_inmediate_booking_2 = false;
+            }
+        }
     }
 }
 
