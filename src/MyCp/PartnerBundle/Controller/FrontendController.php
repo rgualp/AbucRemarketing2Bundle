@@ -323,8 +323,11 @@ class FrontendController extends Controller
                 $obj->setUserLastName($post['user_last_name']);
                 $obj->setUserEmail($post['user_email']);
                 $obj->setUserCountry($em->getRepository('mycpBundle:country')->find($post['user_country']));
+                $obj->setUserCurrency($user->getUserCurrency());
+
                 $em->persist($obj);
                 $em->flush();
+
                 $user->addChildren($obj);
                 $em->persist($user);
                 $em->flush();
