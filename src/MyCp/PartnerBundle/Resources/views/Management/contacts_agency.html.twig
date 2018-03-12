@@ -161,6 +161,7 @@
         onDeleteContactButton();
 
     })
+
     function addContactAction() {
         var validator= $("#form-contacts").validate({
             submitHandler: function(form) {
@@ -238,9 +239,9 @@
                 if(response.success){
 
 
-                    HoldOn.close();
+
                     $('#usuario').modal('hide');
-                    window.location.reload();
+                    reloadAjax();
                 }
                 else{
                     HoldOn.close();
@@ -251,5 +252,43 @@
 
 
 
+    }
+
+    function reloadAjax() {
+
+        var link = $("#ajaxcontacs");
+        var href = "{{ path('partnet_dashboard_contacts_agency') }}";
+        var data = {};
+
+        $.ajax({
+            type: "POST",
+            url: href,
+            data:data,
+            success: function (result) {
+                HoldOn.close();
+                (link) ? (link.addClass('activeLink')) : (null);
+
+                var oldItem = $('#' + result.id);
+                if (oldItem.length > 0) {
+                    oldItem.remove();
+                }
+
+                var element = $('#content-box');
+                var firstChild = element.children();
+                var newItem = $('<div id=' + result.id + ' class="row contacts-agency ' + '">' + result.html + '</div>');
+
+                if (firstChild.length == 0) {
+                    element.append(newItem);
+                }
+                else {
+                    newItem.insertBefore(firstChild[0]);
+                }
+
+                renderPlugins(newItem, link);
+            },
+            error: function () {
+                HoldOn.close();
+            }
+        });
     }
 </script>

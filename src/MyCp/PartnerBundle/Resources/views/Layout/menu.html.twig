@@ -9,11 +9,11 @@
 
     {% if isSpecialPackage and role=="ROLE_CLIENT_PARTNER" %}
            {#<li><a class="ajaxify" data-class="profile-agency" data-href="{{ path('partnet_dashboard_profile_agency') }}">Agency Profile</a></li>#}
-               <li><a class="ajaxify" data-class="profile-agency" data-href="{{ path('partnet_dashboard_profile_agency') }}">{{"dashboard.profile.agency" | trans}}</a></li>
+               <li><a  class="ajaxify" data-class="profile-agency" data-href="{{ path('partnet_dashboard_profile_agency') }}">{{"dashboard.profile.agency" | trans}}</a></li>
 
-               <li><a class="ajaxify" data-class="contacts-agency" data-href="{{ path('partnet_dashboard_contacts_agency') }}">{{"dashboard.contacts" | trans}}</a></li>
+               <li><a id='ajaxcontacs' class="ajaxify" data-class="contacts-agency" data-href="{{ path('partnet_dashboard_contacts_agency') }}">{{"dashboard.contacts" | trans}}</a></li>
 
-           <li><a class="ajaxify" data-class="touroperators-agency" data-href="{{ path('partnet_dashboard_touroperators_agency') }}">{{"dashboard.operators" | trans}}</a></li>
+           <li><a id='ajaxtours' class="ajaxify" data-class="touroperators-agency" data-href="{{ path('partnet_dashboard_touroperators_agency') }}">{{"dashboard.operators" | trans}}</a></li>
 
        {% endif %}
     </ul>
