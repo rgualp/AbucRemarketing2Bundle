@@ -741,7 +741,7 @@
                     <label>¿Acepta recibir clientes de agencias de viajes?</label>
                     <legend></legend>
                     <label class="checkbox">
-                        <input type="checkbox" {% if post['own_paymentAfterDays'] is defined and post['own_paymentAfterDays']  %} checked="checked" {% endif %} name="own_paymentAfterDays"> Está de acuerdo en recibir el pago 10 días después de la salida del cliente.
+                        <input type="checkbox" {% if post['own_agencyWork'] is defined and post['own_agencyWork']  %} checked="checked" {% endif %} name="own_agencyWork"> Está de acuerdo en recibir el pago 10 días después de la salida del cliente.
                     </label>
             </div>
         </div>

@@ -469,8 +469,7 @@ class BackendOwnershipController extends Controller
 
         $post['modality_price'] = (isset($accommodationBooking)) ? $accommodationBooking->getPrice() : 0;
         $post['own_modalityReservation'] = $ownership->getOwnModalityReservation();
-        $post['own_paymentAfterDays'] = $ownership->isOwnPaymentAfterDays();
-        $post['own_paymentClientArrived'] = $ownership->isOwnPaymentClientArrived();
+        $post['own_agencyWork'] = $ownership->isOwnAgencyWork();
 
 
         $users_owner = $em->getRepository('mycpBundle:userCasa')->findBy(array('user_casa_ownership' => $id_ownership));

@@ -121,6 +121,11 @@ class StepsController extends Controller
             } elseif (strlen($langs) == 1) {
                 $ownership->setOwnLangs('000' . $langs);
             }
+            if ($request->request->get('mycp_mycpbundle_ownership_step1')['ownAgencyWork'] == 0) {
+                $ownership->setOwnAgencyWork(false);
+            } else {
+                $ownership->setOwnAgencyWork(true);
+            }
 
             if ($ownership->getOwnCommissionPercent() == null || $ownership->getOwnCommissionPercent() == "")
                 $ownership->setOwnCommissionPercent(20);
