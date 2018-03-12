@@ -465,7 +465,7 @@ class BackendOwnershipController extends Controller
         $data['ownership_mcp_code'] = $ownership->getOwnMcpCode();
         $post['ownership_destination'] = 0;
 
-        $post['modality'] = (isset($accommodationBooking)) ? $accommodationBooking->getBookingModality()->getId() : 0;
+        $post['modality'] = (isset($accommodationBooking)) ? $accommodationBooking->getBookingModality()->getId() : 2;
 
         $post['modality_price'] = (isset($accommodationBooking)) ? $accommodationBooking->getPrice() : 0;
         $post['own_modalityReservation'] = $ownership->getOwnModalityReservation();
