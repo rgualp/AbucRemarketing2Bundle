@@ -133,8 +133,7 @@ class ownershipStep1Type extends AbstractType
                 'required' => false,
                 'multiple' => false
             ))
-            ->add('ownPaymentAfterDays', 'checkbox')
-            ->add('ownPaymentClientArrived', 'checkbox')
+            ->add('ownAgencyWork', 'radio')
             ->add('ownModalityReservation', 'choice', array(
                 'attr' => array(
                     'class' => 'form-control',
