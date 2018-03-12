@@ -3,7 +3,7 @@
 namespace MyCp\FrontEndBundle\Service;
 
 use Symfony\Component\HttpFoundation\Response;
-
+use Font_Metrics;
 
 class PdfService implements PdfServiceInterface
 {
@@ -81,6 +81,10 @@ class PdfService implements PdfServiceInterface
         //$dompdf->set_paper("a4", "landscape");
         $dompdf->set_paper("a4");
         $dompdf->render();
+        $canvas = $dompdf->get_canvas();
+        $font = Font_Metrics::get_font("helvetica", "bold");
+        $canvas->page_text(530, 20, "Page: {PAGE_NUM} of {PAGE_COUNT}", $font, 6, array(0,0,0));
+
         return $dompdf;
     }
 }
