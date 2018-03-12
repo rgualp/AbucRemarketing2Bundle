@@ -2213,7 +2213,7 @@ class BookingService extends Controller
             //Si el tipo de cancelacion es Noshow
             if($type==3){
                 foreach($reservations_ids as $genResId){
-                   $ownreservation=$this->em->getRepository("mycpBundle:ownershipReservation")->find(array("own_res_gen_res_id"=>$genResId));
+                   $ownreservation=$this->em->getRepository("mycpBundle:ownershipReservation")->findBy(array("own_res_gen_res_id"=>$genResId));
                    $repay=0;
                    foreach ($ownreservation as $own){
                        $nights = $service_time->nights($own->getOwnResReservationFromDate()->getTimestamp(), $own->getOwnResReservationToDate()->getTimestamp());
@@ -2234,8 +2234,8 @@ class BookingService extends Controller
                   //Se registra un Pago Pendiente a Propietario
                     $pending_own=new pendingPayown();
                     $pending_own->setCancelId($obj);
-                    $pending_own->setPayAmount($item['price']);
-                    $pending_own->setUserCasa($ownreservation->getOwnResGenResId()->getGenResOwnId());
+                    $pending_own->setPayAmount($repay);
+                    $pending_own->setUserCasa($ownreservation[0]->getOwnResGenResId()->getGenResOwnId());
                     if($give_tourist)
                         $pending_own->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_pending_status')));
                     else
