@@ -83,7 +83,7 @@ class PdfService implements PdfServiceInterface
         $dompdf->render();
         $canvas = $dompdf->get_canvas();
         $font = Font_Metrics::get_font("helvetica", "bold");
-        $canvas->page_text(550, 20, "Page: {PAGE_NUM} of {PAGE_COUNT}", $font, 6, array(0,0,0));
+        $canvas->page_text(530, 20, "Page: {PAGE_NUM} of {PAGE_COUNT}", $font, 6, array(0,0,0));
 
         return $dompdf;
     }
