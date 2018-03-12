@@ -783,7 +783,6 @@ class BookingService extends Controller
                     $toPayAtService += $own->getOwnResTotalInSite() * (1- $accommodation->getOwnCommissionPercent() / 100) ;
                     $count++;
 
-                    if ($own->getOwnResGenResId()->getGenResId() != $generalReservationId || $count == count($ownershipReservations)) {
                         $payDate = $own->getOwnResGenResId()->getGenResToDate();
                         $payDate->add(new \DateInterval('P3D'));
                         /*$new_date = strtotime('+3 day', strtotime($toDate));
@@ -804,12 +803,12 @@ class BookingService extends Controller
 
                         $this->em->persist($pendingPayment);
                         $this->em->flush();
-
+                        $toPayAtService = 0;
                         //Send a notification
                         $this->smsNotificationService->sendAgencyCompletePaymentSMSNotification($pendingPayment);
 
-                        $toPayAtService = 0;
-                    }
+
+
                 }
             }
         }
@@ -851,7 +850,6 @@ class BookingService extends Controller
                     $toPayAtService += $own->getOwnResTotalInSite() * (1- $accommodation->getOwnCommissionPercent() / 100) ;
                     $count++;
 
-                    if ($own->getOwnResGenResId()->getGenResId() != $generalReservationId || $count == count($ownershipReservations)) {
                         $payDate = $own->getOwnResGenResId()->getGenResToDate();
                         $payDate->add(new \DateInterval('P3D'));
                         /*$new_date = strtotime('+3 day', strtotime($toDate));
@@ -872,14 +870,15 @@ class BookingService extends Controller
 
                         $this->em->persist($pendingPayment);
                         $this->em->flush();
-
+                        $toPayAtService = 0;
                         //Send a notification
                         $this->smsNotificationService->sendAgencyCompletePaymentSMSNotification($pendingPayment);
 
-                        $toPayAtService = 0;
-                    }
+
+
                 }
             }
+
         }
 
     }
