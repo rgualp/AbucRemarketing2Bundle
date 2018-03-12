@@ -2455,7 +2455,7 @@
             <trans-unit id="616">
                 <source>FOOTER_EMAIL</source>
                 <target>
-                    <![CDATA[Ajouter reservation@mycasaparticular.com à votre carnet d’adresses pour continuer à recevoir ces e-mails.<br/><br/>Vous pouvez aussi lire notre Politique de confidentialité <a href="%policieslink%">ici.</a><br/><br/> Les prix peuvent être sujets à changer avant d’effectuer  le paiement. Des charges pour des services applicables ne sont pas comprises dans les prix. Tous les logements sont susceptibles d’être vérifiés en ce qui concerne la disponibilité. Consultez nos <a href="%termlink%">Conditions d’utilisation</a> pour en savoir plus.<br/><br/> MyCasaParticular.com est un service d’ ABUC media network GmbH avec numéro de registre du commerce CH-270.4.002.844-1 à Bâle, Suisse.]]></target>
+                    <![CDATA[Ajouter <a href="mailto:reservation@mycasaparticular.com"> à votre carnet d’adresses pour continuer à recevoir ces e-mails.<br/><br/>Vous pouvez aussi lire notre Politique de confidentialité <a href="%policieslink%">ici.</a><br/><br/> Les prix peuvent être sujets à changer avant d’effectuer  le paiement. Des charges pour des services applicables ne sont pas comprises dans les prix. Tous les logements sont susceptibles d’être vérifiés en ce qui concerne la disponibilité. Consultez nos <a href="%termlink%">Conditions d’utilisation</a> pour en savoir plus.<br/><br/> MyCasaParticular.com est un service d’ ABUC media network GmbH avec numéro de registre du commerce CH-270.4.002.844-1 à Bâle, Suisse.]]></target>
             </trans-unit>
             <trans-unit id="617">
                 <source>OF</source>

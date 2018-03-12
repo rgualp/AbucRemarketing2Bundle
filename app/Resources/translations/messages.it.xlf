@@ -2446,7 +2446,7 @@
             <trans-unit id="616">
                 <source>FOOTER_EMAIL</source>
                 <target>
-                    <![CDATA[Aggiungi reservation@mycasaparticular.com alla tua rubrica o la vostra lista sicura per garantire che continuo a ricevere queste e-mail dei mittenti.<br/><br/>Può anche leggere la nostra Privacy Policy <a href="%policieslink%">Prezzi.</a><br/><br/>possono essere soggette a modifiche prima di effettuare il pagamento. I prezzi non includono le spese di servizio applicabili. Tutti gli alloggi sono soggetti a verifica disponibilità. Vedere il nostro <a href="%termlink%"> Términos e Condiciones </a> per informazioni più dettagliate. <br/> MyCasaParticular.com è un servizio di rete multimediale Abuc GmbH con numero di registrazione commerciale CH -270.4.002.844-1 a Basilea. Svizzera.]]></target>
+                    <![CDATA[Aggiungi <a href="mailto:reservation@mycasaparticular.com"> alla tua rubrica o la vostra lista sicura per garantire che continuo a ricevere queste e-mail dei mittenti.<br/><br/>Può anche leggere la nostra Privacy Policy <a href="%policieslink%">Prezzi.</a><br/><br/>possono essere soggette a modifiche prima di effettuare il pagamento. I prezzi non includono le spese di servizio applicabili. Tutti gli alloggi sono soggetti a verifica disponibilità. Vedere il nostro <a href="%termlink%"> Términos e Condiciones </a> per informazioni più dettagliate. <br/> MyCasaParticular.com è un servizio di rete multimediale Abuc GmbH con numero di registrazione commerciale CH -270.4.002.844-1 a Basilea. Svizzera.]]></target>
             </trans-unit>
             <trans-unit id="617">
                 <source>OF</source>
