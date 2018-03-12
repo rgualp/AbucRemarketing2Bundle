@@ -3342,12 +3342,12 @@ class ownership
          */
         $this->own_modalityReservation = $own_modalityReservation;
         if ($own_modalityReservation == self::MODALITY_IMMEDIATE_BOOKING) {
-            $this->own_inmediate_booking = true;
-            $this->own_inmediate_booking_2 = false;
+            $this->own_inmediate_booking = false;
+            $this->own_inmediate_booking_2 = true;
         } else {
             if ($own_modalityReservation == self::MODALITY_QUICKLY_BOOKING) {
-                $this->own_inmediate_booking_2 = true;
-                $this->own_inmediate_booking = false;
+                $this->own_inmediate_booking_2 = false;
+                $this->own_inmediate_booking = true;
             } else {
                 $this->own_inmediate_booking = false;
                 $this->own_inmediate_booking_2 = false;
