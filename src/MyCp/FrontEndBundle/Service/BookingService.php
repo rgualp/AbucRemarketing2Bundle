@@ -1924,7 +1924,6 @@ class BookingService extends Controller
     public function cancelReservations($reservations_ids=array(),$type=1,$cancel_date,$reason='',$give_tourist=true,$by_system=false){
 
         $notificationService = $this->container->get("mycp.notification.service");
-
         if(count($reservations_ids)){
             //Servicios
             $templatingService = $this->container->get('templating');
@@ -2020,7 +2019,7 @@ class BookingService extends Controller
                     $pending_tourist->setUser($this->em->getRepository('mycpBundle:user')->find($user[0]['user_id']));
                 }
                 else
-                    $pending_tourist->setUser($this->getUser());
+                $pending_tourist->setUser($this->getUser());
                 $pending_tourist->setRegisterDate(new \DateTime(date('Y-m-d')));
 
                 $date_pay = \MyCp\mycpBundle\Helpers\Dates::createDateFromString($cancel_date, '/', 1);
@@ -2121,7 +2120,8 @@ class BookingService extends Controller
                                 }
 
                                 //Se envia un sms al prpietario
-                                $notificationService->sendSMSReservationsCancel($ownershipReservation);
+
+                                 $notificationService->sendSMSReservationsCancel($ownershipReservation);
 
                                 //Adiciono el id de la casa al arreglo de casas
                                 $array_id_ownership[] = $ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId();
@@ -2196,7 +2196,14 @@ class BookingService extends Controller
                                 $this->em->persist($pending_own);
 
                                 //Se envia un sms al prpietario
-                                $notificationService->sendSMSReservationsCancel($ownershipReservation, $item['price']);
+                                if($give_tourist){
+                                    $notificationService->sendSMSReservationsCancel($ownershipReservation, $item['price']);
+                                }
+                                else{
+                                    $notificationService->sendSMSReservationsCancel($ownershipReservation);
+
+                                }
+
                             }
 
                         }
@@ -2208,9 +2215,10 @@ class BookingService extends Controller
             if(count($reservations_ids)){
                 foreach($reservations_ids as $genResId){
                     $pendingPaymen= $this->em->getRepository("mycpBundle:pendingPayment")->findOneBy(array("reservation" => $genResId));
+                   if($pendingPaymen!=null){
                     $pendingPaymen->setStatus(48);
                     $this->em->persist($pendingPaymen);
-                    $this->em->flush();
+                    $this->em->flush();}
                 }
 
             }
