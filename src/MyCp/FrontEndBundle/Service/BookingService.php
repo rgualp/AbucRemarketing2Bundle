@@ -2057,6 +2057,9 @@ class BookingService extends Controller
                         }
                     }
                 }
+
+
+
             }
             if($type==2)//Si el tipo de cancelación  es de turista
             {
@@ -2201,7 +2204,16 @@ class BookingService extends Controller
                 }
             }
             //}
+            //Se cancelan los pagos completos
+            if(count($reservations_ids)){
+                foreach($reservations_ids as $genResId){
+                    $pendingPaymen= $this->em->getRepository("mycpBundle:pendingPayment")->findOneBy(array("reservation" => $genResId));
+                    $pendingPaymen->setStatus(48);
+                    $this->em->persist($pendingPaymen);
+                    $this->em->flush();
+                }
 
+            }
             if(count($booking->getBookingOwnReservations())==count($obj->getOwnreservations()))
                 $flag=true;
             if($flag)
