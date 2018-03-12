@@ -2029,7 +2029,7 @@ class BookingService extends Controller
                 if($give_tourist)
                     $pending_tourist->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_pending_status')));
                 else
-                    $pending_tourist->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_process_status')));
+                    $pending_tourist->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_no_devolution_status')));
 
                 $this->em->persist($pending_tourist);
 
@@ -2093,7 +2093,7 @@ class BookingService extends Controller
                     if($give_tourist)
                         $pending_tourist->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_pending_status')));
                     else
-                        $pending_tourist->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_process_status')));
+                        $pending_tourist->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_no_devolution_status')));
 
                     $this->em->persist($pending_tourist);
 
@@ -2186,7 +2186,7 @@ class BookingService extends Controller
                                 if($give_tourist)
                                     $pending_own->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_pending_status')));
                                 else
-                                    $pending_own->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_process_status')));
+                                    $pending_own->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_no_devolution_status')));
 
 
                                 $pending_own->setUser($this->getUser());
