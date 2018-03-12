@@ -2210,6 +2210,57 @@ class BookingService extends Controller
                     }
                 }
             }
+            //Si el tipo de cancelacion es Noshow
+            if($type==3){
+                foreach($reservations_ids as $genResId){
+                   $ownreservation=$this->em->getRepository("mycpBundle:ownershipReservation")->find(array("own_res_gen_res_id"=>$genResId));
+                   $repay=0;
+                   foreach ($ownreservation as $own){
+                       $nights = $service_time->nights($own->getOwnResReservationFromDate()->getTimestamp(), $own->getOwnResReservationToDate()->getTimestamp());
+                       $season = $this->em->getRepository("mycpBundle:season")->getSeasons($own->getOwnResReservationFromDate(),$own->getOwnResReservationToDate());
+                       if($nights>0 && $nights<3){
+                          if($season[0]->getSeasonType()==0){
+                            $repay+= $own->getOwnResRoomPriceDown()/2;
+                          }
+                          elseif ($season[0]->getSeasonType()==1){
+                              $repay+= $own->getOwnResRoomPriceUp()/2;
+                          }
+                       }
+                       elseif ($nights>=3){
+                           $repay+= $own->getOwnResRoomPriceUp();
+                       }
+                   }
+
+                  //Se registra un Pago Pendiente a Propietario
+                    $pending_own=new pendingPayown();
+                    $pending_own->setCancelId($obj);
+                    $pending_own->setPayAmount($item['price']);
+                    $pending_own->setUserCasa($ownreservation->getOwnResGenResId()->getGenResOwnId());
+                    if($give_tourist)
+                        $pending_own->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_pending_status')));
+                    else
+                        $pending_own->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_no_devolution_status')));
+
+
+                    $pending_own->setUser($this->getUser());
+                    $pending_own->setRegisterDate(new \DateTime(date('Y-m-d')));
+                    $dateRangeFrom = $service_time->add("+3 days",$item['arrival_date']->format('Y/m/d'), "Y/m/d");
+                    $pending_own->setPaymentDate(\MyCp\mycpBundle\Helpers\Dates::createFromString($dateRangeFrom, '/', 1));
+                    $this->em->persist($pending_own);
+                    $this->em->flush();
+
+                    //Se envia un sms al prpietario
+                    if($give_tourist){
+                        $notificationService->sendSMSReservationsCancel($ownershipReservation, $repay);
+                    }
+                    else{
+                        $notificationService->sendSMSReservationsCancel($ownershipReservation);
+
+                    }
+                    $repay=0;
+                }
+
+            }
             //}
             //Se cancelan los pagos completos
             if(count($reservations_ids)){
