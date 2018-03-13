@@ -18,4 +18,4 @@ Disallow: /en/destination/
 Disallow: /es/destino/
 Disallow: /de/reiseziel/
 Disallow: /en/who-we-are/
-Sitemap: https://mycasaparticular.com/sitemap.xml
+Sitemap: https://www.mycasaparticular.com/sitemap.xml
