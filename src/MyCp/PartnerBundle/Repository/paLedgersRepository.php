@@ -26,7 +26,7 @@ class paLedgersRepository extends EntityRepository {
 
         return $this->createQueryBuilder('e')
             ->where("e.account= :account_id")
-            ->andWhere("e.cas != 'null'")
+
             ->setParameter("account_id", $account_id)
             ->orderBy('e.created', 'DESC')->
             setMaxResults(1)->

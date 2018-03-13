@@ -209,17 +209,20 @@ class AccountigController extends Controller
 
         #region PAGINADO
         $start = $request->get('start', 0);
+
         $limit = $request->get('length', 10);
         $draw = $request->get('draw') + 1;
         $curr=$this->getCurr($request);
         #endregion PAGINADO
         if($account->getBalance()>0) {
+
             if (count($ledge) == 0) {
                 $today = date('d-m-Y');
 
                 $this->InitializeLedger($start, $limit, $draw, $account, $curr, $today);
 
-            } else {
+            }
+            else {
                 $last_created_date = $ledgers_repo->getLastLedger($account->getId())->getCreated();
 
                 $last_ledger_cas = $ledgers_repo->getLastLedgerCas($account->getId());
@@ -228,10 +231,14 @@ class AccountigController extends Controller
                    $cas= $last_ledger_cas->getCas();
                 }
 
-
+               
                 $today = date('d-m-Y');
+                if($cas==null&& $last_created_date==date('d-m-Y')){
 
-                $this->UpdateLedger($start, $limit, $draw, $account, $curr, $cas, $last_created_date, $today);
+                }
+                else {
+                    $this->UpdateLedger($start, $limit, $draw, $account, $curr, $cas, $last_created_date, $today);
+                }
             }
             $today = date('d-m-Y');
             $today = date('d-m-Y', strtotime($today . ' +1 day'));
@@ -321,6 +328,7 @@ class AccountigController extends Controller
            $desc=$desc.'-'. $this->get('translator')->trans('label.accounting.registerby').$user->getUsername().','.date('d-m-Y').','.date('h:i-A').'';
 
           $obj->setDescription($desc);
+          $obj->setCreated(new \DateTime(date('d-m-Y')));
           $em->persist($obj);
           $em->persist($account);
           $em->flush();
