@@ -28,7 +28,7 @@ class ownership
     /**
      * All allowed rental type
      */
-    const ACCOMMODATION_RENTAL_TYPE_FULL = "Propiedad completa";
+    const ACCOMMODATION_RENTAL_TYPE_FULL = "Propiedad Completa";
     const ACCOMMODATION_RENTAL_TYPE_PER_ROOMS = "Por habitaciones";
 
 
@@ -691,9 +691,17 @@ class ownership
     /**
      * @var boolean
      *
-     * @ORM\Column(name="own_agency_work", type="boolean", nullable=true)
+     * @ORM\Column(name="payment_after_days", type="boolean", nullable=true)
      */
-    private $own_agencyWork;
+    private $own_paymentAfterDays;
+
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="payment_client_arrived", type="boolean", nullable=true)
+     */
+    private $own_paymentClientArrived;
 
 
     /**
@@ -3287,20 +3295,34 @@ class ownership
     /**
      * @return bool
      */
-    public function isOwnAgencyWork()
+    public function isOwnPaymentAfterDays()
     {
-        return $this->own_agencyWork;
+        return $this->own_paymentAfterDays;
     }
 
     /**
-     * @param bool $own_agencyWork
+     * @param bool $own_paymentAfterDays
      */
-    public function setOwnAgencyWork($own_agencyWork)
+    public function setOwnPaymentAfterDays($own_paymentAfterDays)
     {
-        $this->own_agencyWork = $own_agencyWork;
+        $this->own_paymentAfterDays = $own_paymentAfterDays;
     }
 
+    /**
+     * @return bool
+     */
+    public function isOwnPaymentClientArrived()
+    {
+        return $this->own_paymentClientArrived;
+    }
 
+    /**
+     * @param bool $own_paymentClientArrived
+     */
+    public function setOwnPaymentClientArrived($own_paymentClientArrived)
+    {
+        $this->own_paymentClientArrived = $own_paymentClientArrived;
+    }
 
     /**
      * @return string
@@ -3320,12 +3342,12 @@ class ownership
          */
         $this->own_modalityReservation = $own_modalityReservation;
         if ($own_modalityReservation == self::MODALITY_IMMEDIATE_BOOKING) {
-            $this->own_inmediate_booking = false;
-            $this->own_inmediate_booking_2 = true;
+            $this->own_inmediate_booking = true;
+            $this->own_inmediate_booking_2 = false;
         } else {
             if ($own_modalityReservation == self::MODALITY_QUICKLY_BOOKING) {
-                $this->own_inmediate_booking_2 = false;
-                $this->own_inmediate_booking = true;
+                $this->own_inmediate_booking_2 = true;
+                $this->own_inmediate_booking = false;
             } else {
                 $this->own_inmediate_booking = false;
                 $this->own_inmediate_booking_2 = false;

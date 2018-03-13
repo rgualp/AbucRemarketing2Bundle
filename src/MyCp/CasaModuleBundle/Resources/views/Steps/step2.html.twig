@@ -292,7 +292,7 @@
                                     <i class="glyphicons home step-form-icon" style="margin-top: 5px;"></i>
                                 </div>
                                 <div class="col-sm-10 col-md-10 col-xs-12">
-                                    {% if ownership.ownRentalType %}
+                                    {% if ownership.ownType %}
                                         <span class="font-blue step-span"
                                               id="label_ownership_step1_own_rental_type">{{ ownership.ownRentalType }}</span>
                                         {{ form_widget(form.own_rental_type, {'attr':{'class':'form-control hide'}}) }}
@@ -301,11 +301,10 @@
                                     {% endif %}
                                 </div>
                             </div>
-
                             <div id="modality_price" class=" col-sm-3 col-md-3"
                                  style="{{ ownership.isRentalTypeFull() ? 'display: block;' : 'display: none;' }}">
                                 <label>Precio</label>
-                                <input type="text" value="{{ not ownership.bookingModality ? 0 : ownership.bookingModality.price }}"
+                                <input type="text" value="{{ ownership.bookingModality.price }}"
                                        id="input_modality_price" name="modality_price" class="form-control">
                             </div>
                             <div class="col-sm-3 col-md-3 col-xs-12" style="margin-top: 30px;">
@@ -347,8 +346,8 @@
                         <div class="row">
                             <label class="col-xs-10 p-0">¿Acepta recibir clientes de agencias de viajes?</label>
                             <div class="col-md-10 col-sm-10 col-xs-10">
-                                <label for="{{ form.ownAgencyWork.vars.full_name }}" class=""
-                                       style="font-size: 16px;"> {{ form_widget(form.ownAgencyWork, {'attr':{'style':'margin-right: 10px; font-size: 16px;'}}) }}
+                                <label for="{{ form.ownPaymentAfterDays.vars.full_name }}" class=""
+                                       style="font-size: 16px;"> {{ form_widget(form.ownPaymentAfterDays, {'attr':{'style':'margin-right: 10px; font-size: 16px;'}}) }}
                                     Si, estoy de acuerdo en recibir el pago 10 días después de la salida del
                                     cliente.</label>
                             </div>
@@ -359,7 +358,8 @@
                                      class="help-icon hidden-xs">
                             </div>
                             <div class="col-md-12 col-sm-12 col-xs-12">
-                                <label style="font-size: 16px;"><input id="mycp_mycpbundle_ownership_step1_ownAgencyWork2" name="mycp_mycpbundle_ownership_step1[ownAgencyWork]" checked style="margin-right: 10px; font-size: 16px;" value="0" type="radio">
+                                <label for="{{ form.ownPaymentClientArrived.vars.full_name }}" class=""
+                                       style="font-size: 16px;"> {{ form_widget(form.ownPaymentClientArrived, {'attr':{'style':'margin-right: 10px; font-size: 16px;'}}) }}
                                     No, prefiero recibir el dinero a la llegada del cliente.</label>
                             </div>
                         </div>
