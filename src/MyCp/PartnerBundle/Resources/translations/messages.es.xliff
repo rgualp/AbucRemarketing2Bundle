@@ -2505,7 +2505,7 @@
                                             </trans-unit>
   <trans-unit id="68" resname="label.agency.message.account">
                                                <source>label.agency.message.account</source>
-                                              <target state="new">Usted a elejido el paquete ESPECIAL para agencias antes de realizar cualquier operación por favor contactenos a travez de:<a href='mailto:experience@mycasaparticular.com'>experience@mycasaparticular.com</a></target>
+                                              <target state="new"><![CDATA[Usted a elejido el paquete ESPECIAL para agencias antes de realizar cualquier operación por favor contactenos a travez de:<a href='mailto:experience@mycasaparticular.com'>experience@mycasaparticular.com</a>]]></target>
                                               </trans-unit>
 
    <trans-unit id="69" resname="dashboard.profile.user">
