@@ -235,7 +235,7 @@ class AccountigController extends Controller
                 $today = date('d-m-Y');
                 $today = date('d-m-Y', strtotime($today . ' +17 day'));
                
-                if($last_created_date==date('d-m-Y')){
+                if($last_created_date==date('d-m-Y', strtotime($today . ' +17 day'))){
 
                 }
                 else {
