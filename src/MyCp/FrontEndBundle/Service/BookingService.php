@@ -2229,7 +2229,12 @@ class BookingService extends Controller
                           }
                        }
                        elseif ($nights>=3){
-                           $repay+= $ownreservation->getOwnResRoomPriceUp();
+                           if($season[0]->getSeasonType()==0){
+                               $repay+= $ownreservation->getOwnResRoomPriceDown();
+                           }
+                           elseif ($season[0]->getSeasonType()==1){
+                               $repay+= $ownreservation->getOwnResRoomPriceUp();
+                           }
                        }
                     $array_id_ownership[$ownreservation->getOwnResGenResId()->getGenResOwnId()->getOwnId()] = array('idown'=>$ownreservation->getOwnResGenResId()->getGenResOwnId()->getOwnId(),'price'=>$repay,'ownershipReservations'=>array($ownreservation),'arrival_date'=>$ownreservation->getOwnResReservationFromDate());
 
