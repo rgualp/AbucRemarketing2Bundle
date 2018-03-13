@@ -218,7 +218,7 @@ class AccountigController extends Controller
 
             if (count($ledge) == 0) {
                 $today = date('d-m-Y');
-
+                $today = date('d-m-Y', strtotime($today . ' +17 day'));
                 $this->InitializeLedger($start, $limit, $draw, $account, $curr, $today);
 
             }
@@ -233,15 +233,18 @@ class AccountigController extends Controller
 
 
                 $today = date('d-m-Y');
+                $today = date('d-m-Y', strtotime($today . ' +17 day'));
+               
                 if($last_created_date==date('d-m-Y')){
 
                 }
                 else {
+
                     $this->UpdateLedger($start, $limit, $draw, $account, $curr, $cas, $last_created_date, $today);
                 }
             }
             $today = date('d-m-Y');
-            $today = date('d-m-Y', strtotime($today . ' +1 day'));
+            $today = date('d-m-Y', strtotime($today . ' +17 day'));
             $first = date('01-m-Y');
 
             $dates = array();
