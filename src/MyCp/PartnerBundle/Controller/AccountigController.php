@@ -153,7 +153,7 @@ class AccountigController extends Controller
         $filters = array("to_between" => array($last_ledger_cas, $from, $to));
 
         $reservations_reserved=$this->getReservationsData($filters,$start,$limit,$draw,generalReservation::STATUS_RESERVED);
-
+     
         foreach ($reservations_reserved as $reservation){
             $price_booking=$this->getPriceandBooking($reservation,$curr);
             $ledge_temp=new paAccountLedgers();
