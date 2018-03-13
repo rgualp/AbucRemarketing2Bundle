@@ -203,7 +203,7 @@
                         success: function(data, textStatus, jqXHR){
                             var modal = $('#myModal');
                             modal.modal('hide');
-                            {#window.location.href = "{{ url('mycp_cancel_reservations_booking',{'id_booking':payment.booking.bookingId}) }}";#}
+                            window.location.href = "{{ url('mycp_cancel_reservations_booking',{'id_booking':payment.booking.bookingId}) }}";
                         },
                         error: function(jqXHR, textStatus, errorThrown){
 
