@@ -123,7 +123,7 @@ class paAccountLedgers {
      */
     public function getCreated()
     {
-        return $this->created->format('d-m-Y h:i:s');
+        return $this->created->format('d-m-Y');
     }
 
     /**
