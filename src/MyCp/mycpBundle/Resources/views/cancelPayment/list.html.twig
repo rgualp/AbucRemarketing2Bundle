@@ -200,7 +200,8 @@
 
             var filter_payment_date_to = $("#filter_payment_date_to").val();
             if(filter_payment_date_to=='')filter_payment_date_to='null';
-
+            filter_payment_date_to = filter_payment_date_to.replace('/', "_");
+            filter_payment_date_from = filter_payment_date_from.replace('/', "_");
             var filter_own = $("#filter_own").val();
             if(filter_own=='')filter_own='null';
 
