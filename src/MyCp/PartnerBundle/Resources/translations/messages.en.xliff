@@ -2509,7 +2509,7 @@
 
  <trans-unit id="68" resname="label.agency.message.account">
                                                <source>label.agency.message.account</source>
-                                              <target state="new">You have chosen the SPECIAL package for agencies before starting any operation contact us:</target>
+                                              <target state="new">You have chosen the SPECIAL package for agencies before starting any operation contact us:<a href='mailto:experience@mycasaparticular.com'>experience@mycasaparticular.com</a></target>
                                               </trans-unit>
                                               <trans-unit id="69" resname="dashboard.profile.user">
                                                                                                <source>dashboard.profile.user</source>
