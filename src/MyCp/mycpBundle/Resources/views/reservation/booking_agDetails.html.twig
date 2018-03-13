@@ -23,6 +23,11 @@
     <h2>Booking {{ payment.booking.bookingId }}</h2>
     <hr/>
     <div class="row-fluid">
+        <button data="{{ path('mycp_send_voucher_to_client', {"bookingId": payment.booking.bookingId}) }}" class="btn pull-right delete" style="color: #2A3F54;border: none;background: transparent"
+                data-toggle="tooltip" title="Enviar por correo"><i class="fa fa-location-arrow"></i></button>
+        <a href="{{ path('mycp_download_voucher_reservation', {"bookingId": payment.booking.bookingId}) }}"
+           class="btn pull-right" style="color: #2A3F54;border: none;background: transparent" data-toggle="tooltip"
+           title="Descargar"><i class="fa fa-download"></i></a>
         {{include('mycpBundle:utils:clientAgInfoTab.html.twig', {"user":user})}}
         <div class="row-fluid">
             <div class="span12">
