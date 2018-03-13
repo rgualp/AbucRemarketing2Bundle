@@ -287,7 +287,7 @@
               <br/>
               <b>{{ (completePayment* user.getUserCurrency.getCurrCucChange)|round(2,'ceil') }} {{ user.getUserCurrency.getCurrCode|upper }}</b>
               <br>
-              <b> Pago a propietario: {{ (total_price)|round(2,'ceil') }} CUC</b>
+              <b> Pago a propietario: {{ ((total_price-(total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100)))|round(2,'ceil') }} CUC</b>
 
               </td>
 
