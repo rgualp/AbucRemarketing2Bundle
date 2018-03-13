@@ -550,6 +550,7 @@ class BackendPaymentController extends Controller {
         $all = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
             ->getAllPagReserved($filter_date_reserve,$filter_date_reserve2,$filterbr,$filter_agency, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $filter_client, $items_per_page, $page, true))->getResult();
         $reservations = $all['reservations'];
+
         $filter_date_reserve_twig = str_replace('/', '_', $filter_date_reserve);
         $filter_date_reserve2_twig = str_replace('/', '_', $filter_date_reserve2);
         $filter_date_from_twig = str_replace('/', '_', $filter_date_from);

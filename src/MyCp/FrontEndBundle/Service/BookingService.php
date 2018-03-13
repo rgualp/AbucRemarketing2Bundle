@@ -426,7 +426,7 @@ class BookingService extends Controller
         $booking = $this->getBooking($bookingId);
         $payment = $this->getPaymentByBooking($booking);
         $user = $this->getUserByBooking($booking);
-        if($user->getRoles()[0] == "ROLE_CLIENT_PARTNER"){
+        if($user->getRoles()[0] == "ROLE_CLIENT_PARTNER" || $user->getRoles()[0] == "ROLE_ECONOMY_PARTNER"||$user->getRoles()[0] == "ROLE_CLIENT_PARTNER_TOUROPERATOR" ){
             $userLocale = strtolower($user->getUserLanguage()->getLangCode());
         }
         else{

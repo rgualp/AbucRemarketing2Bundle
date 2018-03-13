@@ -1594,7 +1594,7 @@ class DashboardController extends Controller
         $reservationTourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $reservationUser->getUserId()));
         $reservationTravelAgency = $reservationTourOperator->getTravelAgency();
 
-        if ($reservationUser->getUserRole() == "ROLE_CLIENT_PARTNER" && $currentTravelAgency->getId() == $reservationTravelAgency->getId()) {
+        if (($reservationUser->getUserRole() == "ROLE_CLIENT_PARTNER"||$reservationUser->getUserRole() == "ROLE_ECONOMY_PARTNER"||$reservationUser->getUserRole() == "ROLE_CLIENT_PARTNER_TOUROPERATOR") && $currentTravelAgency->getId() == $reservationTravelAgency->getId()) {
             //Comprobar si la reserva fue hecha por la agencia a la que pertenece ese usuario
 
             if ($this->getRequest()->getMethod() == 'POST') {
@@ -1643,7 +1643,7 @@ class DashboardController extends Controller
         $reservationTourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $reservationUser->getUserId()));
         $reservationTravelAgency = $reservationTourOperator->getTravelAgency();
 
-        if ($reservationUser->getUserRole() == "ROLE_CLIENT_PARTNER" && $currentTravelAgency->getId() == $reservationTravelAgency->getId()) {
+        if (($reservationUser->getUserRole() == "ROLE_CLIENT_PARTNER"||$reservationUser->getUserRole() == "ROLE_ECONOMY_PARTNER"||$reservationUser->getUserRole() == "ROLE_CLIENT_PARTNER_TOUROPERATOR") && $currentTravelAgency->getId() == $reservationTravelAgency->getId()) {
             //Comprobar si la reserva fue hecha por la agencia a la que pertenece ese usuario
 
             //Calcular el dinero a devolver

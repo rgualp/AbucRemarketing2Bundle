@@ -189,7 +189,7 @@ class ExpiredOfferReminderWorkerCommand extends Worker
                 $initialPayment += getOwnResTotalInSite() * $comission;*/
         }
 
-        if($user->getUserRole() == "ROLE_CLIENT_PARTNER"){
+        if($user->getUserRole() == "ROLE_CLIENT_PARTNER"||$user->getUserRole() == "ROLE_CLIENT_PARTNER_TOUROPERATOR"||$user->getUserRole() == "ROLE_ECONOMY_PARTNER"){
 
         }
         else{

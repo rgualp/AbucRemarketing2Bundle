@@ -137,7 +137,7 @@ class Email
         $locale = $this->container->get('translator');
         $subject = $locale->trans('REQUEST_STATUS_CHANGED', array(), "messages", $user_locale);
         // Enviando mail al cliente
-        if($user->getUserRole()=="ROLE_CLIENT_PARTNER"){
+        if($user->getUserRole()=="ROLE_CLIENT_PARTNER"||$user->getUserRole()=="ROLE_CLIENT_PARTNER_TOUROPERATOR"||$user->getUserRole()=="ROLE_ECONOMY_PARTNER"){
             $body = $templating->render('PartnerBundle:Mail:email_offer_available.html.twig', array(
                     'user' => $user,
                     'reservations' => $reservations,

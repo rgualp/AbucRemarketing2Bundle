@@ -133,11 +133,11 @@ class paTravelAgencyRepository extends EntityRepository
         JOIN PartnerBundle:paTourOperator pat WITH ag.id = pat.travelAgency
         JOIN mycpBundle:user us WITH pat.tourOperator = us.user_id
         JOIN mycpBundle:country co WITH co.co_id = ag.country
-
+        
         $join
-
         WHERE ag.name LIKE :filter_name $condition
-
+        AND us.user_role like'ROLE_CLIENT_PARTNER' 
+        GROUP BY ag.email 
         ");
 
         if(isset($filter_name)) {

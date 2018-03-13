@@ -258,7 +258,7 @@ class GeneralReservationService extends Controller
                     $reservation->setGenResStatusDate(new \DateTime());
 
                     //Enviar oferta con 3 casas de reserva inmediata
-                    if($reservation->getGenResUserId()->getRoles()!='ROLE_CLIENT_PARTNER') {
+                    if($reservation->getGenResUserId()->getRoles()!='ROLE_CLIENT_PARTNER'&&$reservation->getGenResUserId()->getRoles()!='ROLE_CLIENT_PARTNER_TOUROPERATOR'&&$reservation->getGenResUserId()->getRoles()!='ROLE_ECONOMY_PARTNER') {
                         $service_email = $this->container->get('Email');
                         $emailManager = $this->container->get('mycp.service.email_manager');
 

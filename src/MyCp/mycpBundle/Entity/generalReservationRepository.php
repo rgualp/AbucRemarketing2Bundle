@@ -116,11 +116,12 @@ class generalReservationRepository extends EntityRepository {
         $where = "";
 
         if($partner === false) {
-            $where = " WHERE u.user_role <> 'ROLE_CLIENT_PARTNER' ";
+            $where = " WHERE u.user_role NOT IN ('ROLE_CLIENT_PARTNER','ROLE_ECONOMY_PARTNER','ROLE_CLIENT_PARTNER_TOUROPERATOR') ";
 
         }
         else if($partner === true) {
-            $where = " WHERE u.user_role = 'ROLE_CLIENT_PARTNER'";
+
+            $where = " WHERE u.user_role IN ('ROLE_CLIENT_PARTNER','ROLE_ECONOMY_PARTNER','ROLE_CLIENT_PARTNER_TOUROPERATOR')";
 
 
         }
@@ -148,7 +149,9 @@ class generalReservationRepository extends EntityRepository {
             $where .= (($where != "") ? " AND " : " WHERE ") . " own.own_mcp_code LIKE '%$filter_reference%'";
 
         if($filter_status != "" && $filter_status != "-1" && $filter_status != "null")
+
             $where .= (($where != "") ? " AND " : " WHERE ") . " gre.gen_res_status = $filter_status ";
+
 
         if((is_object($user_casa) && $user_casa != null) || (is_int($user_casa) && $user_casa != -1)) {
             $where .= (($where != "") ? " AND " : " WHERE ") . " own.own_id = " . $user_casa->getUserCasaOwnership()->getOwnId();
@@ -245,19 +248,25 @@ class generalReservationRepository extends EntityRepository {
 
                 foreach ($array_agency as $agname){
 
-                   $agencyrepo=$em->getRepository("PartnerBundle:paTravelAgency")->find($agname);
-                   $temp=$em->getRepository("mycpBundle:user")->getAllTourOperators($touoperators,$agencyrepo->getTourOperators()[0]->getTourOperator());
-                   if(count($touoperators)>0){
-                       array_merge($touoperators,$temp);
-                   }
-                   else{
-                       $touoperators=$temp;
+                    foreach ($array_agency as $agname){
 
-                   }
+                        $agencyrepo=$em->getRepository("PartnerBundle:paTravelAgency")->find($agname);
+                        $temp=$agencyrepo->getTourOperators();
+                        foreach ($temp as $usert) {
+
+                            array_push($touoperators,$usert->gettourOperator());
+
+
+                        }
+
+                    }
 
 
 
                 }
+
+
+
                     if(!in_array( $userrepo->find($data[$key]['tour_id']) ,$touoperators ) ) {
 
                         unset($data[$key]);
@@ -328,10 +337,11 @@ class generalReservationRepository extends EntityRepository {
         $where = "";
 
         if($partner === false) {
-            $where = " WHERE u.user_role <> 'ROLE_CLIENT_PARTNER' ";
+            $where = " WHERE u.user_role NOT IN ('ROLE_CLIENT_PARTNER','ROLE_ECONOMY_PARTNER','ROLE_CLIENT_PARTNER_TOUROPERATOR') ";
         }
         else if($partner === true) {
-            $where = " WHERE u.user_role = 'ROLE_CLIENT_PARTNER' ";
+            $where = " WHERE u.user_role IN ('ROLE_CLIENT_PARTNER','ROLE_ECONOMY_PARTNER','ROLE_CLIENT_PARTNER_TOUROPERATOR')";
+
         }
 
         if(count($array_offer_number) > 1) {
@@ -454,7 +464,7 @@ class generalReservationRepository extends EntityRepository {
         $date = $date->format("Y-m-d");
         $qb->where("gres.gen_res_date >= '$date'");
 
-        $qb->andWhere("user.user_role = 'ROLE_CLIENT_PARTNER'");
+        $qb->andWhere("u.user_role IN ('ROLE_CLIENT_PARTNER','ROLE_ECONOMY_PARTNER','ROLE_CLIENT_PARTNER_TOUROPERATOR')");
 
         if($filter_date_reserve != "" && $filter_date_reserve != "null") {
             $filter_date_reserve = Dates::createForQuery($filter_date_reserve, "d/m/Y");
@@ -703,10 +713,10 @@ class generalReservationRepository extends EntityRepository {
         $where = "";
 
         if($partner === false) {
-            $where = " WHERE u.user_role <> 'ROLE_CLIENT_PARTNER' ";
+            $where = " WHERE u.user_role NOT IN ('ROLE_CLIENT_PARTNER','ROLE_ECONOMY_PARTNER','ROLE_CLIENT_PARTNER_TOUROPERATOR') ";
         }
         else if($partner === true) {
-            $where = " WHERE u.user_role = 'ROLE_CLIENT_PARTNER' ";
+            $where = " WHERE u.user_role IN ('ROLE_CLIENT_PARTNER','ROLE_ECONOMY_PARTNER','ROLE_CLIENT_PARTNER_TOUROPERATOR')";
         }
 
         if(count($array_offer_number) > 1) {
@@ -3657,7 +3667,7 @@ order by LENGTH(o.own_mcp_code), o.own_mcp_code";
         FROM mycpBundle:ownershipreservation owreservation
         JOIN owreservation.own_res_gen_res_id gre
         JOIN gre.gen_res_own_id own
-        JOIN gre.gen_res_user_id us WITH us.user_role = 'ROLE_CLIENT_PARTNER'
+        JOIN gre.gen_res_user_id us WITH us.user_role = IN ('ROLE_CLIENT_PARTNER','ROLE_ECONOMY_PARTNER','ROLE_CLIENT_PARTNER_TOUROPERATOR')
         JOIN PartnerBundle:paTourOperator pto WITH pto.tourOperator = us.user_id
         JOIN PartnerBundle:paTravelAgency ag WITH ag.id = pto.travelAgency
         JOIN us.user_country cou

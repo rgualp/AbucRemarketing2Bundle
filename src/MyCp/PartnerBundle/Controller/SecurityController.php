@@ -69,7 +69,7 @@ class SecurityController extends Controller
 
                 if ($user_db) {
 
-                    if ($user_db->getRoles()[0] == "ROLE_CLIENT_PARTNER"){
+                    if ($user_db->getRoles()[0] == "ROLE_CLIENT_PARTNER"||$user_db->getRoles()[0] == "ROLE_ECONOMY_PARTNER"||$user_db->getRoles()[0] == "ROLE_CLIENT_PARTNER_TOUROPERATOR"){
                         $service_security = $this->get('Secure');
                         $encode_string = $service_security->getEncodedUserString($user_db);
                         $newPassword = $this->generateStrongPassword();
