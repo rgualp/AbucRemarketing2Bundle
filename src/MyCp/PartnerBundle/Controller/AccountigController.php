@@ -153,7 +153,7 @@ class AccountigController extends Controller
         $filters = array("to_between" => array($last_ledger_cas, $from, $to));
 
         $reservations_reserved=$this->getReservationsData($filters,$start,$limit,$draw,generalReservation::STATUS_RESERVED);
-     
+
         foreach ($reservations_reserved as $reservation){
             $price_booking=$this->getPriceandBooking($reservation,$curr);
             $ledge_temp=new paAccountLedgers();
@@ -218,7 +218,7 @@ class AccountigController extends Controller
 
             if (count($ledge) == 0) {
                 $today = date('d-m-Y');
-                $today = date('d-m-Y', strtotime($today . ' +17 day'));
+
                 $this->InitializeLedger($start, $limit, $draw, $account, $curr, $today);
 
             }
@@ -233,7 +233,7 @@ class AccountigController extends Controller
 
 
                 $today = date('d-m-Y');
-                $today = date('d-m-Y', strtotime($today . ' +17 day'));
+
                
                 if($last_created_date==$today){
 
@@ -244,7 +244,7 @@ class AccountigController extends Controller
                 }
             }
             $today = date('d-m-Y');
-            $today = date('d-m-Y', strtotime($today . ' +17 day'));
+            $today = date('d-m-Y', strtotime($today . ' +1 day'));
             $first = date('01-m-Y');
 
             $dates = array();
