@@ -28,7 +28,7 @@ class ownership
     /**
      * All allowed rental type
      */
-    const ACCOMMODATION_RENTAL_TYPE_FULL = "Propiedad Completa";
+    const ACCOMMODATION_RENTAL_TYPE_FULL = "Propiedad completa";
     const ACCOMMODATION_RENTAL_TYPE_PER_ROOMS = "Por habitaciones";
 
 

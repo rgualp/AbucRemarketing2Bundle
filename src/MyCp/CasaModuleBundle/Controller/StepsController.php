@@ -63,15 +63,13 @@ class StepsController extends Controller
             if (substr($ownership->getOwnLangs(), 3, 1))
                 $langs[] = '0001';
         }
-//        die(dump($langs));
-//        if($ownership->getOwnStatus()->getStatusId()==ownershipStatus::STATUS_ACTIVE){
+
         return $this->render('MyCpCasaModuleBundle:Steps:step2.html.twig', array(
             'ownership' => $ownership,
             'dashboard' => $ownership->getOwnStatus()->getStatusId() == ownershipStatus::STATUS_ACTIVE,
             'form' => $form->createView(),
             'langs' => $langs
         ));
-//        }
 
     }
 
