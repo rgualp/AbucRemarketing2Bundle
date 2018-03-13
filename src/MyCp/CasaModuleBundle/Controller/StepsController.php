@@ -63,13 +63,15 @@ class StepsController extends Controller
             if (substr($ownership->getOwnLangs(), 3, 1))
                 $langs[] = '0001';
         }
-
+//        die(dump($langs));
+//        if($ownership->getOwnStatus()->getStatusId()==ownershipStatus::STATUS_ACTIVE){
         return $this->render('MyCpCasaModuleBundle:Steps:step2.html.twig', array(
             'ownership' => $ownership,
             'dashboard' => $ownership->getOwnStatus()->getStatusId() == ownershipStatus::STATUS_ACTIVE,
             'form' => $form->createView(),
             'langs' => $langs
         ));
+//        }
 
     }
 
@@ -118,11 +120,6 @@ class StepsController extends Controller
                 $ownership->setOwnLangs('00' . $langs);
             } elseif (strlen($langs) == 1) {
                 $ownership->setOwnLangs('000' . $langs);
-            }
-            if ($request->request->get('mycp_mycpbundle_ownership_step1')['ownAgencyWork'] == 0) {
-                $ownership->setOwnAgencyWork(false);
-            } else {
-                $ownership->setOwnAgencyWork(true);
             }
 
             if ($ownership->getOwnCommissionPercent() == null || $ownership->getOwnCommissionPercent() == "")
