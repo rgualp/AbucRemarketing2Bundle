@@ -231,9 +231,9 @@ class AccountigController extends Controller
                    $cas= $last_ledger_cas->getCas();
                 }
 
-               
+
                 $today = date('d-m-Y');
-                if($cas==null&& $last_created_date==date('d-m-Y')){
+                if($last_created_date==date('d-m-Y')){
 
                 }
                 else {
