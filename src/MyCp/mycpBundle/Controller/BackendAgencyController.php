@@ -350,6 +350,7 @@ class BackendAgencyController extends Controller {
             $obj=new paAccountLedgers();
             $obj->setAccount($account);
             $obj->setCas($cas);
+            $obj->setCreated(new \DateTime(date('d-m-Y')));
             $balance=$obj->setDebit($cash,$account->getBalance());
             $account->setBalance($balance);
             $desc=$desc. ' Resistrado por:'.$user->getUsername().','.date('d-m-Y').','.date('h:i-A').'';
