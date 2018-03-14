@@ -235,9 +235,9 @@ class paReservationRepository extends EntityRepository {
 
         $qb->setParameter('tours', $tours);
         $qb->andWhere("genRes.gen_res_status = :availableStatus1");
-        $qb->andWhere("client.travelAgency = :travelAgency");
+        
         $qb->setParameter("availableStatus1", generalReservation::STATUS_AVAILABLE);
-        $qb->setParameter("travelAgency", $travelAgency);
+
 //        $qb->orWhere("client.travelAgency = :travelAgency");
 //        $qb->setParameter("travelAgency", $travelAgency->getId());
 

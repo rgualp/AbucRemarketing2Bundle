@@ -77,6 +77,7 @@ class CartController extends Controller
 
 
         $cartItems = $em->getRepository("PartnerBundle:paReservation")->getAllCartItems($travelAgency,$user->getUserId(),$touroperators, $ids_gr);
+
         $reservations = array();
         $reservationsIds = array();
 
