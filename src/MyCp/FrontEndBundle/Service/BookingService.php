@@ -775,28 +775,45 @@ class BookingService extends Controller
             $pendingPaymentStatusPending = $this->em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_name" => "pendingPayment_pending_status", "nom_category" => "paymentPendingStatus"));
             $completePaymentType= $this->em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_name" => "complete_payment", "nom_category" => "paymentPendingType"));
 
-            foreach ($ownershipReservations as $own) {
-                $this->updateICal($own->getOwnResSelectedRoomId());
+            foreach ($generalReservations as $generalReservation) {
+                $notificationService->sendConfirmPaymentSMSNotification($generalReservation);
+            }
 
-                if($booking->getCompletePayment()) {
-                    $accommodation = $own->getOwnResGenResId()->getGenResOwnId();
-                    $toPayAtService += $own->getOwnResTotalInSite() * (1- $accommodation->getOwnCommissionPercent() / 100) ;
-                    $count++;
 
-                        $payDate = $own->getOwnResGenResId()->getGenResToDate();
+            foreach ($generalReservations as $genres){
+                $ownershipReservations = $this->em->getRepository("mycpBundle:generalReservation")->getOwnershipReservations($genres);
+
+                if(count($ownershipReservations)) {
+                    $user = $ownershipReservations[0]->getOwnResGenResId()->getGenResUserId();
+                    $tourOperator = $this->em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+                    $travelAgency = $tourOperator->getTravelAgency();
+
+                    $pendingPaymentStatusPending = $this->em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_name" => "pendingPayment_pending_status", "nom_category" => "paymentPendingStatus"));
+                    $completePaymentType = $this->em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_name" => "complete_payment", "nom_category" => "paymentPendingType"));
+                    $toPayAtService = 0;
+
+                    $accommodation = $genres->getGenResOwnId();
+                    foreach ($ownershipReservations as $own) {
+                        $this->updateICal($own->getOwnResSelectedRoomId());
+
+
+                        $toPayAtService += $own->getOwnResTotalInSite() * (1 - $accommodation->getOwnCommissionPercent() / 100);
+
+
+                    }
+                    if ($booking->getCompletePayment()) {
+
+
+                        $payDate = $genres->getGenResToDate();
                         $payDate->add(new \DateInterval('P3D'));
-                        /*$new_date = strtotime('+3 day', strtotime($toDate));
-                        $payDate = new \DateTime();
-                        $payDate->setTimestamp($new_date);*/
 
-                        $generalReservationId = $own->getOwnResGenResId()->getGenResId();
                         $pendingPayment = new paPendingPaymentAccommodation();
                         $pendingPayment->setAmount($toPayAtService);
                         $pendingPayment->setAgency($travelAgency);
                         $pendingPayment->setAccommodation($accommodation);
                         $pendingPayment->setBooking($booking);
                         $pendingPayment->setCreatedDate(new \DateTime());
-                        $pendingPayment->setReservation($own->getOwnResGenResId());
+                        $pendingPayment->setReservation($genres);
                         $pendingPayment->setPayDate($payDate);
                         $pendingPayment->setStatus($pendingPaymentStatusPending);
                         $pendingPayment->setType($completePaymentType);
@@ -808,7 +825,7 @@ class BookingService extends Controller
                         $this->smsNotificationService->sendAgencyCompletePaymentSMSNotification($pendingPayment);
 
 
-
+                    }
                 }
             }
         }
@@ -828,58 +845,60 @@ class BookingService extends Controller
             $notificationService->sendConfirmPaymentSMSNotification($generalReservation);
         }
 
-        $ownershipReservations = $this->getOwnershipReservations($bookingId);
-        $toPayAtService = 0;
-        $count = 0;
 
-        if(count($ownershipReservations)){
-            $generalReservation = $ownershipReservations[0]->getOwnResGenResId();
-            $generalReservationId = $generalReservation->getGenResId();
-            $user = $ownershipReservations[0]->getOwnResGenResId()->getGenResUserId();
-            $tourOperator = $this->em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
-            $travelAgency = $tourOperator->getTravelAgency();
 
-            $pendingPaymentStatusPending = $this->em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_name" => "pendingPayment_pending_status", "nom_category" => "paymentPendingStatus"));
-            $completePaymentType= $this->em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_name" => "complete_payment", "nom_category" => "paymentPendingType"));
 
-            foreach ($ownershipReservations as $own) {
-                $this->updateICal($own->getOwnResSelectedRoomId());
 
-                if($booking->getCompletePayment()) {
-                    $accommodation = $own->getOwnResGenResId()->getGenResOwnId();
-                    $toPayAtService += $own->getOwnResTotalInSite() * (1- $accommodation->getOwnCommissionPercent() / 100) ;
-                    $count++;
 
-                        $payDate = $own->getOwnResGenResId()->getGenResToDate();
-                        $payDate->add(new \DateInterval('P3D'));
-                        /*$new_date = strtotime('+3 day', strtotime($toDate));
-                        $payDate = new \DateTime();
-                        $payDate->setTimestamp($new_date);*/
+            foreach ($generalReservations as $genres){
+            $ownershipReservations = $this->em->getRepository("mycpBundle:generalReservation")->getOwnershipReservations($genres);
 
-                        $generalReservationId = $own->getOwnResGenResId()->getGenResId();
-                        $pendingPayment = new paPendingPaymentAccommodation();
-                        $pendingPayment->setAmount($toPayAtService);
-                        $pendingPayment->setAgency($travelAgency);
-                        $pendingPayment->setAccommodation($accommodation);
-                        $pendingPayment->setBooking($booking);
-                        $pendingPayment->setCreatedDate(new \DateTime());
-                        $pendingPayment->setReservation($own->getOwnResGenResId());
-                        $pendingPayment->setPayDate($payDate);
-                        $pendingPayment->setStatus($pendingPaymentStatusPending);
-                        $pendingPayment->setType($completePaymentType);
+            if(count($ownershipReservations)) {
+                $user = $ownershipReservations[0]->getOwnResGenResId()->getGenResUserId();
+                $tourOperator = $this->em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+                $travelAgency = $tourOperator->getTravelAgency();
 
-                        $this->em->persist($pendingPayment);
-                        $this->em->flush();
-                        $toPayAtService = 0;
-                        //Send a notification
-                        $this->smsNotificationService->sendAgencyCompletePaymentSMSNotification($pendingPayment);
+                $pendingPaymentStatusPending = $this->em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_name" => "pendingPayment_pending_status", "nom_category" => "paymentPendingStatus"));
+                $completePaymentType = $this->em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_name" => "complete_payment", "nom_category" => "paymentPendingType"));
+                $toPayAtService = 0;
 
+                $accommodation = $genres->getGenResOwnId();
+                foreach ($ownershipReservations as $own) {
+                    $this->updateICal($own->getOwnResSelectedRoomId());
+
+
+                    $toPayAtService += $own->getOwnResTotalInSite() * (1 - $accommodation->getOwnCommissionPercent() / 100);
+
+
+                }
+                if ($booking->getCompletePayment()) {
+
+
+                    $payDate = $genres->getGenResToDate();
+                    $payDate->add(new \DateInterval('P3D'));
+
+                    $pendingPayment = new paPendingPaymentAccommodation();
+                    $pendingPayment->setAmount($toPayAtService);
+                    $pendingPayment->setAgency($travelAgency);
+                    $pendingPayment->setAccommodation($accommodation);
+                    $pendingPayment->setBooking($booking);
+                    $pendingPayment->setCreatedDate(new \DateTime());
+                    $pendingPayment->setReservation($genres);
+                    $pendingPayment->setPayDate($payDate);
+                    $pendingPayment->setStatus($pendingPaymentStatusPending);
+                    $pendingPayment->setType($completePaymentType);
+
+                    $this->em->persist($pendingPayment);
+                    $this->em->flush();
+                    $toPayAtService = 0;
+                    //Send a notification
+                    $this->smsNotificationService->sendAgencyCompletePaymentSMSNotification($pendingPayment);
 
 
                 }
             }
-
         }
+
 
     }
 
