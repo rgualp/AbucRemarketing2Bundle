@@ -2316,7 +2316,7 @@ class ownershipRepository extends EntityRepository
                           AND ow.own_rooms_total >= :roomsTotal
                           AND ow.own_commission_percent = :commission
                           AND ow.own_id <> :ownId
-                          AND ow.own_status = :STATUS
+                          AND ow.own_status = :status
                         ORDER BY ow.own_mcp_code ASC";
 
         return $em->createQuery($queryString)
