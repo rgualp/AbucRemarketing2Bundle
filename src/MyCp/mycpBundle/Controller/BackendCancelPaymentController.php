@@ -67,8 +67,10 @@ class BackendCancelPaymentController extends Controller {
         $filter_payment_date_from = $request->get('filter_payment_date_from');
         $filter_payment_date_to = $request->get('filter_payment_date_to');
         $filter_own = $request->get('filter_own');
-
-
+        $filter_payment_date_from = str_replace('_', '/', $filter_payment_date_from);
+        $filter_payment_date_to = str_replace('_', '/', $filter_payment_date_to);
+        $filter_payment_date_from_twig = str_replace('/', '_', $filter_payment_date_from);
+        $filter_payment_date_to_twig = str_replace('/', '_', $filter_payment_date_to);
         if ($request->getMethod() == 'POST' && $filter_number == 'null' && $filter_code == 'null' &&
             $filter_method == 'null' && $filter_name == 'null' && $filter_payment_date_from == 'null' && $filter_payment_date_to == 'null' && $filter_own == 'null') {
             $message = 'Debe llenar al menos un campo para filtrar.';
@@ -92,7 +94,9 @@ class BackendCancelPaymentController extends Controller {
                 'filter_name' => $filter_name,
                 'filter_payment_date_from' => $filter_payment_date_from,
                 'filter_payment_date_to' => $filter_payment_date_to,
-                'filter_own'=>$filter_own
+                'filter_own'=>$filter_own,
+                'filter_payment_date_from_twig'=>$filter_payment_date_from_twig,
+                'filter_payment_date_to_twig'=>$filter_payment_date_to_twig
             ));
     }
 
