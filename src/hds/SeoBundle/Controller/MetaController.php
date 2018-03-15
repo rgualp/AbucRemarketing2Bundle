@@ -85,13 +85,14 @@ class MetaController extends Controller
 		));
 	}
 
-	/**
-	 * @param Request $request
-	 * @return Response
-	 * @Route("/edit", name="hdsseo_meta_edit")
-	 * @Route("/new", name="hdsseo_meta_new")
-	 * @Method({"POST", "GET"})
-	 */
+    /**
+     * @param Request $request
+     * @return Response
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @Route("/edit", name="hdsseo_meta_edit")
+     * @Route("/new", name="hdsseo_meta_new")
+     * @Method({"POST", "GET"})
+     */
 	public function processAction(Request $request)
 	{
 		$data= array();
@@ -132,12 +133,13 @@ class MetaController extends Controller
 		return $this->render('SeoBundle:Meta:process.html.twig', $data);
 	}
 
-	/**
-	 * @param Request $request
-	 * @return Response
-	 * @Route("/delete", name="hdsseo_meta_delete")
-	 * @Method({"POST"})
-	 */
+    /**
+     * @param Request $request
+     * @return Response
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @Route("/delete", name="hdsseo_meta_delete")
+     * @Method({"POST"})
+     */
 	public function removeAction(Request $request)
 	{
 		$id= $request->get('id');
@@ -172,13 +174,14 @@ class MetaController extends Controller
 		));
 	}
 
-	/**
-	 * @param Request $request
-	 * @return Response
-	 * @Route("/tab/edit", name="hdsseo_tab_edit")
-	 * @Route("/tab/new", name="hdsseo_tab_new")
-	 * @Method({"POST", "GET"})
-	 */
+    /**
+     * @param Request $request
+     * @return Response
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @Route("/tab/edit", name="hdsseo_tab_edit")
+     * @Route("/tab/new", name="hdsseo_tab_new")
+     * @Method({"POST", "GET"})
+     */
 	public function tabProcessAction(Request $request)
 	{
 		$data= array();
@@ -219,12 +222,13 @@ class MetaController extends Controller
 		return $this->render('SeoBundle:Meta:tabProcess.html.twig', $data);
 	}
 
-	/**
-	 * @param Request $request
-	 * @return Response
-	 * @Route("/tab/delete", name="hdsseo_tab_delete")
-	 * @Method({"POST"})
-	 */
+    /**
+     * @param Request $request
+     * @return Response
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @Route("/tab/delete", name="hdsseo_tab_delete")
+     * @Method({"POST"})
+     */
 	public function tabRemoveAction(Request $request)
 	{
 		$id= $request->get('id');
