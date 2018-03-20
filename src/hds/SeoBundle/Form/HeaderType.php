@@ -22,7 +22,7 @@ class HeaderType extends AbstractType
             'choices' => Header::getAllTypeTag(),
         ));
         $builder->add('tag');
-        $builder->add('decription')->add('key');
+        $builder->add('decription')->add('defaultValue');
 
     }
 
