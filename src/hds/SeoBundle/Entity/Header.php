@@ -28,9 +28,9 @@ class Header
      */
     protected $decription;
     /**
-     * @ORM\Column(name="seo_key", type="string", nullable=true)
+     * @ORM\Column(name="default_value", type="string", nullable=true)
      */
-    private $key;
+    private $defaultValue;
     /**
      * @var integer
      *
@@ -249,25 +249,19 @@ class Header
     /**
      * @return mixed
      */
-    public function getKey()
+    public function getDefaultValue()
     {
-
-//        $keys = preg_split('', $this->key);
-//        if (!is_null($keys)) {
-//            if (is_array($keys))
-//                return $keys[array_count_values($keys) - 1];
-//
-//        }
-        return $this->key;
+        return $this->defaultValue;
     }
 
     /**
-     * @param mixed $key
+     * @param mixed $defaultValue
      */
-    public function setKey($key)
+    public function setDefaultValue($defaultValue)
     {
-        $this->key = $key;
+        $this->defaultValue = $defaultValue;
     }
+
 
 
 }

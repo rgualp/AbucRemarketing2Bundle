@@ -214,8 +214,7 @@ class BlockController extends Controller
                 ));
                 if (!$content) {
                     $content = new BlockContent();
-                    $content->setContent($seoService->getContentByBlockAndHeader($header_block, $header));
-
+                      $content->setContent($header->getDefaultValue());
                 }
                 $tmp_header_blocks[$header_block_name][] = array(
                     'header' => $header,

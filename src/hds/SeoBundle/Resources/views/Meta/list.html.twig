@@ -83,7 +83,6 @@
             <tr>
                 <th>Tab</th>
                 <th>Tag</th>
-                <th>Identificador</th>
                 <th style="text-align: right">Acciones</th>
             </tr>
             </thead>
@@ -92,7 +91,6 @@
                 <tr>
                     <td>{{ meta.headerBlock.name }}</td>
                     <td>{{ meta.tag }}</td>
-                    <td>{{ meta.key }}</td>
                     <td style="text-align: right">
                         <a class="btn btn-mini btn_edit_block" data-id="{{ meta.id }}">Editar</a>
                         <a class="btn btn-mini btn-danger delete" {% if meta.contents.count > 0 %}disabled
