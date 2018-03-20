@@ -20,7 +20,7 @@ class HeaderBlockType extends AbstractType
 		$builder->add('name', null, array(
 			'required'=>true
 		));
-		$builder->add('decription');
+		$builder->add('decription')->add('key');
 	}
 
 	/**

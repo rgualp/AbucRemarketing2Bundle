@@ -41,6 +41,11 @@ class HeaderBlock
 	 */
 	private $headers;
 
+    /**
+     * @ORM\Column(name="seo_key", type="string", nullable=true)
+     */
+    private $key;
+
 	public function __toString(){
 		return $this->name;
 	}
@@ -145,4 +150,22 @@ class HeaderBlock
     {
         return $this->headers;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getKey()
+    {
+        return $this->key;
+    }
+
+    /**
+     * @param mixed $key
+     */
+    public function setKey($key)
+    {
+        $this->key = $key;
+    }
+
+
 }

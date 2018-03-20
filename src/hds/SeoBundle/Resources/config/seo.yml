@@ -1,0 +1,21 @@
+seo:
+  apple:
+      76: "https://www.mycasaparticular.com/bundles/frontend/img/76x76.png"
+      120: "https://www.mycasaparticular.com/bundles/frontend/img/120x120.png"
+      152: "https://www.mycasaparticular.com/bundles/frontend/img/152x152.png"
+      180: "https://www.mycasaparticular.com/bundles/frontend/img/180x180.png"
+  android:
+      32: "https://www.mycasaparticular.com/bundles/frontend/img/32x32.png"
+      192: "https://www.mycasaparticular.com/bundles/frontend/img/192x192.png"
+      96: "https://www.mycasaparticular.com/bundles/frontend/img/apple-touch-icons/apple-touch-ipad.png"
+      alternate: "hds.aplications.com.mycplight"
+  general:
+      handHeldFriendly: "True"
+      mobileOptimized:  "320"
+      viewport: "initial-scale=1.0,width=device-width,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0"
+      apple_mobile: "MyCasaParticular"
+      shortcut_ico: "https://www.mycasaparticular.com/favicon.ico"
+      canonical: "https://www.mycasaparticular.com/"
+      robots: "NOYDIR,NOODP,NOTRANSLATE"
+      language: "spanish"
+      contentType: "text/html; charset=utf-8"
