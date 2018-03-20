@@ -14,6 +14,3 @@ services:
         tags:
             - { name: twig.extension }
 
-    seo.util.service:
-        class: hds\SeoBundle\Extension\SeoUtilsConfig
-

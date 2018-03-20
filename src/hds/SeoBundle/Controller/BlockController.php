@@ -10,7 +10,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * @Route("block")
@@ -197,7 +196,6 @@ class BlockController extends Controller
         }
         #endregion
 
-        $seoService = $this->get('seo.util.service');
         $header_blocks = $this->headerblock_repository->findAll();
 
         $tmp_header_blocks = array();
@@ -214,7 +212,7 @@ class BlockController extends Controller
                 ));
                 if (!$content) {
                     $content = new BlockContent();
-                      $content->setContent($header->getDefaultValue());
+                    $content->setContent($header->getDefaultValue());
                 }
                 $tmp_header_blocks[$header_block_name][] = array(
                     'header' => $header,

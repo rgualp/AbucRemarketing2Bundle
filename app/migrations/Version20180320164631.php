@@ -16,7 +16,8 @@ class Version20180320164631 extends AbstractMigration
     public function up(Schema $schema)
     {
         // this up() migration is auto-generated, please modify it to your needs
-
+            $this->addSql("ALTER TABLE hds_seo_header CHANGE seo_key default_value VARCHAR(255) DEFAULT NULL;");
+            $this->addSql("ALTER TABLE hds_seo_headerblock DROP seo_key;");
 
     }
 
