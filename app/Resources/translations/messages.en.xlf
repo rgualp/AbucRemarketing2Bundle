@@ -2717,7 +2717,9 @@
             </trans-unit>
             <trans-unit id="680">
                 <source>ADD_TO_CART_ERROR</source>
-                <target>One room already exists in your wishlist and the selected date range collides with which it is stored. Please change the date range.</target>
+                <target>One room already exists in your wishlist and the selected date range collides with which it is
+                    stored. Please change the date range.
+                </target>
             </trans-unit>
             <trans-unit id="681">
                 <source>ADDRESS_STREET</source>
@@ -4350,10 +4352,14 @@
                 <source>PAGINATOR_RECORD</source>
                 <target>records</target>
             </trans-unit>
-             <trans-unit id="4801">
-                                        <source>label.colaborators</source>
-                                        <target>Collaborators</target>
-                       </trans-unit>
+            <trans-unit id="4801">
+                <source>label.colaborators</source>
+                <target>Collaborators</target>
+            </trans-unit>
+            <trans-unit id="4802">
+                <source>FAVORITIES_TITLE</source>
+                <target>MyCasaParticular Favorites</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

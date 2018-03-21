@@ -4356,6 +4356,10 @@
                             <source>label.colaborators</source>
                             <target>Colaboradores</target>
            </trans-unit>
+           <trans-unit id="4802">
+                <source>FAVORITIES_TITLE</source>
+                <target>Favoritos MyCasaParticular</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

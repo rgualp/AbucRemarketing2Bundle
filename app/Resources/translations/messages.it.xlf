@@ -4424,6 +4424,10 @@
                                                     <source>label.colaborators</source>
                                                     <target>Contributori</target>
                                    </trans-unit>
+            <trans-unit id="4802">
+                <source>FAVORITIES_TITLE</source>
+                <target>Preferiti MyCasaParticular</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
