@@ -31,6 +31,11 @@ class Header
      * @ORM\Column(name="default_value", type="string", nullable=true)
      */
     private $defaultValue;
+
+    /**
+     * @ORM\Column(name="header_class", type="string", nullable=true)
+     */
+    private $header_class;
     /**
      * @var integer
      *
@@ -260,6 +265,22 @@ class Header
     public function setDefaultValue($defaultValue)
     {
         $this->defaultValue = $defaultValue;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHeaderClass()
+    {
+        return $this->header_class;
+    }
+
+    /**
+     * @param mixed $header_class
+     */
+    public function setHeaderClass($header_class)
+    {
+        $this->header_class = $header_class;
     }
 
 

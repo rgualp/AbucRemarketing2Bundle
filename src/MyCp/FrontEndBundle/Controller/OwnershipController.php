@@ -825,9 +825,9 @@ class OwnershipController extends Controller
         $session->set('search_view_results', 'PHOTOS');
         $results = $em->getRepository('mycpBundle:ownership')->getSearchNumbers();
 
-        $categories_own_list = $results["categories"];//$em->getRepository('mycpBundle:ownership')->getOwnsCategories();
-        $types_own_list = $results["types"];//$em->getRepository('mycpBundle:ownership')->getOwnsTypes();
-        $prices_own_list = $results["prices"];//$em->getRepository('mycpBundle:ownership')->getOwnsPrices();
+        $categories_own_list = $results["categories"];
+        $types_own_list = $results["types"];
+        $prices_own_list = $results["prices"];
         $statistics_own_list = $em->getRepository('mycpBundle:ownership')->getSearchStatistics();
         $awards = $em->getRepository('mycpBundle:award')->findAll();
         if ($check_filters != null)
