@@ -1,8 +1,16 @@
 {% extends 'FrontEndBundle:layout:base.html.twig' %}
 {% set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_FAVORITES') %}
 {% block title %}
-    {{ "FAVORITIES_TITLE"  | trans }}
+    {% if get_tagvalue_bytag('Favorites', app.session.get('app_lang_code')|lower, 'title') == false %}
+        {{ "FAVORITIES_TITLE" | trans }}
+    {% else %}
+        {{ get_tagvalue_bytag('Favorites', app.session.get('app_lang_code')|lower, 'title')|raw }}
+    {% endif %}
+
 {% endblock %}
+{% block metas %}
+    {{ get_metas('Favorites', lang_code)|raw }}
+{% endblock metas %}
 {% block breadcrumbs %}
     <a href="{{ path('frontend-welcome') }}" title="{{ "HOMEPAGE_TITLE" | trans }}">{{ "HOME_MAIN_MENU" | trans }}</a>
     <span>››</span>
