@@ -1,37 +1,29 @@
 {% extends 'FrontEndBundle:layout:base.html.twig' %}
-{%set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_HOW_IT_WORKS')%}
+{% set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_HOW_IT_WORKS') %}
 {% block title %}
-{{"HOW_IT_WORKS" | trans}}
+    {{ "HOW_IT_WORKS" | trans }}
 {% endblock %}
 
 {% set main_tab = 4 %}
 {% block content_nav_top_body %}
-{{"HOW_IT_WORKS_CONTENT" | trans}}
+    {{ "HOW_IT_WORKS_CONTENT" | trans }}
 {% endblock %}
 
 {% block breadcrumbs %}
-        <a href="{{ path('frontend-welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
-        <span>››</span>
-        <a href="#" class="active" title="{{"OWNERSHIPS" | trans}}">{{"HOW_IT_WORKS" | trans}}</a>
+    <a href="{{ path('frontend-welcome') }}" title="{{ "HOMEPAGE_TITLE" | trans }}">{{ "HOME_MAIN_MENU" | trans }}</a>
+    <span>››</span>
+    <a href="#" class="active" title="{{ "OWNERSHIPS" | trans }}">{{ "HOW_IT_WORKS" | trans }}</a>
 {% endblock %}
 {% block body %}
-<div class="container">
-{% for content in contents %}
-    <div class="row">
-        <div class="col-sm-6">
-            <h1 class="caecilia-roman h-green carousel-title" style="padding-bottom: 12px">{{ content.title }}</h1>
-        </div>
-    {{content.content|raw }}
-{% endfor %}
-
-
-
-
-
-
-
-</div>
-{% block include_javascripts %}
-
-{% endblock %}
+    <div class="container">
+        {% for content in contents %}
+            <div class="row">
+                <div class="col-sm-6">
+                    <h1 class="caecilia-roman h-green carousel-title"
+                        style="padding-bottom: 12px">{{ content.title }}</h1>
+                </div>
+            </div>
+            {{ content.content|raw }}
+        {% endfor %}
+    </div>
 {% endblock %}
