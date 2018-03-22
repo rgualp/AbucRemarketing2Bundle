@@ -4439,6 +4439,10 @@ Vous pouvez aussi consulter nos Règles de Confidentialité, les FAQ et nos Cond
                                         <source>label.colaborators</source>
                                         <target>Collaborateurs</target>
                        </trans-unit>
+                       <trans-unit id="4802">
+                <source>FAVORITIES_TITLE</source>
+                <target>MyCasaParticular Favoris</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

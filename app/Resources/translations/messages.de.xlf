@@ -2728,7 +2728,9 @@
             </trans-unit>
             <trans-unit id="680">
                 <source>ADD_TO_CART_ERROR</source>
-                <target>Eines der Zimmer ist bereits in wishlist, und die ausgewählten Datumsbereich kollidiert mit dem es gespeichert ist. Bitte ändern Sie das Datumsbereich.</target>
+                <target>Eines der Zimmer ist bereits in wishlist, und die ausgewählten Datumsbereich kollidiert mit dem
+                    es gespeichert ist. Bitte ändern Sie das Datumsbereich.
+                </target>
             </trans-unit>
             <trans-unit id="681">
                 <source>ADDRESS_STREET</source>
@@ -3866,14 +3868,7 @@
             </trans-unit>
             <trans-unit id="946">
                 <source>MYCASA_RENTA_PARR5</source>
-                <target><![CDATA[Sehen Sie die Optionen des Menüs von  MyCasa Renta 2.0
-                                                                                                                  <br>• Verfügbarkeit: Modifizieren Sie den Zeitplan für die Verfügbarkeit der Zimmer.
-                                                                                                                  <br>• Reservierungen: Geordnete Liste von Reservierungen (blau) und  von Tage in den Zimmer nicht verfügbar sind (orange).  Es ermöglicht die Tage, wo die Zimmer nicht frei sind, zu ändern oder zu entfernen.
-                                                                                                                  <br>• Preise: Ändern Sie die Preise für jedes Zimmer nach der Saison.
-                                                                                                                  <br>• Statistik:  Sehen Sie die Statistiken des Zimmers im aktuellen Monat.
-                                                                                                                  <br>• Benachrichtigungen: Liste der untätigen Benachrichtigungen (möglich zu entfernen)
-                                                                                                                  <br>• Herunterladen All: Es ermöglicht die Anwendungsdaten mit den neuesten Informationen auf der Website MyCasaParticular veröffentlicht wiederherzustellen.
-                                                                                                                  <br>• Ausloggen: Es ermöglicht die Abmeldung des authetifizierten Benutzer.]]></target>
+                <target><![CDATA[Sehen Sie die Optionen des Menüs von  MyCasa Renta 2.0                                                                                                               <br>• Verfügbarkeit: Modifizieren Sie den Zeitplan für die Verfügbarkeit der Zimmer.                                                                                                                  <br>• Reservierungen: Geordnete Liste von Reservierungen (blau) und  von Tage in den Zimmer nicht verfügbar sind (orange).  Es ermöglicht die Tage, wo die Zimmer nicht frei sind, zu ändern oder zu entfernen.                                                                                                                  <br>• Preise: Ändern Sie die Preise für jedes Zimmer nach der Saison.                                                                                                                  <br>• Statistik:  Sehen Sie die Statistiken des Zimmers im aktuellen Monat.                                                                                                                  <br>• Benachrichtigungen: Liste der untätigen Benachrichtigungen (möglich zu entfernen)                                                                                                                  <br>• Herunterladen All: Es ermöglicht die Anwendungsdaten mit den neuesten Informationen auf der Website MyCasaParticular veröffentlicht wiederherzustellen.                                                                                                                  <br>• Ausloggen: Es ermöglicht die Abmeldung des authetifizierten Benutzer.]]></target>
             </trans-unit>
             <trans-unit id="947">
                 <source>MYCASA_RENTA_STEP</source>
@@ -4395,10 +4390,14 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
                 <source>PAGINATOR_RECORD</source>
                 <target>Datensätzen</target>
             </trans-unit>
-             <trans-unit id="4801">
-                                                                <source>label.colaborators</source>
-                                                                <target>Mitarbeiter</target>
-                                               </trans-unit>
+            <trans-unit id="4801">
+                <source>label.colaborators</source>
+                <target>Mitarbeiter</target>
+            </trans-unit>
+            <trans-unit id="4802">
+                <source>FAVORITIES_TITLE</source>
+                <target>MyCasaParticular Favoriten</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

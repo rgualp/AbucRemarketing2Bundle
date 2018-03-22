@@ -70,6 +70,7 @@ class SeoUtilsExtension extends \Twig_Extension
             new \Twig_SimpleFunction('get_metas', array($this, 'getMetas')),
             new \Twig_SimpleFunction('get_lang', array($this, 'getLang')),
             new \Twig_SimpleFunction('get_tagvalue_bytag', array($this, 'getTagValueByTag')),
+            new \Twig_SimpleFunction('get_meta_value', array($this, 'getMetasContent')),
         );
     }
 
@@ -213,6 +214,25 @@ class SeoUtilsExtension extends \Twig_Extension
             $lang .= '<!---' . $content . ' --->';
         }
         return $lang;
+    }
+
+
+    public function getMetasContent($block_name, $language_code, $metaType, $metaClass){
+        $block = $this->block_repository->findOneBy(array('name' => $block_name));
+        if (!is_null($block)){
+            $block_contents = $this->blockcontent_repository->findBy(array(
+                'block' => $block->getId(),
+                'language_code' => $language_code
+            ));
+            foreach ($block_contents as $item){
+                if($item->getHeader()->getTypeTag() == $metaType && $item->getHeader()->getHeaderClass() == $metaClass){
+                    return $item->getContent();
+                }
+            }
+        }
+
+        return "";
+
     }
 
 }
