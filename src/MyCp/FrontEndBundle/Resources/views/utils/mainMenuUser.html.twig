@@ -52,13 +52,13 @@
 
 
             <li role="separator" class="divider"></li>
-            {#<li class="dropdown-submenu">#}
-                {#<a title="{{"LANGUAGE" | trans }}" data-toggle="dropdown"  href="#"><img class="icon tiny-lang-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" title="{{"LANGUAGE" | trans}}" alt="{{"LANGUAGE" | trans}}"/>#}
-                    {#{{(app.session.get('app_lang_name') == null or app.session.get('app_lang_name') == "") ? "Español" : app.session.get('app_lang_name')}} </a>#}
-                {#<ul class="dropdown-menu">#}
-                    {#{{ render_esi(controller('FrontEndBundle:Language:getLanguages', {'route': app.request.get('_route'), 'routeParams': app.request.get('_route_params')})) }}#}
-                {#</ul>#}
-            {#</li>#}
+            <li class="dropdown-submenu">
+                <a title="{{"LANGUAGE" | trans }}" data-toggle="dropdown"  href="#"><img class="icon tiny-lang-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" title="{{"LANGUAGE" | trans}}" alt="{{"LANGUAGE" | trans}}"/>
+                    {{(app.session.get('app_lang_name') == null or app.session.get('app_lang_name') == "") ? "Español" : app.session.get('app_lang_name')}} </a>
+                <ul class="dropdown-menu">
+                    {{ render_esi(controller('FrontEndBundle:Language:getLanguages', {'route': app.request.get('_route'), 'routeParams': app.request.get('_route_params')})) }}
+                </ul>
+            </li>
             <li class="dropdown-submenu" >
                 <a title="{{"CURRENCY" | trans }}" data-toggle="dropdown"  href="#"><img class="icon tiny-curr-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" title="{{"CURRENCY" | trans }}" alt="{{"CURRENCY" | trans }}"/>
                     {{(app.session.get('curr_acronym') == null or app.session.get('curr_acronym') == "") ? default_currency().currcode|upper : app.session.get('curr_acronym')|upper}} </a>

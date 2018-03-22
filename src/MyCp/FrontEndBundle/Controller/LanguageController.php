@@ -54,43 +54,43 @@ class LanguageController extends Controller
 
 
 
-        if ($route == 'frontend_details_destination'){
-            $routeParamsDes = json_decode(urldecode($routeParams));
-            $destination_name = str_replace('-', ' ', $routeParamsDes->destination_name);
-            $lang = $em->getRepository('mycpBundle:lang')->findOneBy(array('lang_code' => $routeParamsDes->_locale));
-            $destinationsLang = $em->getRepository('mycpBundle:destinationLang')->findOneBy(array('des_lang_name'=>$destination_name,'des_lang_lang'=>$lang->getLangId()));
-
-            if ($destinationsLang){
-                $destination = $destinationsLang->getDesLangDestination();
-
-                foreach ($languages as $language){
-                    $code = strtolower($language->getLangCode());
-                    $destinationsLang = $em->getRepository('mycpBundle:destinationLang')->findOneBy(array('des_lang_destination'=>$destination->getDesId(),'des_lang_lang'=>$language->getLangId()));
-                    if ($destinationsLang && $destinationsLang->getDesLangName() != ''){
-                        $url_destination_name = Utils::convert_text($destinationsLang->getDesLangName());
-                        $url_destination_name = strtolower($url_destination_name);
-                        $url_destination_name = str_replace(' ', '-', $url_destination_name);
-                        $routeParamsDes->destination_name = $url_destination_name;
-                        $arrTransDest[$code] = urlencode(json_encode($routeParamsDes));
-                    }else{
-                        $arrTransDest[$code] = $routeParams;
-                    }
-                }
-
-                $response = $this->render('FrontEndBundle:language:languages.html.twig', array(
-                    'languages' => $languages,
-                    'route' => $route,
-                    'routeParams' => $routeParams,
-                    'arrTransDest' => $arrTransDest
-                ));
-
-                // cache controol -> languages rarely change
-                $response->setSharedMaxAge(3600);
-
-                return $response;
-            }
-
-        }
+//        if ($route == 'frontend_details_destination'){
+//            $routeParamsDes = json_decode(urldecode($routeParams));
+//            $destination_name = str_replace('-', ' ', $routeParamsDes->destination_name);
+//            $lang = $em->getRepository('mycpBundle:lang')->findOneBy(array('lang_code' => $routeParamsDes->_locale));
+//            $destinationsLang = $em->getRepository('mycpBundle:destinationLang')->findOneBy(array('des_lang_name'=>$destination_name,'des_lang_lang'=>$lang->getLangId()));
+//
+//            if ($destinationsLang){
+//                $destination = $destinationsLang->getDesLangDestination();
+//
+//                foreach ($languages as $language){
+//                    $code = strtolower($language->getLangCode());
+//                    $destinationsLang = $em->getRepository('mycpBundle:destinationLang')->findOneBy(array('des_lang_destination'=>$destination->getDesId(),'des_lang_lang'=>$language->getLangId()));
+//                    if ($destinationsLang && $destinationsLang->getDesLangName() != ''){
+//                        $url_destination_name = Utils::convert_text($destinationsLang->getDesLangName());
+//                        $url_destination_name = strtolower($url_destination_name);
+//                        $url_destination_name = str_replace(' ', '-', $url_destination_name);
+//                        $routeParamsDes->destination_name = $url_destination_name;
+//                        $arrTransDest[$code] = urlencode(json_encode($routeParamsDes));
+//                    }else{
+//                        $arrTransDest[$code] = $routeParams;
+//                    }
+//                }
+//
+//                $response = $this->render('FrontEndBundle:language:languages.html.twig', array(
+//                    'languages' => $languages,
+//                    'route' => $route,
+//                    'routeParams' => $routeParams,
+//                    'arrTransDest' => $arrTransDest
+//                ));
+//
+//                // cache controol -> languages rarely change
+//                $response->setSharedMaxAge(3600);
+//
+//                return $response;
+//            }
+//
+//        }
 
         $languages = $em
             ->getRepository('mycpBundle:lang')
