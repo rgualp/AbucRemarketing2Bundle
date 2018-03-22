@@ -1,9 +1,15 @@
 {% extends 'FrontEndBundle:layout:base.html.twig' %}
 {% set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_HOW_IT_WORKS') %}
 {% block title %}
-    {{ "HOW_IT_WORKS" | trans }}
+    {% if get_tagvalue_bytag('HowItWorks', app.session.get('app_lang_code')|lower, 'title') == false %}
+        {{ "HOW_IT_WORKS" | trans }}
+    {% else %}
+        {{ get_tagvalue_bytag('HowItWorks', app.session.get('app_lang_code')|lower, 'title')|raw }}
+    {% endif %}
 {% endblock %}
-
+{% block metas %}
+    {{ get_metas('HowItWorks', app.session.get('app_lang_code')|lower )|raw }}
+{% endblock metas %}
 {% set main_tab = 4 %}
 {% block content_nav_top_body %}
     {{ "HOW_IT_WORKS_CONTENT" | trans }}
