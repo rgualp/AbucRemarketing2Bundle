@@ -3,17 +3,17 @@
 {% endif %}
 <div class="collapse navbar-collapse navbar-ex1-collapse">
         <ul class="nav navbar-nav onhover helvetica-roman" >
-            <li class="{%if  main_tab == 1 %}active{%endif%}">
-                <a title="{{"HOMEPAGE_TITLE" | trans}}" href="{{ path('frontend-welcome') }}">{{"HOME_MAIN_MENU" | trans}}</a></li>
+            {#<li class="{%if  main_tab == 1 %}active{%endif%}">#}
+                {#<a title="{{"HOMEPAGE_TITLE" | trans}}" href="{{ path('frontend-welcome') }}">{{"HOME_MAIN_MENU" | trans}}</a></li>#}
             <li class="dropdown {%if  main_tab == 2 %}active{%endif%} main-menu">
                 {{ render(controller('FrontEndBundle:Public:getMainMenuDestinations')) }}
             </li>
             <li class="dropdown {%if  main_tab == 5 %}active{%endif%} main-menu">
                 {{ render(controller('FrontEndBundle:Public:getMainMenuAccomodations')) }}
             </li>
-            <li class="{%if  main_tab == 6 %}active{%endif%}">
-                {{ render(controller('FrontEndBundle:Public:getMainMenuMycasatrip')) }}
-            </li>
+            {#<li class="{%if  main_tab == 6 %}active{%endif%}">#}
+                {#{{ render(controller('FrontEndBundle:Public:getMainMenuMycasatrip')) }}#}
+            {#</li>#}
             <li>
                 <a style="color: #fff; border: 0; padding: 5px 10px; margin-top: 7px; margin-left: 15px; background: transparent; box-shadow: 0px 0px 5px #000;" class="btn" rel="nofollow" href="{{ path('frontend_partner_home') }}" >{{ 'hazte_partner' | trans }} <span style="background: #62b947;padding: 5px;border-radius: 5px;margin-left: 5px;">{{ 'NEW' | trans | upper }}</span></a>
             </li>
