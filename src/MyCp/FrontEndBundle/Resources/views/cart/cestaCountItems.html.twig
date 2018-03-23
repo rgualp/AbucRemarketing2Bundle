@@ -1,4 +1,4 @@
-<a title="{{"CART" | trans }}" {%if count > 0%}href="{{ path('frontend_mycasatrip_available') }}{% else %}href="{{ path('frontend_mycasatrip_available') }}"{% endif %} style="margin-top: 10px" {%if count > 0%} data-toggle="dropdown" class="dropdown-toggle count-info" aria-expanded="true"{% else %} class="count-info" {% endif %}>
+<a title="{{"CART" | trans }}" {%if count > 0%}href="{{ path('frontend_mycasatrip_available') }}"{% else %}href="{{ path('frontend_mycasatrip_available') }}"{% endif %} style="margin-top: 10px"  class="count-info" >
     <img style="width: 26px; height: 23px;" class="icon {%if count > 0%}cart-full-icon{%else%}cart-icon{%endif%}" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" title="Mycasaparticular" alt="{{"Mycasaparticular" | trans}}"/>
     {% if is_mobile() != true %}
         {% if search != true %}
@@ -7,4 +7,4 @@
     {% endif %}
     <span class="label" id="count-cesta">  {{count}} </span>
 </a>
-{{ render(controller('FrontEndBundle:Mycasatrip:available',{'order_by':'0','flag':'1'})) }}
+{#{{ render(controller('FrontEndBundle:Mycasatrip:available',{'order_by':'0','flag':'1'})) }}#}
