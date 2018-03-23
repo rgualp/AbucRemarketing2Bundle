@@ -63,19 +63,22 @@ class SendEmailUpdateApkCommand extends ContainerAwareCommand
 
 			$to= array($mail);
 			$subject= 'MyCasa Particular Actualización MyCasa Renta App.';
-			
+			$from_email= 'no_responder@mycasaparticular.com';
+			$from_name= 'MyCasaParticular.com';
+			$email_type= 'NOTIFICATION_USERS_INFORMATIONS';
+
+			$email_manager = $this->container->get('mycp.service.email_manager');
 			$data= array();
 			$data['user_locale']= 'es';
+			$body = $email_manager->getViewContent('FrontEndBundle:mails:sendEmailInformationCommand.html.twig', $data);
 
-            $emailService = $this->container->get('mycp.service.email_manager');
-            $templatingService = $this->container->get('templating');
+			$this->notification_email->setTo($to);
+			$this->notification_email->setSubject($subject);
+			$this->notification_email->setFrom($from_email, $from_name);
+			$this->notification_email->setBody($body);
+			$this->notification_email->setEmailType($email_type);
 
-
-            $body = $templatingService
-                ->renderResponse('FrontEndBundle:mails:sendEmailInformationCommand.html.twig',$data);
-            $status= $emailService->sendEmail($to, $subject,  $body, 'no-responder@mycasaparticular.com');
-
-
+			$status= $this->notification_email->sendEmail();
 			if($status){
 				$output->writeln('<info>'.$mail.'</info>');
 				$mail_success[]= $mail;
