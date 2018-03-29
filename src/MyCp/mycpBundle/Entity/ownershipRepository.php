@@ -1040,37 +1040,27 @@ class ownershipRepository extends EntityRepository
 
     /**
      * Realiza busquedas segun los criterios seleccionados
-     * @param $controller
-     * @param null $text
+     * @param integer $province_id
      * @param datetime $arrivalDate
      * @param datetime $leavingDate
      * @param integer $guest_total
-     * @param int $rooms_total
      * @param string $order_by
-     * @param bool $room_filter
-     * @param null $filters
-     * @param int $inmediate
-     * @param null $start
-     * @param null $limit
-     * @param bool $setupDates
      * @return array of MyCp\mycpBundle\Entity\ownership
-     * @throws \Doctrine\ORM\NoResultException
-     * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    function search($controller, $text = null, $arrivalDate = null, $leavingDate = null, $guest_total = 1, $rooms_total = 1, $order_by = 'BEST_VALUED', $room_filter = false, $filters = null, $inmediate = 0, $start = null, $limit = null, $setupDates = true)
-    {
+    function search($controller, $text = null, $arrivalDate = null, $leavingDate = null, $guest_total = 1, $rooms_total = 1, $order_by = 'BEST_VALUED', $room_filter = false, $filters = null, $inmediate=0, $start = null, $limit = null, $setupDates = true) {
         $em = $this->getEntityManager();
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($controller);
         $user_id = $user_ids['user_id'];
         $session_id = $user_ids['session_id'];
 
-        if ($setupDates) {
+        if($setupDates) {
             $leavingDateObject = date_create($leavingDate);
             date_sub($leavingDateObject, date_interval_create_from_date_string('0 days'));
             $leavingDate = date_format($leavingDateObject, 'd-m-Y');
         }
 
         $reservations_where = SearchUtils::createDatesWhere($em, $arrivalDate, $leavingDate);
+        // dump($reservations_where);die;
         $q = SearchUtils::getBasicQuery($room_filter, $user_id, $session_id, false);
         $query_string = $q['query'];
         $query_count_string = $q['query_count'];
@@ -1082,16 +1072,17 @@ class ownershipRepository extends EntityRepository
         $textWhere = SearchUtils::getTextWhere($text);
         $where .= ($textWhere != "") ? " AND " . $textWhere : "";
 
-        if ($guest_total != null && $guest_total != 'null' && $guest_total != "")
+        if($guest_total != null && $guest_total != 'null' && $guest_total != "")
             $where .= " AND " . "o.own_maximun_number_guests >= :guests_total";
 
-        if (isset($rooms_total) && $rooms_total != null && $rooms_total != 'null' && $rooms_total != "")
+        if(isset($rooms_total) && $rooms_total != null && $rooms_total != 'null' && $rooms_total != "")
             $where .= " AND " . "o.own_rooms_total >= :rooms_total";
 
-        if ($reservations_where != "")
+        if($reservations_where != "")
             $where .= " AND o.own_id NOT IN (" . $reservations_where . ")";
 
         $filterWhere = SearchUtils::getFilterWhere($filters);
+
 
 
         $where .= ($filterWhere != "") ? $filterWhere : "";
@@ -1099,23 +1090,23 @@ class ownershipRepository extends EntityRepository
 
         $or = "";
 
-        if (is_array($filters)) {
-            if ($inmediate != null || (array_key_exists('own_inmediate_booking', $filters) && $filters['own_inmediate_booking'])) {
+        if (is_array($filters)){
+            if( $inmediate != null || ( array_key_exists('own_inmediate_booking', $filters) && $filters['own_inmediate_booking']) ){
                 $or = " AND (";
 
-                if ($inmediate != null)
+                if($inmediate != null)
                     $or .= "o.own_inmediate_booking_2 = :inmediate";
 
-                if (array_key_exists('own_inmediate_booking', $filters) && $filters['own_inmediate_booking']) {
+                if (array_key_exists('own_inmediate_booking', $filters) && $filters['own_inmediate_booking']){
                     $ors = ($inmediate != null) ? " OR " : "";
-                    $or .= $ors . "o.own_inmediate_booking = 1";
+                    $or .= $ors."o.own_inmediate_booking = 1";
                 }
 
 
                 $or .= ")";
             }
-        } else {
-            if ($inmediate != null) {
+        }else{
+            if($inmediate != null){
                 $or = " AND (";
                 $or .= "o.own_inmediate_booking_2 = :inmediate";
                 $or .= ")";
@@ -1123,85 +1114,89 @@ class ownershipRepository extends EntityRepository
         }
 
 
-        if ($where != '') {
-            $query_string .= $where . " " . $or;
-            $query_count_string .= $where . " " . $or;
+
+        if($where != '' ){
+            $query_string .= $where." ".$or;
+            $query_count_string .= $where." ".$or;
         }
-        if (count($filters)) {
-            if (array_key_exists('own_award', $filters) && $filters['own_award'] != null && is_array($filters['own_award']) && count($filters['own_award']) > 0) {
+        if (count($filters)){
+            if (array_key_exists('own_award', $filters) && $filters['own_award'] != null && is_array($filters['own_award']) && count($filters['own_award']) > 0)
+            {
                 $insideWhere = SearchUtils::getStringFromArray($filters['own_award']);
 
-                if ($insideWhere != "")
+                if($insideWhere != "")
                     $query_string .= " HAVING award1 IN (" . $insideWhere . ")";
             }
         }
-        if (is_array($filters)) {
-            if ((array_key_exists('own_update_avaliable', $filters) && $filters['own_update_avaliable'])) {
+        if(is_array($filters)){
+            if( ( array_key_exists('own_update_avaliable', $filters) && $filters['own_update_avaliable']) ){
                 $order = SearchUtils::getOrder(OrderByHelper::SEARCHER_AVALIABLE_UPDATE);
-            } else {
+            }else{
                 $order = SearchUtils::getOrder($order_by);
             }
-        } else
+        }
+        else
             $order = SearchUtils::getOrder($order_by);
 
 
         $query_string .= $order;
 
+        //dump($query_string); die;
 
         $query = $em->createQuery($query_string);
         $query_count = $em->createQuery($query_count_string);
-        if ($user_id != null) {
+        //dump($query_string);die;
+        if($user_id != null){
             $query->setParameter('user_id', $user_id);
         }
 
-        if ($session_id != null) {
+        if($session_id != null){
             $query->setParameter('session_id', $session_id);
         }
 
-        if ($inmediate != null)
+        if($inmediate != null)
             $query->setParameter('inmediate', $inmediate);
-        $query_count->setParameter('inmediate', $inmediate);
 
-        if ($text != null && $text != '' && $text != 'null') {
+        if($text != null && $text != '' && $text != 'null'){
             $query->setParameter('text', "%" . $text . "%");
             $query_count->setParameter('text', "%" . $text . "%");
         }
 
-        if ($guest_total != null && $guest_total != 'null' && $guest_total != "") {
+        if($guest_total != null && $guest_total != 'null' && $guest_total != ""){
             $query->setParameter('guests_total', ($guest_total != "+10" ? $guest_total : 11));
             $query_count->setParameter('guests_total', ($guest_total != "+10" ? $guest_total : 11));
         }
 
-        if (isset($rooms_total) && $rooms_total != null && $rooms_total != 'null' && $rooms_total != "") {
+        if(isset($rooms_total) && $rooms_total != null && $rooms_total != 'null' && $rooms_total != ""){
             $query->setParameter('rooms_total', ($rooms_total != "+5" ? $rooms_total : 6));
             $query_count->setParameter('rooms_total', ($rooms_total != "+5" ? $rooms_total : 6));
         }
-//
-//        if ($start !== null && $limit !== null) {
-//            $query->setFirstResult($start);
-//            $query->setMaxResults($limit);
-//        }
 
-//        $results = $query->getResult();
-        $paginator = DoctrineHelp::paginate($query, $start, $limit);
-        $results = $paginator->getQuery()->getResult();
+        //$return_list = array();
+        if($start !== null && $limit !== null) {
+            $query->setFirstResult($start);
+            $query->setMaxResults($limit);
+        }
+
+        $results = $query->getResult();
 
         for ($i = 0; $i < count($results); $i++) {
-            if ($results[$i]['photo'] == null)
+            if($results[$i]['photo'] == null)
                 $results[$i]['photo'] = "no_photo.png";
 
-            if (file_exists(realpath("uploads/ownershipImages/originals/" . $results[$i]['photo'])))
+            if(file_exists(realpath("uploads/ownershipImages/originals/" . $results[$i]['photo'])))
                 $results[$i]['photo'] = "originals/" . $results[$i]['photo'];
-            else if (!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo'])))
+            else if(!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo'])))
                 $results[$i]['photo'] = "no_photo.png";
         }
-        if ($start !== null && $limit !== null) {
-            $count = $query_count->getSingleScalarResult();
-            return array('results' => $results, 'count' => $count, 'paginator');
-        }
 
+        if($start !== null && $limit !== null){
+            $count = $query_count->getSingleScalarResult();
+            return array('results'=>$results, 'count'=>$count);
+        }
         return $results;
     }
+
 
     /**
      * Realiza busquedas segun los criterios seleccionados
