@@ -105,3 +105,9 @@ services:
    mycp.coverimage.service:
         class: MyCp\mycpBundle\Service\UpdateCoverImageService
         arguments: [@doctrine.orm.entity_manager]
+
+   mycp.sitemap.listener:
+        class: MyCp\mycpBundle\Events\SiteMapListener
+        arguments: [@doctrine.orm.entity_manager, @service_container]
+        tags:
+          - { name: kernel.event_listener, event: mycp.event.sitemap, method: onEvent}
