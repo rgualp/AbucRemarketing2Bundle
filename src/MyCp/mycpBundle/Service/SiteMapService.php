@@ -3,27 +3,26 @@
  * Created by PhpStorm.
  * User: developer
  * Date: 2/04/18
- * Time: 14:05
+ * Time: 16:15
  */
 
-namespace MyCp\mycpBundle\Events;
+namespace MyCp\mycpBundle\Service;
 
 
 use Doctrine\Common\Persistence\ObjectManager;
 use MyCp\FrontEndBundle\Helpers\Utils;
 use MyCp\mycpBundle\Helpers\FileIO;
-use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\Validator\Constraints\File;
 
-class SiteMapListener
+class SiteMapService
 {
+
     const CONFIGURATION_DIR_ADDITIONALS_FILES = "configuration.dir.additionalsFiles";
     const SITE_MAP = "sitemap.xml";
     private $em;
     private $container;
 
     /**
-     * SiteMapEvent constructor.
+     * SiteMapService constructor.
      * @param ObjectManager $entityManager
      * @param Container $container
      */
@@ -33,37 +32,37 @@ class SiteMapListener
         $this->container = $container;
     }
 
-    public function onEvent()
+    public function generateSiteMap()
     {
         $hostname = $this->container->get('request')->getHost();
         $languages = $this->em->getRepository('mycpBundle:lang')->findBy(array('lang_active' => 1));
         //houses
-//        $url_houses = array();
-//        $houses = $this->em->getRepository('mycpBundle:ownership')->findBy(array('own_status' => \MyCp\mycpBundle\Entity\ownershipStatus::STATUS_ACTIVE));
-//
-//        foreach ($languages as $lang) {
-//            $routingParams = array('locale' => strtolower($lang->getLangCode()), '_locale' => strtolower($lang->getLangCode()));
-//            $url = array(
-//                'loc' => $this->container->get('router')->generate('frontend_search_ownership', $routingParams),
-//                'priority' => '0.8',
-//                'changefreq' => 'monthly'
-//            );
-//            array_push($url_houses, $url);
-//            foreach ($houses as $house) {
-//                $house_name = Utils::urlNormalize($house->getOwnName());
-//                $loc = $this->container->get('router')->generate('frontend_details_ownership', array_merge($routingParams, array('own_name' => $house_name)));
-//                $url = array(
-//                    'loc' => $loc,
-//                    'priority' => '1.0',
-//                    'changefreq' => 'monthly'
-//                );
-//                array_push($url_houses, $url);
-//            }
-//        }
+        $url_houses = array();
+        $houses = $this->em->getRepository('mycpBundle:ownership')->findBy(array('own_status' => \MyCp\mycpBundle\Entity\ownershipStatus::STATUS_ACTIVE));
+
+        foreach ($languages as $lang) {
+            $routingParams = array('locale' => strtolower($lang->getLangCode()), '_locale' => strtolower($lang->getLangCode()));
+            $url = array(
+                'loc' => $this->container->get('router')->generate('frontend_search_ownership', $routingParams),
+                'priority' => '0.8',
+                'changefreq' => 'monthly'
+            );
+            array_push($url_houses, $url);
+            foreach ($houses as $house) {
+                $house_name = Utils::urlNormalize($house->getOwnName());
+                $loc = $this->container->get('router')->generate('frontend_details_ownership', array_merge($routingParams, array('own_name' => $house_name)));
+                $url = array(
+                    'loc' => $loc,
+                    'priority' => '1.0',
+                    'changefreq' => 'monthly'
+                );
+                array_push($url_houses, $url);
+            }
+        }
 
         //destinations
         $url_destinations = array();
-//        array_push($url_destinations, $url);
+        array_push($url_destinations, $url);
         foreach ($languages as $lang) {
             $routingParams = array('locale' => strtolower($lang->getLangCode()), '_locale' => strtolower($lang->getLangCode()));
             $loc = $this->container->get('router')->generate('frontend_list_destinations', $routingParams);
@@ -252,21 +251,4 @@ class SiteMapListener
         fwrite($fp, $rootNode->asXML());
         fclose($fp);
     }
-
-    private function getUrlsDestinations()
-    {
-
-    }
-
-    private function getUrlsAccomodations()
-    {
-
-    }
-
-    private function getUrlsSite()
-    {
-
-    }
-
-
 }

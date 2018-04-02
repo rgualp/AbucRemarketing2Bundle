@@ -389,21 +389,28 @@ class PublicController extends Controller
     public function siteMapAction()
     {
         $pathToFile = $this->container->getParameter(self::CONFIGURATION_DIR_ADDITIONALS_FILES);
+        $fileName = $pathToFile . self::SITE_MAP;
+        if (!file_exists($fileName)) {
+            $this->get('mycp.sitemap.service')->generateSiteMap();
+        }
+
         $file_info = finfo_open(FILEINFO_MIME_TYPE);
-        $mime_type = finfo_file($file_info, $pathToFile . self::SITE_MAP);
+        $mime_type = finfo_file($file_info, $fileName);
         finfo_close($file_info);
 
         $response = new Response();
         $response->headers->set('Cache-Control', 'private');
         $response->headers->set('Content-type', $mime_type);
         $response->headers->set('Content-Disposition', 'attachment; filename="' . self::SITE_MAP . '"');
-        $response->headers->set('Content-length', filesize($pathToFile . self::SITE_MAP));
+        $response->headers->set('Content-length', filesize($fileName));
         $response->sendHeaders();
-        $response->setContent(readfile($pathToFile . self::SITE_MAP));
-//        dispachEvent generate new site map
+        $response->setContent(readfile($fileName));
+
+        //Se genera un nuevo site map, que no tiene nada que ver con la ejecucion del request actual.
         $dispacherEvent = $this->get('event_dispatcher');
         $dispacherEvent->dispatch('mycp.event.sitemap');
-        return new Response();
+
+        return $response;
     }
 
     public function appRentaDownloadAction()
