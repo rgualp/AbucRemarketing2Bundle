@@ -15,11 +15,11 @@
 {% set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_ACCOMMODATIONS') %}
 
 {% block title %}
-    {#{% if get_tagvalue_bytag('Alojamientos ' ~ province_name, app.session.get('app_lang_code')|lower, 'title') == false %}#}
-    {#{{ "SEARCH_RESULTS_PAGE_TITLE" | trans }}#}
-    {#{% else %}#}
-    {#{{ get_tagvalue_bytag('Alojamientos ' ~ province_name, app.session.get('app_lang_code')|lower, 'title')|raw }}#}
-    {#{% endif %}#}
+    {% if get_tagvalue_bytag('Alojamientos ' ~ province_name, app.session.get('app_lang_code')|lower, 'title') == false %}
+        {{ "SEARCH_RESULTS_PAGE_TITLE" | trans }}
+    {% else %}
+        {{ get_tagvalue_bytag('Alojamientos ' ~ province_name, app.session.get('app_lang_code')|lower, 'title')|raw }}
+    {% endif %}
 {% endblock %}
 
  {% block metas %}
@@ -138,6 +138,7 @@
             var otherpage = {{ current_page }};
 
             function initJSTwig() {
+                console.log("initJSTwig");
                 $('.bs-select').selectpicker({
                     iconBase: 'fa',
                     tickIcon: 'fa-check'
@@ -150,6 +151,7 @@
                     start: 'top',
                     allowPageScroll: true
                 }).bind('slimscrolling', function (e, pos) {
+                    alert(post);
                     if (pos >= $('#div_result')[0].scrollHeight - $('#div_result').height()) {
                         otherpage++;
                         if (parseInt(otherpage) <= parseInt($('#div_result').attr("data-cant-page"))) {
@@ -169,7 +171,7 @@
                 $(".show-more-footer a").click(function (e) {
                     e.preventDefault();
                     $(".show-more-footer, footer.footer-static").toggleClass("showFooter");
-                })
+                });
 
                 $("iframe").css("position", "fixed");
                 jQuery("#priceFilter").slider({});
@@ -211,8 +213,6 @@
 
 
             }
-
-
         </script>
         {{ include('FrontEndBundle:script:script.html.twig') }}
     {% endblock %}
