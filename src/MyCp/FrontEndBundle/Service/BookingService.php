@@ -2237,32 +2237,44 @@ class BookingService extends Controller
                     $ownreservation = $this->em->getRepository('mycpBundle:ownershipReservation')->find($genResId);
 
 
-                    $nights = $service_time->nights($ownreservation->getOwnResReservationFromDate()->getTimestamp(), $ownreservation->getOwnResReservationToDate()->getTimestamp());
+                       $noches = $service_time->nights($ownreservation->getOwnResReservationFromDate()->getTimestamp(), $ownreservation->getOwnResReservationToDate()->getTimestamp());
+
                        $season = $this->em->getRepository("mycpBundle:season")->getSeasons($ownreservation->getOwnResReservationFromDate(),$ownreservation->getOwnResReservationToDate());
-                       if($nights>0 && $nights<3){
+                       $pago= $ownreservation->getOwnResRoomPriceDown() - ( $ownreservation->getOwnResRoomPriceDown() *( $ownreservation->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent() / 100));
+
+                       if($noches>0 && $noches<3){
                           if($season[0]->getSeasonType()==0){
-                            $repay+= $ownreservation->getOwnResRoomPriceDown()/2;
+                              $pago= $ownreservation->getOwnResRoomPriceDown() - ( $ownreservation->getOwnResRoomPriceDown() * ($ownreservation->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent() / 100));
+
+                              $repay+= $pago/2;
                           }
                           elseif ($season[0]->getSeasonType()==1){
-                              $repay+= $ownreservation->getOwnResRoomPriceUp()/2;
+                              $pago= $ownreservation->getOwnResRoomPriceUp() - ( $ownreservation->getOwnResRoomPriceUp() * ($ownreservation->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent() / 100));
+
+                              $repay+= $pago/2;
                           }
                        }
-                       elseif ($nights>=3){
+                       elseif ($noches>=3){
                            if($season[0]->getSeasonType()==0){
-                               $repay+= $ownreservation->getOwnResRoomPriceDown();
+                               $pago= $ownreservation->getOwnResRoomPriceDown() - ( $ownreservation->getOwnResRoomPriceDown() * ($ownreservation->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent() / 100));
+
+                               $repay+= $pago;
                            }
                            elseif ($season[0]->getSeasonType()==1){
-                               $repay+= $ownreservation->getOwnResRoomPriceUp();
+                               $pago= $ownreservation->getOwnResRoomPriceUp() - ( $ownreservation->getOwnResRoomPriceUp() * ($ownreservation->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent() / 100));
+
+                               $repay+= $pago;
                            }
                        }
                     $array_id_ownership[$ownreservation->getOwnResGenResId()->getGenResOwnId()->getOwnId()] = array('idown'=>$ownreservation->getOwnResGenResId()->getGenResOwnId()->getOwnId(),'price'=>$repay,'ownershipReservations'=>array($ownreservation),'arrival_date'=>$ownreservation->getOwnResReservationFromDate());
 
-                    $array_id_ownership[$ownreservation->getOwnResGenResId()->getGenResOwnId()->getOwnId()]['price'] = $array_id_ownership[$ownreservation->getOwnResGenResId()->getGenResOwnId()->getOwnId()]['price']+$repay;
-                    $array_id_ownership[$ownreservation->getOwnResGenResId()->getGenResOwnId()->getOwnId()]['ownershipReservations'][] = $ownreservation;
+//                    $array_id_ownership[$ownreservation->getOwnResGenResId()->getGenResOwnId()->getOwnId()]['price'] = $array_id_ownership[$ownreservation->getOwnResGenResId()->getGenResOwnId()->getOwnId()]['price']+$repay;
+//                    $array_id_ownership[$ownreservation->getOwnResGenResId()->getGenResOwnId()->getOwnId()]['ownershipReservations'][] = $ownreservation;
 
 
 
                 }
+
                 //Se registra un Pago Pendiente a Propietario
                 foreach($array_id_ownership as $item){
                     $ownership = $this->em->getRepository('mycpBundle:ownership')->find($item['idown']);
