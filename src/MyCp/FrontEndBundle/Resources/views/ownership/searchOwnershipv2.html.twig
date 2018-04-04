@@ -110,14 +110,14 @@
             <div class="col-sm-12 clearfix" style="padding: 0;">
                 <div style="padding: 0 15px 13px;">
                     <ul class="nav" style="margin: 0">
-                        <li><h4 class="h-green caecilia-roman">
+                        <li><h1 class="h-green caecilia-roman font-size-18">
                                 {% set description = get_meta_value('Alojamientos ' ~ province_name, app.session.get('app_lang_code')|lower, 'meta', 'DESCRIPTION')|raw %}
                                 {% if description == "" %}
                                     {{ province_name }}
                                 {% else %}
                                     {{ description }}
                                 {% endif %}
-                            </h4>
+                            </h1>
                         </li>
                     </ul>
                 </div>
