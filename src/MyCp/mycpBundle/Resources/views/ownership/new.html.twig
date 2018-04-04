@@ -134,8 +134,8 @@
                 <li class=""><a {% if errors_tab['house_tab'] is defined %} class="tab_errors" {% endif %} data-toggle="tab" href="#casa">Casa</a></li>
                 <li class=""><a data-toggle="tab" href="#sales">Ventas</a></li>
                 <li class=""><a {% if errors_tab['user_tab'] is defined %} class="tab_errors" {% endif %} data-toggle="tab" href="#usuario">Usuario</a></li>
-                {% if data['edit_ownership'] is defined %}
                     <li class=""><a data-toggle="tab" href="#modality">Reservaciones</a></li>
+                {% if data['edit_ownership'] is defined %}
                     <li class=""><a data-toggle="tab" href="#comentarios">Comentarios</a></li>
                 {% endif %}
             </ul>
@@ -712,7 +712,7 @@
         </div>
     </div>
 </div>
-{% if data['edit_ownership'] is defined %}
+{#{% if data['edit_ownership'] is defined %}#}
     <div id="modality" class="tab-pane fade">
         <div class="row-fluid">
             <div class="span6">
@@ -746,7 +746,7 @@
             </div>
         </div>
     </div>
-{% endif %}
+{#{% endif %}#}
 {% if data['edit_ownership'] is defined %}
 <div id="comentarios" class="tab-pane fade">
     {% render(controller('mycpBundle:BackendComment:get_comments_by_ownership', {'id_own':data['id_ownership']})) %}

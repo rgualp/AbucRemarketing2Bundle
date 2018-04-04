@@ -40,7 +40,7 @@ class provinceRepository extends EntityRepository
                          ORDER BY total_owns DESC
                          ";*/
         $query_string = "SELECT DISTINCT p.prov_id, p.prov_name
-                         FROM mycpBundle:province p";
+                         FROM mycpBundle:province p WHERE p.enabled = 1";
         return $em->createQuery($query_string)->getResult();
     }
 }

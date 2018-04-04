@@ -323,17 +323,17 @@ class ownershipRepository extends EntityRepository
             $em->persist($accommodationBookingModality);
         }
 
-        $ownership->setOwnRentalType($modality->getName());
-        $ownership->setOwnModalityReservation($data["own_modalityReservation"]);
-        if (isset($data["own_paymentAfterDays"]) && $data["own_paymentAfterDays"] != "") {
-            $ownership->setOwnPaymentAfterDays(true);
-        } else {
-            $ownership->setOwnPaymentAfterDays(false);
+        if (!is_null($modality)){
+            $ownership->setOwnRentalType($modality->getName());
+        }else{
+            $ownership->setOwnRentalType($ownership::ACCOMMODATION_RENTAL_TYPE_PER_ROOMS);
         }
-        if (isset($data["own_paymentClientArrived"]) && $data["own_paymentClientArrived"] != "") {
-            $ownership->setOwnPaymentClientArrived(true);
+
+        $ownership->setOwnModalityReservation($data["own_modalityReservation"]);
+        if (isset($data["own_agencyWork"]) && $data["own_agencyWork"] != "") {
+            $ownership->setOwnAgencyWork(true);
         } else {
-            $ownership->setOwnPaymentClientArrived(false);
+            $ownership->setOwnAgencyWork(false);
         }
 
         $em->flush();

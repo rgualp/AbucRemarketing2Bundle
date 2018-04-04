@@ -5,255 +5,300 @@
     {{ path('backend_logout') }}
 {% endblock %}
 {% block body %}
-{% for message in app.session.flashbag.get('message_ok') %}
-<div class="alert alert-info">{{ message }}</div>
-{% endfor %}
-{% for message in app.session.flashbag.get('message_error_main') %}
-<div class="alert alert-error">{{ message }}</div>
-{% endfor %}
-<div class="row-fluid">
-<div class="span3">
-    <div class="accordion" id="accordion2">
-        <div class="accordion-group">
-            <div class="accordion-heading">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-                    Contenidos <i class="icon-chevron-right  pull-right"></i>
-                </a>
-            </div>
-            {% set temp = app.request.attributes.get('_controller')|split("\\")[3] %}
-            {% set temp = temp|split("::")[0] %}
-            <div id="collapseOne" class="accordion-body collapse {%if  temp == 'BackendMetaController' or temp == 'BackendMunicipalityController' or temp == 'BackendGeneralInformationController' or temp == 'BackendCommentController' or temp == 'BackendDestinationController' or temp == 'BackendAlbumController' or temp == 'BackendFAQSController' or temp == 'BackendOwnershipController' or temp == 'BackendUnavailabilityDetailsController' or temp == 'BackendAwardController' %}in{%endif%}">
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_metatags') }}"><i class="icon-search"></i> Meta Tags</a>
+    {% for message in app.session.flashbag.get('message_ok') %}
+        <div class="alert alert-info">{{ message }}</div>
+    {% endfor %}
+    {% for message in app.session.flashbag.get('message_error_main') %}
+        <div class="alert alert-error">{{ message }}</div>
+    {% endfor %}
+    <div class="row-fluid">
+        <div class="span3">
+            <div class="accordion" id="accordion2">
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
+                           href="#collapseOne">
+                            Contenidos <i class="icon-chevron-right  pull-right"></i>
+                        </a>
+                    </div>
+                    {% set temp = app.request.attributes.get('_controller')|split("\\")[3] %}
+                    {% set temp = temp|split("::")[0] %}
+                    <div id="collapseOne"
+                         class="accordion-body collapse {% if  temp == 'BackendMetaController' or temp == 'BackendMunicipalityController' or temp == 'BackendGeneralInformationController' or temp == 'BackendCommentController' or temp == 'BackendDestinationController' or temp == 'BackendAlbumController' or temp == 'BackendFAQSController' or temp == 'BackendOwnershipController' or temp == 'BackendUnavailabilityDetailsController' or temp == 'BackendAwardController' %}in{% endif %}">
+                        <div class="accordion-inner">
+                            <a href="{{ path('mycp_list_metatags') }}"><i class="icon-search"></i> Meta Tags</a>
+                        </div>
+                        <div class="accordion-inner">
+                            <a href="{{ path('mycp_list_municipality') }}"><i class="icon-road"></i> Municipios</a>
+                        </div>
+                        <div class="accordion-inner">
+                            <a href="{{ path('mycp_list_destination') }}"><i class="icon-plane"></i> Destinos</a>
+                        </div>
+                        <div class="accordion-inner">
+                            <a href="{{ path('mycp_province_list') }}"><i class="icon-plane"></i> Provincias</a>
+                        </div>
+                        <div class="accordion-inner">
+                            <a href="{{ path('mycp_list_ownerships') }}"><i class="icon-home"></i> Propiedades</a>
+                        </div>
+                        <div class="accordion-inner">
+                            <a href="{{ path('mycp_list_unavailabilityDetails') }}"><i class="icon-calendar"></i>
+                                Disponibilidad</a>
+                        </div>
+                        <div class="accordion-inner">
+                            <a href="{{ path('mycp_list_albums') }}"><i class="icon-picture"></i> Álbumes</a>
+                        </div>
+                        <div class="accordion-inner">
+                            <a href="{{ path('mycp_list_faqs') }}"><i class="icon-question-sign"></i> Preguntas
+                                frecuentes</a>
+                        </div>
+                        <div class="accordion-inner">
+                            <a href="{{ path('mycp_list_informations') }}"><i class="icon-list"></i> Informaciónes
+                                Generales</a>
+                        </div>
+                        <div class="accordion-inner">
+                            <a href="{{ path('mycp_list_comments') }}"><i class="icon-comment"></i> Comentarios</a>
+                        </div>
+                        <div class="accordion-inner">
+                            <a href="{{ path('mycp_list_awards') }}"><i class="glyphicons certificate"></i> Premios</a>
+                        </div>
+                        <div class="accordion-inner">
+                            <a href="{{ path('mycp_list_ownerships_hot') }}"><i class="icon-home"></i> Propiedades
+                                Calientes</a>
+                        </div>
+                        <div class="accordion-inner">
+                            <a href="{{ path('mycp_list_failures') }}"><i class="fa fa-warning"></i> Fallos</a>
+                        </div>
+                        <div class="accordion-inner">
+                            <a href="{{ path('mycp_general_penalties') }}"><i class="fa fa-bullhorn"></i> Penalizaciones</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_municipality') }}"><i class="icon-road"></i> Municipios</a>
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
+                           href="#collapseTwo">
+                            Reservaciones <i class="icon-chevron-right  pull-right"></i>
+                        </a>
+                    </div>
+                    <div id="collapseTwo"
+                         class="accordion-body collapse {% if temp == 'BackendReservationController' %}in{% endif %}">
+                        <div class="accordion-inner">
+                            <a href="{{ path('mycp_list_reservations_byuser') }}"><i class="icon-star"></i> Clientes</a>
+                        </div>
+                        <div class="accordion-inner">
+                            <a href="{{ path('mycp_list_reservations') }}"><i class="icon-tags"></i> Reservas</a>
+                        </div>
+                        <div class="accordion-inner">
+                            <a href="{{ path('mycp_list_reservations_booking') }}"><i class="glyphicons money"></i>
+                                Bookings</a>
+                        </div>
+                        <div class="accordion-inner">
+                            <a href="{{ path('mycp_list_reservations_checkin') }}"><i class="icon-check"></i>
+                                Check-in</a>
+                        </div>
+                        <div class="accordion-inner">
+                            <a href="{{ path('mycp_list_cancel_payment') }}"><i class="icon-check"></i> Registro de
+                                Cancelaciones</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_destination') }}"><i class="icon-plane"></i> Destinos</a>
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2a"
+                           href="#collapseTwoA">
+                            Contabilidad <i class="icon-chevron-right pull-right"></i>
+                        </a>
+                    </div>
+                    <div id="collapseTwoA"
+                         class="accordion-body collapse {% if temp == 'BackendPaymentController' or temp == 'BackendPendingPayTourist' or temp == 'BackendPendingPaymentAgency' or temp == 'BAckendPendingPayOwn' %}in{% endif %}">
+                        <div class="accordion-inner">
+                            <a href="{{ path("mycp_list_payments") }}"><i class="glyphicons money"></i> Pagos -
+                                Alojamientos</a>
+                        </div>
+                        <div class="accordion-inner">
+                            <a href="{{ path("mycp_list_payments_pending_tourist") }}"><i class="glyphicons money"></i>
+                                Pagos - Pendientes a turistas</a>
+                        </div>
+                        <div class="accordion-inner">
+                            <a href="{{ path("mycp_list_payments_pending_ownership") }}"><i
+                                        class="glyphicons money"></i> Pagos - Pendientes a propietarios</a>
+                        </div>
+                        <div class="accordion-inner">
+                            <a href="{{ path("mycp_list_payments_agency_pending_ownership") }}"><i
+                                        class="glyphicons money"></i> Agencia - Pendientes a propietarios</a>
+                        </div>
+                        <div class="accordion-inner">
+                            <a href="{{ path("mycp_list_payments_pending_agency") }}"><i class="glyphicons money"></i>
+                                Pagos - Pendientes a agencias</a>
+                        </div>
+                        <div class="accordion-inner">
+                            <a href="{{ path("mycp_methods_payment") }}"><i class="glyphicons credit_card"></i> Formas
+                                de pago</a>
+                        </div>
+                        <div class="accordion-inner">
+                            <a href="{{ path("mycp_list_pending_payment") }}"><i class="glyphicons credit_card"></i>
+                                Pagos a propietarios (Nuevo)</a>
+                        </div>
+                        <div class="accordion-inner">
+                            <a href="{{ path("mycp_list_reservations_ag_reserved") }}"><i
+                                        class="glyphicons credit_card"></i> Facturar de Agencias (Nuevo)</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_ownerships') }}"><i class="icon-home"></i> Propiedades</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_unavailabilityDetails') }}"><i class="icon-calendar"></i> Disponibilidad</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_albums') }}"><i class="icon-picture"></i> Álbumes</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_faqs') }}"><i class="icon-question-sign"></i> Preguntas frecuentes</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_informations') }}"><i class="icon-list"></i> Informaciónes Generales</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_comments') }}"><i class="icon-comment"></i> Comentarios</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_awards') }}"><i class="glyphicons certificate"></i> Premios</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_ownerships_hot') }}"><i class="icon-home"></i> Propiedades Calientes</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_failures') }}"><i class="fa fa-warning"></i> Fallos</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_general_penalties') }}"><i class="fa fa-bullhorn"></i> Penalizaciones</a>
-                </div>
-            </div>
-        </div>
-        <div class="accordion-group">
-            <div class="accordion-heading">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
-                    Reservaciones <i class="icon-chevron-right  pull-right"></i>
-                </a>
-            </div>
-            <div id="collapseTwo" class="accordion-body collapse {%if temp == 'BackendReservationController'%}in{%endif%}">
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_reservations_byuser') }}"><i class="icon-star"></i> Clientes</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_reservations') }}"><i class="icon-tags"></i> Reservas</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_reservations_booking') }}"><i class="glyphicons money"></i> Bookings</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_reservations_checkin') }}"><i class="icon-check"></i> Check-in</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_cancel_payment') }}"><i class="icon-check"></i> Registro de Cancelaciones</a>
-                </div>
-            </div>
-        </div>
-        <div class="accordion-group">
-            <div class="accordion-heading">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2a" href="#collapseTwoA">
-                    Contabilidad <i class="icon-chevron-right pull-right"></i>
-                </a>
-            </div>
-            <div id="collapseTwoA" class="accordion-body collapse {%if temp == 'BackendPaymentController' or temp == 'BackendPendingPayTourist' or temp == 'BackendPendingPaymentAgency' or temp == 'BAckendPendingPayOwn'%}in{%endif%}">
-                <div class="accordion-inner">
-                    <a href="{{ path("mycp_list_payments") }}"><i class="glyphicons money"></i> Pagos - Alojamientos</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path("mycp_list_payments_pending_tourist") }}"><i class="glyphicons money"></i> Pagos - Pendientes a turistas</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path("mycp_list_payments_pending_ownership") }}"><i class="glyphicons money"></i> Pagos - Pendientes a propietarios</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path("mycp_list_payments_agency_pending_ownership") }}"><i class="glyphicons money"></i> Agencia - Pendientes a propietarios</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path("mycp_list_payments_pending_agency") }}"><i class="glyphicons money"></i> Pagos - Pendientes a agencias</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path("mycp_methods_payment") }}"><i class="glyphicons credit_card"></i> Formas de pago</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path("mycp_list_pending_payment") }}"><i class="glyphicons credit_card"></i> Pagos a propietarios (Nuevo)</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path("mycp_list_reservations_ag_reserved") }}"><i class="glyphicons credit_card"></i> Facturar de Agencias (Nuevo)</a>
-                </div>
-            </div>
-        </div>
-        <div class="accordion-group">
-            <div class="accordion-heading">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
-                    Generales <i class="icon-chevron-right  pull-right"></i>
-                </a>
-            </div>
-            <div id="collapseThree" class="accordion-body collapse {%if  temp == 'BackendCurrencyController' or temp == 'BackendSeasonController' or temp == 'BackendLanguageController' or temp == 'BackendLogController' or temp == 'BackendUserController' or temp == 'BackendMessageController'%}in{%endif%}">
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_users') }}"><i class="icon-user"></i> Usuarios</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_logs') }}"><i class="icon-list-alt"></i> Logs</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_currencies') }}"><i class="icon-shopping-cart"></i> Monedas</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_languages') }}"><i class="icon-globe"></i> Idiomas</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_season') }}"><i class="icon-tags"></i> Temporadas</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_conversations') }}"><i class="glyphicons comments"></i> Conversaciones</a>
-                </div>
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
+                           href="#collapseThree">
+                            Generales <i class="icon-chevron-right  pull-right"></i>
+                        </a>
+                    </div>
+                    <div id="collapseThree"
+                         class="accordion-body collapse {% if  temp == 'BackendCurrencyController' or temp == 'BackendSeasonController' or temp == 'BackendLanguageController' or temp == 'BackendLogController' or temp == 'BackendUserController' or temp == 'BackendMessageController' %}in{% endif %}">
+                        <div class="accordion-inner">
+                            <a href="{{ path('mycp_list_users') }}"><i class="icon-user"></i> Usuarios</a>
+                        </div>
+                        <div class="accordion-inner">
+                            <a href="{{ path('mycp_list_logs') }}"><i class="icon-list-alt"></i> Logs</a>
+                        </div>
+                        <div class="accordion-inner">
+                            <a href="{{ path('mycp_list_currencies') }}"><i class="icon-shopping-cart"></i> Monedas</a>
+                        </div>
+                        <div class="accordion-inner">
+                            <a href="{{ path('mycp_list_languages') }}"><i class="icon-globe"></i> Idiomas</a>
+                        </div>
+                        <div class="accordion-inner">
+                            <a href="{{ path('mycp_list_season') }}"><i class="icon-tags"></i> Temporadas</a>
+                        </div>
+                        <div class="accordion-inner">
+                            <a href="{{ path('mycp_list_conversations') }}"><i class="glyphicons comments"></i>
+                                Conversaciones</a>
+                        </div>
 
+                    </div>
+                </div>
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
+                           href="#collapseReports">
+                            Estadísticas <i class="icon-chevron-right  pull-right"></i>
+                        </a>
+                    </div>
+                    <div id="collapseReports"
+                         class="accordion-body collapse {% if temp == 'BackendReportController' or temp == 'BackendRankingController' %}in{% endif %}">
+
+                        <div class="accordion-inner">
+                            <a href="{{ path('mycp_reports') }}"><i class="icon-folder-open"></i> Reportes</a>
+                        </div>
+                        <div class="accordion-inner">
+                            <a href="{{ path('mycp_reports_ownership_sales_summary') }}"><i
+                                        class="icon-shopping-cart"></i> {{ "backend.menu.statistics.reports.sales" | trans }}
+                            </a>
+                        </div>
+                        <div class="accordion-inner">
+                            <a href="{{ path('mycp_list_ranking') }}"><i class="glyphicons charts"></i> Ranking</a>
+                        </div>
+                    </div>
+                </div>
+                {% if is_granted('ROLE_CLIENT_STAFF') %}
+                    <div class="accordion-group">
+                        <div class="accordion-heading">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
+                               href="#collapseConfig">
+                                Configuraciones <i class="icon-chevron-right  pull-right"></i>
+                            </a>
+                        </div>
+                        <div id="collapseConfig"
+                             class="accordion-body collapse {% if temp == 'BackendMailListController' or temp == 'BackendExportController' or temp == 'BackendRbacController' or temp == 'BlockController' or temp == 'MetaController' %}in{% endif %}">
+
+                            <div class="accordion-inner">
+                                <a href="{{ path('mycp_list_mail_list') }}"><i class="icon-bullhorn"></i> Listas de
+                                    correo</a>
+                            </div>
+                            <div class="accordion-inner">
+                                <a href="{{ path('mycp_list_override_user') }}"><i class="icon-lock"></i> Suplantar
+                                    usuario</a>
+                            </div>
+                            <div class="accordion-inner">
+                                <a href="{{ path('mycp_rbac_list_roles') }}"><i class="icon-lock"></i> Roles</a>
+                            </div>
+                            <div class="accordion-inner">
+                                <a href="{{ path('mycp_list_privileges') }}"><i class="icon-tasks"></i> Permisos</a>
+                            </div>
+                            <div class="accordion-inner">
+                                <a href="{{ path('mycp_download_info') }}"><i class="icon-download-alt"></i>
+                                    Descargas</a>
+                            </div>
+                            <div class="accordion-inner">
+                                <a href="{{ path('mycp_rbusm_list_user_dest') }}"><i class="icon-lock"></i> Usuarios
+                                    Destinos</a>
+                            </div>
+                            <div class="accordion-inner">
+                                <a href="{{ path('hdsseo_block_list') }}"><i class="icon-lock"></i> Seo</a>
+                            </div>
+                            <div class="accordion-inner">
+                                <a href="{{ path('hdsseo_meta_list') }}"><i class="icon-lock"></i> Metas</a>
+                            </div>
+                            <div class="accordion-inner">
+                                <a href="{{ path('mycp_configemail_list') }}"><i class="icon-envelope"></i> Correos por
+                                    destinos</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-group">
+                        <div class="accordion-heading">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
+                               href="#collapseTest">
+                                Testings <i class="icon-chevron-right  pull-right"></i>
+                            </a>
+                        </div>
+                        <div id="collapseTest"
+                             class="accordion-body collapse {% if temp == 'BackendTestEmailTemplateController' %}in{% endif %}">
+
+                            <div class="accordion-inner">
+                                <a href="{{ path('mycp_test_home') }}"><i class="icon-envelope"></i> Correos</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
+                           href="#collapseTwoAg">
+                            AGENCIA<i class="icon-chevron-right  pull-right"></i>
+                        </a>
+                    </div>
+                    <div id="collapseTwoAg"
+                         class="accordion-body collapse {% if (temp == 'BackendReservationAgController' or temp == 'BackendAgencyController') %}in{% endif %}">
+                        <div class="accordion-inner">
+                            <a href="{{ path('mycp_list_agency') }}"><i class="icon-bullhorn"></i> Lista de Agencias</a>
+                        </div>
+                        <div class="accordion-inner">
+                            <a href="{{ path('mycp_list_reservations_byuser_ag') }}"><i class="icon-star"></i>
+                                Cliente</a>
+                        </div>
+                        <div class="accordion-inner">
+                            <a href="{{ path('mycp_list_reservations_ag_booking') }}"><i class="glyphicons money"></i>
+                                Booking</a>
+                        </div>
+                        <div class="accordion-inner">
+                            <a href="{{ path('mycp_list_agency_checkin') }}"><i class="icon-check"></i> Check-in</a>
+                        </div>
+                        <div class="accordion-inner">
+                            <a href="{{ path('mycp_list_reservations_ag') }}"><i class="icon-tags"></i> Reservas</a>
+                        </div>
+                        <div class="accordion-inner">
+                            <a href="{{ path('mycp_list_cancel_payment_ag') }}"><i class="fa fa-times"></i>
+                                Cancelaciones</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="accordion-group">
-            <div class="accordion-heading">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseReports">
-                    Estadísticas <i class="icon-chevron-right  pull-right"></i>
-                </a>
-            </div>
-            <div id="collapseReports" class="accordion-body collapse {%if temp == 'BackendReportController' or temp == 'BackendRankingController'%}in{%endif%}">
-
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_reports') }}"><i class="icon-folder-open"></i> Reportes</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_reports_ownership_sales_summary') }}"><i class="icon-shopping-cart"></i> {{ "backend.menu.statistics.reports.sales" | trans }}</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_ranking') }}"><i class="glyphicons charts"></i> Ranking</a>
-                </div>
-            </div>
-        </div>
-        {% if is_granted('ROLE_CLIENT_STAFF')%}
-        <div class="accordion-group">
-            <div class="accordion-heading">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseConfig">
-                    Configuraciones <i class="icon-chevron-right  pull-right"></i>
-                </a>
-            </div>
-            <div id="collapseConfig" class="accordion-body collapse {%if temp == 'BackendMailListController' or temp == 'BackendExportController' or temp == 'BackendRbacController' or temp == 'BlockController' or temp == 'MetaController'%}in{%endif%}">
-
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_mail_list') }}"><i class="icon-bullhorn"></i> Listas de correo</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_override_user') }}"><i class="icon-lock"></i> Suplantar usuario</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_rbac_list_roles') }}"><i class="icon-lock"></i> Roles</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_privileges') }}"><i class="icon-tasks"></i> Permisos</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_download_info') }}"><i class="icon-download-alt"></i> Descargas</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_rbusm_list_user_dest') }}"><i class="icon-lock"></i> Usuarios Destinos</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path('hdsseo_block_list') }}"><i class="icon-lock"></i> Seo</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path('hdsseo_meta_list') }}"><i class="icon-lock"></i> Metas</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_configemail_list') }}"><i class="icon-envelope"></i> Correos por destinos</a>
-                </div>
-            </div>
-        </div>
-        <div class="accordion-group">
-            <div class="accordion-heading">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTest">
-                    Testings <i class="icon-chevron-right  pull-right"></i>
-                </a>
-            </div>
-            <div id="collapseTest" class="accordion-body collapse {%if temp == 'BackendTestEmailTemplateController'%}in{%endif%}">
-
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_test_home') }}"><i class="icon-envelope"></i> Correos</a>
-                </div>
-            </div>
-        </div>
-        {%endif%}
-
-        <div class="accordion-group">
-            <div class="accordion-heading">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwoAg">
-                    AGENCIA<i class="icon-chevron-right  pull-right"></i>
-                </a>
-            </div>
-            <div id="collapseTwoAg" class="accordion-body collapse {%if (temp == 'BackendReservationAgController' or temp == 'BackendAgencyController') %}in{%endif%}">
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_agency') }}"><i class="icon-bullhorn"></i> Lista de Agencias</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_reservations_byuser_ag') }}"><i class="icon-star"></i> Cliente</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_reservations_ag_booking') }}"><i class="glyphicons money"></i> Booking</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_agency_checkin') }}"><i class="icon-check"></i> Check-in</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_reservations_ag') }}"><i class="icon-tags"></i> Reservas</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_cancel_payment_ag') }}"><i class="fa fa-times"></i> Cancelaciones</a>
-                </div>
-            </div>
+        <div class="span9">
+            {% block content %}
+            {% endblock %}
         </div>
     </div>
-</div>
-<div class="span9">
-    {% block content %}
-    {% endblock %}
-</div>
-</div>
 
 {% endblock %}
