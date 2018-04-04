@@ -19,7 +19,7 @@ class Version20180403170937 extends AbstractMigration
 
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
         $this->addSql("ALTER TABLE province ADD enabled TINYINT(1) DEFAULT NULL;");
-        $this->addSql("UPDATE province SET  enabled = '0';");
+        $this->addSql("UPDATE province SET  enabled = '1';");
         $this->addSql("ALTER TABLE province CHANGE enabled enabled TINYINT(1) NOT NULL;");
 
 
