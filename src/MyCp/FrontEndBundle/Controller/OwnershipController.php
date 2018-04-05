@@ -445,7 +445,7 @@ class OwnershipController extends Controller
             $post['reservation_filter_date_to'] = $post['top_reservation_filter_date_to'];
         }
 
-        if ($this->getRequest()->getMethod() == 'POST') {
+        if ($this->get('request')->getMethod() == 'POST') {
             if (isset($post['reservation_filter_date_from']) && isset($post['reservation_filter_date_to'])) {
                 $reservation_filter_date_from = $post['reservation_filter_date_from'];
                 $reservation_filter_date_from = explode('/', $reservation_filter_date_from);
@@ -549,7 +549,7 @@ class OwnershipController extends Controller
             $array_dates_keys[$count] = array('day_number' => date('d', $date), 'day_name' => date('D', $date));
             $count++;
         }
-        if ($this->getRequest()->getMethod() != 'POST') {
+        if ($this->get('request')->getMethod() != 'POST') {
             // array_pop($array_dates_keys);
         }
 
@@ -889,7 +889,7 @@ class OwnershipController extends Controller
     public function searchOrderResultsAction()
     {
 
-        $request = $this->getRequest();
+        $request = $this->get('request');
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
 
@@ -966,7 +966,7 @@ class OwnershipController extends Controller
 
     public function searchChangeViewResultsAction()
     {
-        $request = $this->getRequest();
+        $request = $this->get('request');
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
 
@@ -1028,7 +1028,7 @@ class OwnershipController extends Controller
 
     public function researchAction()
     {
-        $request = $this->getRequest();
+        $request = $this->get('request');
         $session = $request->getSession();
         $page = 1;
         if (isset($_GET['page']))
@@ -1192,7 +1192,7 @@ class OwnershipController extends Controller
 
     public function filterAction()
     {
-        $request = $this->getRequest();
+        $request = $this->get('request');
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
 
@@ -1317,7 +1317,7 @@ class OwnershipController extends Controller
 
     public function getFiltersStatisticsAction()
     {
-        $request = $this->getRequest();
+        $request = $this->get('request');
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
         $own_ids = $session->get('own_ids');
@@ -1371,7 +1371,7 @@ class OwnershipController extends Controller
 
     public function mapMarkersListAction()
     {
-        $request = $this->getRequest();
+        $request = $this->get('request');
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
         $own_ids = $session->get('own_ids');
@@ -1402,7 +1402,7 @@ class OwnershipController extends Controller
 
     public function updateRatingAction($ownid)
     {
-        $request = $this->getRequest();
+        $request = $this->get('request');
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
         $own_obj = $em->getRepository('mycpBundle:ownership')->find($ownid);
@@ -1464,7 +1464,7 @@ class OwnershipController extends Controller
 
     public function mapResizedAction($in_searcher = 'true', $destination_name = null)
     {
-        $request = $this->getRequest();
+        $request = $this->get('request');
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
         $markers_id_list = $request->request->get('own_ids');
@@ -1518,7 +1518,7 @@ class OwnershipController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $session = $this->getRequest()->getSession();
+        $session = $this->get('request')->getSession();
         $session->set('search_order', OrderByHelper::SEARCHER_BEST_VALUED);
 
         $list = $em->getRepository('mycpBundle:ownership')->search($this, null, null, null, 1, 1, $session->get('search_order'), false, null, 0, null, null, false);
@@ -1577,7 +1577,7 @@ class OwnershipController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $session = $this->getRequest()->getSession();
+        $session = $this->get('request')->getSession();
         $session->set('search_order', OrderByHelper::SEARCHER_BEST_VALUED);
 
         $filters = array();
@@ -1687,7 +1687,7 @@ class OwnershipController extends Controller
 
     public function topRatedCallbackAction()
     {
-        $request = $this->getRequest();
+        $request = $this->get('request');
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
         $locale = $this->get('translator')->getLocale();
@@ -1737,7 +1737,7 @@ class OwnershipController extends Controller
 
     public function topRatedChangeCategoryCallbackAction()
     {
-        $request = $this->getRequest();
+        $request = $this->get('request');
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
         $locale = $this->get('translator')->getLocale();
@@ -1778,7 +1778,7 @@ class OwnershipController extends Controller
     public function orangeSearchBarAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $session = $this->getRequest()->getSession();
+        $session = $this->get('request')->getSession();
 
         return $this->render('FrontEndBundle:ownership:orangeSearchBar.html.twig', array(
             'locale' => $this->get('translator')->getLocale(),
@@ -1838,11 +1838,9 @@ class OwnershipController extends Controller
 
     public function getCarrouselLastAddedCallbackAction()
     {
-        $request = $this->getRequest();
         $em = $this->getDoctrine()->getManager();
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
         $last_added = $em->getRepository('mycpBundle:ownership')->lastAdded(12, $user_ids['user_id'], $user_ids['session_id']);
-
         $response = $this->renderView('FrontEndBundle:public:homeCarrouselAccommodationsList.html.twig', array(
             'list' => $last_added,
             'list_preffix' => "lastAdded",
@@ -1855,7 +1853,7 @@ class OwnershipController extends Controller
 
     public function getCarrouselByCategoryCallbackAction()
     {
-        $request = $this->getRequest();
+        $request = $this->get('request');
         $em = $this->getDoctrine()->getManager();
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
         $category = $request->get("category");
@@ -1891,10 +1889,10 @@ class OwnershipController extends Controller
      */
     public function showModalOwnerShipCalendarAction()
     {
-        $request = $this->getRequest();
+        $request = $this->get('request');
         $em = $this->getDoctrine()->getManager();
         $ownership = $em->getRepository('mycpBundle:ownership')->find($request->get('idOwn'));
-        $session = $this->getRequest()->getSession();
+        $session = $this->get('request')->getSession();
 
         $bookingModality = $ownership->getBookingModality();
 
@@ -1916,6 +1914,7 @@ class OwnershipController extends Controller
 
     /**
      * @param Request $request
+     * @return Response
      */
     public function searchByDestinationAction(Request $request)
     {
