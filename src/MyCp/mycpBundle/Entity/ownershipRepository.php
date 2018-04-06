@@ -1821,8 +1821,8 @@ class ownershipRepository extends EntityRepository
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
                          JOIN o.own_address_municipality mun
-                         JOIN o.data DATA
-                         LEFT JOIN DATA.principalPhoto op
+                         JOIN o.data data
+                         LEFT JOIN data.principalPhoto op
                          LEFT JOIN op.own_pho_photo pho
                          LEFT JOIN o.bookingModality abMod
                          LEFT JOIN abMod.bookingModality bMod";
