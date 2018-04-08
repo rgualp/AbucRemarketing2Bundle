@@ -1,0 +1,46 @@
+<footer class="footer ">
+<div class="container">
+    <nav >
+        <a style='font-size: xx-large; margin-right: 10px' rel="tooltip" title="{{'FOLLOW_US_TWITTER' | trans}}"  href="https://twitter.com/MyCP" target="_blank" data-original-title="Follow us on Twitter">
+            <i class="fa fa-twitter-square " ></i>
+
+        </a>
+        <a style='font-size: xx-large; margin-right: 10px'  rel="tooltip" title="{{'FOLLOW_US_FACEBOOK' | trans}}" data-placement="bottom" href="https://www.facebook.com/MyCasaParticular" target="_blank" data-original-title="Like us on Facebook">
+            <i class="fa fa-facebook-square"></i>
+        </a>
+        <a style='font-size: xx-large; margin-right: 10px' rel="tooltip" title="{{'FOLLOW_US_YOUTUBE' | trans}}" data-placement="bottom" href="https://www.youtube.com/user/MyCasaParticular/featured" target="_blank" data-original-title="Like us on Facebook">
+            <i class="fa fa-youtube-square"></i>
+        </a>
+        <a style='font-size: xx-large; margin-right: 10px'  rel="tooltip" title="{{'FOLLOW_US_PINENTEREST' | trans}}" data-placement="bottom" href="https://pinterest.com/MyCasaParticular" target="_blank" data-original-title="Like us on Facebook">
+            <i class="fa fa-pinterest-square"></i>
+        </a>
+
+        <ul>
+            <li>
+                <a rel="nofollow"
+                   href="{{ path('frontend_partner_home') }}">{{ 'hazte_partner' | trans | upper }}</a>
+
+            </li>
+            <li>
+                <a href="{{ path('frontend_about_us') }}">
+                    {{ "WHO_ARE_WE" | trans }}
+                </a>
+            </li>
+            <li>
+                <a href="http://blog.mycasaparticular.com">
+                    {{ "BLOG" | trans }}
+                </a>
+            </li>
+
+        </ul>
+    </nav>
+
+    <div class="copyright">
+        &copy;
+        <script>
+            document.write(new Date().getFullYear())
+        </script>, made with <i class="material-icons">favorite</i> by
+        <a href="https://www.mycasaparticular.com" target="_blank">ABUC</a> for a better web.
+    </div>
+</div>
+</footer>

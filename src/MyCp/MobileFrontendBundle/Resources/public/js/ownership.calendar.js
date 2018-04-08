@@ -50,7 +50,7 @@ var Calendar = function () {
         var nights = parseInt($("#totalNights").val());
         var avgPrice = normalize_prices(total_price_var / nights);
         var tourist_fee_percent = 0;
-        var roomsTotal = $('.id_room').size();
+        var roomsTotal = $('.id_room').length;
 
         if(nights == 1)
         {
@@ -92,10 +92,10 @@ var Calendar = function () {
 
 
         var prepayment = percent_value + fixed_tax + tourist_service;
-        /*console.log("Porciento" + percent_value);
-         console.log("Turista" + tourist_service);
-         console.log("Tarifa fija" + fixed_tax);
-         console.log(prepayment);*/
+        // console.log("Porciento" + percent_value);
+        //  console.log("Turista" + tourist_service);
+        //  console.log("Tarifa fija" + fixed_tax);
+        //  console.log(prepayment);
         $('#total_prepayment').html(normalize_prices(prepayment));
         $('.calendar-results').css({display: 'block'});
 
@@ -161,14 +161,14 @@ var Calendar = function () {
     {
 
         $("#btn-details-date, #close-table").click(function (e) {
-            e.preventDefault();
-            if ($(".full-details-table-date").hasClass("showing")){
-                $(".full-details-table-date").removeClass("showing")
-                $(".full-details-table-date").hide();
-            }else{
-                $(".full-details-table-date").addClass("showing");
-                $(".full-details-table-date").show();
-            }
+            // e.preventDefault();
+            // if ($(".full-details-table-date").hasClass("showing")){
+            //     $(".full-details-table-date").removeClass("showing")
+            //     $(".full-details-table-date").hide();
+            // }else{
+            //     $(".full-details-table-date").addClass("showing");
+            //     $(".full-details-table-date").show();
+            // }
         })
 
         $('#rooms_selected > tbody tr').each(function(){
@@ -200,7 +200,7 @@ var Calendar = function () {
                     value=0;
                     persons=parseInt($('#combo_kids_'+$(this).attr('data')).val()) + parseInt($('#combo_guest_'+$(this).attr('data')).val());
 
-                    if($(this).attr('data_is_triple')==='true' && persons>=3)
+                    if(($(this).attr('data_is_triple')==='1' || $(this).attr('data_is_triple')==='true') && persons>=3)
                     {
                         value=$(this).attr('data_total')*$(this).attr('data_curr') + (($(this).attr('data_curr')*$(this).attr('data_triple_recharge')) * (cont_array_dates -1));
                         value= normalize_prices(value);
@@ -213,7 +213,7 @@ var Calendar = function () {
                     $('#guest_'+$(this).attr('data')).html($('#combo_guest_'+$(this).attr('data')).val());
                     $('#kids_'+$(this).attr('data')).html($('#combo_kids_'+$(this).attr('data')).val());
                     $('#price_'+$(this).attr('data')).html(value);
-                    $('#rooms_selected').css({display: 'table'});
+                    $('#rooms_selected').css({display: 'none'});
                     total_price($(this).attr('data_curr'),$(this).attr('percent_charge'));
 
                 }
@@ -223,7 +223,7 @@ var Calendar = function () {
                 value=0;
                 real_value=0;
                 persons=parseInt($('#combo_kids_'+$(this).attr('data')).val()) + parseInt($('#combo_guest_'+$(this).attr('data')).val());
-                if($(this).attr('data_is_triple')==='true' && persons>=3)
+                if(($(this).attr('data_is_triple')==='1' || $(this).attr('data_is_triple')==='true') && persons>=3)
                 {
                     value=$(this).attr('data_total')*$(this).attr('data_curr') +(($(this).attr('data_curr')*$(this).attr('data_triple_recharge')) * (cont_array_dates -1)) ;
                 }
@@ -234,7 +234,7 @@ var Calendar = function () {
 
                 value= normalize_prices(value);
 
-                $('#rooms_selected').css({display: 'table'});
+                $('#rooms_selected').css({display: 'none'});
                 $('.calendar-results').css({display: 'block'});
                 $('#rooms_selected > tbody:last').append('<tr id="tr_'+$(this).attr('data')+'">' +
                     '<td class="id_room" style="display: none;">'+$(this).attr('data')+'</td>' +

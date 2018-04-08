@@ -1342,7 +1342,7 @@ class ownershipRepository extends EntityRepository
         foreach ($reservations as $res)
             $owns_id .= "," . $res["own_id"];
 
-        $query_string = "SELECT o.own_id as own_id,
+        $query_string = "SELECT o.own_id as own_id,o.own_category as category,
                          o.own_name as own_name,
                          prov.prov_name as prov_name,
                          o.own_comments_total as comments_total,

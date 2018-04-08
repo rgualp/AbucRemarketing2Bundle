@@ -1,18 +1,47 @@
-{% extends 'MyCpMobileFrontendBundle:mycasatrip:layout_blank.html.twig' %}
-{% block body_inner %}
+{% extends 'MyCpMobileFrontendBundle::base.html.twig'%}
+{% block include_css %}
+    <style>
+        .form-check-label{
+            color:black;
+        }
+    </style>
+{% endblock %}
+{% block content %}
     {%if total_errors > 0%}
-        <div class="alert alert-danger" style="margin-top: 40px">
-            {{"FILL_FORM_CORRECTLY" | trans}}</div>
+        <div class="alert alert-danger" style='margin:0'>
+        <div class="container">
+            <div class="alert-icon">
+                <i class="material-icons">warning</i>
+            </div>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true"><i class="material-icons">clear</i></span>
+            </button>
+            <b> {{"FILL_FORM_CORRECTLY" | trans}}</b>
+        </div>
+        </div>
+
     {%endif%}
-    <h1 class="h-blue caecilia-roman h-size-1" style="font-weight: normal;">{{"RESERVATION_DETAILS" | trans}}</h1>
+
+<div class="main main-raised">
+    <div class="text-center caecilia-roman white f-s-16" style="background: #f4941c; color:white; font-size:20px; ">
+
+        <a><i class='material-icons'>shopping_cart</i>{{"CONTINUE_RESERVING" | trans}}</a>
+
+
+
+    </div>
+    <div class="profile-content">
+    <div class="container">
+    <h1 class="h-blue caecilia-roman h-size-1" style="font-weight: normal;">{{"RESERVATION_DETAILS" | trans}}  <i class="fa fa-question" rel="tooltip" title="{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{configuration_triple_room_charge | price}}" alt="{{"Question" | trans}}"></i>
+    </h1>
     {#<div class="h-blue t-size-12" style="font-weight: normal"><b >{{"ARRIVAL_RESERVATION" | trans}}:</b> {{ dates_string_day[0] }}{{dates_string[0]}} <b style="margin-left: 20px">{{"DEPARTURE_RESERVATION" | trans}}:</b> {{dates_string_day[dates_string_day|length -1]}}{{dates_string[dates_string|length -1]}}</div>#}
     <div class="items-cart">
         {% for reservation in reservations %}
             {% set accommodation = reservation.ownResGenResId.genResOwnId %}
             <div class="item">
-                <table cellpadding="15" class="full-width">
+                <table cellpadding="4" class="full-width" style="width: 100%">
                     <tbody><tr>
-                        <td class="date"><span>{{ loop.index }}</span></td>
+
                         <td>
                             <b>{{ accommodation.ownName }}</b><br/>
                             {{ accommodation.ownAddressMunicipality.munName }}, {{ accommodation.ownAddressProvince.provName }} <br/>
@@ -26,11 +55,25 @@
                                 {{"ARRIVAL_WATERMARK" | trans}}: {{reservation.ownResReservationFromDate |date('d/m/Y')}}, {{"DEPARTURE_WATERMARK" | trans}}: {{reservation.ownResReservationToDate|date('d/m/Y')}}, {{ "NIGHTS" | trans }}: {{ nights[loop.index0] }}
                             </small>
                         </td>
+                        <td>
+
+                        </td>
                         <td class="text-right cost">
-                            {% if reservations | length > 1 %}<a href="{{ path("frontend_reservation_removing_payment_page", {"idReservation": reservation.ownResId }) }}"><i class="fa fa-times"></i></a> <br/>{% endif %}
-                            <h3 class="no-margin">
+                                 <div class="no-margin h1-blue">
                                 {{reservation.ownResTotalInSite | price}}
-                            </h3>
+                            </div>
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td class="text-right cost" >
+                               <h3 class="no-margin">
+                                   {% if reservations | length > 1 %}<a href="{{ path("frontend_reservation_removing_payment_page", {"idReservation": reservation.ownResId }) }}"><i class="fa fa-times"></i></a> <br/>{% endif %}
+
+                               </h3>
                         </td>
                     </tr>
                     </tbody>
@@ -38,10 +81,13 @@
             </div>
         {% endfor %}
     </div>
-    {#{% set nights = (dates_string | length) - 1 %}#}
+        <div><img src="{{ asset('bundles/frontend/img/line-gradient-green.png') }}" style="width: 100%; height: 1px; margin: 16px 0" alt="{{"Gradient" | trans}}"></div>
+
+        {#{% set nights = (dates_string | length) - 1 %}#}
     {#% set touristTax = total_price * touristTax(reservations | length, nights , (total_price / nights)) %#}
     {% set prepayment =  ceil_round((total_percent_price + currentServiceFee.fixedFee + touristTax)) | price%}
-    <div class="row">
+
+     <div class="row" style="padding-right: 20px">
         <div style="font-size: 10px;" class="col-xs-12 text-right text-uppercase" rel="tooltip" title="{{ "ACCOMMODATION_TOTAL_COST_PLURAL_TOOLTIP" | trans }}">{{"ACCOMMODATION_TOTAL_COST" | trans}} <span style="font-size: 16px;"><b>{{total_price | price}}</b></span></div>
         <div style="font-size: 10px;" class="col-xs-12 text-right text-uppercase" rel="tooltip" title="{{ "SERVICE_TOURIST_TAX_TITLE" | trans }}">{{"SERVICE_TOURIST_TAX" | trans}}: <span style="font-size: 16px;"><b>{{touristTax | price}}</b></span></div>
         <div style="font-size: 10px;" class="col-xs-12 text-right text-uppercase" rel="tooltip" title="{{ "SERVICE_FIXED_TAX_TITLE" | trans }}">{{"SERVICE_FIXED_TAX" | trans}}: <span style="font-size: 16px;"><b>{{currentServiceFee.fixedFee | price}}</b></span></div>
@@ -49,7 +95,7 @@
             {{ 'RESERVATION_TOTAL_PRICE' | trans }} <span><b>{{(total_price + touristTax + currentServiceFee.fixedFee) | price}}</b></span>
         </div>
     </div>
-    <div class="row" style="color: #218CDC">
+    <div class="row" style="color: #218CDC; padding-right: 20px" >
         <div style="font-size: 12px;"  class="col-xs-12 text-right text-uppercase" rel="tooltip" title="{{ "PREPAYMENT_TOOLTIP" | trans }}">
             {{"PREPAYMENT" | trans}}: <span style="font-size: 14px;"><b>{{(total_percent_price +touristTax + currentServiceFee.fixedFee) | price}}</b></span>
         </div>
@@ -62,30 +108,37 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="pull-right">
-            <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
-                 class="icon-services question" rel="tooltip" title="{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{configuration_triple_room_charge | price}}" alt="{{"Question" | trans}}"/>
-        </div>
-    </div>
-    <hr/>
-    <form  method="POST" action="{{ path('frontend_reservation_reservation') }}" novalidate target="_blank">
+
+        <div><img src="{{ asset('bundles/frontend/img/line-gradient-green.png') }}" style="width: 100%; height: 1px; margin: 16px 0" alt="{{"Gradient" | trans}}"></div>
+
+        <form  class='col-xs-12' method="POST" action="{{ path('frontend_reservation_reservation') }}" style="width: 100%" novalidate target="_blank">
 
         <h1 class="h-blue caecilia-roman h-size-1" style="font-weight: normal; margin-top: 20px">{{"YOUR_PAYMENT" | trans}}</h1>
+
         <div class="row">
             <div class="col-xs-6 text-center checkbox_skrill "style="margin-bottom: 1em;">
-                <img width="100%" class="full-width" src="{{ asset('bundles/frontend/img/skrill.gif') }}" alt="{{"Skrill" | trans}}">
+                <div class="form-check form-check-radio">
+                    <label class="form-check-label">
+                        <input class="form-check-input" type="radio" name="payment_method" value="skrill">
+                        {{"SKRILL_PAYMENT" | trans}}
+                        <span class="circle">
+            <span class="check"></span>
+        </span>
+                    </label>
+                </div>
+
             </div>
             <div class="col-xs-6 text-center">
-                <img width="100%" class="full-width" src="{{ asset('bundles/frontend/img/Todospostfinance.png') }}" alt="{{"Postfinance" | trans}}">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-6 text-center checkbox_skrill "style="margin-bottom: 1em;">
-                <input type="radio" class="i-checks" name="payment_method" value="skrill" checked> {{"SKRILL_PAYMENT" | trans}} </label>
-            </div>
-            <div class="col-xs-6 text-center">
-                <input type="radio" class="i-checks" name="payment_method" value="postfinance"> {{"POSTFINANCE_PAYMENT" | trans}} </label>
+                <div class="form-check form-check-radio">
+                    <label class="form-check-label">
+                        <input class="form-check-input" type="radio" name="payment_method" value="postfinance">
+                        {{"POSTFINANCE_PAYMENT" | trans}}
+                        <span class="circle">
+            <span class="check"></span>
+        </span>
+                    </label>
+                </div>
+
             </div>
         </div>
         <div class="col-xs-12">
@@ -93,15 +146,33 @@
                 <h1 class="h-blue caecilia-roman h-size-1" style="font-weight: normal; margin-top: 20px">{{"FINAL_STEP" | trans}}</h1>
             </div>
             <div class="col-xs-12 ">
-                <label class="checkbox" style="font-weight: normal; margin-top: 20px"><input {% if post['terms_conditions'] is defined %} checked="checked" {% endif %} id="terms_conditions" name="terms_conditions" type="checkbox"> {{"ACCEPT_TERMS_CONDITIONS" | trans}}</label>
-                <label class="checkbox" style="font-weight: normal"><input name="user_tourist_send_newsletter" type="checkbox" {% if post["user_tourist_send_newsletter"] is defined or user.UserNewsletters %}checked{%endif%}> {{"SEND_ME_OFFERS" | trans}}</label>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" {% if post['terms_conditions'] is defined %} checked="checked" {% endif %} id="terms_conditions" name="terms_conditions" type="checkbox">
+                        {{"ACCEPT_TERMS_CONDITIONS" | trans}}
+                        <span class="form-check-sign">
+              <span class="check"></span>
+
+            </span>
+                    </label>
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" name="user_tourist_send_newsletter" type="checkbox" {% if post["user_tourist_send_newsletter"] is defined or user.UserNewsletters %}checked{%endif%}>
+                        {{"SEND_ME_OFFERS" | trans}}
+                        <span class="form-check-sign">
+              <span class="check"></span>
+            </span>
+                    </label>
+                </div>
+
             </div>
             <div class="col-xs-12 text-center">
                 <h4 class="h-grey">{{"AMOUNT_TO_PAY_NOW" | trans}}</h4>
                 <h3 class="h-blue" style="font-size: 24px">{{ prepayment }}</h3>
             </div>
             <div class="col-xs-12 text-center">
-                <button id="btn_payment" style="margin-top: 35px"  type="submit" class="btn btn-action btn-warning" disabled="disabled"><b>{{"PAYMENT_CONFIRM" | trans}}</b></button>
+                <button id="btn_payment"  type="submit" class="btn btn-action btn-info" disabled="disabled"><b>{{"PAYMENT_CONFIRM" | trans}}</b></button>
             </div>
             <div class="col-xs-12 text-center">
                 <a href="{{ path("frontend_mycasatrip_available") }}" style="margin-top: 35px; margin-left: 15px"><b>{{"GO_MYCASATRIP" | trans}}</b></a>
@@ -111,7 +182,10 @@
             </div>
         </div>
     </form>
+    </div>
+</div>
 
+</div>
 {% endblock %}
 {% block javascripts %}
     <script type="text/javascript">
@@ -125,6 +199,7 @@
             $('#btn_payment').attr('disabled','disabled');
 
         $('#terms_conditions').change(function(){
+
             if($('#terms_conditions').is(":checked"))
                 $('#btn_payment').removeAttr('disabled');
             else

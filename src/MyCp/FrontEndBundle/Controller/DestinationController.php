@@ -266,7 +266,7 @@ class DestinationController extends Controller {
                 'total_items' => $totalItems,
                 'paginator'=>$paginator,
                 'destination_name' => $original_destination_name,
-                'name_for_search' => $name_for_search,
+                'name_for_search' => $original_destination_name,
                 'data_view' => (($view == null) ? 'LIST' : $view),
                 'popular_destinations_for_url' => $popular_destinations_for_url,
                 'other_destinations_in_municipality_for_url' => $other_destinations_in_municipality_for_url,
