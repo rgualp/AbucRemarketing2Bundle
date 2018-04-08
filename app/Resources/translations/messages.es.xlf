@@ -4178,8 +4178,8 @@
             <trans-unit id="1020">
                 <source>PREPAYMENT_TOOLTIP</source>
                 <target>Pago por los servicios de gestión de pre-reserva y reserva, se efectúa de forma online,
-                    constituye la sumatoria de las Tarifas por el servicio al cliente, Tarifas al alojamiento.
-                     No incluye el pago que debe efectuarse en casa. (Pago en casa)
+                    constituye la sumatoria de las Tarifas por el servicio al cliente, Tarifas al alojamiento y la
+                    Tarifa fija. No incluye el pago que debe efectuarse en casa. (Pago en casa)
                 </target>
             </trans-unit>
             <trans-unit id="1021">

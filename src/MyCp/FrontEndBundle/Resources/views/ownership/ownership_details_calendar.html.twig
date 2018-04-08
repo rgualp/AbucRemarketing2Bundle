@@ -11,8 +11,8 @@
                                class="form-control"
                                placeholder="{{ "ARRIVAL_RESERVATION" | trans }}"
                                data-localization='{{ locale }}'>
-                                                    <span class="input-group-addon show_calendar"><span
-                                                                class="icon-calendar"></span></span>
+                        <span class="input-group-addon show_calendar"><span
+                                    class="icon-calendar"></span></span>
                     </div>
                 </div>
                 <div class="col-sm-6">
@@ -22,8 +22,8 @@
                                class="form-control"
                                placeholder="{{ "DEPARTURE_RESERVATION" | trans }}"
                                data-localization='{{ locale }}'>
-                                                    <span class="input-group-addon show_calendar"><span
-                                                                class="icon-calendar"></span></span>
+                        <span class="input-group-addon show_calendar"><span
+                                    class="icon-calendar"></span></span>
                     </div>
                 </div>
             </form>
@@ -55,63 +55,62 @@
     </li>
     <li class="lead">
 
-            <div class="row all-prices-numbers">
-                <div class="col-sm-4" rel="tooltip" title="{{ "ACCOMMODATION_TOTAL_COST_PLURAL_TOOLTIP" | trans }}">
-                    {{ 'ACCOMMODATION_TOTAL_COST' | trans }} <br/>
-                    {{ app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol }}
-                    <span id="accommodation_price"></span>
-                </div>
-                <div class="col-sm-1">
-                    <label>+</label>
-                </div>
-                <div class="col-sm-3" rel="tooltip" title="{{ 'SERVICE_TOURIST_TAX_TITLE' | trans()}}">
-                    {{ 'SERVICE_TOURIST_TAX' | trans }}<br/>
-                    {{ app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol }}
-                    <span id="tourist_service"
-                          data-one-nr-until-20-percent ="{{ currentServiceFee.oneNrUntil20Percent }}"
-                          data-one-nr-from-20-to-25-percent ="{{ currentServiceFee.oneNrFrom20To25Percent }}"
-                          data-one-nr-from-more-25-percent = "{{ currentServiceFee.oneNrFromMore25Percent }}"
-                          data-one-night-several-rooms-percent = "{{ currentServiceFee.oneNightSeveralRoomsPercent }}"
-                          data-one-2-nights-percent = "{{ currentServiceFee.one2NightsPercent }}"
-                          data-one-3-nights-percent = "{{ currentServiceFee.one3NightsPercent }}"
-                          data-one-4-nights-percent = "{{ currentServiceFee.one4NightsPercent }}"
-                          data-one-5-nights-percent = "{{ currentServiceFee.one5NightsPercent }}"
-                          data-fixed-tax = "{{ currentServiceFee.fixedFee }}"></span>
-                </div>
+        <div class="row all-prices-numbers">
+            <div class="col-sm-3" rel="tooltip" title="{{ "ACCOMMODATION_TOTAL_COST_PLURAL_TOOLTIP" | trans }}">
+                {{ 'ACCOMMODATION_TOTAL_COST' | trans }} <br/>
+                {{ app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol }}
+                <span id="accommodation_price"></span>
+            </div>
+            <div class="col-sm-1">
+                <label>+</label>
+            </div>
+            <div class="col-sm-2" rel="tooltip" title="{{ 'SERVICE_TOURIST_TAX_TITLE' | trans()}}">
+                {{ 'SERVICE_TOURIST_TAX' | trans }}<br/>
+                {{ app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol }}
+                <span id="tourist_service"
+                      data-one-nr-until-20-percent ="{{ currentServiceFee.oneNrUntil20Percent }}"
+                      data-one-nr-from-20-to-25-percent ="{{ currentServiceFee.oneNrFrom20To25Percent }}"
+                      data-one-nr-from-more-25-percent = "{{ currentServiceFee.oneNrFromMore25Percent }}"
+                      data-one-night-several-rooms-percent = "{{ currentServiceFee.oneNightSeveralRoomsPercent }}"
+                      data-one-2-nights-percent = "{{ currentServiceFee.one2NightsPercent }}"
+                      data-one-3-nights-percent = "{{ currentServiceFee.one3NightsPercent }}"
+                      data-one-4-nights-percent = "{{ currentServiceFee.one4NightsPercent }}"
+                      data-one-5-nights-percent = "{{ currentServiceFee.one5NightsPercent }}"
+                      data-fixed-tax = "{{ currentServiceFee.fixedFee }}"></span>
+            </div>
+            <div class="col-sm-1">
+                <label>+</label>
+            </div>
+            <div class="col-sm-2" rel="tooltip" title="{{ 'SERVICE_FIXED_TAX_TITLE' | trans()}}">
                 {% set currSymbol = app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol %}
-
-                {#<div class="col-sm-1">#}
-                    {#<label>+</label>#}
-                {#</div>#}
-                {#<div class="col-sm-2" rel="tooltip" title="{{ 'SERVICE_FIXED_TAX_TITLE' | trans()}}">#}
-                       {#{{ 'SERVICE_FIXED_TAX' | trans }}<br/>#}
-                    {#{{ currSymbol }}#}
-                    {#<span id="service_recharge">{{ (currentServiceFee.fixedFee * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))) | number_format(2) }}</span>#}
-                {#</div>#}
-                <div class="col-sm-1" style="width: 5%">
-                    <label>=</label>
-                </div>
-                <div class="col-sm-3" rel="tooltip" title="{{ 'ACCOMMODATION_TOTAL_COST_PLURAL_TOOLTIP' | trans()}}">
-                    {{ 'RESERVATION_TOTAL_PRICE' | trans }} <br/>
-                    {{ currSymbol }}
-                    <span id="total_price"></span>
-                </div>
+                {{ 'SERVICE_FIXED_TAX' | trans }}<br/>
+                {{ currSymbol }}
+                <span id="service_recharge">{{ (currentServiceFee.fixedFee * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))) | number_format(2) }}</span>
             </div>
-            <div class="row" style="font-size: 20px; margin-top: 10px">
-                <div class="col-sm-6" rel="tooltip" title="{{ 'PREPAYMENT_TOOLTIP' | trans()}}">
-                    {{ 'PREPAYMENT'|trans }}
-                    : {{ currSymbol }}
-                    <span id="total_prepayment"></span>
-                </div>
-                <div class="col-sm-6" style="padding-right: 25px" rel="tooltip" title="{{ 'TOTAL_PAY_AT_SERVICE_TOOLTIP' | trans()}}">
-                    {{ 'TOTAL_PAY_AT_SERVICE'|trans }}
-                    : {{ currSymbol }}
-                    <span id="pay_at_service"></span><br/>
-                    {% if currSymbol != "CUC" %}
+            <div class="col-sm-1" style="width: 5%">
+                <label>=</label>
+            </div>
+            <div class="col-sm-2" rel="tooltip" title="{{ 'ACCOMMODATION_TOTAL_COST_PLURAL_TOOLTIP' | trans()}}">
+                {{ 'RESERVATION_TOTAL_PRICE' | trans }} <br/>
+                {{ currSymbol }}
+                <span id="total_price"></span>
+            </div>
+        </div>
+        <div class="row" style="font-size: 20px; margin-top: 10px">
+            <div class="col-sm-6" rel="tooltip" title="{{ 'PREPAYMENT_TOOLTIP' | trans()}}">
+                {{ 'PREPAYMENT'|trans }}
+                : {{ currSymbol }}
+                <span id="total_prepayment"></span>
+            </div>
+            <div class="col-sm-6 text-right" style="padding-right: 25px" rel="tooltip" title="{{ 'TOTAL_PAY_AT_SERVICE_TOOLTIP' | trans()}}">
+                {{ 'TOTAL_PAY_AT_SERVICE'|trans }}
+                : {{ currSymbol }}
+                <span id="pay_at_service"></span><br/>
+                {% if currSymbol != "CUC" %}
                     <span id="pay_at_service_cuc" style="font-size: small"></span>
-                    {% endif %}
-                </div>
+                {% endif %}
             </div>
+        </div>
 
     </li>
     <li class="lead-2">
@@ -135,16 +134,16 @@
                             <img style="width: 23px; height: 23px;" src="{{ asset('bundles/frontend/img/icons/wishlistwhite.png')}}" alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/> {{ 'ADD_WHISH_LIST' | trans }}
                         </button>
                     </div>
-                        <input type="hidden"  value="{% if ownership.OwnInmediateBooking2 %}2{% else %}1{% endif %}" name="check_dispo" id="check_dispo"/>
+                    <input type="hidden"  value="{% if ownership.OwnInmediateBooking2 %}2{% else %}1{% endif %}" name="check_dispo" id="check_dispo"/>
                     <div class="col-sm-6">
                         {% if ownership.OwnInmediateBooking2 %}
-                            <button style="padding: 5px 10px;float:right" type="submit" class="btn btn-primary" id="reservedOwnerShip" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
+                            <button style="padding: 5px 10px" type="submit" class="btn btn-primary" id="reservedOwnerShip" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
                                 <i class="fa fa-check"></i> {{ 'RESERVATION_RESERVE' | trans }}
                             </button>
-                            {% else %}
-                                <button style="padding: 5px 10px" {% if app.user.getUserUserName is not defined %} type="submit"  {% endif %} class="btn btn-primary" id="checkAvailable" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
-                                    <img style="width: 23px; height: 23px;" src="{{ asset('bundles/frontend/img/icons/consult.dispowhite.png')}}" alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/> {{ 'RESERVATION_CHECK_AVAILABILITY' | trans }}
-                                </button>
+                        {% else %}
+                            <button style="padding: 5px 10px" {% if app.user.getUserUserName is not defined %} type="submit"  {% endif %} class="btn btn-primary" id="checkAvailable" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
+                                <img style="width: 23px; height: 23px;" src="{{ asset('bundles/frontend/img/icons/consult.dispowhite.png')}}" alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/> {{ 'RESERVATION_CHECK_AVAILABILITY' | trans }}
+                            </button>
                         {% endif %}
                     </div>
 
@@ -163,84 +162,84 @@
 <script type="text/javascript">
     var login=false;
     {% if app.user.getUserUserName is defined %}
-        login=true;
+    login=true;
     {% endif %}
 
     {% if modal_check_class is defined and modal_check_class == true %}
-        var form = $("#form-check-available");
-                form.on("submit", function (e) {
-                    //Solo se envia por ajax
-                    //1-si el usuario no esta logueado solo se envia para el wishlist.
-                    //2-Cuando el usser esta login se manda por ajax la wishlist y la consulta de disponibilidad.
-                    if((login && ($('#check_dispo').val()==1 || $('#check_dispo').val()=='')) || (!login && $('#check_dispo').val()=='')){
-                        e.stopPropagation();
-                        e.preventDefault();
-                        var formData = new FormData(form[0]);
-                        $.ajax({
-                            url: form.attr('action'),
-                            type: "post",
-                            dataType: "html",
-                            data: formData,
-                            cache: false,
-                            contentType: false,
-                            processData: false,
-                            success: function(response){
-                                if(response=='0'){
-                                    if($('#check_dispo').val()==2 || $('#check_dispo').val()==1){
-                                        swal("{{ 'ADD_TO_CEST_ERROR'| trans }}", "", "error");
-                                    }
-                                    else
-                                        swal("{{ 'ADD_TO_CART_ERROR'| trans }}", "", "error");
-                                    $('#addWhisList').removeClass('hide');
-                                }
-                                else{
-                                    if(login){
-                                        if($('#check_dispo').val()==''){
-                                            $('#list-cart').attr('href','#');
-                                            $('#list-cart').attr('data-toggle','dropdown');
-                                            $('#list-cart').addClass('dropdown-toggle');
-                                            $('#whish-list').html(response);
-                                            $('#count-cart').text($('#total-cart').data('counter'));
-                                            swal("{{ 'MSG_ADD_WISH_LITS'| trans }}", "", "success");
-                                            $('#addWhisList').removeClass('hide');
-                                        }
-                                        if($('#check_dispo').val()==1){
-                                            swal("{{ 'REQUEST_IN_PROCESS_24_HOURS'| trans }}", "", "success");
-                                        }
-                                        if($('#check_dispo').val()==2){
-                                            window.location.href="{{ path('frontend_mycasatrip_available') }}";
-                                            swal("{{ 'VOUCHER_PREHEADER'| trans }}", "", "success");
-                                        }
-                                    }
-                                    else{
-                                        swal("{{ 'MSG_ADD_WISH_LITS'| trans }}", "", "success");
-                                        window.location.href="{{ path('frontend_public_login') }}";
-                                        $('#addWhisList').removeClass('hide');
-                                    }
-
-                                }
-
-                            }
-                        });
+    var form = $("#form-check-available");
+    form.on("submit", function (e) {
+        //Solo se envia por ajax
+        //1-si el usuario no esta logueado solo se envia para el wishlist.
+        //2-Cuando el usser esta login se manda por ajax la wishlist y la consulta de disponibilidad.
+        if((login && ($('#check_dispo').val()==1 || $('#check_dispo').val()=='')) || (!login && $('#check_dispo').val()=='')){
+            e.stopPropagation();
+            e.preventDefault();
+            var formData = new FormData(form[0]);
+            $.ajax({
+                url: form.attr('action'),
+                type: "post",
+                dataType: "html",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function(response){
+                    if(response=='0'){
+                        if($('#check_dispo').val()==2 || $('#check_dispo').val()==1){
+                            swal("{{ 'ADD_TO_CEST_ERROR'| trans }}", "", "error");
+                        }
+                        else
+                            swal("{{ 'ADD_TO_CART_ERROR'| trans }}", "", "error");
+                        $('#addWhisList').removeClass('hide');
                     }
-                });
+                    else{
+                        if(login){
+                            if($('#check_dispo').val()==''){
+                                $('#list-cart').attr('href','#');
+                                $('#list-cart').attr('data-toggle','dropdown');
+                                $('#list-cart').addClass('dropdown-toggle');
+                                $('#whish-list').html(response);
+                                $('#count-cart').text($('#total-cart').data('counter'));
+                                swal("{{ 'MSG_ADD_WISH_LITS'| trans }}", "", "success");
+                                $('#addWhisList').removeClass('hide');
+                            }
+                            if($('#check_dispo').val()==1){
+                                swal("{{ 'REQUEST_IN_PROCESS_24_HOURS'| trans }}", "", "success");
+                            }
+                            if($('#check_dispo').val()==2){
+                                window.location.href="{{ path('frontend_mycasatrip_available') }}";
+                                swal("{{ 'VOUCHER_PREHEADER'| trans }}", "", "success");
+                            }
+                        }
+                        else{
+                            swal("{{ 'MSG_ADD_WISH_LITS'| trans }}", "", "success");
+                            window.location.href="{{ path('frontend_public_login') }}";
+                            $('#addWhisList').removeClass('hide');
+                        }
 
-        $('#addWhisList').on('click',function(){
-            $('#addWhisList').addClass('hide');
-            $('#myModalOwnerShipCalendar').modal('hide');
-            if($(this).data('modal')){
-                $('#myModalOwnerShipCalendar').modal('hide');
+                    }
 
-            }
+                }
+            });
+        }
+    });
 
-        });
-        $('#checkAvailable').on('click',function(){
-            $('#check_dispo').val('1');
+    $('#addWhisList').on('click',function(){
+        $('#addWhisList').addClass('hide');
+        $('#myModalOwnerShipCalendar').modal('hide');
+        if($(this).data('modal')){
             $('#myModalOwnerShipCalendar').modal('hide');
-        });
-        $('#reservedOwnerShip').on('click',function(){
-            $('#check_dispo').val('2');
-            $('#myModalOwnerShipCalendar').modal('hide');
-        });
+
+        }
+
+    });
+    $('#checkAvailable').on('click',function(){
+        $('#check_dispo').val('1');
+        $('#myModalOwnerShipCalendar').modal('hide');
+    });
+    $('#reservedOwnerShip').on('click',function(){
+        $('#check_dispo').val('2');
+        $('#myModalOwnerShipCalendar').modal('hide');
+    });
     {% endif %}
 </script>
