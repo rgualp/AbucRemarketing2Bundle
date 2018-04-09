@@ -148,7 +148,7 @@
             <div class="col-xs-12 ">
                 <div class="form-check">
                     <label class="form-check-label">
-                        <input class="form-check-input" {% if post['terms_conditions'] is defined %} checked="checked" {% endif %} id="terms_conditions" name="terms_conditions" type="checkbox">
+                        <input onclick="onClickHandler(this)" class="form-check-input" {% if post['terms_conditions'] is defined %} checked="checked" {% endif %} id="terms_conditions" name="terms_conditions" type="checkbox">
                         {{"ACCEPT_TERMS_CONDITIONS" | trans}}
                         <span class="form-check-sign">
               <span class="check"></span>
@@ -199,18 +199,20 @@
             $('#btn_payment').removeAttr('disabled');
         else
             $('#btn_payment').attr('disabled','disabled');
+        function onClickHandler(cb) {
 
-        $('#terms_conditions').click(function() {
-            if ($(this).is(':checked')) {
+            if ($('#terms_conditions').is(':checked')) {
+
                 $('#btn_payment').removeAttr('disabled');
 
-            }
-            if($(this).is(":not(:checked)")) {
 
-                $('#btn_payment').attr('disabled','disabled');
             }
+            if($('#terms_conditions').is(":not(:checked)")) {
 
-        });
+                $('#btn_payment').attr('disabled', 'disabled');
+            }
+        }
+
 
 
     </script>

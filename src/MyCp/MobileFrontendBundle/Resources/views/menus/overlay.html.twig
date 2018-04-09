@@ -16,23 +16,12 @@
         <i class="fa fa-map"></i>
       </span>
                 </div>
-                <input type="text" class="form-control" placeholder="Destino">
-            </div>
+                <input style="color: white" {% if isDestination is defined and isDestination == true %}disabled{% endif %} type="text" class="form-control"
+                        {% if app.session.get('search_text') != null and app.session.get('search_text') != 'null' %}value="{{ app.session.get('search_text') }}"{% endif %}
+                       placeholder="{{ "PLACE_WATERMARK" | trans }}" id="input_text"
+                       autocomplete="off" data-highlighter="null" data-items="5"
+                       data-provide="typeahead"/>
 
-
-
-
-
-
-
-
-            <div class="input-group">
-                <div class="input-group-prepend">
-      <span class="input-group-text">
-        <i class="fa fa-calendar"></i>
-      </span>
-                </div>
-                <input type="text" id="input_arrival_date" class="form-control datetimepicker" style="color: white" >
             </div>
 
 
@@ -43,13 +32,64 @@
         <i class="fa fa-calendar"></i>
       </span>
                 </div>
+                <input id="input_arrival_date" style="color: white" class="form-control datetimepicker" value="{{(isDateTime(app.session.get('search_arrival_date')) ) ? (app.session.get('search_arrival_date')|date('d/m/Y')) : ('now' |date('d/m/Y'))}}" id="input_arrival_date" placeholder="{{'ARRIVAL_WATERMARK' | trans}}" type="text" data-localization='{{locale}}' data-value='{{arrival_date}}'>
 
-                <input type="text" id='input_departure_date' class="form-control datetimepicker" style="color: white;" >
+
             </div>
+            <div class="input-group">
+                <div class="input-group-prepend">
+      <span class="input-group-text">
+        <i class="fa fa-calendar"></i>
+      </span>
+                </div>
+                <input id='input_departure_date' class="form-control datetimepicker" style="color: white;" value="{{(isDateTime(app.session.get('search_departure_date')) ) ? (app.session.get('search_departure_date')|date("d/m/Y")) : ("+2 days" |date("d/m/Y"))}}" id="input_departure_date" placeholder="{{"DEPARTURE_WATERMARK" | trans}}" type="text" data-localization='{{locale}}' data-value='{{departure_date}}'>
+
+            </div>
+            <div class="input-group">
+                <div class="input-group-prepend">
+      <span class="input-group-text">
+        <i class="fa fa-users"></i>
+      </span>
+                </div>
+                <select class="form-control" id="input_guests" >
+                    <option value="1">{{"GUEST_WATERMARK" | trans}}</option>
+                    <option value="2">2 {{"GUESTS" | trans}}</option>
+                    <option value="3">3 {{"GUESTS" | trans}}</option>
+                    <option value="4">4 {{"GUESTS" | trans}}</option>
+                    <option value="5">5 {{"GUESTS" | trans}}</option>
+                    <option value="6">6 {{"GUESTS" | trans}}</option>
+                    <option value="7">7 {{"GUESTS" | trans}}</option>
+                    <option value="8">8 {{"GUESTS" | trans}}</option>
+                    <option value="9">9 {{"GUESTS" | trans}}</option>
+                    <option value="10">10 {{"GUESTS" | trans}}</option>
+                    <option value="+10">+10 {{"GUESTS" | trans}}</option>
+                </select>
+
+            </div>
+            <div class="input-group">
+                <div class="input-group-prepend">
+      <span class="input-group-text">
+        <i class="fa fa-bed"></i>
+      </span>
+                </div>
+                <select class="form-control" id="input_room" >
+                    <option value="1">{{"ROOM_WATERMARK" | trans }}</option>
+                    <option value="2">2 {{"ROOM_PLURAL" | trans | capitalize}}</option>
+                    <option value="3">3 {{"ROOM_PLURAL" | trans | capitalize}}</option>
+                    <option value="4">4 {{"ROOM_PLURAL" | trans | capitalize}}</option>
+                    <option value="5">5 {{"ROOM_PLURAL" | trans | capitalize}}</option>
+                    <option value="+5">+5 {{"ROOM_PLURAL" | trans | capitalize}}</option>
+                </select>
+
+            </div>
+
+
+
+
 
             <div class="slidecontainer" style='margin-left: 2.9em;    padding-top: 1.5em;'>
 
-                <div id="sliderRegular" class="slider slider-info ">
+                <div id="priceFilter"  class="slider slider-info ">
 
                 </div>
                 <label style='color:white;font-size:medium;'>Rango de Precio</label>
@@ -58,7 +98,8 @@
         </div>
 
         <div class="form-group text-center" style="padding-top:10px;">
-            <button  class="btn btn-info btn-small" onclick="closeNav()">Search</button>
+            <button class="btn btn-info btn-small"  id="btn_search" data-url="{{ path('frontend_search_ownership',{'text':'_text', 'arrival':'_arrival','departure':'_departure','guests':'_guests','rooms':'_rooms'})}}">{{"SEARCH" | trans | capitalize}}</button>
+
         </div>
 
 
@@ -68,3 +109,18 @@
     </div>
 
 </div>
+{% set leavingDate = null %}
+{% if isDateTime(app.session.get('search_departure_date')) %}
+    {% set leavingDate = app.session.get('search_departure_date')|date("d/m/Y") %}
+{% elseif isDateTime(app.session.get('search_departure_date')) %}
+    {% set leavingDate = app.session.get('search_arrival_date')|date_modify("+2 day")|date("d/m/Y") %}
+{% else %}
+    {% set leavingDate = "+2 days" |date("d/m/Y") %}
+{% endif %}
+<script type="text/javascript">
+    var today_date="{{"now"|date("d/m/Y") }}";
+    var start_date="{{ (isDateTime(app.session.get('search_arrival_date'))) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now"|date("d/m/Y")) }}";
+    var end_date="{{leavingDate}}";
+    var url_autocomplete = "{{ path('frontend_autocompletetext_callback') }}";
+
+</script>

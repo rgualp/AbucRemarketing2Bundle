@@ -106,23 +106,31 @@
                                         </div>
                                         <div class="form-check">
                                             <label class="form-check-label">
-                                                <input {% if post['policies'] is defined %} checked="checked" {% endif %} type="checkbox"
+                                                <input onclick="onClickHandler(this)" class="form-check-input" {% if post['policies'] is defined %} checked="checked" {% endif %} type="checkbox"
                                                                                                                           name="policies"
                                                                                                                           id="policies"/>
+                                                {{"ACCEPT_TERMS_CONDITIONS" | trans}}
+                                                <span class="form-check-sign">
+              <span class="check"></span>
 
-                                                {{ "PRIVATE_POLICY_USER_REGISTRATION" | trans }}
+            </span>
                                             </label>
                                         </div>
                                         <div class="form-check">
                                             <label class="form-check-label">
-                                                <input {% if post['user_newsletters'] is defined %} checked="checked" {% endif %}
-                                                        type="checkbox" name="user_newsletters"/> {{ "NEWSLETTER_USER_REGISTRATION" | trans }}
+                                                <input class="form-check-input"{% if post['user_newsletters'] is defined %} checked="checked" {% endif %}
+                                                        type="checkbox" name="user_newsletters"/>
+                                                {{ "NEWSLETTER_USER_REGISTRATION" | trans }}
+                                                <span class="form-check-sign">
+              <span class="check"></span>
+            </span>
                                             </label>
                                         </div>
+
                                         <div class="form-group">
                                             <div class="text-center">
-                                                <button class="btn btn-primary btn-block"
-                                                       disabled type="submit">{{ "REGISTER_USER_REGISTRATION" | trans }}</button>
+                                                <button id="btn_submit" class="btn btn-primary btn-block"
+                                                       disabled="disabled" type="submit">{{ "REGISTER_USER_REGISTRATION" | trans }}</button>
                                             </div>
                                         </div>
                                         {{ form_rest(form) }}
@@ -150,14 +158,22 @@
 
             $('.sfgen input:text').addClass('input-block-level');
             $('.sfgen input:password').addClass('input-block-level');
+            function onClickHandler(cb) {
 
-            $('#policies').change(function () {
+                if ($('#policies').is(':checked')) {
 
-                if ($('#policies').is(":checked"))
                     $('#btn_submit').removeAttr('disabled');
-                else
+
+
+                }
+                if($('#policies').is(":not(:checked)")) {
+
                     $('#btn_submit').attr('disabled', 'disabled');
-            })
+                }
+            }
+
+
+
 
 
 

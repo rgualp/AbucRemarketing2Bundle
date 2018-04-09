@@ -10,11 +10,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class SearchController extends Controller
 {
-    public function orangeSearchBarAction() {
+    public function overlaySearchBarAction() {
         $em = $this->getDoctrine()->getManager();
         $session = $this->getRequest()->getSession();
 
-        return $this->render('MyCpMobileFrontendBundle:search:orangeSearchBar.html.twig', array(
+        return $this->render('MyCpMobileFrontendBundle:menus:overlay.html.twig', array(
             'locale' => $this->get('translator')->getLocale(),
             'autocomplete_text_list' => $em->getRepository('mycpBundle:ownership')->autocompleteTextList(),
             'arrival_date' => $session->get("search_arrival_date"),

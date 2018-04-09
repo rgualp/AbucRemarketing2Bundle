@@ -66,7 +66,8 @@
     {% block content %}
      {# COntenido#}
     {% endblock %}
-    {% include '@MyCpMobileFrontend/menus/overlay.html.twig' %}
+    {{ render(controller('MyCpMobileFrontendBundle:Search:overlaySearchBar')) }}
+
     {% include 'MyCpMobileFrontendBundle:menus:footer.html.twig' %}
 
 
@@ -81,9 +82,10 @@
         '@MyCpMobileFrontendBundle/Resources/public/js/plugins/nouislider.min.js'
         '@MyCpMobileFrontendBundle/Resources/public/js/material-kit.min.js'
         '@MyCpMobileFrontendBundle/Resources/public/js/carousel-swipe.js'
-        '@MyCpMobileFrontendBundle/Resources/public/js/mycp.js'
         '@LayoutBundle/Resources/public/js/plugins/sweetalert/sweetalert.min.js'
         '@MyCpMobileFrontendBundle/Resources/public/js/ownership.calendar.js'
+        '@FrontEndBundle/Resources/public/js/typeahead.js'
+        '@MyCpMobileFrontendBundle/Resources/public/js/mycp.js'
         filter='?uglifyjs2'
     %}
         <script src="{{ asset_url }}"></script>
