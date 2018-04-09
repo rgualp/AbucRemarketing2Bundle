@@ -13,7 +13,7 @@ use BeSimple\SoapBundle\ServiceDefinition\Annotation\Method;
 use Doctrine\Common\Collections\ArrayCollection;
 use MyCp\CasaModuleBundle\Form\ownershipStep1Type;
 use MyCp\CasaModuleBundle\Form\ownershipStepPhotosType;
-use MyCp\mycpBundle\Entity\log;
+use MyCp\mycpBundle\Entity\accommodationBookingModality;
 use MyCp\mycpBundle\Entity\owner;
 use MyCp\mycpBundle\Entity\ownerAccommodation;
 use MyCp\mycpBundle\Entity\ownership;
@@ -63,15 +63,13 @@ class StepsController extends Controller
             if (substr($ownership->getOwnLangs(), 3, 1))
                 $langs[] = '0001';
         }
-//        die(dump($langs));
-//        if($ownership->getOwnStatus()->getStatusId()==ownershipStatus::STATUS_ACTIVE){
+
         return $this->render('MyCpCasaModuleBundle:Steps:step2.html.twig', array(
             'ownership' => $ownership,
             'dashboard' => $ownership->getOwnStatus()->getStatusId() == ownershipStatus::STATUS_ACTIVE,
             'form' => $form->createView(),
             'langs' => $langs
         ));
-//        }
 
     }
 
@@ -121,13 +119,28 @@ class StepsController extends Controller
             } elseif (strlen($langs) == 1) {
                 $ownership->setOwnLangs('000' . $langs);
             }
+            if ($request->request->get('mycp_mycpbundle_ownership_step1')['ownAgencyWork'] == 0) {
+                $ownership->setOwnAgencyWork(false);
+            } else {
+                $ownership->setOwnAgencyWork(true);
+            }
 
             if ($ownership->getOwnCommissionPercent() == null || $ownership->getOwnCommissionPercent() == "")
                 $ownership->setOwnCommissionPercent(20);
+            $accommodationBookingModality = $em->getRepository("mycpBundle:accommodationBookingModality")->findOneBy(array("accommodation" => $ownership->getOwnId()));
+            $bookingModality = $em->getRepository('mycpBundle:bookingModality')->findOneBy(array('name' => $ownership->getOwnRentalType()));
+            if (is_null($accommodationBookingModality)) {
+                $accommodationBookingModality = new accommodationBookingModality();
+                $accommodationBookingModality->setAccommodation($ownership);
+            }
+            $accommodationBookingModality->setBookingModality($bookingModality);
+            $accommodationBookingModality->setPrice($request->get('modality_price'));
+            $em->persist($accommodationBookingModality);
+
 
             $em->persist($ownership);
             $em->flush();
-            return new JsonResponse('ok');
+            return new JsonResponse(array('success' => true));
 
         }
         return $this->render('MyCpCasaModuleBundle:Ownership:step1.html.twig', array(
@@ -601,13 +614,7 @@ class StepsController extends Controller
     public function updateCoverPageAction($id_ownership, $id_photo)
     {
         $em = $this->getDoctrine()->getManager();
-        $ownershipPhoto = $em->getRepository('mycpBundle:ownershipPhoto')->getPhotosByIdOwnership($id_ownership);
-        foreach ($ownershipPhoto as $photo) {
-            if ($photo->getOwnPhoPhoto()->getPhoId() == $id_photo) {
-                $photo->getOwnPhoPhoto()->setFront(true);
-            } else
-                $photo->getOwnPhoPhoto()->setFront(false);
-        }
+        $this->get('mycp.coverimage.service')->updateCoverAccomodation($id_photo, $id_ownership);
         $em->flush();
         $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
         $em->getRepository("mycpBundle:ownershipPhoto")->updatePrincipalPhoto($ownership);

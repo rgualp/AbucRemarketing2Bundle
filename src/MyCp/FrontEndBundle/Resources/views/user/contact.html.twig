@@ -26,23 +26,38 @@
         <div id="contact_tourist" class="accordion-body {%if (app.session.get("form_type") != null and app.session.get("form_type") == 'tourist_form') or app.session.get("form_type") == null%} in {%endif%} collapse" {%if (app.session.get("form_type") != null and app.session.get("form_type") == 'tourist_form') or app.session.get("form_type") == null%}style="height: auto;"{%else%}style="height: 0px;"{%endif%}>
             <div class="accordion-inner">
                 <div class="row">
-                    <div class="col-sm-6">
-                        <h4>ABUC Media Network GmbH</h4>
-                        <h5>{{"ADDRESS" | trans}}</h5>
-                        MyCasaParticular.com <br/>
-                        Peter Merian-Strasse 54<br/>
-                        4052 Basel <br/>
-                        {{"ADDRESS_MCP_COUNTRY" | trans}} <br/><br/>
+                    <div class="col-sm-4">
+                        <div>
+                            <h3 class="no-margin margin-b-t">{{ "OUR_OFFICE"|trans }},{{"ADDRESS_MCP_COUNTRY" | trans}}</h3>
+                            ABUC media network GmbH<br/>
+                            Pedro Torres Cobas<br/>
+                            Lindenstrasse 33,4102<br/>
+                            {#<em class="icon-headphones"></em> {{"FORMS_PHONE" | trans}}: {{mycasa_office_phone}}<br/>#}
+                            <div class= style="padding:0">
+                                <i class="glyphicon glyphicons phone_alt"></i>
+                                (+41) 61 588 09 56
 
-                        {#<h5>{{"FORMS_PHONE" | trans}}</h5>#}
-                        {#(+41) 44 586 64 44 <br/><br/>#}
+                            </div>
+                        </div>
+                        </br>
+                        <div>
+                            <h3 class="no-margin margin-b-t">{{ "OUR_OFFICE"|trans }},Cuba</h3>
+                            {{ "HDS_ADDRESS"|trans }}
 
-                        <h5>{{"FORMS_EMAIL" | trans}}</h5>
-                        <a href="mailto:info@mycasaparticular.com">info@mycasaparticular.com</a> <br/><br/>
+                            {#<em class="icon-headphones"></em> {{"FORMS_PHONE" | trans}}: {{mycasa_office_phone}}<br/>#}
 
-                        <h5>{{"COMMERCIAL_NUMBER_REGISTRY" | trans}}</h5>
-                        CH-270.4.002.844-1
+                            <div class= style="padding:0">
+                                <i class="glyphicon glyphicons phone_alt"></i>
+                                (+53) 55599750
+
+                            </div>
+                        </div>
+                        <br>
+
+                        <a href="mailto:info@mycasaparticular.com"><i class="glyphicon glyphicon-envelope"></i> info@mycasaparticular.com</a> <br/><br/>
+
                     </div>
+
                     <div class="col-sm-6">
                         <div class="thumbnail">
                             <div style="padding: 10px 20px" class="form-cont">

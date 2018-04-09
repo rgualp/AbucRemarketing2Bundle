@@ -2446,7 +2446,7 @@
             <trans-unit id="616">
                 <source>FOOTER_EMAIL</source>
                 <target>
-                    <![CDATA[Aggiungi reservation@mycasaparticular.com alla tua rubrica o la vostra lista sicura per garantire che continuo a ricevere queste e-mail dei mittenti.<br/><br/>Può anche leggere la nostra Privacy Policy <a href="%policieslink%">Prezzi.</a><br/><br/>possono essere soggette a modifiche prima di effettuare il pagamento. I prezzi non includono le spese di servizio applicabili. Tutti gli alloggi sono soggetti a verifica disponibilità. Vedere il nostro <a href="%termlink%"> Términos e Condiciones </a> per informazioni più dettagliate. <br/> MyCasaParticular.com è un servizio di rete multimediale Abuc GmbH con numero di registrazione commerciale CH -270.4.002.844-1 a Basilea. Svizzera.]]></target>
+                    <![CDATA[Aggiungi <a href="mailto:reservation@mycasaparticular.com"> alla tua rubrica o la vostra lista sicura per garantire che continuo a ricevere queste e-mail dei mittenti.<br/><br/>Può anche leggere la nostra Privacy Policy <a href="%policieslink%">Prezzi.</a><br/><br/>possono essere soggette a modifiche prima di effettuare il pagamento. I prezzi non includono le spese di servizio applicabili. Tutti gli alloggi sono soggetti a verifica disponibilità. Vedere il nostro <a href="%termlink%"> Términos e Condiciones </a> per informazioni più dettagliate. <br/> MyCasaParticular.com è un servizio di rete multimediale Abuc GmbH con numero di registrazione commerciale CH -270.4.002.844-1 a Basilea. Svizzera.]]></target>
             </trans-unit>
             <trans-unit id="617">
                 <source>OF</source>
@@ -4264,8 +4264,7 @@
             </trans-unit>
             <trans-unit id="1038">
                 <source>ACCOMMODATION_TOTAL_COST_PLURAL_TOOLTIP</source>
-                <target>Si riferisce alla somma dell’ Importo per l’alloggio , le Tariffe per il servizio al cliente e
-                    la Tariffa fissa. È uguale alla somma del Pagamento online per i servizi con il Pagamento in casa.
+                <target>Si riferisce alla somma dell’ Importo per l’alloggio , le Tariffe per il servizio al cliente.È uguale alla somma del Pagamento online per i servizi con il Pagamento in casa.
                 </target>
             </trans-unit>
             <trans-unit id="1039">
@@ -4420,6 +4419,14 @@
             <trans-unit id="4800">
                 <source>PAGINATOR_RECORD</source>
                 <target>record</target>
+            </trans-unit>
+             <trans-unit id="4801">
+                                                    <source>label.colaborators</source>
+                                                    <target>Contributori</target>
+                                   </trans-unit>
+            <trans-unit id="4802">
+                <source>FAVORITIES_TITLE</source>
+                <target>Preferiti MyCasaParticular</target>
             </trans-unit>
         </body>
     </file>

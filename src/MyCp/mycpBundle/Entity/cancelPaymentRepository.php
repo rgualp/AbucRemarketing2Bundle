@@ -33,6 +33,15 @@ class cancelPaymentRepository extends EntityRepository {
             ->join("cpown.own_res_gen_res_id", "gr")
             ->join("gr.gen_res_own_id", "own")
             ->orderBy("op.cancel_id", "DESC");
+        $array_date_reserve = explode('/', $filter_payment_date_from);
+        $array_date_from = explode('/', $filter_payment_date_to);
+
+        if(count($array_date_reserve) > 1)
+            $filter_payment_date_from = $array_date_reserve[2] . '-' . $array_date_reserve[1] . '-' . $array_date_reserve[0];
+        if(count($array_date_from) > 1)
+            $filter_payment_date_to = $array_date_from[2] . '-' . $array_date_from[1] . '-' . $array_date_from[0];
+
+
         if($filter_number != null && $filter_number != "" && $filter_number != "null")
         {
             $qb->andWhere("op.cancel_id LIKE :cancel_id")

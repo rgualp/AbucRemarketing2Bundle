@@ -101,3 +101,17 @@ services:
    mycp.udetails.service:
        class: MyCp\mycpBundle\Service\UDetailsService
        arguments: [@doctrine.orm.entity_manager, @service_container]
+
+   mycp.coverimage.service:
+        class: MyCp\mycpBundle\Service\UpdateCoverImageService
+        arguments: [@doctrine.orm.entity_manager]
+
+   mycp.sitemap.listener:
+        class: MyCp\mycpBundle\Listener\SiteMapListener
+        arguments: [@mycp.sitemap.service]
+        tags:
+          - { name: kernel.event_listener, event: mycp.event.sitemap, method: onEvent}
+
+   mycp.sitemap.service:
+           class: MyCp\mycpBundle\Service\SiteMapService
+           arguments: [@doctrine.orm.entity_manager, @service_container]

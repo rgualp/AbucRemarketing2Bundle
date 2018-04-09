@@ -53,11 +53,11 @@
                 <div class="row-fluid">
                     <div class="span3">
                         <label>Fecha Desde:</label>
-                        <input name="filter_payment_date_from" value="{%if filter_payment_date_from is defined and filter_payment_date_from != null and filter_payment_date_from != "" and filter_payment_date_from != "null"%}{{filter_payment_date_from | date('d/m/Y')}}{%endif%}" id="filter_payment_date_from" class="input-block-level datepicker">
+                        <input name="filter_payment_date_from" value="{%if filter_payment_date_from is defined and filter_payment_date_from != null and filter_payment_date_from != "" and filter_payment_date_from != "null"%}{{filter_payment_date_from }}{%endif%}" id="filter_payment_date_from" class="input-block-level datepicker">
                     </div>
                     <div class="span3">
                         <label>Fecha Hasta:</label>
-                        <input name="filter_payment_date_to" value="{%if filter_payment_date_to is defined and filter_payment_date_to != null and filter_payment_date_to != "" and filter_payment_date_to != "null"%}{{filter_payment_date_to | date('d/m/Y')}}{%endif%}" id="filter_payment_date_to" class="input-block-level datepicker">
+                        <input name="filter_payment_date_to" value="{%if filter_payment_date_to is defined and filter_payment_date_to != null and filter_payment_date_to != "" and filter_payment_date_to != "null"%}{{filter_payment_date_to }}{%endif%}" id="filter_payment_date_to" class="input-block-level datepicker">
                     </div>
                     <div class="span3">
                         <label>Código de la Casa:</label>
@@ -73,7 +73,7 @@
                                 <a rel="tooltip" title="Resetear filtrado " href="{{ path('mycp_list_cancel_payment') }}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>
                             </div>
                             <div class="span4">
-                                <a {% if list | length > 0 %}disabled="disabled"{% endif %} rel="tooltip" title="Descargar listado" href="{{ path('mycp_export_list_cancel_payment',{'filter_number':filter_number, 'filter_code': filter_code, 'filter_method': filter_method,'filter_name': filter_name, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to,'filter_own':filter_own})}}" class="tooltip_msg btn btn-block btn-info"><i class="icon-download-alt icon-white"></i></a>
+                                <a {% if list | length > 0 %}disabled="disabled"{% endif %} rel="tooltip" title="Descargar listado" href="{{ path('mycp_export_list_cancel_payment',{'filter_number':filter_number, 'filter_code': filter_code, 'filter_method': filter_method,'filter_name': filter_name, 'filter_payment_date_from': filter_payment_date_from_twig, 'filter_payment_date_to': filter_payment_date_to_twig,'filter_own':filter_own})}}" class="tooltip_msg btn btn-block btn-info"><i class="icon-download-alt icon-white"></i></a>
                             </div>
                         </div>
                     </div>
@@ -88,9 +88,9 @@
         </div>
         <div class="pull-right">
             Mostrar:
-            <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_cancel_payment',{'items_per_page':100, 'filter_number':filter_number, 'filter_code': filter_code, 'filter_method': filter_method,'filter_name': filter_name, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to,'filter_own':filter_own})}}">100</a>
-            <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_list_cancel_payment',{'items_per_page':300, 'filter_number':filter_number, 'filter_code': filter_code, 'filter_method': filter_method,'filter_name': filter_name, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to,'filter_own':filter_own})}}">300</a>
-            <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_cancel_payment',{'items_per_page':500, 'filter_number':filter_number, 'filter_code': filter_code, 'filter_method': filter_method,'filter_name': filter_name, 'filter_payment_date_from': filter_payment_date_from, 'filter_payment_date_to': filter_payment_date_to,'filter_own':filter_own})}}">500</a>
+            <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_cancel_payment',{'items_per_page':100, 'filter_number':filter_number, 'filter_code': filter_code, 'filter_method': filter_method,'filter_name': filter_name, 'filter_payment_date_from': filter_payment_date_from_twig, 'filter_payment_date_to': filter_payment_date_to_twig,'filter_own':filter_own})}}">100</a>
+            <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_list_cancel_payment',{'items_per_page':300, 'filter_number':filter_number, 'filter_code': filter_code, 'filter_method': filter_method,'filter_name': filter_name, 'filter_payment_date_from': filter_payment_date_from_twig, 'filter_payment_date_to': filter_payment_date_to_twig,'filter_own':filter_own})}}">300</a>
+            <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_cancel_payment',{'items_per_page':500, 'filter_number':filter_number, 'filter_code': filter_code, 'filter_method': filter_method,'filter_name': filter_name, 'filter_payment_date_from': filter_payment_date_from_twig, 'filter_payment_date_to': filter_payment_date_to_twig,'filter_own':filter_own})}}">500</a>
             <input class="hidden" name="items_per_page" value="100">
         </div>
     </div>
@@ -200,7 +200,11 @@
 
             var filter_payment_date_to = $("#filter_payment_date_to").val();
             if(filter_payment_date_to=='')filter_payment_date_to='null';
-
+            filter_payment_date_to = filter_payment_date_to.replace('/', "_");
+            filter_payment_date_from = filter_payment_date_from.replace('/', "_");
+            filter_payment_date_to = filter_payment_date_to.replace('/', "_");
+            filter_payment_date_from = filter_payment_date_from.replace('/', "_");
+            console.log(filter_payment_date_from);
             var filter_own = $("#filter_own").val();
             if(filter_own=='')filter_own='null';
 

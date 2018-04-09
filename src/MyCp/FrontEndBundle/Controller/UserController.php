@@ -2,27 +2,26 @@
 
 namespace MyCp\FrontEndBundle\Controller;
 
-use Abuc\RemarketingBundle\Event\JobEvent;
-use Abuc\RemarketingBundle\Event\PredefinedEvents;
-use Abuc\RemarketingBundle\JobData\UserIdentificationJobData;
 use MyCp\FrontEndBundle\Form\changePasswordUserType;
 use MyCp\FrontEndBundle\Form\ownerContact;
+use MyCp\FrontEndBundle\Form\profileUserType;
 use MyCp\FrontEndBundle\Form\registerUserType;
 use MyCp\FrontEndBundle\Form\restorePasswordUserType;
 use MyCp\FrontEndBundle\Form\touristContact;
-use MyCp\FrontEndBundle\Form\profileUserType;
-use MyCp\mycpBundle\Entity\user;
-use MyCp\mycpBundle\Entity\photo;
 use MyCp\mycpBundle\Entity\generalReservation;
 use MyCp\mycpBundle\Entity\ownershipReservation;
+use MyCp\mycpBundle\Entity\photo;
+use MyCp\mycpBundle\Entity\user;
 use MyCp\mycpBundle\Helpers\Operations;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
-class UserController extends Controller {
+class UserController extends Controller
+{
 
-    public function registerAction(Request $request) {
+    public function registerAction(Request $request)
+    {
         $mobileDetector = $this->get('mobile_detect.mobile_detector');
 
         $em = $this->getDoctrine()->getManager();
@@ -45,7 +44,7 @@ class UserController extends Controller {
 
             $validate_email = \MyCp\FrontEndBundle\Helpers\Utils::validateEmail($post['user_email']);
 
-            if(!$validate_email)
+            if (!$validate_email)
                 $errors['user_email'] = $this->get('translator')->trans("EMAIL_INVALID_MESSAGE");
 
             if ($form->isValid() && !$user_db && count($errors) == 0) {
@@ -61,11 +60,11 @@ class UserController extends Controller {
 
                 $currency = $em->getRepository('mycpBundle:currency')->findOneBy(array('curr_default' => true));
 
-                if($session->get('curr_acronym') != $currency->getCurrCode())
+                if ($session->get('curr_acronym') != $currency->getCurrCode())
                     $currency = $em->getRepository('mycpBundle:currency')->findOneBy(array('curr_code' => $session->get('curr_acronym')));
 
                 $user_db = $em->getRepository('mycpBundle:user')
-                        ->registerUser($post, $request, $encoder, $this->get('translator'), $languageCode, $currency);
+                    ->registerUser($post, $request, $encoder, $this->get('translator'), $languageCode, $currency);
                 $service_security = $this->get('Secure');
                 $encode_string = $service_security->getEncodedUserString($user_db);
                 $userName = $user_db->getUserCompleteName();
@@ -80,8 +79,8 @@ class UserController extends Controller {
                 $service_email = $this->get('Email');
                 $enableRoute = 'frontend_enable_user';
                 $userTourist = $em->getRepository('mycpBundle:userTourist')
-                                       ->findOneBy(array('user_tourist_user' => $user_db->getUserId()));
-                    $userLocale = (isset($userTourist)) ? strtolower($userTourist->getUserTouristLanguage()->getLangCode()) : "en";
+                    ->findOneBy(array('user_tourist_user' => $user_db->getUserId()));
+                $userLocale = (isset($userTourist)) ? strtolower($userTourist->getUserTouristLanguage()->getLangCode()) : "en";
 
                 /*$enableUrl = $this->get('router')->generate($enableRoute, array(
                     'string' => $encode_string,
@@ -94,11 +93,11 @@ class UserController extends Controller {
                 $service_email->sendTemplatedEmail($this->get('translator')->trans('CREATE_ACCOUNT_EMAIL_SUBJECT'), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), $body->getContent());
 
                 //Envio de correo de oferta de servicios extra
-                $bodyExtraServices = $this->render('FrontEndBundle:mails:extraServicesMail.html.twig', array(
-                    'user_name' => $userName,
-                    'user_locale' => $userLocale));
-
-                $service_email->sendTemplatedEmail($this->get('translator')->trans('EXTRA_SERVICES_SUBJECT'), 'services@mycasaparticular.com', $user_db->getUserEmail(), $bodyExtraServices->getContent());
+//                $bodyExtraServices = $this->render('FrontEndBundle:mails:extraServicesMail.html.twig', array(
+//                    'user_name' => $userName,
+//                    'user_locale' => $userLocale));
+//
+//                $service_email->sendTemplatedEmail($this->get('translator')->trans('EXTRA_SERVICES_SUBJECT'), 'services@mycasaparticular.com', $user_db->getUserEmail(), $bodyExtraServices->getContent());
 
 
                 $message = $this->get('translator')->trans("CREATE_ACCOUNT_SUCCESS");
@@ -154,18 +153,18 @@ class UserController extends Controller {
                     $em->persist($user_db);
                     $em->flush();
                 }*/
-                $session_id="";
+                $session_id = "";
                 if ($request->cookies->has("mycp_user_session"))
                     $session_id = $request->cookies->get("mycp_user_session");
                 $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
-                $user_ids['session_id']=$session_id;
+                $user_ids['session_id'] = $session_id;
                 $cartItems = $em->getRepository('mycpBundle:cart')->getInmediateBookingAfterRegister($user_ids);
                 $cartItemsQueryBooking = $em->getRepository('mycpBundle:cart')->getCheckAvailableAfterRegister($user_ids);
-                if(count($cartItems)){
-                    $ownerShip=$em->getRepository('mycpBundle:generalReservation')->getOwnShipReserByUser($user_ids);
-                    $insert=1;
+                if (count($cartItems)) {
+                    $ownerShip = $em->getRepository('mycpBundle:generalReservation')->getOwnShipReserByUser($user_ids);
+                    $insert = 1;
                     //Validar que no se haga una reserva que ya fuese realizada
-                    foreach ($ownerShip as $item){
+                    foreach ($ownerShip as $item) {
                         $ownDateFrom = $item->getOwnResReservationFromDate()->getTimestamp();
                         $ownDateTo = $item->getOwnResReservationToDate()->getTimestamp();
 
@@ -173,58 +172,56 @@ class UserController extends Controller {
                         foreach ($cartItems as $cart) {
                             $cartDateFrom = $cart->getCartDateFrom()->getTimestamp();
                             $cartDateTo = $cart->getCartDateTo()->getTimestamp();
-                            if((($ownDateFrom <= $cartDateFrom && $ownDateTo >= $cartDateFrom) ||
+                            if ((($ownDateFrom <= $cartDateFrom && $ownDateTo >= $cartDateFrom) ||
                                     ($ownDateFrom <= $cartDateTo && $ownDateTo >= $cartDateTo))
-                                && $item->getOwnResSelectedRoomId()==$cart->getCartRoom()->getRoomId())
-                                $insert=0;
+                                && $item->getOwnResSelectedRoomId() == $cart->getCartRoom()->getRoomId())
+                                $insert = 0;
                         }
                     }
-                    if($insert==1){  //sino hay un error
-                        $arrayIdCart=array();
-                        foreach ($cartItems as $cart){
-                            $arrayIdCart[]=$cart->getCartId();
+                    if ($insert == 1) {  //sino hay un error
+                        $arrayIdCart = array();
+                        foreach ($cartItems as $cart) {
+                            $arrayIdCart[] = $cart->getCartId();
                         }
-                        $own_ids=array();
+                        $own_ids = array();
                         //Es que el usuario mando a hacer una reserva
-                        $own_ids=$this->checkDispo($arrayIdCart,$request,true);
+                        $own_ids = $this->checkDispo($arrayIdCart, $request, true);
                         $request->getSession()->set('reservation_own_ids', $own_ids);
                         return $this->redirect($this->generateUrl('frontend_reservation_reservation'));
-                    }
-                    else{
+                    } else {
                         $message = $this->get('translator')->trans("ADD_TO_CEST_ERROR");
                         $this->get('session')->getFlashBag()->add('message_global_error', $message);
                         return $this->redirect($this->generateUrl('frontend_mycasatrip_available'));
                     }
                 }
-                if(count($cartItemsQueryBooking)){
+                if (count($cartItemsQueryBooking)) {
 
-                    $ownerShip=$em->getRepository('mycpBundle:generalReservation')->getOwnShipReserByUser($user_ids);
-                    $insert=1;
+                    $ownerShip = $em->getRepository('mycpBundle:generalReservation')->getOwnShipReserByUser($user_ids);
+                    $insert = 1;
                     //Validar que no se haga una reserva que ya fuese realizada
-                    foreach ($ownerShip as $item){
+                    foreach ($ownerShip as $item) {
                         $ownDateFrom = $item->getOwnResReservationFromDate()->getTimestamp();
                         $ownDateTo = $item->getOwnResReservationToDate()->getTimestamp();
                         foreach ($cartItems as $cart) {
                             $cartDateFrom = $cart->getCartDateFrom()->getTimestamp();
                             $cartDateTo = $cart->getCartDateTo()->getTimestamp();
-                            if((($ownDateFrom <= $cartDateFrom && $ownDateTo >= $cartDateFrom) ||
+                            if ((($ownDateFrom <= $cartDateFrom && $ownDateTo >= $cartDateFrom) ||
                                     ($ownDateFrom <= $cartDateTo && $ownDateTo >= $cartDateTo))
-                                && $item->getOwnResSelectedRoomId()==$cart->getCartRoom()->getRoomId())
-                                $insert=0;
+                                && $item->getOwnResSelectedRoomId() == $cart->getCartRoom()->getRoomId())
+                                $insert = 0;
                         }
                     }
-                    if($insert==1){  //sino hay un error
-                        $arrayIdCart=array();
-                        foreach ($cartItemsQueryBooking as $cart){
-                            $arrayIdCart[]=$cart->getCartId();
+                    if ($insert == 1) {  //sino hay un error
+                        $arrayIdCart = array();
+                        foreach ($cartItemsQueryBooking as $cart) {
+                            $arrayIdCart[] = $cart->getCartId();
                         }
-                        $own_ids=array();
+                        $own_ids = array();
                         //Es que el usuario mando a hacer una consulta de disponibilidad
-                        $own_ids=$this->checkDispo($arrayIdCart,$request,false);
+                        $own_ids = $this->checkDispo($arrayIdCart, $request, false);
                         $request->getSession()->set('reservation_own_ids', $own_ids);
                         return $this->redirect($this->generateUrl('frontend_mycasatrip_pending'));
-                    }
-                    else{
+                    } else {
                         $message = $this->get('translator')->trans("ADD_TO_CEST_ERROR");
                         $this->get('session')->getFlashBag()->add('message_global_error', $message);
                         return $this->redirect($this->generateUrl('frontend_mycasatrip_pending'));
@@ -235,14 +232,13 @@ class UserController extends Controller {
         }
 
 
-
         if ($mobileDetector->isMobile()) {
             return $this->render('@MyCpMobileFrontend/user/registerUser.html.twig', array(
                 'form' => $form->createView(),
                 'errors' => $errors,
                 'post' => $all_post
             ));
-        }else{
+        } else {
             return $this->render('FrontEndBundle:user:registerUser.html.twig', array(
                 'form' => $form->createView(),
                 'errors' => $errors,
@@ -257,16 +253,17 @@ class UserController extends Controller {
      * @param $request
      * @return bool|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function checkDispo($arrayIdCart,$request,$inmediatily_booking){
+    public function checkDispo($arrayIdCart, $request, $inmediatily_booking)
+    {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $reservations = array();
         $own_ids = array();
         $array_photos = array();
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
-        foreach($arrayIdCart as $temp){
+        foreach ($arrayIdCart as $temp) {
             $cartItem = $em->getRepository('mycpBundle:cart')->find($temp);
-            $cartItems[]=$cartItem;
+            $cartItems[] = $cartItem;
         }
 
         $min_date = null;
@@ -318,7 +315,7 @@ class UserController extends Controller {
                     $general_reservation->setGenResDate(new \DateTime(date('Y-m-d')));
                     $general_reservation->setGenResStatusDate(new \DateTime(date('Y-m-d')));
                     $general_reservation->setGenResHour(date('G'));
-                    if($inmediatily_booking)
+                    if ($inmediatily_booking)
                         $general_reservation->setGenResStatus(generalReservation::STATUS_AVAILABLE);
                     else
                         $general_reservation->setGenResStatus(generalReservation::STATUS_PENDING);
@@ -356,7 +353,7 @@ class UserController extends Controller {
                     $flag_1 = 0;
                     foreach ($resByOwn as $item) {
                         $ownership_reservation = $item->createReservation($general_reservation, $partial_total_price[$flag_1]);
-                        if($inmediatily_booking)
+                        if ($inmediatily_booking)
                             $ownership_reservation->setOwnResStatus(ownershipReservation::STATUS_AVAILABLE);
 
 
@@ -368,8 +365,7 @@ class UserController extends Controller {
                         $nightsCount = $service_time->nights($ownership_reservation->getOwnResReservationFromDate()->getTimestamp(), $ownership_reservation->getOwnResReservationToDate()->getTimestamp());
                         array_push($nigths, $nightsCount);
 
-                        if($item->getChildrenAges() != null)
-                        {
+                        if ($item->getChildrenAges() != null) {
                             $arrayKidsAge[$item->getCartRoom()->getRoomNum()] = $item->getChildrenAges();
                         }
 
@@ -385,7 +381,7 @@ class UserController extends Controller {
                     $em->getRepository("mycpBundle:generalReservation")->updateDates($general_reservation);
                     array_push($generalReservations, $general_reservation->getGenResId());
 
-                    if($general_reservation->getGenResOwnId()->getOwnInmediateBooking()){
+                    if ($general_reservation->getGenResOwnId()->getOwnInmediateBooking()) {
                         $smsService = $this->get("mycp.notification.service");
                         $smsService->sendInmediateBookingSMSNotification($general_reservation);
                     }
@@ -397,7 +393,7 @@ class UserController extends Controller {
         }
         $locale = $this->get('translator')->getLocale();
         // Enviando mail al cliente
-        if(!$inmediatily_booking){
+        if (!$inmediatily_booking) {
             $body = $this->render('FrontEndBundle:mails:email_check_available.html.twig', array(
                 'user' => $user,
                 'reservations' => $reservations,
@@ -407,7 +403,7 @@ class UserController extends Controller {
                 'user_locale' => $locale
             ));
 
-            if($user != null) {
+            if ($user != null) {
                 $locale = $this->get('translator');
                 $subject = $locale->trans('REQUEST_SENT');
                 $service_email = $this->get('Email');
@@ -417,25 +413,26 @@ class UserController extends Controller {
             }
         }
 
-        if(!$inmediatily_booking){
+        if (!$inmediatily_booking) {
             //Enviando mail al reservation team
-            foreach($generalReservations as $genResId){
+            foreach ($generalReservations as $genResId) {
                 //Enviando correo a solicitud@mycasaparticular.com
                 \MyCp\FrontEndBundle\Helpers\ReservationHelper::sendingEmailToReservationTeam($genResId, $em, $this, $service_email, $service_time, $request, 'solicitud@mycasaparticular.com', 'no-reply@mycasaparticular.com');
             }
         }
-        foreach($arrayIdCart as $temp){
+        foreach ($arrayIdCart as $temp) {
             $cartItem = $em->getRepository('mycpBundle:cart')->find($temp);
             $em->remove($cartItem);
         }
         $em->flush();
-        if(!$inmediatily_booking) //esta consultando la disponibilidad
+        if (!$inmediatily_booking) //esta consultando la disponibilidad
             return true;
         else                      //esta haciendo una reserva
             return $own_ids;
     }
 
-    public function enableAction($string) {
+    public function enableAction($string)
+    {
         $service_security = $this->get('Secure');
         $decode_string = $service_security->decodeString($string);
         $user_atrib = explode('///', $decode_string);
@@ -460,7 +457,8 @@ class UserController extends Controller {
         throw $this->createNotFoundException($this->get('translator')->trans("USER_ACTIVATE_ERROR"));
     }
 
-    public function restorePasswordAction(Request $request) {
+    public function restorePasswordAction(Request $request)
+    {
         $mobileDetector = $this->get('mobile_detect.mobile_detector');
         $em = $this->getDoctrine()->getManager();
         $errors = array();
@@ -476,13 +474,13 @@ class UserController extends Controller {
 
                     $change_passwordRoute = 'frontend_change_password_user';
                     $changeUrl = $this->get('router')
-                            ->generate($change_passwordRoute, array('string' => $encode_string), true);
+                        ->generate($change_passwordRoute, array('string' => $encode_string), true);
                     //mailing
                     $body = $this->render('FrontEndBundle:mails:restorePassword.html.twig', array('changeUrl' => $changeUrl));
 
                     $service_email = $this->get('Email');
                     $service_email->sendTemplatedEmail(
-                            $this->get('translator')->trans('EMAIL_RESTORE_ACCOUNT'), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), $body->getContent());
+                        $this->get('translator')->trans('EMAIL_RESTORE_ACCOUNT'), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), $body->getContent());
                     $message = $this->get('translator')->trans("USER_PASSWORD_RECOVERY");
                     $this->get('session')->getFlashBag()->add('message_global_success', $message);
                     return $this->redirect($this->generateUrl('frontend_login'));
@@ -500,7 +498,7 @@ class UserController extends Controller {
                 'form' => $form->createView(),
                 'errors' => $errors
             ));
-        }else{
+        } else {
             return $this->render('FrontEndBundle:user:restorePasswordUser.html.twig', array(
                 'form' => $form->createView(),
                 'errors' => $errors
@@ -509,18 +507,20 @@ class UserController extends Controller {
 
     }
 
-    public function changePasswordStartAction() {
+    public function changePasswordStartAction()
+    {
         $service_security = $this->get('Secure');
         $user = $this->getUser();
         $encode_string = $service_security->getEncodedUserString($user);
         return $this->redirect($this->generateUrl('frontend_change_password_user', array('string' => $encode_string)));
     }
 
-    public function changePasswordAction($string, Request $request) {
+    public function changePasswordAction($string, Request $request)
+    {
         $mobileDetector = $this->get('mobile_detect.mobile_detector');
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(new changePasswordUserType($this->get('translator')));
-        $errors='';
+        $errors = '';
         if ($request->getMethod() == 'POST') {
             $post = $request->get('mycp_frontendbundle_change_password_usertype');
             $form->handleRequest($request);
@@ -535,7 +535,7 @@ class UserController extends Controller {
                         $user2 = new user();
                         $encoder = $factory->getEncoder($user2);
 
-                        if($post['user_password']['first'] == $post['user_password']['second']){
+                        if ($post['user_password']['first'] == $post['user_password']['second']) {
                             $password = $encoder->encodePassword($post['user_password']['first'], $user->getSalt());
                             $user->setUserPassword($password);
                             $em->persist($user);
@@ -553,9 +553,8 @@ class UserController extends Controller {
                             $this->get("security.context")->setToken($token);
                             $this->get('session')->set('_security_user', serialize($token));
                             return $this->redirect($this->generateUrl("frontend-welcome"));
-                        }
-                        else
-                            $errors=$this->get('translator')->trans("USER_PASSWORD_CHANGE_ERROR");
+                        } else
+                            $errors = $this->get('translator')->trans("USER_PASSWORD_CHANGE_ERROR");
 
                     }
                 } else {
@@ -570,7 +569,7 @@ class UserController extends Controller {
                 'form' => $form->createView(),
                 'errors' => $errors
             ));
-        }else{
+        } else {
             return $this->render('FrontEndBundle:user:changePasswordUser.html.twig', array(
                 'string' => $string,
                 'form' => $form->createView(),
@@ -580,7 +579,8 @@ class UserController extends Controller {
 
     }
 
-    public function registerUserConfirmationAction(Request $request) {
+    public function registerUserConfirmationAction(Request $request)
+    {
         $mobileDetector = $this->get('mobile_detect.mobile_detector');
         $em = $this->getDoctrine()->getManager();
         $errors = array();
@@ -599,7 +599,7 @@ class UserController extends Controller {
                     $encode_string = $service_security->getEncodedUserString($user_db);
                     $enableRoute = 'frontend_enable_user';
                     $userTourist = $em->getRepository('mycpBundle:userTourist')
-                                       ->findOneBy(array('user_tourist_user' => $user_db->getUserId()));
+                        ->findOneBy(array('user_tourist_user' => $user_db->getUserId()));
 
                     $userLocale = (isset($userTourist)) ? strtolower($userTourist->getUserTouristLanguage()->getLangCode()) : "en";
                     $enableUrl = $this->get('router')->generate($enableRoute, array(
@@ -628,7 +628,7 @@ class UserController extends Controller {
                 'form' => $form->createView(),
                 'errors' => $errors
             ));
-        }else{
+        } else {
             return $this->render('FrontEndBundle:user:registerConfirmationUser.html.twig', array(
                 'form' => $form->createView(),
                 'errors' => $errors
@@ -636,7 +636,8 @@ class UserController extends Controller {
         }
     }
 
-    public function contactAction(Request $request) {
+    public function contactAction(Request $request)
+    {
         $errors = array();
         $this->get('session')->set("form_type", null);
         $form_tourist = $this->createForm(new touristContact($this->get('translator')));
@@ -671,11 +672,9 @@ class UserController extends Controller {
                     $ownerEmail = $post_owner['owner_email'];
                     $owner_instructions = $post_owner['owner_instructions'];
 
-                    if($owner_instructions == Operations::CONTACT_FORM_RECEIVE_INSTRUCTIONS)
-                    {
+                    if ($owner_instructions == Operations::CONTACT_FORM_RECEIVE_INSTRUCTIONS) {
                         $contactService->sendInstructionsEmail("es", $ownerEmail, $ownerFullName);
-                    }
-                    else {
+                    } else {
                         $ownerProvince = $post_owner['owner_province'];
                         $ownerMunicipality = $post_owner['owner_mun'];
                         $ownerComment = $post_owner['owner_comment'];
@@ -691,13 +690,14 @@ class UserController extends Controller {
         }
 
         return $this->render('FrontEndBundle:user:contact.html.twig', array(
-                    'form_tourist' => $form_tourist->createView(),
-                    'form_owner' => $form_owner->createView(),
-                    'errors' => $errors
+            'form_tourist' => $form_tourist->createView(),
+            'form_owner' => $form_owner->createView(),
+            'errors' => $errors
         ));
     }
 
-    public function infoTabUserAction($destination_id = null, $ownership_id = null) {
+    public function infoTabUserAction($destination_id = null, $ownership_id = null)
+    {
         $em = $this->getDoctrine()->getManager();
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
 
@@ -728,14 +728,15 @@ class UserController extends Controller {
                 $history_owns[$i]['photo'] = 'no_photo.png';
         }
         return $this->render('FrontEndBundle:user:infoTabUser.html.twig', array(
-                    'destination_favorites' => $favorite_destinations,
-                    'history_destinations' => $history_destinations,
-                    'favorite_owns' => $ownership_favorities,
-                    'history_owns' => $history_owns
+            'destination_favorites' => $favorite_destinations,
+            'history_destinations' => $history_destinations,
+            'favorite_owns' => $ownership_favorities,
+            'history_owns' => $history_owns
         ));
     }
 
-    public function profileAction(Request $request) {
+    public function profileAction(Request $request)
+    {
         $em = $this->getDoctrine()->getManager();
         $errors = array();
         $all_post = array();
@@ -772,7 +773,7 @@ class UserController extends Controller {
 
             $validate_email = \MyCp\FrontEndBundle\Helpers\Utils::validateEmail($post['user_email']);
 
-            if(!$validate_email)
+            if (!$validate_email)
                 $errors['user_email'] = $this->get('translator')->trans("EMAIL_INVALID_MESSAGE");
 
             if ($form->isValid() && count($errors) == 0) {
@@ -822,7 +823,7 @@ class UserController extends Controller {
                     $lang = $userTourist->getUserTouristLanguage();
                     $locale = strtolower($lang->getLangCode());
 
-                    $message = $this->get('translator')->trans("USER_PROFILE_SAVED", array(),'messages', $locale);
+                    $message = $this->get('translator')->trans("USER_PROFILE_SAVED", array(), 'messages', $locale);
                     $this->get('session')->getFlashBag()->add('message_global_success', $message);
 
                     //Change global currency and language if user set a new one
@@ -853,11 +854,11 @@ class UserController extends Controller {
             }
         }
         return $this->render('FrontEndBundle:user:profileUser.html.twig', array(
-                    'form' => $form->createView(),
-                    'errors' => $errors,
-                    'post' => $all_post,
-                    'user' => $user,
-                    'tourist' => $userTourist
+            'form' => $form->createView(),
+            'errors' => $errors,
+            'post' => $all_post,
+            'user' => $user,
+            'tourist' => $userTourist
 
         ));
     }

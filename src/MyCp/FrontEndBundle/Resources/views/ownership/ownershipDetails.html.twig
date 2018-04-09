@@ -143,7 +143,7 @@
                                 <div id="full-width-sliders" style="margin-top: -26px;"> 
                                     <div id="myCarousel" class="carousel slide"> 
                                         <div class="camera_wrap camera_azure_skin" id="camera_wrap_1">
-                                              {% for photo in  gallery_photos %} 
+                                               {% for photo in  gallery_photos %} 
                                                 {% set photoOriginalPath = 'uploads/ownershipImages/originals/'~photo.photo_name  %}
                                                 {% set photoPath = 'uploads/ownershipImages/'~photo.photo_name  %}
                                             <div data-thumb="{{ (existsFile(photoOriginalPath)) ? asset(photoOriginalPath) : asset(photoPath) }}"

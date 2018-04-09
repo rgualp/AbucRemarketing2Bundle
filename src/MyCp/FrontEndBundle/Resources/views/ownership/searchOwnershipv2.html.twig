@@ -1,13 +1,13 @@
 {% extends 'FrontEndBundle:layout:base.html.twig' %}
 {% block include_javascripts_and_css %}
     {% stylesheets
-    '@FrontEndBundle/Resources/public/css/plugins/ionRangeSlider/ion.rangeSlider.css'
-    '@FrontEndBundle/Resources/public/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css'
-    '@FrontEndBundle/Resources/public/js/plugins/bootstrap-select/bootstrap-select.min.css'
-    '@FrontEndBundle/Resources/public/css/slider.css'
-    '@FrontEndBundle/Resources/public/css/filtersv2.css'
-    filter='?uglifycss' %}
-    <link rel="stylesheet" href="{{ asset_url }}"/>
+        '@FrontEndBundle/Resources/public/css/plugins/ionRangeSlider/ion.rangeSlider.css'
+        '@FrontEndBundle/Resources/public/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css'
+        '@FrontEndBundle/Resources/public/js/plugins/bootstrap-select/bootstrap-select.min.css'
+        '@FrontEndBundle/Resources/public/css/slider.css'
+        '@FrontEndBundle/Resources/public/css/filtersv2.css'
+        filter='?uglifycss' %}
+        <link rel="stylesheet" href="{{ asset_url }}"/>
     {% endstylesheets %}
     <style>
     </style>
@@ -32,9 +32,9 @@
 
 {% block other_load_js %}
     {% javascripts
-    '@FrontEndBundle/Resources/public/js/ownership.js'
-    filter='?uglifyjs2' %}
-    .script('{{ asset_url }}')
+        '@FrontEndBundle/Resources/public/js/ownership.js'
+        filter='?uglifyjs2' %}
+        .script('{{ asset_url }}')
     {% endjavascripts %}
 {% endblock %}
 
@@ -72,17 +72,17 @@
             {#data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}"></div>#}
 
             {{ include('FrontEndBundle:ownership:verticalSearcherOwnershipv2.html.twig',
-            {'is_within_search_results':true,
-                'locale': locale}) }}
+                {'is_within_search_results':true,
+                    'locale': locale}) }}
             <div class="filter accordion-body collapse" id="collapseFilters">
                 <div id="filters" data-url-filter="{{ path('frontend_filter_ownership_callback') }}"
                      data-url-statistics="{{ path('frontend_filter_statistics_ownership_callback') }}">
                     {% if check_filters is defined %}
                         {{ include('FrontEndBundle:ownership:filtersv2.html.twig',
-                        {'own_statistics': own_statistics,'check_filters': check_filters}) }}
+                            {'own_statistics': own_statistics,'check_filters': check_filters}) }}
                     {% else %}
                         {{ include('FrontEndBundle:ownership:filtersv2.html.twig',
-                        {'own_statistics': own_statistics}) }}
+                            {'own_statistics': own_statistics}) }}
                     {% endif %}
                 </div>
             </div>
@@ -107,12 +107,15 @@
             </div>
         </div>
         <div class="col-sm-5 p-0">
-            <div class="destination-bar-title fmap col-sm-12 clearfix" style="padding: 0;">
-                <div class="col-sm-7" style="padding: 0 15px 13px;">
+            <div class="col-sm-12 clearfix" style="padding: 0;">
+                <div style="padding: 0 15px 13px;">
                     <ul class="nav" style="margin: 0">
-                        <li><h1 id="province_name" class="h-green caecilia-roman">
-                                {% if province_name != 'no' %}
+                        <li><h1 class="h-green caecilia-roman font-size-18">
+                                {% set description = get_meta_value('Alojamientos ' ~ province_name, app.session.get('app_lang_code')|lower, 'meta', 'DESCRIPTION')|raw %}
+                                {% if description == "" %}
                                     {{ province_name }}
+                                {% else %}
+                                    {{ description }}
                                 {% endif %}
                             </h1>
                         </li>
@@ -135,6 +138,7 @@
             var otherpage = {{ current_page }};
 
             function initJSTwig() {
+                console.log("initJSTwig");
                 $('.bs-select').selectpicker({
                     iconBase: 'fa',
                     tickIcon: 'fa-check'
@@ -147,6 +151,7 @@
                     start: 'top',
                     allowPageScroll: true
                 }).bind('slimscrolling', function (e, pos) {
+                    alert(post);
                     if (pos >= $('#div_result')[0].scrollHeight - $('#div_result').height()) {
                         otherpage++;
                         if (parseInt(otherpage) <= parseInt($('#div_result').attr("data-cant-page"))) {
@@ -166,7 +171,7 @@
                 $(".show-more-footer a").click(function (e) {
                     e.preventDefault();
                     $(".show-more-footer, footer.footer-static").toggleClass("showFooter");
-                })
+                });
 
                 $("iframe").css("position", "fixed");
                 jQuery("#priceFilter").slider({});
@@ -208,8 +213,6 @@
 
 
             }
-
-
         </script>
         {{ include('FrontEndBundle:script:script.html.twig') }}
     {% endblock %}

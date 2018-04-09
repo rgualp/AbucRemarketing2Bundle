@@ -2154,7 +2154,7 @@
               </trans-unit>
               <trans-unit id="546">
                   <source>USER_ACTIVATE_ACCOUNT_SUCCESS</source>
-                  <target>Gracias. Su usuario ha sido activado satisfactoriamente.</target>
+                  <target>Gracias. Su usuario ha sido activado satisfactoriamente. Ahora usted debe acceder al sistema para completar los datos de su propiedad y PUBLICAR su alojamiento en nuestro sitio.</target>
               </trans-unit>
               <trans-unit id="547">
                   <source>USER_ACTIVATE_ERROR</source>
@@ -2434,7 +2434,7 @@
                 </trans-unit>
                 <trans-unit id="616">
                     <source>FOOTER_EMAIL</source>
-                    <target><![CDATA[Añade reservation@mycasaparticular.com a tu agenda de contactos o tu lista de remitentes seguros para asegurarnos de que sigues recibiendo estos correos electrónicos.<br/><br/>También puedes leer nuestra Política de Privacidad <a href="%policieslink%">Aquí.</a><br/><br/>Los precios pueden estar sujetos a cambios antes de realizar el pago. Los precios no incluyen cargos por servicios aplicables. Todos los alojamientos están sujetos a chequeo de disponibilidad. Consulte nuestros <a href="%termlink%">Términos y Condiciones</a> para obtener información más detallada.<br/><br/>MyCasaParticular.com es un servicio de ABUC media network GmbH con número de registro comercial CH-270.4.002.844-1 en Basel. Suiza.]]></target>
+                    <target><![CDATA[Añade <a href="mailto:reservation@mycasaparticular.com"> a tu agenda de contactos o tu lista de remitentes seguros para asegurarnos de que sigues recibiendo estos correos electrónicos.<br/><br/>También puedes leer nuestra Política de Privacidad <a href="%policieslink%">Aquí.</a><br/><br/>Los precios pueden estar sujetos a cambios antes de realizar el pago. Los precios no incluyen cargos por servicios aplicables. Todos los alojamientos están sujetos a chequeo de disponibilidad. Consulte nuestros <a href="%termlink%">Términos y Condiciones</a> para obtener información más detallada.<br/><br/>MyCasaParticular.com es un servicio de ABUC media network GmbH con número de registro comercial CH-270.4.002.844-1 en Basel. Suiza.]]></target>
                 </trans-unit>
                 <trans-unit id="617">
                     <source>OF</source>

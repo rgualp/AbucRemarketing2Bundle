@@ -1,30 +1,34 @@
-<a title="My Casa Particular - {{"SEARCH_MAIN_MENU" | trans}}" class="" href="{{ path('frontend_search_ownership',{'text':'null', 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'}) }}">{{"SEARCH_MAIN_MENU" | trans}} {%if provinces | length%}<b class="caret"></b>{%endif%}</a>
-{%if provinces | length%}
-{%set counter = 0%}
-<ul class="dropdown-menu">
-    <li>
-        <div class="row-fluid">
-            <table style="width: 370px" class="dropdown-table">
-                <tbody>
-                    {%for prov in provinces%}
-                        {%if counter == 0%}
+<a title="My Casa Particular - {{ "SEARCH_MAIN_MENU" | trans }}" class=""
+   href="{{ path('frontend_search_ownership',{'text':'null', 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'}) }}">{{ "SEARCH_MAIN_MENU" | trans }} {% if provinces | length %}
+        <b class="caret"></b>{% endif %}</a>
+{% if provinces | length %}
+    {% set counter = 0 %}
+    <ul class="dropdown-menu">
+        <li>
+            <div class="row-fluid">
+                <table style="width: 370px" class="dropdown-table">
+                    <tbody>
+                    {% for prov in provinces %}
+                        {% if counter == 0 %}
                             <tr>
-                        {%endif%}
-                        <td><a href="{{ path('frontend_search_ownership',{'text':for_url[prov.prov_id]}) }}">{{prov.prov_name | trans}} </a></td>
-                        {%if counter == 1%}
+                        {% endif %}
+                        <td>
+                            <a href="{{ path('frontend_search_ownership',{'text':for_url[prov.prov_id]}) }}">{{ for_name[prov.prov_id] }}</a>
+                        </td>
+                        {% if counter == 1 %}
                             </tr>
-                            {%set counter = 0%}
-                        {%else%}
-                            {%set counter = counter + 1%}
-                        {%endif%}
-                    {%endfor%}
-                </tbody>
-            </table>
-        </div>
-    </li>
-</ul>
+                            {% set counter = 0 %}
+                        {% else %}
+                            {% set counter = counter + 1 %}
+                        {% endif %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </li>
+    </ul>
 
 
 
 
-{%endif%}
+{% endif %}
