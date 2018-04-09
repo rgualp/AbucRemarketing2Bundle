@@ -193,18 +193,25 @@
             $('#order_by_form').submit();
         })
 
+
+
         if($('#terms_conditions').is(":checked"))
             $('#btn_payment').removeAttr('disabled');
         else
             $('#btn_payment').attr('disabled','disabled');
 
-        $('#terms_conditions').change(function(){
-
-            if($('#terms_conditions').is(":checked"))
+        $('#terms_conditions').click(function() {
+            if ($(this).is(':checked')) {
                 $('#btn_payment').removeAttr('disabled');
-            else
+
+            }
+            if($(this).is(":not(:checked)")) {
+
                 $('#btn_payment').attr('disabled','disabled');
+            }
+
         });
+
 
     </script>
 {% endblock javascripts %}
