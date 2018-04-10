@@ -129,12 +129,13 @@
             {% if data['count_errors']>0 %}<label class="alert alert-error">Debe llenar el formulario correctamente.</label>{%endif%}
             <ul class="nav nav-tabs" id="myTab">
                 <li class="active"><a id="tabGeneral" {% if errors_tab['general_tab'] is defined %} class="tab_errors" {% endif %} data-toggle="tab" href="#generales">Datos generales</a></li>
+                <li class=""><a data-toggle="tab" href="#modality">Reservaciones</a></li>
                 <li class=""><a {% if errors_tab['room_tab'] is defined %} class="tab_errors" {% endif %} data-toggle="tab" href="#habitaciones">Habitaciones</a></li>
                 <li class=""><a data-toggle="tab" href="#facilidades">Facilidades</a></li>
                 <li class=""><a {% if errors_tab['house_tab'] is defined %} class="tab_errors" {% endif %} data-toggle="tab" href="#casa">Casa</a></li>
                 <li class=""><a data-toggle="tab" href="#sales">Ventas</a></li>
                 <li class=""><a {% if errors_tab['user_tab'] is defined %} class="tab_errors" {% endif %} data-toggle="tab" href="#usuario">Usuario</a></li>
-                    <li class=""><a data-toggle="tab" href="#modality">Reservaciones</a></li>
+
                 {% if data['edit_ownership'] is defined %}
                     <li class=""><a data-toggle="tab" href="#comentarios">Comentarios</a></li>
                 {% endif %}
