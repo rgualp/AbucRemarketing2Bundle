@@ -71,8 +71,8 @@
             {#<a data-rel="tooltip" href="#" class="favorite_off_action"  title="Agregar a Favoritos" >#}
             {#<i class="material-icons">favorite</i>#}
             {#</a></span>#}
-            <a href="">
-                <img title="{{ 'RESERVATION_CHECK_AVAILABILITY'| trans }}" style="width: 24px; height: 24px;cursor: pointer;margin-left: 10px" src="{{ asset('bundles/frontend/img/icons/consult.dispov.png')}}" alt="{{"WELCOMEPAGE_TITLE" | trans}}" title="{{ 'WELCOMEPAGE_TITLE' | trans }}" data-toggle="modal" data-target="#myModalOwnerShipCalendar"  >
+            <a href="{{ url('frontend_show_modal_ownership_calendar',{'idOwn':own.own_id | urlNormalize}) }}">
+                <img title="{{ 'RESERVATION_CHECK_AVAILABILITY'| trans }}" style="width: 24px; height: 24px;cursor: pointer;margin-left: 10px" src="{{ asset('bundles/frontend/img/icons/consult.dispov.png')}}" alt="{{"WELCOMEPAGE_TITLE" | trans}}" title="{{ 'WELCOMEPAGE_TITLE' | trans }}"  >
             </a>
         </div>
 

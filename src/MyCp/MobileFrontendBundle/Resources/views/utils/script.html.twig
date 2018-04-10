@@ -52,6 +52,9 @@
 
                 var arrival = $('#input_arrival_date').val();
                 var departure = $('#input_departure_date').val();
+        var valueDate = new Date();
+        valueDate.setDate(valueDate.getDate() + 2);
+        
         var departure_datepicker = $('#filter_date_to').datetimepicker({
             icons: {
                 time: "fa fa-clock-o",
@@ -65,7 +68,7 @@
                 close: 'fa fa-remove'
             },
             toolbarPlacement:'top',
-
+            defaultDate: moment(valueDate),
 
             minDate:moment(new Date()),
             format: 'DD/MM/YYYY'
@@ -90,7 +93,7 @@
                         close: 'fa fa-remove'
                     },
                     toolbarPlacement:'top',
-
+                    defaultDate: moment(new Date()),
                     minDate:moment(new Date()),
                     format: 'DD/MM/YYYY'
 
@@ -111,10 +114,10 @@
                 });
 
 
-                {#from = $('#filter_date_from').val();#}
-                {#to = $('#filter_date_to').val();#}
+                from = $('#filter_date_from').val();
+                to = $('#filter_date_to').val();
 
-                {#refresh_calendar(from, to,{{ ownership.own_id }});#}
+                refresh_calendar(from, to,{{ ownership.own_id }});
 
 
 
