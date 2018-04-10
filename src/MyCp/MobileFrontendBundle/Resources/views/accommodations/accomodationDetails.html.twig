@@ -1,0 +1,94 @@
+{% extends 'MyCpMobileFrontendBundle:accommodations:accomodationBase.html.twig' %}
+
+
+{% block title %}
+    {{ "SEARCH_RESULTS_PAGE_TITLE" | trans }}
+{% endblock %}
+
+{% set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_ACCOMMODATIONS') %}
+{% set lang_code=app.session.get('app_lang_code')|lower %}
+ {% block metas %}
+     {% if get_metas('Alojamientos ' ~ province_name, app.session.get('app_lang_code')|lower ) == false %}
+         {{ get_metas('Alojamientos', app.session.get('app_lang_code')|lower )|raw }}
+     {% else %}
+         {{ get_metas('Alojamientos ' ~ province_name, app.session.get('app_lang_code')|lower )|raw }}
+     {% endif %}
+ {% endblock metas %}
+{% block include_css %}
+    <style>
+        #poput-description .images-destination p {
+            color: #bbb;
+        }
+    #poput-description .images-destination .p-description {
+
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.58);
+    padding: 20px;
+    }
+    #poput-description .images-destination {
+    background-position: center center;
+    background-size: cover;
+    height: 100%;
+    }
+    </style>
+{% endblock %}
+
+{% block content %}
+
+    <div class="main main-raised">
+        <div class="text-center caecilia-roman white f-s-16" style="background: #f4941c; color:white; font-size:20px; ">
+            <i  style="width: 25px;height: 25px;color:#3C4858;" class="fa fa-star" alt="Pixel" ></i>
+            <a>{{ "SEARCH_RESULTS_PAGE_TITLE" | trans }}</a>
+
+            <i  style="width: 25px;height: 25px;color:#3C4858;" class="fa fa-star" alt="Pixel" ></i>
+
+        </div>
+
+        <div class="profile-content">
+
+            <div class="container" >
+                <div class="row" >
+                    <div class="container ">
+                        <div class="horizontal-scroll-wrapper squares" id="div_result" data-url="{{ path('frontend_research_ownership_callback') }}" data-current-page="{{ current_page }}" data-cant-page="{{ lastPage }}">
+
+
+
+
+                        </div>
+
+                        <div class="row">
+                            <button id="loadmore" class="btn btn-primary btn-block"
+                                    type="submit">Load More..</button>
+
+                        </div>
+
+                        <div class='row'>
+                            <div class="col-xs-12 p-a-1 text-xs-center bg-blue-mycp">
+                                <h2 class="m-a-0 white">
+                                    <a title="{{ 'DESCRIPTION_TAB_DETAILS' | trans }}"> ...</a>
+                                </h2>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+
+    </div>
+
+
+
+
+
+
+{% endblock %}

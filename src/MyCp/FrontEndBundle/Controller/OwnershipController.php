@@ -830,6 +830,36 @@ class OwnershipController extends Controller
         $prices_own_list = $results["prices"];
         $statistics_own_list = $em->getRepository('mycpBundle:ownership')->getSearchStatistics();
         $awards = $em->getRepository('mycpBundle:award')->findAll();
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
+        if ($mobileDetector->isMobile()){
+            return $this->render('@MyCpMobileFrontend/accommodations/accomodationDetails.html.twig', array(
+                'inmediate' => $inmediate,
+                'search_text' => $search_text,
+                'search_guests' => $search_guests,
+                'search_arrival_date' => $arrival,
+                'search_departure_date' => $departure,
+                'search_rooms' => $search_rooms,
+                'owns_categories' => $categories_own_list,
+                'owns_types' => $types_own_list,
+                'owns_prices' => $prices_own_list,
+                'order' => $session->get('search_order'),
+                'view_results' => $session->get('search_view_results'),
+                'own_statistics' => $statistics_own_list,
+                'locale' => $this->get('translator')->getLocale(),
+                'list' => $result_list,
+                'items_per_page' => $items_per_page,
+                'total_items' => $paginator->getTotalItems(),
+                'cant_pages' => $paginator->getLastPage(),
+                'current_page' => $page,
+                'check_filters' => $check_filters,
+                'show_paginator' => true,
+                'awards' => $awards,
+                "lastPage" => $paginator->getLastPage(),
+                "inmediate" => $inmediate,
+                "province_name" => $province_name
+            ));
+        }
+        else{
         if ($check_filters != null)
             return $this->render('FrontEndBundle:ownership:searchOwnershipv2.html.twig', array(
                 'inmediate' => $inmediate,
@@ -883,7 +913,7 @@ class OwnershipController extends Controller
                 "lastPage" => $paginator->getLastPage(),
                 "inmediate" => $inmediate,
                 "province_name" => $province_name
-            ));
+            ));}
     }
 
     public function searchOrderResultsAction()
@@ -1153,6 +1183,7 @@ class OwnershipController extends Controller
             $total_items = $session->get('total_items');
             $cant_pages = $session->get('cant_pages');
         }
+
         $mobileDetector = $this->get('mobile_detect.mobile_detector');
         if ($mobileDetector->isMobile()){
             $response = $this->renderView('@MyCpMobileFrontend/destination/cards.html.twig', array(

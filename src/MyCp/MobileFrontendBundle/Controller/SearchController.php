@@ -21,6 +21,18 @@ class SearchController extends Controller
             'departure_date' => $session->get("search_departure_date")
         ));
     }
+    public function overlaySearchDestinationBarAction() {
+        $em = $this->getDoctrine()->getManager();
+        $session = $this->getRequest()->getSession();
+
+        return $this->render('MyCpMobileFrontendBundle:menus:overlay.html.twig', array(
+            'locale' => $this->get('translator')->getLocale(),
+            'isDestination'=>true,
+            'autocomplete_text_list' => $em->getRepository('mycpBundle:ownership')->autocompleteTextList(),
+            'arrival_date' => $session->get("search_arrival_date"),
+            'departure_date' => $session->get("search_departure_date")
+        ));
+    }
 
     public function searchAction(Request $request, $text = null, $arriving_date = null, $departure_date = null, $guests = 1, $rooms = 1, $inmediate="null" ,$order_price='null', $order_comments='null', $order_books='null') {
 

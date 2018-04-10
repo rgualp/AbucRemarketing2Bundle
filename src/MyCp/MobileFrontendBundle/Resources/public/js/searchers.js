@@ -3,10 +3,11 @@ function start_s() {
     var page = $('#div_result').attr("data-current-page");
     //Buscador que esta encima de los filtros
     $('#btn_search').click(function(){
-        research(1);
+        $( "#div_result" ).empty();
+         research(1);
     });
     $('#loadmore').click(function(){
-        research(parseInt(data.cant_pages)+1);
+        research(parseInt(page)+1);
     });
     research(1);
 
@@ -116,19 +117,14 @@ function load_upper_filters(page)
     });
 
 
-    var rangePrice=$('#priceFilter').val();
-    if(rangePrice!=''){
-        var res = rangePrice.split(",");
-        own_price_items.push(parseInt(res[0]));
-        own_price_from_items.push(parseInt(res[0]));
-        own_price_to_items.push(parseInt(res[1]));
-        if (document.getElementById("fu_own_price_" + rangePrice) == null)
-        {
-            innerHtml = $("#filter_upper").html();
-            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_price_" + rangePrice + "' data-control-id='#priceFilter' data-value='" + rangePrice + "' data-control-name='own_price'><i class='icon-remove-sign'></i>$(" + rangePrice + ")</a> ");
-        }else{
-            $("#fu_own_price_" + rangePrice).remove();
-        }
+    var rangePrice=$('#priceFilter');
+    var prices= slider.noUiSlider.get()
+    if(prices!=''){
+
+        own_price_items.push(parseInt(prices[0]));
+        own_price_from_items.push(parseInt(prices[0]));
+        own_price_to_items.push(parseInt(prices[1]));
+
     }
     $('input[name=own_price]:checked').each(function() {
         own_price_items.push($(this).val());

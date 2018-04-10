@@ -1,14 +1,16 @@
 {%for own in list%}
-<div class="card search" data-id="{{own.own_id}}" id="own_{{own.own_id}}"  style='padding-top: 10px;'>
+<div class="card search" data-id="{{own.own_id}}" id="own_{{own.own_id}}"  style='margin-bottom: 50px; padding-top: 10px;'>
+
+
 
     <div style="background-image: url('{{ asset("uploads/ownershipImages/thumbnails/" ~  own.photo) }}'); height:255px" class="col-md-10 ml-auto mr-auto" rel="tooltip" >
-        {% if ownership.OwnInmediateBooking2 %}
+        {% if own.OwnInmediateBooking2 %}
             <div class="quick-ribbon" style="background-color: #ff0000">
                 <i class="fa fa-rocket" style="padding: 0px 5px"></i>
                 <span style="text-align: left;">{{ 'IMMEDIATE_BOOKING'|trans }}</span>
             </div>
 
-        {% elseif  ownership.OwnInmediateBooking %}
+        {% elseif  own.OwnInmediateBooking %}
             <div class="quick-ribbon" style="background-color: orange">
                 <i class="fa fa-flash" style="padding: 0px 5px"></i>
                 <span style="text-align: left;">{{ 'quick_bookinhg'|trans }}</span>
@@ -18,62 +20,69 @@
         {% endif %}
 
         <div class="thumbnail-title  clearfix">
-            <img id = 'best'src="{{ asset('bundles/mycpmobilefrontend/img/BEST-CASA.png') }}" style="top: 10px; width: 64px; height: 63px;position: absolute; z-index: 1;box-shadow: 5px 5px 10px #686765;border-radius:100px" alt="Awards">
+            {% if own.award %}
+                <img src="{{ asset("uploads/awards/") ~ own.award }}"  style="top: 10px; width: 64px; height: 63px;position: absolute; z-index: 1;box-shadow: 5px 5px 10px #686765;border-radius:100px" alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/>
+
+            {% endif %}
+
             <span class="h-blue pull-right text-uppercase f-s-30 m-a-0">
-               <small style="display: inline-block">{{ "FROM_PRICES" | trans | capitalize }}:</small>  {{ ownership.minimum_price | price }}</span>
+               <small style="display: inline-block">{{ "FROM_PRICES" | trans | capitalize }}:</small>  {{ own.minimum_price | price }}</span>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <a class="f-s-14" target="_blank" \>
-                <div class="h-blue m-b-2 m-t-0">
-                    <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':own.own_name  | urlNormalize}) }}">
-                     {{ own.own_name }}
-                           </a>
+            <a class="f-s-14" target="_blank" href="{{ path('frontend_details_ownership',{'own_name':own.own_name  | urlNormalize}) }}">
+                <div class="h-blue m-b-2 m-t-0" >
+                        {{ own.own_name }}
+
 
                 </div></a>
             <div class="col-sm-12 p-0">
                 {{own.category | trans}}
 
                 <div class="col-sm-16 p-0">
-                    <p style="margin: 0;">{{ ownership.prov_name | trans }}, {{ ownership.mun_name }}</p>
+                    <p style="margin: 0;">{{ own.prov_name | trans }}, {{ own.mun_name }}</p>
                 </div>
                 <div class="col-sm-16 p-0">
-                    <p style="margin: 0;">{{ ownership.type | trans }}/ {{ ownership.rooms_count }} {% if ownership.rooms_count> 1 %}{{ 'ROOM_PLURAL'|trans }}{% else %}{{ 'ROOM_SINGULAR'|trans }}{% endif %}</p>
+                    <p style="margin: 0;">{{ own.type | trans }}/ {{ own.rooms_count }} {% if own.rooms_count> 1 %}{{ 'ROOM_PLURAL'|trans }}{% else %}{{ 'ROOM_SINGULAR'|trans }}{% endif %}</p>
                 </div>
                 <div class="col-sm-16 p-0">
-                    {% if ownership.rating > 0 %}
-                        {% for i in 1..ownership.rating %}
-                            <span class="fa fa-star" data-rating={{ i }}></span>
+                    {% if own.rating > 0 %}
+                        {% for i in 1..own.rating %}
+                            <span class="fa fa-star" data-rating= {{ loop.index }}></span>
                         {% endfor %}
                     {% endif %}
 
-                    {% if ownership.rating < 5 %}
-                        {% for i in 1..(5-ownership.rating) %}
-                            <span class="fa fa-star-half-o" data-rating={{ i }}></span>
+                    {% if own.rating < 5 %}
+                        {% for i in 1..(5-own.rating) %}
+                            <span class="fa fa-star-o" data-rating= {{ loop.index }}></span>
                          {% endfor %}
                     {% endif %}
 
-                    <span>{{ ownership.comments_total }} {{ 'FORMS_COMMENTS'|trans }}</span>
+                    <span>{{ own.comments_total }} {{ 'FORMS_COMMENTS'|trans }}</span>
                 </div>
+
             </div>
 
         </div>
-
-        <div class="col-x3" style='    padding-top: 10px;
-          padding-right: 10px;'>
-                  <span class="favorite_action">
-                  <a data-rel="tooltip" href="#" class="favorite_off_action"  title="Agregar a Favoritos" >
-                  <i class="material-icons">favorite</i>
-                  </a></span>
+        <div class="col-x3" style='padding-top: 10px;  padding-right: 20px; '>
+            {#<span class="favorite_action">#}
+            {#<a data-rel="tooltip" href="#" class="favorite_off_action"  title="Agregar a Favoritos" >#}
+            {#<i class="material-icons">favorite</i>#}
+            {#</a></span>#}
             <a href="">
                 <img title="{{ 'RESERVATION_CHECK_AVAILABILITY'| trans }}" style="width: 24px; height: 24px;cursor: pointer;margin-left: 10px" src="{{ asset('bundles/frontend/img/icons/consult.dispov.png')}}" alt="{{"WELCOMEPAGE_TITLE" | trans}}" title="{{ 'WELCOMEPAGE_TITLE' | trans }}" data-toggle="modal" data-target="#myModalOwnerShipCalendar"  >
             </a>
-        </div></div>
+        </div>
+
+
+    </div>
 
 </div>
 
 {% else %}
-
+    <div class="card search">
+    <div class="alert a alert-info">{{ "EMPTY_LIST" | trans }}</div>
+    </div>
 {% endfor %}
