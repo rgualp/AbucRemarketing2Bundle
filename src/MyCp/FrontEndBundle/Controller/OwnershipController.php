@@ -1155,7 +1155,7 @@ class OwnershipController extends Controller
         }
         $mobileDetector = $this->get('mobile_detect.mobile_detector');
         if ($mobileDetector->isMobile()){
-            $response = $this->renderView('FrontEndBundle:ownership:searchListOwnership.html.twig', array(
+            $response = $this->renderView('@MyCpMobileFrontend/destination/cards.html.twig', array(
                 'list' => $list,
                 'items_per_page' => $items_per_page,
                 'total_items' => $total_items,

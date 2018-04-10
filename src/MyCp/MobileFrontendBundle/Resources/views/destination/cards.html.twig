@@ -1,14 +1,26 @@
-<div class="card search"  style='padding-top: 10px;'>
+{%for own in list%}
+<div class="card search" data-id="{{own.own_id}}" id="own_{{own.own_id}}"  style='padding-top: 10px;'>
 
-    <div style="background-image: url('{{ asset('img/map_pic.png') }}'); height:255px" class="col-md-10 ml-auto mr-auto" rel="tooltip" >
-        <div class="quick-ribbon" style="background-color: #ff0000">
-            <i class="fa fa-rocket" style="padding: 0px 5px"></i>
-            <span style="text-align: left;">Reserva Inmediata</span>
-        </div>
+    <div style="background-image: url('{{ asset("uploads/ownershipImages/thumbnails/" ~  own.photo) }}'); height:255px" class="col-md-10 ml-auto mr-auto" rel="tooltip" >
+        {% if ownership.OwnInmediateBooking2 %}
+            <div class="quick-ribbon" style="background-color: #ff0000">
+                <i class="fa fa-rocket" style="padding: 0px 5px"></i>
+                <span style="text-align: left;">{{ 'IMMEDIATE_BOOKING'|trans }}</span>
+            </div>
+
+        {% elseif  ownership.OwnInmediateBooking %}
+            <div class="quick-ribbon" style="background-color: orange">
+                <i class="fa fa-flash" style="padding: 0px 5px"></i>
+                <span style="text-align: left;">{{ 'quick_bookinhg'|trans }}</span>
+            </div>
+
+
+        {% endif %}
+
         <div class="thumbnail-title  clearfix">
             <img id = 'best'src="{{ asset('bundles/mycpmobilefrontend/img/BEST-CASA.png') }}" style="top: 10px; width: 64px; height: 63px;position: absolute; z-index: 1;box-shadow: 5px 5px 10px #686765;border-radius:100px" alt="Awards">
             <span class="h-blue pull-right text-uppercase f-s-30 m-a-0">
-               <small style="display: inline-block">Desde:</small> EUR 22.50</span>
+               <small style="display: inline-block">{{ "FROM_PRICES" | trans | capitalize }}:</small>  {{ ownership.minimum_price | price }}</span>
         </div>
     </div>
 
@@ -16,24 +28,34 @@
         <div class="col">
             <a class="f-s-14" target="_blank" \>
                 <div class="h-blue m-b-2 m-t-0">
-                    Esta seria Otra Casasss
+                    <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':own.own_name  | urlNormalize}) }}">
+                     {{ own.own_name }}
+                           </a>
+
                 </div></a>
             <div class="col-sm-12 p-0">
-                <span>Económica</span>
+                {{own.category | trans}}
 
                 <div class="col-sm-16 p-0">
-                    <p style="margin: 0;">Matanzas, Cárdenas</p>
+                    <p style="margin: 0;">{{ ownership.prov_name | trans }}, {{ ownership.mun_name }}</p>
                 </div>
                 <div class="col-sm-16 p-0">
-                    <p style="margin: 0;">Casa particular/ 4 habitaciones</p>
+                    <p style="margin: 0;">{{ ownership.type | trans }}/ {{ ownership.rooms_count }} {% if ownership.rooms_count> 1 %}{{ 'ROOM_PLURAL'|trans }}{% else %}{{ 'ROOM_SINGULAR'|trans }}{% endif %}</p>
                 </div>
                 <div class="col-sm-16 p-0">
-                    <span class="fa fa-star" data-rating="1"></span>
-                    <span class="fa fa-star" data-rating="2"></span>
-                    <span class="fa fa-star" data-rating="3"></span>
-                    <span class="fa fa-star" data-rating="4"></span>
-                    <span class="fa fa-star" data-rating="5"></span>
-                    <span>70 Comentarios</span>
+                    {% if ownership.rating > 0 %}
+                        {% for i in 1..ownership.rating %}
+                            <span class="fa fa-star" data-rating={{ i }}></span>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if ownership.rating < 5 %}
+                        {% for i in 1..(5-ownership.rating) %}
+                            <span class="fa fa-star-half-o" data-rating={{ i }}></span>
+                         {% endfor %}
+                    {% endif %}
+
+                    <span>{{ ownership.comments_total }} {{ 'FORMS_COMMENTS'|trans }}</span>
                 </div>
             </div>
 
@@ -51,3 +73,7 @@
         </div></div>
 
 </div>
+
+{% else %}
+
+{% endfor %}
