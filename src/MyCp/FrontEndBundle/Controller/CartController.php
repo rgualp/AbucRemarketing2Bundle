@@ -29,6 +29,18 @@ class CartController extends Controller {
             'search' => $search 
         ));
     }
+    public function countFavoritesItemsAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+
+        $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
+
+        $countItems = $em->getRepository('mycpBundle:favorite')->getTotal($user_ids['user_id'],$user_ids['session_id']);
+
+        return $this->render('FrontEndBundle:cart:cartFavoritesItems.html.twig', array(
+            'count' => $countItems,
+
+        ));
+    }
 
     /**
      * @return Response

@@ -776,40 +776,56 @@ class BookingService extends Controller
             $pendingPaymentStatusPending = $this->em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_name" => "pendingPayment_pending_status", "nom_category" => "paymentPendingStatus"));
             $completePaymentType= $this->em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_name" => "complete_payment", "nom_category" => "paymentPendingType"));
 
-            foreach ($ownershipReservations as $own) {
-                $this->updateICal($own->getOwnResSelectedRoomId());
+            foreach ($generalReservations as $generalReservation) {
+                $notificationService->sendConfirmPaymentSMSNotification($generalReservation);
+            }
 
-                if($booking->getCompletePayment()) {
-                    $accommodation = $own->getOwnResGenResId()->getGenResOwnId();
-                    $toPayAtService += $own->getOwnResTotalInSite() * (1- $accommodation->getOwnCommissionPercent() / 100) ;
-                    $count++;
 
-                    if ($own->getOwnResGenResId()->getGenResId() != $generalReservationId || $count == count($ownershipReservations)) {
-                        $payDate = $own->getOwnResGenResId()->getGenResToDate();
+            foreach ($generalReservations as $genres){
+                $ownershipReservations = $this->em->getRepository("mycpBundle:generalReservation")->getOwnershipReservations($genres);
+
+                if(count($ownershipReservations)) {
+                    $user = $ownershipReservations[0]->getOwnResGenResId()->getGenResUserId();
+                    $tourOperator = $this->em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+                    $travelAgency = $tourOperator->getTravelAgency();
+
+                    $pendingPaymentStatusPending = $this->em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_name" => "pendingPayment_pending_status", "nom_category" => "paymentPendingStatus"));
+                    $completePaymentType = $this->em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_name" => "complete_payment", "nom_category" => "paymentPendingType"));
+                    $toPayAtService = 0;
+
+                    $accommodation = $genres->getGenResOwnId();
+                    foreach ($ownershipReservations as $own) {
+                        $this->updateICal($own->getOwnResSelectedRoomId());
+
+
+                        $toPayAtService += $own->getOwnResTotalInSite() * (1 - $accommodation->getOwnCommissionPercent() / 100);
+
+
+                    }
+                    if ($booking->getCompletePayment()) {
+
+
+                        $payDate = $genres->getGenResToDate();
                         $payDate->add(new \DateInterval('P3D'));
-                        /*$new_date = strtotime('+3 day', strtotime($toDate));
-                        $payDate = new \DateTime();
-                        $payDate->setTimestamp($new_date);*/
 
-                        $generalReservationId = $own->getOwnResGenResId()->getGenResId();
                         $pendingPayment = new paPendingPaymentAccommodation();
                         $pendingPayment->setAmount($toPayAtService);
                         $pendingPayment->setAgency($travelAgency);
                         $pendingPayment->setAccommodation($accommodation);
                         $pendingPayment->setBooking($booking);
                         $pendingPayment->setCreatedDate(new \DateTime());
-                        $pendingPayment->setReservation($own->getOwnResGenResId());
+                        $pendingPayment->setReservation($genres);
                         $pendingPayment->setPayDate($payDate);
                         $pendingPayment->setStatus($pendingPaymentStatusPending);
                         $pendingPayment->setType($completePaymentType);
 
                         $this->em->persist($pendingPayment);
                         $this->em->flush();
-
+                        $toPayAtService = 0;
                         //Send a notification
                         $this->smsNotificationService->sendAgencyCompletePaymentSMSNotification($pendingPayment);
 
-                        $toPayAtService = 0;
+
                     }
                 }
             }
@@ -830,58 +846,60 @@ class BookingService extends Controller
             $notificationService->sendConfirmPaymentSMSNotification($generalReservation);
         }
 
-        $ownershipReservations = $this->getOwnershipReservations($bookingId);
-        $toPayAtService = 0;
-        $count = 0;
 
-        if(count($ownershipReservations)){
-            $generalReservation = $ownershipReservations[0]->getOwnResGenResId();
-            $generalReservationId = $generalReservation->getGenResId();
-            $user = $ownershipReservations[0]->getOwnResGenResId()->getGenResUserId();
-            $tourOperator = $this->em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
-            $travelAgency = $tourOperator->getTravelAgency();
 
-            $pendingPaymentStatusPending = $this->em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_name" => "pendingPayment_pending_status", "nom_category" => "paymentPendingStatus"));
-            $completePaymentType= $this->em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_name" => "complete_payment", "nom_category" => "paymentPendingType"));
 
-            foreach ($ownershipReservations as $own) {
-                $this->updateICal($own->getOwnResSelectedRoomId());
 
-                if($booking->getCompletePayment()) {
-                    $accommodation = $own->getOwnResGenResId()->getGenResOwnId();
-                    $toPayAtService += $own->getOwnResTotalInSite() * (1- $accommodation->getOwnCommissionPercent() / 100) ;
-                    $count++;
 
-                    if ($own->getOwnResGenResId()->getGenResId() != $generalReservationId || $count == count($ownershipReservations)) {
-                        $payDate = $own->getOwnResGenResId()->getGenResToDate();
-                        $payDate->add(new \DateInterval('P3D'));
-                        /*$new_date = strtotime('+3 day', strtotime($toDate));
-                        $payDate = new \DateTime();
-                        $payDate->setTimestamp($new_date);*/
+            foreach ($generalReservations as $genres){
+            $ownershipReservations = $this->em->getRepository("mycpBundle:generalReservation")->getOwnershipReservations($genres);
 
-                        $generalReservationId = $own->getOwnResGenResId()->getGenResId();
-                        $pendingPayment = new paPendingPaymentAccommodation();
-                        $pendingPayment->setAmount($toPayAtService);
-                        $pendingPayment->setAgency($travelAgency);
-                        $pendingPayment->setAccommodation($accommodation);
-                        $pendingPayment->setBooking($booking);
-                        $pendingPayment->setCreatedDate(new \DateTime());
-                        $pendingPayment->setReservation($own->getOwnResGenResId());
-                        $pendingPayment->setPayDate($payDate);
-                        $pendingPayment->setStatus($pendingPaymentStatusPending);
-                        $pendingPayment->setType($completePaymentType);
+            if(count($ownershipReservations)) {
+                $user = $ownershipReservations[0]->getOwnResGenResId()->getGenResUserId();
+                $tourOperator = $this->em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+                $travelAgency = $tourOperator->getTravelAgency();
 
-                        $this->em->persist($pendingPayment);
-                        $this->em->flush();
+                $pendingPaymentStatusPending = $this->em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_name" => "pendingPayment_pending_status", "nom_category" => "paymentPendingStatus"));
+                $completePaymentType = $this->em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_name" => "complete_payment", "nom_category" => "paymentPendingType"));
+                $toPayAtService = 0;
 
-                        //Send a notification
-                        $this->smsNotificationService->sendAgencyCompletePaymentSMSNotification($pendingPayment);
+                $accommodation = $genres->getGenResOwnId();
+                foreach ($ownershipReservations as $own) {
+                    $this->updateICal($own->getOwnResSelectedRoomId());
 
-                        $toPayAtService = 0;
-                    }
+
+                    $toPayAtService += $own->getOwnResTotalInSite() * (1 - $accommodation->getOwnCommissionPercent() / 100);
+
+
+                }
+                if ($booking->getCompletePayment()) {
+
+
+                    $payDate = $genres->getGenResToDate();
+                    $payDate->add(new \DateInterval('P3D'));
+
+                    $pendingPayment = new paPendingPaymentAccommodation();
+                    $pendingPayment->setAmount($toPayAtService);
+                    $pendingPayment->setAgency($travelAgency);
+                    $pendingPayment->setAccommodation($accommodation);
+                    $pendingPayment->setBooking($booking);
+                    $pendingPayment->setCreatedDate(new \DateTime());
+                    $pendingPayment->setReservation($genres);
+                    $pendingPayment->setPayDate($payDate);
+                    $pendingPayment->setStatus($pendingPaymentStatusPending);
+                    $pendingPayment->setType($completePaymentType);
+
+                    $this->em->persist($pendingPayment);
+                    $this->em->flush();
+                    $toPayAtService = 0;
+                    //Send a notification
+                    $this->smsNotificationService->sendAgencyCompletePaymentSMSNotification($pendingPayment);
+
+
                 }
             }
         }
+
 
     }
 
@@ -1129,7 +1147,7 @@ class BookingService extends Controller
         try {
             $emailService->sendEmail(
                 $subject,
-                'send@mycasaparticular.com',
+                'no-reply@mycasaparticular.com',
                 $subject . ' - MyCasaParticular.com',
                 $userEmail,
                 $body,
@@ -1379,7 +1397,7 @@ class BookingService extends Controller
         try {
             $emailService->sendEmailMultiplesAttach(
                 $subject . ' BR:'. $references,
-                'send@mycasaparticular.com',
+                'no-reply@mycasaparticular.com',
                 $subject . ' - MyCasaParticular.com',
                 $userEmail,
                 $body,
@@ -1403,7 +1421,7 @@ class BookingService extends Controller
                     try {
                         $emailService->sendEmailMultiplesAttach(
                             $subject . ' BR:'. $references,
-                            'send@mycasaparticular.com',
+                            'no-reply@mycasaparticular.com',
                             $subject . ' - MyCasaParticular.com',
                             $contact->getEmail(),
                             $body,
@@ -1930,7 +1948,6 @@ class BookingService extends Controller
     public function cancelReservations($reservations_ids=array(),$type=1,$cancel_date,$reason='',$give_tourist=true,$by_system=false){
 
         $notificationService = $this->container->get("mycp.notification.service");
-
         if(count($reservations_ids)){
             //Servicios
             $templatingService = $this->container->get('templating');
@@ -2026,7 +2043,7 @@ class BookingService extends Controller
                     $pending_tourist->setUser($this->em->getRepository('mycpBundle:user')->find($user[0]['user_id']));
                 }
                 else
-                    $pending_tourist->setUser($this->getUser());
+                $pending_tourist->setUser($this->getUser());
                 $pending_tourist->setRegisterDate(new \DateTime(date('Y-m-d')));
 
                 $date_pay = \MyCp\mycpBundle\Helpers\Dates::createDateFromString($cancel_date, '/', 1);
@@ -2036,7 +2053,7 @@ class BookingService extends Controller
                 if($give_tourist)
                     $pending_tourist->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_pending_status')));
                 else
-                    $pending_tourist->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_process_status')));
+                    $pending_tourist->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_no_devolution_status')));
 
                 $this->em->persist($pending_tourist);
 
@@ -2063,6 +2080,9 @@ class BookingService extends Controller
                         }
                     }
                 }
+
+
+
             }
             if($type==2)//Si el tipo de cancelación  es de turista
             {
@@ -2097,7 +2117,7 @@ class BookingService extends Controller
                     if($give_tourist)
                         $pending_tourist->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_pending_status')));
                     else
-                        $pending_tourist->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_process_status')));
+                        $pending_tourist->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_no_devolution_status')));
 
                     $this->em->persist($pending_tourist);
 
@@ -2124,7 +2144,8 @@ class BookingService extends Controller
                                 }
 
                                 //Se envia un sms al prpietario
-                                $notificationService->sendSMSReservationsCancel($ownershipReservation);
+
+                                 $notificationService->sendSMSReservationsCancel($ownershipReservation);
 
                                 //Adiciono el id de la casa al arreglo de casas
                                 $array_id_ownership[] = $ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId();
@@ -2189,7 +2210,7 @@ class BookingService extends Controller
                                 if($give_tourist)
                                     $pending_own->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_pending_status')));
                                 else
-                                    $pending_own->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_process_status')));
+                                    $pending_own->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_no_devolution_status')));
 
 
                                 $pending_own->setUser($this->getUser());
@@ -2199,15 +2220,116 @@ class BookingService extends Controller
                                 $this->em->persist($pending_own);
 
                                 //Se envia un sms al prpietario
-                                $notificationService->sendSMSReservationsCancel($ownershipReservation, $item['price']);
+                                if($give_tourist){
+                                    $notificationService->sendSMSReservationsCancel($ownershipReservation, $item['price']);
+                                }
+                                else{
+                                    $notificationService->sendSMSReservationsCancel($ownershipReservation);
+
+                                }
+
                             }
 
                         }
                     }
                 }
             }
-            //}
+            //Si el tipo de cancelacion es Noshow
+            if($type==3){
+                $repay=0;
+                $array_id_ownership=array();
+                foreach($reservations_ids as $genResId){
+                    $ownreservation = $this->em->getRepository('mycpBundle:ownershipReservation')->find($genResId);
 
+
+                       $noches = $service_time->nights($ownreservation->getOwnResReservationFromDate()->getTimestamp(), $ownreservation->getOwnResReservationToDate()->getTimestamp());
+
+                       $season = $this->em->getRepository("mycpBundle:season")->getSeasons($ownreservation->getOwnResReservationFromDate(),$ownreservation->getOwnResReservationToDate());
+                       $pago= $ownreservation->getOwnResRoomPriceDown() - ( $ownreservation->getOwnResRoomPriceDown() *( $ownreservation->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent() / 100));
+
+                       if($noches>0 && $noches<3){
+                          if($season[0]->getSeasonType()==0){
+                              $pago= $ownreservation->getOwnResRoomPriceDown() - ( $ownreservation->getOwnResRoomPriceDown() * ($ownreservation->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent() / 100));
+
+                              $repay+= $pago/2;
+                          }
+                          elseif ($season[0]->getSeasonType()==1){
+                              $pago= $ownreservation->getOwnResRoomPriceUp() - ( $ownreservation->getOwnResRoomPriceUp() * ($ownreservation->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent() / 100));
+
+                              $repay+= $pago/2;
+                          }
+                       }
+                       elseif ($noches>=3){
+                           if($season[0]->getSeasonType()==0){
+                               $pago= $ownreservation->getOwnResRoomPriceDown() - ( $ownreservation->getOwnResRoomPriceDown() * ($ownreservation->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent() / 100));
+
+                               $repay+= $pago;
+                           }
+                           elseif ($season[0]->getSeasonType()==1){
+                               $pago= $ownreservation->getOwnResRoomPriceUp() - ( $ownreservation->getOwnResRoomPriceUp() * ($ownreservation->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent() / 100));
+
+                               $repay+= $pago;
+                           }
+                       }
+                    $array_id_ownership[$ownreservation->getOwnResGenResId()->getGenResOwnId()->getOwnId()] = array('idown'=>$ownreservation->getOwnResGenResId()->getGenResOwnId()->getOwnId(),'price'=>$repay,'ownershipReservations'=>array($ownreservation),'arrival_date'=>$ownreservation->getOwnResReservationFromDate());
+
+//                    $array_id_ownership[$ownreservation->getOwnResGenResId()->getGenResOwnId()->getOwnId()]['price'] = $array_id_ownership[$ownreservation->getOwnResGenResId()->getGenResOwnId()->getOwnId()]['price']+$repay;
+//                    $array_id_ownership[$ownreservation->getOwnResGenResId()->getGenResOwnId()->getOwnId()]['ownershipReservations'][] = $ownreservation;
+
+
+
+                }
+
+                //Se registra un Pago Pendiente a Propietario
+                foreach($array_id_ownership as $item){
+                    $ownership = $this->em->getRepository('mycpBundle:ownership')->find($item['idown']);
+                    //Se registra un Pago Pendiente a Propietario
+                    if($item['price']>0){
+                        $pending_own=new pendingPayown();
+                        $pending_own->setCancelId($obj);
+                        $pending_own->setPayAmount($item['price']);
+                        $pending_own->setUserCasa($ownership);
+//                                $pending_own->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_pending_status')));
+
+                        if($give_tourist)
+                            $pending_own->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_pending_status')));
+                        else
+                            $pending_own->setType($this->em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => 'pendingPayment_no_devolution_status')));
+
+
+                        $pending_own->setUser($this->getUser());
+                        $pending_own->setRegisterDate(new \DateTime(date('Y-m-d')));
+                        $dateRangeFrom = $service_time->add("+3 days",$item['arrival_date']->format('Y/m/d'), "Y/m/d");
+                        $pending_own->setPaymentDate(\MyCp\mycpBundle\Helpers\Dates::createFromString($dateRangeFrom, '/', 1));
+                        $this->em->persist($pending_own);
+                        $this->em->flush();
+                        //Se envia un sms al prpietario
+                        if($give_tourist){
+                            $notificationService->sendSMSReservationsCancel($ownreservation, $item['price']);
+                        }
+                        else{
+                            $notificationService->sendSMSReservationsCancel($ownreservation);
+
+                        }
+
+                    }
+
+                }
+
+
+            }
+            //}
+            //Se cancelan los pagos completos
+            if(count($reservations_ids)){
+                foreach($reservations_ids as $genResId){
+                    $pendingPaymen= $this->em->getRepository("mycpBundle:pendingPayment")->findOneBy(array("reservation" => $genResId));
+                   if($pendingPaymen!=null){
+                    $pendingPaymen->setStatus(48);
+                    $this->em->persist($pendingPaymen);
+                    $this->em->flush();}
+                }
+
+            }
             if(count($booking->getBookingOwnReservations())==count($obj->getOwnreservations()))
                 $flag=true;
             if($flag)

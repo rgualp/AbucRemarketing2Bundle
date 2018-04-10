@@ -22,7 +22,7 @@
         filter='?uglifycss'
         %}
         {#'@MyCpMobileFrontendBundle/Resources/public/css/style.css'#}
-            <link rel="stylesheet" href="{{ asset_url }}" />
+            <link rel="stylesheet" href="{{ asset_url }}" media="none" onload="if(media!='all')media='all'" />
         {% endstylesheets %}
         {#{% if ownership.category is defined and  ownership.category == 'Económica'%}#}
             {#{% stylesheets#}

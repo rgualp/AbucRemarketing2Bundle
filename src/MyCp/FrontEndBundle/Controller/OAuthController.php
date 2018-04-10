@@ -108,15 +108,12 @@ class OAuthController extends Controller
                             $em->persist($userTourist);
 
                             //Envio de correo de oferta de servicios extra
-                            $service_email = $this->get('Email');
-                            $bodyExtraServices = $this->render('FrontEndBundle:mails:extraServicesMail.html.twig', array(
-                                'user_name' => $fbLoginData->getName(),
-                                'user_locale' => (($language === null || !isset($language) || $language === "") ? $defaultLanguageCode : $languageCode )));
-
-                            $service_email->sendTemplatedEmail($this->get('translator')->trans('EXTRA_SERVICES_SUBJECT'), 'services@mycasaparticular.com', $user->getUserEmail(), $bodyExtraServices->getContent());
-
-
-
+//                            $service_email = $this->get('Email');
+//                            $bodyExtraServices = $this->render('FrontEndBundle:mails:extraServicesMail.html.twig', array(
+//                                'user_name' => $fbLoginData->getName(),
+//                                'user_locale' => (($language === null || !isset($language) || $language === "") ? $defaultLanguageCode : $languageCode )));
+//
+//                            $service_email->sendTemplatedEmail($this->get('translator')->trans('EXTRA_SERVICES_SUBJECT'), 'services@mycasaparticular.com', $user->getUserEmail(), $bodyExtraServices->getContent());
 
                             /* $hash_user = hash('sha256', $fbLoginData->getName());
                              $hash_email = hash('sha256', strtolower($fbLoginData->getEmail()));

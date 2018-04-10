@@ -116,6 +116,7 @@ class BlockController extends Controller
     /**
      * @param Request $request
      * @return Response
+     * @throws \Doctrine\ORM\OptimisticLockException
      * @Route("/edit", name="hdsseo_block_edit")
      * @Route("/new", name="hdsseo_block_new")
      * @Method({"POST", "GET"})
@@ -139,6 +140,7 @@ class BlockController extends Controller
             $obj = new Block();
         }
         $form = $this->createForm($this->block_formtype, $obj);
+
 
         #region Save
         $formtype = $request->get('block_formtype');
@@ -195,16 +197,14 @@ class BlockController extends Controller
         #endregion
 
         $header_blocks = $this->headerblock_repository->findAll();
-        $contents = $obj->getContents();
-        $tmp_header_blocks = array();
 
+        $tmp_header_blocks = array();
         foreach ($header_blocks as $header_block) {
             $header_block_name = $header_block->getName();
             $tmp_header_blocks[$header_block_name] = '';
-
             $headers = $header_block->getHeaders();
-            foreach ($headers as $header) {
 
+            foreach ($headers as $header) {
                 $content = $this->blockcontent_repository->findOneBy(array(
                     'block' => $obj->getId(),
                     'header' => $header->getId(),
@@ -212,8 +212,8 @@ class BlockController extends Controller
                 ));
                 if (!$content) {
                     $content = new BlockContent();
+                    $content->setContent($header->getDefaultValue());
                 }
-
                 $tmp_header_blocks[$header_block_name][] = array(
                     'header' => $header,
                     'content' => $content
@@ -222,7 +222,6 @@ class BlockController extends Controller
         }
 
         $languages = $this->em->getRepository('mycpBundle:lang')->findBy(array('lang_active' => 1));
-
         $data['obj'] = $obj;
         $data['block'] = $obj;
         $data['form_header'] = $form->createView();
@@ -232,9 +231,11 @@ class BlockController extends Controller
         return $this->render('SeoBundle:Block:process.html.twig', $data);
     }
 
+
     /**
      * @param Request $request
      * @return Response
+     * @throws \Doctrine\ORM\OptimisticLockException
      * @Route("/delete", name="hdsseo_block_delete")
      * @Method({"POST"})
      */

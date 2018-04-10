@@ -108,165 +108,174 @@
                 {% endif %}
             </div>
         </div>
-        <div class="m-t-20 prices-form">
-            <div class="row m-t-5">
-                <div class="col-md-1 col-xs-2">
-                    <a class="glyphicons money"></a>
+        {% if not ownership.isRentalTypeFull %}
+            <div class="m-t-20 prices-form">
+                <div class="row m-t-5">
+                    <div class="col-md-1 col-xs-2">
+                        <a class="glyphicons money"></a>
+                    </div>
+                    <div class="col-md-2 col-xs-6">
+                        <span class="text-price-step3">Precios</span>
+                    </div>
+                    <div class="col-md-2 col-xs-3">
+                        <img class="help-icon" data-href="help-step3-one"
+                             src="{{ asset('/bundles/mycpcasamodule/img/ayuda.png') }}">
+                        <img class="help-icon hidden-xs"
+                             src="{{ asset('/bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}">
+                    </div>
                 </div>
-                <div class="col-md-2 col-xs-6">
-                    <span class="text-price-step3">Precios</span>
-                </div>
-                <div class="col-md-2 col-xs-3">
-                    <img class="help-icon" data-href="help-step3-one"
-                         src="{{ asset('/bundles/mycpcasamodule/img/ayuda.png') }}">
-                    <img class="help-icon hidden-xs" src="{{ asset('/bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}">
-                </div>
-            </div>
 
-            {% set commission = (room is defined) ? room.roomOwnership.ownCommissionPercent : 20 %}
+                {% set commission = (room is defined) ? room.roomOwnership.ownCommissionPercent : 20 %}
 
-            <div class="row m-t-5">
-                <div class="col-md-3 col-xs-6">
-                    <label>Temporada Baja</label>
-                </div>
-                <div class="col-md-5 col-xs-1 p-0">
-                    <input type="hidden" id="inputCommission" value="{{ commission }}">
+                <div class="row m-t-5">
+                    <div class="col-md-3 col-xs-6">
+                        <label>Temporada Baja</label>
+                    </div>
+                    <div class="col-md-5 col-xs-1 p-0">
+                        <input type="hidden" id="inputCommission" value="{{ commission }}">
 
-                    <input
-                            {% if room is defined %}
-                                value="{{ (room.RoomPriceDownTo * ( 1 - commission / 100)) }}"
-                            {% endif %}
-                            title="A recibir."
-                            id="r_input_price_low_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
-                            type="text"
-                            class="price_low_season form-control {% if room is defined %}hide{% endif %} only-number"
-                            data-roomid="{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}">
+                        <input
+                                {% if room is defined %}
+                                    value="{{ (room.RoomPriceDownTo * ( 1 - commission / 100)) }}"
+                                {% endif %}
+                                title="A recibir."
+                                id="r_input_price_low_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
+                                type="text"
+                                class="price_low_season form-control {% if room is defined %}hide{% endif %} only-number"
+                                data-roomid="{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}">
 
-                    <input id="input_price_low_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
-                           type="text" class="form-control {#{% if room is defined %}hide{% endif %}#}hide only-number"
-                           name="price_low_season" value="{% if room is defined %}{{ room.RoomPriceDownTo }}{% endif %}"
-                           data-roomid="{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}">
-                    <span class="input_price_low_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %} {% if room is defined %}hide{% endif %}"></span>
+                        <input id="input_price_low_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
+                               type="text"
+                               class="form-control {#{% if room is defined %}hide{% endif %}#}hide only-number"
+                               name="price_low_season"
+                               value="{% if room is defined %}{{ room.RoomPriceDownTo }}{% endif %}"
+                               data-roomid="{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}">
+                        <span class="input_price_low_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %} {% if room is defined %}hide{% endif %}"></span>
 
+                        {% if room is defined %}
+                            <label class="font-blue label_price_low_season_{{ room.RoomId }}">{{ (room.RoomPriceDownTo * ( 1 - commission / 100)) }}
+                                CUC A recibir. </label>
+                            <br>
+                            <span id="label_price_low_season_{{ room.RoomId }}"
+                                  class=" label_price_low_season_{{ room.RoomId }}"> {{ room.RoomPriceDownTo }} CUC En el sitio.</span>
+                        {% endif %}
+                    </div>
                     {% if room is defined %}
-                        <label class="font-blue label_price_low_season_{{ room.RoomId }}">{{ (room.RoomPriceDownTo * ( 1 - commission / 100)) }}
-                            CUC A recibir. </label>
-                        <br>
-                        <span id="label_price_low_season_{{ room.RoomId }}"
-                              class=" label_price_low_season_{{ room.RoomId }}"> {{ room.RoomPriceDownTo }} CUC En el sitio.</span>
+                        <div class="col-md-1 col-xs-4">
+                            <button data-cmpdisabled=".label_price_low_season_{{ room.RoomId }}"
+                                    data-cmpenabled="#r_input_price_low_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
+                                    class="btn btn-primary dim changeBtn" type="button">Cambiar
+                            </button>
+                        </div>
                     {% endif %}
                 </div>
-                {% if room is defined %}
-                    <div class="col-md-1 col-xs-4">
-                        <button data-cmpdisabled=".label_price_low_season_{{ room.RoomId }}"
-                                data-cmpenabled="#r_input_price_low_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
-                                class="btn btn-primary dim changeBtn" type="button">Cambiar
-                        </button>
+                <br>
+
+                <div class="row m-t-5">
+                    <div class="col-md-3 col-xs-6">
+                        <label>Temporada Alta</label>
                     </div>
-                {% endif %}
-            </div>
-            <br>
+                    <div class="col-md-5 col-xs-1 p-0">
+                        <input
+                                {% if room is defined %}
+                                    value="{{ (room.RoomPriceUpTo * ( 1 - commission / 100)) }}"
+                                {% endif %}
+                                title="A recibir."
+                                id="r_input_price_high_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
+                                type="text"
+                                class="price_high_season form-control {% if room is defined %}hide{% endif %} only-number"
+                                data-roomid="{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}">
+                        <input id="input_price_high_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
+                               type="text"
+                               class="form-control  {#{% if room is defined %}hide{% endif %}#}hide only-number"
+                               name="price_high_season"
+                               value="{% if room is defined %}{{ room.RoomPriceUpTo }}{% endif %}"
+                               data-roomid="{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}">
+                        <span class="input_price_high_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %} {% if room is defined %}hide{% endif %}"></span>
 
-            <div class="row m-t-5">
-                <div class="col-md-3 col-xs-6">
-                    <label>Temporada Alta</label>
-                </div>
-                <div class="col-md-5 col-xs-1 p-0">
-                    <input
-                            {% if room is defined %}
-                                value="{{ (room.RoomPriceUpTo * ( 1 - commission / 100)) }}"
-                            {% endif %}
-                            title="A recibir."
-                            id="r_input_price_high_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
-                            type="text"
-                            class="price_high_season form-control {% if room is defined %}hide{% endif %} only-number"
-                            data-roomid="{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}">
-                    <input id="input_price_high_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
-                           type="text" class="form-control  {#{% if room is defined %}hide{% endif %}#}hide only-number"
-                           name="price_high_season" value="{% if room is defined %}{{ room.RoomPriceUpTo }}{% endif %}"
-                           data-roomid="{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}">
-                    <span class="input_price_high_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %} {% if room is defined %}hide{% endif %}"></span>
-
+                        {% if room is defined %}
+                            <label class="font-blue label_price_high_season_{{ room.RoomId }}">{{ (room.RoomPriceUpTo * ( 1 - commission / 100)) }}
+                                CUC A recibir. </label>
+                            <br>
+                            <span id="label_price_high_season_{{ room.RoomId }}"
+                                  class=" label_price_high_season_{{ room.RoomId }}"> {{ room.RoomPriceUpTo }} CUC En el sitio.</span>
+                        {% endif %}
+                    </div>
                     {% if room is defined %}
-                        <label class="font-blue label_price_high_season_{{ room.RoomId }}">{{ (room.RoomPriceUpTo * ( 1 - commission / 100)) }}
-                            CUC A recibir. </label>
-                        <br>
-                        <span id="label_price_high_season_{{ room.RoomId }}"
-                              class=" label_price_high_season_{{ room.RoomId }}"> {{ room.RoomPriceUpTo }} CUC En el sitio.</span>
+                        <div class="col-md-1 col-xs-4">
+                            <button data-cmpdisabled=".label_price_high_season_{{ room.RoomId }}"
+                                    data-cmpenabled="#r_input_price_high_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
+                                    class="btn btn-primary dim changeBtn" type="button">Cambiar
+                            </button>
+                        </div>
                     {% endif %}
                 </div>
-                {% if room is defined %}
-                    <div class="col-md-1 col-xs-4">
-                        <button data-cmpdisabled=".label_price_high_season_{{ room.RoomId }}"
-                                data-cmpenabled="#r_input_price_high_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
-                                class="btn btn-primary dim changeBtn" type="button">Cambiar
-                        </button>
+                <br>
+
+                <div class="row m-t-5">
+                    <div class="col-md-3 col-xs-6">
+                        <label>Temporada Especial</label>
                     </div>
-                {% endif %}
-            </div>
-            <br>
+                    <div class="col-md-5 col-xs-1 p-0">
+                        <input
+                                {% if room is defined %}
+                                    value="{{ (room.RoomPriceSpecial * ( 1 - commission / 100)) }}"
+                                {% endif %}
+                                title="A recibir."
+                                id="r_input_price_special_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
+                                type="text"
+                                class="price_special_season form-control {#{% if room is defined %}hide{% endif %}#}hide only-number"
+                                data-roomid="{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}">
+                        <input id="input_price_special_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
+                               type="text" class="form-control {% if room is defined %}hide{% endif %} only-number"
+                               name="price_special_season"
+                               value="{% if room is defined %}{{ room.RoomPriceSpecial }}{% endif %}"
+                               data-roomid="{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}">
+                        <span class="input_price_special_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %} {% if room is defined %}hide{% endif %}"></span>
 
-            <div class="row m-t-5">
-                <div class="col-md-3 col-xs-6">
-                    <label>Temporada Especial</label>
-                </div>
-                <div class="col-md-5 col-xs-1 p-0">
-                    <input
-                            {% if room is defined %}
-                                value="{{ (room.RoomPriceSpecial * ( 1 - commission / 100)) }}"
-                            {% endif %}
-                            title="A recibir."
-                            id="r_input_price_special_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
-                            type="text"
-                            class="price_special_season form-control {#{% if room is defined %}hide{% endif %}#}hide only-number"
-                            data-roomid="{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}">
-                    <input id="input_price_special_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
-                           type="text" class="form-control {% if room is defined %}hide{% endif %} only-number"
-                           name="price_special_season"
-                           value="{% if room is defined %}{{ room.RoomPriceSpecial }}{% endif %}"
-                           data-roomid="{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}">
-                    <span class="input_price_special_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %} {% if room is defined %}hide{% endif %}"></span>
-
+                        {% if room is defined %}
+                            <label class="font-blue label_price_special_season_{{ room.RoomId }}">{{ (room.RoomPriceSpecial * ( 1 - commission / 100)) }}
+                                CUC A recibir. </label>
+                            <br>
+                            <span id="label_price_special_season_{{ room.RoomId }}"
+                                  class=" label_price_special_season_{{ room.RoomId }}"> {{ room.RoomPriceSpecial }} CUC En el sitio.</span>
+                        {% endif %}
+                    </div>
                     {% if room is defined %}
-                        <label class="font-blue label_price_special_season_{{ room.RoomId }}">{{ (room.RoomPriceSpecial * ( 1 - commission / 100)) }}
-                            CUC A recibir. </label>
-                        <br>
-                        <span id="label_price_special_season_{{ room.RoomId }}"
-                              class=" label_price_special_season_{{ room.RoomId }}"> {{ room.RoomPriceSpecial }} CUC En el sitio.</span>
+                        <div class="col-md-1 col-xs-4">
+                            <button data-cmpdisabled=".label_price_special_season_{{ room.RoomId }}"
+                                    data-cmpenabled="#r_input_price_special_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
+                                    class="btn btn-primary dim changeBtn" type="button">Cambiar
+                            </button>
+                        </div>
                     {% endif %}
                 </div>
-                {% if room is defined %}
-                    <div class="col-md-1 col-xs-4">
-                        <button data-cmpdisabled=".label_price_special_season_{{ room.RoomId }}"
-                                data-cmpenabled="#r_input_price_special_season_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
-                                class="btn btn-primary dim changeBtn" type="button">Cambiar
-                        </button>
+            </div>
+            <div class="m-t-20 ">
+                <div class="row text-center">
+                    <img src="{{ asset('/bundles/mycpcasamodule/img/alarma.png') }}">
+                </div>
+                <div class="row text-step3">
+                    <div class="col-md-11 col-xs-12">
+                        <p>A partir del precio definido por usted, MyCasaParticular cobra al TURISTA un pago por
+                            adelantado
+                            correspondiente al 20% del precio publicado en el sitio.</p>
                     </div>
-                {% endif %}
-            </div>
-        </div>
-        <div class="m-t-20 ">
-            <div class="row text-center">
-                <img src="{{ asset('/bundles/mycpcasamodule/img/alarma.png') }}">
-            </div>
-            <div class="row text-step3">
-                <div class="col-md-11 col-xs-12">
-                    <p>A partir del precio definido por usted, MyCasaParticular cobra al TURISTA un pago por adelantado
-                        correspondiente al 20% del precio publicado en el sitio.</p>
+                </div>
+                <div class="row text-step3">
+                    <div class="col-md-11 col-xs-12">
+                        <p>Usted NO PAGA COMISIÓN.</p>
+                    </div>
+                </div>
+                <div class="row text-step3">
+                    <div class="col-md-11 col-xs-12">
+                        <p>El valor que hacemos público incluye el precio que usted pone a su alojamiento más la
+                            comisión
+                            nuestra.</p>
+                    </div>
                 </div>
             </div>
-            <div class="row text-step3">
-                <div class="col-md-11 col-xs-12">
-                    <p>Usted NO PAGA COMISIÓN.</p>
-                </div>
-            </div>
-            <div class="row text-step3">
-                <div class="col-md-11 col-xs-12">
-                    <p>El valor que hacemos público incluye el precio que usted pone a su alojamiento más la comisión
-                        nuestra.</p>
-                </div>
-            </div>
-        </div>
+        {% endif %}
         <div class="m-t-20 facilities-form">
             <div class="row">
                 <div class="col-md-4 col-xs-8">
@@ -460,7 +469,8 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 col-md-2">
-                    <img style="width: 50%;" src="{{ asset('img/apple_touch_icons/apple_touch_ipad.png') }}" title="Enlace MyCasaParticular" alt="my casa particular"/>
+                    <img style="width: 50%;" src="{{ asset('img/apple_touch_icons/apple_touch_ipad.png') }}"
+                         title="Enlace MyCasaParticular" alt="my casa particular"/>
                 </div>
                 <div class="col-xs-12 col-md-8">
                     <input type="text" class="form-control" readonly="readonly" name="ical"

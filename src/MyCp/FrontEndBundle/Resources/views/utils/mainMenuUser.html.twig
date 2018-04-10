@@ -14,10 +14,65 @@
     <ul class="dropdown-menu">
         {% if app.user.getUserUserName is defined %}
             <li><a title="{{"USER_PROFILE" | trans }}" href="{{ path('frontend_profile_user') }}">{{"USER_PROFILE" | trans }}</a></li>
+            <li role="separator" class="divider"></li>
+            <li>
+                {{ render(controller('FrontEndBundle:Cart:countCartItems')) }}
+            </li>
+            <li >
+                {{ render(controller('FrontEndBundle:Cart:countFavoritesItems')) }}
+            </li>
+            <li role="separator" class="divider"></li>
+
+            <li >
+                {{ render(controller('FrontEndBundle:Public:getMainMenuMycasatrip')) }}
+            </li>
+            <li role="separator" class="divider"></li>
+            <li class="dropdown-submenu">
+                <a title="{{"LANGUAGE" | trans }}" data-toggle="dropdown" href="#"><img class="icon tiny-lang-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" title="{{"LANGUAGE" | trans}}" alt="{{"LANGUAGE" | trans}}"/>
+                    {{(app.session.get('app_lang_name') == null or app.session.get('app_lang_name') == "") ? "Español" : app.session.get('app_lang_name')}}</a>
+                <ul class="dropdown-menu">
+                    {{ render_esi(controller('FrontEndBundle:Language:getLanguages', {'route': app.request.get('_route'), 'routeParams':  app.request.get('_route_params')})) }}
+                </ul>
+            </li>
+            <li class="dropdown-submenu">
+                <a title="{{"CURRENCY" | trans }}" data-toggle="dropdown"  href="#"><img class="icon tiny-curr-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" title="{{"CURRENCY" | trans }}" alt="{{"CURRENCY" | trans }}"/>
+                    {{(app.session.get('curr_acronym') == null or app.session.get('curr_acronym') == "") ? default_currency().currcode|upper : app.session.get('curr_acronym')|upper}} </a>
+                <ul class="dropdown-menu">
+                    {{ render_esi(controller('FrontEndBundle:Currency:getCurrencies', {'params': app.request.attributes.all, 'route': app.request.get('_route'), 'routeParams': app.request.get('_route_params')})) }}
+                </ul>
+            </li>
+
+            <li role="separator" class="divider"></li>
             <li><a title="{{"USER_CHANGE_PASSWORD" | trans }}" href="{{ path('frontend_change_password_start_user') }}">{{"USER_CHANGE_PASSWORD" | trans }}</a></li>
             <li><a title="{{"LOG_OUT" | trans}}" href="{{ path('mycp_logout') }}">{{"LOG_OUT" | trans}} </a></li>
+
         {% else %}
             <li><a title="{{"LOG_IN" | trans }}" href="{{ path('frontend_public_login') }}">{{"LOG_IN" | trans }}</a></li>
             <li><a title="{{"USER_NEW_ACCOUNT" | trans }}" href="{{ path('frontend_register_user') }}">{{"USER_NEW_ACCOUNT" | trans }}</a></li>
+
+
+            <li role="separator" class="divider"></li>
+            <li class="dropdown-submenu">
+                <a title="{{"LANGUAGE" | trans }}" data-toggle="dropdown"  href="#"><img class="icon tiny-lang-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" title="{{"LANGUAGE" | trans}}" alt="{{"LANGUAGE" | trans}}"/>
+                    {{(app.session.get('app_lang_name') == null or app.session.get('app_lang_name') == "") ? "Español" : app.session.get('app_lang_name')}} </a>
+                <ul class="dropdown-menu">
+                    {{ render_esi(controller('FrontEndBundle:Language:getLanguages', {'route': app.request.get('_route'), 'routeParams': app.request.get('_route_params')})) }}
+                </ul>
+            </li>
+            <li class="dropdown-submenu" >
+                <a title="{{"CURRENCY" | trans }}" data-toggle="dropdown"  href="#"><img class="icon tiny-curr-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" title="{{"CURRENCY" | trans }}" alt="{{"CURRENCY" | trans }}"/>
+                    {{(app.session.get('curr_acronym') == null or app.session.get('curr_acronym') == "") ? default_currency().currcode|upper : app.session.get('curr_acronym')|upper}} </a>
+                <ul class="dropdown-menu">
+                    {{ render_esi(controller('FrontEndBundle:Currency:getCurrencies', {'params': app.request.attributes.all, 'route': app.request.get('_route'), 'routeParams': app.request.get('_route_params')})) }}
+                </ul>
+            </li>
+            <li role="separator" class="divider"></li>
+            <li >
+                {{ render(controller('FrontEndBundle:Cart:countCartItems')) }}
+            </li>
+            <li>
+                {{ render(controller('FrontEndBundle:Cart:countFavoritesItems')) }}
+            </li>
+
         {% endif %}
     </ul>

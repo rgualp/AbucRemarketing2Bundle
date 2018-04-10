@@ -1,0 +1,6 @@
+mycp_province_list:
+    path:  /list
+    defaults: { _controller: mycpBundle:BackendProvince:list}
+mycp_province_change_state:
+    path:  /change/{id}/{state}
+    defaults: { _controller: mycpBundle:BackendProvince:changeState}

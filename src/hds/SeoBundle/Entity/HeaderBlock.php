@@ -41,6 +41,7 @@ class HeaderBlock
 	 */
 	private $headers;
 
+
 	public function __toString(){
 		return $this->name;
 	}
@@ -145,4 +146,6 @@ class HeaderBlock
     {
         return $this->headers;
     }
+
+
 }

@@ -2444,7 +2444,7 @@
             <trans-unit id="616">
                 <source>FOOTER_EMAIL</source>
                 <target>
-                    <![CDATA[Add reservation@mycasaparticular.com to your address book or your safe senders list to ensure you continue to receive these emails. <br/><br/>Can also read our Privacy Policy <a href="%policieslink%"> Here. </A> <br/><br/>Prices may be subject to change before payment. Prices do not include applicable service charges. All accommodation is subject to availability check. See our <a href="%termlink%">Terms and Conditions</a> for more details.<br/><br/>MyCasaParticular.com is a service GmbH ABUC media network with trade register number CH-270.4.002.844-1 in Basel. Switzerland.]]></target>
+                    <![CDATA[Add <a href="mailto:reservation@mycasaparticular.com"> to your address book or your safe senders list to ensure you continue to receive these emails. <br/><br/>Can also read our Privacy Policy <a href="%policieslink%"> Here. </A> <br/><br/>Prices may be subject to change before payment. Prices do not include applicable service charges. All accommodation is subject to availability check. See our <a href="%termlink%">Terms and Conditions</a> for more details.<br/><br/>MyCasaParticular.com is a service GmbH ABUC media network with trade register number CH-270.4.002.844-1 in Basel. Switzerland.]]></target>
             </trans-unit>
             <trans-unit id="617">
                 <source>OF</source>
@@ -2717,7 +2717,9 @@
             </trans-unit>
             <trans-unit id="680">
                 <source>ADD_TO_CART_ERROR</source>
-                <target>One room already exists in your wishlist and the selected date range collides with which it is stored. Please change the date range.</target>
+                <target>One room already exists in your wishlist and the selected date range collides with which it is
+                    stored. Please change the date range.
+                </target>
             </trans-unit>
             <trans-unit id="681">
                 <source>ADDRESS_STREET</source>
@@ -4171,7 +4173,7 @@
             </trans-unit>
             <trans-unit id="1018">
                 <source>ACCOMMODATION_TOTAL_COST_PLURAL_TOOLTIP</source>
-                <target>It refers to the sum of the Lodging Price plus the Client Service Fee, and the Fixed Fee. It is
+                <target>It refers to the sum of the Lodging Price plus the Client Service Fee. It is
                     equal to the sum of the Online Prepayment for the Services plus the Casa Payment.
                 </target>
             </trans-unit>
@@ -4350,10 +4352,14 @@
                 <source>PAGINATOR_RECORD</source>
                 <target>records</target>
             </trans-unit>
-             <trans-unit id="4801">
-                                        <source>label.colaborators</source>
-                                        <target>Collaborators</target>
-                       </trans-unit>
+            <trans-unit id="4801">
+                <source>label.colaborators</source>
+                <target>Collaborators</target>
+            </trans-unit>
+            <trans-unit id="4802">
+                <source>FAVORITIES_TITLE</source>
+                <target>MyCasaParticular Favorites</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -1,8 +1,8 @@
 {% extends 'FrontEndBundle:layout:base.html.twig' %}
-{%set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_WHO_WE_ARE')%}
+{% set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_WHO_WE_ARE') %}
 
 {% block title %}
-{{"ABOUT_US" | trans}}
+    {{ "ABOUT_US" | trans }}
 {% endblock %}
 
 {% block metas %}
@@ -11,12 +11,12 @@
 
 {% set main_tab = 4 %}
 {% block content_nav_top_body %}
-{{(("ABOUT_US" | upper) ~ "_CONTENT") | trans}}
+    {{ (("ABOUT_US" | upper) ~ "_CONTENT") | trans }}
 {% endblock %}
 {% block breadcrumbs %}
-    <a href="{{ path('frontend-welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
+    <a href="{{ path('frontend-welcome') }}" title="{{ "HOMEPAGE_TITLE" | trans }}">{{ "HOME_MAIN_MENU" | trans }}</a>
     <span>››</span>
-    <a href="#" class="active"  title="{{"ABOUT_US"|trans}}">{{"ABOUT_US"|trans}}</a>
+    <a href="#" class="active" title="{{ "ABOUT_US"|trans }}">{{ "ABOUT_US"|trans }}</a>
 {% endblock %}
 {% block body %}
 
@@ -26,7 +26,9 @@
                 <h1 class="caecilia-roman h-green">{{ 'WHO_ARE_WE'|trans }}</h1>
                 <hr class="hr-grey" style="margin-bottom: 30px"/>
                 <div class="row">
-                    <div class="col-xs-3"><img style="width: 45px; height: 45px" class="icon-who" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" title="{{ 'WHO_ARE_WE'|trans }}" alt="{{ 'WHO_ARE_WE'|trans }}"/></div>
+                    <div class="col-xs-3"><img style="width: 45px; height: 45px" class="icon-who"
+                                               src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
+                                               title="{{ 'WHO_ARE_WE'|trans }}" alt="{{ 'WHO_ARE_WE'|trans }}"/></div>
                     <div class="col-xs-9">{{ 'INFORMATION_PRO_TRAVELLER'|trans }}
                         {#<img src="{{ asset('bundles/frontend/img/icons/arrow-1.png') }}"/>#}
 
@@ -34,14 +36,22 @@
                 </div>
                 <hr class="hr-grey" style="margin: 30px 0"/>
                 <div class="row">
-                    <div class="col-xs-3"><img style="width: 57px; height: 46px; background-position: 0 -45px" class="icon-who" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" title="{{ 'INFORMATION_PUBLICITY_HOUSES'|trans }}" alt="{{"INFORMATION_PUBLICITY_HOUSES" | trans}}"/></div>
+                    <div class="col-xs-3"><img style="width: 57px; height: 46px; background-position: 0 -45px"
+                                               class="icon-who"
+                                               src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
+                                               title="{{ 'INFORMATION_PUBLICITY_HOUSES'|trans }}"
+                                               alt="{{ "INFORMATION_PUBLICITY_HOUSES" | trans }}"/></div>
                     <div class="col-xs-9">{{ 'INFORMATION_PUBLICITY_HOUSES'|trans }}
                         {#<img src="{{ asset('bundles/frontend/img/icons/arrow-1.png') }}"/>#}
                     </div>
                 </div>
                 <hr class="hr-grey" style="margin: 30px 0"/>
                 <div class="row">
-                    <div class="col-xs-3"><img style="width: 49px; height: 57px; background-position: 0 -91px" class="icon-who" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" title="{{ 'POSSIBILITY_RESERVE_ONLINE'|trans }}" alt="{{"POSSIBILITY_RESERVE_ONLINE" | trans}}"/></div>
+                    <div class="col-xs-3"><img style="width: 49px; height: 57px; background-position: 0 -91px"
+                                               class="icon-who"
+                                               src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
+                                               title="{{ 'POSSIBILITY_RESERVE_ONLINE'|trans }}"
+                                               alt="{{ "POSSIBILITY_RESERVE_ONLINE" | trans }}"/></div>
                     <div class="col-xs-9">{{ 'POSSIBILITY_RESERVE_ONLINE'|trans }}
                         {#<img src="{{ asset('bundles/frontend/img/icons/arrow-1.png') }}"/>#}
 
@@ -49,13 +59,15 @@
                 </div>
             </div>
             <div class="col-sm-8">
-                <img class="full-width" src="{{ asset('bundles/frontend/img/cuba.png') }}" title="{{"Cuba" | trans}}" alt="{{"Cuba" | trans}}"/>
+                <img class="full-width" src="{{ asset('bundles/frontend/img/cuba.png') }}" title="{{ "Cuba" | trans }}"
+                     alt="{{ "Cuba" | trans }}"/>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-8"></div>
             <div class="col-sm-4">
-                <div class="thumbnail" id="some_numbers" style="background-color: #f5f5f5; padding: 10px 30px; margin-top: -145px">
+                <div class="thumbnail" id="some_numbers"
+                     style="background-color: #f5f5f5; padding: 10px 30px; margin-top: -145px">
                     <h3 class="no-margin margin-b-t">{{ "SOME_NUMBERS"|trans }}</h3>
                     {{ 'FOUNDED_APRIL_2010'|trans }}<br/>
                     {{ numbers['acc'] }} {{ 'ACCOMMODATIONS'|trans }}<br/>
@@ -69,29 +81,30 @@
         <div class="tabbable tabs-left">
             <ul class="nav nav-tabs" style="height: 320px;">
                 {% for info in information %}
-                    <li {% if loop.index == 1%}class="active"{% endif %}><a data-toggle="tab" href="#id_{{ info.getInfoLangId }}">{{ info.getInfoLangName }}</a></li>
+                    <li {% if loop.index == 1 %}class="active"{% endif %}><a data-toggle="tab"
+                                                                             href="#id_{{ info.getInfoLangId }}">{{ info.getInfoLangName }}</a>
+                    </li>
                 {% endfor %}
             </ul>
             <div class="tab-content">
                 {% for info in information %}
-                <div id="id_{{ info.getInfoLangId }}" class="tab-pane {% if loop.index == 1%}active{% endif %}">
-                    <h3 class="no-margin h-blue h-size-3 margin-b-t">{{ info.getInfoLangName }}</h3>
-                    <p>{{ info.getInfoLangContent | raw }}</p>
-                </div>
+                    <div id="id_{{ info.getInfoLangId }}" class="tab-pane {% if loop.index == 1 %}active{% endif %}">
+                        <h3 class="no-margin h-blue h-size-3 margin-b-t">{{ info.getInfoLangName }}</h3>
+                        <p>{{ info.getInfoLangContent | raw }}</p>
+                    </div>
                 {% endfor %}
             </div>
         </div>
         <hr class="hr-grey" style="margin-bottom: 40px"/>
-        <div class="row"  style="margin-bottom: 20px;background-color: #f5f5f5;padding: 10px 0px;">
+        <div class="row" style="margin-bottom: 20px;background-color: #f5f5f5;padding: 10px 0px;">
             <div class="col-sm-4">
                 <div>
-                    <h3 class="no-margin margin-b-t">{{ "OUR_OFFICE"|trans }},{{"ADDRESS_MCP_COUNTRY" | trans}}</h3>
+                    <h3 class="no-margin margin-b-t">{{ "OUR_OFFICE"|trans }},{{ "ADDRESS_MCP_COUNTRY" | trans }}</h3>
                     ABUC media network GmbH<br/>
                     Pedro Torres Cobas<br/>
-                    Lindenstrasse 33<br/>
-                    4102<br/>
+                    Lindenstrasse 33,4102<br/>
                     {#<em class="icon-headphones"></em> {{"FORMS_PHONE" | trans}}: {{mycasa_office_phone}}<br/>#}
-                    <div class= style="padding:0">
+                    <div class=style="padding:0">
                         <i class="glyphicon glyphicons phone_alt"></i>
                         (+41) 61 588 09 56
 
@@ -100,13 +113,11 @@
                 </br>
                 <div>
                     <h3 class="no-margin margin-b-t">{{ "OUR_OFFICE"|trans }},Cuba</h3>
-                    Customer experience<br/>
-                    San Nicolás #358 <br/>
-                    Centro Habana, La Habana<br/>
+                    {{ "HDS_ADDRESS"|trans }}
 
                     {#<em class="icon-headphones"></em> {{"FORMS_PHONE" | trans}}: {{mycasa_office_phone}}<br/>#}
 
-                    <div class= style="padding:0">
+                    <div class=style="padding:0">
                         <i class="glyphicon glyphicons phone_alt"></i>
                         (+53) 55599750
 
@@ -114,15 +125,14 @@
                 </div>
             </div>
             <div class="col-sm-8">
-                <img alt="{{"MyCasaParticular" | trans}}" title="{{"MyCasaParticular" | trans}}" class="img-polaroid" src='https://maps.googleapis.com/maps/api/staticmap?&zoom=3&size=630x400&sensor=false&markers=icon:{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}%7C{{mycasa_office_geolocate_x}},{{mycasa_office_geolocate_y}}&markers=icon:{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}%7C23.113656,-82.36679&a.jpg'/>
+                <img src="{{ asset('img/map_pic.png') }}">
             </div>
 
         </div>
 
 
-
     </div>
-{% block include_javascripts %}
+    {% block include_javascripts %}
 
-{% endblock %}
+    {% endblock %}
 {% endblock %}

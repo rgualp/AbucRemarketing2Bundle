@@ -31,6 +31,14 @@ class ownership
     const ACCOMMODATION_RENTAL_TYPE_FULL = "Propiedad completa";
     const ACCOMMODATION_RENTAL_TYPE_PER_ROOMS = "Por habitaciones";
 
+
+    /**
+     * All allowed modality reservation
+     */
+    const MODALITY_IMMEDIATE_BOOKING = "Reserva Inmediata";
+    const MODALITY_QUICKLY_BOOKING = "Reserva Rapida";
+    const MODALITY_DEFAULT_BOOKING = "Reserva por Solicitudes";
+
     /**
      * Contains all possible statuses
      *
@@ -679,6 +687,21 @@ class ownership
      * @ORM\Column(name="with_ical", type="boolean", nullable=true)
      */
     private $withIcal;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="own_agency_work", type="boolean", nullable=true)
+     */
+    private $own_agencyWork;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="own_modality_reservation", type="string", nullable=true)
+     */
+    private $own_modalityReservation;
 
     /**
      * Constructor
@@ -2463,30 +2486,6 @@ class ownership
     }
 
     /**
-     * Get ownRentalType
-     *
-     * @return string
-     */
-    public function getOwnRentalType()
-    {
-        return $this->own_rental_type;
-    }
-
-    /**
-     * Set ownRentalType
-     *
-     * @param string $ownRentalType
-     *
-     * @return ownership
-     */
-    public function setOwnRentalType($ownRentalType)
-    {
-        $this->own_rental_type = $ownRentalType;
-
-        return $this;
-    }
-
-    /**
      * Add ownDescriptionLang
      *
      * @param \MyCp\mycpBundle\Entity\ownershipDescriptionLang $ownDescriptionLang
@@ -3221,7 +3220,6 @@ class ownership
         return $this;
     }
 
-
     /**
      * Get withIcal
      *
@@ -3251,9 +3249,88 @@ class ownership
 
     public function isRentalTypeFull()
     {
-        return self::ACCOMMODATION_RENTAL_TYPE_FULL == $this->own_type ? true : false;
+        return self::ACCOMMODATION_RENTAL_TYPE_FULL == $this->getOwnRentalType() ? true : false;
+    }
+
+    /**
+     * Get ownRentalType
+     *
+     * @return string
+     */
+    public function getOwnRentalType()
+    {
+        return $this->own_rental_type;
+    }
+
+    /**
+     * Set ownRentalType
+     *
+     * @param string $ownRentalType
+     *
+     * @return ownership
+     */
+    public function setOwnRentalType($ownRentalType)
+    {
+        $this->own_rental_type = $ownRentalType;
+
+        return $this;
+    }
+
+    public function getPrinicipalPhoto()
+    {
+        if (!is_null($this->data) && !is_null($this->data->getPrincipalPhoto())) {
+            return $this->data->getPrincipalPhoto()->getOwnPhoPhoto();
+        }
+        return null;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isOwnAgencyWork()
+    {
+        return $this->own_agencyWork;
+    }
+
+    /**
+     * @param bool $own_agencyWork
+     */
+    public function setOwnAgencyWork($own_agencyWork)
+    {
+        $this->own_agencyWork = $own_agencyWork;
     }
 
 
+
+    /**
+     * @return string
+     */
+    public function getOwnModalityReservation()
+    {
+        return $this->own_modalityReservation;
+    }
+
+    /**
+     * @param string $own_modalityReservation
+     */
+    public function setOwnModalityReservation($own_modalityReservation)
+    {
+        /**
+         * Se intenta garantizar que se sincronice la informacion del la modalidad de reserva.
+         */
+        $this->own_modalityReservation = $own_modalityReservation;
+        if ($own_modalityReservation == self::MODALITY_IMMEDIATE_BOOKING) {
+            $this->own_inmediate_booking = false;
+            $this->own_inmediate_booking_2 = true;
+        } else {
+            if ($own_modalityReservation == self::MODALITY_QUICKLY_BOOKING) {
+                $this->own_inmediate_booking_2 = false;
+                $this->own_inmediate_booking = true;
+            } else {
+                $this->own_inmediate_booking = false;
+                $this->own_inmediate_booking_2 = false;
+            }
+        }
+    }
 }
 

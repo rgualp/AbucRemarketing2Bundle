@@ -9,21 +9,20 @@ use MyCp\mycpBundle\Entity\transferMethodPayment;
 use MyCp\mycpBundle\Form\effectiveMethodPaymentType;
 use MyCp\mycpBundle\Form\ownershipPaymentType;
 use MyCp\mycpBundle\Form\transferMethodPaymentType;
+use MyCp\mycpBundle\Helpers\BackendModuleName;
 use MyCp\mycpBundle\Helpers\DataBaseTables;
-use MyCp\mycpBundle\Helpers\FileIO;
+use MyCp\PartnerBundle\Entity\paInvoice;
 use Proxies\__CG__\MyCp\mycpBundle\Entity\ownershipStatus;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use MyCp\mycpBundle\Helpers\BackendModuleName;
-use MyCp\PartnerBundle\Entity\paInvoice;
 
-class BackendPaymentController extends Controller {
+class BackendPaymentController extends Controller
+{
 
-    function listAction($items_per_page, Request $request) {
+    function listAction($items_per_page, Request $request)
+    {
         //$service_security = $this->get('Secure');
         //$service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
@@ -67,7 +66,8 @@ class BackendPaymentController extends Controller {
         ));
     }
 
-    function newAction(Request $request) {
+    function newAction(Request $request)
+    {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
@@ -95,12 +95,13 @@ class BackendPaymentController extends Controller {
         ));
     }
 
-    function editAction($id, Request $request) {
+    function editAction($id, Request $request)
+    {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
         $payment = $em->getRepository('mycpBundle:ownershipPayment')->find(array('id' => $id));
-       $form = $this->createForm(new ownershipPaymentType(), $payment);
+        $form = $this->createForm(new ownershipPaymentType(), $payment);
 
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
@@ -124,12 +125,13 @@ class BackendPaymentController extends Controller {
         ));
     }
 
-    function deleteAction($id) {
+    function deleteAction($id)
+    {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
 
         $em = $this->getDoctrine()->getManager();
-        $payment= $em->getRepository('mycpBundle:ownershipPayment')->find($id);
+        $payment = $em->getRepository('mycpBundle:ownershipPayment')->find($id);
 
         if ($payment)
             $em->remove($payment);
@@ -169,7 +171,7 @@ class BackendPaymentController extends Controller {
         if ($filter_code == 'null')
             $filter_code = '';*/
 
-        $accommodationsNoPayment = $em->getRepository('mycpBundle:ownershipPayment')->accommodationsNoInscriptionPayment(false,$filter_name, $filter_code, $filter_destination, $filter_creation_date_from, $filter_creation_date_to);
+        $accommodationsNoPayment = $em->getRepository('mycpBundle:ownershipPayment')->accommodationsNoInscriptionPayment(false, $filter_name, $filter_code, $filter_destination, $filter_creation_date_from, $filter_creation_date_to);
 
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
@@ -190,7 +192,8 @@ class BackendPaymentController extends Controller {
         ));
     }
 
-    public function setPaymentCallbackAction() {
+    public function setPaymentCallbackAction()
+    {
         $request = $this->getRequest();
         $em = $this->getDoctrine()->getManager();
         $accommodations_ids = $request->request->get('accommodations_ids');
@@ -222,22 +225,22 @@ class BackendPaymentController extends Controller {
         return new Response($response);
     }
 
-    function inactiveAccommodationAction($id) {
+    function inactiveAccommodationAction($id)
+    {
         /*$service_security = $this->get('Secure');
         $service_security->verifyAccess();*/
 
         $em = $this->getDoctrine()->getManager();
-        $accommodation= $em->getRepository('mycpBundle:ownership')->find($id);
+        $accommodation = $em->getRepository('mycpBundle:ownership')->find($id);
 
-        if ($accommodation)
-        {
+        if ($accommodation) {
             $status = $em->getRepository("mycpBundle:ownershipStatus")->find(ownershipStatus::STATUS_INACTIVE);
             $accommodation->setOwnStatus($status);
             $em->persist($accommodation);
             $em->flush();
         }
 
-        $message = 'Se ha inactivado satisfactoriamente el alojamiento '. $accommodation->getOwnMcpCode();
+        $message = 'Se ha inactivado satisfactoriamente el alojamiento ' . $accommodation->getOwnMcpCode();
         $this->get('session')->getFlashBag()->add('message_ok', $message);
 
         $service_log = $this->get('log');
@@ -247,7 +250,8 @@ class BackendPaymentController extends Controller {
         return $this->redirect($this->generateUrl('mycp_accommodations_no_payment'));
     }
 
-    function sendEmailReminderAction($id, Request $request) {
+    function sendEmailReminderAction($id, Request $request)
+    {
         /*$service_security = $this->get('Secure');
         $service_security->verifyAccess();*/
 
@@ -279,20 +283,18 @@ class BackendPaymentController extends Controller {
 
             $service_log = $this->get('log');
             $service_log->saveLog($message, BackendModuleName::MODULE_ACCOMMODATION_PAYMENT, log::OPERATION_EMAIL);
-        }
-        catch(\Exception $e)
-        {
-            $message = 'Ha ocurrido un error: '.$e->getMessage();
+        } catch (\Exception $e) {
+            $message = 'Ha ocurrido un error: ' . $e->getMessage();
             $this->get('session')->getFlashBag()->add('message_error_main', $message);
         }
 
-            return $this->redirect($this->generateUrl('mycp_accommodations_no_payment'));
+        return $this->redirect($this->generateUrl('mycp_accommodations_no_payment'));
 
     }
 
-    function methodsAction($items_per_page, Request $request) {
-        /*$service_security = $this->get('Secure');
-        $service_security->verifyAccess();*/
+    function methodsAction($items_per_page, Request $request)
+    {
+
         $em = $this->getDoctrine()->getManager();
 
         $filter_name = $request->get('filter_name');
@@ -311,18 +313,17 @@ class BackendPaymentController extends Controller {
 
         if ($filter_code == 'null')
             $filter_code = '';
-
-        $paginator = $this->get('ideup.simple_paginator');
-        $paginator->setItemsPerPage($items_per_page);
-        $methods = $paginator->paginate($em->getRepository('mycpBundle:ownership')->getPaymentMethodsList($filter_name, $filter_code, $filter_destination, $filter_province))->getResult();
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
+
+        $paginator = $em->getRepository('mycpBundle:ownership')->getPaymentMethodsList($filter_name, $filter_code, $filter_destination, $filter_province, $items_per_page, $page);
         return $this->render('mycpBundle:payment:methods.html.twig', array(
-            'list' => $methods,
-            'items_per_page' => $items_per_page,
-            'total_items' => $paginator->getTotalItems(),
-            'current_page' => $page,
+            'list' => $paginator->getQuery()->getResult(),
+            'paginator' => $paginator,
+            'items_per_page' => $paginator->getLimit(),
+            'total_items' => $paginator->count(),
+            'current_page' => $paginator->getCurrentPage(),
             'filter_name' => $filter_name,
             'filter_code' => $filter_code,
             'filter_province' => $filter_province,
@@ -330,7 +331,8 @@ class BackendPaymentController extends Controller {
         ));
     }
 
-    public function insertTransferMethodAction($idAccommodation, Request $request){
+    public function insertTransferMethodAction($idAccommodation, Request $request)
+    {
         $em = $this->getDoctrine()->getManager();
         $transferMethod = new transferMethodPayment();
         $accommodation = $em->getRepository("mycpBundle:ownership")->find($idAccommodation);
@@ -360,7 +362,8 @@ class BackendPaymentController extends Controller {
 
     }
 
-    public function editTransferMethodAction($id, Request $request){
+    public function editTransferMethodAction($id, Request $request)
+    {
         $em = $this->getDoctrine()->getManager();
         $transferMethod = $em->getRepository("mycpBundle:transferMethodPayment")->find($id);
         $form = $this->createForm(new transferMethodPaymentType(), $transferMethod);
@@ -389,7 +392,8 @@ class BackendPaymentController extends Controller {
 
     }
 
-    public function deleteTransferMethodAction($id, Request $request){
+    public function deleteTransferMethodAction($id, Request $request)
+    {
         $em = $this->getDoctrine()->getManager();
         $transferMethod = $em->getRepository("mycpBundle:transferMethodPayment")->find($id);
 
@@ -409,7 +413,8 @@ class BackendPaymentController extends Controller {
 
     }
 
-    public function insertEffectiveMethodAction($idAccommodation, Request $request){
+    public function insertEffectiveMethodAction($idAccommodation, Request $request)
+    {
         $em = $this->getDoctrine()->getManager();
         $effectiveMethod = new effectiveMethodPayment();
         $accommodation = $em->getRepository("mycpBundle:ownership")->find($idAccommodation);
@@ -439,7 +444,8 @@ class BackendPaymentController extends Controller {
 
     }
 
-    public function editEffectiveMethodAction($id, Request $request){
+    public function editEffectiveMethodAction($id, Request $request)
+    {
         $em = $this->getDoctrine()->getManager();
         $effectiveMethod = $em->getRepository("mycpBundle:effectiveMethodPayment")->find($id);
         $form = $this->createForm(new effectiveMethodPaymentType(), $effectiveMethod);
@@ -468,7 +474,8 @@ class BackendPaymentController extends Controller {
 
     }
 
-    public function deleteEffectiveMethodAction($id, Request $request){
+    public function deleteEffectiveMethodAction($id, Request $request)
+    {
         $em = $this->getDoctrine()->getManager();
         $effectiveMethod = $em->getRepository("mycpBundle:effectiveMethodPayment")->find($id);
 
@@ -487,13 +494,15 @@ class BackendPaymentController extends Controller {
 
 
     }
-    public function list_reservations_ag_reservedAction($items_per_page, Request $request) {
+
+    public function list_reservations_ag_reservedAction($items_per_page, Request $request)
+    {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $page = 1;
         $filterbr = $request->get('filterbr');
         $filter_date_reserve = $request->get('filter_date_reserve');
-        $filter_agency=$request->get('filter_agency');
+        $filter_agency = $request->get('filter_agency');
         $filter_date_reserve2 = $request->get('filter_date_reserve2');
         $filter_offer_number = $request->get('filter_offer_number');
         $filter_reference = $request->get('filter_reference');
@@ -548,7 +557,7 @@ class BackendPaymentController extends Controller {
         $paginator->setItemsPerPage($items_per_page);
 
         $all = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
-            ->getAllPagReserved($filter_date_reserve,$filter_date_reserve2,$filterbr,$filter_agency, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $filter_client, $items_per_page, $page, true))->getResult();
+            ->getAllPagReserved($filter_date_reserve, $filter_date_reserve2, $filterbr, $filter_agency, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $filter_client, $items_per_page, $page, true))->getResult();
         $reservations = $all['reservations'];
 
         $filter_date_reserve_twig = str_replace('/', '_', $filter_date_reserve);
@@ -559,12 +568,11 @@ class BackendPaymentController extends Controller {
         $totalItems = $all['totalItems'];
         $last_page_number = ceil($totalItems / $items_per_page);
         $all = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
-            ->getAllPagReserved(null,null,null,null, null, null, null, null, null, null, null, null, null, $page, true))->getResult();
+            ->getAllPagReserved(null, null, null, null, null, null, null, null, null, null, null, null, null, $page, true))->getResult();
         $reservations1 = $all['reservations'];
 
-        $mindate=reset($reservations1)['gen_res_date'];
-        $maxdate=end($reservations1)['gen_res_date'];
-
+        $mindate = reset($reservations1)['gen_res_date'];
+        $maxdate = end($reservations1)['gen_res_date'];
 
 
         $start_page = ($page == 1) ? ($page) : ($page - 1);
@@ -577,9 +585,9 @@ class BackendPaymentController extends Controller {
             'current_page' => $page,
             'total_items' => $totalItems,
             'last_page_number' => $last_page_number,
-            'start_page'=>$start_page,
-            'end_page'=>$end_page,
-            'filterbr'=>$filterbr,
+            'start_page' => $start_page,
+            'end_page' => $end_page,
+            'filterbr' => $filterbr,
             'filter_date_reserve' => $filter_date_reserve,
             'filter_date_reserve2' => $filter_date_reserve2,
             'filter_offer_number' => $filter_offer_number,
@@ -593,26 +601,27 @@ class BackendPaymentController extends Controller {
             'filter_date_from_twig' => $filter_date_from_twig,
             'filter_date_to_twig' => $filter_date_to_twig,
             'filter_status' => $filter_status,
-            'filter_agency'=>$filter_agency,
+            'filter_agency' => $filter_agency,
             'filter_client' => $filter_client,
-            'date1'=>$mindate ,
-            'date2'=>$maxdate
+            'date1' => $mindate,
+            'date2' => $maxdate
 
         ));
     }
-    public function list_ivoice_agAction($items_per_page, Request $request) {
+
+    public function list_ivoice_agAction($items_per_page, Request $request)
+    {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $page = 1;
         $filter_invoice = $request->get('filter_invoice');
 
-        $filter_agency=$request->get('filter_agency');
+        $filter_agency = $request->get('filter_agency');
         $filter_date_reserve = $request->get('filter_date_reserve');
         $filter_date_reserve2 = $request->get('filter_date_reserve2');
 
 
-
-        if ($request->getMethod() == 'POST' && $filter_date_reserve == 'null' && $filter_date_reserve2 == 'null' && $filter_invoice=='null' && $filter_agency=='null') {
+        if ($request->getMethod() == 'POST' && $filter_date_reserve == 'null' && $filter_date_reserve2 == 'null' && $filter_invoice == 'null' && $filter_agency == 'null') {
             $message = 'Debe llenar al menos un campo para filtrar.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
             return $this->redirect($this->generateUrl('mycp_list_ivoice_ag'));
@@ -640,7 +649,7 @@ class BackendPaymentController extends Controller {
         $paginator->setItemsPerPage($items_per_page);
 
         $all = $paginator->paginate($em->getRepository('PartnerBundle:paInvoice')
-            ->getAllPag($filter_date_reserve,$filter_date_reserve2,$filter_invoice,$filter_agency,$items_per_page, $page, true))->getResult();
+            ->getAllPag($filter_date_reserve, $filter_date_reserve2, $filter_invoice, $filter_agency, $items_per_page, $page, true))->getResult();
         $reservations = $all['reservations'];
         $filter_date_reserve_twig = str_replace('/', '_', $filter_date_reserve);
         $filter_date_reserve2_twig = str_replace('/', '_', $filter_date_reserve2);
@@ -650,16 +659,14 @@ class BackendPaymentController extends Controller {
         $last_page_number = ceil($totalItems / $items_per_page);
 
 
-
-
         $start_page = ($page == 1) ? ($page) : ($page - 1);
         $end_page = ($page == $last_page_number) ? ($last_page_number) : ($page + 1);
         $all = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
-            ->getAllPagReserved(null,null,null,null, null, null, null, null, null, null, null, null, null, $page, true))->getResult();
+            ->getAllPagReserved(null, null, null, null, null, null, null, null, null, null, null, null, null, $page, true))->getResult();
         $reservations1 = $all['reservations'];
 
-        $mindate=reset($reservations1)['gen_res_date'];
-        $maxdate=end($reservations1)['gen_res_date'];
+        $mindate = reset($reservations1)['gen_res_date'];
+        $maxdate = end($reservations1)['gen_res_date'];
         return $this->render('mycpBundle:payment:list_ag_invoice.html.twig', array(
             //'total_nights' => $total_nights,
             'reservations' => $reservations,
@@ -667,29 +674,30 @@ class BackendPaymentController extends Controller {
             'current_page' => $page,
             'total_items' => $totalItems,
             'last_page_number' => $last_page_number,
-            'start_page'=>$start_page,
-            'end_page'=>$end_page,
-            'filter_invoice'=>$filter_invoice,
-            'filter_agency'=>$filter_agency,
+            'start_page' => $start_page,
+            'end_page' => $end_page,
+            'filter_invoice' => $filter_invoice,
+            'filter_agency' => $filter_agency,
             'filter_date_reserve' => $filter_date_reserve,
             'filter_date_reserve2' => $filter_date_reserve2,
 
             'filter_date_reserve_twig' => $filter_date_reserve_twig,
             'filter_date_reserve2_twig' => $filter_date_reserve2_twig,
-            'date1'=>$mindate ,
-            'date2'=>$maxdate
+            'date1' => $mindate,
+            'date2' => $maxdate
 
 
         ));
     }
 
-    public function invoice_ag_selectionAction($items_per_page, Request $request) {
+    public function invoice_ag_selectionAction($items_per_page, Request $request)
+    {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $page = 1;
 
         $filter_date_reserve = $request->get('filter_date_reserve');
-        $filter_agency=$request->get('filter_agency');
+        $filter_agency = $request->get('filter_agency');
         $filter_date_reserve2 = $request->get('filter_date_reserve2');
 
         $price = 0;
@@ -718,50 +726,48 @@ class BackendPaymentController extends Controller {
         $paginator->setItemsPerPage($items_per_page);
 
         $all = $em->getRepository('mycpBundle:generalReservation')
-            ->getAllPagReserved(null,null,null,$filter_agency, null, null, $filter_date_reserve, $filter_date_reserve2, $sort_by, null, null, null, $items_per_page, $page, true);
+            ->getAllPagReserved(null, null, null, $filter_agency, null, null, $filter_date_reserve, $filter_date_reserve2, $sort_by, null, null, null, $items_per_page, $page, true);
         $reservations = $all['reservations'];
-        $data=$em->getRepository('PartnerBundle:paInvoice')->getLastCreatedDatePartner();
-        if(count($data)){
-            $lastdate=$data[0]['filename'];
+        $data = $em->getRepository('PartnerBundle:paInvoice')->getLastCreatedDatePartner();
+        if (count($data)) {
+            $lastdate = $data[0]['filename'];
 
-            $dtData = split('-',$lastdate); // $dtData[0] = date part, $dtData[1] = Prefix part
-            $dtDate= split('_',$dtData[0]);
-            $month1 = date("m",strtotime($dtDate[1])); //Get the month of retrived date
+            $dtData = split('-', $lastdate); // $dtData[0] = date part, $dtData[1] = Prefix part
+            $dtDate = split('_', $dtData[0]);
+            $month1 = date("m", strtotime($dtDate[1])); //Get the month of retrived date
 
 //$date2 = date("Ymd"); // Get current date
 // OR
             $date2 = date("Ym", strtotime("+1 day", strtotime($dtDate[1]))); // OR Increment last-date by one day
-            $month2 = date("m",strtotime($date2));  // Get updated date's  month
+            $month2 = date("m", strtotime($date2));  // Get updated date's  month
 
 // now calculate month difference between dates. if months are same, prefix will be increased else prefix will be reset to 1
-            $prefix = (($month2-$month1) == 0) ? str_pad(++$dtData[1], 2, '0', STR_PAD_LEFT) : str_pad(1, 2, '0', STR_PAD_LEFT);
-            $pdfName='F_'. $date2. '-'. $prefix;
+            $prefix = (($month2 - $month1) == 0) ? str_pad(++$dtData[1], 2, '0', STR_PAD_LEFT) : str_pad(1, 2, '0', STR_PAD_LEFT);
+            $pdfName = 'F_' . $date2 . '-' . $prefix;
+        } else {
+            $lastdate = (new \DateTime())->format('Ym');
+            $pdfName = 'F_' . $lastdate . '-' . '01';
         }
-        else{
-            $lastdate=(new \DateTime())->format('Ym');
-            $pdfName='F_'. $lastdate. '-'. '01';
-        }
-
-
 
 
         return new JsonResponse([
             'success' => true,
             'reservations' => $reservations,
-            'invoice'=>$pdfName,
-
+            'invoice' => $pdfName,
 
 
         ]);
 
     }
-    public function invoice_ag_exportAction($items_per_page, Request $request) {
+
+    public function invoice_ag_exportAction($items_per_page, Request $request)
+    {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $page = 1;
 
         $filter_date_reserve = $request->get('filter_date_reserve');
-        $filter_agency=$request->get('filter_agency');
+        $filter_agency = $request->get('filter_agency');
         $filter_date_reserve2 = $request->get('filter_date_reserve2');
 
         $price = 0;
@@ -791,48 +797,46 @@ class BackendPaymentController extends Controller {
         $agency=$em->getRepository("PartnerBundle:paTravelAgency")->find($filter_agency);
 
         $all = $em->getRepository('mycpBundle:generalReservation')
-            ->getAllPagReserved(null,null,null,$filter_agency, null, null, $filter_date_reserve, $filter_date_reserve2, $sort_by, null, null, null, $items_per_page, $page, true);
+            ->getAllPagReserved(null, null, null, $filter_agency, null, null, $filter_date_reserve, $filter_date_reserve2, $sort_by, null, null, null, $items_per_page, $page, true);
         $reservations = $all['reservations'];
-        $user=$this->getUser();
+        $user = $this->getUser();
 
 
-        $path=$this->container->getParameter('configuration.dir.invoice');
-        $data=$em->getRepository('PartnerBundle:paInvoice')->getLastCreatedDatePartner();
-        if(count($data)){
-            $lastdate=$data[0]['filename'];
-            $dtData = split('-',$lastdate); // $dtData[0] = date part, $dtData[1] = Prefix part
-            $dtDate= split('_',$dtData[0]);
-            $month1 = date("m",strtotime($dtDate[1])); //Get the month of retrived date
+        $path = $this->container->getParameter('configuration.dir.invoice');
+        $data = $em->getRepository('PartnerBundle:paInvoice')->getLastCreatedDatePartner();
+        if (count($data)) {
+            $lastdate = $data[0]['filename'];
+            $dtData = split('-', $lastdate); // $dtData[0] = date part, $dtData[1] = Prefix part
+            $dtDate = split('_', $dtData[0]);
+            $month1 = date("m", strtotime($dtDate[1])); //Get the month of retrived date
 
 //$date2 = date("Ymd"); // Get current date
 // OR
             $date2 = date("Ym", strtotime("+1 day", strtotime($dtDate[1]))); // OR Increment last-date by one day
-            $month2 = date("m",strtotime($date2));  // Get updated date's  month
+            $month2 = date("m", strtotime($date2));  // Get updated date's  month
 
 // now calculate month difference between dates. if months are same, prefix will be increased else prefix will be reset to 1
-            $prefix = (($month2-$month1) == 0) ? str_pad(++$dtData[1], 2, '0', STR_PAD_LEFT) : str_pad(1, 2, '0', STR_PAD_LEFT);
-            $pdfName='F_'. $date2. '-'. $prefix;
-        }
-        else{
-            $lastdate=(new \DateTime())->format('Ym');
-            $pdfName='F_'. $lastdate. '-'. '01';
+            $prefix = (($month2 - $month1) == 0) ? str_pad(++$dtData[1], 2, '0', STR_PAD_LEFT) : str_pad(1, 2, '0', STR_PAD_LEFT);
+            $pdfName = 'F_' . $date2 . '-' . $prefix;
+        } else {
+            $lastdate = (new \DateTime())->format('Ym');
+            $pdfName = 'F_' . $lastdate . '-' . '01';
         }
 
         $response= $this->render('mycpBundle:pdf:invoiceAgency.html.twig',array('agency'=>$agency,'reservations'=>$reservations,'user'=>$user,'ID'=>$pdfName));
 
-        $success=false;
+        $success = false;
 
         $pdfFilePath = $path . "$pdfName.pdf";
         if (file_exists($pdfFilePath)) {
 
-        }
-        else {
+        } else {
             $pdfService = $this->get('front_end.services.pdf');
 
             $success = $pdfService->storeHtmlAsPdf($response, $pdfFilePath);
 
-            
-            if($success) {
+
+            if ($success) {
                 $invoice = new paInvoice();
                 $invoice->setFilename($pdfName);
                 $invoice->setInvoicedate((new \DateTime()));
@@ -856,10 +860,8 @@ class BackendPaymentController extends Controller {
         }
 
 
-
         return new JsonResponse([
             'success' => $success
-
 
 
         ]);
@@ -871,15 +873,17 @@ class BackendPaymentController extends Controller {
 //      return  new BinaryFileResponse($pdfFilePath);
 
     }
-    public function exportReservationsAction(Request $request) {
+
+    public function exportReservationsAction(Request $request)
+    {
         try {
             //$service_security = $this->get('Secure');
             //$service_security->verifyAccess();
-            $filters_apply=array();
+            $filters_apply = array();
             $page = 1;
             $filterbr = $request->get('filterbr');
             $filter_date_reserve = $request->get('filter_date_reserve');
-            $filter_agency=$request->get('filter_agency');
+            $filter_agency = $request->get('filter_agency');
             $filter_date_reserve2 = $request->get('filter_date_reserve2');
             $filter_offer_number = $request->get('filter_offer_number');
             $filter_reference = $request->get('filter_reference');
@@ -889,34 +893,34 @@ class BackendPaymentController extends Controller {
             $filter_booking_number = $request->get('filter_booking_number');
             $filter_status = $request->get('filter_status');
             $sort_by = $request->get('sort_by');
-            $em= $this->getDoctrine()->getManager();
-            $array_agency=array();
+            $em = $this->getDoctrine()->getManager();
+            $array_agency = array();
             if ($filter_agency != 'null')
-                $array_agency=explode(',',$filter_agency);
-                foreach ($array_agency as $ange){
-                    array_push($filters_apply,'-Agencia:'.$em->getRepository("PartnerBundle:PaTravelAgency")->find($ange)->getName()) ;
-                }
+                $array_agency = explode(',', $filter_agency);
+            foreach ($array_agency as $ange) {
+                array_push($filters_apply, '-Agencia:' . $em->getRepository("PartnerBundle:PaTravelAgency")->find($ange)->getName());
+            }
 
             if ($filter_agency == 'null')
                 $filter_agency = '';
-            if ($filter_client != 'null'&&$filter_client!='')
-                array_push($filters_apply,'-Cliente:'. $filter_client);
+            if ($filter_client != 'null' && $filter_client != '')
+                array_push($filters_apply, '-Cliente:' . $filter_client);
             if ($filter_date_reserve != 'null')
-                array_push($filters_apply,'-Check in from:'.$filter_date_reserve) ;
+                array_push($filters_apply, '-Check in from:' . $filter_date_reserve);
             if ($filter_date_reserve == 'null')
                 $filter_date_reserve = '';
 
             if ($filter_date_reserve2 != 'null')
-                array_push($filters_apply,'-Check in to:'.$filter_date_reserve2) ;
+                array_push($filters_apply, '-Check in to:' . $filter_date_reserve2);
             if ($filterbr != 'null')
-                array_push($filters_apply,'-BR:'.$filterbr) ;
+                array_push($filters_apply, '-BR:' . $filterbr);
             if ($filterbr == 'null')
                 $filterbr = '';
             if ($filter_booking_number != 'null')
-                array_push($filters_apply,'-Booking:'.$filter_booking_number) ;
+                array_push($filters_apply, '-Booking:' . $filter_booking_number);
             if ($filter_date_reserve2 == 'null')
                 $filter_date_reserve2 = '';
-               if ($filter_offer_number == 'null')
+            if ($filter_offer_number == 'null')
                 $filter_offer_number = '';
             if ($filter_booking_number == 'null')
                 $filter_booking_number = '';
@@ -947,23 +951,21 @@ class BackendPaymentController extends Controller {
             $paginator->setItemsPerPage(10);
             $em = $this->getDoctrine()->getManager();
             $all = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
-                ->getAllPagReserved($filter_date_reserve,$filter_date_reserve2,$filterbr,$filter_agency, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $filter_client, null, $page, true))->getResult();
+                ->getAllPagReserved($filter_date_reserve, $filter_date_reserve2, $filterbr, $filter_agency, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $filter_client, null, $page, true))->getResult();
             $reservations = $all['reservations'];
 
             $date = new \DateTime();
             $date = date_modify($date, "-5 days");
-            if(count($reservations)) {
+            if (count($reservations)) {
                 $exporter = $this->get("mycp.service.export_to_excel");
-                return $exporter->exportReservationsReservedAg($reservations, $date,$filters_apply);
-            }
-            else{
+                return $exporter->exportReservationsReservedAg($reservations, $date, $filters_apply);
+            } else {
                 $message = 'No hay datos para llenar el Excel a descargar.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 return $this->redirect($this->generateUrl("mycp_list_reservations_ag_reserved"));
             }
-        }
-        catch(\Exception $e){
+        } catch (\Exception $e) {
             $message = 'Ha ocurrido un error. Por favor, introduzca correctamente los valores para filtrar.';
             $this->get('session')->getFlashBag()->add('message_error_main', $message);
 

@@ -1,0 +1,63 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block another_in_head %}
+    {% stylesheets
+        '@mycpBundle/Resources/public/css/datepicker.css'
+        filter='?uglifycss' %}
+        <link rel="stylesheet" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock %}
+{% block top_body %}
+    <ul class="breadcrumb">
+        <li><a href="{{ path('mycp_backend_front') }}">Administración</a> <span class="divider">/</span></li>
+        <li class="active">Provincias</li>
+    </ul>
+{% endblock %}
+{% block content %}
+    <h2>Provincias</h2>
+    <hr/>
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Estado</th>
+            <th style="text-align: right">
+                Acciones
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for province in provinces %}
+            <tr>
+                <td>{{ province.provName }}</td>
+                <td>
+                    {% if province.enabled %}
+                        <span class="label label-success">Activo</span>
+                    {% else %}
+                        <span class="label label-important">No activo</span>
+                    {% endif %}
+                </td>
+                <td style="text-align: right">
+                    {% if province.enabled %}
+                        <button data='{{ path('mycp_province_change_state',{'id': province.provId, 'state': 0}) }}'
+                                class="btn btn-mini btn-danger btn-changed-state delete">Desactivar
+                        </button>
+                    {% else %}
+                        <button data='{{ path('mycp_province_change_state',{'id': province.provId, 'state': 1}) }}'
+                                class="btn btn-mini btn-success btn-changed-state delete">Activar
+                        </button>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Confirma que desea cambiar el estado de la provincia?','confirmation_action_label':'Cambiar estado'} %}
+{% endblock %}
+{% block javascripts %}
+    {% javascripts
+        '@mycpBundle/Resources/public/js/common_list.js'
+        filter='?uglifyjs2' %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

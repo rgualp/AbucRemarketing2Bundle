@@ -3,6 +3,7 @@
 namespace MyCp\FrontEndBundle\Controller;
 
 use MyCp\FrontEndBundle\Helpers\Utils;
+use MyCp\mycpBundle\Entity\metaTag;
 use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\ownershipStatus;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -10,7 +11,6 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Security\Core\SecurityContext;
-use MyCp\mycpBundle\Entity\metaTag;
 
 class PublicController extends Controller {
 
@@ -297,57 +297,64 @@ class PublicController extends Controller {
         $provinces = $em->getRepository('mycpBundle:province')->getMainMenu();
 
         $for_url = array();
-        $locale = $this->get('translator')->getLocale();    
+        $for_name = array();
+        $locale = $this->get('translator')->getLocale();
 
         foreach ($provinces as $prov){
             if ( Utils::urlNormalize('la habana') == Utils::urlNormalize($prov['prov_name']) ){
                 switch ($locale) {
                     case 'es':
                         $for_url[$prov['prov_id']] = Utils::urlNormalize('La Habana');
-                        break;
-                    case 'en':
-                        $for_url[$prov['prov_id']] = Utils::urlNormalize('havana');
+                        $for_name[$prov['prov_id']] = $prov['prov_name'];
                         break;
                     case 'de':
                         $for_url[$prov['prov_id']] = Utils::urlNormalize('havanna');
-                        break;        
-                    case 'fr':
-                        $for_url[$prov['prov_id']] = Utils::urlNormalize('havana');
+                        $for_name[$prov['prov_id']] = 'Havanna';
                         break;
                     case 'it':
                         $for_url[$prov['prov_id']] = Utils::urlNormalize('lavana');
-                        break;    
+                        $for_name[$prov['prov_id']] = 'lavana';
+                        break;
                     default:
+                        $for_url[$prov['prov_id']] = Utils::urlNormalize('havana');
+                        $for_name[$prov['prov_id']] = 'Havana';
                         break;
                 }
             }elseif ( Utils::urlNormalize('isla de la juventud') == Utils::urlNormalize($prov['prov_name']) ) {
                 switch ($locale) {
                     case 'es':
                         $for_url[$prov['prov_id']] = Utils::urlNormalize('isla de la juventud');
+                        $for_name[$prov['prov_id']] = $prov['prov_name'];
                         break;
                     case 'en':
                         $for_url[$prov['prov_id']] = Utils::urlNormalize('isle of youth');
+                        $for_name[$prov['prov_id']] = 'Isle of Youth';
                         break;
                     case 'de':
                         $for_url[$prov['prov_id']] = Utils::urlNormalize('insel der jugend');
-                        break;        
+                        $for_name[$prov['prov_id']] = 'Insel der Jugend';
+                        break;
                     case 'fr':
                         $for_url[$prov['prov_id']] = Utils::urlNormalize('ile de la jeunesse');
+                        $for_name[$prov['prov_id']] = 'Ile de la Jeunesse';
                         break;
                     case 'it':
                         $for_url[$prov['prov_id']] = Utils::urlNormalize('isola della gioventu');
-                        break;    
+                        $for_name[$prov['prov_id']] = 'Isola della Gioventu';
+                        break;
                     default:
                         break;
                 }
             }else{
-                $for_url[$prov['prov_id']] = Utils::urlNormalize($prov['prov_name']);    
+                $for_url[$prov['prov_id']] = Utils::urlNormalize($prov['prov_name']);
+                $for_name[$prov['prov_id']] = $prov['prov_name'];
             }
         }
 
         return $this->render('FrontEndBundle:utils:mainMenuAccomodationItems.html.twig', array(
               'provinces'=>$provinces,
-              'for_url' => $for_url
+              'for_url' => $for_url,
+              'for_name' => $for_name
         ));
     }
 
@@ -374,8 +381,7 @@ class PublicController extends Controller {
     public function siteMapAction()
     {
         $em = $this->getDoctrine()->getManager();
-        //$url = array();
-        $hostname = $this->getRequest()->getHost();
+        $hostname = $this->get('request')->getHost();
 
         $languages=$em->getRepository('mycpBundle:lang')->findBy(array('lang_active'=>1));
 

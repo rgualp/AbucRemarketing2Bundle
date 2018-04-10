@@ -134,8 +134,8 @@
                 <li class=""><a {% if errors_tab['house_tab'] is defined %} class="tab_errors" {% endif %} data-toggle="tab" href="#casa">Casa</a></li>
                 <li class=""><a data-toggle="tab" href="#sales">Ventas</a></li>
                 <li class=""><a {% if errors_tab['user_tab'] is defined %} class="tab_errors" {% endif %} data-toggle="tab" href="#usuario">Usuario</a></li>
+                    <li class=""><a data-toggle="tab" href="#modality">Reservaciones</a></li>
                 {% if data['edit_ownership'] is defined %}
-                    <li class=""><a data-toggle="tab" href="#modality">Modalidad</a></li>
                     <li class=""><a data-toggle="tab" href="#comentarios">Comentarios</a></li>
                 {% endif %}
             </ul>
@@ -561,14 +561,7 @@
 <label class="checkbox">
     <input type="checkbox" {% if post['selection'] is defined and (post['selection'] ==1) %} checked="TRUE" {% endif %} name="selection"> Habilitar para Casa Selección
 </label><br/>
-<h3 class="title">Reserva Rápida</h3>
-<label class="checkbox">
-    <input type="checkbox" {% if post['inmediate_booking'] is defined and (post['inmediate_booking'] ==1) %} checked="TRUE" {% endif %} name="inmediate_booking"> Habilitar para Reserva Rápida
-</label><br/>
-<h3 class="title">Reserva Inmediata</h3>
-<label class="checkbox">
-    <input type="checkbox" {% if post['inmediate_booking_2'] is defined and (post['inmediate_booking_2'] ==1) %} checked="TRUE" {% endif %} name="inmediate_booking_2"> Habilitar para Reserva Inmediata
-</label><br/>
+
 {% if is_granted('ROLE_CLIENT_STAFF') %}
 <h3 class="title">No Recomendable</h3>
 <label class="checkbox">
@@ -719,13 +712,13 @@
         </div>
     </div>
 </div>
-{% if data['edit_ownership'] is defined %}
+{#{% if data['edit_ownership'] is defined %}#}
     <div id="modality" class="tab-pane fade">
         <div class="row-fluid">
             <div class="span6">
-                <label>Modalidad</label>
+                <label>Tipo de Renta (*)</label>
                 {% if errors['modality'] is defined %}<label class="error">{{errors['modality']|trim(':')}}</label>{%endif%}
-                <select class="input-block-level" name="modality" id="dllModality">
+                <select class="input-block-level" name="modality" id="dllModality" required="required">
                     {{ render(controller('mycpBundle:BackendOwnership:getBookingModality', {'post':post})) }}
                 </select>
             </div>
@@ -734,8 +727,26 @@
                 <input value="{% if(post['modality_price'] is defined) %}{{post['modality_price']}}{% endif %}" class="input-block-level" type="text" name="modality_price" id="iModality" disabled="disabled" required="true"/>
             </div>
         </div>
+        <div class="row-fluid">
+             <div class="span6">
+                <label class="title">Modalidad de Reserva (*)</label>
+                <select name="own_modalityReservation" class="input-block-level" id="own_modalityReservation" required="required">
+                    {{ render(controller('mycpBundle:BackendOwnership:getModalityReservation', {'post':post})) }}
+                </select>
+             </div>
+        </div>
+        <br/>
+        <div class="row-fluid">
+             <div class="col-xs-12">
+                    <label>¿Acepta recibir clientes de agencias de viajes?</label>
+                    <legend></legend>
+                    <label class="checkbox">
+                        <input type="checkbox" {% if post['own_agencyWork'] is defined and post['own_agencyWork']  %} checked="checked" {% endif %} name="own_agencyWork"> Está de acuerdo en recibir el pago 10 días después de la salida del cliente.
+                    </label>
+            </div>
+        </div>
     </div>
-{% endif %}
+{#{% endif %}#}
 {% if data['edit_ownership'] is defined %}
 <div id="comentarios" class="tab-pane fade">
     {% render(controller('mycpBundle:BackendComment:get_comments_by_ownership', {'id_own':data['id_ownership']})) %}
