@@ -129,7 +129,7 @@
             {% if data['count_errors']>0 %}<label class="alert alert-error">Debe llenar el formulario correctamente.</label>{%endif%}
             <ul class="nav nav-tabs" id="myTab">
                 <li class="active"><a id="tabGeneral" {% if errors_tab['general_tab'] is defined %} class="tab_errors" {% endif %} data-toggle="tab" href="#generales">Datos generales</a></li>
-                <li class=""><a data-toggle="tab" href="#modality">Reservaciones</a></li>
+                <li class=""><a {% if errors_tab['modality_tab'] is defined %} class="tab_errors" {% endif %} data-toggle="tab" href="#modality">Reservaciones</a></li>
                 <li class=""><a {% if errors_tab['room_tab'] is defined %} class="tab_errors" {% endif %} data-toggle="tab" href="#habitaciones">Habitaciones</a></li>
                 <li class=""><a data-toggle="tab" href="#facilidades">Facilidades</a></li>
                 <li class=""><a {% if errors_tab['house_tab'] is defined %} class="tab_errors" {% endif %} data-toggle="tab" href="#casa">Casa</a></li>
@@ -719,19 +719,19 @@
             <div class="span6">
                 <label>Tipo de Renta (*)</label>
                 {% if errors['modality'] is defined %}<label class="error">{{errors['modality']|trim(':')}}</label>{%endif%}
-                <select class="input-block-level" name="modality" id="dllModality" required="required">
+                <select class="input-block-level" name="modality" id="dllModality">
                     {{ render(controller('mycpBundle:BackendOwnership:getBookingModality', {'post':post})) }}
                 </select>
             </div>
             <div class="span6">
                 <label>Precio</label>
-                <input value="{% if(post['modality_price'] is defined) %}{{post['modality_price']}}{% endif %}" class="input-block-level" type="text" name="modality_price" id="iModality" disabled="disabled" required="true"/>
+                <input value="{% if(post['modality_price'] is defined) %}{{post['modality_price']}}{% endif %}" class="input-block-level" type="text" name="modality_price" id="iModality" disabled="disabled"/>
             </div>
         </div>
         <div class="row-fluid">
              <div class="span6">
                 <label class="title">Modalidad de Reserva (*)</label>
-                <select name="own_modalityReservation" class="input-block-level" id="own_modalityReservation" required="required">
+                <select name="own_modalityReservation" class="input-block-level" id="own_modalityReservation">
                     {{ render(controller('mycpBundle:BackendOwnership:getModalityReservation', {'post':post})) }}
                 </select>
              </div>
