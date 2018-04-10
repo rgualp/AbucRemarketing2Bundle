@@ -1153,8 +1153,8 @@ class OwnershipController extends Controller
             $total_items = $session->get('total_items');
             $cant_pages = $session->get('cant_pages');
         }
-
-        if ($session->get('search_view_results') != null && $session->get('search_view_results') == 'LIST')
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
+        if ($mobileDetector->isMobile()){
             $response = $this->renderView('FrontEndBundle:ownership:searchListOwnership.html.twig', array(
                 'list' => $list,
                 'items_per_page' => $items_per_page,
@@ -1164,28 +1164,40 @@ class OwnershipController extends Controller
                 'list_preffix' => 'search',
                 'show_paginator' => true
             ));
-        else if ($session->get('search_view_results') != null && $session->get('search_view_results') == 'PHOTOS')
-            $response = $this->renderView('FrontEndBundle:ownership:searchMosaicOwnershipv2.html.twig', array(
-                'list' => $list,
-                'cant_pages' => $cant_pages,
-                'items_per_page' => $items_per_page,
-                'total_items' => $total_items,
-                'current_page' => $page,
-                'list_preffix' => 'search',
-                'show_paginator' => true
-            ));
-        else if ($session->get('search_view_results') != null && $session->get('search_view_results') == 'MAP')
-            $response = $this->renderView('FrontEndBundle:ownership:searchMapOwnership.html.twig', array(
-                'list' => $list,
-                'items_per_page' => $items_per_page,
-                'total_items' => $total_items,
-                'cant_pages' => $cant_pages,
-                'current_page' => $page,
-                'list_preffix' => 'search',
-                'show_paginator' => true
-            ));
+        }
+        else {
+            if ($session->get('search_view_results') != null && $session->get('search_view_results') == 'LIST')
+                $response = $this->renderView('FrontEndBundle:ownership:searchListOwnership.html.twig', array(
+                    'list' => $list,
+                    'items_per_page' => $items_per_page,
+                    'total_items' => $total_items,
+                    'cant_pages' => $cant_pages,
+                    'current_page' => $page,
+                    'list_preffix' => 'search',
+                    'show_paginator' => true
+                ));
+            else if ($session->get('search_view_results') != null && $session->get('search_view_results') == 'PHOTOS')
+                $response = $this->renderView('FrontEndBundle:ownership:searchMosaicOwnershipv2.html.twig', array(
+                    'list' => $list,
+                    'cant_pages' => $cant_pages,
+                    'items_per_page' => $items_per_page,
+                    'total_items' => $total_items,
+                    'current_page' => $page,
+                    'list_preffix' => 'search',
+                    'show_paginator' => true
+                ));
+            else if ($session->get('search_view_results') != null && $session->get('search_view_results') == 'MAP')
+                $response = $this->renderView('FrontEndBundle:ownership:searchMapOwnership.html.twig', array(
+                    'list' => $list,
+                    'items_per_page' => $items_per_page,
+                    'total_items' => $total_items,
+                    'cant_pages' => $cant_pages,
+                    'current_page' => $page,
+                    'list_preffix' => 'search',
+                    'show_paginator' => true
+                ));
 
-
+        }
         return new JsonResponse(array('html' => $response, 'cant_pages' => $cant_pages));
 
     }

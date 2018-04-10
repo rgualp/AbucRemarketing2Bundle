@@ -1,0 +1,53 @@
+<div class="card search"  style='padding-top: 10px;'>
+
+    <div style="background-image: url('{{ asset('img/map_pic.png') }}'); height:255px" class="col-md-10 ml-auto mr-auto" rel="tooltip" >
+        <div class="quick-ribbon" style="background-color: #ff0000">
+            <i class="fa fa-rocket" style="padding: 0px 5px"></i>
+            <span style="text-align: left;">Reserva Inmediata</span>
+        </div>
+        <div class="thumbnail-title  clearfix">
+            <img id = 'best'src="{{ asset('bundles/mycpmobilefrontend/img/BEST-CASA.png') }}" style="top: 10px; width: 64px; height: 63px;position: absolute; z-index: 1;box-shadow: 5px 5px 10px #686765;border-radius:100px" alt="Awards">
+            <span class="h-blue pull-right text-uppercase f-s-30 m-a-0">
+               <small style="display: inline-block">Desde:</small> EUR 22.50</span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <a class="f-s-14" target="_blank" \>
+                <div class="h-blue m-b-2 m-t-0">
+                    Esta seria Otra Casasss
+                </div></a>
+            <div class="col-sm-12 p-0">
+                <span>Económica</span>
+
+                <div class="col-sm-16 p-0">
+                    <p style="margin: 0;">Matanzas, Cárdenas</p>
+                </div>
+                <div class="col-sm-16 p-0">
+                    <p style="margin: 0;">Casa particular/ 4 habitaciones</p>
+                </div>
+                <div class="col-sm-16 p-0">
+                    <span class="fa fa-star" data-rating="1"></span>
+                    <span class="fa fa-star" data-rating="2"></span>
+                    <span class="fa fa-star" data-rating="3"></span>
+                    <span class="fa fa-star" data-rating="4"></span>
+                    <span class="fa fa-star" data-rating="5"></span>
+                    <span>70 Comentarios</span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-x3" style='    padding-top: 10px;
+          padding-right: 10px;'>
+                  <span class="favorite_action">
+                  <a data-rel="tooltip" href="#" class="favorite_off_action"  title="Agregar a Favoritos" >
+                  <i class="material-icons">favorite</i>
+                  </a></span>
+            <a href="">
+                <img title="{{ 'RESERVATION_CHECK_AVAILABILITY'| trans }}" style="width: 24px; height: 24px;cursor: pointer;margin-left: 10px" src="{{ asset('bundles/frontend/img/icons/consult.dispov.png')}}" alt="{{"WELCOMEPAGE_TITLE" | trans}}" title="{{ 'WELCOMEPAGE_TITLE' | trans }}" data-toggle="modal" data-target="#myModalOwnerShipCalendar"  >
+            </a>
+        </div></div>
+
+</div>

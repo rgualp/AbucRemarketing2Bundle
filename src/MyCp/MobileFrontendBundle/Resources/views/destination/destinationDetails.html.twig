@@ -1,0 +1,120 @@
+{% extends 'MyCpMobileFrontendBundle:destination:destinationBase.html.twig' %}
+
+{% set desName = (destination.desName | trans) %}
+{% block title %}
+    {% if get_tagvalue_bytag('Destino ' ~ destination.desName, lang_code, 'title') == false %}
+        {{ 'DESTINATION_DETAILS' | trans ({'%destinationName%': desName}) }}
+    {% else %}
+        {{ get_tagvalue_bytag('Destino ' ~ destination.desName, lang_code, 'title')|raw }}
+    {% endif %}
+
+{% endblock %}
+
+{% set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_DESTINATIONS') %}
+{% set lang_code=app.session.get('app_lang_code')|lower %}
+{% block metas %}
+    {{ get_metas('Destino ' ~ destination.desName, lang_code)|raw }}
+    {#{%if keyword_description != "" and keyword != ""%}
+    <meta name="description" content="{{keyword_description}}">
+    <meta name="keywords" content="{{keyword}}">
+    {%else%}
+    {{parent()}}
+    {%endif%}#}
+{% endblock %}
+{% block include_css %}
+    <style>
+        #poput-description .images-destination p {
+            color: #bbb;
+        }
+    #poput-description .images-destination .p-description {
+
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.58);
+    padding: 20px;
+    }
+    #poput-description .images-destination {
+    background-position: center center;
+    background-size: cover;
+    height: 100%;
+    }
+    </style>
+{% endblock %}
+
+{% block content %}
+
+    <div class="main main-raised">
+        <div class="text-center caecilia-roman white f-s-16" style="background: #f4941c; color:white; font-size:20px; ">
+
+            <a>{{ 'DESTINATION_DETAILS' | trans ({'%destinationName%': desName}) }}</a>
+
+
+
+        </div>
+
+        <div class="profile-content">
+
+            <div class="container" >
+                <div class="row" >
+                    <div class="container ">
+                        <div class="horizontal-scroll-wrapper squares" id="div_result" data-url="{{ path('frontend_research_ownership_callback') }}" data-current-page="{{ paginator.currentPage }}" data-cant-page="{{ paginator.lastPage }}">
+
+
+
+
+                        </div>
+                        <div class="row">
+                            <button id="loadmore" class="btn btn-primary btn-block"
+                                    type="submit">Find More..</button>
+
+                        </div>
+                        <div class='row'>
+                            <div class="col-xs-12 p-a-1 text-xs-center bg-blue-mycp">
+                                <h2 class="m-a-0 white">
+                                    <a title="{{ 'DESCRIPTION_TAB_DETAILS' | trans }}" data-toggle="collapse" href="#description"> {{ desName }}...</a>
+                                </h2>
+
+                            </div>
+                            <div id="description" class="container panel-collapse collapse in" style=" margin-bottom: 10px;">
+
+                                    <div id="poput-description" class="clearfix dhide">
+                                        {% set img = "" %}
+                                        {% for photo in  gallery_photos%}
+                                            {% if loop.first %}
+                                                {% set img = asset('uploads/destinationImages/'~photo)  %}
+                                            {% endif %}
+                                            {% else %}
+                                        {%endfor%}
+                                         {% set img = asset('uploads/destinationImages/no_photo.png')  %}
+
+                                        <div class="images-destination" style="background-image: url('{{ img }}');">
+
+                                            <div class="p-description scroll" >
+                                                <p>{{ description | raw }}</p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+
+    </div>
+
+
+
+
+
+
+{% endblock %}

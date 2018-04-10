@@ -16,6 +16,7 @@
         <i class="fa fa-map"></i>
       </span>
                 </div>
+
                 <input style="color: white" {% if isDestination is defined and isDestination == true %}disabled{% endif %} type="text" class="form-control"
                         {% if app.session.get('search_text') != null and app.session.get('search_text') != 'null' %}value="{{ app.session.get('search_text') }}"{% endif %}
                        placeholder="{{ "PLACE_WATERMARK" | trans }}" id="input_text"

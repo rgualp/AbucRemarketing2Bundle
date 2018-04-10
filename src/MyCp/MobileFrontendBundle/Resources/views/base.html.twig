@@ -86,14 +86,18 @@
         '@MyCpMobileFrontendBundle/Resources/public/js/ownership.calendar.js'
         '@FrontEndBundle/Resources/public/js/typeahead.js'
         '@MyCpMobileFrontendBundle/Resources/public/js/mycp.js'
+
         filter='?uglifyjs2'
     %}
         <script src="{{ asset_url }}"></script>
 
     {% endjavascripts %}
 
+
     {% block includejs %}
-        {% endblock %}
+
+    {% endblock %}
+
     </body>
     </html>
 {% endspaceless %}

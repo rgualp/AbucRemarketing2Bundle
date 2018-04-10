@@ -268,7 +268,7 @@
 .form-control:-moz-placeholder { color: white; }  /* Mozilla Firefox 4 to 18 */
 .form-control::-moz-placeholder { color: white; }  /* Mozilla Firefox 19+ */
 .form-control:-ms-input-placeholder { color: white; }  /* Internet Explorer 10-11 */
-.form-control::-ms-input-placeholder { color: white; }  /* Microsoft Edge */
+.form-control:-ms-input-placeholder { color: white; }  /* Microsoft Edge */
 .comment{
 	padding:0;
 }
@@ -315,6 +315,9 @@
   height:250px;
   overflow-y: scroll;
 
+}
+#poput-description .images-destination p {
+    color: #bbb;
 }
 .price li.lead-2 {
     padding: 10px 30px;
@@ -387,7 +390,17 @@
 .services {
     font-size: 12px;
 }
+#poput-description .images-destination .p-description {
 
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.58);
+    padding: 20px;
+}
+#poput-description .images-destination {
+    background-position: center center;
+    background-size: cover;
+    height: 100%;
+}
 .horizontal-scroll-wrapper {
     display: -webkit-inline-box;
     width: 100%;

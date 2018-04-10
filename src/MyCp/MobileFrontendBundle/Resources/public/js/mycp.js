@@ -69,7 +69,7 @@ $('#input_departure_date').datetimepicker({
 	defaultDate: new Date(),
 	minDate:moment(new Date()),
 	format: 'DD/MM/YYYY',
-	locale: window.navigator.language
+
 
 });
 $('#input_arrival_date').datetimepicker({
@@ -88,7 +88,7 @@ $('#input_arrival_date').datetimepicker({
     defaultDate: new Date(),
     minDate:moment(new Date()),
     format: 'DD/MM/YYYY',
-    locale: window.navigator.language
+
 
 });
 var tomorrow = new Date();
@@ -113,6 +113,15 @@ function openNav() {
 	$('#search').empty();
 	$('#search').append('close');
 	}
+}
+function create_dateDMY(date_text) {
+    var date = date_text.split('/');
+    if (date.length == 3)
+    {
+        var date_result = parseInt(date[0], 10) + '-' + (parseInt(date[1], 10)) + '-' + parseInt(date[2], 10);
+        return date_result;
+    }
+    return null;
 }
 
 function search() {
