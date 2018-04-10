@@ -297,6 +297,41 @@
 
                                     </div>
                                     <div class="tab-pane scroll" id="messages">
+
+                                        {% if can_comment %}
+                                            <div style="display: none">
+                                            <h3 class="h-grey">{{ "QUEST_COMMENTS_DETAILS" | trans }}</h3>
+                                            <div class="radio"><label><input type="radio" value="5" id="option5"
+                                                                             name="radio_rating">{{ "5_STARS_COMMENTS_DETAILS" | trans }}
+                                                </label></div>
+                                            <div class="radio"><label><input type="radio" value="4" id="option4"
+                                                                             name="radio_rating">{{ "4_STARS_COMMENTS_DETAILS" | trans }}
+                                                </label></div>
+                                            <div class="radio"><label><input type="radio" checked="checked" value="3" id="option3"
+                                                                             name="radio_rating">{{ "3_STARS_COMMENTS_DETAILS" | trans }}
+                                                </label></div>
+                                            <div class="radio"><label><input type="radio" value="2" id="option2"
+                                                                             name="radio_rating">{{ "2_STARS_COMMENTS_DETAILS" | trans }}
+                                                </label></div>
+                                            <div class="radio"><label><input type="radio" value="1" id="option1"
+                                                                             name="radio_rating">{{ "1_STARS_COMMENTS_DETAILS" | trans }}
+                                                </label></div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="exampleFormControlTextarea1">{{ "TEXT_COMMENTS_DETAILS" | trans }}</label>
+                                                <textarea style='color:black;' class="form-control" id="input_comment"  required-message="{{ "COMMENTTEXT_REQUIERED_MESSAGE" | trans }}"></textarea>
+                                            </div>
+
+                                            <button class="btn btn-primary margin-t" id="btn_insert_comment"
+                                                    data-url="{{ path('frontend_insert_comment',{'ownid':ownership.own_id}) }}">
+                                                {{ "SEND_COMMENT_DETAILS" | trans }}
+                                            </button>
+
+                                            <div id="message_text" class="hidden"
+                                                 ok-message="{% if can_public_comment %}{{ "COMMENT_INSERTED" | trans }}{% else %}{{ "COMMENT_TO_PUBLIC" | trans }}{% endif %}"></div>
+                                            {#<hr class="margin-t hr-green"/>#}
+                                        {% endif %}
                                         {%for comment in comments%}
                                         <div class="media g-mb-30 media-comment">
 
@@ -329,7 +364,9 @@
                                     </div>
 
                                     <div class="tab-pane active show" id="description">
-                                        <p style='font-size:1.5em;text-align: left;'>{{ description | trans }} </p>
+
+
+                                        <p>{{ description| raw }}</p>
                                     </div>
                                     <div class="tab-pane scroll" id="hotel">
                                         {% for room in rooms %}

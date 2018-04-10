@@ -1,8 +1,79 @@
+
 $(function () {
 
     startTypeHead();
     $("#btn_search").click(search);
+    $('#btn_insert_comment').click(insert_comment);
 });
+function insert_comment()
+{
+    HoldOn.open();
+    hide_element($('#message_text'));
+
+    // var result = $('#user_comments');
+    var url = $('#btn_insert_comment').attr('data-url');
+
+    /*var user_name = $('#input_name').val();
+     var user_email = $('#input_email').val();*/
+    var comment = $('#input_comment').val();
+    var rating = $('input[name=radio_rating]:checked').val();
+
+    if (validate())
+    {
+        $.post(url, {
+            'com_comments': comment,
+            'com_rating': rating
+        }, function(data) {
+            // result.html(data);
+
+            document.reload()
+
+
+
+
+        });
+    }
+    else
+    {
+        HoldOn.close();
+
+    }
+
+    return false;
+}
+function validate()
+{
+
+    var comment = $('#input_comment').val();
+    var valid = true;
+    var error_text = '';
+
+
+
+    if (comment === '')
+    {
+        valid = false;
+        error_text += $('#input_comment').attr("requiered-message") + ' <br/>';
+
+    }
+
+    if (error_text !== '')
+    {
+        $('#message_text').html(error_text);
+    }
+
+
+    return valid;
+}
+function show_element(element)
+{
+    element.removeClass('hidden');
+}
+
+function hide_element(element)
+{
+    element.addClass('hidden');
+}
 function startTypeHead() {
 
     if ($('[data-provide="typeahead"]').length > 0) {
