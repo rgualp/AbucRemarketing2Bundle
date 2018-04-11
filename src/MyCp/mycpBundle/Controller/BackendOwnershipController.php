@@ -914,6 +914,15 @@ class BackendOwnershipController extends Controller
                 $errors['facilities_breakfast'] = $this->get('validator')->validateValue($post['facilities_breakfast'], $not_blank_validator);
                 $errors['facilities_dinner'] = $this->get('validator')->validateValue($post['facilities_dinner'], $not_blank_validator);
                 $errors['facilities_parking'] = $this->get('validator')->validateValue($post['facilities_parking'], $not_blank_validator);
+                $errors['ownership_address_street'] = $this->get('validator')->validateValue($post['ownership_address_street'], $not_blank_validator);
+                $errors['ownership_address_number'] = $this->get('validator')->validateValue($post['ownership_address_number'], $not_blank_validator);
+                $errors['ownership_homeowner_1'] = $this->get('validator')->validateValue($post['ownership_homeowner_1'], $not_blank_validator);
+                $errors['ownership_category'] = $this->get('validator')->validateValue($post['ownership_category'], $not_blank_validator);
+                $errors['ownership_type'] = $this->get('validator')->validateValue($post['ownership_type'], $not_blank_validator);
+                $errors['ownership_percent_commission'] = $this->get('validator')->validateValue($post['ownership_percent_commission'], $not_blank_validator);
+                $errors['modality'] = $this->get('validator')->validateValue($post['modality'], $not_blank_validator);
+                $errors['own_modalityReservation'] = $this->get('validator')->validateValue($post['own_modalityReservation'], $not_blank_validator);
+
 
                 $data['count_errors'] += count($errors['facilities_breakfast']);
                 $data['count_errors'] += count($errors['facilities_dinner']);
@@ -1081,7 +1090,6 @@ class BackendOwnershipController extends Controller
         $errors_keys = array_keys($errors);
         $errors_temp = array();
         $flag = 0;
-
         foreach ($errors as $error) {
             if (is_object($error)) {
                 if ($error->__toString() != '') {
@@ -1114,6 +1122,10 @@ class BackendOwnershipController extends Controller
 
             if (strpos($error, 'match_password') === 0) {
                 $errors_tab['user_tab'] = true;
+            }
+
+            if (strpos($error, 'modality') === 0 || strpos($error, 'own_modalityReservation') === 0) {
+                $errors_tab['modality_tab'] = true;
             }
         }
 
