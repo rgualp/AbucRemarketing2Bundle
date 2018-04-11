@@ -1835,8 +1835,13 @@ class OwnershipController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $text = $em->getRepository('mycpBundle:ownership')->autocompleteTextList();
-
-        return new JsonResponse(array('autocompletetext' => $text));
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
+        if ($mobileDetector->isMobile()){
+            return new JsonResponse($text);
+        }
+        else {
+            return new JsonResponse(array('autocompletetext' => $text));
+        }
     }
 
     public function ownersPhotosAction($ownership_id, $photo)

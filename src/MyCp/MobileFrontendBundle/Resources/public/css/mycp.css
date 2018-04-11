@@ -345,24 +345,7 @@
     color: #fff;
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
 }
-.tt-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    z-index: 1003;
-    float: left;
-    min-width: 80px;
-    padding: 5px 0;
-    margin: 2px 0 0;
-    list-style: none;
-    font-size: 14px;
-    background-color: #FFF;
-    border: 1px solid #ccc;
-    border: 1px solid #84b231;
-    border-radius: 3px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.25);
-    background-clip: padding-box;
-}
+
 .price {
     display: block;
     padding: 0;
@@ -409,9 +392,9 @@
 .card.search{
     padding-right: 0.5em;
     padding-left: 0.5em;
-    max-width: 300px;
-	max-width: 350px;
-    margin-left: 1em;
+    max-width: 20em;
+    max-height: 22em;
+	margin-left: 1em;
 }
 
 
@@ -487,6 +470,7 @@
 	
     
 }
+
 
 .noUi-tooltip {
     display: none;

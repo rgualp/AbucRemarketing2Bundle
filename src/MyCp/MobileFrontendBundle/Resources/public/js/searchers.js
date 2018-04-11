@@ -2,10 +2,12 @@ $(document).ready(start_s);
 function start_s() {
     var page = $('#div_result').attr("data-current-page");
     //Buscador que esta encima de los filtros
-    $('#btn_search').click(function(){
+    $('#btn_search').off('click').on('click', function(e) {
+        document.getElementById("myNav").style.width = "0%";
         $( "#div_result" ).empty();
-         research(1);
+        research(1);
     });
+
     $('#loadmore').click(function(){
         research(parseInt(page)+1);
     });

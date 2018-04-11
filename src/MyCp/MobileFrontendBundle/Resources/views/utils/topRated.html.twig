@@ -4,20 +4,22 @@
     {% for top in own_top20_list %}
     <div class="card search " style='padding-top: 10px;' >
 
-        <div style="background-image: url('{{ asset('uploads/ownershipImages/') ~ top.photo }}'); height:255px" class="col-md-10 ml-auto mr-auto" rel="tooltip" >
-
-            <div class="quick-ribbon" style="background-color: #ff0000">
-
-                {% if top['OwnInmediateBooking2'] %}
+        <div style="background-image: url('{{ asset('uploads/ownershipImages/') ~  top.photo }}');background-size: cover; height:200px" class="col-md-10 ml-auto mr-auto" rel="tooltip" >
+            {% if top['OwnInmediateBooking2'] %}
+                <div class="quick-ribbon" style="background-color: #ff0000">
                     <i class="fa fa-rocket" style="padding: 0px 5px"></i>
-                <span style="text-align: left;">{{ 'IMMEDIATE_BOOKING'|trans }}</span>
-                {% elseif top['OwnInmediateBooking'] %}
-                    <i class="fa fa-flash"  style="padding: 0px 5px;background-color: #e44f37"></i>
-                    <span style="text-align: left;"> {{ 'quick_bookinhg'|trans }}</span>
+                    <span style="text-align: left;">{{ 'IMMEDIATE_BOOKING'|trans }}</span>
+                </div>
 
-                {% endif %}
+            {% elseif  top['OwnInmediateBooking'] %}
+                <div class="quick-ribbon" style="background-color: #e44f37">
+                    <i class="fa fa-flash" style="padding: 0px 5px"></i>
+                    <span style="text-align: left;">{{ 'quick_bookinhg'|trans }}</span>
+                </div>
 
-            </div>
+
+            {% endif %}
+
             <div class="thumbnail-title  clearfix">
                 {% if top.award %}
                     <img src="{{ asset("uploads/awards/") ~ top.award }}"  style="top: 10px; width: 64px; height: 63px;position: absolute; z-index: 1;box-shadow: 5px 5px 10px #686765;border-radius:100px" alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/>
@@ -31,7 +33,7 @@
         <div class="row">
             <div class="col">
                 <a class="f-s-14" href="{{ url('frontend_details_ownership',{'own_name':top.own_name | urlNormalize}) }}" >
-                    <div class="h-blue m-b-2 m-t-0">
+                    <div class="h-blue m-b-2 m-t-0" style="font-size: 15px">
                         {{ top.own_name }}
                     </div></a>
                 <div class="col-sm-12 p-0">

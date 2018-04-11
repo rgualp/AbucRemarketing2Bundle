@@ -1,9 +1,9 @@
 {%for own in list%}
-<div class="card search" data-id="{{own.own_id}}" id="own_{{own.own_id}}"  style='margin-bottom: 50px; padding-top: 10px;'>
+<div class="card search" data-id="{{own.own_id}}" id="own_{{own.own_id}}"  style='margin-bottom: 50px; padding-top: 10px;max-height: 25em;'>
 
 
 
-    <div style="background-image: url('{{ asset("uploads/ownershipImages/thumbnails/" ~  own.photo) }}'); height:255px" class="col-md-10 ml-auto mr-auto" rel="tooltip" >
+    <div style="background-image: url('{{ asset("uploads/ownershipImages/" ~  own.photo) }}');background-size: cover; height:200px" class="col-md-10 ml-auto mr-auto" rel="tooltip" >
         {% if own.OwnInmediateBooking2 %}
             <div class="quick-ribbon" style="background-color: #ff0000">
                 <i class="fa fa-rocket" style="padding: 0px 5px"></i>
@@ -33,7 +33,7 @@
     <div class="row">
         <div class="col">
             <a class="f-s-14" target="_blank" href="{{ path('frontend_details_ownership',{'own_name':own.own_name  | urlNormalize}) }}">
-                <div class="h-blue m-b-2 m-t-0" >
+                <div class="h-blue m-b-2 m-t-0" style="font-size: 15px" >
                         {{ own.own_name }}
 
 
@@ -83,6 +83,17 @@
 
 {% else %}
     <div class="card search">
-    <div class="alert a alert-info">{{ "EMPTY_LIST" | trans }}</div>
+        <div class="alert alert-success" style='margin:0'>
+            <div class="container">
+                <div class="alert-icon">
+                    <i class="material-icons">warning</i>
+                </div>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                </button>
+                <b> {{ "EMPTY_LIST" | trans }}</b>
+            </div>
+        </div>
+
     </div>
 {% endfor %}
