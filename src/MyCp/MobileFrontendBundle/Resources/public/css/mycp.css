@@ -50,7 +50,7 @@
 }
 
 @media all and (max-width: 1366px) {
-    .navbar-collapse { background-color:#63a333eb;!important /*replace with desired color*/ } 
+    .navbar-collapse { background-color:rgba(99, 163, 51, 0.97);!important; /*replace with desired color*/ }
 
 }
 @media all and (max-width: 1366px) {
@@ -443,8 +443,8 @@
     z-index: 100; /* Sit on top */
     left: 0;
     top: 0;
- 
-    background-color: #63a333eb;
+
+    background-color: rgba(99, 163, 51, 0.97);
     overflow-x: hidden; /* Disable horizontal scroll */
     transition: 0.5s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
 }
@@ -455,7 +455,7 @@
     top: 10%; /* 25% from the top */
     width: 100%; /* 100% width */
     text-align: center; /* Centered text/links */
-    margin-top: 30px; /* 30px top margin to avoid conflict with the close button on smaller screens */
+    margin-top: 2em; /* 30px top margin to avoid conflict with the close button on smaller screens */
 	
 }
 

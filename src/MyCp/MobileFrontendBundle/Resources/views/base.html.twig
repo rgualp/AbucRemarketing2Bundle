@@ -3,6 +3,7 @@
     <!DOCTYPE html>
     <html id="top" {{ get_lang(lang_code)|raw }}>
     <head>
+        <meta charset="UTF-8">
         <title>{% block title %}{{"WELCOMEPAGE_TITLE" | trans }}{% endblock %} - MyCasaParticular</title>
         <meta name="viewport" content="initial-scale=1.0,width=device-width,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0">
         <meta name="google" content="notranslate" />
@@ -13,12 +14,13 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
         {% stylesheets
             '@MyCpMobileFrontendBundle/Resources/public/css/material-kit.css'
-            '@MyCpMobileFrontendBundle/Resources/public/css/mycp.css'
             '@LayoutBundle/Resources/public/css/plugins/holdon/HoldOn.min.css'
+            '@MyCpMobileFrontendBundle/Resources/public/css/mycp.css'
 
         filter='?uglifycss'
         %}
-         <link rel="stylesheet" href="{{ asset_url }}" media="all" />
+
+         <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
 
         {% block include_css %}{% endblock %}
