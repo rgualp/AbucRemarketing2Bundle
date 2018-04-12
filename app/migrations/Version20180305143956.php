@@ -28,9 +28,13 @@ pa_tour_operator.tourOperator=41066 or
 pa_tour_operator.tourOperator=41067 or
 pa_tour_operator.tourOperator=41068 or
 pa_tour_operator.tourOperator=41069 or 
-pa_tour_operator.tourOperator=41348
+pa_tour_operator.tourOperator=41348 or 
+pa_tour_operator.tourOperator=42390 or 
+pa_tour_operator.tourOperator=42392 or 
+pa_tour_operator.tourOperator=42393 or 
+pa_tour_operator.tourOperator=42695
 ;");
-        $this->addSql("UPDATE user SET user.user_role = 'ROLE_CLIENT_PARTNER_TOUROPERATOR',user.user_subrole=17
+        $this->addSql("UPDATE user SET user.user_role = 'ROLE_CLIENT_PARTNER_TOUROPERATOR',user.user_subrole=18
 where user.user_id=32531 or 
 user.user_id=40601 or
 user.user_id=40898 or
@@ -40,7 +44,13 @@ user.user_id=41066 or
 user.user_id=41067 or
 user.user_id=41068 or
 user.user_id=41069 or 
-user.user_id=41348
+user.user_id=41348 or 
+user.user_id=42390 or 
+user.user_id=42392 or 
+user.user_id=42393
+;");
+        $this->addSql("UPDATE user SET user.user_role = 'ROLE_ECONOMY_PARTNER',user.user_subrole=17
+where user.user_id=42695 
 ;");
     }
 
