@@ -121,7 +121,7 @@
                     </div>
                     <div class="row" style='display:block;' >
                         <div class="card card-nav-tabs" style='margin:0; width:100%;'>
-                            <div class="card-header card-header-success">
+                            <div class="card-header card-header-success" style="margin:0;">
                                 <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
                                 <div class="nav-tabs-navigation">
                                     <div class="nav-tabs-wrapper">
@@ -129,6 +129,7 @@
                                             <li class="nav-item">
                                                 <a class="nav-link active show" href="#description" data-toggle="tab">
                                                     <i class="material-icons">description</i>
+
                                                     <div class="ripple-container"></div></a>
                                             </li>
                                             <li class="nav-item">
@@ -153,8 +154,8 @@
                                                 <a class="nav-link" href="#hotel" data-toggle="tab">
 
                                                     <i class="material-icons">hotel
-
                                                     </i>
+                                                    {{ rooms|length }}
                                                     <div class="ripple-container"></div></a>
                                             </li>
 
@@ -354,7 +355,7 @@
                                         {% endfor %}
 
                                     </div>
-                                    <div class="tab-pane" id="map">
+                                    <div class="tab-pane " id="map">
                                         <div class="map-responsive">
                                             {% if ownership.OwnGeolocateX != "" and ownership.OwnGeolocateY != "" %}
                                                 <iframe src="http://maps.google.com/maps?q={{ ownership.OwnGeolocateX }}, {{ ownership.OwnGeolocateY }}&markers=icon:{{ asset('bundles/frontend/img/map_marker.png') }}&output=embed" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
@@ -363,7 +364,7 @@
                                            </div>
                                     </div>
 
-                                    <div class="tab-pane active show" id="description">
+                                    <div class="tab-pane scroll active show" id="description">
 
 
                                         <p>{{ description| raw }}</p>

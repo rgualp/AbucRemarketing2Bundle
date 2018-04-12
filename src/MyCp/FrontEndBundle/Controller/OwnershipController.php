@@ -417,9 +417,15 @@ class OwnershipController extends Controller
         }
         // $similar_houses = $em->getRepository('mycpBundle:ownership')->getByCategory($ownership_array['category'], null, $owner_id, $user_ids["user_id"], $user_ids["session_id"]);
         // $total_similar_houses = count($similar_houses);
-
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
         $paginator = $this->get('ideup.simple_paginator');
-        $items_per_page = 5;
+        if ($mobileDetector->isMobile()){
+            $items_per_page = 30;
+        }
+        else{
+            $items_per_page = 5;
+        }
+
         $paginator->setItemsPerPage($items_per_page);
         $total_comments = $em->getRepository('mycpBundle:comment')->getByOwnership($owner_id);
         $comments = $paginator->paginate($total_comments)->getResult();
@@ -598,7 +604,7 @@ class OwnershipController extends Controller
             'fr' => 'fr-FR'
         );
 
-        $mobileDetector = $this->get('mobile_detect.mobile_detector');
+
         if ($mobileDetector->isMobile()) {
             return $this->render('MyCpMobileFrontendBundle:ownership:ownershipDetails.html.twig', array(
                 'avail_array_prices' => $avail_array_prices,
@@ -613,7 +619,7 @@ class OwnershipController extends Controller
                 'automaticTranslation' => $ownership_array['autotomaticTranslation'],
                 //'similar_houses' => array_slice($similar_houses, 0, 5),
                 //'total_similar_houses' => $total_similar_houses,
-                'comments' => $comments,
+                'comments' => $total_comments->getResult(),
                 'friends' => $friends,
                 'show_comments_and_friends' => count($total_comments) + count($friends),
                 'rooms' => $rooms,
