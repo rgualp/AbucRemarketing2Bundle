@@ -86,7 +86,7 @@ class FeedbackReminderWorkerCommand extends Worker {
 
         if ($this->em->getRepository('mycpBundle:generalReservation')->shallSendOutFeedbackReminderEmail($generalReservation)) {
             $output->writeln('Send Feedback Reminder Email to User ID ' . $user->getUserId());
-            $this->sendReminderEmail($user, $generalReservation, $output);
+//            $this->sendReminderEmail($user, $generalReservation, $output);
         }
 
         $output->writeln('Successfully finished Feedback Reminder for User ID ' . $user->getUserId());
