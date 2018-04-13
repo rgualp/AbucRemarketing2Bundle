@@ -226,7 +226,7 @@ var Dashboard = function () {
 
                     result.html(loadingText);
                     $.post(_url, {'accommodationId': selectedAccommodationForReserve}, function (data) {
-                        result.html(""+data+"");
+                        result.html(data);
                         result.data("content", true);
                         onEndReservationButton();
                         onAddToOpeneservationButton();
