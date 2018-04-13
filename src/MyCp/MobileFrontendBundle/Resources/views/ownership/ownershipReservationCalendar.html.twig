@@ -2,10 +2,11 @@
 <table class="table table-responsive"style="margin-bottom: 0px">
     <thead>
     <tr>
-        <th><i class="glyphicons gray keys f-s-16"></i></th>
-        <th>{{ 'RESERVATION_TYPE' | trans }} <i class="glyphicons gray keys f-s-16"></i></th>
+        <th style="text-align: center;"></th>
 
-        <th align="center" style="text-align: center;">  <i class="fa fa-user"></i></th>
+        <th style="text-align: center;">{{ 'RESERVATION_TYPE' | trans }} </th>
+
+        <th align="center" style="text-align: center;">  <i class="fa fa-male"></i></th>
         <th align="center" style="text-align: center;"><i class="fa fa-child"></i></th>
         {% for date in array_dates %}
             <th class="hidden-md hidden-sm hidden-xs">{{ date['day_name'] | trans}} {{ date['day_number'] }}</th>
@@ -23,7 +24,10 @@
         {% set available = 1 %}
         <tr {% if reservations[room.getRoomId] is defined %} style="color: #f4961c!important;" {% set available = 0 %} {% endif %}>
             <td style="width: 100px"> # {{cont}}</td>
-            <td style="width: 200px">{{ room.getRoomType | trans}}</td>
+
+            <td style="width: 200px"> <i style="display: none; border:none" id="tripleAlert_{{room.getRoomId}}" class="fa fa-asterisk"  rel="tooltip" title="{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{configuration_triple_room_charge | price}}" alt="{{"Question" | trans}}"></i>
+                {{ room.getRoomType | trans}}</td>
+
             <td {% if available != 1 %} colspan="2" {% endif %}>
                 {% if available == 1 %}
                 <select  style='color:black'data_total="{{array_prices[cont-1]}}"
@@ -60,9 +64,7 @@
                 </select>
             </td>
 
-            <td id="tripleAlert_{{room.getRoomId}}" style="display: none; border:none">
-                <i class="fa fa-star"  rel="tooltip" title="{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{configuration_triple_room_charge | price}}" alt="{{"Question" | trans}}"></i>
-            </td>
+
             </td>
             {% else %}
                 <div style="text-align: center" class="badge badge-warning btn-block">{{"NOT_AVAILABLE"|trans}}</div>
@@ -109,8 +111,8 @@
 
 <input type="hidden" id="totalNights" value="{{ nights}}"/>
 <div class="col-xs-12 p-x-0 p-y-1">
-    <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-services question m-r-1"/><span class="f-s-12 f-f-Arial">{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{configuration_triple_room_charge | price}}</span>
-</div>
+    <i class="fa fa-asterisk">{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{configuration_triple_room_charge | price}}</i>
+  </div>
 
 <script type="text/javascript">
     var cont_array_dates={{ array_dates | length}};

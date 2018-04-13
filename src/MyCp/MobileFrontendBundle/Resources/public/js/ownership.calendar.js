@@ -185,6 +185,7 @@ var Calendar = function () {
 
                 if(eval($('#combo_guest_'+$(this).attr('data')).val())+eval($('#combo_kids_'+$(this).attr('data')).val())==0)
                 {
+                    $('#tripleAlert_' + $(this).attr('data')).css({display: 'none'});
                     $('#tr_'+$(this).attr('data')).remove();
                     if ($('#rooms_selected >tbody >tr').length == 0){
                         $('#rooms_selected').css({display: 'none'});
@@ -202,11 +203,15 @@ var Calendar = function () {
 
                     if(($(this).attr('data_is_triple')==='1' || $(this).attr('data_is_triple')==='true') && persons>=3)
                     {
+                        $('.triplePrice_' + $(this).attr('data')).css({display: 'block'});
+                        $('#tripleAlert_' + $(this).attr('data')).css({display: 'block'});
                         value=$(this).attr('data_total')*$(this).attr('data_curr') + (($(this).attr('data_curr')*$(this).attr('data_triple_recharge')) * (cont_array_dates -1));
                         value= normalize_prices(value);
                     }
                     else
                     {
+                        $('.triplePrice_' + $(this).attr('data')).css({display: 'none'});
+                        $('#tripleAlert_' + $(this).attr('data')).css({display: 'none'});
                         value=$(this).attr('data_total')*$(this).attr('data_curr');
                         value= normalize_prices(value);
                     }
@@ -226,10 +231,14 @@ var Calendar = function () {
                 if(($(this).attr('data_is_triple')==='1' || $(this).attr('data_is_triple')==='true') && persons>=3)
                 {
                     value=$(this).attr('data_total')*$(this).attr('data_curr') +(($(this).attr('data_curr')*$(this).attr('data_triple_recharge')) * (cont_array_dates -1)) ;
+                    $('.triplePrice_' + $(this).attr('data')).css({display: 'block'});
+                    $('#tripleAlert_' + $(this).attr('data')).css({display: 'block'});
                 }
                 else
                 {
                     value=$(this).attr('data_total')*$(this).attr('data_curr');
+                    $('.triplePrice_' + $(this).attr('data')).css({display: 'none'});
+                    $('#tripleAlert_' + $(this).attr('data')).css({display: 'none'});
                 }
 
                 value= normalize_prices(value);
