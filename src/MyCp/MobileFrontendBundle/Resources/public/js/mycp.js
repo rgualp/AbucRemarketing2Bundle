@@ -16,7 +16,7 @@ function insert_comment()
     /*var user_name = $('#input_name').val();
      var user_email = $('#input_email').val();*/
     var comment = $('#input_comment').val();
-    var rating = $('input[name=radio_rating]:checked').val();
+    var rating = $('#ratings-hidden').val();
 
     if (validate())
     {
