@@ -31,7 +31,7 @@
         </div>
     </div>
     <div class="row">
-        <div id="body_calendar" style="overflow-x: auto;">
+        <div id="body_calendar" style="overflow-x: auto; font-size: large">
 
         </div>
     </div>
@@ -102,12 +102,12 @@
         <div class="row" style="font-size: 20px; margin-top: 10px">
             <div class="col " rel="tooltip" title="{{ 'PREPAYMENT_TOOLTIP' | trans()}}">
 
-                 <i class="fa fa-info-circle">PP</i>
+                 <i class="fa fa-info-circle"></i>
                 : {{ currSymbol }}
                 <span id="total_prepayment" class="h-blue"></span>
             </div>
             <div class="col text-right " style="padding-right: 25px" rel="tooltip" title="{{ 'TOTAL_PAY_AT_SERVICE_TOOLTIP' | trans()}}">
-                <i class="fa fa-info-circle">TPA</i>
+                <i class="fa fa-info-circle"></i>
                 : {{ currSymbol }}
                 <span id="pay_at_service" class="h-blue"></span><br/>
                 {% if currSymbol != "CUC" %}
@@ -137,11 +137,11 @@
                     <input class ='form-control' type="hidden"  value="{% if ownership.OwnInmediateBooking2 %}2{% else %}1{% endif %}" name="check_dispo" id="check_dispo"/>
                     <div class="col">
                         {% if ownership.OwnInmediateBooking2 %}
-                            <button style=" float:right;padding: 5px 10px" type="submit" class="btn btn-primary" id="reservedOwnerShip" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
+                            <button style=" padding: 5px 10px" type="submit" class="btn btn-primary large" id="reservedOwnerShip" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
                                 <i class="fa fa-check"></i> {{ 'RESERVATION_RESERVE' | trans }}
                             </button>
                         {% else %}
-                            <button style="float:right;padding: 5px 10px" {% if app.user.getUserUserName is not defined %} type="submit"  {% endif %} class="btn btn-primary" id="checkAvailable" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
+                            <button style="padding: 5px 10px" {% if app.user.getUserUserName is not defined %} type="submit"  {% endif %} class="btn btn-primary" id="checkAvailable" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
                                 <img style="width: 23px; height: 23px;" src="{{ asset('bundles/frontend/img/icons/consult.dispowhite.png')}}" alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/> {{ 'RESERVATION_CHECK_AVAILABILITY' | trans }}
                             </button>
                         {% endif %}
