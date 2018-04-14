@@ -28,11 +28,23 @@ class paLedgersRepository extends EntityRepository {
             ->where("e.account= :account_id")
             ->andWhere("e.cas != 'null'")
             ->setParameter("account_id", $account_id)
-            ->orderBy('e.created', 'DESC')->
+            ->orderBy('e.created', 'DESC')
+            ->orderBy('e.cas', 'DESC')->
             setMaxResults(1)->
             getQuery()->
             getOneOrNullResult();}
+    function exist($cas){
+        return $this->createQueryBuilder('e')
+            ->where("e.cas= :cas")
+            ->andWhere("e.cas != 'null'")
+            ->setParameter("cas", $cas)
+            ->orderBy('e.created', 'DESC')
+            ->orderBy('e.cas', 'DESC')->
+            setMaxResults(1)->
+            getQuery()->
+            getOneOrNullResult();
 
+    }
     function getallLedger($account_id,$dates) {
 
         $to_between = (array_key_exists('to_between', $dates) && isset($dates['to_between']));
