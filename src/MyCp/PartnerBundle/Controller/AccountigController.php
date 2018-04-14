@@ -127,23 +127,7 @@ class AccountigController extends Controller
 
        }
 
-//      foreach ($reservations_pending as $reservation){
-//
-//            $price_booking=$this->getPriceandBooking($reservation,$curr);
-//            $ledge_temp=new paAccountLedgers();
-//            $ledge_temp->setAccount($account);
-//            $ledge_temp->setCas($reservation->getGenResId());
-//            $ledge_temp->setCreated($reservation->getGenResToDate());
-//            $ledge_temp->setDescription("Client:".$reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getClient()->getFullName().","."BR:".
-//                $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getReference().","."CAS-".$reservation->getGenResId().
-//                ","."Booking:".$price_booking['booking']);
-//            $balance= $ledge_temp->setCredit(round($price_booking['price']+($price_booking['price']*0.1)+(($price_booking['price']+($price_booking['price']*0.1))*0.1),2),$account->getBalance());
-//            $account->setBalance($balance);
-//            $em->persist($account);
-//            $em->persist($ledge_temp);
-//            $em->flush();
-//
-//        }
+
 
         return true;
     }
@@ -172,24 +156,7 @@ class AccountigController extends Controller
             $em->flush();
 
         }
-//        $reservations_pending=$this->getReservationsData($filters,$start,$limit,$draw,generalReservation::STATUS_PENDING_PAYMENT_PARTNER);
-//        foreach ($reservations_pending as $reservation){
-//            $price_booking=$this->getPriceandBooking($reservation,$curr);
-//            $ledge_temp=new paAccountLedgers();
-//            $ledge_temp->setCas($reservation->getGenResId());
-//            $ledge_temp->setAccount($account);
-//            $ledge_temp->setCreated($reservation->getGenResToDate());
-//            $ledge_temp->setDescription("Client:".$reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getClient()->getFullName().","."BR:".
-//                $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getReference().","."CAS-".$reservation->getGenResId().
-//                ","."Booking:".$price_booking['booking']);
-//            $balance= $ledge_temp->setCredit(round($price_booking['price']+($price_booking['price']*0.1)+(($price_booking['price']+($price_booking['price']*0.1))*0.1),2),$account->getBalance());
-//
-//            $account->setBalance($balance);
-//            $em->persist($account);
-//            $em->persist($ledge_temp);
-//            $em->flush();
-//
-//        }
+
         
         return true;
     }
@@ -210,7 +177,7 @@ class AccountigController extends Controller
         #region PAGINADO
         $start = $request->get('start', 0);
 
-        $limit = $request->get('length', 10);
+        $limit = false;
         $draw = $request->get('draw') + 1;
         $curr=$this->getCurr($request);
         #endregion PAGINADO
