@@ -83,7 +83,7 @@
                             <!-- Carousel Card -->
 
                             <div class="card card-raised card-carousel">
-                                <a class="btn btn-success btn-round"   href="{{ url('frontend_show_modal_ownership_calendar',{'idOwn':ownership.own_id | urlNormalize}) }}" style='position: absolute; z-index: 100;'>
+                                <a class="btn btn-success btn-round" onclick='HoldOn.open();'    href="{{ url('frontend_show_modal_ownership_calendar',{'idOwn':ownership.own_id | urlNormalize}) }}" style='position: absolute; z-index: 100;'>
                                     <i class="material-icons">date_range</i>
                                     {{ 'RESERVATION_CHECK_AVAILABILITY'| trans }}
                                     <div class="ripple-container"></div><div class="ripple-container"></div>
