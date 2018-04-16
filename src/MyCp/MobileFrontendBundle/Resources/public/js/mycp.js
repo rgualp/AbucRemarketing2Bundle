@@ -158,6 +158,7 @@ function create_dateDMY(date_text) {
 }
 
 function search() {
+    HoldOn.open();
     document.getElementById("myNav").style.width = "0%";
     $('#search').empty();
     $('#search').append('search');
