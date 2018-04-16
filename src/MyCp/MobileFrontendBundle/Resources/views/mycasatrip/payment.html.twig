@@ -58,7 +58,7 @@
                          <span class="h1-blue">
 		                                     {{res['own_res_gen_res_id']['gen_res_id'] | getCASId}}</span>
                                                     {% if photos[loop.index0]%}
-                                                        <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | urlNormalize}) }}">
+                                                        <a onclick='HoldOn.open();' href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | urlNormalize}) }}">
                                                         </a>
                                                         <img class="align-self-center mr-3 bttrlazyloading animated bounceIn" src="{{ asset('bundles/frontend/img/nophoto.gif') }}" id="{{ res['own_res_gen_res_id']['gen_res_id'] }}"  title="{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}" alt="{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}"/>
 
@@ -74,7 +74,7 @@
 
                                                 <div class="media-body">
                                                     <div class="col-sm-6">
-                                                        <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | urlNormalize}) }}">
+                                                        <a onclick='HoldOn.open();' href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | urlNormalize}) }}">
                                                             <h1 class="h-blue" style="margin: 0;margin-right: 2px;">{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}</h1>
                                                         </a>
                                                         <small class="top">{{ res['own_res_gen_res_id']['gen_res_own_id']['own_address_province']['prov_name']|title }}, {{ res['own_res_gen_res_id']['gen_res_own_id']['own_address_municipality']['mun_name']|title }}</small><br>

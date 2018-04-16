@@ -172,10 +172,10 @@
                 <h3 class="h-blue" style="font-size: 24px">{{ prepayment }}</h3>
             </div>
             <div class="col-xs-12 text-center">
-                <button id="btn_payment" onclick="onClickHandler(this)"  type="submit" class="btn btn-action btn-info" disabled="disabled"><b>{{"PAYMENT_CONFIRM" | trans}}</b></button>
+                <button id="btn_payment" onclick='HoldOn.open();'  type="submit" class="btn btn-action btn-info" disabled="disabled"><b>{{"PAYMENT_CONFIRM" | trans}}</b></button>
             </div>
             <div class="col-xs-12 text-center">
-                <a href="{{ path("frontend_mycasatrip_available") }}" style="margin-top: 35px; margin-left: 15px"><b>{{"GO_MYCASATRIP" | trans}}</b></a>
+                <a onclick='HoldOn.open();' href="{{ path("frontend_mycasatrip_available") }}" style="margin-top: 35px; margin-left: 15px"><b>{{"GO_MYCASATRIP" | trans}}</b></a>
             </div>
             <div class="col-xs-12 text-center">
                 <p  style="margin-top: 0; font-size: 12px; color: #6C726B">{{"PAYMENT_CONFIRMATION_TEXT" | trans}}: {{prepayment}}</p>

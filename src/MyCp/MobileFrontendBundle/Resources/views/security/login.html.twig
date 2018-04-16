@@ -85,7 +85,7 @@
                                    </div>
                                    <div class="form-group">
                                        <div class="text-center">
-                                           <button class="btn btn-primary btn-block"
+                                           <button onclick='HoldOn.open();' class="btn btn-primary btn-block"
                                                    type="submit">{{ "FORMS_IDENTIFY" | trans }}</button>
                                        </div>
                                    </div>
@@ -93,10 +93,10 @@
 
                                    <div class="form-group">
                                        <div class="text-center">
-                                           <a href="{{ path('frontend_restore_password_user') }}">{{ "FORMS_FORGOT_PASSWORD_QUESTION" | trans }}</a>
+                                           <a onclick='HoldOn.open();' href="{{ path('frontend_restore_password_user') }}">{{ "FORMS_FORGOT_PASSWORD_QUESTION" | trans }}</a>
                                        </div>
                                        <div class="text-center">
-                                           <a href="{{ path('frontend_register_confirmation_user') }}">{{ "FORMS_CONFIRMATION_QUESTION" | trans }}</a>
+                                           <a onclick='HoldOn.open();' href="{{ path('frontend_register_confirmation_user') }}">{{ "FORMS_CONFIRMATION_QUESTION" | trans }}</a>
                                        </div>
                                    </div>
                                </form>

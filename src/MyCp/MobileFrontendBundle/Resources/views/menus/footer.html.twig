@@ -17,12 +17,12 @@
 
         <ul>
             <li>
-                <a rel="nofollow"
+                <a rel="nofollow" onclick='HoldOn.open();' 
                    href="{{ path('frontend_partner_home') }}">{{ 'hazte_partner' | trans | upper }}</a>
 
             </li>
             <li>
-                <a href="{{ path('frontend_about_us') }}">
+                <a onclick='HoldOn.open();' href="{{ path('frontend_about_us') }}">
                     {{ "WHO_ARE_WE" | trans }}
                 </a>
             </li>

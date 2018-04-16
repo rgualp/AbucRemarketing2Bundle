@@ -42,8 +42,8 @@
                                             </div>
                                             <div class="col-xs-12">
                                                 {{ form_widget(form.user_email) }}
-                                                <button class="btn btn-primary btn-block" type="submit" style="margin: 20px 0">{{"PASSWORD_RECOVERY_BUTTON_TEXT" | trans}}</button>
-                                                <a style="text-decoration: underline" href="{{ path('frontend_restore_password_user') }}">{{"FORMS_FORGOT_PASSWORD_QUESTION" | trans}}</a>
+                                                <button class="btn btn-primary btn-block" onclick='HoldOn.open();'  type="submit" style="margin: 20px 0">{{"PASSWORD_RECOVERY_BUTTON_TEXT" | trans}}</button>
+                                                <a style="text-decoration: underline" onclick='HoldOn.open();'  href="{{ path('frontend_restore_password_user') }}">{{"FORMS_FORGOT_PASSWORD_QUESTION" | trans}}</a>
                                             </div>
                                         </div>
                                         {{ form_rest(form)}}
