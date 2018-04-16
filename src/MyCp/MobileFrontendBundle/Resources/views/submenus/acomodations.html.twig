@@ -8,7 +8,7 @@
          {% if provinces | length %}
             {% set counter = 0 %}
             {% for prov in provinces %}
-                <a class="dropdown-item" href="{{ path('frontend_search_ownership',{'text':for_url[prov.prov_id]}) }}">{{ for_name[prov.prov_id] }}</a>
+                <a class="dropdown-item" onclick='HoldOn.open();' href="{{ path('frontend_search_ownership',{'text':for_url[prov.prov_id]}) }}">{{ for_name[prov.prov_id] }}</a>
 
 
             {% endfor %}

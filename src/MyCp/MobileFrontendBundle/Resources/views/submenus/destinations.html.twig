@@ -10,7 +10,7 @@
         {% set counter = 0 %}
         {% set cont = 1 %}
             {% for des in destinations %}
-                <a class="dropdown-item" href="{{ path('frontend_details_destination',{'destination_name':for_url[des['dest'].getDesId ]}) }}">{{ for_name[des['dest'].getDesId] }}</a>
+                <a class="dropdown-item" onclick='HoldOn.open();' href="{{ path('frontend_details_destination',{'destination_name':for_url[des['dest'].getDesId ]}) }}">{{ for_name[des['dest'].getDesId] }}</a>
 
 
             {% endfor %}

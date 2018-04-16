@@ -31,7 +31,7 @@
         </div>
 
         <div class="row">
-            <div class="col">
+            <div class="col" style="padding-rigth:0;">
                 <a class="f-s-14" href="{{ url('frontend_details_ownership',{'own_name':top.own_name | urlNormalize}) }}" >
                     <div class="h-blue m-b-2 m-t-0" style="font-size: 15px">
                         {{ top.own_name }}
@@ -48,13 +48,13 @@
 
             </div>
 
-            <div class="col-x3" style='    padding-top: 10px;
+            <div class="col-x3" style='    padding-top: 20%;
           padding-right: 10px;'>
                   <span class="favorite_action">
                   <a data-rel="tooltip" href="#" class="favorite_off_action"  title="Agregar a Favoritos" >
                   <i class="material-icons">favorite</i>
                   </a></span>
-                <a href="{{ url('frontend_show_modal_ownership_calendar',{'idOwn':top.own_id | urlNormalize}) }}">
+                <a onclick='HoldOn.open();' href="{{ url('frontend_show_modal_ownership_calendar',{'idOwn':top.own_id | urlNormalize}) }}">
                 <img title="{{ 'RESERVATION_CHECK_AVAILABILITY'| trans }}" style="width: 24px; height: 24px;cursor: pointer;margin-left: 10px" src="{{ asset('bundles/frontend/img/icons/consult.dispov.png')}}" alt="{{"WELCOMEPAGE_TITLE" | trans}}" title="{{ 'WELCOMEPAGE_TITLE' | trans }}" data-toggle="modal" data-target="#myModalOwnerShipCalendar" data-idown="{{ top.own_id }}" >
                 </a>
             </div></div>

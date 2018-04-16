@@ -31,7 +31,7 @@
     </div>
 
     <div class="row">
-        <div class="col">
+        <div class="col" style='padding-right:0'>
             <a class="f-s-14" target="_blank" href="{{ path('frontend_details_ownership',{'own_name':own.own_name  | urlNormalize}) }}">
                 <div class="h-blue m-b-2 m-t-0" style="margin:0;font-size: 15px" >
                         {{ own.own_name }}
@@ -66,12 +66,12 @@
             </div>
 
         </div>
-        <div class="col-x3" style='padding-top: 10px;  padding-right: 20px; '>
+        <div class="col-x3" style='padding-top: 35%;  padding-right: 20px; '>
             {#<span class="favorite_action">#}
             {#<a data-rel="tooltip" href="#" class="favorite_off_action"  title="Agregar a Favoritos" >#}
             {#<i class="material-icons">favorite</i>#}
             {#</a></span>#}
-            <a href="{{ url('frontend_show_modal_ownership_calendar',{'idOwn':own.own_id | urlNormalize}) }}">
+            <a onclick='HoldOn.open();'  href="{{ url('frontend_show_modal_ownership_calendar',{'idOwn':own.own_id | urlNormalize}) }}">
                 <img title="{{ 'RESERVATION_CHECK_AVAILABILITY'| trans }}" style="width: 24px; height: 24px;cursor: pointer;margin-left: 10px" src="{{ asset('bundles/frontend/img/icons/consult.dispov.png')}}" alt="{{"WELCOMEPAGE_TITLE" | trans}}" title="{{ 'WELCOMEPAGE_TITLE' | trans }}"  >
             </a>
         </div>
