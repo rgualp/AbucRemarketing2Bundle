@@ -377,26 +377,42 @@ class BackendAgencyController extends Controller {
         $reservations_reserved=$this->getReservationsData($user_id,$filters,$start,$limit,$draw,generalReservation::STATUS_RESERVED);
 
         foreach ($reservations_reserved as $reservation){
-            $price_booking=$this->getPriceandBooking($reservation,$curr);
-            $ledge_temp=new paAccountLedgers();
-            $ledge_temp->setAccount($account);
-            $ledge_temp->setCas($reservation->getGenResId());
+            if($this->NotinLedger($reservation)) {
+                $price_booking = $this->getPriceandBooking($reservation, $curr);
+                $ledge_temp = new paAccountLedgers();
+                $ledge_temp->setAccount($account);
+                $ledge_temp->setCas($reservation->getGenResId());
 
-            $ledge_temp->setCreated($reservation->getGenResToDate());
-            $ledge_temp->setDescription("Client:".$reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getClient()->getFullName().","."BR:".
-                $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getReference().","."CAS-".$reservation->getGenResId().
-                ","."Booking:".$price_booking['booking']);
-            $balance= $ledge_temp->setCredit(round($price_booking['price']+($price_booking['price']*0.1)+(($price_booking['price']+($price_booking['price']*0.1))*0.1),2),$account->getBalance());
+                $ledge_temp->setCreated($reservation->getGenResToDate());
+                $ledge_temp->setDescription("Client:" . $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getClient()->getFullName() . "," . "BR:" .
+                    $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getReference() . "," . "CAS-" . $reservation->getGenResId() .
+                    "," . "Booking:" . $price_booking['booking']);
+                $balance = $ledge_temp->setCredit(round($price_booking['price'] + ($price_booking['price'] * 0.1) + (($price_booking['price'] + ($price_booking['price'] * 0.1)) * 0.1), 2), $account->getBalance());
 
-            $account->setBalance($balance);
-            $em->persist($account);
-            $em->persist($ledge_temp);
-            $em->flush();
-
+                $account->setBalance($balance);
+                $em->persist($account);
+                $em->persist($ledge_temp);
+                $em->flush();
+            }
         }
 
 
         return true;
+    }
+    public function NotinLedger($reservation){
+        $em = $this->getDoctrine()->getManager();
+        $ledgers_repo=$em->getRepository("PartnerBundle:paAccountLedgers");
+        $cas_temp=$reservation->getGenResId();
+        $result=$ledgers_repo->exist($cas_temp);
+
+        if($result==null){
+            return true;
+        }
+        else{
+            return false;
+        }
+
+
     }
     public function getCurr(Request $request)
     {
