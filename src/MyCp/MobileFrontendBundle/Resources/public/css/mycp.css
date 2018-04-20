@@ -10,8 +10,23 @@
     /* symbol for "collapsed" panels */
     content: "\f078";    /* adjust as needed, taken from bootstrap.css */
 }
+.sweet-alert h2 {
+    color: #575757;
+    font-size: 15px;
+    text-align: center;
+    font-weight: 600;
+    text-transform: none;
+    position: relative;
+    margin: 25px 0;
+    padding: 0;
+    /* line-height: 40px; */
+    display: block;
+}
 .hidden{
     display: none;
+}
+.pull-right{
+	float:right;
 }
 .no-margin {
     margin: 0;
@@ -389,13 +404,41 @@
     width: 100%;
     overflow-x: scroll;
   }
-.card.search{
-    padding-right: 0.5em;
-    padding-left: 0.5em;
-    max-width: 20em;
-    max-height: 22em;
-	margin-left: 1em;
+ 
+  
+  @media screen and (min-width: 481px) {
+    .card.search{
+        padding-right: 0.5em;
+        padding-left: 0.5em;
+        max-width: 40%;
+        margin-left: 1em;
+    }
+	.h-blue {
+       
+        font-size: 20px;
+        margin: 15px 0 10px
+       
+    }
+    
 }
+@media screen and (max-width: 480px) {
+    .card.search{
+        padding-right: 0.5em;
+        padding-left: 0.5em;
+        max-width: 90%;
+        margin-left: 1em;
+    }
+    .h-blue {
+       
+        font-size: 15px;
+        margin: 0;
+       
+    }
+	
+    
+}
+
+
 
 
 .g-bg-secondary {

@@ -1,9 +1,9 @@
 {%for own in list%}
-<div class="card search" data-id="{{own.own_id}}" id="own_{{own.own_id}}"  style='margin-bottom: 50px; padding-top: 10px;max-height: 25em;'>
+<div class="card search" data-id="{{own.own_id}}" id="own_{{own.own_id}}"  style='margin-bottom: 50px; padding-top: 10px;'>
 
 
 
-    <div style="background-image: url('{{ asset("uploads/ownershipImages/" ~  own.photo) }}');background-size: cover; height:200px" class="col-md-10 ml-auto mr-auto" rel="tooltip" >
+    <div style="background-image: url('{{ asset("uploads/ownershipImages/" ~  own.photo) }}');background-size: cover; height:255px" class="col-md-12" rel="tooltip" >
         {% if own.OwnInmediateBooking2 %}
             <div class="quick-ribbon" style="background-color: #ff0000">
                 <i class="fa fa-rocket" style="padding: 0px 5px"></i>
@@ -15,15 +15,16 @@
                 <i class="fa fa-flash" style="padding: 0px 5px"></i>
                 <span style="text-align: left;">{{ 'quick_bookinhg'|trans }}</span>
             </div>
-
+       
 
         {% endif %}
+        {% if own.award %}
+        <img src="{{ asset("uploads/awards/") ~ own.award }}"  style="top: 70%;left:70%; width: 64px; height: 63px;position: absolute; z-index: 1;box-shadow: 5px 5px 10px #686765;border-radius:100px" alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/>
+
+    {% endif %}
 
         <div class="thumbnail-title  clearfix">
-            {% if own.award %}
-                <img src="{{ asset("uploads/awards/") ~ own.award }}"  style="top: 10px; width: 64px; height: 63px;position: absolute; z-index: 1;box-shadow: 5px 5px 10px #686765;border-radius:100px" alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/>
-
-            {% endif %}
+            
 
             <span class="h-blue pull-right text-uppercase f-s-30 m-a-0">
                <small style="display: inline-block">{{ "FROM_PRICES" | trans | capitalize }}:</small>  {{ own.minimum_price | price }}</span>
@@ -33,7 +34,7 @@
     <div class="row">
         <div class="col" style='padding-right:0'>
             <a class="f-s-14" target="_blank" href="{{ path('frontend_details_ownership',{'own_name':own.own_name  | urlNormalize}) }}">
-                <div class="h-blue m-b-2 m-t-0" style="margin:0;font-size: 15px" >
+                <div class="h-blue m-b-2 m-t-0"  >
                         {{ own.own_name }}
 
 
@@ -66,13 +67,13 @@
             </div>
 
         </div>
-        <div class="col-x3" style='padding-top: 30%;  padding-right: 20px; '>
+        <div class="col-x3" style='padding-top: 30%;  padding-right: 4%; '>
             {#<span class="favorite_action">#}
             {#<a data-rel="tooltip" href="#" class="favorite_off_action"  title="Agregar a Favoritos" >#}
             {#<i class="material-icons">favorite</i>#}
             {#</a></span>#}
             <a onclick='HoldOn.open();'  href="{{ url('frontend_show_modal_ownership_calendar',{'idOwn':own.own_id | urlNormalize}) }}">
-                <img title="{{ 'RESERVATION_CHECK_AVAILABILITY'| trans }}" style="width: 24px; height: 24px;cursor: pointer;margin-left: 10px" src="{{ asset('bundles/frontend/img/icons/consult.dispov.png')}}" alt="{{"WELCOMEPAGE_TITLE" | trans}}" title="{{ 'WELCOMEPAGE_TITLE' | trans }}"  >
+                <img title="{{ 'RESERVATION_CHECK_AVAILABILITY'| trans }}" style="width: 35px; height: 35px;cursor: pointer" src="{{ asset('bundles/frontend/img/icons/consult.dispov.png')}}" alt="{{"WELCOMEPAGE_TITLE" | trans}}" title="{{ 'WELCOMEPAGE_TITLE' | trans }}"  >
             </a>
         </div>
 

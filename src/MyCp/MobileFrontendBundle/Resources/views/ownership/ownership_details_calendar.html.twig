@@ -134,14 +134,14 @@
             <div class="row">
 
 
-                    <input class ='form-control' type="hidden"  value="{% if ownership.OwnInmediateBooking2 %}2{% else %}1{% endif %}" name="check_dispo" id="check_dispo"/>
+                    <input class ='form-control' type="hidden"  {% if ownership.OwnInmediateBooking2 %} value="2" {% else %}value="1"{% endif %} name="check_dispo" id="check_dispo"/>
                     <div class="col">
                         {% if ownership.OwnInmediateBooking2 %}
-                            <button style=" padding: 5px 10px" type="submit" class="btn btn-primary large" id="reservedOwnerShip" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
+                            <button  style=" padding: 5px 10px" type="submit" class="btn btn-primary large" id="reservedOwnerShip" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
                                 <i class="fa fa-check"></i> {{ 'RESERVATION_RESERVE' | trans }}
                             </button>
                         {% else %}
-                            <button style="padding: 5px 10px" {% if app.user.getUserUserName is not defined %} type="submit"  {% endif %} class="btn btn-primary" id="checkAvailable" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
+                            <button  style="padding: 5px 10px" {% if app.user.getUserUserName is not defined %}   {% endif %} class="btn btn-primary" id="checkAvailable" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
                                 <img style="width: 23px; height: 23px;" src="{{ asset('bundles/frontend/img/icons/consult.dispowhite.png')}}" alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/> {{ 'RESERVATION_CHECK_AVAILABILITY' | trans }}
                             </button>
                         {% endif %}
@@ -160,5 +160,6 @@
         </form>
     </div>
 </div>
+
 
 
