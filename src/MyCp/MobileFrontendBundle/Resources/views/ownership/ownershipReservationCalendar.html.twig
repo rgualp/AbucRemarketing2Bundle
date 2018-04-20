@@ -30,7 +30,7 @@
 
             <td {% if available != 1 %} colspan="2" {% endif %}>
                 {% if available == 1 %}
-                <select  style='color:black;width: fit-content;'data_total="{{array_prices[cont-1]}}"
+                <select  style='color:black;'data_total="{{array_prices[cont-1]}}"
                         id="combo_guest_{{room.getRoomId}}"
                         name="combo_guest_{{room.getRoomId}}"
                         data='{{room.getRoomId}}'
@@ -47,7 +47,7 @@
                 </select>
             </td>
             <td>
-                <select style='color:black;width: fit-content;' data_total="{{array_prices[cont-1]}}"
+                <select style='color:black;' data_total="{{array_prices[cont-1]}}"
                         id="combo_kids_{{room.getRoomId}}"
                         name="combo_kids_{{room.getRoomId}}"
                         data='{{room.getRoomId}}'
