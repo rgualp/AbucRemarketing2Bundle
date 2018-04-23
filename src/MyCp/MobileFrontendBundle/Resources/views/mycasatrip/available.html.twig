@@ -145,6 +145,15 @@
 {% block includejs %}
     <script>
         var total=0;
+        function roundTo(n, digits) {
+            if (digits === undefined) {
+                digits = 0;
+            }
+
+            var multiplicator = Math.pow(10, digits);
+            n = parseFloat((n * multiplicator).toFixed(11));
+            return Math.round(n) / multiplicator;
+        }
         var coin='{{ app.session.get('curr_acronym')|upper }}';
         $('.check_pay').click(function() {
             if ($(this).is(':checked')) {
@@ -160,7 +169,7 @@
                 }
             }
             if(total>0) {
-                $("#total").replaceWith("<span id='total' itemprop='price'>" + total +coin+"</span>");
+                $("#total").replaceWith("<span id='total' itemprop='price'>" + roundTo(total,2) +''+coin+"</span>");
             }else{
                 $("#total").replaceWith("<span id='total' itemprop='price'></span>");
             }

@@ -36,7 +36,9 @@
                                                 </div>
                                                 <div class='col-1 ' style='top: -2px;right: 10px;'>
                                                     <div class="h-blue m-b-2 m-t-0" style="margin: 0;">
-                                                        {{res['own_res_total_in_site'] | price}}
+                                                        <a style="top:-10px" target="_blank" class="btn btn-danger btn-fab  btn-round  dropdown-toggle-split " href="{{ path('frontend_view_confirmation_reservation',{'id_booking':res['own_res_reservation_booking']['booking_id']}) }}"><i class="material-icons">cloud_download</i></a>
+                                                        {#{{res['own_res_total_in_site'] | price}}#}
+
                                                     </div>
 
 
@@ -122,7 +124,7 @@
                     <div class='row'>
                         <div class="col-xs-12 p-a-1 text-xs-center bg-blue-mycp">
                             <h2 class="m-a-0 white">
-                                <small class="h-white-1">{{"RESPONSE_PENDING" | trans}}:</small><span itemprop="price">{{ total_items }}</span></h2>
+                                <small class="h-white-1">{{"RESERVED" | trans}}:</small><span itemprop="price">{{ total_items }}</span></h2>
 
                         </div>
 

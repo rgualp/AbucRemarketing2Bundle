@@ -40,7 +40,7 @@
 
             <li class="nav-item dropdown" style="width: 100%;" >
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-user"></i>
+                    <i class="material-icons ">person</i>
                     {% if app.user.getUserUserName is defined %}
                         {{app.user.getUserUserName | slice(0,10)}}{% if app.user.getUserUserName|length > 10 %}...{% endif %}
                     {%else%}
@@ -68,8 +68,8 @@
             <li class="nav-item dropdown" style="width: 100%;">
 
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-home"></i>
-                   MyCasaTrip
+                    <i class="material-icons ">home</i>
+                    MyCasaTrip
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     {% if menu is not defined %}
@@ -98,7 +98,7 @@
                 <li class="nav-item dropdown" style="width: 100%;">
 
                 <a title="{{"LANGUAGE" | trans }}" class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-language"></i>
+                    <i class="material-icons ">language</i>
                     {{(app.session.get('app_lang_name') == null or app.session.get('app_lang_name') == "") ? "Español" : app.session.get('app_lang_name')}}</a>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -110,7 +110,7 @@
             </li>
             <li class="nav-item dropdown" style="width: 100%;">
                 <a title="{{"CURRENCY" | trans }}" class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" alt="{{"CURRENCY" | trans }}"/>
-                <i class="fa fa-money"></i>
+                <i class="material-icons ">money</i>
                 {{(app.session.get('curr_acronym') == null or app.session.get('curr_acronym') == "") ? default_currency().currcode|upper : app.session.get('curr_acronym')|upper}} </a>
 
 
