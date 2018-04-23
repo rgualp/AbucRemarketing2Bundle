@@ -1842,8 +1842,10 @@ class OwnershipController extends Controller
         $em = $this->getDoctrine()->getManager();
         $text = $em->getRepository('mycpBundle:ownership')->autocompleteTextList();
         $mobileDetector = $this->get('mobile_detect.mobile_detector');
+
         if ($mobileDetector->isMobile()){
-            return new JsonResponse($text);
+            return $this->render('MyCpMobileFrontendBundle:submenus:destinationsoptions.html.twig', array('list' => $text));
+
         }
         else {
             return new JsonResponse(array('autocompletetext' => $text));
