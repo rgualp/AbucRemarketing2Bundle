@@ -1,4 +1,23 @@
+function isUp2(name, id)
+{
+    var name = "#" + name;
+    var doubleUp2 = parseInt($(name).attr("data-up-2"));
 
+
+    var guests = parseInt($(name).val());
+    var otherName = (name == "#combo_guest_" + id) ? "#combo_kids_" + id : "#combo_guest_" + id;
+    var other=parseInt($(otherName).val());
+    var fill=other+guests;
+
+    if(other+guests > doubleUp2)
+    {
+        $(otherName).val(0);
+
+
+    }
+
+
+}
 
 var Calendar = function () {
 
@@ -180,6 +199,7 @@ var Calendar = function () {
             total_price($(this).attr('data_curr'),$(this).attr('percent_charge'));
         });
         $('.guest_number').change(function(){
+            isUp2($(this).attr("name"), $(this).attr('data'));
             showAgesCombos($(this).attr('data'));
             if($('#tr_'+$(this).attr('data')).html()){
 
@@ -193,6 +213,7 @@ var Calendar = function () {
                     }
                     else
                     {
+                        isUp2($(this).attr("name"), $(this).attr('data'));
                         total_price($(this).attr('data_curr'),$(this).attr('percent_charge'));
                     }
                 }
@@ -200,7 +221,7 @@ var Calendar = function () {
                 {
                     value=0;
                     persons=parseInt($('#combo_kids_'+$(this).attr('data')).val()) + parseInt($('#combo_guest_'+$(this).attr('data')).val());
-
+                    isUp2($(this).attr("name"), $(this).attr('data'));
                     if(($(this).attr('data_is_triple')==='1' || $(this).attr('data_is_triple')==='true') && persons>=3)
                     {
                         $('.triplePrice_' + $(this).attr('data')).css({display: 'block'});
