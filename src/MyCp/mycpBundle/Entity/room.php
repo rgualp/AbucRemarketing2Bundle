@@ -45,6 +45,28 @@ class room
      * @ORM\Column(name="room_beds", type="integer")
      */
     private $room_beds;
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="room_capacity", type="integer")
+     */
+    private $room_capacity;
+
+    /**
+     * @return int
+     */
+    public function getRoomCapacity()
+    {
+        return $this->room_capacity;
+    }
+
+    /**
+     * @param int $room_capacity
+     */
+    public function setRoomCapacity($room_capacity)
+    {
+        $this->room_capacity = $room_capacity;
+    }
 
     /**
      * @var string
@@ -240,6 +262,7 @@ class room
     {
         $this->room_id = $id;
     }
+
 
     /**
      * Get room_type

@@ -443,6 +443,7 @@ class ownershipRepository extends EntityRepository
 
     function edit($data, $request, $dir, $factory, $new_user, $send_creation_mail, $controller, $translator, $container, $userService = null)
     {
+
         $id_ownership = $data['edit_ownership'];
 
         $active_top_20 = (isset($data['top_20'])) ? 1 : 0;
@@ -700,8 +701,10 @@ class ownershipRepository extends EntityRepository
 
             $room->setRoomType($data['room_type_' . $e]);
             $room->setRoomBeds($data['room_beds_number_' . $e]);
+            $room->setRoomPriceDownTo($data['room_capacity_' . $e]);
             $room->setRoomPriceUpTo($data['room_price_up_to_' . $e]);
             $room->setRoomPriceDownTo($data['room_price_down_to_' . $e]);
+
             $room->setIcal($data['ical_' . $e]);
 
             if (isset($data['room_price_special_' . $e]))
