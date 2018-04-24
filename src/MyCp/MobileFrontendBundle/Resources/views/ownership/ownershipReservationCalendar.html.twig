@@ -27,7 +27,7 @@
 
             <td style="width: 200px"> <i style="display: none; border:none" id="tripleAlert_{{room.getRoomId}}" class="fa fa-asterisk"  rel="tooltip" title="{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{configuration_triple_room_charge | price}}" alt="{{"Question" | trans}}"></i>
                 {{ room.getRoomType | trans}}</td>
-            <td style="width: auto;">{{ room.getRoomCapacity }}</td>
+            <td style="width: auto;"id="capacity_{{ room.roomId }}" data="{{ room.getRoomCapacity }}">{{ room.getRoomCapacity }}</td>
             <td {% if available != 1 %} colspan="2" {% endif %}>
                 {% if available == 1 %}
                 <select  style='color:black;'data_total="{{array_prices[cont-1]}}"
