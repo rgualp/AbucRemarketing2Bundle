@@ -701,7 +701,7 @@ class ownershipRepository extends EntityRepository
 
             $room->setRoomType($data['room_type_' . $e]);
             $room->setRoomBeds($data['room_beds_number_' . $e]);
-            $room->setRoomPriceDownTo($data['room_capacity_' . $e]);
+            $room->setRoomCapacity($data['room_capacity_' . $e]);
             $room->setRoomPriceUpTo($data['room_price_up_to_' . $e]);
             $room->setRoomPriceDownTo($data['room_price_down_to_' . $e]);
 
@@ -723,7 +723,9 @@ class ownershipRepository extends EntityRepository
             $room->setRoomYard($data['room_yard_' . $e]);
             $room->setRoomOwnership($ownership);
             $room->setRoomNum($e);
+
             $em->persist($room);
+          
 
             if ($room->getRoomActive()) {
                 if (($ownership->getOwnMinimumPrice() == 0 || $room->getRoomPriceDownTo() < $ownership->getOwnMinimumPrice()))
@@ -796,6 +798,7 @@ class ownershipRepository extends EntityRepository
         $em->flush();
         $this->calculateAccommodationCategory($ownership);
         return $ownership;
+
     }
 
     private function doTranslationsInEditMode($sourceLanguageCode, $targetLanguageCode, $translator, $targetLanguageDescriptionsArray, $sourceLanguageDescriptionArray, $storedSourceDescription, $storedTargetDescription)
