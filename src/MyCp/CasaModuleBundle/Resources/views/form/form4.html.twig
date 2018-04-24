@@ -90,7 +90,7 @@
                     <input
                             {% if room is defined %}
                             placeholder="{{ room.getRoomCapacity }}"
-                            
+                            value="{{ room.getRoomCapacity }}"
                             {% endif %}
                             title="Capacidad."
                             id="room_capacity_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
