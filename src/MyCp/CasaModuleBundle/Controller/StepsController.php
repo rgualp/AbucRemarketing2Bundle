@@ -214,6 +214,8 @@ class StepsController extends Controller
                         $aupdateICal = true;
                     }
                     $ownership_room->setIcal($room['ical']);
+                    if (isset($room['room_capacity']))
+                    $ownership_room->setRoomCapacity($room['room_capacity']);
 
                     $em->persist($ownership_room);
                     $em->flush();
