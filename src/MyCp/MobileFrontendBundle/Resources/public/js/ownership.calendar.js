@@ -1,26 +1,26 @@
-function isUp2(name, id)
-{
-    var name = "#" + name;
-    var doubleUp2 = parseInt($(name).attr("data-up-2"));
 
 
-    var guests = parseInt($(name).val());
-    var otherName = (name == "#combo_guest_" + id) ? "#combo_kids_" + id : "#combo_guest_" + id;
-    var other=parseInt($(otherName).val());
-    var fill=other+guests;
-
-    if(other+guests > doubleUp2)
+var Calendar = function () {
+    var isUp2 =function (name, id)
     {
-        $(otherName).val(0);
+        var name = "#" + name;
+        var doubleUp2 = parseInt($(name).attr("data-up-2"));
+
+
+        var guests = parseInt($(name).val());
+        var otherName = (name == "#combo_guest_" + id) ? "#combo_kids_" + id : "#combo_guest_" + id;
+        var other=parseInt($(otherName).val());
+        var fill=other+guests;
+        
+        if(other+guests > doubleUp2)
+        {
+            $(otherName).val(0);
+
+
+        }
 
 
     }
-
-
-}
-
-var Calendar = function () {
-
     var total_price = function (curr,percent)
     {
         var real_price=0;
@@ -200,7 +200,7 @@ var Calendar = function () {
         });
         $('.guest_number').change(function(){
             isUp2($(this).attr("name"), $(this).attr('data'));
-            showAgesCombos($(this).attr('data'));
+
             if($('#tr_'+$(this).attr('data')).html()){
 
                 if(eval($('#combo_guest_'+$(this).attr('data')).val())+eval($('#combo_kids_'+$(this).attr('data')).val())==0)
@@ -221,9 +221,11 @@ var Calendar = function () {
                 {
                     value=0;
                     persons=parseInt($('#combo_kids_'+$(this).attr('data')).val()) + parseInt($('#combo_guest_'+$(this).attr('data')).val());
+
                     isUp2($(this).attr("name"), $(this).attr('data'));
                     if(($(this).attr('data_is_triple')==='1' || $(this).attr('data_is_triple')==='true') && persons>=3)
                     {
+
                         $('.triplePrice_' + $(this).attr('data')).css({display: 'block'});
                         $('#tripleAlert_' + $(this).attr('data')).css({display: 'block'});
                         value=$(this).attr('data_total')*$(this).attr('data_curr') + (($(this).attr('data_curr')*$(this).attr('data_triple_recharge')) * (cont_array_dates -1));
