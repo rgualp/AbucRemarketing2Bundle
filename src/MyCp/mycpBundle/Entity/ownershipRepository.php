@@ -443,7 +443,6 @@ class ownershipRepository extends EntityRepository
 
     function edit($data, $request, $dir, $factory, $new_user, $send_creation_mail, $controller, $translator, $container, $userService = null)
     {
-
         $id_ownership = $data['edit_ownership'];
 
         $active_top_20 = (isset($data['top_20'])) ? 1 : 0;
@@ -701,10 +700,8 @@ class ownershipRepository extends EntityRepository
 
             $room->setRoomType($data['room_type_' . $e]);
             $room->setRoomBeds($data['room_beds_number_' . $e]);
-            $room->setRoomCapacity($data['room_capacity_' . $e]);
             $room->setRoomPriceUpTo($data['room_price_up_to_' . $e]);
             $room->setRoomPriceDownTo($data['room_price_down_to_' . $e]);
-
             $room->setIcal($data['ical_' . $e]);
 
             if (isset($data['room_price_special_' . $e]))
@@ -723,9 +720,7 @@ class ownershipRepository extends EntityRepository
             $room->setRoomYard($data['room_yard_' . $e]);
             $room->setRoomOwnership($ownership);
             $room->setRoomNum($e);
-
             $em->persist($room);
-          
 
             if ($room->getRoomActive()) {
                 if (($ownership->getOwnMinimumPrice() == 0 || $room->getRoomPriceDownTo() < $ownership->getOwnMinimumPrice()))
@@ -798,7 +793,6 @@ class ownershipRepository extends EntityRepository
         $em->flush();
         $this->calculateAccommodationCategory($ownership);
         return $ownership;
-
     }
 
     private function doTranslationsInEditMode($sourceLanguageCode, $targetLanguageCode, $translator, $targetLanguageDescriptionsArray, $sourceLanguageDescriptionArray, $storedSourceDescription, $storedTargetDescription)
@@ -1348,7 +1342,7 @@ class ownershipRepository extends EntityRepository
         foreach ($reservations as $res)
             $owns_id .= "," . $res["own_id"];
 
-        $query_string = "SELECT o.own_id as own_id,o.own_category as category,
+        $query_string = "SELECT o.own_id as own_id,
                          o.own_name as own_name,
                          prov.prov_name as prov_name,
                          o.own_comments_total as comments_total,

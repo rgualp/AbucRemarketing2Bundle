@@ -10,25 +10,15 @@ use Symfony\Component\HttpFoundation\Request;
 class InformationController extends Controller {
 
      public function aboutUsAction(Request $request) {
-         $mobileDetector = $this->get('mobile_detect.mobile_detector');
         $em = $this->getDoctrine()->getManager();
         $numbers=$em->getRepository('mycpBundle:information')->getNumbers();
         $numbers=$numbers[0];
         $lang=$request->getLocale();
         $information_about_us=$em->getRepository('mycpBundle:information')->getAboutUs($lang);
-         if ($mobileDetector->isMobile()){
-
-             return $this->render('@MyCpMobileFrontend/menus/aboutUs.html.twig', array(
-                 'numbers'=>$numbers,
-                 'information'=>$information_about_us
-             ));
-         }
-
-         else{
         return $this->render('FrontEndBundle:information:aboutUs.html.twig', array(
             'numbers'=>$numbers,
             'information'=>$information_about_us
-        ));}
+        ));
     }
 
     public function sitemapAction()

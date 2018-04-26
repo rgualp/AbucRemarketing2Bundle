@@ -45,29 +45,25 @@ class MycasatripController extends Controller {
         if (isset($_GET['page']))
             $page = $_GET['page'];
 
-
+        $array_photos = array();
+        foreach ($res_pending as $pend) {
+            $photo = $em->getRepository('mycpBundle:ownership')->getOwnershipPhoto($pend['own_res_gen_res_id']['gen_res_own_id']['own_id']);
+            array_push($array_photos, $photo);
+        }
 
         $mobileDetector = $this->get('mobile_detect.mobile_detector');
 
 
         if ($mobileDetector->isMobile()){
-            $array_photos = array();
-            foreach ($list as $pend) {
-                $photo = $em->getRepository('mycpBundle:ownership')->getOwnershipPhoto($pend['own_res_gen_res_id']['gen_res_own_id']['own_id']);
-                array_push($array_photos, $photo);
-            }
             return $this->render('MyCpMobileFrontendBundle:mycasatrip:pending.html.twig', array(
-                'res_pending' => $list,
-                'total_items' => $paginator->getTotalItems(),
+                'res_pending' => $res_pending,
+                'order_by' => $order_by,
                 'photos' => $array_photos,
-
+                'items_per_page' => $items_per_page,
+                'total_items' => $paginator->getTotalItems(),
+                'current_page' => $page
             ));
         }else{
-            $array_photos = array();
-            foreach ($res_pending as $pend) {
-                $photo = $em->getRepository('mycpBundle:ownership')->getOwnershipPhoto($pend['own_res_gen_res_id']['gen_res_own_id']['own_id']);
-                array_push($array_photos, $photo);
-            }
             return $this->render('FrontEndBundle:mycasatrip:pending.html.twig', array(
                 'res_pending' => $res_pending,
                 'order_by' => $order_by,

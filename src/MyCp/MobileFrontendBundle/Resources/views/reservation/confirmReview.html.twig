@@ -1,0 +1,27 @@
+{% extends 'MyCpMobileFrontendBundle::base.html.twig' %}
+{% block title %}
+{{"RESERVATION_CONFIRM" | trans}}
+{% endblock %}
+
+{% set main_tab = 5 %}
+{% set reservation_confirm = 1 %}
+{% block content_nav_top_body %}
+destinos
+{% endblock %}
+
+{% block body %}
+    <div style="padding: 30px 0px 40px" class="bg-solid-ligth-blue">
+        <div class="container">
+            <h1 class="h-size-1 h-blue-4 text-center caecilia-roman">{{"RESERVATION_CONFIRM_TITLE"|trans}}</h1>
+            <h2 class="text-center h-size-4 no-margin">{{"RESERVATION_CONFIRM_SUBTITLE"|trans}}</h2>
+            <br>
+            <div class="text-center">
+                <img src="{{ asset('bundles/frontend/img/icons/ok.png') }}" alt="{{"Ok" | trans}}"/>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="bg-solid-orange-bar"><h1 class="caecilia-roman h-white text-center">
+                {{"RESERVATION_CONFIRM_GREENBAR_TEXT" | trans}}</h1></div>
+    </div>
+{% endblock %}

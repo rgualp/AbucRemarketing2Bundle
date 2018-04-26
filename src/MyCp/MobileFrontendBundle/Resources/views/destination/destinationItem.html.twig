@@ -1,0 +1,52 @@
+<div class="col-sm-4 lazy-cont">
+           <table class="col-sm-12">
+               <tr>
+                   <td class="full-width">
+                       <a href="{{ path('frontend_details_destination',{'destination_name':des_name|lower|replace(' ','-')}) }}">
+                           <img class="lazy thumbnail full-width" data-src="{{ asset("uploads/destinationImages/thumbnails/" ~ (des_photo)) }}" src="{{ asset('bundles/frontend/img/nophoto-transp.png') }}" alt="{{"No photo" | trans}}"/>
+                           <noscript><img class="nolazy" src="{{ asset("uploads/destinationImages/thumbnails/" ~ (des_photo)) }}" alt="{{"Thumbnails" | trans}}"></noscript>
+                       </a>
+                   </td>
+                   <td>
+                       <div class="square-grey-cont">
+                           <div class="cont">
+                               {{"DES_POBLATION" | trans}}<br/><b>{{ des_poblation }}</b>
+                           </div>
+                       </div>
+                       <div class="square-grey-cont">
+                           <div class="cont">
+                               {{"DES_REF_PLACE" | trans}}<br/><b>{{ des_refPlace | slice(0, 20)}}</b>
+                           </div>
+
+                       </div>
+                   </td>
+               </tr>
+           </table>
+           <a href="{{ path('frontend_details_destination',{'destination_name':des_name|lower|replace(' ','-')}) }}">
+           <h1 class="h-blue">{{des_name}}</h1>
+           </a>
+            <div class="dest-description">
+           {{ des_description | slice(0,200) | striptags }}{% if des_description|length>200 %}...{% endif %}
+            </div>
+           <div class="row margin-t-t">
+               <div class="col-xs-8">
+                   {{ include('FrontEndBundle:favorite:itemFavorite.html.twig',
+                        {'is_in_favorite': is_in_favorite,
+                         'favorite_type': 'destination',
+                         'element_id':des_id,
+                         'list_preffix' : 'destination_list',
+                         'include_text': true
+                         }) }}
+               </div>
+               <div class="col-xs-4 text-right">
+                   <a href="{{ path('frontend_details_destination',{'destination_name':des_name|lower|replace(' ','-')}) }}">
+                   <small>{{'RESERVATION_CONFIRM_DESTINATION_MORE' | trans | lower}} <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-medium icon-more" alt="{{"Pixel" | trans}}"/></small>
+                   </a>
+               </div>
+           </div>
+           <hr/>
+           <div class="text-right">
+               <h4><small>{{'RESERVATION_CONFIRM_DESTINATION_OWNS_AVAILABLE' | trans}} </small><b>{{des_count_owns}}</b></h4>
+           </div>
+
+       </div>

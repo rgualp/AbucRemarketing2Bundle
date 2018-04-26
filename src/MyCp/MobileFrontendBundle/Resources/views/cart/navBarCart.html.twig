@@ -1,0 +1,20 @@
+<!-- Modal -->
+<div class="modal fade" id="confirmation_modal_delete">
+    <div class="modal-dialog" style="margin-top: 10%">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                {{"REMOVE_RESERVATION_CONFIRM"|trans}}
+            </div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn">{{"CANCEL"|trans}}</button>
+                <button id="delete_button_reservation" data="" class="btn btn-primary">{{"REMOVE"|trans}}</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dalog -->
+</div><!-- /.modal -->
+
+
+<ul class="dropdown-menu dropdown-messages" style="background-color:#fff;width: 340px" id="whish-list">
+    {{ include('MyCpMobileFrontendBundle:cart:contentCart.html.twig')}}
+</ul>

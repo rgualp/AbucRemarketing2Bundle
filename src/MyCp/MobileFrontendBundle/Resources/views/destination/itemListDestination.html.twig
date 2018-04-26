@@ -1,0 +1,32 @@
+{%for destination in popular_places%}
+<div class="item">
+    <div class="row-fluid">
+    <div class="span2">
+        <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" href="{{ path('frontend_details_destination',{'destination_name':destination.desname|lower|replace(' ','-')}) }}">
+            <img class="img-polaroid" src="{{ asset("uploads/destinationImages/thumbnails/" ~ popular_places_photos[destination.desid])}}" alt="{{"Thumbnails" | trans}}"/>
+        </a>
+        {{popular_places_location[destination.desid]}}
+    </div>
+    <div class="span10">
+        <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" href="{{ path('frontend_details_destination',{'destination_name':destination.desname|lower|replace(' ','-')}) }}">{{destination.desName}}</a>
+        <p>{{(popular_places_description[destination.desid] != "") ? popular_places_description[destination.desid].DesLangBrief |striptags: ""}}</p>
+    </div>
+    </div>
+</div>
+{%else%}
+<div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
+{%endfor%}
+
+{%if total_items is defined and items_per_page is defined and popular_places | length and total_items > items_per_page%}
+<div class="text-center">
+    {{ simple_paginator_render('frontend_list_destinations',null,{
+    'container_class': 'pagination',
+    'previousPageText': '«',
+    'nextPageText': '»',
+    'currentClass': 'current',
+    'firstPageText': 'FIRST_PAGE' | trans,
+    'lastPageText': 'LAST_PAGE' | trans,
+    'route_params': null
+}) }}
+    </div>
+{%endif%}

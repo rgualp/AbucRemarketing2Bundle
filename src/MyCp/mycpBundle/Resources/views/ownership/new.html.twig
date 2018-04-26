@@ -332,9 +332,6 @@
                             <select class="input-block-level" name="room_beds_number_{{ i }}" id="room_beds_number_{{ i }}">
                                 {{ render(controller('mycpBundle:BackendOwnership:get_range_max_5', {'post':post,'id':i})) }}
                             </select>
-                             <label>Capacidad (*)</label>
-                            {% if errors['room_capacity_'~i] is defined %}<label class="error">{{errors['room_capacity_'~i]|trim(':')}}</label>{%endif%}
-                           <input value="{% if(post['room_capacity_'~i] is defined) %}{{post['room_capacity_'~i]}}{% endif %}" class="input-block-level" placeholder="Precio único" type="text" name="room_capacity_{{ i }}" id="room_capacity_{{ i }}"/>
                             <label>Precio (Temporada baja) (*)</label>
                             {% if errors['room_price_down_to_'~i] is defined %}<label class="error">{{errors['room_price_down_to_'~i]|trim(':')}}</label>{%endif%}
                             <input value="{% if(post['room_price_down_to_'~i] is defined) %}{{post['room_price_down_to_'~i]}}{% endif %}" class="input-block-level" placeholder="Precio único" type="text" name="room_price_down_to_{{ i }}" id="room_price_down_to_{{ i }}"/>

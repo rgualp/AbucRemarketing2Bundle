@@ -32,7 +32,6 @@ class UserController extends Controller
 
         $form = $this->createForm(new registerUserType($this->get('translator'), $data));
         if ($request->getMethod() == 'POST') {
-
             $post = $request->get('mycp_frontendbundle_register_usertype');
             $all_post = $request->request->getIterator()->getArrayCopy();
             $form->handleRequest($request);
@@ -49,13 +48,11 @@ class UserController extends Controller
                 $errors['user_email'] = $this->get('translator')->trans("EMAIL_INVALID_MESSAGE");
 
             if ($form->isValid() && !$user_db && count($errors) == 0) {
-
                 $factory = $this->get('security.encoder_factory');
                 $user2 = new user();
                 $encoder = $factory->getEncoder($user2);
 
                 $session = $request->getSession();
-
 
                 $languageCode = $request->attributes->get('app_lang_code');
                 $languageCode = empty($languageCode) ? $request->attributes->get('_locale') : $session->get('_locale', 'en');
@@ -236,7 +233,7 @@ class UserController extends Controller
 
 
         if ($mobileDetector->isMobile()) {
-            return $this->render('@MyCpMobileFrontend/security/registerUser.html.twig', array(
+            return $this->render('@MyCpMobileFrontend/user/registerUser.html.twig', array(
                 'form' => $form->createView(),
                 'errors' => $errors,
                 'post' => $all_post
@@ -567,7 +564,7 @@ class UserController extends Controller
         }
 
         if ($mobileDetector->isMobile()) {
-            return $this->render('@MyCpMobileFrontend/security/changePasswordUser.html.twig', array(
+            return $this->render('@MyCpMobileFrontend/user/changePasswordUser.html.twig', array(
                 'string' => $string,
                 'form' => $form->createView(),
                 'errors' => $errors
@@ -767,7 +764,7 @@ class UserController extends Controller
             'user_currency' => ($userTourist->getUserTouristCurrency() != null) ? $userTourist->getUserTouristCurrency()->getCurrId() : 0,
             'user_lang' => ($userTourist->getUserTouristLanguage() != null) ? $userTourist->getUserTouristLanguage()->getLangId() : 0
         );
-        $mobileDetector = $this->get('mobile_detect.mobile_detector');
+
         $form = $this->createForm(new profileUserType($this->get('translator'), $data), $complete_user);
         if ($request->getMethod() == 'POST') {
             $post = $request->get('mycp_frontendbundle_profile_usertype');
@@ -856,27 +853,14 @@ class UserController extends Controller
                 $errors['complete_form'] = $this->get('translator')->trans("FILL_FORM_CORRECTLY");
             }
         }
-        if ($mobileDetector->isMobile()) {
-            return $this->render('MyCpMobileFrontendBundle:security:userProfile.html.twig', array(
-                'form' => $form->createView(),
-                'errors' => $errors,
-                'post' => $all_post,
-                'user' => $user,
-                'tourist' => $userTourist
+        return $this->render('FrontEndBundle:user:profileUser.html.twig', array(
+            'form' => $form->createView(),
+            'errors' => $errors,
+            'post' => $all_post,
+            'user' => $user,
+            'tourist' => $userTourist
 
-            ));
-
-        }
-        else {
-            return $this->render('FrontEndBundle:user:profileUser.html.twig', array(
-                'form' => $form->createView(),
-                'errors' => $errors,
-                'post' => $all_post,
-                'user' => $user,
-                'tourist' => $userTourist
-
-            ));
-        }
+        ));
     }
 
 }

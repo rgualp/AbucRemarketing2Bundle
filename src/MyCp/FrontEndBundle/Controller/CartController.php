@@ -274,7 +274,6 @@ class CartController extends Controller {
             }
             elseif(isset($check_dispo) && $check_dispo!='' && $check_dispo==2 && !$showErrorOwnExist){
                 $data=$this->dataCesta();
-                $request->getSession()->set('reservation_own_ids', $own_ids);
                 $response =new Response($this->renderView('FrontEndBundle:cart:contentCesta.html.twig', $data));
             }
             else

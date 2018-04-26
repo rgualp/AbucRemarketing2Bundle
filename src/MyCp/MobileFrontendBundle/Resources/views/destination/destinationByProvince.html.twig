@@ -1,0 +1,67 @@
+<div class="bg-gradient-green-bar"><h1 class="caecilia-roman h-white text-center">{{'FIND_DESTINATIONS_BY_PROVINCES' | trans}}</h1></div>
+<div class="prov-map">
+    <table style="width: 100%" bordercolor="#fff" border="1">
+        <tr>
+            <td style="width: 20%;background-color:#E0EAF4;padding: 10px">
+                <ul id="prov-links">
+                    <li data-prov="PRI" data="poly_pr" id="first-prov">Pinar del Río</li>
+                    <li data-prov="ISJ" data="poly_ij">Isla de la Juventud</li>
+                    <li data-prov="ART" data="poly_ar">Artemisa</li>
+                    <li data-prov="HAB" data="poly_ha">La Habana</li>
+                    <li data-prov="MYB" data="poly_my">Mayabeque</li>
+                    <li data-prov="MTZ" data="poly_ma">Matanzas</li>
+                    <li data-prov="VCL" data="poly_vc">Villa Clara</li>
+                    <li data-prov="CFG" data="poly_cf">Cienfuegos</li>
+                    <li data-prov="CAV" data="poly_ca">Ciego de Ávila</li>
+                    <li data-prov="SSP" data="poly_ss">Sancti Spíritus</li>
+                    <li data-prov="CMG" data="poly_cm">Camagüey</li>
+                    <li data-prov="LTU" data="poly_lt">Las Tunas</li>
+                    <li data-prov="HOL" data="poly_ho">Holguín</li>
+                    <li data-prov="GRA" data="poly_gr">Granma</li>
+                    <li data-prov="SCU" data="poly_sc">Santiago de Cuba</li>
+                    <li data-prov="GTM" data="poly_gu">Guantánamo</li>
+                </ul>
+            </td>
+            <td style="text-align: center; background-color: #E0EAF4; vertical-align: top">
+                <h3 id="prov-name" class="text-left" style="margin-left: 20px; color: #868A8D">I</h3>
+                <canvas width="446" height="358" id="canvas-dest-prov">
+
+                </canvas>
+            </td>
+            <td id="housesList" data-url="{{path('frontend_byprovince_destination_callback')}}" style="width: 30%;background-color:#E0EAF4;padding: 10px; vertical-align: top" valign="top">
+                
+            </td>
+        </tr>
+    </table>
+    <div id="sss"></div>
+    <div id="ddd"></div>
+    <div id="aaa"></div>
+</div>
+<script type="text/javascript">
+    {% set locations='' %}
+    {% set destinations='' %}
+    {% set destinations_names='' %}
+    {% set destinations_icons='' %}
+    {% for loc in locations_destinations %}
+    {% set locations = locations~"'"~loc.getDesLocProvince.getProvCode~"'," %}
+    {% set destinations_names = destinations_names~"'"~loc.getDesLocDestination.getDesName~"'," %}
+    {% if loc.getDesLocDestination.getDesCategories.first %}
+    {% set destinations_icons = destinations_icons~"'"~loc.getDesLocDestination.getDesCategories.first.getDesIconProvMap~"'," %}
+    {% else %}
+    {% set destinations_icons = destinations_icons~"'null'," %}
+    {% endif %}
+    {% if loc.getDesLocDestination.getDesCatLocationX %}
+    {% set destinations = destinations~"["~loc.getDesLocDestination.getDesCatLocationProvX~","~loc.getDesLocDestination.getDesCatLocationProvY~"]," %}
+    {% else %}
+    {% set destinations = destinations~"[0,0]," %}
+    {% endif %}
+    {% endfor %}
+    var link_destination="{{ path('frontend_details_destination',{'destination_name':'-1'}) }}";
+    link_destination=link_destination.replace('/-1','');
+    var destinations_icons=[{{ destinations_icons|slice(0,(destinations_icons|length)-1)|raw }}];
+    var dest_provinces=[{{ locations|slice(0,(locations|length)-1)|raw }}];
+    var signal_pos=[{{ destinations|slice(0,(destinations|length)-1)|raw }}];
+    var destinations_names=[{{ destinations_names|slice(0,(destinations_names|length)-1)|raw }}];
+    var dir="{{ app.request.getSchemeAndHttpHost() ~ asset('uploads/destinationImages/icons/') }}";
+</script>
+<div id="signal_tooltip" style="left: -500px;position: absolute; top: 0;background-color: #1A1A1A; border-radius: 4px; color: #fff; font-size: 12px; padding: 2px 6px"></div>

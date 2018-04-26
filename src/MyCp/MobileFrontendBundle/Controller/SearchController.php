@@ -10,24 +10,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class SearchController extends Controller
 {
-    public function overlaySearchBarAction() {
+    public function orangeSearchBarAction() {
         $em = $this->getDoctrine()->getManager();
         $session = $this->getRequest()->getSession();
 
-        return $this->render('MyCpMobileFrontendBundle:menus:overlay.html.twig', array(
+        return $this->render('MyCpMobileFrontendBundle:search:orangeSearchBar.html.twig', array(
             'locale' => $this->get('translator')->getLocale(),
-            'autocomplete_text_list' => $em->getRepository('mycpBundle:ownership')->autocompleteTextList(),
-            'arrival_date' => $session->get("search_arrival_date"),
-            'departure_date' => $session->get("search_departure_date")
-        ));
-    }
-    public function overlaySearchDestinationBarAction() {
-        $em = $this->getDoctrine()->getManager();
-        $session = $this->getRequest()->getSession();
-
-        return $this->render('MyCpMobileFrontendBundle:menus:overlay.html.twig', array(
-            'locale' => $this->get('translator')->getLocale(),
-            'isDestination'=>true,
             'autocomplete_text_list' => $em->getRepository('mycpBundle:ownership')->autocompleteTextList(),
             'arrival_date' => $session->get("search_arrival_date"),
             'departure_date' => $session->get("search_departure_date")

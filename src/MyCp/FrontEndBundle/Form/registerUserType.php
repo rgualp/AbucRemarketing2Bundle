@@ -41,8 +41,6 @@ class registerUserType extends AbstractType
                 'constraints'=>array(new NotBlank(), new Email())
             ))
             ->add('user_password','repeated',array(
-                'first_name' => 'first',
-                'second_name' => 'confirm',
                 'first_options' => array('label' => $this->translate->trans('FORMS_PASSWORD')),
                 'second_options' => array('label' =>$this->translate->trans('FORMS_REPEAT')),
                 'type' => 'password',

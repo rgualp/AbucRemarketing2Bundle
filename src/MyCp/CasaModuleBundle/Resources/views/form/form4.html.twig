@@ -73,41 +73,6 @@
             </div>
         </div>
         <div class="m-t-20">
-            <label for="comment">Capacidad </label>
-            <img class="help-icon" data-href="help-step3-one"
-                 src="{{ asset('/bundles/mycpcasamodule/img/ayuda.png') }}">
-            <img class="help-icon hidden-xs" src="{{ asset('/bundles/mycpcasamodule/img/Zaeta-Derecha.png') }}">
-
-            <div class="row m-t-5">
-                <div class="col-md-1 col-xs-2">
-                    <img class="m-t-5 m-l-10" src="{{ asset('/bundles/mycpcasamodule/img/Clientes.png') }}">
-                </div>
-                <div class="col-md-5 col-xs-6">
-                    {% if room is defined %}
-                        <span id="label_capacity_{{ room.RoomId }}"
-                              class="font-blue step-span">{{ room.getRoomCapacity  }}</span>
-                    {% endif %}
-                    <input
-                            {% if room is defined %}
-                            placeholder="{{ room.getRoomCapacity }}"
-                            value="{{ room.getRoomCapacity }}"
-                            {% endif %}
-                            title="Capacidad."
-                            id="room_capacity_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
-                            type="text"
-                            name="room_capacity"
-                            class="room_capacity form-control {% if room is defined %}hide{% endif %} only-number"
-                            data-roomid="{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}">
-                 </div>
-                {% if room is defined %}
-                    <button data-cmpdisabled="#label_capacity_{{ room.RoomId }}"
-                            data-cmpenabled="#room_capacity_{% if room is defined %}{{ room.RoomId }}{% else %}{{ num }}{% endif %}"
-                            class="btn btn-primary dim changeBtn col-xs-3" type="button">Cambiar
-                    </button>
-                {% endif %}
-            </div>
-        </div>
-        <div class="m-t-20">
             <label for="comment">No. De camas </label>
             <img class="help-icon" data-href="help-step3-one"
                  src="{{ asset('/bundles/mycpcasamodule/img/ayuda.png') }}">
