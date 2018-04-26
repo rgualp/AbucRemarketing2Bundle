@@ -1,0 +1,127 @@
+<script type="text/javascript">
+    var start_date = "{{ (isDateTime(app.session.get('search_arrival_date')) ) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now"|date("d/m/Y")) }}";
+    var end_date = "{{ (isDateTime(app.session.get('search_departure_date')) ) ? (app.session.get('search_departure_date')|date("d/m/Y")) : "+2 days" |date("d/m/Y")}}";
+
+
+    function refresh_calendar(from, to,own_id) {
+        HoldOn.open();
+        if (from != '' && to != '') {
+            $('.calendar-results').css({display: 'none'});
+            element = $("#body_calendar");
+            element.attr('class', 'container_loading');
+            element.html('<div>&nbsp;</div>');
+            $('#rooms_selected').css({display: 'none'});
+            $('#all_data_numbers').css({display: 'none'});
+
+            fields_dates = $('.form-control')
+            btn_refresh = $('#button_refresh_calendar')
+            fields_dates.attr('disabled', 'true');
+            if (own_id!='') {
+                $.ajax({
+                    url: "{{ path('frontend_get_reservation_calendar_ownership_callback') }}",
+                    data: {from: from, to: to, own_id: own_id}
+
+                }).done(function (resp) {
+                    element.removeAttr('class');
+                    element.html(resp);
+                    from = from.replace('/', '&');
+                    from = from.replace('/', '&');
+                    to = to.replace('/', '&');
+                    to = to.replace('/', '&');
+                    $('#data_reservation').attr('from_date', from);
+                    $('#data_reservation').attr('to_date', to);
+                    fields_dates.removeAttr('disabled');
+                    HoldOn.close();
+                });
+
+            }
+
+
+        }
+
+
+    }
+    function create_date_in(date_text) {
+        var date = date_text.split('/');
+        new_date = date[2] + '/' + date[1] + '/' + date[0];
+        return new_date;
+
+
+    }
+    function addCart(){
+
+                var arrival = $('#input_arrival_date').val();
+                var departure = $('#input_departure_date').val();
+        var valueDate = new Date();
+        valueDate.setDate(valueDate.getDate() + 2);
+
+        var departure_datepicker = $('#filter_date_to').datetimepicker({
+            icons: {
+                time: "fa fa-clock-o",
+                date: "fa fa-calendar",
+                up: "fa fa-chevron-up",
+                down: "fa fa-chevron-down",
+                previous: 'fa fa-chevron-left',
+                next: 'fa fa-chevron-right',
+                today: 'fa fa-screenshot',
+                clear: 'fa fa-trash',
+                close: 'fa fa-remove'
+            },
+            toolbarPlacement:'top',
+            defaultDate: moment(valueDate),
+
+            minDate:moment(new Date()),
+            format: 'DD/MM/YYYY'
+
+        }).on('dp.change', function (ev) {
+            from = $('#filter_date_from').val();
+            to = $('#filter_date_to').val();
+
+            refresh_calendar(from, to,{{ ownership.own_id }});
+        });
+
+                $('#filter_date_from').datetimepicker({
+                    icons: {
+                        time: "fa fa-clock-o",
+                        date: "fa fa-calendar",
+                        up: "fa fa-chevron-up",
+                        down: "fa fa-chevron-down",
+                        previous: 'fa fa-chevron-left',
+                        next: 'fa fa-chevron-right',
+                        today: 'fa fa-screenshot',
+                        clear: 'fa fa-trash',
+                        close: 'fa fa-remove'
+                    },
+                    toolbarPlacement:'top',
+                    defaultDate: moment(new Date()),
+                    minDate:moment(new Date()),
+                    format: 'DD/MM/YYYY'
+
+
+    }).on('dp.change', function (ev) {
+                    if (!ev.date) {
+                        return;
+                    }
+                    var startDate = new Date(ev.date);
+                    startDate.setDate(startDate.getDate() + 2);
+                    departure_datepicker.data("DateTimePicker").minDate(startDate);
+                    var valueDate = new Date(ev.date);
+                    valueDate.setDate(valueDate.getDate() + 2);
+                    departure_datepicker.data("DateTimePicker").defaultDate(valueDate);
+                    from = $('#filter_date_from').val();
+                    to = $('#filter_date_to').val();
+                    refresh_calendar(from, to,{{ ownership.own_id }});
+                });
+
+
+                from = $('#filter_date_from').val();
+                to = $('#filter_date_to').val();
+
+                refresh_calendar(from, to,{{ ownership.own_id }});
+
+
+
+    }
+
+    addCart();
+</script>

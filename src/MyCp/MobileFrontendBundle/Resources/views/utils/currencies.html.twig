@@ -1,0 +1,5 @@
+{% for currency in currencies %}
+    <a  class="dropdown-item" rel="nofollow" onclick='HoldOn.open();' href="{{ path('frontend_change_currency', {'currencyCode': currency.getCurrCode }) }}">{{ currency.getCurrName }}</a>
+
+    {#<li><a rel="nofollow" href="{{ path('frontend_change_currency', {'currencyCode': currency.getCurrCode, 'route': route, 'routeParams': currency.getCurrName|lower }) }}">{{ currency.getCurrName }}</a></li>#}
+{% endfor %}

@@ -1,7 +1,26 @@
 
 
 var Calendar = function () {
+    var isUp2 =function (name, id)
+    {
+        var name = "#" + name;
+        var doubleUp2 = parseInt($(name).attr("data-up-2"));
 
+
+        var guests = parseInt($(name).val());
+        var otherName = (name == "#combo_guest_" + id) ? "#combo_kids_" + id : "#combo_guest_" + id;
+        var other=parseInt($(otherName).val());
+        var fill=other+guests;
+        
+        if(other+guests > doubleUp2)
+        {
+            $(otherName).val(0);
+
+
+        }
+
+
+    }
     var total_price = function (curr,percent)
     {
         var real_price=0;
@@ -50,7 +69,7 @@ var Calendar = function () {
         var nights = parseInt($("#totalNights").val());
         var avgPrice = normalize_prices(total_price_var / nights);
         var tourist_fee_percent = 0;
-        var roomsTotal = $('.id_room').size();
+        var roomsTotal = $('.id_room').length;
 
         if(nights == 1)
         {
@@ -92,10 +111,10 @@ var Calendar = function () {
 
 
         var prepayment = percent_value + fixed_tax + tourist_service;
-        /*console.log("Porciento" + percent_value);
-         console.log("Turista" + tourist_service);
-         console.log("Tarifa fija" + fixed_tax);
-         console.log(prepayment);*/
+        // console.log("Porciento" + percent_value);
+        //  console.log("Turista" + tourist_service);
+        //  console.log("Tarifa fija" + fixed_tax);
+        //  console.log(prepayment);
         $('#total_prepayment').html(normalize_prices(prepayment));
         $('.calendar-results').css({display: 'block'});
 
@@ -161,14 +180,14 @@ var Calendar = function () {
     {
 
         $("#btn-details-date, #close-table").click(function (e) {
-            e.preventDefault();
-            if ($(".full-details-table-date").hasClass("showing")){
-                $(".full-details-table-date").removeClass("showing")
-                $(".full-details-table-date").hide();
-            }else{
-                $(".full-details-table-date").addClass("showing");
-                $(".full-details-table-date").show();
-            }
+            // e.preventDefault();
+            // if ($(".full-details-table-date").hasClass("showing")){
+            //     $(".full-details-table-date").removeClass("showing")
+            //     $(".full-details-table-date").hide();
+            // }else{
+            //     $(".full-details-table-date").addClass("showing");
+            //     $(".full-details-table-date").show();
+            // }
         })
 
         $('#rooms_selected > tbody tr').each(function(){
@@ -180,11 +199,13 @@ var Calendar = function () {
             total_price($(this).attr('data_curr'),$(this).attr('percent_charge'));
         });
         $('.guest_number').change(function(){
-            showAgesCombos($(this).attr('data'));
+            isUp2($(this).attr("name"), $(this).attr('data'));
+
             if($('#tr_'+$(this).attr('data')).html()){
 
                 if(eval($('#combo_guest_'+$(this).attr('data')).val())+eval($('#combo_kids_'+$(this).attr('data')).val())==0)
                 {
+                    $('#tripleAlert_' + $(this).attr('data')).css({display: 'none'});
                     $('#tr_'+$(this).attr('data')).remove();
                     if ($('#rooms_selected >tbody >tr').length == 0){
                         $('#rooms_selected').css({display: 'none'});
@@ -192,6 +213,7 @@ var Calendar = function () {
                     }
                     else
                     {
+                        isUp2($(this).attr("name"), $(this).attr('data'));
                         total_price($(this).attr('data_curr'),$(this).attr('percent_charge'));
                     }
                 }
@@ -200,20 +222,26 @@ var Calendar = function () {
                     value=0;
                     persons=parseInt($('#combo_kids_'+$(this).attr('data')).val()) + parseInt($('#combo_guest_'+$(this).attr('data')).val());
 
-                    if($(this).attr('data_is_triple')==='true' && persons>=3)
+                    isUp2($(this).attr("name"), $(this).attr('data'));
+                    if(($(this).attr('data_is_triple')==='1' || $(this).attr('data_is_triple')==='true') && persons>=3)
                     {
+
+                        $('.triplePrice_' + $(this).attr('data')).css({display: 'block'});
+                        $('#tripleAlert_' + $(this).attr('data')).css({display: 'block'});
                         value=$(this).attr('data_total')*$(this).attr('data_curr') + (($(this).attr('data_curr')*$(this).attr('data_triple_recharge')) * (cont_array_dates -1));
                         value= normalize_prices(value);
                     }
                     else
                     {
+                        $('.triplePrice_' + $(this).attr('data')).css({display: 'none'});
+                        $('#tripleAlert_' + $(this).attr('data')).css({display: 'none'});
                         value=$(this).attr('data_total')*$(this).attr('data_curr');
                         value= normalize_prices(value);
                     }
                     $('#guest_'+$(this).attr('data')).html($('#combo_guest_'+$(this).attr('data')).val());
                     $('#kids_'+$(this).attr('data')).html($('#combo_kids_'+$(this).attr('data')).val());
                     $('#price_'+$(this).attr('data')).html(value);
-                    $('#rooms_selected').css({display: 'table'});
+                    $('#rooms_selected').css({display: 'none'});
                     total_price($(this).attr('data_curr'),$(this).attr('percent_charge'));
 
                 }
@@ -223,18 +251,22 @@ var Calendar = function () {
                 value=0;
                 real_value=0;
                 persons=parseInt($('#combo_kids_'+$(this).attr('data')).val()) + parseInt($('#combo_guest_'+$(this).attr('data')).val());
-                if($(this).attr('data_is_triple')==='true' && persons>=3)
+                if(($(this).attr('data_is_triple')==='1' || $(this).attr('data_is_triple')==='true') && persons>=3)
                 {
                     value=$(this).attr('data_total')*$(this).attr('data_curr') +(($(this).attr('data_curr')*$(this).attr('data_triple_recharge')) * (cont_array_dates -1)) ;
+                    $('.triplePrice_' + $(this).attr('data')).css({display: 'block'});
+                    $('#tripleAlert_' + $(this).attr('data')).css({display: 'block'});
                 }
                 else
                 {
                     value=$(this).attr('data_total')*$(this).attr('data_curr');
+                    $('.triplePrice_' + $(this).attr('data')).css({display: 'none'});
+                    $('#tripleAlert_' + $(this).attr('data')).css({display: 'none'});
                 }
 
                 value= normalize_prices(value);
 
-                $('#rooms_selected').css({display: 'table'});
+                $('#rooms_selected').css({display: 'none'});
                 $('.calendar-results').css({display: 'block'});
                 $('#rooms_selected > tbody:last').append('<tr id="tr_'+$(this).attr('data')+'">' +
                     '<td class="id_room" style="display: none;">'+$(this).attr('data')+'</td>' +

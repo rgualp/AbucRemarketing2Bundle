@@ -214,6 +214,8 @@ class StepsController extends Controller
                         $aupdateICal = true;
                     }
                     $ownership_room->setIcal($room['ical']);
+                    if (isset($room['room_capacity']))
+                    $ownership_room->setRoomCapacity($room['room_capacity']);
 
                     $em->persist($ownership_room);
                     $em->flush();
@@ -473,10 +475,14 @@ class StepsController extends Controller
      */
     public function getContentTabStep4Action(Request $request)
     {
+        $ownership = $this->getUser()->getUserUserCasa()[0]->getUserCasaOwnership();
         return new JsonResponse([
             'num' => $request->get('num'),
             'success' => true,
-            'html' => $this->renderView('MyCpCasaModuleBundle:form:form4.html.twig', array('num' => $request->get('num'))),
+            'html' => $this->renderView('MyCpCasaModuleBundle:form:form4.html.twig', array('num' => $request->get('num'),
+            'ownership' => $ownership,
+            'dashboard' => true
+            )),
             'msg' => 'Nueva habitacion']);
     }
 

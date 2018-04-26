@@ -169,8 +169,11 @@ class DestinationController extends Controller {
                 'currentPage'=>$currentPage,
                 'nextPage'=>$nextPage
             );
-            /**********************************************/
 
+            /**********************************************/
+            $desName = $destination->getDesName();
+            $search_text = Utils::getTextFromNormalized($desName);
+            $session->set('search_text', $search_text);
         }else{
             /**************************to pagin***********/
 
@@ -266,14 +269,16 @@ class DestinationController extends Controller {
                 'total_items' => $totalItems,
                 'paginator'=>$paginator,
                 'destination_name' => $original_destination_name,
-                'name_for_search' => $name_for_search,
+                'name_for_search' => $original_destination_name,
                 'data_view' => (($view == null) ? 'LIST' : $view),
                 'popular_destinations_for_url' => $popular_destinations_for_url,
                 'other_destinations_in_municipality_for_url' => $other_destinations_in_municipality_for_url,
                 'other_destinations_in_province_for_url' => $other_destinations_in_province_for_url,
                 'provinces_for_url' => $provinces_for_url,
                 'keyword_description' => $destination_array['keyword_description'],
-                'keyword' => $destination_array['keywords']
+                'keyword' => $destination_array['keywords'],
+                'search_text' => $search_text
+
             ));
         }else{
             return $this->render('FrontEndBundle:destination:newDestinationDetails.html.twig', array(
@@ -281,6 +286,7 @@ class DestinationController extends Controller {
                 'is_in_favorite' => $em->getRepository('mycpBundle:favorite')->isInFavorite($destination->getDesId(), false, $users_id["user_id"], $users_id["session_id"]),
                 'autocomplete_text_list' => $em->getRepository('mycpBundle:ownership')->autocompleteTextList(),
                 'locale' => $this->get('translator')->getLocale(),
+
                 'location' => $destination_array['municipality_name'] . ' / ' . $destination_array['province_name'],
                 'location_municipality' => $destination_array['municipality_name'],
                 'location_province' => $destination_array['province_name'],

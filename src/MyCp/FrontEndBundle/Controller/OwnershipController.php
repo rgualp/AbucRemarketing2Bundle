@@ -417,9 +417,15 @@ class OwnershipController extends Controller
         }
         // $similar_houses = $em->getRepository('mycpBundle:ownership')->getByCategory($ownership_array['category'], null, $owner_id, $user_ids["user_id"], $user_ids["session_id"]);
         // $total_similar_houses = count($similar_houses);
-
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
         $paginator = $this->get('ideup.simple_paginator');
-        $items_per_page = 5;
+        if ($mobileDetector->isMobile()){
+            $items_per_page = 30;
+        }
+        else{
+            $items_per_page = 5;
+        }
+
         $paginator->setItemsPerPage($items_per_page);
         $total_comments = $em->getRepository('mycpBundle:comment')->getByOwnership($owner_id);
         $comments = $paginator->paginate($total_comments)->getResult();
@@ -598,7 +604,7 @@ class OwnershipController extends Controller
             'fr' => 'fr-FR'
         );
 
-        $mobileDetector = $this->get('mobile_detect.mobile_detector');
+
         if ($mobileDetector->isMobile()) {
             return $this->render('MyCpMobileFrontendBundle:ownership:ownershipDetails.html.twig', array(
                 'avail_array_prices' => $avail_array_prices,
@@ -613,7 +619,7 @@ class OwnershipController extends Controller
                 'automaticTranslation' => $ownership_array['autotomaticTranslation'],
                 //'similar_houses' => array_slice($similar_houses, 0, 5),
                 //'total_similar_houses' => $total_similar_houses,
-                'comments' => $comments,
+                'comments' => $total_comments->getResult(),
                 'friends' => $friends,
                 'show_comments_and_friends' => count($total_comments) + count($friends),
                 'rooms' => $rooms,
@@ -830,6 +836,36 @@ class OwnershipController extends Controller
         $prices_own_list = $results["prices"];
         $statistics_own_list = $em->getRepository('mycpBundle:ownership')->getSearchStatistics();
         $awards = $em->getRepository('mycpBundle:award')->findAll();
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
+        if ($mobileDetector->isMobile()){
+            return $this->render('@MyCpMobileFrontend/accommodations/accomodationDetails.html.twig', array(
+                'inmediate' => $inmediate,
+                'search_text' => $search_text,
+                'search_guests' => $search_guests,
+                'search_arrival_date' => $arrival,
+                'search_departure_date' => $departure,
+                'search_rooms' => $search_rooms,
+                'owns_categories' => $categories_own_list,
+                'owns_types' => $types_own_list,
+                'owns_prices' => $prices_own_list,
+                'order' => $session->get('search_order'),
+                'view_results' => $session->get('search_view_results'),
+                'own_statistics' => $statistics_own_list,
+                'locale' => $this->get('translator')->getLocale(),
+                'list' => $result_list,
+                'items_per_page' => $items_per_page,
+                'total_items' => $paginator->getTotalItems(),
+                'cant_pages' => $paginator->getLastPage(),
+                'current_page' => $page,
+                'check_filters' => $check_filters,
+                'show_paginator' => true,
+                'awards' => $awards,
+                "lastPage" => $paginator->getLastPage(),
+                "inmediate" => $inmediate,
+                "province_name" => $province_name
+            ));
+        }
+        else{
         if ($check_filters != null)
             return $this->render('FrontEndBundle:ownership:searchOwnershipv2.html.twig', array(
                 'inmediate' => $inmediate,
@@ -883,7 +919,7 @@ class OwnershipController extends Controller
                 "lastPage" => $paginator->getLastPage(),
                 "inmediate" => $inmediate,
                 "province_name" => $province_name
-            ));
+            ));}
     }
 
     public function searchOrderResultsAction()
@@ -1154,8 +1190,9 @@ class OwnershipController extends Controller
             $cant_pages = $session->get('cant_pages');
         }
 
-        if ($session->get('search_view_results') != null && $session->get('search_view_results') == 'LIST')
-            $response = $this->renderView('FrontEndBundle:ownership:searchListOwnership.html.twig', array(
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
+        if ($mobileDetector->isMobile()){
+            $response = $this->renderView('@MyCpMobileFrontend/destination/cards.html.twig', array(
                 'list' => $list,
                 'items_per_page' => $items_per_page,
                 'total_items' => $total_items,
@@ -1164,28 +1201,40 @@ class OwnershipController extends Controller
                 'list_preffix' => 'search',
                 'show_paginator' => true
             ));
-        else if ($session->get('search_view_results') != null && $session->get('search_view_results') == 'PHOTOS')
-            $response = $this->renderView('FrontEndBundle:ownership:searchMosaicOwnershipv2.html.twig', array(
-                'list' => $list,
-                'cant_pages' => $cant_pages,
-                'items_per_page' => $items_per_page,
-                'total_items' => $total_items,
-                'current_page' => $page,
-                'list_preffix' => 'search',
-                'show_paginator' => true
-            ));
-        else if ($session->get('search_view_results') != null && $session->get('search_view_results') == 'MAP')
-            $response = $this->renderView('FrontEndBundle:ownership:searchMapOwnership.html.twig', array(
-                'list' => $list,
-                'items_per_page' => $items_per_page,
-                'total_items' => $total_items,
-                'cant_pages' => $cant_pages,
-                'current_page' => $page,
-                'list_preffix' => 'search',
-                'show_paginator' => true
-            ));
+        }
+        else {
+            if ($session->get('search_view_results') != null && $session->get('search_view_results') == 'LIST')
+                $response = $this->renderView('FrontEndBundle:ownership:searchListOwnership.html.twig', array(
+                    'list' => $list,
+                    'items_per_page' => $items_per_page,
+                    'total_items' => $total_items,
+                    'cant_pages' => $cant_pages,
+                    'current_page' => $page,
+                    'list_preffix' => 'search',
+                    'show_paginator' => true
+                ));
+            else if ($session->get('search_view_results') != null && $session->get('search_view_results') == 'PHOTOS')
+                $response = $this->renderView('FrontEndBundle:ownership:searchMosaicOwnershipv2.html.twig', array(
+                    'list' => $list,
+                    'cant_pages' => $cant_pages,
+                    'items_per_page' => $items_per_page,
+                    'total_items' => $total_items,
+                    'current_page' => $page,
+                    'list_preffix' => 'search',
+                    'show_paginator' => true
+                ));
+            else if ($session->get('search_view_results') != null && $session->get('search_view_results') == 'MAP')
+                $response = $this->renderView('FrontEndBundle:ownership:searchMapOwnership.html.twig', array(
+                    'list' => $list,
+                    'items_per_page' => $items_per_page,
+                    'total_items' => $total_items,
+                    'cant_pages' => $cant_pages,
+                    'current_page' => $page,
+                    'list_preffix' => 'search',
+                    'show_paginator' => true
+                ));
 
-
+        }
         return new JsonResponse(array('html' => $response, 'cant_pages' => $cant_pages));
 
     }
@@ -1792,8 +1841,15 @@ class OwnershipController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $text = $em->getRepository('mycpBundle:ownership')->autocompleteTextList();
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
 
-        return new JsonResponse(array('autocompletetext' => $text));
+        if ($mobileDetector->isMobile()){
+            return $this->render('MyCpMobileFrontendBundle:submenus:destinationsoptions.html.twig', array('list' => $text));
+
+        }
+        else {
+            return new JsonResponse(array('autocompletetext' => $text));
+        }
     }
 
     public function ownersPhotosAction($ownership_id, $photo)
@@ -1906,7 +1962,7 @@ class OwnershipController extends Controller
         $ownership_array['OwnInmediateBooking2'] = $ownership->isOwnInmediateBooking2();
         $mobileDetector = $this->get('mobile_detect.mobile_detector');
         if ($mobileDetector->isMobile()) {
-            return $this->render('MyCpMobileFrontendBundle:ownership:modal_ownership_calendar.html.twig', array('ownership' => $ownership_array, 'locale' => $locale, 'currentServiceFee' => $currentServiceFee, "hasCompleteReservation" => $hasCompleteReservation));
+            return $this->render('MyCpMobileFrontendBundle:ownership:calendar.html.twig', array('ownership' => $ownership_array, 'locale' => $locale, 'currentServiceFee' => $currentServiceFee, "hasCompleteReservation" => $hasCompleteReservation));
         } else {
             return $this->render('FrontEndBundle:ownership:modal_ownership_calendar.html.twig', array('ownership' => $ownership_array, 'locale' => $locale, 'currentServiceFee' => $currentServiceFee, "hasCompleteReservation" => $hasCompleteReservation));
         }

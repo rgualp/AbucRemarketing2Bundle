@@ -163,34 +163,27 @@ function showAgesCombos(rowId)
 
 function isUp2(name, id)
 {
-    var name = "#" + name;
-    var doubleUp2 = $(name).attr("data-up-2");
+        var name = "#" + name;
+        var doubleUp2 = parseInt($(name).attr("data-up-2"));
 
-    if(doubleUp2 == "1"){
-        var guests = $(name).val();
+
+        var guests = parseInt($(name).val());
         var otherName = (name == "#combo_guest_" + id) ? "#combo_kids_" + id : "#combo_guest_" + id;
+        var other=parseInt($(otherName).val());
+        var fill=other+guests;
 
-        if(guests == 1)
+        if(other+guests > doubleUp2)
         {
-            $(otherName + " option[value='2']").remove();
-        }
-        else if(guests == 2){
-            $(otherName + " option[value='1']").remove();
-            $(otherName + " option[value='2']").remove();
-        }
-        else
-        {
-            $(otherName).empty();
-            $(otherName).append('<option value="0">0</option>');
-            $(otherName).append('<option value="1">1</option>');
-            $(otherName).append('<option value="2">2</option>');
+            $(otherName).val(0);
 
-            $(name).empty();
-            $(name).append('<option value="0">0</option>');
-            $(name).append('<option value="1">1</option>');
-            $(name).append('<option value="2">2</option>');
+
         }
-    }
+
+
+
+
+
+
 }
 
 function reservations_in_details()

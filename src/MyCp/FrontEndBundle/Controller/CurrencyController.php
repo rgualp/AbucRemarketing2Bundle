@@ -41,13 +41,21 @@ class CurrencyController extends Controller
         $routeParams = empty($routeParams) ? array() : $routeParams;
 
 
-
-        $response = $this->render('FrontEndBundle:currency:currencies.html.twig', array(
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
+        if ($mobileDetector->isMobile()) {
+            $response = $this->render('MyCpMobileFrontendBundle:utils:currencies.html.twig', array(
                 'currencies' => $currencies,
                 'route' => $route,
                 'routeParams' => $routeParams
             ));
-
+        }
+        else {
+            $response = $this->render('FrontEndBundle:currency:currencies.html.twig', array(
+                'currencies' => $currencies,
+                'route' => $route,
+                'routeParams' => $routeParams
+            ));
+        }
         // cache control -> currencies rarely change
         $response->setSharedMaxAge(3600);
 

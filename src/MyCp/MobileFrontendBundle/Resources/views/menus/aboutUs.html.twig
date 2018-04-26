@@ -1,0 +1,107 @@
+{% extends 'MyCpMobileFrontendBundle::base.html.twig' %}
+{%set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_WHO_WE_ARE')%}
+{% block title %}
+    {{"ABOUT_US" | trans}}
+{% endblock %}
+{% block metas %}
+    {{ get_metas('Quiénes somos', app.session.get('app_lang_code')|lower )|raw }}
+{% endblock metas %}
+
+{% block content %}
+
+    <div class="main main-raised">
+        <div class="text-center caecilia-roman white f-s-16" style="background: #f4941c; color:white; font-size:20px">
+            <i  style="width: 25px;height: 25px;color:#3C4858;" class="fa fa-star" alt="Pixel" ></i>
+            {{ 'WHO_ARE_WE'|trans }}
+
+            <i  style="width: 25px;height: 25px;color:#3C4858;" class="fa fa-star" alt="Pixel" ></i>
+        </div>
+        <div class="profile-content">
+            <div class="container" >
+
+
+
+                <div class="col-lg-12 col-md-12">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <ul class="nav nav-pills nav-pills-icons flex-column" role="tablist">
+                                <!--
+                                color-classes: "nav-pills-primary", "nav-pills-info", "nav-pills-success", "nav-pills-warning","nav-pills-danger"
+                            -->
+                                {% for info in information %}
+                                {% if loop.index != 5%}
+                                    <li class="nav-item">
+                                        <a {% if loop.index == 1%}class="nav-link active show"{% else %}class="nav-link"{% endif %} href="#id_{{ info.getInfoLangId }}" role="tab" data-toggle="tab" aria-selected="true">
+                                            {{ info.getInfoLangName }}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="col-md-8 ml-auto">
+                            <div class="tab-content">
+                                {% for info in information %}
+                                {% if loop.index != 5%}
+                                    <div id="id_{{ info.getInfoLangId }}" class="tab-pane {% if loop.index == 1%}active show{% endif %}">
+                                        <h3 class="no-margin h-blue h-size-3 margin-b-t">{{ info.getInfoLangName }}</h3>
+                                        <p>{{ info.getInfoLangContent | raw }}</p>
+                                    </div>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr class="hr-grey" style="margin-bottom: 40px"/>
+                <div class="row"  style="margin-bottom: 20px;background-color: #f5f5f5;padding: 10px 0px;">
+                    <div class="col-sm-4">
+                        <div>
+                            <h3 class="no-margin margin-b-t">{{ "OUR_OFFICE"|trans }},{{"ADDRESS_MCP_COUNTRY" | trans}}</h3>
+                            ABUC media network GmbH<br/>
+                            Pedro Torres Cobas<br/>
+                            Lindenstrasse 33,4102<br/>
+                            {#<em class="icon-headphones"></em> {{"FORMS_PHONE" | trans}}: {{mycasa_office_phone}}<br/>#}
+                            <div class= style="padding:0">
+                                <i class="glyphicon glyphicons phone_alt"></i>
+                                (+41) 61 588 09 56
+
+                            </div>
+                        </div>
+                        </br>
+                        <div>
+                            <h3 class="no-margin margin-b-t">{{ "OUR_OFFICE"|trans }},Cuba</h3>
+                            {{ "HDS_ADDRESS"|trans }}
+
+                            {#<em class="icon-headphones"></em> {{"FORMS_PHONE" | trans}}: {{mycasa_office_phone}}<br/>#}
+
+                            <div class= style="padding:0">
+                                <i class="glyphicon glyphicons phone_alt"></i>
+                                (+53) 55599750
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8 ml-auto">
+
+                        <img src="{{ asset('img/map_pic.png') }}" alt="Raised Image" class="img-raised rounded img-fluid">
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+    </div>
+
+
+
+
+
+
+{% endblock %}
+
