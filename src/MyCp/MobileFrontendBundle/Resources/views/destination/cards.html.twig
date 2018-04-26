@@ -3,7 +3,7 @@
 
 
 
-    <div style="background-image: url('{{ asset("uploads/ownershipImages/" ~  own.photo) }}');background-size: cover; height:255px" class="col-md-12" rel="tooltip" >
+    <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':own.own_name  | urlNormalize}) }}" style="background-image: url('{{ asset("uploads/ownershipImages/" ~  own.photo) }}');background-size: cover; height:255px" class="col-md-12" rel="tooltip" >
         {% if own.OwnInmediateBooking2 %}
             <div class="quick-ribbon" style="background-color: #ff0000">
                 <i class="fa fa-rocket" style="padding: 0px 5px"></i>
@@ -29,7 +29,7 @@
             <span class="h-blue pull-right text-uppercase f-s-30 m-a-0">
                <small style="display: inline-block">{{ "FROM_PRICES" | trans | capitalize }}:</small>  {{ own.minimum_price | price }}</span>
         </div>
-    </div>
+    </a>
 
     <div class="row">
         <div class="col" style='padding-right:0'>

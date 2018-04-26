@@ -85,9 +85,9 @@
                                             {% if loop.first %}
                                                 {% set img = asset('uploads/destinationImages/'~photo)  %}
                                             {% endif %}
-                                            {% else %}
+                                            
                                         {%endfor%}
-                                         {% set img = asset('uploads/destinationImages/no_photo.png')  %}
+                                         
 
                                         <div class="images-destination" style="background-image: url('{{ img }}');">
 

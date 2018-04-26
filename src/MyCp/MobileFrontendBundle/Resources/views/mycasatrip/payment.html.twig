@@ -62,12 +62,12 @@
                                                     {% if photos[loop.index0]%}
                                                         <a onclick='HoldOn.open();' href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | urlNormalize}) }}">
                                                         </a>
-                                                        <img class="align-self-center mr-3 bttrlazyloading animated bounceIn" src="{{ asset('bundles/frontend/img/nophoto.gif') }}" id="{{ res['own_res_gen_res_id']['gen_res_id'] }}"  title="{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}" alt="{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}"/>
+                                                        <img class="align-self-center mr-3 bttrlazyloading animated bounceIn" src=" {{ asset("uploads/ownershipImages/" ~ photos[loop.index0]) }}" id="{{ res['own_res_gen_res_id']['gen_res_id'] }}"  title="{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}" alt="{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}"/>
 
                                                     {% else %}
                                                         <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | urlNormalize}) }}">
                                                         </a>
-                                                        <img class="align-self-center mr-3 bttrlazyloading animated bounceIn" src="{{ asset('bundles/frontend/img/nophoto.gif') }}" id="{{ res['own_res_gen_res_id']['gen_res_id'] }}"   title="{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}" alt="{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}"/>
+                                                        <img class="align-self-center mr-3 bttrlazyloading animated bounceIn" src=" {{ asset("uploads/ownershipImages/" ~ photos[loop.index0]) }}" id="{{ res['own_res_gen_res_id']['gen_res_id'] }}"   title="{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}" alt="{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}"/>
 
                                                     {% endif %}
 

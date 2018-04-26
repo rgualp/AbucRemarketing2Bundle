@@ -1,11 +1,11 @@
 {%set currRate = (app.session.get('curr_rate') == null or fromBackend ? 1 : app.session.get('curr_rate'))%}
-<table class="table table-responsive"style="margin-bottom: 0px">
+<table class="table table-responsive table-sm"style="margin-bottom: 0px">
     <thead>
     <tr>
-        <th style="text-align: center;"></th>
+        <th style="text-align: center;"><i class="fa fa-bed"></i></th>
 
         <th style="text-align: center;">{{ 'RESERVATION_TYPE' | trans }} </th>
-        <th style="text-align: center;">{{'CAPACITY_TAB_DESCRIPTION' | trans}}</th>
+        
         <th align="center" style="text-align: center;">  <i class="fa fa-male"></i></th>
         <th align="center" style="text-align: center;"><i class="fa fa-child"></i></th>
         {% for date in array_dates %}
@@ -23,11 +23,10 @@
 
         {% set available = 1 %}
         <tr {% if reservations[room.getRoomId] is defined %} style="color: #f4961c!important;" {% set available = 0 %} {% endif %}>
-            <td style="width: 100px"> # {{cont}}</td>
+            <td style="width: auto"> {{cont}} </td>
 
             <td style="width: 200px"> <i style="display: none; border:none" id="tripleAlert_{{room.getRoomId}}" class="fa fa-asterisk"  rel="tooltip" title="{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{configuration_triple_room_charge | price}}" alt="{{"Question" | trans}}"></i>
                 {{ room.getRoomType | trans}}</td>
-            <td style="width: auto;"id="capacity_{{ room.roomId }}" data="{{ room.getRoomCapacity }}">{{ room.getRoomCapacity }}</td>
             <td {% if available != 1 %} colspan="2" {% endif %}>
                 {% if available == 1 %}
                 <select  style='color:black;'data_total="{{array_prices[cont-1]}}"
@@ -110,9 +109,7 @@
 
 
 <input type="hidden" id="totalNights" value="{{ nights}}"/>
-<div class="col-xs-12 p-x-0 p-y-1">
-    <i class="fa fa-asterisk">{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{configuration_triple_room_charge | price}}</i>
-  </div>
+
 
 <script type="text/javascript">
     var cont_array_dates={{ array_dates | length}};
