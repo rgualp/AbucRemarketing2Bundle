@@ -5,7 +5,9 @@
         {% if not isCompletePayment %}
         <th>{{'RESERVATION_ROOMS' | trans}}</th>
         <th>{{'RESERVATION_ROOM_TYPE' | trans}}</th>
+        <th>{{'CAPACITY_TAB_DESCRIPTION' | trans}}</th>
         {% endif %}
+
         {% for date in array_dates %}
             <th>{{ date['day_name'] | trans}} {{ date['day_number'] }}</th>
         {% endfor %}
@@ -25,7 +27,9 @@
             {% if not isCompletePayment %}
             <td style="width: 100px">{{'RESERVATION_ROOM' | trans}} # {{cont}}</td>
             <td style="width: 200px">{{ room.getRoomType | trans}}</td>
+            <td style="width: auto;">{{ room.getRoomCapacity }}</td>
             {% endif %}
+
             {% set cont_days = 1 %}
             {% for date in array_dates %}
                 <td>
@@ -72,7 +76,7 @@
                         data_triple_recharge ="{{configuration_triple_room_charge}}"
                         data_type_room='{{room.getRoomType and not isCompletePayment}}'
                         data_is_triple='{{room.isTriple}}'
-                        data-up-2 = '{{ room.roomType == "Habitación doble" and room.roomBeds < 2 and not isCompletePayment }}'
+                        data-up-2 = '{{ room.getRoomCapacity }}'
                         style="width: 50px">
                     <option value="0">0</option>
                     {% if not isCompletePayment %}
@@ -95,7 +99,7 @@
                         data_type_room='{{room.getRoomType}}'
                         data_is_triple='{{room.isTriple and not isCompletePayment}}'
                         data_triple_recharge ="{{configuration_triple_room_charge}}"
-                        data-up-2 = '{{ room.roomType == "Habitación doble" and room.roomBeds < 2 and not isCompletePayment }}'
+                        data-up-2 = '{{ room.getRoomCapacity }}'
                         style="width: 50px">
                     <option value="0">0</option>
                     {% if not isCompletePayment %}

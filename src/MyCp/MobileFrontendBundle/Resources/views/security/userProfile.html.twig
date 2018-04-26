@@ -1,0 +1,146 @@
+{% extends 'MyCpMobileFrontendBundle::base.html.twig' %}
+{% block title %}{{"USER_MY_PROFILE" | trans}}{% endblock %}
+
+{% block include_css %}
+    <style>
+        .form-control{
+            color: black;
+        }
+
+    </style>
+    {% endblock %}
+{% block content %}
+    <div class="main main-raised">
+
+    <div class="container" style=' padding-top: 0;'>
+    <div class="row">
+    <div class="col-md-10 ml-auto mr-auto">
+        <div class="card card-signup">
+    {% if errors['used_email'] is defined%}<div class="alert alert-danger">{{errors['used_email']}}</div>{% endif %}
+    {% if errors['user_email'] is defined%}<div class="alert alert-danger">{{errors['user_email']}}</div>{% endif %}
+    {% if errors['complete_form'] is defined%}<div class="alert alert-danger">{{errors['complete_form']}}</div>{% endif %}
+    <h2 class="caecilia-roman big-price-green text-center no-margin" style="font-weight: normal; margin-top: 20px">{{"USER_MY_PROFILE" | trans}}</h2>
+    <div><img src="{{ asset('bundles/frontend/img/line-gradient-green.png') }}" style="width: 100%; height: 1px; margin: 16px 0" alt="{{"Gradient" | trans}}"></div>
+            <div class="card-body">
+    <div class="row" style="margin-bottom: 30px">
+
+        <div class="col">
+            <div class="row" style="padding: 0;">
+                <div class="col-md-10 ml-auto mr-auto">
+                    {%if user.UserPhoto != ""%}
+                        <div class="avatar">
+                            <img src="{{ asset('bundles/frontend/img/user_no_photo.gif') }}" alt="Circle User" id="userLazy" class="img-raised rounded-circle img-fluid" data-bttrlazyloading-md-src="{{ asset('uploads/userImages/'~user.UserPhoto.phoName)}}"/>
+
+
+                        </div>
+                             {%else%}
+                        <div class="avatar">
+                            <img src="{{ asset('bundles/frontend/img/user_no_photo.gif') }}" id="userLazy" alt="Circle Image" class="img-raised rounded-circle img-fluid" data-bttrlazyloading-md-src="{{ asset('bundles/frontend/img/user_no_photo.gif')}}"/>
+
+                                 </div>
+                            {%endif%}
+                </div>
+
+            </div>
+        </div>
+    </div>
+            <div class="row">
+            <div class="col-md-12 mr-auto">
+    <form class="form-horizontal" method="POST" action="{{ path('frontend_profile_user') }}" enctype="multipart/form-data" novalidate="true">
+
+
+
+
+                <input class="input-block-level" accept="image/*" title="{{'SELECT_PHOTOGRAPHY' | trans}}" type="file" name="user_photo" id="user_photo"/>
+                <div class="form-group">
+                    <label for="exampleInput1" class="bmd-label-floating">{{ 'FORMS_NAME'|trans }}</label>
+                    {{ form_widget(form.user_user_name,{ 'attr': {'class': 'form-control'} }) }}
+
+                </div>
+                <div class="form-group">
+                    <label for="exampleInput1" class="bmd-label-floating">{{ 'FORMS_LASTNAME'|trans }}</label>
+                    {{ form_widget(form.user_last_name,{ 'attr': {'class': 'form-control'} }) }}
+
+                </div>
+                <div class="form-group">
+                    <label for="exampleInput1" class="bmd-label-floating">{{ 'GENDER'|trans }}</label>
+                    {{ form_widget(form.user_gender,{ 'attr': {'class': 'form-control'} }) }}
+
+                </div>
+                <div class="form-group">
+                    <label for="exampleInput1" class="bmd-label-floating">{{ 'FORMS_EMAIL'|trans }}</label>
+                    {{ form_widget(form.user_email,{ 'attr': {'class': 'form-control'} }) }}
+
+                </div>
+                <div class="form-group">
+                    <label for="exampleInput1" class="bmd-label-floating">{{ 'FORMS_PHONE'|trans }}</label>
+                    {{ form_widget(form.user_phone,{ 'attr': {'class': 'form-control'} }) }}
+
+                </div>
+                <div class="form-group">
+                    <label for="exampleInput1" class="bmd-label-floating">{{ 'CELL_NUMBER'|trans }}</label>
+                    {{ form_widget(form.user_cell,{ 'attr': {'class': 'form-control'} }) }}
+
+                </div>
+                <div class="form-group">
+                    <label for="exampleInput1" class="bmd-label-floating">{{ 'ADDRESS'|trans }}</label>
+                    {{ form_widget(form.user_address,{ 'attr': {'class': 'form-control'} }) }}
+
+                </div>
+                <div class="form-group">
+                    <label for="exampleInput1" class="bmd-label-floating">{{ 'CITY_TAB_DESCRIPTION'|trans }}</label>
+                    {{ form_widget(form.user_city,{ 'attr': {'class': 'form-control'} }) }}
+
+                </div>
+                <div class="form-group">
+                    <label for="exampleInput1" class="bmd-label-floating">{{ 'COUNTRY'|trans }}</label>
+                    {{ form_widget(form.user_country,{ 'attr': {'class': 'form-control'} }) }}
+
+                </div>
+                <div class="form-group">
+                    <label for="exampleInput1" class="bmd-label-floating">{{ 'ZIPCODE'|trans }}</label>
+                    {{ form_widget(form.user_zip_code,{ 'attr': {'class': 'form-control'} }) }}
+
+                </div>
+                <div class="form-group">
+                    <label for="exampleInput1" class="bmd-label-floating">{{ 'CURRENCY'|trans }}</label>
+                    {{ form_widget(form.user_currency,{ 'attr': {'class': 'form-control'} }) }}
+
+                </div>
+                <div class="form-group">
+                    <label for="exampleInput1" class="bmd-label-floating">{{ 'LANGUAGE'|trans }}</label>
+                    {{ form_widget(form.user_lang,{ 'attr': {'class': 'form-control'} }) }}
+
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        {{ form_widget(form.user_newsletter,{ 'attr': {'class': 'form-check-input'} }) }}
+                        {{ 'NEWSLETTER_USER_REGISTRATION'|trans }}
+                        <span class="form-check-sign">
+              <span class="check"></span>
+          </span>
+                    </label>
+                </div>
+
+
+
+
+
+        <div class="form-group">
+            <div class="text-center">
+                <button onclick='HoldOn.open();' id="btn_submit" style="margin-top: 20px" type="submit" class="btn btn-primary btn-block">{{"SAVE" | trans}}</button>
+            </div>
+        </div>
+
+
+
+    </form>
+            </div>
+            </div>
+            </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+{% endblock %}

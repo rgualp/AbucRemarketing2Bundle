@@ -1,0 +1,21 @@
+<li class="nav-item dropdown" style="width: 100%;">
+
+    <a class="nav-link dropdown-toggle" title="My Casa Particular - {{ "DESTINATIONS_MAIN_MENU" | trans }}" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {{ "DESTINATIONS_MAIN_MENU" | trans }}
+    </a>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="height:150px;
+  overflow-y: scroll;">
+        {% set total = destinations | length %}
+        {% if destinations | length %}
+        {% set counter = 0 %}
+        {% set cont = 1 %}
+            {% for des in destinations %}
+                <a class="dropdown-item" onclick='HoldOn.open();' href="{{ path('frontend_details_destination',{'destination_name':for_url[des['dest'].getDesId ]}) }}">{{ for_name[des['dest'].getDesId] }}</a>
+
+
+            {% endfor %}
+
+        {% endif %}
+
+    </div>
+</li>
