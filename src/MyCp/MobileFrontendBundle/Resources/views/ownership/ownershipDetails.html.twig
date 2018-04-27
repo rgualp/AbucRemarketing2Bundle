@@ -104,7 +104,7 @@
                                                  {% set photoPath = 'uploads/ownershipImages/'~photo.photo_name  %}
 
 
-                                                 <img class="d-block w-100" src="{{ (existsFile(photoOriginalPath)) ? asset(photoOriginalPath) : asset(photoPath) }}" alt="First slide">
+                                                 <img class="d-block w-100 h-auto" src="{{ (existsFile(photoOriginalPath)) ? asset(photoOriginalPath) : asset(photoPath) }}" alt="First slide">
 
                                                     </div>
                                                 {% else %}

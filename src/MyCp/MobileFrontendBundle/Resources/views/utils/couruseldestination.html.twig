@@ -20,10 +20,10 @@
                             <div class="carousel-item ">
                         {% endif %}
 
-                            <img class="d-block w-100" src="{{ asset("uploads/destinationImages/" ~ location.photo) }}" alt="slide">
+                            <img class="d-block w-100 h-auto" src="{{ asset("uploads/destinationImages/" ~ location.photo) }}" alt="slide">
 
                                <div class="carousel-caption  d-md-block">
-                                <h4 class='h-blue'>
+                                <h4 class='h-blue' style="font-size: 35px">
                                     <a class="material-icons" onclick='HoldOn.open();' href="{{ path('frontend_details_destination',{'destination_name':location.des_name|lower|replace(' ','-')}) }}">location_on</a> <a onclick='HoldOn.open();' href="{{ path('frontend_details_destination',{'destination_name':location.des_name|lower|replace(' ','-')}) }}">{{ location.des_name }}</a>
                                 </h4>
                             </div>

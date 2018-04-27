@@ -45,6 +45,8 @@ class UserController extends Controller
 
             $validate_email = \MyCp\FrontEndBundle\Helpers\Utils::validateEmail($post['user_email']);
 
+            if (!($post['user_password']['first']==$post['user_password']['confirm']))
+                $errors['errors'] = $this->get('translator')->trans("Error");
             if (!$validate_email)
                 $errors['user_email'] = $this->get('translator')->trans("EMAIL_INVALID_MESSAGE");
 
@@ -232,6 +234,7 @@ class UserController extends Controller
                 }
                 return $this->redirect($this->generateUrl('frontend-welcome'));
             }
+
         }
 
 

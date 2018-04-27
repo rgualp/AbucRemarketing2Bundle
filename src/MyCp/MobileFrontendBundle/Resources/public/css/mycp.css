@@ -63,7 +63,18 @@
     padding: 10px;
     color: #6d6c6c;
 }
+@media all and (max-width: 480px) {
+    .h-auto{
+        height:200px;
+    }
+}
+@media all and (min-width: 481px) {
+    .h-auto{
+        height:400px;
+    }
 
+
+}
 @media all and (max-width: 1366px) {
     .navbar-collapse { background-color:rgba(99, 163, 51, 0.97);!important; /*replace with desired color*/ }
 
