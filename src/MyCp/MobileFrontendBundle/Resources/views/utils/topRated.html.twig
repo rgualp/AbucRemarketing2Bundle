@@ -1,0 +1,71 @@
+<div class="container">
+<div class="horizontal-scroll-wrapper squares">
+
+    {% for top in own_top20_list %}
+    <div class="card search " style='height: auto;padding-top: 10px;' >
+
+        <a  onclick='HoldOn.open();'  href="{{ url('frontend_details_ownership',{'own_name':top.own_name | urlNormalize}) }}" style="background-image: url('{{ asset('uploads/ownershipImages/') ~  top.photo }}');background-size: cover; height:200px" class="col-md-12" rel="tooltip" >
+            {% if top['OwnInmediateBooking2'] %}
+                <div class="quick-ribbon" style="background-color: #ff0000">
+                    <i class="fa fa-rocket" style="padding: 0px 5px"></i>
+                    <span style="text-align: left;">{{ 'IMMEDIATE_BOOKING'|trans }}</span>
+                </div>
+
+            {% elseif  top['OwnInmediateBooking'] %}
+                <div class="quick-ribbon" style="background-color: #e44f37">
+                    <i class="fa fa-flash" style="padding: 0px 5px"></i>
+                    <span style="text-align: left;">{{ 'quick_bookinhg'|trans }}</span>
+                </div>
+              
+
+            {% endif %}
+            {% if top.award %}
+            <img src="{{ asset("uploads/awards/") ~ top.award }}"  style="top: 70%;left:70%; width: 64px; height: 63px;position: absolute; z-index: 1;box-shadow: 5px 5px 10px #686765;border-radius:100px" alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/>
+
+        {% endif %}
+
+            <div class="thumbnail-title  clearfix">
+               
+                        <span class="h-blue pull-right text-uppercase f-s-30 m-a-0">
+               <small style="display: inline-block">{{ 'FROM_PRICES'|trans }}</small> {{ top.minPrice| price }}</span>
+            </div>
+        </a>
+
+        <div class="row">
+            <div class="col" style="padding-rigth:0;">
+                <a class="f-s-14" onclick='HoldOn.open();'  href="{{ url('frontend_details_ownership',{'own_name':top.own_name | urlNormalize}) }}" >
+                    <div class="h-blue m-b-2 m-t-0" >
+                        {{ top.own_name }}
+                    </div></a>
+                <div class="col-sm-12 p-0">
+                    {% if top.category is defined and  top.category == 'Económica'%}
+                    <span>{{ 'Económica'|trans }}</span>
+                    {% elseif  top.category is defined and  top.category == 'Premium' %}
+                        <span>{{ 'Premium'|trans }}</span>
+                    {% elseif  top.category is defined and  top.category == 'Rango medio' %}
+                        <span>{{ 'Rango medio'|trans }}</span>
+                    {% endif %}
+                </div>
+                <div class="col-sm-12 p-0">
+                    <div class="col-sm-16 p-0">
+                        <p style="margin: 0;">{{ top.prov_name | trans }}</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-x3" style='    padding-top: 20%;
+          padding-right: 10px;'>
+                
+                <a onclick='HoldOn.open();' href="{{ url('frontend_show_modal_ownership_calendar',{'idOwn':top.own_id | urlNormalize}) }}">
+                <img title="{{ 'RESERVATION_CHECK_AVAILABILITY'| trans }}" style="width: 35px; height: 35px;cursor: pointer;margin-left: 10px" src="{{ asset('bundles/frontend/img/icons/consult.dispov.png')}}" alt="{{"WELCOMEPAGE_TITLE" | trans}}" title="{{ 'WELCOMEPAGE_TITLE' | trans }}" data-toggle="modal" data-target="#myModalOwnerShipCalendar" data-idown="{{ top.own_id }}" >
+                </a>
+            </div></div>
+        <nav aria-label="..." style='width:100%; float:right'>
+
+        </nav>
+    </div>
+
+    {% endfor %}
+</div>
+</div>

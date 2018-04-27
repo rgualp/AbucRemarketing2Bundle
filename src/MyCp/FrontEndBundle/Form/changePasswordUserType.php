@@ -22,6 +22,8 @@ class changePasswordUserType extends AbstractType
     {
         $builder
             ->add('user_password','repeated',array(
+                'first_name' => 'first',
+                'second_name' => 'second',
                 'first_options' => array('label' => $this->translate->trans('FORMS_PASSWORD')),
                 'second_options' => array('label' =>$this->translate->trans('FORMS_REPEAT')),
                 'type' => 'password',

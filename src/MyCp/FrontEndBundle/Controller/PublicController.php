@@ -70,16 +70,19 @@ class PublicController extends Controller {
 
         $paginator->setItemsPerPage($items_per_page);
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
-        $own_top20_list = $paginator->paginate($em->getRepository('mycpBundle:ownership')->top20($glogal_locale, null, $user_ids["user_id"], $user_ids["session_id"]))->getResult();
+        $top_20=$em->getRepository('mycpBundle:ownership')->top20($glogal_locale, null, $user_ids["user_id"], $user_ids["session_id"]);
+
+        $own_top20_list = $paginator->paginate($top_20)->getResult();
+
         $statistics = $em->getRepository("mycpBundle:ownership")->top20Statistics();
 
 
         if ($mobileDetector->isMobile()){
-            $response = $this->render('MyCpMobileFrontendBundle:frontend:index.html.twig', array(
+            $response = $this->render('MyCpMobileFrontendBundle:home:home.html.twig', array(
                 'locale' => $glogal_locale,
                 'provinces' => $provinces,
                 'slide_folder' => $slide_folder,
-                'own_top20_list' => $own_top20_list,
+                'own_top20_list' => $top_20->setMaxResults(20)->getResult(),
                 'top_rated_total_items' => $paginator->getTotalItems(),
                 'premium_total' => $statistics['premium_total'],
                 'midrange_total' => $statistics['midrange_total'],
@@ -210,6 +213,7 @@ class PublicController extends Controller {
     }
     public function homeCarrouselAction() {
         $em = $this->getDoctrine()->getManager();
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
 
         $popular_destinations_list = $em->getRepository('mycpBundle:destination')->getPopularDestinations(12, $user_ids['user_id'], $user_ids['session_id']);
@@ -219,14 +223,26 @@ class PublicController extends Controller {
         $medium_own_list = $em->getRepository('mycpBundle:ownership')->getByCategory('Rango medio', 12,null, $user_ids['user_id'], $user_ids['session_id']);
         $premium_own_list = $em->getRepository('mycpBundle:ownership')->getByCategory('Premium', 12,null, $user_ids['user_id'], $user_ids['session_id']);*/
 
-        return $this->render('FrontEndBundle:public:homeCarousel.html.twig', array(
-                    'popular_places' => $popular_destinations_list,
-                    //'last_added' => $last_added,
-                    //'offers' => $offers_list,
-                    //'economic_own_list' => $economic_own_list,
-                    //'medium_own_list' => $medium_own_list,
-                    //'premium_own_list' => $premium_own_list
-        ));
+        if ($mobileDetector->isMobile()){
+            return $this->render('MyCpMobileFrontendBundle:utils:couruseldestination.html.twig', array(
+                'popular_places' => $popular_destinations_list,
+                //'last_added' => $last_added,
+                //'offers' => $offers_list,
+                //'economic_own_list' => $economic_own_list,
+                //'medium_own_list' => $medium_own_list,
+                //'premium_own_list' => $premium_own_list
+            ));
+        }
+        else {
+            return $this->render('FrontEndBundle:public:homeCarousel.html.twig', array(
+                'popular_places' => $popular_destinations_list,
+                //'last_added' => $last_added,
+                //'offers' => $offers_list,
+                //'economic_own_list' => $economic_own_list,
+                //'medium_own_list' => $medium_own_list,
+                //'premium_own_list' => $premium_own_list
+            ));
+        }
     }
 
     public function recommend2FriendAction() {
@@ -262,6 +278,7 @@ class PublicController extends Controller {
 
     public function getMainMenuDestinationsAction()
     {
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
         $em = $this->getDoctrine()->getManager();
         $locale = $this->get('translator')->getLocale();
         $destinations = $em->getRepository('mycpBundle:destination')->getLangMainMenu($locale);
@@ -283,19 +300,27 @@ class PublicController extends Controller {
             $ulr_name = str_replace("ñ", "nn", $ulr_name);
             $for_url[$prov['dest']->getDesId()] = Utils::urlNormalize($ulr_name);
         }
-
-        return $this->render('FrontEndBundle:utils:mainMenuDestinationItems.html.twig', array(
-              'destinations'=>$destinations,
-              'for_name' => $for_name,
-              'for_url' => $for_url
-        ));
+        if ($mobileDetector->isMobile()) {
+            return $this->render('@MyCpMobileFrontend/submenus/destinations.html.twig', array(
+                'destinations' => $destinations,
+                'for_name' => $for_name,
+                'for_url' => $for_url
+            ));
+        }
+        else {
+            return $this->render('FrontEndBundle:utils:mainMenuDestinationItems.html.twig', array(
+                'destinations' => $destinations,
+                'for_name' => $for_name,
+                'for_url' => $for_url
+            ));
+        }
     }
 
     public function getMainMenuAccomodationsAction()
     {
         $em = $this->getDoctrine()->getManager();
         $provinces = $em->getRepository('mycpBundle:province')->getMainMenu();
-
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
         $for_url = array();
         $for_name = array();
         $locale = $this->get('translator')->getLocale();
@@ -351,11 +376,20 @@ class PublicController extends Controller {
             }
         }
 
-        return $this->render('FrontEndBundle:utils:mainMenuAccomodationItems.html.twig', array(
-              'provinces'=>$provinces,
-              'for_url' => $for_url,
-              'for_name' => $for_name
-        ));
+        if ($mobileDetector->isMobile()) {
+            return $this->render('MyCpMobileFrontendBundle:submenus:acomodations.html.twig', array(
+                'provinces' => $provinces,
+                'for_url' => $for_url,
+                'for_name' => $for_name
+            ));
+        }
+        else {
+            return $this->render('FrontEndBundle:utils:mainMenuAccomodationItems.html.twig', array(
+                'provinces' => $provinces,
+                'for_url' => $for_url,
+                'for_name' => $for_name
+            ));
+        }
     }
 
     public function getMainMenuMycasatripAction()
