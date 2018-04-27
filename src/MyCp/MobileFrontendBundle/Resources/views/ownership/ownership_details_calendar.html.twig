@@ -62,14 +62,14 @@
                    
             <div class="col-xs-12 text-xs-right" rel="tooltip" title="{{ "ACCOMMODATION_TOTAL_COST_PLURAL_TOOLTIP" | trans }}">
                 
-                <span class="f-s-12 white"><i class="fa fa-info-circle"></i>{{ 'ACCOMMODATION_TOTAL_COST' | trans }}:</span>
+                <span class="f-s-12 white"><i class="fa fa-info">-</i>{{ 'ACCOMMODATION_TOTAL_COST' | trans }}:</span>
                 <span class="f-s-16 white">
                     {{ app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol }} <span id="accommodation_price"></span>
                 </span>
             </div>
             +
             <div class="col-xs-12 text-xs-right" rel="tooltip" title="{{ "SERVICE_TOURIST_TAX_TITLE" | trans }}">
-                <span class="f-s-12 white"><i class="fa fa-info-circle"></i>{{ 'SERVICE_TOURIST_TAX' | trans }}:</span>
+                <span class="f-s-12 white"><i class="fa fa-info">-</i>{{ 'SERVICE_TOURIST_TAX' | trans }}:</span>
                 <span class="f-s-16 white">
                     {{ app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol }} <span id="tourist_service"
                                                                                                                                        data-one-nr-until-20-percent ="{{ currentServiceFee.oneNrUntil20Percent }}"
@@ -86,7 +86,7 @@
             +
             <div class="col-xs-12 text-xs-right" rel="tooltip" title="{{ "SERVICE_FIXED_TAX_TITLE" | trans }}">
                 <span class="f-s-12 white">
-                        <i class="fa fa-info-circle"></i>{{ 'SERVICE_FIXED_TAX' | trans }}:</span>
+                        <i class="fa fa-info">-</i>{{ 'SERVICE_FIXED_TAX' | trans }}:</span>
                 <span class="f-s-16 white">
                     {% set currSymbol = app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol %}
                     {{ currSymbol }}
@@ -96,7 +96,7 @@
             =
             <div class="col-xs-12 text-xs-right"rel="tooltip" title="{{ "ACCOMMODATION_TOTAL_COST_PLURAL_TOOLTIP" | trans }}">
                 <span class="f-s-12 white" style="font-size: 18px;">
-                        <i class="fa fa-info-circle"></i>{{ 'RESERVATION_TOTAL_PRICE' | trans }}
+                        <i class="fa fa-info">-</i>{{ 'RESERVATION_TOTAL_PRICE' | trans }}
                    
                 </span>
 
@@ -110,7 +110,7 @@
             <div class="row all-prices-numbers" style="color:white;text-align: -webkit-center;display:block; border-top: 1px solid #ddd;background-color: #0c4d77;">
                 <div class="col-xs-12 text-xs-left" rel="tooltip" title="{{ "PREPAYMENT_TOOLTIP" | trans }}">
                     <div style="text-align: -webkit-right;" class="col-xs-12 text-uppercase white f-s-14 p-a-0"rel="tooltip" title="{{ "TOTAL_PAY_AT_SERVICE_TOOLTIP" | trans }}">
-                            <i class="fa fa-info-circle"></i>{{ 'TOTAL_PAY_AT_SERVICE'|trans }}
+                            <i class="fa fa-info">-</i>{{ 'TOTAL_PAY_AT_SERVICE'|trans }}
                        
                     </div>
                     <div style='    text-align: -webkit-right;'>
@@ -121,7 +121,7 @@
                         {% endif %}
                     </div>
                         <div style="font-size: 14px;font-family: -webkit-body;" class="col-xs-12 text-uppercase white f-s-16 p-a-0">
-                                <i class="fa fa-info-circle"></i>  {{ 'PREPAYMENT'|trans }}
+                                <i class="fa fa-info">-</i>  {{ 'PREPAYMENT'|trans }}
                                  </div>
                                 <span style="font-size: 20px;">{{ currSymbol }} </span>
                                 <span class="f-s-20 f-w-bold" style="font-size: 20px;" id="total_prepayment"></span>
