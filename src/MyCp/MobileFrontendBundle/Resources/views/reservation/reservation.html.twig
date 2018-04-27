@@ -36,12 +36,12 @@
 
         <div class="panel-heading">
         <div class='col-10 ' data-toggle="collapse" data-parent="#accordion" href="#details">
-            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#details">
+            <a class="accordion-toggle " data-toggle="collapse" data-parent="#accordion" href="#details">
                 <b>{{"RESERVATION_DETAILS" | trans}} </b>
             </a>
         </div>
         </div>
-    <div class="items-cart panel-collapse collapse in" id="details">
+    <div class="items-cart panel-collapse collapse in show" id="details">
         {% for reservation in reservations %}
             {% set accommodation = reservation.ownResGenResId.genResOwnId %}
             <div class="item">
