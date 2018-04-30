@@ -7,7 +7,8 @@
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true"><i class="material-icons">clear</i></span>
         </button>
-        <b> {{"CART" | trans }} :</b> {{ count }}
+        <a onclick='HoldOn.open();'  href="{{path('frontend_mycasatrip_available') }}">{{"DISPONIBILITY" | trans}}  ({{ count }})</a>
+      
     </div>
 </div>
 {% endif %}

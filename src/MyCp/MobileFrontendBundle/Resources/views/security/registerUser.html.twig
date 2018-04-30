@@ -17,7 +17,7 @@
         }
         .bmd-form-group {
             position: relative;
-            padding-top: 0
+            
         ;
         }
     </style>
@@ -38,71 +38,53 @@
 
                                 <div class="col-md-12 mr-auto">
 
-                                    <form class="form" action="{{ path('frontend_register_user') }}" method="post">
+                                    <form class="form-horizontal" action="{{ path('frontend_register_user') }}" method="post">
                                         {% if errors['used_email'] is defined %}
                                             <div class="alert alert-danger text-center">{{ errors['used_email'] }}</div>
                                         {% endif %}
                                         {% if errors['user_email'] is defined %}
                                             <div class="alert alert-danger text-center">{{ errors['user_email'] }}</div>
                                         {% endif %}
+                                        {% if errors['errors'] is defined %}
+                                            <div class="alert alert-danger text-center">{{ errors['errors'] }}</div>
+                                        {% endif %}
 
 
 
                                         <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text">
-                                                        <i class="material-icons">face</i>
-                                                    </span>
-                                                </div>
+                                            
+                                                <label for="exampleInput1" class="bmd-label-floating">{{ 'FORMS_NAME'|trans }}</label>
                                                 {{ form_widget(form.user_user_name,{ 'attr': {'class': 'form-control'} }) }}
-                                                     </div>
+                                             
                                         </div>
 
                                         <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text">
-                                                        <i class="material-icons">face</i>
-                                                    </span>
-                                                </div>
-                                                {{ form_widget(form.user_last_name,{ 'attr': {'class': 'form-control'} }) }}        </div>
+                                                <label for="exampleInput1" class="bmd-label-floating">{{ 'FORMS_LASTNAME'|trans }}</label>
+                                        
+                                                {{ form_widget(form.user_last_name,{ 'attr': {'class': 'form-control'} }) }}      
+                                              
                                         </div>
                                         <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text">
-                                                        <i class="material-icons">mail</i>
-                                                    </span>
-                                                </div>
-                                                {{ form_widget(form.user_email,{ 'attr': {'class': 'form-control'} }) }}        </div>
+                                                <label for="exampleInput1" class="bmd-label-floating">{{ 'FORMS_EMAIL'|trans }}</label>
+                                        
+                                                {{ form_widget(form.user_email,{ 'attr': {'class': 'form-control'} }) }}      
+
                                         </div>
                                         <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text">
-                                                        <i class="material-icons">lock_outline</i>
-                                                    </span>
-                                                </div>
-                                                {{ form_widget(form.user_password.first,{ 'attr': {'class': 'form-control'} }) }}        </div>
+                                                <label for="exampleInput1" class="bmd-label-floating">{{ 'FORMS_PASSWORD'|trans }}</label>
+                                                {{ form_widget(form.user_password.first,{ 'attr': {'class': 'form-control'} }) }}       
                                         </div>
                                         <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text">
-                                                        <i class="material-icons">lock_outline</i>
-                                                    </span>
-                                                </div>
-                                                {{ form_widget(form.user_password.confirm,{ 'attr': {'class': 'form-control'} }) }}        </div>
+                                                <label for="exampleInput1" class="bmd-label-floating">{{ 'FORMS_REPEAT'|trans }}</label>
+                                 
+                                                {{ form_widget(form.user_password.confirm,{ 'attr': {'class': 'form-control'} }) }}      
+                                          
                                         </div>
                                         <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                            <span class="input-group-text">
-                                                        <i class="material-icons">map</i>
-                                                    </span>
-                                                </div>
-                                                {{ form_widget(form.user_country,{ 'attr': {'class': 'form-control'} }) }}        </div>
+                                            
+                                                <label for="exampleInput1" class="bmd-label-floating">{{ 'COUNTRY'|trans }}</label>
+                                 
+                                                {{ form_widget(form.user_country,{ 'attr': {'class': 'form-control'} }) }}       
                                         </div>
                                         <div class="form-check">
                                             <label class="form-check-label">

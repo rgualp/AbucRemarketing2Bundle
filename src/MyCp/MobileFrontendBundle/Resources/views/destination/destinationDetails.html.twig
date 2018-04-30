@@ -66,7 +66,7 @@
 
                         <div class="row">
                             <button id="loadmore" class="btn btn-primary btn-block"
-                                    type="submit">Load More..</button>
+                                    type="submit">{{ 'top.view.more'|trans }}...</button>
 
                         </div>
 
@@ -85,9 +85,9 @@
                                             {% if loop.first %}
                                                 {% set img = asset('uploads/destinationImages/'~photo)  %}
                                             {% endif %}
-                                            {% else %}
+                                            
                                         {%endfor%}
-                                         {% set img = asset('uploads/destinationImages/no_photo.png')  %}
+                                         
 
                                         <div class="images-destination" style="background-image: url('{{ img }}');">
 

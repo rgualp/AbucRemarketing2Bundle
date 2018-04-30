@@ -29,7 +29,7 @@
                                     <div class='row'>
 
                                         <div class='col-10 ' data-toggle="collapse" data-parent="#accordion" href="#{{res['own_res_id']}}">
-                                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#{{res['own_res_id']}}">
+                                            <a class="accordion-toggle " data-toggle="collapse" data-parent="#accordion" href="#{{res['own_res_id']}}">
 
                                                 <b>{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }} </b>
                                             </a>
@@ -49,7 +49,7 @@
 
                                 </h4>
                             </div>
-                            <div id="{{ res['own_res_id']}}" class="panel-collapse collapse in" style="    margin-top: -15px; margin-bottom: 10px;">
+                            <div id="{{ res['own_res_id']}}" class="panel-collapse collapse in show" style="    margin-top: -15px; margin-bottom: 10px;">
 
                                 <div class="panel-body">
                                     <div class="media">
@@ -60,12 +60,13 @@
                                             {% if photos[loop.index0]%}
                                                 <a onclick='HoldOn.open();' href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | urlNormalize}) }}">
                                                           </a>
-                                                <img class="align-self-center mr-3 bttrlazyloading animated bounceIn" src="{{ asset('bundles/frontend/img/nophoto.gif') }}" id="{{ res['own_res_gen_res_id']['gen_res_id'] }}"  title="{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}" alt="{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}"/>
+                                                <img class="align-self-center mr-3 bttrlazyloading animated bounceIn" src=" {{ asset("uploads/ownershipImages/" ~ photos[loop.index0]) }}" id="{{ res['own_res_gen_res_id']['gen_res_id'] }}"  title="{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}" alt="{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}"/>
 
                                             {% else %}
                                                 <a onclick='HoldOn.open();' href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | urlNormalize}) }}">
                                                       </a>
-                                                <img class="align-self-center mr-3 bttrlazyloading animated bounceIn" src="{{ asset('bundles/frontend/img/nophoto.gif') }}" id="{{ res['own_res_gen_res_id']['gen_res_id'] }}"   title="{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}" alt="{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}"/>
+                                                     
+                                                <img class="align-self-center mr-3 bttrlazyloading animated bounceIn" src=" {{ asset("uploads/ownershipImages/" ~ photos[loop.index0]) }}" id="{{ res['own_res_gen_res_id']['gen_res_id'] }}"   title="{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}" alt="{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}"/>
 
                                             {% endif %}
 

@@ -2,9 +2,9 @@
 <div class="horizontal-scroll-wrapper squares">
 
     {% for top in own_top20_list %}
-    <div class="card search " style='padding-top: 10px;' >
+    <div class="card search " style='height: auto;padding-top: 10px;' >
 
-        <div style="background-image: url('{{ asset('uploads/ownershipImages/') ~  top.photo }}');background-size: cover; height:255px" class="col-md-12" rel="tooltip" >
+        <a  onclick='HoldOn.open();'  href="{{ url('frontend_details_ownership',{'own_name':top.own_name | urlNormalize}) }}" style="background-image: url('{{ asset('uploads/ownershipImages/') ~  top.photo }}');background-size: cover; height:200px" class="col-md-12" rel="tooltip" >
             {% if top['OwnInmediateBooking2'] %}
                 <div class="quick-ribbon" style="background-color: #ff0000">
                     <i class="fa fa-rocket" style="padding: 0px 5px"></i>
@@ -29,7 +29,7 @@
                         <span class="h-blue pull-right text-uppercase f-s-30 m-a-0">
                <small style="display: inline-block">{{ 'FROM_PRICES'|trans }}</small> {{ top.minPrice| price }}</span>
             </div>
-        </div>
+        </a>
 
         <div class="row">
             <div class="col" style="padding-rigth:0;">
