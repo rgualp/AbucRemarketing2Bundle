@@ -63,7 +63,7 @@ class SendEmailInfoToHomesCommand extends ContainerAwareCommand
 		foreach ($mails as $mail) {
 
 			$to= array($mail);
-			$subject= 'MyCasa Particular Actualización MyCasa Renta App.';
+			$subject= 'Actualización de servicios de MyCasaParticular.';
 
 
 			$data= array();
