@@ -20,7 +20,7 @@ use MyCp\PartnerBundle\Entity\paPendingPaymentAccommodation;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use MyCp\mycpBundle\JobData\GeneralReservationJobData;
 use Abuc\RemarketingBundle\Event\JobEvent;
-
+use \MyCp\mycpBundle\Entity\season;
 class BookingService extends Controller
 {
     /**
@@ -2241,26 +2241,26 @@ class BookingService extends Controller
 
                        $season = $this->em->getRepository("mycpBundle:season")->getSeasons($ownreservation->getOwnResReservationFromDate(),$ownreservation->getOwnResReservationToDate());
                        $pago= $ownreservation->getOwnResRoomPriceDown() - ( $ownreservation->getOwnResRoomPriceDown() *( $ownreservation->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent() / 100));
-
+                       $season_type = $service_time->seasonTypeByDate($season,$ownreservation->getOwnResReservationFromDate());
                        if($noches>0 && $noches<3){
-                          if($season[0]->getSeasonType()==0){
+                          if($season_type == season::SEASON_TYPE_LOW){
                               $pago= $ownreservation->getOwnResRoomPriceDown() - ( $ownreservation->getOwnResRoomPriceDown() * ($ownreservation->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent() / 100));
 
                               $repay+= $pago/2;
                           }
-                          elseif ($season[0]->getSeasonType()==1){
+                          elseif ($season_type == season::SEASON_TYPE_HIGH){
                               $pago= $ownreservation->getOwnResRoomPriceUp() - ( $ownreservation->getOwnResRoomPriceUp() * ($ownreservation->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent() / 100));
 
                               $repay+= $pago/2;
                           }
                        }
                        elseif ($noches>=3){
-                           if($season[0]->getSeasonType()==0){
+                           if($season_type == season::SEASON_TYPE_LOW){
                                $pago= $ownreservation->getOwnResRoomPriceDown() - ( $ownreservation->getOwnResRoomPriceDown() * ($ownreservation->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent() / 100));
 
                                $repay+= $pago;
                            }
-                           elseif ($season[0]->getSeasonType()==1){
+                           elseif (season_type == season::SEASON_TYPE_HIGH){
                                $pago= $ownreservation->getOwnResRoomPriceUp() - ( $ownreservation->getOwnResRoomPriceUp() * ($ownreservation->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent() / 100));
 
                                $repay+= $pago;
