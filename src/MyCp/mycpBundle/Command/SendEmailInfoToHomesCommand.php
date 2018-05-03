@@ -54,7 +54,7 @@ class SendEmailInfoToHomesCommand extends ContainerAwareCommand
 
 			$mails[]= $mail;
 		}
-		$mails[]='andy@hds.li';
+		$mails[]='orlando@hds.li';
 		foreach ($mails as $mail){
             $output->writeln(date(DATE_W3C) . $mail);
         }
