@@ -4,8 +4,8 @@
 <div class="collapse navbar-collapse navbar-ex1-collapse">
     <ul class="nav navbar-nav onhover helvetica-roman">
         <li class="{% if  main_tab == 1 %}active{% endif %}">
-            <a style="padding: 2px;" title="{{ "HOMEPAGE_TITLE" | trans }}" href="{{ path('frontend-welcome') }}"><img
-                        src="{{ asset('bundles/frontend/img/icons/mycp-white.png') }}"></a></li>
+            <a style="padding: 2px;" title="{{ "HOMEPAGE_TITLE" | trans }}" href="{{ path('frontend-welcome') }}">
+                <img alt="mycp_white"        src="{{ asset('bundles/frontend/img/icons/mycp-white.png') }}"></a></li>
         <li class="dropdown {% if  main_tab == 2 %}active{% endif %} main-menu">
             {{ render(controller('FrontEndBundle:Public:getMainMenuDestinations')) }}
         </li>
