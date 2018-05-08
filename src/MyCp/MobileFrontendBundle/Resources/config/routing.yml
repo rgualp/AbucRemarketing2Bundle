@@ -15,6 +15,10 @@ my_cp_mobile_insert_favorite_callback:
     locales:  { en: "/favorite-insert/", es: "/favoritos-insertar/", de: "/favorite-insert/", fr: "/favorite-insert/", it: "/favorite-insert/" }
     defaults: { _controller: MyCpMobileFrontendBundle:Favorite:insert }
 
+my_cp_mobile_ownership_calendar:
+    locales:  { en: "/ownership/calendar/{own_id}", es: "/casa/calendario/{own_id}", de: "/ownership/calendar/{own_id}", fr: "/ownership/calendar/{own_id}", it: "/ownership/calendar/{own_id}" }
+    defaults: { _controller: MyCpMobileFrontendBundle:Ownership:showModalOwnerShipCalendar }
+
 my_cp_mobile_delete_favorite_callback:
     pattern:  /favorite-delete/
     locales:  { en: "/favorite-delete/", es: "/favoritos-eliminar/", de: "/favorite-delete/", fr: "/favorite-delete/", it: "/favorite-delete/" }

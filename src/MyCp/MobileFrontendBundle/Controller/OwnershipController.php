@@ -324,4 +324,32 @@ class OwnershipController extends Controller {
         ));
     }
 
+    /**
+         * @return Response
+         */
+        public function showModalOwnerShipCalendarAction($own_id, Request $request)
+        {
+            $own_id = Utils::convert_text($own_id);
+
+            $em = $this->getDoctrine()->getManager();
+            $ownership = $em->getRepository('mycpBundle:ownership')->find($own_id);
+            $session = $this->get('request')->getSession();
+
+            $bookingModality = $ownership->getBookingModality();
+
+            $hasCompleteReservation = ($bookingModality != null and $bookingModality->getBookingModality()->getName() == bookingModality::COMPLETE_RESERVATION_BOOKING);
+
+            $locale = $this->get('translator')->getLocale();
+            $currentServiceFee = $em->getRepository("mycpBundle:serviceFee")->getCurrent();
+            $ownership_array = array();
+            $ownership_array['own_id'] = $ownership->getOwnId();
+            $ownership_array['ownname'] = $ownership->getOwnName();
+            $ownership_array['OwnInmediateBooking2'] = $ownership->isOwnInmediateBooking2();
+            $mobileDetector = $this->get('mobile_detect.mobile_detector');
+            if ($mobileDetector->isMobile()) {
+                return $this->render('MyCpMobileFrontendBundle:ownership:calendar.html.twig', array('ownership' => $ownership_array, 'locale' => $locale, 'currentServiceFee' => $currentServiceFee, "hasCompleteReservation" => $hasCompleteReservation));
+            } else {
+                return $this->render('FrontEndBundle:ownership:modal_ownership_calendar.html.twig', array('ownership' => $ownership_array, 'locale' => $locale, 'currentServiceFee' => $currentServiceFee, "hasCompleteReservation" => $hasCompleteReservation));
+            }
+        }
 }

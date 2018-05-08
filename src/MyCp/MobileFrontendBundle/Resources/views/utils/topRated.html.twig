@@ -57,7 +57,7 @@
             <div class="col-x3" style='    padding-top: 20%;
           padding-right: 10px;'>
                 
-                <a onclick='HoldOn.open();' href="{{ url('frontend_show_modal_ownership_calendar',{'idOwn':top.own_id | urlNormalize}) }}">
+                <a onclick='HoldOn.open();' href="{{ path('my_cp_mobile_ownership_calendar',{'own_id':top.own_id  | urlNormalize}) }}">
                 <img title="{{ 'RESERVATION_CHECK_AVAILABILITY'| trans }}" style="width: 35px; height: 35px;cursor: pointer;margin-left: 10px" src="{{ asset('bundles/frontend/img/icons/consult.dispov.png')}}" alt="{{"WELCOMEPAGE_TITLE" | trans}}" title="{{ 'WELCOMEPAGE_TITLE' | trans }}" data-toggle="modal" data-target="#myModalOwnerShipCalendar" data-idown="{{ top.own_id }}" >
                 </a>
             </div></div>

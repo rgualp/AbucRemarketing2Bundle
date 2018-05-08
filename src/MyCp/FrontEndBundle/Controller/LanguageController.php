@@ -101,26 +101,31 @@ class LanguageController extends Controller
     public function setLocale($newLocale)
     {
         $request = $this->get('request');
-
+        
         // get last requested path
         $referer = $request->headers->get('referer');
         $logger = $this->container->get('logger');
         $logger->warning($this->get('request')->getHost());
         $parameters = array();
+        
         if (!is_null($referer) && $referer != "") {
             //get Host
             $lastPath = substr($referer, strpos($referer, $request->getHost()));
+            
             $lastPath = str_replace($request->getHost(), '', $lastPath);
             $lastPath = str_replace('/app_dev.php/', '/', $lastPath);
+
             $matcher = $this->get('router');
+
             $parameters = $matcher->match($lastPath);
+            
         }
 
         // set new locale (to session and to the route parameters)
         $parameters['_locale'] = $newLocale;
         $parameters['locale'] = $newLocale;
         $route = $parameters['_route'];
-
+        
         unset($parameters['_route']);
         unset($parameters['_controller']);
         return $this->generateUrl($route, $parameters);

@@ -72,7 +72,7 @@
             {#<a data-rel="tooltip" href="#" class="favorite_off_action"  title="Agregar a Favoritos" >#}
             {#<i class="material-icons">favorite</i>#}
             {#</a></span>#}
-            <a onclick='HoldOn.open();'  href="{{ url('frontend_show_modal_ownership_calendar',{'idOwn':own.own_id | urlNormalize}) }}">
+            <a onclick='HoldOn.open();' href="{{ path('my_cp_mobile_ownership_calendar',{'own_id':own.own_id  | urlNormalize}) }}">
                 <img title="{{ 'RESERVATION_CHECK_AVAILABILITY'| trans }}" style="width: 35px; height: 35px;cursor: pointer" src="{{ asset('bundles/frontend/img/icons/consult.dispov.png')}}" alt="{{"WELCOMEPAGE_TITLE" | trans}}" title="{{ 'WELCOMEPAGE_TITLE' | trans }}"  >
             </a>
         </div>
