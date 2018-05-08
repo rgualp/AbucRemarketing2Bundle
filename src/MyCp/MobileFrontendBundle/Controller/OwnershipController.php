@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\season;
 use MyCp\mycpBundle\Helpers\OrderByHelper;
-
+use MyCp\mycpBundle\Entity\bookingModality;
 class OwnershipController extends Controller {
 
     public function topRatedCallbackAction() {
