@@ -13,7 +13,7 @@
                 {{include('PartnerBundle:Profile:img-account.html.twig')}}
 
                 {% if agency.getUserPhoto is not null %}
-                    {% set avatar_img =  asset('web/uploads/logos/'~agency.getUserPhoto.phoName) %}
+                    {% set avatar_img =  asset('uploads/logos/'~agency.getUserPhoto.phoName) %}
                 {% else %}
                     {% set avatar_img = asset('bundles/frontend/img/user-no-photo.png') %}
                 {% endif %}

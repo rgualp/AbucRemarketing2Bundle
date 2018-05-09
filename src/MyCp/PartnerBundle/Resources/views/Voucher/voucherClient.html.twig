@@ -39,7 +39,7 @@
     <tr>
         <td>
             {% if agency.getUserPhoto is not null %}
-                {% set avatar_img =  'web/uploads/logos/'~agency.getUserPhoto.phoName %}
+                {% set avatar_img =  'uploads/logos/'~agency.getUserPhoto.phoName %}
                 <img src="{{ avatar_img }}" alt="agency" style="height: 50px"/>
 
             {% endif %}
