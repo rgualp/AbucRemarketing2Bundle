@@ -1,7 +1,7 @@
 <?php
 
 namespace MyCp\mycpBundle\Controller;
-
+use MyCp\mycpBundle\Entity\generalReservation;
 use MyCp\mycpBundle\Entity\batchType;
 use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\room;
@@ -27,7 +27,7 @@ use MyCp\mycpBundle\Helpers\BackendModuleName;
 use MyCp\mycpBundle\Helpers\UserMails;
 use MyCp\mycpBundle\Helpers\Operations;
 use Symfony\Component\Validator\Constraints\RegexValidator;
-
+use MyCp\PartnerBundle\Entity\paAccountLedgers;
 class BackendAgencyController extends Controller {
 
     public function active_releaseAction($items_per_page, Request $request) {
@@ -119,8 +119,9 @@ class BackendAgencyController extends Controller {
         $agency = $em->getRepository('PartnerBundle:paTravelAgency')->getById($id);
         $obj = $em->getRepository('PartnerBundle:paTravelAgency')->find($id);
         $responsable=$em->getRepository('PartnerBundle:paTravelAgency')->getResponsable($id);
+
         if($responsable!=null) {
-            $parent = $em->getRepository('mycpBundle:user')->findOneBy(array("user_email" => $responsable[0]["touroperador"], "user_name" => $responsable[0]["touroperador"]));
+            $parent = $em->getRepository('mycpBundle:user')->findOneBy(array("user_email" => $responsable[0]["contact_mail"], "user_name" => $responsable[0]["contact_mail"]));
 
             $touroperators = $parent->getChildrens();
         }
@@ -167,7 +168,7 @@ class BackendAgencyController extends Controller {
         $agency = $em->getRepository('PartnerBundle:paTravelAgency')->getById($id);
         $responsable=$em->getRepository('PartnerBundle:paTravelAgency')->getResponsable($id);
         if($responsable!=null) {
-            $parent = $em->getRepository('mycpBundle:user')->findOneBy(array("user_email" => $responsable[0]["touroperador"], "user_email" => $responsable[0]["user_email"]));
+            $parent = $em->getRepository('mycpBundle:user')->findOneBy(array("user_email" => $responsable[0]["contact_mail"], "user_email" => $responsable[0]["contact_mail"]));
 
             $touroperators = $parent->getChildrens();
         }
@@ -318,4 +319,163 @@ class BackendAgencyController extends Controller {
         ]);
     }
 
+
+    public function addReintegroAction( Request $request){
+        try{
+
+            $user = $this->getUser();
+            $user_id=$request->get('user_id');
+            $desc=$request->get('description');
+            $cash=$request->get('cash');
+            $cas=$request->get('cas');
+            $em = $this->getDoctrine()->getManager();
+
+            $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user_id));
+            $agency = $tourOperator->getTravelAgency();
+            $account = $agency->getAccount();
+            #region PAGINADO
+            $start = $request->get('start', 0);
+            $limit = $request->get('length', 10);
+            $draw = $request->get('draw') + 1;
+            $curr=$this->getCurr($request);
+            $ledgers_repo=$em->getRepository("PartnerBundle:paAccountLedgers");
+
+            $last_created_date = $ledgers_repo->getLastLedger($account->getId())->getCreated();
+            $last_ledger_cas = $ledgers_repo->getLastLedgerCas($account->getId())->getCas();
+
+            $today = date('d-m-Y');
+            $this->UpdateLedger($user_id,$start, $limit, $draw, $account, $curr, $last_ledger_cas, $last_created_date, $today);
+
+
+            $obj=new paAccountLedgers();
+            $obj->setAccount($account);
+            $obj->setCas($cas);
+            $obj->setCreated(new \DateTime(date('d-m-Y')));
+            $balance=$obj->setDebit($cash,$account->getBalance());
+            $account->setBalance($balance);
+            $desc=$desc. ' Resistrado por:'.$user->getUsername().','.date('d-m-Y').','.date('h:i-A').'';
+
+            $obj->setDescription($desc);
+            $em->persist($obj);
+            $em->persist($account);
+            $em->flush();
+
+            return new JsonResponse(array('success'=>true,'message'=>'Para comensar operaciones añada un primer deposito'));
+
+        }
+        catch (Exception $a){
+            return new JsonResponse(array('success'=>false,'message'=>'Para comensar operaciones añada un primer deposito'));
+
+        }
+
+
+
+    }
+    public function UpdateLedger($user_id, $start, $limit, $draw,$account,$curr,$last_ledger_cas,$from,$to){
+        $em = $this->getDoctrine()->getManager();
+        $filters=array("to_between"=>array($last_ledger_cas,$from,$to));
+        $reservations_reserved=$this->getReservationsData($user_id,$filters,$start,$limit,$draw,generalReservation::STATUS_RESERVED);
+
+        foreach ($reservations_reserved as $reservation){
+            if($this->NotinLedger($reservation)) {
+                $price_booking = $this->getPriceandBooking($reservation, $curr);
+                $ledge_temp = new paAccountLedgers();
+                $ledge_temp->setAccount($account);
+                $ledge_temp->setCas($reservation->getGenResId());
+
+                $ledge_temp->setCreated($reservation->getGenResToDate());
+                $ledge_temp->setDescription("Client:" . $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getClient()->getFullName() . "," . "BR:" .
+                    $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getReference() . "," . "CAS-" . $reservation->getGenResId() .
+                    "," . "Booking:" . $price_booking['booking']);
+                $balance = $ledge_temp->setCredit(round($price_booking['price'] + ($price_booking['price'] * 0.1) + (($price_booking['price'] + ($price_booking['price'] * 0.1)) * 0.1), 2), $account->getBalance());
+
+                $account->setBalance($balance);
+                $em->persist($account);
+                $em->persist($ledge_temp);
+                $em->flush();
+            }
+        }
+
+
+        return true;
+    }
+    public function NotinLedger($reservation){
+        $em = $this->getDoctrine()->getManager();
+        $ledgers_repo=$em->getRepository("PartnerBundle:paAccountLedgers");
+        $cas_temp=$reservation->getGenResId();
+        $result=$ledgers_repo->exist($cas_temp);
+
+        if($result==null){
+            return true;
+        }
+        else{
+            return false;
+        }
+
+
+    }
+    public function getCurr(Request $request)
+    {
+        $session = $request->getSession();
+        $a = $session->get("curr_rate");
+        $b = $session->get("curr_symbol");
+        $c = $session->get("curr_acronym");
+
+        return array("change" => $a, "code" => $c);
+    }
+    public function getReservationsData($user_id,$filters, $start, $limit, $draw, $status)
+    {
+
+
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository("mycpBundle:user")->find($user_id);
+        $repository = $em->getRepository('mycpBundle:generalReservation');
+        $userrepo= $em->getRepository('mycpBundle:user');
+        $touroperators= array();
+
+        $touroperators=$userrepo->getAllTourOperators($touroperators,$user);
+
+        #region PAGINADO
+        if($limit==false){
+
+        }
+        else{
+            $page = ($start > 0) ? $start / $limit + 1 : 1;
+        }
+
+        $paginator = $repository->getReservationsPartnerAccountig($user->getUserId(), $status, $filters, $start, $limit,$touroperators);;
+        $reservations = $paginator['data'];
+
+        #endregion PAGINADO
+
+
+        $data = $reservations;
+
+        return $data;
+    }
+    public function  getPriceandBooking($reservation,$curr){
+        $ownReservations = $reservation->getOwn_reservations();
+        $timeService = $this->get('time');
+        $arrTmp['data']['rooms'] = array();
+        $totalPrice=0;
+        $booking=$ownReservation = $ownReservations->first()->getOwnResReservationBooking()->getBookingId();
+        if (!$ownReservations->isEmpty()) {
+            $ownReservation = $ownReservations->first();
+
+            do {
+                $nights = $timeService->nights($ownReservation->getOwnResReservationFromDate()->getTimestamp(), $ownReservation->getOwnResReservationToDate()->getTimestamp());
+
+                if ($ownReservation->getOwnResNightPrice() > 0) {
+                    $totalPrice += $ownReservation->getOwnResNightPrice() * $nights;
+                    //$initialPayment += $res->getOwnResNightPrice() * $nights * $comission;
+                } else {
+                    $totalPrice += $ownReservation->getOwnResTotalInSite();
+                    //$initialPayment += $res->getOwnResTotalInSite() * $comission;
+                }
+
+                $ownReservation = $ownReservations->next();
+            } while ($ownReservation);
+        }
+        return array("price"=>$totalPrice,"booking"=>$booking);
+    }
 }

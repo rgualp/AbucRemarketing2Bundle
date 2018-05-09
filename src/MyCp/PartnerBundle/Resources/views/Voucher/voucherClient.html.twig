@@ -38,8 +38,8 @@
     </tr>
     <tr>
         <td>
-            {% if app.user.UserPhoto is not null %}
-                {% set avatar_img =  'uploads/userImages/'~app.user.UserPhoto.phoName %}
+            {% if agency.getUserPhoto is not null %}
+                {% set avatar_img =  'bundles/partner/img/logos/'~agency.getUserPhoto.phoName %}
                 <img src="{{ avatar_img }}" alt="agency" style="height: 50px"/>
 
             {% endif %}
@@ -68,7 +68,7 @@
         <td>{{ client.fullname }}</td>
     </tr>
     <tr>
-        <td><b>{{ agency }}-References{#{"label.name.agency"|trans({}, "messages", user_locale)}#}:</b></td>
+        <td><b>{{ agency.getName() }}-References{#{"label.name.agency"|trans({}, "messages", user_locale)}#}:</b></td>
         <td colspan="3">
             {% set own1 = own_res[0] %}
            {{ own_res_rooms[own1.id][0].reference }}

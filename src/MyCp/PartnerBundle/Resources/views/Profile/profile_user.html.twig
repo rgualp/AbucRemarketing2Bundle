@@ -1,0 +1,357 @@
+<div class="ibox" style="background-color: #0d4e76">
+    <div class="ibox-title" style="background-color: #0d4e76">
+        <div class="ibox-tools">
+            <a class="collapse-link">
+                <i class="fa fa-chevron-up" style="color: #fff"></i>
+            </a>
+            <a class="close-link">
+                <i class="fa fa-times" style="color: #fff"></i>
+            </a>
+        </div>
+        <div class="row">
+            <div class="col-md-2 profile-element">
+                {{include('PartnerBundle:Profile:img-account-user.html.twig')}}
+                {% if app.user.UserPhoto is not null %}
+                    {% set avatar_img =  asset('uploads/userImages/'~app.user.UserPhoto.phoName) %}
+                {% else %}
+                    {% set avatar_img = asset('bundles/frontend/img/user-no-photo.png') %}
+                {% endif %}
+                <div class="profile-image">
+                    <span class="img-circle dashboard-avatar" style="background: url({{ avatar_img}}) transparent no-repeat scroll center center / cover;display: block;width: 80px;height: 80px;margin-left: 14px;top:-10px">
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <span class="color-white MyriadProBold" style="font-size: 24px;margin-left: -56px;position: relative;top: -19px;">{{ 'dashboard.profile.user' | trans }}</span>
+            </div>
+            <div class="col-md-8 text-right m-t-md" style="line-height: 1;float:right;">
+                <span style="color: #fff;font-size: 24px;font-family: MyriadProRegular">{{ 'label.account.agency.one' | trans | raw }}</span></br>
+                <span style="color: #fff;font-family: MyriadProLightCondIt; font-size: 23px;font-weight: 600;">{{ 'label.account.agency.two' | trans }}</span>
+            </div>
+        </div>
+    </div>
+    <div class="ibox-content" style="background-color: #0d4e76">
+        {#Include twig profile#}
+        {% include 'PartnerBundle:Profile:change_password.html.twig' %}
+
+        <form class="form-horizontal form-agency" action="{{ path('partnet_dashboard_updateprofile_agency') }}" method="post" id="form-agency">
+            <div class="col-md-12 bg-white m-t-xs">
+                <div class="row m-t-md">
+                    <div class="col-md-8">
+                        <span style="font-size: 24px;font-family: MyriadProBold;color: #1b6592">{{ 'backend.user.profile' | trans }}</span>
+                    </div>
+                    <div class="col-md-4 text-right">
+                        {#<button style="font-size: 18px;font-family: MyriadProBold;color: #1b6592;background-color: #fff;border:0px;" type="submit">{{ 'label.save_change' | trans }}</button>#}
+                    </div>
+                </div>
+                <div class="row agency text-right">
+                    <div class="col-md-6">
+                        <div class="inner-addon left-addon">
+                            <i class="glyphicon glyphicons user"></i>
+                            {{ form_widget(form.user_user_name, { 'attr': {'placeholder': 'label.name.agency'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' ,'disabled':''}}) }}
+                        </div>
+                        <div class="inner-addon left-addon">
+                            <i class="glyphicon glyphicons google_maps"></i>
+                            {{ form_widget(form.user_address, { 'attr': {'placeholder': 'label.name.address'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' ,'disabled':''}}) }}
+                        </div>
+                        <div class="inner-addon left-addon">
+                            <i class="glyphicon glyphicons globe_af"></i>
+                            {{ form_widget(form.user_country, { 'attr': {'data-placeholder': 'label.name.country'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control chosen-select-deselect','disabled':'' }}) }}
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group m-b profile-agency-email">
+                            <span class="input-group-addon"><i class="glyphicons envelope"></i></span>
+                             {{ form_widget(form.user_email, { 'attr': {'placeholder': 'label.name.email'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' ,'disabled':'' }}) }}
+                        </div>
+
+                        <div class="inner-addon left-addon">
+                            <i class="glyphicon glyphicons phone_alt"></i>
+                            {{ form_widget(form.user_phone, { 'attr': {'placeholder': 'label.name.phone'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control','disabled':'' }}) }}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+        <div class="row">
+            {#<div class="col-md-3  m-t-sm">#}
+                {#<span class="color-white MyriadProBold" style="font-size: 18px;cursor: pointer" id="trigger-overlay-deactivate" data-overlaydeactivate="true">{{ 'label.deactivate.account' | trans }}</span>#}
+            {#</div>#}
+            <div class="col-md-3  m-t-sm">
+                <span class="color-white MyriadProBold" style="font-size: 18px;cursor: pointer" data-overlaydeactivate="false" id="trigger-overlay">{{ 'label.change.password' | trans }}</span>
+            </div>
+            <div class="col-md-6"></div>
+        </div>
+    </div>
+</div>
+<script  type="text/javascript">
+    //Start ImgAccount
+    ImgAccount.init();
+    $(document).ready(
+        $('#img-file_user').on('click',function(){
+
+            $('#imputfile_user').trigger('click');
+
+        }),
+        $('#imputfile_user').on('change',function () {
+                var url= "{{ path('partnet_dashboard_avatar_agency') }}";
+
+
+                var $fileInput = $(this),
+                    file = this.files[0],
+                    fileType = file.type.split('/')[1];
+
+                if(true){
+                    var formData = new FormData;
+                    formData.append('image', file);
+
+                    $.ajax({
+                        url: url,
+                        type: 'POST',
+                        cache: false,
+                        processData: false,
+                        contentType: false,
+                        data: formData,
+
+                        beforeSend: function(){
+                            HoldOn.open();
+                        },
+                        complete: function(){
+                            HoldOn.close();
+                        },
+                        success: function(response){
+                               console.log(response);
+                                var imageURL='/uploads/userImages/'+response.dir;
+                                $(".dashboard-avatar").css("background", 'url('+imageURL+') transparent no-repeat scroll center center / cover');
+                                $(".navbar-avatar").css("background", 'url('+imageURL+') transparent no-repeat scroll center center / cover');
+
+
+                        },
+                        error: function(e,a,b){
+                            console.log(e,a,b);
+                        }
+                    });
+                }
+            }
+        )
+    )
+    $(".form-agency").validate({
+        submitHandler: function(form) {
+            var data = $(form).serialize();
+            HoldOn.open();
+            $.post($(".form-agency").attr("action"),
+                data,
+                function (response) {
+                    HoldOn.close();
+                    if (response.success) {
+                        swal(response.message, "", "success");
+                        $('#username').text(response.username);
+                    }
+                    else
+                        swal(response.message, "", "error");
+                }
+            ).fail(function () {
+                HoldOn.close();
+            });
+        },
+        ignore: "",
+        errorElement: 'span', //default input error message container
+        errorClass: 'help-block', // default input error message class
+        focusInvalid: false // do not focus the last invalid input
+        ,
+        invalidHandler: function(event, validator) { //display error alert on form submit
+
+        },
+        rules: {
+
+        },
+
+
+        highlight: function(element) { // hightlight error inputs
+            $(element)
+                .closest('.form-group').addClass('has-error'); // set error class to the control group
+        },
+
+        success: function(label) {
+            label.closest('.form-group').removeClass('has-error');
+            label.remove();
+        }
+    });
+    $(".change-password-form").validate({
+        submitHandler: function(form) {
+            var data = $(form).serialize();
+            HoldOn.open();
+            $.post($(".change-password-form").attr("action"),
+                data,
+                function (response) {
+                    HoldOn.close();
+                    if (response.success) {
+                        $("button.btn-clouseOverlayBlack").trigger("click");
+                        swal(response.message, "", "success");
+                    }
+                    else
+                        swal(response.message, "", "error");
+                }
+            ).fail(function () {
+                HoldOn.close();
+            });
+        },
+        ignore: "",
+        errorElement: 'span', //default input error message container
+        errorClass: 'help-block', // default input error message class
+        focusInvalid: false // do not focus the last invalid input
+        ,
+        invalidHandler: function(event, validator) { //display error alert on form submit
+
+        },
+        rules: {
+            confirm: {
+                equalTo: "#password"
+            }
+        },
+
+
+        highlight: function(element) { // hightlight error inputs
+            $(element)
+                .closest('.form-group').addClass('has-error'); // set error class to the control group
+        },
+
+        success: function(label) {
+            label.closest('.form-group').removeClass('has-error');
+            label.remove();
+        }
+    });
+    $('#deactivate-agency').on('click',function(){
+        if($('#before-deactivate').hasClass('hide')){
+            $('#deactivate-agency').css('color','#fff');
+            $('#before-deactivate').removeClass('hide');
+        }
+
+    });
+    $('#cancel-agency').on('click',function(){
+        if(!$('#before-deactivate').hasClass('hide')){
+            $('#before-deactivate').addClass('hide');
+            $('#deactivate-agency').css('color','#3b3a3a');
+        }
+
+    });
+    $(".deactivate-agency-form").validate({
+        submitHandler: function(form) {
+            var data = $(form).serialize();
+            HoldOn.open();
+            $.post($(".deactivate-agency-form").attr("action"),
+                data,
+                function (response) {
+                    HoldOn.close();
+                    if (response.success) {
+                        window.location.href = "{{ url('frontend_partner_logout') }}";
+                    }
+                    else
+                        swal(response.message, "", "error");
+                }
+            ).fail(function () {
+                HoldOn.close();
+            });
+        },
+        ignore: "",
+        errorElement: 'span', //default input error message container
+        errorClass: 'help-block', // default input error message class
+        focusInvalid: false // do not focus the last invalid input
+        ,
+        invalidHandler: function(event, validator) { //display error alert on form submit
+
+        },
+        rules: {
+            'emailAgency': {
+                required:true,
+                email: true
+            },
+            'passwordAgency': {
+                required:true
+            }
+        },
+
+
+        highlight: function(element) { // hightlight error inputs
+            $(element)
+                .closest('.form-group').addClass('has-error'); // set error class to the control group
+        },
+
+        success: function(label) {
+            label.closest('.form-group').removeClass('has-error');
+            label.remove();
+        }
+    });
+    (function() {
+        var triggerBttn = document.getElementById( 'trigger-overlay' ),
+            triggerBttnDeactivate = document.getElementById( 'trigger-overlay-deactivate'),
+            overlay = document.querySelector( 'div.overlay' ),
+            overlayDeactivate = document.querySelector( 'div.deactivate' ),
+            closeBttn = overlay.querySelector( 'button.btn-clouseOverlayBlack'),
+            // closeBttnDeactivate = overlayDeactivate.querySelector( 'button.btn-clouseOverlayBlackDeactivate');
+
+
+        transEndEventNames = {
+            'WebkitTransition': 'webkitTransitionEnd',
+            'MozTransition': 'transitionend',
+            'OTransition': 'oTransitionEnd',
+            'msTransition': 'MSTransitionEnd',
+            'transition': 'transitionend'
+        },
+            transEndEventName = transEndEventNames[ Modernizr.prefixed( 'transition' ) ],
+            support = { transitions : Modernizr.csstransitions };
+
+        function toggleOverlay() {
+            if( classie.has(overlay, 'open' ) ) {
+                classie.remove(overlay, 'open' );
+                classie.add(overlay, 'close' );
+                var onEndTransitionFn = function( ev ) {
+                    if( support.transitions ) {
+                        if( ev.propertyName !== 'visibility' ) return;
+                        this.removeEventListener( transEndEventName, onEndTransitionFn );
+                    }
+                    classie.remove( overlay, 'close' );
+                };
+                if( support.transitions ) {
+                    overlay.addEventListener( transEndEventName, onEndTransitionFn );
+                }
+                else {
+                    onEndTransitionFn();
+                }
+            }
+            else if( !classie.has(overlay, 'close' ) ) {
+                classie.add(overlay, 'open' );
+            }
+        }
+        function toggleOverlayDeactivate() {
+            if( classie.has( overlayDeactivate, 'open' ) ) {
+                classie.remove( overlayDeactivate, 'open' );
+                classie.add( overlayDeactivate, 'close' );
+                var onEndTransitionFn = function( ev ) {
+                    if( support.transitions ) {
+                        if( ev.propertyName !== 'visibility' ) return;
+                        this.removeEventListener( transEndEventName, onEndTransitionFn );
+                    }
+                    classie.remove( overlayDeactivate, 'close' );
+                };
+                if( support.transitions ) {
+                    overlayDeactivate.addEventListener( transEndEventName, onEndTransitionFn );
+                }
+                else {
+                    onEndTransitionFn();
+                }
+            }
+            else if( !classie.has( overlayDeactivate, 'close' ) ) {
+                classie.add( overlayDeactivate, 'open' );
+            }
+        }
+
+        triggerBttn.addEventListener( 'click', toggleOverlay );
+        // triggerBttnDeactivate.addEventListener( 'click', toggleOverlayDeactivate )
+
+        closeBttn.addEventListener( 'click', toggleOverlay );
+        // closeBttnDeactivate.addEventListener( 'click', toggleOverlayDeactivate );
+    })();
+</script>

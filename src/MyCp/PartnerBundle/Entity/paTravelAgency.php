@@ -107,7 +107,55 @@ class paTravelAgency extends baseEntity
      * @ORM\Column(name="commission", type="decimal", precision=2)
      */
     private $commission;
+    /**
+     *
+     * @ORM\OneToOne(targetEntity="MyCp\PartnerBundle\Entity\paAccount")
+     * @ORM\JoinColumn(name="account", referencedColumnName="account_id")
+     */
+    private $account;
+    /**
+     * @ORM\ManyToOne(targetEntity="MyCp\mycpBundle\Entity\photo",inversedBy="")
+     * @ORM\JoinColumn(name="agency_logo",referencedColumnName="pho_id")
+     */
+    private $agency_logo;
 
+    /**
+     * Set agency_logo
+     *
+     * @param \MyCp\mycpBundle\Entity\photo $agencyPhoto
+     * @return paTravelAgency
+     */
+    public function setUserPhoto(\MyCp\mycpBundle\Entity\photo $agencyPhoto = null)
+    {
+        $this->agency_logo = $agencyPhoto;
+
+        return $this;
+    }
+
+    /**
+     * Get agency_logo
+     *
+     * @return \MyCp\mycpBundle\Entity\photo
+     */
+    public function getUserPhoto()
+    {
+        return $this->agency_logo;
+    }
+    /**
+     * @return mixed
+     */
+    public function getAccount()
+    {
+        return $this->account;
+    }
+
+    /**
+     * @param mixed $account
+     */
+    public function setAccount($account)
+    {
+        $this->account = $account;
+    }
 
     public function __construct() {
         parent::__construct();

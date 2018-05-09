@@ -213,7 +213,15 @@
         {% if oneCanBeCanceled %}
             <a style="float: right" id="btnCancel" data-url="{{ path("partner_frontend_cancel_reservations_callback") }}"><span class="rt"> {{ 'label.cancel' | trans }} </span></a>
         {% endif %}
+        {% if reservation.getGenResStatus==10 %}
+            <a style="float: right" href="{{ path("partner_download_invoice") }}/{{ reservation.getGenResId }}"> <span class="rt" style="float: right; margin-right: 20px;"> {{ "partner.download.invoice" | trans }} </span> </a>
+            <a style="float: right" href="{{ path("partner_download_voucher") }}/{{ booking }}"> <span class="rt" style="float: right; margin-right: 20px;"> {{ "partner.download.voucher" | trans }} </span> </a>
 
+        {% endif %}
+        {% if reservation.getGenResStatus==2 %}
+            <a style="float: right" href="{{ path("partner_download_voucher") }}/{{ booking }}"> <span class="rt" style="float: right; margin-right: 20px;"> {{ "partner.download.voucher" | trans }} </span> </a>
+
+        {% endif %}
         {% include 'PartnerBundle:Dashboard:general_reservation_action.html.twig' with {'status': reservation.getGenResStatus, 'id_res':id_res} %}
     </div>
     <span id="alertMessages" data-alerttitle="{{ "cart.alert.title" | trans }}" data-alertcontent="{{ "cart.alert.content" | trans }}" data-cancelbutton="{{ "cart.alert.cancel_button" | trans }}" data-confirmbutton="{{ "cart.alert.confirm_button" | trans }}"></span>

@@ -54,9 +54,14 @@
     {% if reservation.completePayment != null %}
         <span style="text-align: center; background-color: #5bc0de" class="badge" title="Pago completo"><i class="glyphicons history white"></i> Pago Completo</span>
     {% endif %}
-</h2>
+    {% if reservations[0].ownResReservationToDate %}
+   <a style="float: right;font-size: small" id="invoice" data-toggle="modal"  data-target="#deposit" class="tooltip_msg btn btn-warning" data-original-title="Registrar Reintegro">Registrar Reintegro</a>
+{% endif %}
+  </h2>
+
 <hr/>
 {% if errors %}<label class="alert alert-error">Debe llenar el formulario correctamente.</label>{%endif%}
+
 <form id="form_edit_reserve" action="{{ path('mycp_details_reservation_ag', { 'id_reservation' : id_reservation } ) }}" method="POST">
 <div class="row-fluid">
 <div class="span6">
@@ -399,17 +404,97 @@
     {% include 'mycpBundle:utils:modifiedControl.html.twig' with {'modified':reservation.modified,'modifiedBy':reservation.modifiedBy, 'offer': offerLog}%}
 {% endif %}
 </div>
+<div class="modal disable inmodal fade "  id="deposit"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg"  >
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="text-danger fa fa-times"></i></button>
+                <h4 class="modal-title" id="myModalLabel"><i class="text-muted fa fa-money"></i> <strong>Registrar Reintegro por Afectaciones en Reservas </strong></h4>
+            </div>
+            <div class="modal-body" >
+
+                <form class="form-horizontal"  method="post" id="form">
+                       <div class="col">
+
+                        <div class="row">
+
+                            <div style="margin-left: 30px;">
+                                <div class="col-md-3">
+                                    <div class="inner-addon left-addon">
+
+                                        <input type="number" min="1" max="{{ completePayment }}" name="cash" id="cash" required="required" placeholder="Deposito" data-toggle="tooltip" data-container="body" class="form-control">
+                                    </div>
+
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group"> <!-- Message field -->
+                            <label class="control-label " for="message">Description</label>
+                            <textarea class="form-control" cols="100" id="message" name="message" required="required"    rows="10" style="color: black; margin: 0px 0px 8.98438px; width: 507px; height: 148px;"></textarea>
+                        </div>
+
+
+                </form>
+
+                </div>
+
+           <div class="modal-footer">
+                <div class="form-group" style="float:  right;">
+                    <button class="btn btn-primary " name="submit" onclick="Register(this)" >Registrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
     {% block javascripts %}
         {% javascripts
+
         '@mycpBundle/Resources/public/js/bootstrap-datepicker.js'
         '@mycpBundle/Resources/public/js/bootstrap-datepicker.es.js'
+
         filter='?uglifyjs2'
         %}
         <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
 
-        <script type="text/javascript">
+        <script >
+
+
+        function Register() {
+
+
+        var user_id = "{{ user_id}}";
+        var cas="{{ reservation.getGenResId }}"
+        var url= "{{ path('mycp_accounting_add_re') }}";
+
+        var date=$('#date').val();
+        var description=$('#message').val();
+        var cash=$('#cash').val();
+        $.ajax({
+            type:"GET",
+            url:url,
+            data:{'user_id':user_id,'description':description,'cash':cash,'cas':cas},
+            success:function (response) {
+
+                if(response.success){
+
+
+                    $('#deposit').modal('hide');
+                }
+                else{
+                   return false;
+                }
+            }
+        });
+
+
+        };
+
+
 
             $('.datepicker_textbox').datepicker({
                 language: 'es',
@@ -552,5 +637,7 @@
                     $("#updateCalendarText_" + reservationId).addClass("hidden");
                 }*/
             }
+
+
         </script>
     {% endblock %}

@@ -37,7 +37,13 @@
     </tr>
     <tr>
         <td>
-            <img src="bundles/partner/img/logos/agency.png" alt="agency" style="height: 50px"/>
+            {% if agency.getUserPhoto() is not null %}
+                {% set avatar_img =  'bundles/partner/img/logos/'~agency.getUserPhoto.phoName %}
+                <img src="{{ avatar_img }}" alt="agency" style="height: 50px"/>
+
+            {% endif %}
+
+
         </td>
         <td style="text-align: right; vertical-align: top; color: #cccccc">
             <img id="logo"  src="bundles/mycp/images/logo.jpg" alt="my casa particular"/>

@@ -1014,9 +1014,9 @@
             <source>dashboard.btn.booking.paid</source>
             <target state="new">Paid</target>
           </trans-unit>
-          <trans-unit id="72abe0f8a13fd98c4394677822f9d601a14310fe" resname="dashboard.profile">
-            <source>dashboard.profile</source>
-            <target state="new">My profile</target>
+          <trans-unit id="72abe0f8a13fd98c4394677822f9d601a14310fe" resname="dashboard.profile.agency">
+            <source>dashboard.profile.agency</source>
+            <target state="new">Agency Profile</target>
           </trans-unit>
           <trans-unit id="800d9cf2f6cfbe44c52f821f371d51fa99371192" resname="dashboard.text_reserv_one">
             <source>dashboard.text_reserv_one</source>
@@ -1737,11 +1737,11 @@
           </trans-unit>
           <trans-unit id="2e6d2f051a2c1c75d4cc8c949d7c105d6397adc8" resname="label.take">
             <source>label.take</source>
-            <target state="new">label.take</target>
+            <target state="new">Take</target>
           </trans-unit>
           <trans-unit id="8e0d8ae84bdfbb10c7c5353569e999e3083e019a" resname="label.take.picture">
             <source>label.take.picture</source>
-            <target state="new">label.take.picture</target>
+            <target state="new">Take Picture</target>
           </trans-unit>
           <trans-unit id="709db0f50ecfa8b6c83fb61430e82bd5bc0b1188" resname="label.terms.legal">
             <source>label.terms.legal</source>
@@ -2381,7 +2381,122 @@
                                                         <source>partner.invoice.date</source>
                                                           <target state="new">Invoice Date</target>
                                                   </trans-unit>
+<trans-unit id="42" resname="dashboard.contacts">
+   <source>dashboard.contacts</source>
+<target state="new">Contacts</target>
+ </trans-unit>
+ <trans-unit id="43" resname="dashboard.operators">
+    <source>dashboard.operators</source>
+ <target state="new">Tour Operators</target>
+  </trans-unit>
+   <trans-unit id="44" resname="dashboard.accounting">
+      <source>dashboard.accounting</source>
+   <target state="new">Accounting</target>
+    </trans-unit>
+    <trans-unit id="45" resname="label.form.agency.touroperator">
+                  <source>label.form.agency.touroperator</source>
+               <target state="new">Indicate the data of the Tour Operator for the agency</target>
+                </trans-unit>
 
+               <trans-unit id="46" resname="label.form.role">
+                              <source>label.form.role</source>
+                           <target state="new">Role</target>
+                            </trans-unit>
+     <trans-unit id="47" resname="label.delete.contact">
+                         <source>label.delete.contact</source>
+                      <target state="new">Delete Agency Contact</target>
+               </trans-unit>
+<trans-unit id="48" resname="label.delete.contact1>
+              <source>label.delete.contact1</source>
+           <target state="new">Are you Shure?"</target>
+            </trans-unit>
+
+  <trans-unit id="49" resname="label.accounting.from">
+                <source>label.accounting.from</source>
+             <target state="new">From</target>
+              </trans-unit>
+  <trans-unit id="50" resname="label.accounting.to">
+                <source>label.accounting.to</source>
+             <target state="new">To</target>
+              </trans-unit>
+
+
+   <trans-unit id="51" resname="label.accounting.alert.danger">
+                 <source>label.accounting.alert.danger</source>
+              <target state="new">Account without balance Register a deposit to continue with reservations.</target>
+               </trans-unit>
+   <trans-unit id="52" resname="label.accounting.alert.warning">
+      <source>label.accounting.alert.warning</source>
+      <target state="new">Your account is close to the established limit.</target>
+    </trans-unit>
+    <trans-unit id="53" resname="label.accounting.alert.lesdanger">
+       <source>label.accounting.alert.lesdanger</source>
+       <target state="new">Your account has exceeded the allowed limit. Make a deposit.</target>
+     </trans-unit>
+         <trans-unit id="54" resname="label.accounting.new.deposit">
+              <source>label.accounting.new.deposit</source>
+              <target state="new">New deposit</target>
+            </trans-unit>
+            <trans-unit id="55" resname="label.accounting.conciliation">
+                  <source>label.accounting.conciliation</source>
+                  <target state="new">Conciliate</target>
+                </trans-unit>
+                 <trans-unit id="56" resname="label.accounting.description">
+                                         <source>label.accounting.description</source>
+                                         <target state="new">Description</target>
+                                       </trans-unit>
+                                   <trans-unit id="57" resname="label.accounting.debit">
+                                               <source>label.accounting.debit</source>
+                                               <target state="new">Debit</target>
+                                             </trans-unit>
+                                <trans-unit id="58" resname="label.accounting.credit">
+                                 <source>label.accounting.credit</source>
+                                  <target state="new">Credit</target>
+                                   </trans-unit>
+                                   <trans-unit id="59" resname="label.accounting.balance">
+                                         <source>label.accounting.balance</source>
+                                          <target state="new">Balance</target>
+                                           </trans-unit>
+<trans-unit id="60" resname="label.accounting.register.deposit">
+   <source>label.accounting.register.deposit</source>
+  <target state="new">Register Deposit in Account</target>
+  </trans-unit>
+    <trans-unit id="61" resname="label.accounting.deposit">
+          <source>label.accounting.deposit</source>
+         <target state="new">Deposit</target>
+         </trans-unit>
+            <trans-unit id="62" resname="label.accounting.send.council">
+                           <source>label.accounting.send.council</source>
+                          <target state="new">Send Conciliation</target>
+                          </trans-unit>
+     <trans-unit id="63" resname="label.accounting.check">
+            <source>label.accounting.check</source>
+             <target state="new">You confirm that the debit, credit and balance values ​​shown are true and you wish to reconcile them with the MyCasaParticular team?</target>
+                </trans-unit>
+                  <trans-unit id="64" resname="label.accounting.send">
+                                                      <source>label.accounting.send</source>
+                                                     <target state="new">Send</target>
+                                                     </trans-unit>
+                      <trans-unit id="65" resname="label.table.norecord">
+                        <source>label.table.norecord</source>
+              <target state="new">This month have no records</target>
+                             </trans-unit>
+                              <trans-unit id="66" resname="label.accounting.account">
+                                                                                       <source>label.accounting.account</source>
+                                                                                      <target state="new">Account Balance:</target>
+                                                                                      </trans-unit>
+ <trans-unit id="67" resname="label.accounting.registerby">
+                                             <source>label.accounting.registerby</source>
+                                            <target state="new">Register by:</target>
+                                            </trans-unit>
+   <trans-unit id="68" resname="label.agency.message.account">
+                                                 <source>label.agency.message.account</source>
+                                                <target state="new">You have chosen the SPECIAL package for agencies before starting any operation contact us:</target>
+                                                </trans-unit>
+                                                     <trans-unit id="69" resname="dashboard.profile.user">
+                                                                                                                                               <source>dashboard.profile.user</source>
+                                                                                                                                              <target state="new">My Profile</target>
+                                                                                                                                              </trans-unit>
         </body>
   </file>
 </xliff>

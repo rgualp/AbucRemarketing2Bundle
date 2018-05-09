@@ -65,7 +65,7 @@ var ImgAccount = function () {
             fd.append('acl', $("input[name=acl]").val());
             fd.append('success_action_status', $("input[name=success_action_status]").val());
             fd.append('x-amz-date', $("input[name=x-amz-date]").val());
-            fd.append("file", blob);
+            fd.append("image", blob);
             xmlhttp.open('POST',  form.attr('action'), true);
             xmlhttp.send(fd);
             //Prepare response

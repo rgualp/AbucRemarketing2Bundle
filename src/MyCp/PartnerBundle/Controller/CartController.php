@@ -36,14 +36,10 @@ class CartController extends Controller
 
          $userrepo= $em->getRepository('mycpBundle:user');
           $travelAgencys=array();
-     $touroperators=array();
-        $touroperators=$userrepo->getAllTourOperators($touroperators,$user);
-        foreach ($touroperators as $operator){
-            $tourOperator1 = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $operator->getUserId()));
-            array_push($travelAgencys,$tourOperator1->getTravelAgency());
+       $touroperators=array();
+       $touroperators=$userrepo->getAllTourOperators($touroperators,$user);
 
-        }
-            $cartItems = $em->getRepository("PartnerBundle:paReservation")->getAllCartItems($travelAgency,$travelAgencys, $ids_gr);
+       $cartItems = $em->getRepository("PartnerBundle:paReservation")->getAllCartItems($travelAgency,$user->getUserId(),$touroperators, $ids_gr);
 
 
         return $this->render('PartnerBundle:Cart:cart_count.html.twig', array(
@@ -78,12 +74,9 @@ class CartController extends Controller
         $travelAgencys=array();
 
         $touroperators=$userrepo->getAllTourOperators($touroperators,$user);
-            foreach ($touroperators as $operator){
-                $tourOperator1 = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $operator->getUserId()));
-                array_push($travelAgencys,$tourOperator1->getTravelAgency());
 
-            }
-        $cartItems = $em->getRepository("PartnerBundle:paReservation")->getAllCartItems($travelAgency,$travelAgencys, $ids_gr);
+
+        $cartItems = $em->getRepository("PartnerBundle:paReservation")->getAllCartItems($travelAgency,$user->getUserId(),$touroperators, $ids_gr);
 
         $reservations = array();
         $reservationsIds = array();
@@ -248,13 +241,15 @@ class CartController extends Controller
         $user = $this->getUser();
         $currentTourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
         $currentTravelAgency = $currentTourOperator->getTravelAgency();
+
         $agencyPackage = $currentTravelAgency->getAgencyPackages()[0];
         $completePayment = $agencyPackage->getPackage()->getCompletePayment();
 
         $packageService = $this->get("mycp.partner.package.service");
         $isSpecial = $packageService->isSpecialPackageFromAgency($currentTravelAgency);
-
+        
         $list = $em->getRepository('PartnerBundle:paReservation')->getDetailsByIds($ownReservationIds);
+
         $payments = array();
 
         $totalPrepayment = 0;

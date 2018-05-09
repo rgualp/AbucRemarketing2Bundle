@@ -36,10 +36,10 @@
 <table style="width: 100%">
     <tr>
         <td>
-            {% if app.user.UserPhoto is not null %}
-                {% set avatar_img =  'uploads/userImages/'~app.user.UserPhoto.phoName %}
+            {% if agency.getUserPhoto() is not null %}
+                {% set avatar_img =  'bundles/partner/img/logos/'~agency.getUserPhoto.phoName %}
                 <img src="{{ avatar_img }}" alt="agency" style="height: 50px"/>
-           
+
             {% endif %}
 
 

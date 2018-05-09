@@ -182,7 +182,7 @@ class paReservationRepository extends EntityRepository {
         ;
         return $qb->getQuery()->getResult();
     }
-    public function getAllCartItems($travelAgency,array $travelAgencys, $idsGeneralReservation = array())
+    public function getAllCartItems($travelAgency,$idUser,array $touroperators, $idsGeneralReservation = array())
     {
         $em = $this->getEntityManager();
 //        $query = $em->createQuery("SELECT DISTINCT client.fullname, paReservation.id,
@@ -204,30 +204,46 @@ class paReservationRepository extends EntityRepository {
             ->select("DISTINCT client.fullname, paReservation.id,
             (SELECT count(rDetail) FROM PartnerBundle:paReservationDetail rDetail JOIN rDetail.reservationDetail gres WHERE gres.gen_res_status = :availableStatus AND rDetail.reservation = paReservation.id) as available,
             (SELECT count(rDetail1) FROM PartnerBundle:paReservationDetail rDetail1 JOIN rDetail1.reservationDetail gres1 WHERE rDetail1.reservation = paReservation.id) as detailsCount,
-            (IF(genRes.gen_res_id IN (:ids), 1, 0)) as showOpened")
+            (IF(genRes.gen_res_id IN (:ids), 1, 0)) as showOpened,genRes.gen_res_id")
             ->from("PartnerBundle:paReservation", "paReservation")
             ->join("paReservation.client", "client")
             ->join("paReservation.details", "detail")
             ->join("detail.reservationDetail", "genRes")
+            ->join('genRes.gen_res_user_id','u')
             ->where("paReservation.closed = 1")
+            ->andWhere('u.user_id IN (:tours)')
 
-            ->andWhere("genRes.gen_res_status = :availableStatus1")
-            ->andWhere("client.travelAgency in (:array) OR client.travelAgency = :agency1")
+
+
             ->setParameter("availableStatus", generalReservation::STATUS_AVAILABLE)
-            ->setParameter("availableStatus1", generalReservation::STATUS_AVAILABLE)
-            ->setParameter("ids", $idsGeneralReservation)
-            ->setParameter("agency1", $travelAgency->getId())
-        ;
-//        $qb->orWhere("client.travelAgency = :travelAgency");
-//        $qb->setParameter("travelAgency", $travelAgency->getId());
-        $lista=array();
-        foreach ($travelAgencys as $travelagency){
 
-             array_push($lista,$travelagency->getId());
+            ->setParameter("ids", $idsGeneralReservation)
+
+        ;
+        $tours= array($idUser);
+        if(count($touroperators) > 0){
+
+            foreach ($touroperators as $user){
+
+//                $qb->andWhere('u.user_id = :user_id'.$i);
+               array_push($tours,$user->getUserId());
+//                $i++;
+            }
 
 
         }
-        $qb->setParameter('array',$lista);
+
+        $qb->setParameter('tours', $tours);
+        $qb->andWhere("genRes.gen_res_status = :availableStatus1");
+        
+        $qb->setParameter("availableStatus1", generalReservation::STATUS_AVAILABLE);
+
+//        $qb->orWhere("client.travelAgency = :travelAgency");
+//        $qb->setParameter("travelAgency", $travelAgency->getId());
+
+
+
+
 
         return $qb->getQuery()->getResult();
     }

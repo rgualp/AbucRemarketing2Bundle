@@ -426,7 +426,7 @@ class BookingService extends Controller
         $booking = $this->getBooking($bookingId);
         $payment = $this->getPaymentByBooking($booking);
         $user = $this->getUserByBooking($booking);
-        if($user->getRoles()[0] == "ROLE_CLIENT_PARTNER"){
+        if($user->getRoles()[0] == "ROLE_CLIENT_PARTNER" || $user->getRoles()[0] == "ROLE_ECONOMY_PARTNER"||$user->getRoles()[0] == "ROLE_CLIENT_PARTNER_TOUROPERATOR" ){
             $userLocale = strtolower($user->getUserLanguage()->getLangCode());
         }
         else{
@@ -641,14 +641,15 @@ class BookingService extends Controller
         $em = $this->em;
         $repository = $em->getRepository('mycpBundle:generalReservation');
         $paginator = $repository->getReservationsPartnerByStatusArray($user->getUserId(), array(generalReservation::STATUS_RESERVED),array('booking_code'=>$bookingId),0,1000);
-
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $travelAgency = $tourOperator->getTravelAgency();
         if(count($paginator['data']==0)){
            $paginator = $repository->getReservationsPartnerByStatusArray($user->getUserId(), array(generalReservation::STATUS_CANCELLED),array('booking_code'=>$bookingId),0,1000);
 
        }
 
         $booking = $em->getRepository('mycpBundle:booking')->find($bookingId);
-        $result=array_merge($this->calculateBookingDetailsPartner($bookingId,$user),array('data'=>$paginator['data'],'bookingId'=>$bookingId,'user'=>$user,'own_res1'=>$paginator['data'],'booking'=>$booking,'user_locale'=> strtolower($user->getUserLanguage()->getLangCode()),'user_currency'=>$user->getUserCurrency()));
+        $result=array_merge($this->calculateBookingDetailsPartner($bookingId,$user),array('agency'=>$travelAgency,'data'=>$paginator['data'],'bookingId'=>$bookingId,'user'=>$user,'own_res1'=>$paginator['data'],'booking'=>$booking,'user_locale'=> strtolower($user->getUserLanguage()->getLangCode()),'user_currency'=>$user->getUserCurrency()));
 
         return $this->render('PartnerBundle:Voucher:voucherReservation.html.twig',$result);
     }
@@ -676,7 +677,7 @@ class BookingService extends Controller
 
         }
         $partnerClient = $em->getRepository("PartnerBundle:paClient")->find($idClient);
-        $result=array_merge($this->calculateBookingDetailsPartnerClient($bookingId,$user, $idClient),array('agency'=>$travelAgency->getName(),'data'=>$paginator['data'],'bookingId'=>$bookingId,'user'=>$user,'own_res1'=>$paginator['data'],'booking'=>$booking,'user_locale'=> strtolower($user->getUserLanguage()->getLangCode()),'user_currency'=>$user->getUserCurrency(), 'client'=> $partnerClient,'destinys'=>$array_destination));
+        $result=array_merge($this->calculateBookingDetailsPartnerClient($bookingId,$user, $idClient),array('agency'=>$travelAgency,'data'=>$paginator['data'],'bookingId'=>$bookingId,'user'=>$user,'own_res1'=>$paginator['data'],'booking'=>$booking,'user_locale'=> strtolower($user->getUserLanguage()->getLangCode()),'user_currency'=>$user->getUserCurrency(), 'client'=> $partnerClient,'destinys'=>$array_destination));
 
         return $this->render('PartnerBundle:Voucher:voucherClient.html.twig',$result);
     }
@@ -1273,7 +1274,9 @@ class BookingService extends Controller
         $user = $this->getUserFromBooking($booking);
         $userId = $user->getUserId();
         //Buscar la agencia y sus contactos
-        $travelAgency = $this->em->getRepository("PartnerBundle:paTravelAgency")->findOneBy(array("email" => $user->getUserEmail()));
+        $tourOperator = $this->em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $userId));
+        $travelAgency = $tourOperator->getTravelAgency();
+
         $isSpecial = $travelAgency->getAgencyPackages()[0]->getPackage()->isSpecial();
         $isEconomic= $travelAgency->getAgencyPackages()[0]->getPackage()->isEconomic();
         //$userTourist = $this->getUserTourist($userId, $bookingId);
@@ -1436,25 +1439,25 @@ class BookingService extends Controller
                 }
             }
 
-            if(strpos($travelAgency->getEmail(), 'cubatravelnetwork')!== false){
-            try {
-                $emailService->sendEmailMultiplesAttach(
-                    $subject . ' BR:'. $references,
-                    'no-reply@mycasaparticular.com',
-                    $subject . ' - MyCasaParticular.com',
-                    'facturas@cubatravelnetwork.com',
-                    $body,
-                    $attachPaths //varios attachments
-                );
-
-                $logger->info('Successfully sent email to agency contact ' . $userEmail . ', PDF path : ' .
-                    (isset($pdfFilePath) ? $pdfFilePath : '<empty>'));
-            } catch (\Exception $e) {
-                $logger->error(sprintf(
-                    'EMAIL: Could not send Email to agency contact. Booking ID: %s, Email: %s',
-                    $bookingId, $userEmail));
-                $logger->error($e->getMessage());
-            }}
+//            if(strpos($travelAgency->getEmail(), 'cubatravelnetwork')!== false){
+//            try {
+//                $emailService->sendEmailMultiplesAttach(
+//                    $subject . ' BR:'. $references,
+//                    'send@mycasaparticular.com',
+//                    $subject . ' - MyCasaParticular.com',
+//                    'facturas@cubatravelnetwork.com',
+//                    $body,
+//                    $attachPaths //varios attachments
+//                );
+//
+//                $logger->info('Successfully sent email to agency contact ' . $userEmail . ', PDF path : ' .
+//                    (isset($pdfFilePath) ? $pdfFilePath : '<empty>'));
+//            } catch (\Exception $e) {
+//                $logger->error(sprintf(
+//                    'EMAIL: Could not send Email to agency contact. Booking ID: %s, Email: %s',
+//                    $bookingId, $userEmail));
+//                $logger->error($e->getMessage());
+//            }}
         }
     }
 
@@ -1619,7 +1622,9 @@ class BookingService extends Controller
         $user = $this->getUserFromBooking($booking);
         $userId = $user->getUserId();
         //Buscar la agencia y sus contactos
-        $travelAgency = $this->em->getRepository("PartnerBundle:paTravelAgency")->findOneBy(array("email" => $user->getUserEmail()));
+        $tourOperator = $this->em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $userId));
+        $travelAgency = $tourOperator->getTravelAgency();
+
         $isSpecial = $travelAgency->getAgencyPackages()[0]->getPackage()->isSpecial();
         $isEconomic= $travelAgency->getAgencyPackages()[0]->getPackage()->isEconomic();
         //$userTourist = $this->getUserTourist($userId, $bookingId);

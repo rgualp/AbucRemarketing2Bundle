@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+     table td{ padding:3px;}
+     tr.content td{font-size: 12px;}
+    </style>
+</head>
+<body style="font-family: Arial; font-size: 15px">
+Hola:<br/><br/>
+La Agencia {{ travelAgency.name }} Le ha enviado le ha enviado una conciliación del periodo :
+{{ from }}-{{ to }}
+<br/>
+Debe: <b>{{ debit }}</b> CUC.<br/>
+Haber: <b>{{ credit }}</b> CUC.<br/>
+SALDO: <b>{{ balance }}</b> CUC.<br/>
+<br/>
+Certifico que los valores antes mencionados son verdaderos y confirmo esta conciliación automática.
+</body>
+</html>

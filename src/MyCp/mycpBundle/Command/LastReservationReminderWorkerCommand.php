@@ -117,7 +117,7 @@ class LastReservationReminderWorkerCommand extends Worker
         $userId =  $user->getUserId();
         $userEmail = $user->getUserEmail();
 
-        if($user->getUserRole() == "ROLE_CLIENT_PARTNER")
+        if($user->getUserRole() == "ROLE_CLIENT_PARTNER"||$user->getUserRole() == "ROLE_CLIENT_PARTNER_TOUROPERATOR"||$user->getUserRole() == "ROLE_ECONOMY_PARTNER")
         {
             $emailBody = $this->renderEmailBodyPartner($user, $generalReservation);
             $emailSubject = $this->translatorService->trans('LAST_CHANCE_TO_BOOK_SUBJECT');

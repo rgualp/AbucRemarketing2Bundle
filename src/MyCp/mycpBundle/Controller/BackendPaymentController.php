@@ -559,6 +559,7 @@ class BackendPaymentController extends Controller
         $all = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
             ->getAllPagReserved($filter_date_reserve, $filter_date_reserve2, $filterbr, $filter_agency, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $filter_client, $items_per_page, $page, true))->getResult();
         $reservations = $all['reservations'];
+
         $filter_date_reserve_twig = str_replace('/', '_', $filter_date_reserve);
         $filter_date_reserve2_twig = str_replace('/', '_', $filter_date_reserve2);
         $filter_date_from_twig = str_replace('/', '_', $filter_date_from);
@@ -793,6 +794,7 @@ class BackendPaymentController extends Controller
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
+        $agency=$em->getRepository("PartnerBundle:paTravelAgency")->find($filter_agency);
 
         $all = $em->getRepository('mycpBundle:generalReservation')
             ->getAllPagReserved(null, null, null, $filter_agency, null, null, $filter_date_reserve, $filter_date_reserve2, $sort_by, null, null, null, $items_per_page, $page, true);
@@ -821,7 +823,7 @@ class BackendPaymentController extends Controller
             $pdfName = 'F_' . $lastdate . '-' . '01';
         }
 
-        $response = $this->render('mycpBundle:pdf:invoiceAgency.html.twig', array('reservations' => $reservations, 'user' => $user, 'ID' => $pdfName));
+        $response= $this->render('mycpBundle:pdf:invoiceAgency.html.twig',array('agency'=>$agency,'reservations'=>$reservations,'user'=>$user,'ID'=>$pdfName));
 
         $success = false;
 

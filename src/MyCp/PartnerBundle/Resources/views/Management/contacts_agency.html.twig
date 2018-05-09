@@ -1,0 +1,294 @@
+<div class="ibox" style="background-color: #0d4e76">
+    <div class="ibox-title" style="background-color: #0d4e76">
+        <div class="ibox-tools">
+            <a class="collapse-link">
+                <i class="fa fa-chevron-up" style="color: #fff"></i>
+            </a>
+            <a class="close-link">
+                <i class="fa fa-times" style="color: #fff"></i>
+            </a>
+        </div>
+        <div class="row">
+
+            <div class="col-md-2">
+                <span class="color-white MyriadProBold" style="font-size: 24px;position: relative;top: -19px;">{{"dashboard.contacts" | trans}}</span>
+
+            </div>
+            <div class="col-md-8 text-right m-t-md" style="line-height: 1; float: right">
+                <span style="color: #fff;font-size: 24px;font-family: MyriadProRegular">{{ 'label.account.agency.one' | trans | raw }}</span></br>
+                <span style="color: #fff;font-family: MyriadProLightCondIt; font-size: 23px;font-weight: 600;">{{ 'label.account.agency.two' | trans }}</span>
+            </div>
+        </div>
+    </div>
+    <div class="ibox-content" style="background-color: #0d4e76">
+        {#Include twig profile#}
+        <div class="col-md-2">
+            <a data-toggle="modal" title="New Contact" data-target="#usuario"><i class="glyphicons user" style="margin-bottom: 10px"></i> <i class="glyphicons plus" style="margin-bottom: 10px;font-size: 15px "></i> </a>
+
+        </div>
+        <table class="table" id="contacts-table"style="background: white">
+            <tbody>
+             {% for contact in contacts %}
+            <tr style="font-size: large">
+
+
+                <td>
+                    <img src="http://pingendo.github.io/pingendo-bootstrap/assets/user_placeholder.png" class="img-circle" width="60">
+                </td>
+                <td>
+                    <h4>
+                        <b>{{ contact.getName() }}</b>
+                    </h4>
+                    <a href="mailto:{{ contact.getEmail() }}">{{ contact.getEmail() }}</a>
+                </td>
+                <td>
+
+                    <p>{{ contact.getPhone() }}</p>
+
+                </td>
+                <td>
+                      <p>{{ contact.getMobile() }}</p>
+                </td>
+                <td>
+                    <div class="btn-group">
+
+                       <a class="deleteContact" data-id="{{ contact.getID() }}" data-urlsuccess="{{ path("frontend_partner_home") }}" data-url="{{ path("partner_dashboard_delete_contact") }}"><i class="glyphicons bin blue" style="margin-bottom: 10px; color: #0d4e76 !important;"></i> {{ "backend.delete" | trans }}</a>
+                       </div>
+
+                </td>
+            </tr>
+             {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="modal inmodal fade" id="usuario" tabindex="-1" role="dialog"  aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header modal-header-agency" style="background-color: #25323b !important;">
+                        <button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                    </div>
+                    <div class="modal-body modal-agency pb-0">
+                        <form class="form-horizontal form-agency" action="{{ path('frontend_partner_addcontact') }}" method="post" id="form-contacts">
+
+                            <div class="col">
+
+                                <div class="row">
+                                    <p class="m-r-12">{{ 'label.form.agency.two' | trans }}</p>
+                                    <div class="contact">
+                                        <div class="col-md-6">
+                                            <div class="inner-addon left-addon">
+                                                <i class="glyphicon glyphicons user"></i>
+                                                {{ form_widget(form.contacts.vars.prototype.name,{ 'attr': {'placeholder': 'label.name.nameresponse'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                                            </div>
+                                            <div class="inner-addon left-addon">
+                                                <i class="glyphicon glyphicons phone_alt"></i>
+                                                {{ form_widget(form.contacts.vars.prototype.phone,{ 'attr': {'placeholder': 'label.name.phone.contact'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="inner-addon left-addon">
+                                                <i class="glyphicon glyphicons envelope"></i>
+                                                {{ form_widget(form.contacts.vars.prototype.email,{ 'attr': {'placeholder': 'label.name.email.contact'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                                            </div>
+                                            <div class="inner-addon left-addon">
+                                                <i class="glyphicon glyphicons iphone"></i>
+                                                {{ form_widget(form.contacts.vars.prototype.mobile,{ 'attr': {'placeholder': 'label.name.mobile.contact'|trans,'data-toggle':'tooltip', 'data-container':'body', 'class':'form-control' }}) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="modal-footer" style="background-color: #25323b !important;border-top: 0px">
+                        <div class="row text-right" style="margin-right: 30px" >
+                            <button class="btn btn-primary " onclick="addContactAction(this)" id="addcontact" >{{ 'pa.modal.reservation.add'|trans }}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script  type="text/javascript">
+    $(document).ready(function () {
+
+        var onDeleteContactButton = function () {
+            $(".deleteContact").on('click', function () {
+                var that = $(this);
+
+                swal({
+                    title:"{{'label.delete.contact'|trans }}",
+                    text:"{{'label.delete.contact1'|trans }}",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: $("#alertMessages").data("confirmbutton"),
+                    cancelButtonText: $("#alertMessages").data("cancelbutton"),
+                    closeOnConfirm: false
+                }, function () {
+
+                    var id = that.data("id");
+                    var _url = that.data("url");
+
+
+
+                    $.post(_url, {
+                        'contact_id': id
+                    }, function (response) {
+                        if (response.success) {
+                            if (response.html != "") {
+                                /*result.html(response.html);
+                                 onDeleteFromCartButton();
+                                 onViewMoreButton();
+                                 onCheckDetailsInCartButton();
+                                 onEmptyCartButton();
+                                 onPayActionButton();*/
+                                window.location.href = that.data("urlsuccess");
+                            }
+                        }
+                    });
+                });
+            });
+        }
+
+
+        onDeleteContactButton();
+
+    })
+
+    function addContactAction() {
+        var validator= $("#form-contacts").validate({
+            submitHandler: function(form) {
+                //form.submit();
+            },
+            errorElement: 'span',
+            errorClass: 'has-error',
+            errorPlacement: function(error, element) {
+                if (element.attr("name") == "fname" || element.attr("name") == "lname" ) {
+                    error.insertAfter("#lastname");
+                } else {
+                    error.insertAfter(element);
+                }
+            },
+            ignore: "",
+            invalidHandler: function(event, validator) { //display error alert on form submit
+            },
+            rules: {
+                'partner_agency[contacts][__name__][name]':{
+                    required: true,
+                },
+                'partner_agency[contacts][__name__][phone]': {
+                    required: true,
+                    digits:true
+
+                },
+                'partner_agency[contacts][__name__][email]':{
+                    required:true,
+                    email:true
+                },
+                'partner_agency[contacts][__name__][mobile]':{
+                    required:true,
+                    digits:true
+
+                }
+            },
+            highlight: function (element, clsError) { // hightlight error inputs
+                element = $(element);
+                element.parent().addClass(clsError);
+            },
+            unhighlight: function (element, clsError) { // revert the change done by hightlight
+                element = $(element);
+                element.parent().removeClass(clsError);
+            },
+            success: function(label) {
+                label.closest('.input-group').removeClass('has-error');
+                label.remove();
+            }
+        });
+        if(!validator.form()){
+            return;
+        }
+        var inputs = $("#form-contacts input,select");
+        var params={};
+        inputs.each(function () {
+
+            var input = $(this);
+            var val = input.val();
+            var name = input.attr('name');
+            if (val && val != '' && name && name != '') {
+
+                params[input.attr('name')] = val;
+            }
+        });
+        var url= "{{ path('frontend_partner_addcontact') }}";
+        HoldOn.open();
+
+
+        $.ajax({
+            type:"GET",
+            url:url,
+            data:params,
+            success:function (response) {
+
+                if(response.success){
+
+
+
+                    $('#usuario').modal('hide');
+                    reloadAjax();
+                }
+                else{
+                    HoldOn.close();
+                }
+            }
+        });
+
+
+
+
+    }
+
+    function reloadAjax() {
+
+        var link = $("#ajaxcontacs");
+        var href = "{{ path('partnet_dashboard_contacts_agency') }}";
+        var data = {};
+
+        $.ajax({
+            type: "POST",
+            url: href,
+            data:data,
+            success: function (result) {
+                HoldOn.close();
+                (link) ? (link.addClass('activeLink')) : (null);
+
+                var oldItem = $('#' + result.id);
+                if (oldItem.length > 0) {
+                    oldItem.remove();
+                }
+
+                var element = $('#content-box');
+                var firstChild = element.children();
+                var newItem = $('<div id=' + result.id + ' class="row contacts-agency ' + '">' + result.html + '</div>');
+
+                if (firstChild.length == 0) {
+                    element.append(newItem);
+                }
+                else {
+                    newItem.insertBefore(firstChild[0]);
+                }
+
+                renderPlugins(newItem, link);
+            },
+            error: function () {
+                HoldOn.close();
+            }
+        });
+    }
+</script>
