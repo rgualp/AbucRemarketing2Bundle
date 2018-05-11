@@ -4443,6 +4443,70 @@ Vous pouvez aussi consulter nos Règles de Confidentialité, les FAQ et nos Cond
                 <source>FAVORITIES_TITLE</source>
                 <target>MyCasaParticular Favoris</target>
             </trans-unit>
+               <trans-unit id="4803">
+                                        <source>REGISTER_MESSAGE1</source>
+                                        <target>We are pleased to welcome you to our community. We are a collaborative tourism platform with 8 years of experience, mainly oriented to the private sector, focuses on building experiences between those who visit us and our community.</target>
+                        </trans-unit>
+                         <trans-unit id="4804">
+                         <source>REGISTER_MESSAGE2</source>
+                         <target>In addition to accommodation services, we can offer you several options for TRANSPORTATION with our collaborator Oncky, both for pick-up and departure at the airport, drivers at disposal and transfer between destinations.</target>
+                         </trans-unit>
+                         <trans-unit id="4805">
+                          <source>REGISTER_MESSAGE_TABLE1</source>
+                          <target>Prices per transfer service per route:</target>
+                         </trans-unit>
+                         <trans-unit id="4806">
+                            <source>REGISTER_MESSAGE_STANDA_TAXI</source>
+                            <target>Standard Taxi (3pax)</target>
+                         </trans-unit>
+                          <trans-unit id="4807">
+                            <source>REGISTER_MESSAGE_VAN</source>
+                            <target>Van (4-6 pax)</target>
+                         </trans-unit>
+                <trans-unit id="4808">
+                              <source>REGISTER_MESSAGE_AIRPORT</source>
+                              <target>Airport</target>
+                           </trans-unit>
+               <trans-unit id="4809">
+                               <source>REGISTER_MESSAGE_INFO</source>
+                               <target>For more information about other routes you can contact us at:</target>
+                            </trans-unit>
+                  <trans-unit id="4810">
+                        <source>REGISTER_MESSAGE_INFO1</source>
+                      <target>Send us the following information to make your transfer reservation:</target>
+                       </trans-unit>
+                <trans-unit id="4811">
+                           <source>REGISTER_MESSAGE_GREETINGS</source>
+                         <target>Thank you for choosing us! Your satisfaction is our priority! Mycasaparticular team</target>
+                          </trans-unit>
+                 <trans-unit id="4812">
+                            <source>REGISTER_MESSAGE_SERVICE_DATE</source>
+                          <target>Date of service</target>
+                           </trans-unit>
+             <trans-unit id="4813">
+                            <source>REGISTER_MESSAGE_PEOPLE</source>
+                          <target>Number of People</target>
+                           </trans-unit>
+             <trans-unit id="4814">
+                            <source>REGISTER_MESSAGE_ARRIVAL</source>
+                          <target>Arrival time</target>
+                           </trans-unit>
+              <trans-unit id="4815">
+                              <source>REGISTER_MESSAGE_DESTINA_FROM</source>
+                            <target>Destination (From)</target>
+                             </trans-unit>
+              <trans-unit id="4816">
+                                <source>REGISTER_MESSAGE_DESTINA_TO</source>
+                              <target>Destination (To)</target>
+                               </trans-unit>
+             <trans-unit id="4817">
+                                <source>REGISTER_MESSAGE_FLIGHT</source>
+                              <target>Flight information</target>
+                               </trans-unit>
+              <trans-unit id="4818">
+                                 <source>REGISTER_MESSAGE_OBSERVATIONS</source>
+                               <target>Observations</target>
+                                </trans-unit>
         </body>
     </file>
 </xliff>

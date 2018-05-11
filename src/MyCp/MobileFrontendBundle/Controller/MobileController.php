@@ -1,7 +1,7 @@
 <?php
 
 namespace MyCp\MobileFrontendBundle\Controller;
-
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use MyCp\mycpBundle\Entity\ownershipReservation;
 class MobileController extends Controller
@@ -90,4 +90,21 @@ class MobileController extends Controller
             'search' => $search
         ));
     }
+    public function downloadVoucherAction(Request $request) {
+                $em = $this->getDoctrine()->getManager();
+                $idgenres=$request->get('res');
+                $bookings_ids = $entity_manager->getRepository('mycpBundle:generalReservation')->getBookings($idgenres);
+                $booking = $em->getRepository('mycpBundle:booking')->find($bookings_ids[0]);
+                $pdfservice = $this->get("front_end.services.booking");
+                $name = 'voucher' . $booking->getBookingUserId() . '_' . $booking->getBookingId() . '.pdf';
+                $pathToFile = $pdfservice->getVoucherFilePathByBookingId($bookingId);
+
+                if (!file_exists(realpath($pathToFile))) {
+                     $pathToFile = $pdfservice->createBookingVoucherIfNotExisting($bookingId);
+                }
+                $response = new BinaryFileResponse($pathToFile);
+                $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $name);
+
+                return $response;
+        }
 }
