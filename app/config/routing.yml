@@ -166,3 +166,7 @@ _imagine:
 frontend_partner_avatar:
     pattern:  /avatar/{user}
     defaults: { _controller: PartnerBundle:Profile:saveAvatarfromApk, user:''}
+
+my_cp_mobile_download_voucher:
+    pattern:  /download/
+    defaults: { _controller: MyCpMobileFrontendBundle:Mobile:downloadVoucher }

@@ -33,8 +33,6 @@ class SendEmailInfoToHomesCommand extends ContainerAwareCommand
 			->setName('mycp_task:send_email_info_home')
 			->setDescription('Send notification to user ')
 
-            ->addArgument("destination", InputArgument::OPTIONAL,"Send to certain email");
-
 
     }
 
@@ -46,7 +44,7 @@ class SendEmailInfoToHomesCommand extends ContainerAwareCommand
 
         $destination = $input->getArgument("destination");
 		$mails= array();
-		$ownerships= $this->getOwnerships($destination);
+		$ownerships= $this->getOwnerships();
 		foreach ($ownerships as $ownership) {
 			$mail = trim($ownership->getOwnEmail1());
 			if (empty($mail))
@@ -54,8 +52,8 @@ class SendEmailInfoToHomesCommand extends ContainerAwareCommand
 
 			$mails[]= $mail;
 		}
-		$mails[]='andy@hds.li';
-        $mails[]='laura@hds.li';
+		$mails[]='orlando@hds.li';
+        
 		foreach ($mails as $mail){
             $output->writeln(date(DATE_W3C) . $mail);
         }
@@ -102,11 +100,11 @@ class SendEmailInfoToHomesCommand extends ContainerAwareCommand
 		$this->notification_email = $this->container->get('mycp.notification.mail.service');
 	}
 
-	protected function getOwnerships($destination){
+	protected function getOwnerships(){
 		$sql= 'select o from mycpBundle:ownership o JOIN mycpBundle:userCasa uc WITH uc.user_casa_ownership=o.own_id JOIN mycpBundle:user u WITH u.user_id=uc.user_casa_user';
 
 		$sql.= " WHERE (o.own_email_1 !='' OR o.own_email_2 !='') ";//Asegurar que tiene email
-        $sql.= "AND o.own_destination =".$destination;//22 Habana
+
 		$sql.= "AND o.own_status = 1 ";//Status 1=Activo
 
         $sql.=" order by o.own_id";
