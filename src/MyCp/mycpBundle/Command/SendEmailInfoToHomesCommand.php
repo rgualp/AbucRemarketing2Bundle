@@ -42,7 +42,6 @@ class SendEmailInfoToHomesCommand extends ContainerAwareCommand
 		$mail_fails= array();
 		$mail_success= array();
 
-        $destination = $input->getArgument("destination");
 		$mails= array();
 		$ownerships= $this->getOwnerships();
 		foreach ($ownerships as $ownership) {
