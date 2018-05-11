@@ -31,7 +31,7 @@ class SendEmailInfoToHomesCommand extends ContainerAwareCommand
 	{
 		$this
 			->setName('mycp_task:send_email_info_home')
-			->setDescription('Send notification to user ')
+			->setDescription('Send notification to user ');
 
 
     }
