@@ -4,6 +4,10 @@ namespace MyCp\MobileFrontendBundle\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use MyCp\mycpBundle\Entity\ownershipReservation;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+
 class MobileController extends Controller
 {
     public function indexAction($name)
@@ -93,14 +97,15 @@ class MobileController extends Controller
     public function downloadVoucherAction(Request $request) {
                 $em = $this->getDoctrine()->getManager();
                 $idgenres=$request->get('res');
-                $bookings_ids = $entity_manager->getRepository('mycpBundle:generalReservation')->getBookings($idgenres);
+
+                $bookings_ids = $em->getRepository('mycpBundle:generalReservation')->getBookings($idgenres);
                 $booking = $em->getRepository('mycpBundle:booking')->find($bookings_ids[0]);
                 $pdfservice = $this->get("front_end.services.booking");
                 $name = 'voucher' . $booking->getBookingUserId() . '_' . $booking->getBookingId() . '.pdf';
-                $pathToFile = $pdfservice->getVoucherFilePathByBookingId($bookingId);
+                $pathToFile = $pdfservice->getVoucherFilePathByBookingId($booking->getBookingId());
 
                 if (!file_exists(realpath($pathToFile))) {
-                     $pathToFile = $pdfservice->createBookingVoucherIfNotExisting($bookingId);
+                     $pathToFile = $pdfservice->createBookingVoucherIfNotExisting($booking->getBookingId());
                 }
                 $response = new BinaryFileResponse($pathToFile);
                 $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $name);

@@ -168,5 +168,5 @@ frontend_partner_avatar:
     defaults: { _controller: PartnerBundle:Profile:saveAvatarfromApk, user:''}
 
 my_cp_mobile_download_voucher:
-    pattern:  /download/
-    defaults: { _controller: MyCpMobileFrontendBundle:Mobile:downloadVoucher }
+    pattern:  /download/{id}
+    defaults: { _controller: MyCpMobileFrontendBundle:Mobile:downloadVoucher,id:'' }
