@@ -96,7 +96,7 @@ class MobileController extends Controller
     }
     public function downloadVoucherAction(Request $request) {
                 $em = $this->getDoctrine()->getManager();
-                $idgenres=$request->get('res');
+                $idgenres=$request->get('id');
 
                 $bookings_ids = $em->getRepository('mycpBundle:generalReservation')->getBookings($idgenres);
                 $booking = $em->getRepository('mycpBundle:booking')->find($bookings_ids[0]);
