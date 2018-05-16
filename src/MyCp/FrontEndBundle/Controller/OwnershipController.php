@@ -708,28 +708,7 @@ class OwnershipController extends Controller
             'lastPage' => $paginator->getLastPage()
         ));
     }
-    public function RankingListAction()
-    {
-        $em = $this->getDoctrine()->getManager();
-        $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
 
-        $paginator = $this->get('ideup.simple_paginator');
-        $items_per_page = 15;
-        $paginator->setItemsPerPage($items_per_page);
-        $last_added_own_list = $paginator->paginate($em->getRepository('mycpBundle:ownership')->RankingOwnerships(null, $user_ids["user_id"], $user_ids["session_id"]))->getResult();
-        $page = 1;
-        if (isset($_GET['page']))
-            $page = $_GET['page'];
-
-        return $this->render('FrontEndBundle:ownership:listRanking.html.twig', array(
-            'list' => $last_added_own_list,
-            'list_preffix' => 'top_rated',
-            'items_per_page' => $items_per_page,
-            'total_items' => $paginator->getTotalItems(),
-            'current_page' => $page,
-            'lastPage' => $paginator->getLastPage()
-        ));
-    }
     public function categoryAction($category)
     {
         $em = $this->getDoctrine()->getManager();
@@ -743,7 +722,6 @@ class OwnershipController extends Controller
             $real_category = 'Rango medio';
         else if ($category == 'premium')
             $real_category = 'Premium';
-
         else
             return $this->redirect($this->generateUrl('frontend-welcome'));
 
@@ -751,9 +729,7 @@ class OwnershipController extends Controller
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 15;
         $paginator->setItemsPerPage($items_per_page);
-
         $list = $paginator->paginate($em->getRepository('mycpBundle:ownership')->getByCategory($real_category, null, null, $user_ids['user_id'], $user_ids['session_id']))->getResult();
-
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
@@ -1920,7 +1896,7 @@ class OwnershipController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
-        $last_added = $em->getRepository('mycpBundle:ownership')->lastAdded(18, $user_ids['user_id'], $user_ids['session_id']);
+        $last_added = $em->getRepository('mycpBundle:ownership')->lastAdded(12, $user_ids['user_id'], $user_ids['session_id']);
         $response = $this->renderView('FrontEndBundle:public:homeCarrouselAccommodationsList.html.twig', array(
             'list' => $last_added,
             'list_preffix' => "lastAdded",
@@ -1930,21 +1906,6 @@ class OwnershipController extends Controller
 
         return new Response($response, 200);
     }
-    public function getCarrouselTopCallbackAction()
-        {
-            $em = $this->getDoctrine()->getManager();
-            $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
-            $last_added = $em->getRepository('mycpBundle:ownership')->RankingOwnerships(18, $user_ids['user_id'], $user_ids['session_id']);
-            $response = $this->renderView('FrontEndBundle:public:homeCarrouselAccommodationsList.html.twig', array(
-                'list' => $last_added,
-                'list_preffix' => "top_rated",
-                "moreUrl" => $this->generateUrl("frontend_list_ranking"),
-                "sliderId" => "top-last-carousel"
-            ));
-
-            return new Response($response, 200);
-        }
-
 
     public function getCarrouselByCategoryCallbackAction()
     {
@@ -1955,13 +1916,12 @@ class OwnershipController extends Controller
         $elementId = $request->get("elementId");
         $realCategory = $request->get("realCategory");
 
-
-        $list = $em->getRepository('mycpBundle:ownership')->getByCategory($category, 18, null, $user_ids['user_id'], $user_ids['session_id']);
+        $list = $em->getRepository('mycpBundle:ownership')->getByCategory($category, 12, null, $user_ids['user_id'], $user_ids['session_id']);
 
         $response = $this->renderView('FrontEndBundle:public:homeCarrouselAccommodationsList.html.twig', array(
             'list' => $list,
             'list_preffix' => $elementId,
-            "moreUrl" => $this->generateUrl("frontend_search_ownership", array('text'=>"null",'guest'=>'1','rooms'=>'1','inmediate'=>'1')),
+            "moreUrl" => $this->generateUrl("frontend_category_ownership", array("category" => $realCategory)),
             "sliderId" => "th-" . $elementId . "-carousel"
         ));
 

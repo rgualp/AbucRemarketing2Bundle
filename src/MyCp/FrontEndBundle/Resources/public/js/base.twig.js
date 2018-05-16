@@ -68,9 +68,16 @@ var BaseTwigJs = function () {
             loadLastAdded();
         });
 
+        $('#homeCarrousel a[href="#economic"]').click(function () {
+            loadAccommodationsByCategory("Económica", "economic", "economy");
+        });
 
-        $('#homeCarrousel a[href="#best"]').click(function () {
-            loadAccommodationsByCategory("Best", "best", "best");
+        $('#homeCarrousel a[href="#medium"]').click(function () {
+            loadAccommodationsByCategory("Rango medio", "medium", "mid_range");
+        });
+
+        $('#homeCarrousel a[href="#premium"]').click(function () {
+            loadAccommodationsByCategory("Premium", "premium", "premium");
         });
     }
 

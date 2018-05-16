@@ -11,10 +11,6 @@ frontend_last_added_ownership:
     locales:  { en: "/last-added-accommodation/", es: "/ultimos-alojamientos-agregados/", de: "/zuletzt-hinzugefuegte-unterkuenfte/", fr: "/zuletzt-hinzugefuegte-unterkuenfte/", it: "/zuletzt-hinzugefuegte-unterkuenfte/" }
     defaults: { _controller: FrontEndBundle:Ownership:lastAddedList }
 
-frontend_list_ranking:
-    locales:  { en: "/list-ranking/", es: "/list-ranking/", de: "/list-ranking/", fr: "/list-ranking/", it: "/list-ranking/" }
-    defaults: { _controller: FrontEndBundle:Ownership:RankingList }
-
 frontend_category_ownership:
     locales:  { en: "/accommodations-by-category/{category}", es: "/alojamientos-por-categoria/{category}", de: "/unterkuenfte-nach-kategorie/{category}", fr: "/unterkuenfte-nach-kategorie/{category}", it: "/unterkuenfte-nach-kategorie/{category}" }
     defaults: { _controller: FrontEndBundle:Ownership:category }
@@ -93,11 +89,6 @@ frontend_carrousel_last_added_callback:
     pattern:  /carrousel-last-added/
     locales:  { en: "/carrousel-last-added/", es: "/carrousel-last-added/", de: "/carrousel-last-added/", fr: "/carrousel-last-added/", it: "/carrousel-last-added/" }
     defaults: { _controller: FrontEndBundle:Ownership:getCarrouselLastAddedCallback }
-
-frontend_carrousel_top_callback:
-    pattern:  /carrousel-top/
-    locales:  { en: "/carrousel-top/", es: "/carrousel-top/", de: "/carrousel-top/", fr: "/carrousel-top/", it: "/carrousel-top/" }
-    defaults: { _controller: FrontEndBundle:Ownership:getCarrouselTopCallback }
 
 frontend_carrousel_bycategory_callback:
     path:  /carrousel-bycategory/

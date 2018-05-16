@@ -23,58 +23,10 @@
 
     <div class="container">
         <h2 class="text-center caecilia-roman h-grey h-size-2">{{ "HOMEPAGE_SUBTITLE_2" | trans }}</h2>
-        <div class="row">
-                      <div class="bg-solid-orange" style="margin: 35px 0 30px;">
-                          <div class="text-center caecilia-roman h-white" style="font-weight: normal; line-height:1.1">
-                              <img rel="tooltip" title="{{ 'PREMIUM_HOME_TABS' | trans }}"
-                                                              class="icon icon-3 tiny-premium-icon"
-                                                              src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/>
-                                            &nbsp;
-                              {{ "PREMIUM_HOME_TABS" | trans }}
-                              &nbsp; <img rel="tooltip" title="{{ 'PREMIUM_HOME_TABS' | trans }}"
-                                                                     class="icon icon-3 tiny-premium-icon"
-                                                                     src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/>
-                                                        </div>
-                      </div>
-                         {{ render(controller( 'FrontEndBundle:Ownership:getCarrouselByCategoryCallback', { 'category': 'Premium', 'elementId':'premium','realCategory':'premium'} )) }}
 
-
-                        </div>
-
- <div class="row">
-              <div class="bg-solid-orange" style="margin: 35px 0 30px;">
-                  <div class="text-center caecilia-roman h-white" style="font-weight: normal; line-height:1.1">
-                      <img rel="tooltip" title="{{ 'MIDRANGE_HOME_TABS' | trans }}"
-                                                          class="icon icon-3 tiny-middle-icon"
-                                                          src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/>                            &nbsp;
-                      {{ "MIDRANGE_HOME_TABS" | trans }}
-                      &nbsp;  <img rel="tooltip" title="{{ 'MIDRANGE_HOME_TABS' | trans }}"
-                                                                  class="icon icon-3 tiny-middle-icon"
-                                                                  src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/>               </div>
-              </div>
-                 {{ render(controller( 'FrontEndBundle:Ownership:getCarrouselByCategoryCallback', { 'category': 'Rango medio', 'elementId':'medium','realCategory':'mid_range'} )) }}
-
-
-                </div>
-        <div class="row">
-      <div class="bg-solid-orange" style="margin: 35px 0 30px;">
-          <div class="text-center caecilia-roman h-white" style="font-weight: normal; line-height:1.1">
-                   <img rel="tooltip" title="{{ 'ECONOMIC_HOME_TABS' | trans }}"
-                                                  class="icon icon-3 tiny-economic-icon"
-                                                  src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}">
-
-                   &nbsp;
-              {{ "ECONOMIC_HOME_TABS" | trans }}
-              &nbsp;      <img rel="tooltip" title="{{ 'ECONOMIC_HOME_TABS' | trans }}"
-                                                         class="icon icon-3 tiny-economic-icon"
-                                                         src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}">
-                                   </div>
-      </div>
-         {{ render(controller( 'FrontEndBundle:Ownership:getCarrouselByCategoryCallback', { 'category': 'Económica', 'elementId':'economic','realCategory':'economy'} )) }}
-
-
+        <div class="lazyContent row" data-loader="toprateLoader">
+            {{ include('FrontEndBundle:ownership:newHomeTopRatedOwnership.html.twig') }}
         </div>
-
 
         <div class="text-center" style="margin-top: 3em;"><span
                     class="caecilia-roman"
