@@ -1872,7 +1872,31 @@ class ownershipRepository extends EntityRepository
         }
         return $results;
     }
+/**
+     * Devuelve un list con las casas segun ranking
+     * @param null $results_total
+     * @param null $user_id
+     * @param null $session_id
+     * @return array list
+     */
+    function RankingOwnerships($results_total = null, $user_id = null, $session_id = null)
+    {
+        $em = $this->getEntityManager();
 
+        $query_string = $this->getBasicQuery($user_id, $session_id);
+        $query_string .= " WHERE o.own_status = " . ownershipStatus::STATUS_ACTIVE . " ORDER BY o.own_ranking DESC";
+
+        $results = ($results_total != null && $results_total > 0) ? $em->createQuery($query_string)->setMaxResults($results_total)->getResult() : $em->createQuery($query_string)->getResult();
+
+        for ($i = 0; $i < count($results); $i++) {
+            if ($results[$i]['photo'] == null)
+                $results[$i]['photo'] = "no_photo.png";
+            else if (!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo']))) {
+                $results[$i]['photo'] = "no_photo.png";
+            }
+        }
+        return $results;
+    }
     function getDetails($own_name, $locale = "ES", $user_id = null, $session_id = null)
     {
         $em = $this->getEntityManager();
