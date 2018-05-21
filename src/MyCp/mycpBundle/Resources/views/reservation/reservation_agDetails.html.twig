@@ -215,6 +215,7 @@
                 {%endif%}
 
             <td>
+            {%if reservation.genResStatus != constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_RESERVED')%}
             <select style="width: 100px" class="input-block-level" id="service_own_res_status_{{reservation_rooms.getOwnResId}}" name="service_own_res_status_{{reservation_rooms.getOwnResId}}" onchange="changeReservationStatus({{ reservation_rooms.getOwnResId }})">
                 {% if post['service_own_res_status_'~reservation_rooms.getOwnResId] is defined %}
                     {{ render(controller('mycpBundle:BackendReservation:get_reservation_status', {'post': {'selected':post['service_own_res_status_'~reservation_rooms.getOwnResId]}})) }}
@@ -222,6 +223,9 @@
                     {{ render(controller('mycpBundle:BackendReservation:get_reservation_status', {'post': {'selected':reservation_rooms.getOwnResStatus}})) }}
                 {% endif %}
             </select>
+            {%else%}
+            Reservada
+            {%endif%}
                 <input type="checkbox" id="updateCalendar_{{ reservation_rooms.getOwnResId}}" name="updateCalendar_{{ reservation_rooms.getOwnResId}}" class="hidden"/> <span class="hidden" id="updateCalendarText_{{ reservation_rooms.getOwnResId}}">Agregar no disponibilidad</span>
             </td>
         </tr>
