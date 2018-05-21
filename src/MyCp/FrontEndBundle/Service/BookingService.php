@@ -2230,6 +2230,8 @@ class BookingService extends Controller
                                                                            ));
 
                                     $service_email1->sendEmail("Pago Pendiente", 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', 'yania@hds.li', $emailBody);
+                                    $service_email1->sendEmail("Pago Pendiente", 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', 'contabilidad@mycasaparticular.com', $emailBody);
+                                    $service_email1->sendEmail("Pago Pendiente", 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', 'contabilidad1@mycasaparticular.com', $emailBody);
                                 }
                                 else{
                                     $notificationService->sendSMSReservationsCancel($ownershipReservation);
@@ -2321,8 +2323,11 @@ class BookingService extends Controller
 
                                        ));
 
-                            $service_email1->sendEmail("Pago Pendiente", 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', 'yania@hds.li', $emailBody
-                                                                   );
+                            $service_email1->sendEmail("Pago Pendiente", 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', 'yania@hds.li', $emailBody);
+                            $service_email1->sendEmail("Pago Pendiente", 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', 'contabilidad@mycasaparticular.com', $emailBody);
+                            $service_email1->sendEmail("Pago Pendiente", 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', 'contabilidad1@mycasaparticular.com', $emailBody);
+
+
                         }
                         else{
                             $notificationService->sendSMSReservationsCancel($ownreservation);
