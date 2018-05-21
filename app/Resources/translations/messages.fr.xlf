@@ -4359,16 +4359,15 @@ Vous pouvez aussi consulter nos Règles de Confidentialité, les FAQ et nos Cond
             </trans-unit>
             <trans-unit id="4784">
                 <source>EXTRA_SERVICES_1</source>
-                <target>C’est un bon moment pour voyager à Cuba! Soit un voyage d’affaire ou pour loisir nous vous
-                    assurons que votre séjour dans cette bel île sera merveilleux.
+                <target>You are very close to your vacations in Cuba!
                 </target>
             </trans-unit>
             <trans-unit id="4785">
                 <source>EXTRA_SERVICES_2</source>
-                <target>À l’aide de nos collaborateurs à Cuba nous vous proposons un groupe de services: peut-être une
-                    location de voiture permettant de parcourir l´île à votre rythme, ou des transferts privés d’une
-                    destination à l’autre… des tours guidés, des vols domestiques, des excursions maritimes… Cuba à
-                    votre portée.
+                <target>To make your trip a more pleasant, organized and stress-free experience,
+                        Mycasaparticular reminds you that you have several transfers services available:
+                        from and to the Airport, between the different tourist destinations and drivers at disposal.
+                        If you wish to consult new routes, please click here: oncky.com
                 </target>
             </trans-unit>
             <trans-unit id="4786">
@@ -4377,7 +4376,8 @@ Vous pouvez aussi consulter nos Règles de Confidentialité, les FAQ et nos Cond
             </trans-unit>
             <trans-unit id="4787">
                 <source>EXTRA_SERVICES_4</source>
-                <target>Merci. Nous vous souhaitons un séjour très agréable.</target>
+                <target>If you are interested in discovering new destinations, do not hesitate to contact us.
+                        Among the most visited are:</target>
             </trans-unit>
             <trans-unit id="4788">
                 <source>EXTRA_SERVICES_5</source>

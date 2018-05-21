@@ -20,7 +20,7 @@ class CheckInServicesEmailCommand extends ContainerAwareCommand {
         $this
                 ->setName('mycp:checkin-services')
                 ->setDefinition(array())
-                ->setDescription('Send services email to every tourist to enter in 2 days')
+                ->setDescription('Send services email to every tourist to enter in 5 days')
                 ->addOption("testing", null, InputOption::VALUE_NONE, 'Indicate if command is in testing mode');
     }
 
@@ -32,7 +32,7 @@ class CheckInServicesEmailCommand extends ContainerAwareCommand {
 
         $date = new \DateTime();
         $startTimeStamp = $date->getTimestamp();
-        $startTimeStamp = strtotime("+10 day", $startTimeStamp);
+        $startTimeStamp = strtotime("+5 day", $startTimeStamp);
         $date->setTimestamp($startTimeStamp);
         $date = $date->format("d/m/Y");
 
@@ -58,9 +58,11 @@ class CheckInServicesEmailCommand extends ContainerAwareCommand {
                 $locale = strtolower($tourist["lang_code"]);
                 $subject = $translator->trans('EXTRA_SERVICES_SUBJECT', array(), null, $locale);
                 $mail = ($testing) ? "yanet.moralesr@gmail.com" : $tourist["user_email"];
+                $dest_list = $em->getRepository('mycpBundle:destination')->getAllDestinations($locale, null, null);
 
                 $bodyExtraServices = $emailService->getViewContent('FrontEndBundle:mails:extraServicesMail.html.twig', array(
                     'user_name' => $tourist["user_user_name"],
+                     'main_destinations' => array_slice($dest_list, 0, 6),
                     'user_locale' => $locale));
 
 

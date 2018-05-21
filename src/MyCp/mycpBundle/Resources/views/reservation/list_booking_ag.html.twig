@@ -125,8 +125,8 @@
                     <th>Fecha Booking</th>
                     <th>Prepago</th>
                     <th>Moneda</th>
-                    <th>Agencia</th>
-                    <th>Correo</th>
+                    <th>Agencia-TourOperador</th>
+
                     <th>País</th>
                     <th title="Esta fecha indica la fecha mínima de llegada del cliente. Si un booking tiene asociada más de una reservación, entonces esta fecha es la primera fecha de entrada del cliente">Fecha Llegada</th>
                     <th style="text-align: right">Acciones</th>
@@ -141,8 +141,8 @@
                     <td>{{ booking.created|date("d/m/Y") }}</td>
                     <td>{{ booking.payed_amount }} {{ booking.curr_code }}</td>
                     <td>{{ booking.curr_code }}</td>
-                    <td>{{ booking.aName }}</td>
-                    <td>{{ booking.aEmail }}</td>
+                    <td>{{ booking.booking_user_dates }}</td>
+
                     <td>{{ booking.country }}</td>
                     <td title="Esta fecha indica la fecha mínima de llegada del cliente. Si un booking tiene asociada más de una reservación, entonces esta fecha es la primera fecha de entrada del cliente">{%if booking.arrivalDate != null%}{{ booking.arrivalDate | date("d/m/Y") }}{%else%} - {%endif%}</td>
                     <td style="text-align: right">

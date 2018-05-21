@@ -8,8 +8,47 @@
     {{"EXTRA_SERVICES_2" | trans({}, "messages", user_locale)}}<br/><br/>
     {{"EXTRA_SERVICES_3" | trans({}, "messages", user_locale)}} <a href="mailto:services@mycasaparticular.com">services@mycasaparticular.com</a><br/><br/>
     {{"EXTRA_SERVICES_4" | trans({}, "messages", user_locale)}}<br/><br/><br/><br/>
-    {{"EXTRA_SERVICES_5" | trans({}, "messages", user_locale)}}<br/><br/>
-    Luis E. SM<br/>
-    {{"EXTRA_SERVICES_6" | trans({}, "messages", user_locale)}}
+    {%for destination in main_destinations%}
+
+    <div class="row thumbs-houses thumbs-destination">
+
+    <div class="col-sm-4 lazy-cont">
+           <table class="col-sm-12">
+               <tr>
+
+                   <td>
+                       <div class="square-grey-cont">
+                           <div class="cont">
+                               {{"DES_POBLATION" | trans}}<br/><b>{{ destination[0].desPoblation }}</b>
+                           </div>
+                       </div>
+                       <div class="square-grey-cont">
+                           <div class="cont">
+                               {{"DES_REF_PLACE" | trans}}<br/><b>{{ destination[0].desRefPlace | slice(0, 20)}}</b>
+                           </div>
+
+                       </div>
+                   </td>
+               </tr>
+           </table>
+           <a href="{{ path('frontend_details_destination',{'destination_name':destination[0].desName|lower|replace(' ','-')}) }}">
+           <h3 class="h-blue">{{destination[0].desName}}</h3>
+           </a>
+            <div class="dest-description">
+           {{ destination[1] | slice(0,200) | striptags }}{% if destination[1]|length>200 %}...{% endif %}
+            </div>
+
+           <hr/>
+
+
+    </div>
+
+
+    </div>
+
+{%else%}
+    <div class="noData">{{"EMPTY_LIST" | trans}}</div>
+{%endfor%}
+
 </p>
 {% endblock %}

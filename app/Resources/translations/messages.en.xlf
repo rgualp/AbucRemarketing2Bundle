@@ -4275,15 +4275,14 @@
             </trans-unit>
             <trans-unit id="4784">
                 <source>EXTRA_SERVICES_1</source>
-                <target>What a great time to travel to Cuba! Whether you are traveling for pleasure or business, we
-                    guarantee you will have a wonderful stay on this beautiful island.
-                </target>
+                <target>You are very close to your vacations in Cuba!</target>
             </trans-unit>
             <trans-unit id="4785">
                 <source>EXTRA_SERVICES_2</source>
-                <target>Through our collaborators in Cuba we offer you a group of services: perhaps a rental car that
-                    allows you to travel the island at your own pace, or private transfers between the destinations you
-                    intend to visit ... guided tours, domestic flights, sea excursions ...
+                <target>To make your trip a more pleasant, organized and stress-free experience,
+                 Mycasaparticular reminds you that you have several transfers services available:
+                 from and to the Airport, between the different tourist destinations and drivers at disposal.
+                 If you wish to consult new routes, please click here: oncky.com
                 </target>
             </trans-unit>
             <trans-unit id="4786">
@@ -4292,7 +4291,8 @@
             </trans-unit>
             <trans-unit id="4787">
                 <source>EXTRA_SERVICES_4</source>
-                <target>Thank you and wish you a happy stay.</target>
+                <target>If you are interested in discovering new destinations, do not hesitate to contact us.
+                 Among the most visited are:</target>
             </trans-unit>
             <trans-unit id="4788">
                 <source>EXTRA_SERVICES_5</source>

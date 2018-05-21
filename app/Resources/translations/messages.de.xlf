@@ -4308,16 +4308,15 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
             </trans-unit>
             <trans-unit id="4784">
                 <source>EXTRA_SERVICES_1</source>
-                <target>Was für eine tolle Zeit nach Kuba zu reisen! Ob Sie für Vergnügen oder Geschäft reisen, wir
-                    garantieren Ihnen einen wundervollen Aufenthalt auf dieser wunderschönen Insel.
+                <target>You are very close to your vacations in Cuba!
                 </target>
             </trans-unit>
             <trans-unit id="4785">
                 <source>EXTRA_SERVICES_2</source>
-                <target>Durch unsere Mitarbeiter in Kuba bieten wir Ihnen eine Gruppe von Dienstleistungen an:
-                    vielleicht ein Mietwagen, der Ihnen erlaubt, die Insel in Ihrem eigenen Tempo zu reisen, oder
-                    private Transfers zwischen den Destinationen, die Sie besuchen möchten ... Führungen, Inlandsflüge,
-                    Seenausflüge ... Kuba in Ihre Reichweite.
+                <target>To make your trip a more pleasant, organized and stress-free experience,
+                        Mycasaparticular reminds you that you have several transfers services available:
+                        from and to the Airport, between the different tourist destinations and drivers at disposal.
+                        If you wish to consult new routes, please click here: oncky.com
                 </target>
             </trans-unit>
             <trans-unit id="4786">
@@ -4328,7 +4327,8 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
             </trans-unit>
             <trans-unit id="4787">
                 <source>EXTRA_SERVICES_4</source>
-                <target>Vielen Dank. Wir wünschen Ihnen einen schönen Aufenthalt.</target>
+                <target>If you are interested in discovering new destinations, do not hesitate to contact us.
+                        Among the most visited are:</target>
             </trans-unit>
             <trans-unit id="4788">
                 <source>EXTRA_SERVICES_5</source>
