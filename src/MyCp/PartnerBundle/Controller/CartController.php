@@ -505,6 +505,7 @@ class CartController extends Controller
         $booking->setBookingCancelProtection(0);
         $booking->setBookingCurrency($currency);
         $prepayment = $cartPrepayment* $currency->getCurrCucChange();
+        
         $booking->setBookingPrepay($prepayment);
         $booking->setBookingUserId($user->getUserId());
         $booking->setBookingUserDates($travelAgency->getName() . ', ' . $user->getUserEmail());
