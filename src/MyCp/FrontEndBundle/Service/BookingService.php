@@ -2222,6 +2222,14 @@ class BookingService extends Controller
                                 //Se envia un sms al prpietario
                                 if($give_tourist){
                                     $notificationService->sendSMSReservationsCancel($ownershipReservation, $item['price']);
+                                   $service_email1 = $this->get('Email');
+                                    $emailBody = $this->renderView('FrontEndBundle:mails:pago_pendiente.html.twig', array(
+                                                                               'reservation' => $ownershipReservation.getOwnResGenResId(),
+                                                                               'deposit' => $item['price'],
+
+                                                                           ));
+
+                                    $service_email1->sendEmail("Pago Pendiente", 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', 'yania@hds.li', $emailBody);
                                 }
                                 else{
                                     $notificationService->sendSMSReservationsCancel($ownershipReservation);
@@ -2306,6 +2314,15 @@ class BookingService extends Controller
                         //Se envia un sms al prpietario
                         if($give_tourist){
                             $notificationService->sendSMSReservationsCancel($ownreservation, $item['price']);
+                            $service_email1 = $this->get('Email');
+                            $emailBody = $this->renderView('FrontEndBundle:mails:pago_pendiente.html.twig', array(
+                                           'reservation' => $ownreservation.getOwnResGenResId(),
+                                           'deposit' => $item['price'],
+
+                                       ));
+
+                            $service_email1->sendEmail("Pago Pendiente", 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', 'yania@hds.li', $emailBody
+                                                                   );
                         }
                         else{
                             $notificationService->sendSMSReservationsCancel($ownreservation);
