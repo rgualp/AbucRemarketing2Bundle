@@ -23,23 +23,7 @@
     <li class="active">Detalles de reserva</li>
     <li class="pull-right"><a href="{{ path('mycp_list_reservations_ag') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
 </ul>
-<div class="form-actions">
-    <button rel="tooltip" title="Guardar los cambios realizados" class="tooltip_msg btn btn-success" type="submit">Guardar</button>
-    {%set available = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_AVAILABLE')%}
-    {%set reserved = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_RESERVED')%}
-    <a title="Nueva oferta" class="btn btn-info" href="{% if reservation.genresstatus == available or reservation.genresstatus == reserved %}{{ path('mycp_new_offer_to_client_ag', {'idClient': reservation.getGenResUserId.getUserId, 'idClientOfAg': client.getId,"attendedDate": reservation.genResDate | date("Y-m-d"),'reference':br}) }}{% else %}{{path('mycp_new_offer_to_client_ag', {'idClient': reservation.getGenResUserId.getUserId, 'idClientOfAg': client.getId, "attendedDate": reservation.genResDate | date("Y-m-d"),'reference':br})}}{% endif %}"><i class="icon-asterisk icon-white"></i> Oferta</a>
-    <button rel="tooltip" title="Cancelar los cambios realizados" class="tooltip_msg btn" type="reset">Cancelar</button>
-    &nbsp;&nbsp;&nbsp;
-    <button rel="tooltip" title="Enviar por correo la reservación al cliente" {% if reservation.getGenResSaved!=0 %} onclick="send_message();" {% endif %}class="tooltip_msg {% if reservation.getGenResSaved==0 %}disabled{% endif %} btn btn-primary" type="{% if reservation.getGenResSaved!=0 %}submit{% else %}button{% endif %}">Enviar</button>
-    {%if reservation.genResStatus == constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_CANCELLED')%}
-    <a rel="tooltip" title="Gestionar una nueva oferta para el pago" href="{{ path('mycp_new_offer_reservation',{ 'id_tourist' :  reservation.getGenResUserId.getUserId,'id_reservation' :  reservation.getGenResId }) }}" class="tooltip_msg btn btn-success">Nueva Oferta Pagada</a>
-    {%endif%}
-    {%if reservation.genResStatus == constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_RESERVED')%}
-        <a href="{{ path('mycp_send_voucher_reservation',{ 'id_reservation' :  reservation.getGenResId }) }}" rel="tooltip" title="Enviar el voucher asociado al equipo de reservación" class="tooltip_msg btn btn-warning">Recibir Voucher</a>
-    {%endif%}
 
-</div>
-</form>
 {% endblock %}
 {% block content %}
 <h2>
@@ -215,7 +199,6 @@
                 {%endif%}
 
             <td>
-            {%if reservation.genResStatus != constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_RESERVED')%}
             <select style="width: 100px" class="input-block-level" id="service_own_res_status_{{reservation_rooms.getOwnResId}}" name="service_own_res_status_{{reservation_rooms.getOwnResId}}" onchange="changeReservationStatus({{ reservation_rooms.getOwnResId }})">
                 {% if post['service_own_res_status_'~reservation_rooms.getOwnResId] is defined %}
                     {{ render(controller('mycpBundle:BackendReservation:get_reservation_status', {'post': {'selected':post['service_own_res_status_'~reservation_rooms.getOwnResId]}})) }}
@@ -223,9 +206,6 @@
                     {{ render(controller('mycpBundle:BackendReservation:get_reservation_status', {'post': {'selected':reservation_rooms.getOwnResStatus}})) }}
                 {% endif %}
             </select>
-            {%else%}
-            Reservada
-            {%endif%}
                 <input type="checkbox" id="updateCalendar_{{ reservation_rooms.getOwnResId}}" name="updateCalendar_{{ reservation_rooms.getOwnResId}}" class="hidden"/> <span class="hidden" id="updateCalendarText_{{ reservation_rooms.getOwnResId}}">Agregar no disponibilidad</span>
             </td>
         </tr>
@@ -404,6 +384,23 @@
 
     </div>
 {{ render(controller('mycpBundle:BackendMessage:messageUserControl', {'userTo': user})) }}
+<div class="form-actions" style="margin-top: 50px;">
+    <button rel="tooltip" title="Guardar los cambios realizados" class="tooltip_msg btn btn-success" type="submit">Guardar</button>
+    {%set available = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_AVAILABLE')%}
+    {%set reserved = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_RESERVED')%}
+    <a title="Nueva oferta" class="btn btn-info" href="{% if reservation.genresstatus == available or reservation.genresstatus == reserved %}{{ path('mycp_new_offer_to_client_ag', {'idClient': reservation.getGenResUserId.getUserId, 'idClientOfAg': client.getId,"attendedDate": reservation.genResDate | date("Y-m-d"),'reference':br}) }}{% else %}{{path('mycp_new_offer_to_client_ag', {'idClient': reservation.getGenResUserId.getUserId, 'idClientOfAg': client.getId, "attendedDate": reservation.genResDate | date("Y-m-d"),'reference':br})}}{% endif %}"><i class="icon-asterisk icon-white"></i> Oferta</a>
+    <button rel="tooltip" title="Cancelar los cambios realizados" class="tooltip_msg btn" type="reset">Cancelar</button>
+    &nbsp;&nbsp;&nbsp;
+    <button rel="tooltip" title="Enviar por correo la reservación al cliente" {% if reservation.getGenResSaved!=0 %} onclick="send_message();" {% endif %}class="tooltip_msg {% if reservation.getGenResSaved==0 %}disabled{% endif %} btn btn-primary" type="{% if reservation.getGenResSaved!=0 %}submit{% else %}button{% endif %}">Enviar</button>
+    {%if reservation.genResStatus == constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_CANCELLED')%}
+    <a rel="tooltip" title="Gestionar una nueva oferta para el pago" href="{{ path('mycp_new_offer_reservation',{ 'id_tourist' :  reservation.getGenResUserId.getUserId,'id_reservation' :  reservation.getGenResId }) }}" class="tooltip_msg btn btn-success">Nueva Oferta Pagada</a>
+    {%endif%}
+    {%if reservation.genResStatus == constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_RESERVED')%}
+        <a href="{{ path('mycp_send_voucher_reservation',{ 'id_reservation' :  reservation.getGenResId }) }}" rel="tooltip" title="Enviar el voucher asociado al equipo de reservación" class="tooltip_msg btn btn-warning">Recibir Voucher</a>
+    {%endif%}
+
+</div>
+</form>
 {% if reservation.modified != null and reservation.modifiedBy != null %}
     {% include 'mycpBundle:utils:modifiedControl.html.twig' with {'modified':reservation.modified,'modifiedBy':reservation.modifiedBy, 'offer': offerLog}%}
 {% endif %}
