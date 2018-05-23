@@ -894,12 +894,22 @@ class BackendReservationAgController extends Controller {
                     }
                 }
                 //Change status reservations
+
                 if(count($reservations_ids)){
                     foreach($reservations_ids as $genResId){
                         $reservation = $em->getRepository('mycpBundle:ownershipReservation')->find($genResId);
                         $reservation->setOwnResStatus(ownershipReservation::STATUS_CANCELLED);
                         $em->persist($reservation);
                         $obj->addOwnershipReservation($reservation);
+                        $generalReserv=$reservation->getOwnResGenResId();
+                        if(count($booking->getBookingOwnReservations())==count($obj->getOwnreservations()))
+                        $flag=true;
+                        if($flag)
+                        $generalReserv->setGenResStatus(generalReservation::STATUS_CANCELLED);
+                        else
+                        $generalReserv->setGenResStatus(generalReservation::STATUS_PARTIAL_CANCELLED);
+                        $em->persist($generalReserv);
+
                     }
                 }
                 //Set booking save relations
@@ -908,6 +918,8 @@ class BackendReservationAgController extends Controller {
                 $obj->setUser($this->getUser());
                 $obj->setCancelDate(\MyCp\mycpBundle\Helpers\Dates::createDateFromString($form_data['cancel_date'], '/', 1));
                 $em->persist($obj);
+
+
 
                 $em->flush();
                 return new JsonResponse(['success' => true, 'message' =>'Se ha adicionado satisfactoriamente']);
