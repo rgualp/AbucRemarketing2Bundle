@@ -46,6 +46,7 @@
                         <th>Tipo Habitación</th>
                         <th>Desde</th>
                         <th>Hasta</th>
+                        
                     </tr>
 
                     </thead>
@@ -54,6 +55,7 @@
                     {% for reservation in reservations %}
                         {% if generalReservation != reservation.getOwnResGenResId.getGenResId %}
                             {% set generalReservation = reservation.getOwnResGenResId.getGenResId %}
+
                             <tr>
                                 <td>{{ payment.booking.bookingId }}</td>
                                 <td><a href="{{ path("mycp_details_reservation_ag", {"id_reservation": reservation.getOwnResGenResId.getGenResId}) }}">{{ reservation.getOwnResGenResId.getCASId }}</a></td>
@@ -62,6 +64,7 @@
                                 <td>{{ reservation.getOwnResRoomType }}</td>
                                 <td>{{ reservation.getOwnResReservationFromDate|date("d/m/Y") }}</td>
                                 <td>{{ reservation.getOwnResReservationToDate|date("d/m/Y") }}</td>
+
                             </tr>
                         {% endif %}
                         {% set cucPayment = cucPayment +  reservation.ownResTotalInSite * (reservation.getOwnResGenResId.genResOwnId.ownCommissionPercent) / 100 %}
