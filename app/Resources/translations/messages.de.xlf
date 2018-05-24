@@ -4313,10 +4313,10 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
             </trans-unit>
             <trans-unit id="4785">
                 <source>EXTRA_SERVICES_2</source>
-                <target>To make your trip a more pleasant, organized and stress-free experience,
-                        Mycasaparticular reminds you that you have several transfers services available:
-                        from and to the Airport, between the different tourist destinations and drivers at disposal.
-                        If you wish to consult new routes, please click here: oncky.com
+                <target>Um Ihre Reise angenehmer, organisierter und stressfreier zu gestalten, weist Sie Mycasaparicular
+                darauf hin, dass Sie mehrere Transferdienste zur Verfügung haben: vom und zum Flughafen,
+                zwischen den verschiedenen touristischen Zielen und den zur Verfügung stehenden Fahrern.
+                Wenn Sie neue Routen konsultieren möchten, klicken Sie bitte hier: oncky.com
                 </target>
             </trans-unit>
             <trans-unit id="4786">
@@ -4327,8 +4327,8 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
             </trans-unit>
             <trans-unit id="4787">
                 <source>EXTRA_SERVICES_4</source>
-                <target>If you are interested in discovering new destinations, do not hesitate to contact us.
-                        Among the most visited are:</target>
+                <target>Wenn Sie neue Reiseziele entdecken möchten, zögern Sie nicht, uns zu kontaktieren.
+                        Zu den am meisten besuchten gehören:</target>
             </trans-unit>
             <trans-unit id="4788">
                 <source>EXTRA_SERVICES_5</source>

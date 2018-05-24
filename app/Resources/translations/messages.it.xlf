@@ -4350,10 +4350,10 @@
             </trans-unit>
             <trans-unit id="4785">
                 <source>EXTRA_SERVICES_2</source>
-                <target>To make your trip a more pleasant, organized and stress-free experience,
-                      Mycasaparticular reminds you that you have several transfers services available:
-                      from and to the Airport, between the different tourist destinations and drivers at disposal.
-                      If you wish to consult new routes, please click here: oncky.com
+                <target>Per rendere il tuo viaggio un'esperienza più piacevole, organizzata e senza stress,
+                Mycasaparticular ti ricorda che hai diversi servizi di trasferimento disponibili: da e
+                per l'aeroporto, tra le diverse destinazioni turistiche e i conducenti a disposizione.
+                Se desideri consultare nuovi percorsi, clicca qui: oncky.com
                 </target>
             </trans-unit>
             <trans-unit id="4786">
@@ -4362,8 +4362,8 @@
             </trans-unit>
             <trans-unit id="4787">
                 <source>EXTRA_SERVICES_4</source>
-                <target>If you are interested in discovering new destinations, do not hesitate to contact us.
-                        Among the most visited are:</target>
+                <target>Se sei interessato a scoprire nuove destinazioni, non esitare a contattarci.
+                Tra i più visitati ci sono:</target>
             </trans-unit>
             <trans-unit id="4788">
                 <source>EXTRA_SERVICES_5</source>
