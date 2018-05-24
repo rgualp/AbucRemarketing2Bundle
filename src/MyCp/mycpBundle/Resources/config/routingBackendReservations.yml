@@ -131,8 +131,8 @@ mycp_details_client_reservationAG:
     defaults: { _controller: mycpBundle:BackendReservation:details_client_reservationAg }
 
 mycp_new_offer_to_client_ag:
-    pattern:  /new-offer-to-client-ag/{idClient}/{idClientOfAg}/{attendedDate}/{reference}/{completePay}
-    defaults: { _controller: mycpBundle:BackendReservationAg:newCleanOffer, idClient:'', idClientOfAg:'',attendedDate:'',reference:'',completePay:'' }
+    pattern:  /new-offer-to-client-ag/{idClient}/{idClientOfAg}/{attendedDate}/{reference}/{completePayment}
+    defaults: { _controller: mycpBundle:BackendReservationAg:newCleanOffer, idClient:'', idClientOfAg:'',attendedDate:'',reference:'',completePayment:'' }
 
 mycp_send_voucher_reservation_booking:
     pattern:  /send-voucher-booking/{id_booking}
