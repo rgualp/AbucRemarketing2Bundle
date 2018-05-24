@@ -13,29 +13,26 @@
     <div class="row thumbs-houses thumbs-destination">
 
     <div class="col-sm-4 lazy-cont">
-           <table class="col-sm-12">
-               <tr>
 
-                   <td>
-                       <div class="square-grey-cont">
-                           <div class="cont">
-                               {{"DES_POBLATION" | trans}}<br/><b>{{ destination[0].desPoblation }}</b>
-                           </div>
-                       </div>
-                       <div class="square-grey-cont">
-                           <div class="cont">
-                               {{"DES_REF_PLACE" | trans}}<br/><b>{{ destination[0].desRefPlace | slice(0, 20)}}</b>
-                           </div>
-
-                       </div>
-                   </td>
-               </tr>
-           </table>
            <a href="{{ path('frontend_details_destination',{'destination_name':destination[0].desName|lower|replace(' ','-')}) }}">
            <h3 class="h-blue">{{destination[0].desName}}</h3>
            </a>
+        <table class="col-sm-12">
+            <tr>
+
+                <td>
+
+                    <div class="square-grey-cont">
+                        <div class="cont">
+                            {{"DES_REF_PLACE" | trans}}<br/><b>{{ destination[0].desRefPlace | slice(0, 20)}}</b>
+                        </div>
+
+                    </div>
+                </td>
+            </tr>
+        </table>
             <div class="dest-description">
-           {{ destination[1] | slice(0,200) | striptags }}{% if destination[1]|length>200 %}...{% endif %}
+           {{ destination[1] | striptags| raw }}
             </div>
 
            <hr/>
