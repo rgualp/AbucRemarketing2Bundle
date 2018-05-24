@@ -57,7 +57,7 @@ class CheckInServicesEmailCommand extends ContainerAwareCommand {
             {
                 $locale = strtolower($tourist["lang_code"]);
                 $subject = $translator->trans('EXTRA_SERVICES_SUBJECT', array(), null, $locale);
-                $mail = ($testing) ? "yanet.moralesr@gmail.com" : $tourist["user_email"];
+                $mail = ($testing) ? "orlando@hds.li" : $tourist["user_email"];
                 $dest_list = $em->getRepository('mycpBundle:destination')->getAllDestinations($locale, null, null);
 
                 $bodyExtraServices = $emailService->getViewContent('FrontEndBundle:mails:extraServicesMail.html.twig', array(
