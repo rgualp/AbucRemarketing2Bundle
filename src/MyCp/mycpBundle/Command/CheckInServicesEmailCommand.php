@@ -20,7 +20,7 @@ class CheckInServicesEmailCommand extends ContainerAwareCommand {
         $this
                 ->setName('mycp:checkin-services')
                 ->setDefinition(array())
-                ->setDescription('Send services email to every tourist to enter in 5 days')
+                ->setDescription('Send services email to every tourist to enter in 15 days')
                 ->addOption("testing", null, InputOption::VALUE_NONE, 'Indicate if command is in testing mode');
     }
 
@@ -32,7 +32,7 @@ class CheckInServicesEmailCommand extends ContainerAwareCommand {
 
         $date = new \DateTime();
         $startTimeStamp = $date->getTimestamp();
-        $startTimeStamp = strtotime("+5 day", $startTimeStamp);
+        $startTimeStamp = strtotime("+15 day", $startTimeStamp);
         $date->setTimestamp($startTimeStamp);
         $date = $date->format("d/m/Y");
 
