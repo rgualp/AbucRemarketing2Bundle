@@ -520,7 +520,7 @@ class BackendReservationAgController extends Controller {
         return new Response($response);
     }
     //Nueva Oferta
-    public function newCleanOfferAction($idClient, $idClientOfAg, $attendedDate,$reference,$completePayment)
+    public function newCleanOfferAction($idClient, $idClientOfAg, $attendedDate, $completePayment,$reference)
     {
         $em = $this->getDoctrine()->getManager();
 
