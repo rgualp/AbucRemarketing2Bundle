@@ -620,7 +620,7 @@ class BackendReservationAgController extends Controller {
         }
 
         return $this->render('mycpBundle:reservation:newCleanOfferAg.html.twig', array(
-            'client' => $client, 'clientOfAg' => $paClient, "attendedDate" => $attendedDate,'br'=>$reference));
+            'client' => $client, 'clientOfAg' => $paClient, "attendedDate" => $attendedDate,"completePayment"=>$completePayment,'br'=>$reference));
     }
 
     public function generateClientCallbackAction() {
