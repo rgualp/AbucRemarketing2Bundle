@@ -324,8 +324,11 @@
             <th style="text-align: right">Anticipo total a pagar</th>
         </tr>
         </thead>
+
         {% set touristTax = total_price * touristTax(total_rooms, real_total_nights , ((total_nights<= 1) ? total_price : total_price / total_nights), currentServiceFee.id) %}
         {% set prepayment = (total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100) + ((total_price)?currentServiceFee.fixedFee: 0) + ((total_price)?touristTax: 0)%}
+        {% set transferTax = 0.1 * (total_price + touristTax) %}
+        {% set completePayment = total_price + touristTax + transferTax  %}
         <tr>
             <td>{{ total_rooms }}</td>
             <td>{{ total_adults }}</td>
@@ -341,7 +344,7 @@
             {% else %}
                 <td style="text-align: right"><b>{{ prepayment }} CUC </b></td>
             {% endif %}
-        </tr>
+          </tr>
         <tr>
             {% if reservations[0].getOwnResGenResId.getChildrenAges != null %}
                 <td>
@@ -388,7 +391,7 @@
     <button rel="tooltip" title="Guardar los cambios realizados" class="tooltip_msg btn btn-success" type="submit">Guardar</button>
     {%set available = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_AVAILABLE')%}
     {%set reserved = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_RESERVED')%}
-    <a title="Nueva oferta" class="btn btn-info" href="{% if reservation.genresstatus == available or reservation.genresstatus == reserved %}{{ path('mycp_new_offer_to_client_ag', {'idClient': reservation.getGenResUserId.getUserId, 'idClientOfAg': client.getId,"attendedDate": reservation.genResDate | date("Y-m-d"),'reference':br}) }}{% else %}{{path('mycp_new_offer_to_client_ag', {'idClient': reservation.getGenResUserId.getUserId, 'idClientOfAg': client.getId, "attendedDate": reservation.genResDate | date("Y-m-d"),'reference':br})}}{% endif %}"><i class="icon-asterisk icon-white"></i> Oferta</a>
+    <a title="Nueva oferta" class="btn btn-info" href="{% if reservation.genresstatus == available or reservation.genresstatus == reserved %}{{ path('mycp_new_offer_to_client_ag', {'idClient': reservation.getGenResUserId.getUserId, 'idClientOfAg': client.getId,"attendedDate": reservation.genResDate | date("Y-m-d"),'reference':br,"completePay":reservation.completePayment}) }}{% else %}{{path('mycp_new_offer_to_client_ag', {'idClient': reservation.getGenResUserId.getUserId, 'idClientOfAg': client.getId, "attendedDate": reservation.genResDate | date("Y-m-d"),'reference':br,"completePay":reservation.completePayment})}}{% endif %}"><i class="icon-asterisk icon-white"></i> Oferta</a>
     <button rel="tooltip" title="Cancelar los cambios realizados" class="tooltip_msg btn" type="reset">Cancelar</button>
     &nbsp;&nbsp;&nbsp;
     <button rel="tooltip" title="Enviar por correo la reservación al cliente" {% if reservation.getGenResSaved!=0 %} onclick="send_message();" {% endif %}class="tooltip_msg {% if reservation.getGenResSaved==0 %}disabled{% endif %} btn btn-primary" type="{% if reservation.getGenResSaved!=0 %}submit{% else %}button{% endif %}">Enviar</button>
@@ -399,6 +402,7 @@
         <a href="{{ path('mycp_send_voucher_reservation',{ 'id_reservation' :  reservation.getGenResId }) }}" rel="tooltip" title="Enviar el voucher asociado al equipo de reservación" class="tooltip_msg btn btn-warning">Recibir Voucher</a>
     {%endif%}
 
+</div>
 </div>
 </form>
 {% if reservation.modified != null and reservation.modifiedBy != null %}

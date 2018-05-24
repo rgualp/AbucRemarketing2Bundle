@@ -520,7 +520,7 @@ class BackendReservationAgController extends Controller {
         return new Response($response);
     }
     //Nueva Oferta
-    public function newCleanOfferAction($idClient, $idClientOfAg, $attendedDate,$reference)
+    public function newCleanOfferAction($idClient, $idClientOfAg, $attendedDate,$reference,$completePayment)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -546,8 +546,9 @@ class BackendReservationAgController extends Controller {
             $newReservations = $resultReservations['reservations'];
             $arrayNightsByOwnershipReservation = $resultReservations['nights'];
             $general_reservation = $resultReservations['generalReservation'];
+            $general_reservation->setCompletePayment($completePayment);
             $operation = $request->get("save_operation");
-
+            $em->persist($general_reservation);
             $childrens = 0;
             $adults = 0;
             foreach ($newReservations as $newReservation) {
