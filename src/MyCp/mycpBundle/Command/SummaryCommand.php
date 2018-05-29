@@ -293,11 +293,11 @@ class SummaryCommand extends ContainerAwareCommand
                 'fecha' => date("Y-m-d", strtotime('-1 day')),
                 'user_locale' => 'es'
             ));
-       
+
         try {
             $subject = "Sumario MyCasaParticular";
-//            array('ptorres@abuc.ch', 'natalie@mycasaparticular.com', 'ptorres@mycasaparticular.com', 'andy@hds.li','vhagar91@gmail.com')
-            $emailService->sendEmail(array('andy@hds.li','vhagar91@gmail.com'), $subject, $body, 'no-responder@mycasaparticular.com');
+
+            $emailService->sendEmail( array('ptorres@abuc.ch', 'natalie@mycasaparticular.com', 'ptorres@mycasaparticular.com', 'andy@hds.li','vhagar91@gmail.com'), $subject, $body, 'no-responder@mycasaparticular.com');
             $output->writeln('Successfully sent sales report email');
 
 
