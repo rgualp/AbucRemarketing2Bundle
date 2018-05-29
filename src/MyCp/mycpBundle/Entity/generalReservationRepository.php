@@ -462,10 +462,9 @@ class generalReservationRepository extends EntityRepository {
             ->join("gres.gen_res_user_id", "user");
 
 
-        $date = $date->format("Y-m-d");
-        $qb->where("gres.gen_res_date >= '$date'");
+        
 
-        $qb->andWhere("user.user_role IN ('ROLE_CLIENT_PARTNER','ROLE_ECONOMY_PARTNER','ROLE_CLIENT_PARTNER_TOUROPERATOR')");
+        $qb->Where("user.user_role IN ('ROLE_CLIENT_PARTNER','ROLE_ECONOMY_PARTNER','ROLE_CLIENT_PARTNER_TOUROPERATOR')");
 
         if($filter_date_reserve != "" && $filter_date_reserve != "null") {
             $filter_date_reserve = Dates::createForQuery($filter_date_reserve, "d/m/Y");
