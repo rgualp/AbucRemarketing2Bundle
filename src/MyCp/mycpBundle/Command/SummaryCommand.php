@@ -22,13 +22,14 @@ class SummaryCommand extends ContainerAwareCommand
             ->setDefinition(array())
             ->setDescription('Send summary report  to user');
     }
-
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
+    public function touristTax($totalRooms, $totalNights, $avgRoomPrices, $taxId = null) {
         $container = $this->getContainer();
         $em = $container->get('doctrine')->getManager();
-        $output->writeln('Starting summary reports command...');
-
+        return $em->getRepository('mycpBundle:serviceFee')->calculateTouristServiceFee($totalRooms, $totalNights, $avgRoomPrices, $taxId);
+    }
+    public function getDataMYCP(){
+        $container = $this->getContainer();
+        $em = $container->get('doctrine')->getManager();
         $countClientSol = $em->getRepository("mycpBundle:generalReservation")->countClientSol();
 
         $countClientDisponibility = $em->getRepository("mycpBundle:generalReservation")->countClientDisponibility();
@@ -58,9 +59,8 @@ class SummaryCommand extends ContainerAwareCommand
             $clientNotDisponPercent = 0;
         }
 
-        $emailService = $container->get('mycp.service.email_manager');
-        $templatingService = $container->get('templating');
-        $logger = $container->get('logger');
+
+
 
         /*Porcientos*/
         $countClientDisponibilityPercent = ($countClientSol[0][1] == 0) ? 0 : ($countClientDisponibility[0][1] * 100) / $countClientSol[0][1];
@@ -70,30 +70,33 @@ class SummaryCommand extends ContainerAwareCommand
         $yesterday = date("Y-m-d", strtotime('-1 day'));
         $day = date("Y-m-d");
 
+//         $yesterday = "2018-04-01";
+//        $day = "2018-04-02";
 
-       // $yesterday = "2017-07-03";
-        //$day = "2017-07-04";
+//        $factu = $em->getRepository("mycpBundle:generalReservation")->facturacion($yesterday, $day);
 
-        $factu = $em->getRepository("mycpBundle:generalReservation")->facturacion($yesterday, $day);
         $desglose = $em->getRepository("mycpBundle:generalReservation")->desglose($yesterday, $day);
         $res_desglose = array();
+        $facturacion=0;
         if (count($desglose)) {
             $i=0;
             foreach($desglose as $des){
                 $temp = self::in_array_r($des->getCurrency()->getCurrName(), $res_desglose);
                 if($temp!=-1){
                     $res_desglose[$temp]['amount']=$res_desglose[$temp]['amount']+$des->getPayedAmount();
+                    $facturacion+=$des->getPayedAmount()/$des->getCurrency()->getCurrCucChange();
                 }
                 else{
                     $res_desglose[$i]['code']=$des->getCurrency()->getCurrCode();
                     $res_desglose[$i]['currency']=$des->getCurrency()->getCurrName();
                     $res_desglose[$i]['amount']=$des->getPayedAmount();
+                    $facturacion+=$des->getPayedAmount()/$des->getCurrency()->getCurrCucChange();
+
                 }
                 $i++;
             }
 
         }
-        $factura = $em->getRepository("mycpBundle:generalReservation")->facturacionNeta($yesterday, $day);
 
 
         $first_day = $this->_data_first_month_day();
@@ -106,45 +109,195 @@ class SummaryCommand extends ContainerAwareCommand
         $clientPendig = $em->getRepository("mycpBundle:generalReservation")->clientPendig();
 
         $totalPending = 0;
+
+        $service_time = $container->get('time');
         foreach ($clientPendig as $client) {
-            $tmp = ($client['own_res_total_in_site'] * $client['own_commission_percent']) / 100;
-            $totalPending += round($tmp);
+            $nights = $service_time->nights($client['gen_res_from_date']->getTimestamp(), $client['gen_res_to_date']->getTimestamp());
+
+            $lodgintax = ($client['own_res_total_in_site'] * $client['own_commission_percent']) / 100;
+            $touristTax = $client['own_res_total_in_site'] * $this->touristTax($client['rooms'], $nights , (($nights<= 1) ? $client['own_res_total_in_site'] : $client['own_res_total_in_site'] / $nights), $client['id']);
+
+            $totalPending += round($lodgintax+$touristTax);
         }
+
+        $result= array (
+            'countClientSol' => $countClientSol[0][1],
+            'countClientDisponibility' => $countClientDisponibility[0][1],
+            'countClientDisponibilityPercent' => round($countClientDisponibilityPercent),
+            'pending' => $pending[0][1],
+            'pendingPercent' => round($pendingPercent),
+            'reserved' => $reserved[0][1],
+            'countReservationYesterday' => count($countReservationYesterday),
+            'countReservationDispon' => count($countReservationDispon),
+            'countReservationNoDispon' => count($countReservationNoDispon),
+            'countReservationPag' => count($countReservationPag),
+
+            'clientNotDispon' => $clientNotDispon,
+            'clientNotDisponPercent' => round($clientNotDisponPercent),
+
+            'factu' => round($facturacion),
+            'countReservationPending' => count($countReservationPending),
+            'totalSol' => count($countReservationDispon) + count($countReservationNoDispon) + count($countReservationPag) + count($pending[0][1]),
+            'clientPending' => count($clientPendig),
+            'totalPending' => $totalPending,
+            'totalClient' => count($clientPendig) + $reserved[0][1],
+            'totalCUC' => $facturacion + $totalPending,
+
+            'res_desglose'=>$res_desglose);
+        return $result;
+    }
+
+    public function getDataPartner(){
+        $container = $this->getContainer();
+        $em = $container->get('doctrine')->getManager();
+        $countClientSol = $em->getRepository("mycpBundle:generalReservation")->countClientSolPArtner();
+
+        $countClientDisponibility = $em->getRepository("mycpBundle:generalReservation")->countClientDisponibilityPartner();
+
+
+        $pending = $em->getRepository("mycpBundle:generalReservation")->getReservationClientByStatusYesterdayPArtner(0);
+
+        $reserved = $em->getRepository("mycpBundle:generalReservation")->countReservationClientPagPartner();
+
+        $countReservationYesterday = $em->getRepository("mycpBundle:generalReservation")->countReservationYesterdayPartner();
+
+        $countReservationDispon = $em->getRepository("mycpBundle:generalReservation")->getReservationByStatusYesterdayPArtner(1);
+
+        $countReservationNoDispon = $em->getRepository("mycpBundle:generalReservation")->getReservationByStatusYesterdayPArtner(3);
+
+        $countReservationPending = $em->getRepository("mycpBundle:generalReservation")->getReservationByStatusYesterdayPArtner(0);
+
+        $countReservationPag = $em->getRepository("mycpBundle:generalReservation")->countReservationPagPartner();
+
+
+        $tempCli = $countClientDisponibility[0][1] + $pending[0][1];
+        if ($countClientSol[0][1] > $tempCli) {
+            $clientNotDispon = $countClientSol[0][1] - ($countClientDisponibility[0][1] + $pending[0][1]);
+            $clientNotDisponPercent = ($countClientSol[0][1] == 0) ? 0 : ($clientNotDispon * 100) / $countClientSol[0][1];
+        } else {
+            $clientNotDispon = 0;
+            $clientNotDisponPercent = 0;
+        }
+
+
+
+
+        /*Porcientos*/
+        $countClientDisponibilityPercent = ($countClientSol[0][1] == 0) ? 0 : ($countClientDisponibility[0][1] * 100) / $countClientSol[0][1];
+        $pendingPercent = ($countClientSol[0][1] == 0) ? 0 : ($pending[0][1] * 100) / $countClientSol[0][1];
+
+
+        $yesterday = date("Y-m-d", strtotime('-1 day'));
+        $day = date("Y-m-d");
+
+
+//        $yesterday = "2018-01-01";
+//        $day = "2018-01-02";
+
+//        $factu = $em->getRepository("mycpBundle:generalReservation")->facturacionPartner($yesterday, $day);
+        $desglose = $em->getRepository("mycpBundle:generalReservation")->desglosePartner($yesterday, $day);
+        $res_desglose = array();
+        $facturacion=0;
+        if (count($desglose)) {
+            $i=0;
+            foreach($desglose as $des){
+                $temp = self::in_array_r($des->getCurrency()->getCurrName(), $res_desglose);
+                if($temp!=-1){
+                    $res_desglose[$temp]['amount']=$res_desglose[$temp]['amount']+$des->getPayedAmount();
+                    $facturacion+=$des->getPayedAmount()/$des->getCurrency()->getCurrCucChange();
+                }
+                else{
+                    $res_desglose[$i]['code']=$des->getCurrency()->getCurrCode();
+                    $res_desglose[$i]['currency']=$des->getCurrency()->getCurrName();
+                    $res_desglose[$i]['amount']=$des->getPayedAmount();
+                    $facturacion+=$des->getPayedAmount()/$des->getCurrency()->getCurrCucChange();
+
+                }
+                $i++;
+            }
+
+        }
+
+
+        $first_day = $this->_data_first_month_day();
+        $total_factu = $em->getRepository("mycpBundle:generalReservation")->getClientsDailySummaryPaymentsFacturationPArtner($first_day, $day);
+        $totalFactu = 0;
+        foreach ($total_factu as $aux) {
+            $totalFactu += $aux['facturacion'];
+        }
+
+        $clientPendig = $em->getRepository("mycpBundle:generalReservation")->clientPendigPartner();
+
+        $totalPending = 0;
+        $service_time = $container->get('time');
+        foreach ($clientPendig as $client) {
+            $nights = $service_time->nights($client['gen_res_from_date']->getTimestamp(), $client['gen_res_to_date']->getTimestamp());
+
+            $lodgintax = ($client['own_res_total_in_site'] * $client['own_commission_percent']) / 100;
+            $touristTax = $client['own_res_total_in_site'] * $this->touristTax($client['rooms'], $nights , (($nights<= 1) ? $client['own_res_total_in_site'] : $client['own_res_total_in_site'] / $nights), $client['id']);
+
+            $totalPending += round($lodgintax+$touristTax);
+        }
+
+        $result= array (
+            'countClientSol' => $countClientSol[0][1],
+            'countClientDisponibility' => $countClientDisponibility[0][1],
+            'countClientDisponibilityPercent' => round($countClientDisponibilityPercent),
+            'pending' => $pending[0][1],
+            'pendingPercent' => round($pendingPercent),
+            'reserved' => $reserved[0][1],
+            'countReservationYesterday' => count($countReservationYesterday),
+            'countReservationDispon' => count($countReservationDispon),
+            'countReservationNoDispon' => count($countReservationNoDispon),
+            'countReservationPag' => count($countReservationPag),
+
+            'clientNotDispon' => $clientNotDispon,
+            'clientNotDisponPercent' => round($clientNotDisponPercent),
+
+            'factu' =>round($facturacion),
+            'countReservationPending' => count($countReservationPending),
+            'totalSol' => count($countReservationDispon) + count($countReservationNoDispon) + count($countReservationPag) + count($countReservationPending),
+            'clientPending' => count($clientPendig),
+            'totalPending' => $totalPending,
+            'totalClient' => count($clientPendig) + $reserved[0][1],
+            'totalCUC' => $facturacion + $totalPending,
+
+
+            'res_desglose'=>$res_desglose);
+        return $result;
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $container = $this->getContainer();
+        $em = $container->get('doctrine')->getManager();
+        $emailService = $container->get('mycp.service.email_manager');
+        $templatingService = $container->get('templating');
+        $output->writeln('Starting summary reports command...');
+        $logger = $container->get('logger');
+        $yesterday = date("Y-m-d", strtotime('-1 day'));
+        $day = date("Y-m-d");
+//        $yesterday = "2018-04-01";
+//        $day = "2018-04-02";
         $meta = 44000;
+//        $factura = $em->getRepository("mycpBundle:generalReservation")->facturacionNeta($yesterday, $day);
+
+//
         //Cuerpo del correo
         $body = $templatingService
             ->renderResponse('mycpBundle:reports:emailSummary.html.twig', array(
-                'countClientSol' => $countClientSol[0][1],
-                'countClientDisponibility' => $countClientDisponibility[0][1],
-                'countClientDisponibilityPercent' => round($countClientDisponibilityPercent),
-                'pending' => $pending[0][1],
-                'pendingPercent' => round($pendingPercent),
-                'reserved' => $reserved[0][1],
-                'countReservationYesterday' => count($countReservationYesterday),
-                'countReservationDispon' => count($countReservationDispon),
-                'countReservationNoDispon' => count($countReservationNoDispon),
-                'countReservationPag' => count($countReservationPag),
+                'mycp' => $this->getDataMYCP(),
+                'partner' => $this->getDataPartner(),
+
+
                 'fecha' => date("Y-m-d", strtotime('-1 day')),
-                'clientNotDispon' => $clientNotDispon,
-                'clientNotDisponPercent' => round($clientNotDisponPercent),
-                'user_locale' => 'es',
-                'factu' => (count($factu)) ? round($factu[0]['facturacion']) : 0,
-                'countReservationPending' => count($countReservationPending),
-                'totalSol' => count($countReservationDispon) + count($countReservationNoDispon) + count($countReservationPag) + count($countReservationPending),
-                'clientPending' => count($clientPendig),
-                'totalPending' => $totalPending,
-                'totalClient' => count($clientPendig) + $reserved[0][1],
-                'totalCUC' => (count($factu)) ? round($factu[0]['facturacion']) + $totalPending : $totalPending,
-                'factura' => (count($factura)) ? $factura[0]['facturacion'] : 0,
-                'diferencia' => $meta - $totalFactu,
-                'meta' => $meta,
-                'res_desglose'=>$res_desglose
+                'user_locale' => 'es'
             ));
-        //dump($body);die;
+        dump($body);die;
         try {
             $subject = "Sumario MyCasaParticular";
-
-            $emailService->sendEmail(array('ptorres@abuc.ch', 'natalie@mycasaparticular.com', 'ptorres@mycasaparticular.com', 'andy@hds.li', 'ander@mycasaparticular.com', 'jose.rafael@hds.li', 'yanexis@hds.li'), $subject, $body, 'no-responder@mycasaparticular.com');
+//            array('ptorres@abuc.ch', 'natalie@mycasaparticular.com', 'ptorres@mycasaparticular.com', 'andy@hds.li','vhagar91@gmail.com')
+            $emailService->sendEmail(array('andy@hds.li','vhagar91@gmail.com'), $subject, $body, 'no-responder@mycasaparticular.com');
             $output->writeln('Successfully sent sales report email');
 
 

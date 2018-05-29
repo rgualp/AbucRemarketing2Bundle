@@ -454,17 +454,18 @@ class generalReservationRepository extends EntityRepository {
     function getReservationsAgToExport($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $filter_client, $date) {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
-        $qb->select("owres")
-            ->from("mycpBundle:ownershipReservation", "owres")
-            ->join("owres.own_res_gen_res_id", "gres")
+        $qb->select("gres")
+            ->from("mycpBundle:generalReservation", "gres")
+
             ->join("gres.gen_res_own_id", "own")
-            ->join("own.own_address_province", "prov")
+
             ->join("gres.gen_res_user_id", "user");
+
 
         $date = $date->format("Y-m-d");
         $qb->where("gres.gen_res_date >= '$date'");
 
-        $qb->andWhere("u.user_role IN ('ROLE_CLIENT_PARTNER','ROLE_ECONOMY_PARTNER','ROLE_CLIENT_PARTNER_TOUROPERATOR')");
+        $qb->andWhere("user.user_role IN ('ROLE_CLIENT_PARTNER','ROLE_ECONOMY_PARTNER','ROLE_CLIENT_PARTNER_TOUROPERATOR')");
 
         if($filter_date_reserve != "" && $filter_date_reserve != "null") {
             $filter_date_reserve = Dates::createForQuery($filter_date_reserve, "d/m/Y");
@@ -517,12 +518,12 @@ class generalReservationRepository extends EntityRepository {
             }
         }
 
-        if($filter_booking_number != "" and $filter_booking_number != "null") {
-            $filter_booking_number = strtolower($filter_booking_number);
-
-            $qb->andWhere("owres.own_res_reservation_booking = :filter_booking")
-                ->setParameter("filter_booking", $filter_booking_number);
-        }
+//        if($filter_booking_number != "" and $filter_booking_number != "null") {
+//            $filter_booking_number = strtolower($filter_booking_number);
+//
+//            $qb->andWhere("owres.own_res_reservation_booking = :filter_booking")
+//                ->setParameter("filter_booking", $filter_booking_number);
+//        }
 
         if($filter_reference != "" && $filter_reference != "null") {
             $filter_reference = strtolower($filter_reference);
@@ -1813,8 +1814,16 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
         $day = date("Y-m-d", strtotime('-1 day'));
         //$day = '2016-01-21';
         $em = $this->getEntityManager();
-        $query = $em->createQuery("SELECT count(distinct gre.gen_res_user_id) FROM mycpBundle:generalReservation gre
-        WHERE  gre.gen_res_date = '$day'");
+        $query = $em->createQuery("SELECT count(distinct gre.gen_res_user_id) FROM mycpBundle:generalReservation gre INNER JOIN gre.gen_res_user_id user
+        WHERE  gre.gen_res_date = '$day' AND(user.user_role = 'ROLE_CLIENT_TOURIST')");
+        return $query->getResult();
+    }
+    function countClientSolPArtner() {
+        $day = date("Y-m-d", strtotime('-1 day'));
+        //$day = '2016-01-21';
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT count(distinct gre.gen_res_user_id) FROM mycpBundle:generalReservation gre INNER JOIN gre.gen_res_user_id user
+        WHERE  gre.gen_res_date = '$day' AND(user.user_role != 'ROLE_CLIENT_TOURIST')");
         return $query->getResult();
     }
 
@@ -1831,8 +1840,16 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
         $day = date("Y-m-d", strtotime('-1 day'));
         //$day = '2016-01-21';
         $em = $this->getEntityManager();
-        $query = $em->createQuery("SELECT count(distinct gre.gen_res_user_id) FROM mycpBundle:generalReservation gre
-        WHERE  gre.gen_res_date = '$day' AND( gre.gen_res_status = " . generalReservation::STATUS_AVAILABLE . " OR gre.gen_res_status = " . generalReservation::STATUS_RESERVED . " OR gre.gen_res_status = " . generalReservation::STATUS_CANCELLED . " OR gre.gen_res_status = " . generalReservation::STATUS_OUTDATED . ")");
+        $query = $em->createQuery("SELECT count(distinct gre.gen_res_user_id) FROM mycpBundle:generalReservation gre JOIN gre.gen_res_user_id u
+        WHERE  gre.gen_res_date = '$day' AND(u.user_role = 'ROLE_CLIENT_TOURIST') AND (( gre.gen_res_status = " . generalReservation::STATUS_AVAILABLE . " OR gre.gen_res_status = " . generalReservation::STATUS_RESERVED . " OR gre.gen_res_status = " . generalReservation::STATUS_CANCELLED . " OR gre.gen_res_status = " . generalReservation::STATUS_OUTDATED . "))");
+        return $query->getResult();
+    }
+    function countClientDisponibilityPartner() {
+        $day = date("Y-m-d", strtotime('-1 day'));
+        //$day = '2016-01-21';
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT count(distinct gre.gen_res_user_id) FROM mycpBundle:generalReservation gre JOIN gre.gen_res_user_id u
+        WHERE  gre.gen_res_date = '$day' AND(u.user_role != 'ROLE_CLIENT_TOURIST') AND (( gre.gen_res_status = " . generalReservation::STATUS_AVAILABLE . " OR gre.gen_res_status = " . generalReservation::STATUS_RESERVED . " OR gre.gen_res_status = " . generalReservation::STATUS_CANCELLED . " OR gre.gen_res_status = " . generalReservation::STATUS_OUTDATED . "))");
         return $query->getResult();
     }
 
@@ -1840,8 +1857,16 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
         $day = date("Y-m-d", strtotime('-1 day'));
         //$day = '2016-01-21';
         $em = $this->getEntityManager();
-        $query = $em->createQuery("SELECT count(distinct gre.gen_res_user_id) FROM mycpBundle:generalReservation gre
-        WHERE  gre.gen_res_status_date = '$day' AND gre.gen_res_status = " . $status . "");
+        $query = $em->createQuery("SELECT count(distinct gre.gen_res_user_id) FROM mycpBundle:generalReservation gre  JOIN gre.gen_res_user_id user
+        WHERE  gre.gen_res_status_date = '$day' AND (user.user_role = 'ROLE_CLIENT_TOURIST')  AND gre.gen_res_status = " . $status . "");
+        return $query->getResult();
+    }
+    function getReservationClientByStatusYesterdayPArtner($status) {
+        $day = date("Y-m-d", strtotime('-1 day'));
+        //$day = '2016-01-21';
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT count(distinct gre.gen_res_user_id) FROM mycpBundle:generalReservation gre  JOIN gre.gen_res_user_id user
+        WHERE  gre.gen_res_status_date = '$day' AND (user.user_role != 'ROLE_CLIENT_TOURIST')  AND gre.gen_res_status = " . $status . "");
         return $query->getResult();
     }
 
@@ -1851,7 +1876,19 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
         //$day = '2016-01-21';
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT gre FROM mycpBundle:generalReservation gre
-        WHERE  gre.gen_res_date = '$day'");
+         join gre.gen_res_user_id u
+        
+        WHERE  gre.gen_res_date = '$day' AND u.user_role = 'ROLE_CLIENT_TOURIST'");
+        return $query->getResult();
+    }
+    function countReservationYesterdayPartner() {
+        $day = date("Y-m-d", strtotime('-1 day'));
+        //$day = '2016-01-21';
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT gre FROM mycpBundle:generalReservation gre
+        join gre.gen_res_user_id u
+        
+        WHERE  gre.gen_res_date = '$day' AND u.user_role != 'ROLE_CLIENT_TOURIST'");
         return $query->getResult();
     }
 
@@ -1860,7 +1897,17 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
         //$day = '2016-01-21';
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT gre FROM mycpBundle:generalReservation gre
-        WHERE gre.gen_res_date = '$day' AND gre.gen_res_status = " . $status . "");
+        join gre.gen_res_user_id user
+        WHERE gre.gen_res_date = '$day' AND(user.user_role = 'ROLE_CLIENT_TOURIST') AND gre.gen_res_status = " . $status . "");
+        return $query->getResult();
+    }
+    function getReservationByStatusYesterdayPArtner($status) {
+        $day = date("Y-m-d", strtotime('-1 day'));
+        //$day = '2016-01-21';
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT gre FROM mycpBundle:generalReservation gre
+        join gre.gen_res_user_id u
+        WHERE gre.gen_res_date = '$day' AND(u.user_role != 'ROLE_CLIENT_TOURIST') AND gre.gen_res_status = " . $status . "");
         return $query->getResult();
     }
 
@@ -1975,7 +2022,23 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
         join owres.own_res_gen_res_id gres
         join owres.own_res_reservation_booking b
         join mycpBundle:payment p with p.booking = b.booking_id
-        WHERE  gres.gen_res_date >= '$yesterday' AND gres.gen_res_date <= '$day'");
+        join gres.gen_res_user_id user
+        WHERE  gres.gen_res_date >= '$yesterday' AND(user.user_role = 'ROLE_CLIENT_TOURIST') AND gres.gen_res_date <= '$day'");
+        return $query->getResult();
+
+    }
+    function countReservationPagPartner() {
+        $yesterday = date("Y-m-d", strtotime('-1 day'));
+        $day = date("Y-m-d");
+        /*$yesterday='2016-01-21';
+        $day='2016-01-22';*/
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT gres.gen_res_id, gres.gen_res_status_date, p.created FROM mycpBundle:ownershipReservation owres
+        join owres.own_res_gen_res_id gres
+        join owres.own_res_reservation_booking b
+        join mycpBundle:payment p with p.booking = b.booking_id
+        join gres.gen_res_user_id user
+        WHERE  gres.gen_res_date >= '$yesterday' AND(user.user_role != 'ROLE_CLIENT_TOURIST') AND gres.gen_res_date <= '$day'");
         return $query->getResult();
 
     }
@@ -1990,7 +2053,23 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
         join owres.own_res_gen_res_id gres
         join owres.own_res_reservation_booking b
         join mycpBundle:payment p with p.booking = b.booking_id
-        WHERE  gres.gen_res_date >= '$yesterday' AND gres.gen_res_date <= '$day'");
+        join gres.gen_res_user_id user
+        WHERE  (gres.gen_res_date >= '$yesterday' AND gres.gen_res_date <= '$day')AND user.user_role = 'ROLE_CLIENT_TOURIST'");
+        return $query->getResult();
+
+    }
+    function countReservationClientPagPartner() {
+        $yesterday = date("Y-m-d", strtotime('-1 day'));
+        $day = date("Y-m-d");
+        /*$yesterday= '2016-01-21';
+        $day='2016-01-22';*/
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT count(distinct gres.gen_res_user_id), gres.gen_res_status_date, p.created FROM mycpBundle:ownershipReservation owres
+        join owres.own_res_gen_res_id gres
+        join owres.own_res_reservation_booking b
+        join mycpBundle:payment p with p.booking = b.booking_id
+        join gres.gen_res_user_id user
+        WHERE  gres.gen_res_date >= '$yesterday' AND user.user_role != 'ROLE_CLIENT_TOURIST' AND gres.gen_res_date <= '$day'");
         return $query->getResult();
 
     }
@@ -2293,21 +2372,45 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
      * @return array
      */
     function facturacion($filter_date_from = null, $filter_date_to = null) {
+    $em = $this->getEntityManager();
+    $qb = $em->createQueryBuilder();
+
+    $qb->select("DATE(gres.gen_res_date) as fecha, count(distinct gres.gen_res_user_id) as clientes, count(distinct gres.gen_res_id) as solicitudes, sum(owres.own_res_count_adults +owres.own_res_count_childrens ) as personas_involucradas,
+        count(owres.own_res_id) as habitaciones, sum(DATE_DIFF(owres.own_res_reservation_to_date, owres.own_res_reservation_from_date)) as noches,
+        SUM(DISTINCT CASE WHEN p.current_cuc_change_rate IS NULL THEN p.payed_amount/curr.curr_cuc_change ELSE p.payed_amount/p.current_cuc_change_rate END) as facturacion")
+        ->from("mycpBundle:ownershipReservation", "owres")
+        ->join("owres.own_res_gen_res_id", "gres")
+        ->join("gres.gen_res_user_id", "user")
+        ->join("owres.own_res_reservation_booking", "b")
+        ->join('mycpBundle:payment', 'p', Expr\Join::WITH, 'p.booking = b.booking_id')
+        ->join("p.currency", "curr")
+        ->groupBy("fecha");
+
+    $qb->Where("user.user_role = 'ROLE_CLIENT_TOURIST'");
+    if($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "") {
+        $qb->andWhere("gres.gen_res_date >= '$filter_date_from' AND gres.gen_res_date < '$filter_date_to'");
+    }
+
+    return $qb->getQuery()->getResult();
+}
+    function facturacionPartner($filter_date_from = null, $filter_date_to = null) {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
 
         $qb->select("DATE(gres.gen_res_date) as fecha, count(distinct gres.gen_res_user_id) as clientes, count(distinct gres.gen_res_id) as solicitudes, sum(owres.own_res_count_adults +owres.own_res_count_childrens ) as personas_involucradas,
         count(owres.own_res_id) as habitaciones, sum(DATE_DIFF(owres.own_res_reservation_to_date, owres.own_res_reservation_from_date)) as noches,
-        SUM(DISTINCT CASE WHEN p.current_cuc_change_rate IS NULL THEN p.payed_amount*curr.curr_cuc_change ELSE p.payed_amount*p.current_cuc_change_rate END) as facturacion")
+        SUM(DISTINCT CASE WHEN p.current_cuc_change_rate IS NULL THEN p.payed_amount/curr.curr_cuc_change ELSE p.payed_amount/p.current_cuc_change_rate END) as facturacion")
             ->from("mycpBundle:ownershipReservation", "owres")
             ->join("owres.own_res_gen_res_id", "gres")
+            ->join("gres.gen_res_user_id", "user")
             ->join("owres.own_res_reservation_booking", "b")
             ->join('mycpBundle:payment', 'p', Expr\Join::WITH, 'p.booking = b.booking_id')
             ->join("p.currency", "curr")
             ->groupBy("fecha");
 
+        $qb->Where("user.user_role <> 'ROLE_CLIENT_TOURIST'");
         if($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "") {
-            $qb->Where("gres.gen_res_date >= '$filter_date_from' AND gres.gen_res_date < '$filter_date_to'");
+            $qb->andWhere("gres.gen_res_date >= '$filter_date_from' AND gres.gen_res_date < '$filter_date_to'");
         }
 
         return $qb->getQuery()->getResult();
@@ -2319,13 +2422,35 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
         $qb->select("p")
             ->from("mycpBundle:ownershipReservation", "owres")
             ->join("owres.own_res_gen_res_id", "gres")
+            ->join("gres.gen_res_user_id", "user")
             ->join("owres.own_res_reservation_booking", "b")
             ->join('mycpBundle:payment', 'p', Expr\Join::WITH, 'p.booking = b.booking_id')
-            ->join("p.currency", "curr");
-
+            ->join("p.currency", "curr")
+            ->groupBy("owres.own_res_id");
+        $qb->Where("user.user_role = 'ROLE_CLIENT_TOURIST'");
         if($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "") {
 
-            $qb->Where("p.created >= '$filter_date_from' AND p.created < '$filter_date_to'");
+            $qb->andWhere("p.created >= '$filter_date_from' AND p.created < '$filter_date_to'");
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+    function desglosePartner($filter_date_from = null, $filter_date_to = null) {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->select("p")
+            ->from("mycpBundle:ownershipReservation", "owres")
+            ->join("owres.own_res_gen_res_id", "gres")
+            ->join("gres.gen_res_user_id", "user")
+            ->join("owres.own_res_reservation_booking", "b")
+            ->join('mycpBundle:payment', 'p', Expr\Join::WITH, 'p.booking = b.booking_id')
+            ->join("p.currency", "curr")
+           ->groupBy("owres.own_res_id");
+        $qb->Where("user.user_role != 'ROLE_CLIENT_TOURIST'");
+        if($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "") {
+
+            $qb->andWhere("p.created >= '$filter_date_from' AND p.created < '$filter_date_to'");
         }
 
         return $qb->getQuery()->getResult();
@@ -2573,6 +2698,94 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
             ->where("u.user_role = 'ROLE_CLIENT_TOURIST'")
             ->groupBy("fecha")
             ->andwhere("owres.own_res_status = :status")
+
+            ->setParameter("status", ownershipReservation::STATUS_RESERVED)
+        ;
+//        $qb->select('DATE(gres.gen_res_date) as fecha,
+//        (SELECT SUM(CASE WHEN p1.current_cuc_change_rate IS NOT NULL THEN p1.payed_amount*p1.current_cuc_change_rate ELSE p1.payed_amount*curr.curr_cuc_change END) from mycpBundle:payment p1 WHERE DATE(p1.created)=fecha) as facturacion
+//       ')
+//            ->from("mycpBundle:ownershipReservation", "owres")
+//            ->join("owres.own_res_gen_res_id", "gres")
+//            ->join("owres.own_res_reservation_booking", "b")
+//            ->join('mycpBundle:payment', 'p', Expr\Join::WITH, 'p.booking = b.booking_id')
+//            ->join("p.currency", "curr")
+//
+//        ->groupBy("fecha");
+        if($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "") {
+//            $qb->andWhere("gres.gen_res_date >= '$filter_date_from' AND gres.gen_res_date <= '$filter_date_to'");
+            $qb->andWhere("p.created >= '$filter_date_from 00:00:00' AND p.created <= '$filter_date_to 23:59:59'");
+
+            if($accommodationModality != null && $accommodationModality != "" && $accommodationModality != "null" && $accommodationModality > 0 )
+            {
+                $qb->join("gres.gen_res_own_id", "o")
+                    ->join("o.modalityUpdateFrequency", "modality")
+                    ->join("modality.modality", "mod")
+                    ->andWhere("mod.nom_id = $accommodationModality")
+                    ->andWhere("modality.startDate <= '$filter_date_from' AND (modality.endDate IS NULL OR modality.endDate > '$filter_date_to')")
+                ;
+            }
+
+        }
+        else if($filter_date_from != null && $filter_date_from != "" && ($filter_date_to == null || $filter_date_to == "")) {
+            $qb->andWhere("p.created >= '$filter_date_from 00:00:00'");
+
+            if($accommodationModality != null && $accommodationModality != "" && $accommodationModality != "null" && $accommodationModality > 0 )
+            {
+                $qb->join("gres.gen_res_own_id", "o")
+                    ->join("o.modalityUpdateFrequency", "modality")
+                    ->join("modality.modality", "mod")
+                    ->andWhere("mod.nom_id = $accommodationModality")
+                    ->andWhere("modality.startDate <= '$filter_date_from'")
+                ;
+            }
+        }
+        else if($filter_date_to != null && $filter_date_to != "" && ($filter_date_from == null || $filter_date_from == "")) {
+            $qb->andWhere("p.created <= '$filter_date_to 23:59:59'");
+
+            if($accommodationModality != null && $accommodationModality != "" && $accommodationModality != "null" && $accommodationModality > 0 )
+            {
+                $qb->join("gres.gen_res_own_id", "o")
+                    ->join("o.modalityUpdateFrequency", "modality")
+                    ->join("modality.modality", "mod")
+                    ->andWhere("mod.nom_id = $accommodationModality")
+                    ->andWhere("(modality.startDate <= '$filter_date_to' AND modality.endDate IS NULL) OR modality.endDate > '$filter_date_to'")
+                ;
+            }
+        }
+
+//        if($accommodationModality != null && $accommodationModality != "" && $accommodationModality != "null" && $accommodationModality > 0 )
+//        {
+//            $qb->join("gres.gen_res_own_id", "o")
+//                ->join("o.modalityUpdateFrequency", "modality")
+//                ->join("modality.modality", "mod")
+//                ->andWhere("mod.nom_id = $accommodationModality")
+//                ->andWhere("(modality.endDate IS NOT NULL  AND ((modality.startDate <= owres.own_res_reservation_to_date AND modality.endDate >= owres.own_res_reservation_from_date)
+//                                OR (owres.own_res_reservation_from_date <= modality.endDate AND owres.own_res_reservation_to_date >= modality.startDate)))
+//                  OR (modality.endDate IS NULL AND (owres.own_res_reservation_from_date <= modality.startDate AND modality.startDate <= owres.own_res_reservation_to_date))
+//                  OR (modality.endDate IS NULL AND modality.startDate < owres.own_res_reservation_from_date)")
+//            ;
+//        }
+
+        return $qb->getQuery()->getResult();
+    }
+    function getClientsDailySummaryPaymentsFacturationPArtner($filter_date_from = null, $filter_date_to = null, $accommodationModality = null) {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->select("DATE(p.created) as fecha, count(distinct gres.gen_res_user_id) as clientes, count(distinct gres.gen_res_id) as solicitudes, sum(owres.own_res_count_adults +owres.own_res_count_childrens ) as personas_involucradas,
+        count(owres.own_res_id) as habitaciones, sum(DATE_DIFF(owres.own_res_reservation_to_date, owres.own_res_reservation_from_date)) as noches,
+              (SELECT SUM(CASE WHEN p1.current_cuc_change_rate IS NOT NULL THEN p1.payed_amount*p1.current_cuc_change_rate ELSE p1.payed_amount*curr.curr_cuc_change END) from mycpBundle:payment p1 WHERE DATE(p1.created)=fecha) as facturacion
+             ")
+            ->from("mycpBundle:ownershipReservation", "owres")
+            ->join("owres.own_res_gen_res_id", "gres")
+            ->join("owres.own_res_reservation_booking", "b")
+            ->join('mycpBundle:payment', 'p', Expr\Join::WITH, 'p.booking = b.booking_id')
+            ->join("p.currency", "curr")
+            ->join("gres.gen_res_user_id","u")
+            ->where("u.user_role != 'ROLE_CLIENT_TOURIST'")
+            ->groupBy("fecha")
+            ->andwhere("owres.own_res_status = :status")
+
             ->setParameter("status", ownershipReservation::STATUS_RESERVED)
         ;
 //        $qb->select('DATE(gres.gen_res_date) as fecha,
@@ -3109,26 +3322,45 @@ group by gres.gen_res_id order by gres.gen_res_id DESC";
         /*   $yesterday= '2016-01-21';
            $day='2016-01-22';*/
 
+//        $em = $this->getEntityManager();
+//        $query = $em->createQuery("SELECT u.user_id,gres.gen_res_id,owres.own_res_total_in_site FROM mycpBundle:ownershipReservation owres
+//        join owres.own_res_gen_res_id gres
+//        join gres.gen_res_user_id u
+//        join owres.own_res_reservation_booking b
+//        join mycpBundle:payment p with p.booking = b.booking_id
+//        WHERE gres.gen_res_date >= '$yesterday' AND(u.user_role = 'ROLE_CLIENT_TOURIST') AND gres.gen_res_date <= '$day'");
+//        $result = $query->getResult();
+//        $client_id = "0";
+//
+//        foreach ($result as $client) {
+//            $client_id .= "," . $client["user_id"];
+//        }
         $em = $this->getEntityManager();
-        $query = $em->createQuery("SELECT distinct u.user_id,owres.own_res_total_in_site FROM mycpBundle:ownershipReservation owres
-        join owres.own_res_gen_res_id gres
-        join gres.gen_res_user_id u
-        join owres.own_res_reservation_booking b
-        join mycpBundle:payment p with p.booking = b.booking_id
-        WHERE gres.gen_res_date >= '$yesterday' AND gres.gen_res_date <= '$day'");
-        $result = $query->getResult();
-        $client_id = "0";
-
-        foreach ($result as $client) {
-            $client_id .= "," . $client["user_id"];
-        }
-        $em = $this->getEntityManager();
-        $query = $em->createQuery("SELECT distinct u.user_id, owr.own_res_total_in_site,own.own_commission_percent FROM mycpBundle:generalReservation gre
+        $query = $em->createQuery("SELECT distinct count(owr.own_res_id)as rooms,fee.id, u.user_id,gre.gen_res_id,gre.gen_res_from_date,gre.gen_res_to_date, owr.own_res_total_in_site,own.own_commission_percent FROM mycpBundle:generalReservation gre
         join gre.gen_res_user_id u
         join gre.own_reservations owr
+        join gre.service_fee fee
         join gre.gen_res_own_id own
-        WHERE  gre.gen_res_date = '$yesterday' AND gre.gen_res_user_id NOT IN('$client_id') AND( gre.gen_res_status = " . generalReservation::STATUS_AVAILABLE . " OR gre.gen_res_status = " . generalReservation::STATUS_RESERVED . " OR gre.gen_res_status = " . generalReservation::STATUS_CANCELLED . " OR gre.gen_res_status = " . generalReservation::STATUS_OUTDATED . ")");
+        WHERE  gre.gen_res_date = '$yesterday' AND u.user_role = 'ROLE_CLIENT_TOURIST'  AND gre.gen_res_status = ".generalReservation::STATUS_PENDING." GROUP BY owr.own_res_id ");
         return $query->getResult();
+
+    }
+    function clientPendigPartner() {
+        $yesterday = date("Y-m-d", strtotime('-1 day'));
+        $day = date("Y-m-d");
+        /*   $yesterday= '2016-01-21';
+           $day='2016-01-22';*/
+
+
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT distinct count(owr.own_res_id)as rooms,fee.id,u.user_id,gre.gen_res_id,gre.gen_res_from_date,gre.gen_res_to_date, owr.own_res_total_in_site,own.own_commission_percent FROM mycpBundle:generalReservation gre
+        join gre.gen_res_user_id u
+        join gre.service_fee fee
+        join gre.own_reservations owr
+        join gre.gen_res_own_id own
+        WHERE  gre.gen_res_date = '$yesterday' AND u.user_role != 'ROLE_CLIENT_TOURIST'  AND gre.gen_res_status = ".generalReservation::STATUS_PENDING." GROUP BY owr.own_res_id");
+        return $query->getResult();
+
 
     }
 

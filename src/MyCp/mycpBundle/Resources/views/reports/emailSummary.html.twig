@@ -8,39 +8,33 @@
     <table style="width: 100%" cellpadding="0" cellspacing="0">
         <tbody>
         <tr>
-            <td><b>Clientes:</b> {{ countClientSol }}</td>
             <td>
-                <b>Solicitudes Recibidas:</b> {{ countReservationYesterday }}
+                <b>Clientes Mycp:</b> {{ mycp.countClientSol }}</br>
+
+            </td>
+            <td>
+                <b>Solicitudes Recibidas Mycp:</b> {{ mycp.countReservationYesterday }}</br>
+
             </td>
         </tr>
         <tr>
-            <td><b>Clientes con Reservas Pagadas:</b> {{ reserved }}</td>
+            <br>
+                <b>Clientes con Reservas Pagadas Mycp:</b> {{ mycp.reserved }}</br>
+
+            </td>
             <td>
-                <b>Facturación:</b> {{ factu }} CUC
+                <b>Facturación Mycp:</b> {{ mycp.factu }} CUC </br>
+
             </td>
         </tr>
-        <tr>
-            <td>
-                <b>Facturación Neta:</b> {{ factura }} CUC
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <b>Meta:</b> {{ meta }} CUC
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <b>Diferencia:</b> - {{ diferencia }} CUC
-            </td>
-        </tr>
+
 
         </tbody>
     </table>
 
     <table class="mcp" style="width: 100%;border: 1px solid;margin-top: 5px" cellpadding="0" cellspacing="0">
         <tr>
-            <td colspan="3">Clientes</td>
+            <td colspan="3">Clientes Mycp</td>
         </tr>
         <tr>
             <td colspan="2" style="text-align: right"><b>Cantidad</b></td>
@@ -49,45 +43,50 @@
             </td>
         </tr>
         <tr>
-            <td><b>Recibieron al menos una Disponibilidad</b></td>
+            <td><b>Recibieron al menos una Disponibilidad Mycp</b></td>
             <td>
-                {{ countClientDisponibility }}
+                {{ mycp.countClientDisponibility }}
             </td>
             <td>
-               {{ countClientDisponibilityPercent}} %
+               {{ mycp.countClientDisponibilityPercent}} %
             </td>
+
         </tr>
         <tr>
-            <td><b>Con Solicitudes Pendientes</b></td>
+            <td><b>Con Solicitudes Pendientes Mycp</b></td>
             <td>
-                {{ pending }}
+                {{ mycp.pending }}
             </td>
             <td>
-               {{ pendingPercent }} %
+               {{ mycp.pendingPercent }} %
             </td>
+
         </tr>
         <tr>
-            <td><b>Sin Disponibilidad</b></td>
+            <td><b>Sin Disponibilidad Mycp</b></td>
             <td>
-                {{ clientNotDispon }}
+                {{ mycp.clientNotDispon }}
             </td>
             <td>
-                {{ clientNotDisponPercent }}%
+                {{ mycp.clientNotDisponPercent }}%
             </td>
+
         </tr>
         <tr>
-            <td><b>Total</b></td>
+            <td><b>Total Mycp</b></td>
             <td>
-                {{ countClientSol }}
+                {{ mycp.countClientSol }}
             </td>
             <td>
                 100%
             </td>
+
         </tr>
     </table>
+
     <table  class="mcp" style="width: 100%;border: 1px solid;margin-top: 5px" cellpadding="0" cellspacing="0">
         <tr>
-            <td colspan="3">FACTURACIÓN X CLIENTES QUE RECIBIERON AL MENOS UNA DISPONIBILIDAD</td>
+            <td colspan="3">FACTURACIÓN X CLIENTES QUE RECIBIERON AL MENOS UNA DISPONIBILIDAD MYCP</td>
         </tr>
         <tr>
             <td colspan="2" style="text-align: right"><b>Cantidad</b></td>
@@ -97,76 +96,175 @@
         </tr>
 
         <tr>
-            <td><b>Clientes que pagaron</b></td>
+            <td><b>Clientes que pagaron Mycp</b></td>
             <td>
-                {{ reserved }}
+                {{ mycp.reserved }}
             </td>
             <td>
-                {{ factu }} CUC
+                {{ mycp.factu }} CUC
             </td>
+
         </tr>
         <tr>
-            <td><b>Clientes pendientes de pago</b></td>
+            <td><b>Clientes pendientes de pago Mycp</b></td>
             <td>
-                {{ clientPending }}
+                {{ mycp.clientPending }}
             </td>
             <td>
-               {{ totalPending }} CUC
+                {{ mycp.totalPending }} CUC
             </td>
+
         </tr>
         <tr>
-            <td><b>Total</b></td>
+            <td><b>Total Mycp</b></td>
             <td>
-                {{ totalClient }}
+                {{ mycp.totalClient }}
             </td>
             <td>
-                {{ totalCUC }} CUC
+                {{ mycp.totalCUC }} CUC
             </td>
+
         </tr>
     </table>
-    <table class="mcp" style="width: 100%;border: 1px solid;margin-top: 5px" cellpadding="0" cellspacing="0">
-        <tr>
-            <td colspan="3">SOLICITUDES RECIBIDAS</td>
-        </tr>
-        <tr>
-            <td colspan="3" style="text-align: right"><b>Cantidad</b></td>
-        </tr>
-        <tr>
-            <td><b>Enviadas Disponibles</b></td>
-            <td>
-                {{ countReservationDispon }}
-            </td>
-        </tr>
-        <tr>
-            <td><b>Enviadas No Disponibles</b></td>
-            <td>
-                {{ countReservationNoDispon }}
-            </td>
-        </tr>
-        <tr>
-            <td><b>Pagadas</b></td>
-            <td>
-                {{ countReservationPag }}
-            </td>
-        </tr>
-        <tr>
-            <td><b>Pendientes</b></td>
-            <td>
-                {{ countReservationPending }}
-            </td>
-        </tr>
-        <tr>
-            <td><b>Total</b></td>
-            <td>
-               {{ totalSol }}
-            </td>
-        </tr>
-    </table>
-    <h4>Desglose por moneda</h4><br>
-    {% for des in res_desglose %}
+
+
+    <h4>Desglose por moneda Mycp</h4><br>
+    {% for des in mycp.res_desglose %}
      <div class="alert alert-error">Moneda:{{ des.currency }}    {{ des.amount }}</div></br>
     {% endfor %}
 
+    </br>
+
+
+    <h3>RESUMEN ESTADISTICO PARTNER</h3><br>
+    <table style="width: 100%" cellpadding="0" cellspacing="0">
+        <tbody>
+        <tr>
+            <td>
+
+                <b>Clientes Partner:</b> {{ partner.countClientSol }}
+            </td>
+            <td>
+
+                <b>Solicitudes Recibidas Partner:</b> {{ partner.countReservationYesterday }}
+            </td>
+        </tr>
+        <tr>
+            <br>
+
+            <b>Clientes con Reservas Pagadas Partner:</b> {{ partner.reserved }}
+            </td>
+            <td>
+
+                <b>Facturación Partner:</b> {{ partner.factu }} CUC
+            </td>
+        </tr>
+
+
+
+        </tbody>
+    </table>
+
+
+    <table class="mcp" style="width: 100%;border: 1px solid;margin-top: 5px" cellpadding="0" cellspacing="0">
+        <tr>
+            <td colspan="3">Clientes Partners</td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: right"><b>Cantidad</b></td>
+            <td>
+                <b>Porciento</b>
+            </td>
+        </tr>
+        <tr>
+
+            <td><b>Recibieron al menos una Disponibilidad Partner</b></td>
+            <td>
+                {{ partner.countClientDisponibility }}
+            </td>
+            <td>
+                {{ partner.countClientDisponibilityPercent}} %
+            </td>
+        </tr>
+        <tr>
+
+            <td><b>Con Solicitudes Pendientes Partner</b></td>
+            <td>
+                {{ partner.pending }}
+            </td>
+            <td>
+                {{ partner.pendingPercent }} %
+            </td>
+        </tr>
+        <tr>
+
+            <td><b>Sin Disponibilidad Partner</b></td>
+            <td>
+                {{ partner.clientNotDispon }}
+            </td>
+            <td>
+                {{ partner.clientNotDisponPercent }}%
+            </td>
+        </tr>
+        <tr>
+
+            <td><b>Total Partner</b></td>
+            <td>
+                {{ partner.countClientSol }}
+            </td>
+            <td>
+                100%
+            </td>
+        </tr>
+    </table>
+
+    <table  class="mcp" style="width: 100%;border: 1px solid;margin-top: 5px" cellpadding="0" cellspacing="0">
+        <tr>
+            <td colspan="3">FACTURACIÓN X CLIENTES QUE RECIBIERON AL MENOS UNA DISPONIBILIDAD PARTNER</td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: right"><b>Cantidad</b></td>
+            <td>
+                <b>Facturación</b>
+            </td>
+        </tr>
+
+        <tr>
+
+            <td><b>Clientes que pagaron Partner</b></td>
+            <td>
+                {{ partner.reserved }}
+            </td>
+            <td>
+                {{ partner.factu }} CUC
+            </td>
+        </tr>
+        <tr>
+
+            <td><b>Clientes pendientes de pago Partner</b></td>
+            <td>
+                {{ partner.clientPending }}
+            </td>
+            <td>
+                {{ partner.totalPending }} CUC
+            </td>
+        </tr>
+        <tr>
+
+            <td><b>Total Partner</b></td>
+            <td>
+                {{ partner.totalClient }}
+            </td>
+            <td>
+                {{ partner.totalCUC }} CUC
+            </td>
+        </tr>
+    </table>
+
+    <h4>Desglose por moneda Partner</h4><br>
+    {% for des in partner.res_desglose %}
+        <div class="alert alert-error">Moneda:{{ des.currency }}    {{ des.amount }}</div></br>
+    {% endfor %}
     <p>Saludos Cordiales,
     <p>Equipo de MyCasaParticular.com</p>
     </p>

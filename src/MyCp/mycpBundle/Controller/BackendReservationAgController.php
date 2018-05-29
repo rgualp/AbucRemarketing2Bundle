@@ -472,8 +472,9 @@ class BackendReservationAgController extends Controller {
             }
         }
         catch(\Exception $e){
+
             $message = 'Ha ocurrido un error. Por favor, introduzca correctamente los valores para filtrar.';
-            $this->get('session')->getFlashBag()->add('message_error_main', $message);
+            $this->get('session')->getFlashBag()->add('message_error_main', $e->getMessage());
 
             return $this->redirect($this->generateUrl("mycp_list_reservations_ag"));
         }
