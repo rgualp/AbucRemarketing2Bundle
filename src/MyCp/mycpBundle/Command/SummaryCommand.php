@@ -293,7 +293,7 @@ class SummaryCommand extends ContainerAwareCommand
                 'fecha' => date("Y-m-d", strtotime('-1 day')),
                 'user_locale' => 'es'
             ));
-        dump($body);die;
+       
         try {
             $subject = "Sumario MyCasaParticular";
 //            array('ptorres@abuc.ch', 'natalie@mycasaparticular.com', 'ptorres@mycasaparticular.com', 'andy@hds.li','vhagar91@gmail.com')
