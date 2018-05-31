@@ -1162,6 +1162,7 @@ class BookingService extends Controller
                     $bookingId, $userEmail));
             $logger->error($e->getMessage());
         }
+        //Send Email Extra Services to Client
 
         // send email to reservation team
         foreach ($arrayOwnershipReservationByHouse as $owns) {

@@ -1639,47 +1639,50 @@ ORDER BY own.own_mcp_code ASC
 
             if($currentReservation != $generalReservation->getGenResId()){
                 $accommodation = $generalReservation->getGenResOwnId();
+                //Fecha de Reserva
+                $data[0] = ($currentReservation != $generalReservation->getGenResId()) ? $generalReservation->getGenResDate()->format("d/m/Y") : "";
+
                 //Estado Reserva
-                $data[0] = ($currentReservation != $generalReservation->getGenResId()) ? generalReservation::getStatusName($generalReservation->getGenResStatus()) : "";
+                $data[1] = ($currentReservation != $generalReservation->getGenResId()) ? generalReservation::getStatusName($generalReservation->getGenResStatus()) : "";
 
                 //Booking
                 $booking=$this->em->getRepository('mycpBundle:booking')->getByGeneralReservation($generalReservation->getGenResID());
                 if(count($booking)>0) {
-                    $data[1] = ($currentReservation != $generalReservation->getGenResId()) ? $booking[0]['booking_id'] : "";
+                    $data[2] = ($currentReservation != $generalReservation->getGenResId()) ? $booking[0]['booking_id'] : "";
                 }
                 else{
-                    $data[1] = ($currentReservation != $generalReservation->getGenResId()) ? "--": "";
+                    $data[2] = ($currentReservation != $generalReservation->getGenResId()) ? "--": "";
 
                 }
 
                 //Código Reserva
-                $data[2] = ($currentReservation != $generalReservation->getGenResId()) ? $generalReservation->getCASId(): "";
+                $data[3] = ($currentReservation != $generalReservation->getGenResId()) ? $generalReservation->getCASId(): "";
 
                 //Cliente
                 if($generalReservation->getTravelAgencyDetailReservations()->first()){
-                    $data[3] = ($currentReservation != $generalReservation->getGenResId()) ? $generalReservation->getTravelAgencyDetailReservations()->first()->getReservation()->getClient()->getFullName(): "";
+                    $data[4] = ($currentReservation != $generalReservation->getGenResId()) ? $generalReservation->getTravelAgencyDetailReservations()->first()->getReservation()->getClient()->getFullName(): "";
 
                 }
                 else{
-                    $data[3]="";
+                    $data[4]="";
                 }
 
                 //Código alojamiento
-                $data[4] = ($currentReservation != $generalReservation->getGenResId()) ? $accommodation->getOwnMcpCode(): "";
+                $data[5] = ($currentReservation != $generalReservation->getGenResId()) ? $accommodation->getOwnMcpCode(): "";
 
                 //Fecha de llegada
-                $data[5] = $generalReservation->getGenResFromDate()->format("d/m/Y");
+                $data[6] = $generalReservation->getGenResFromDate()->format("d/m/Y");
                 //Fecha de Salida
-                $data[6] = $generalReservation->getGenResToDate()->format("d/m/Y");
+                $data[7] = $generalReservation->getGenResToDate()->format("d/m/Y");
                 //Noches
-                $data[7] = Time::nights($generalReservation->getGenResFromDate()->format("Y-m-d"), $generalReservation->getGenResToDate()->format("Y-m-d"), "Y-m-d");
+                $data[8] = Time::nights($generalReservation->getGenResFromDate()->format("Y-m-d"), $generalReservation->getGenResToDate()->format("Y-m-d"), "Y-m-d");
 
                 //Adultos
-                $data[8] = $generalReservation->getAdultsCount();
+                $data[9] = $generalReservation->getAdultsCount();
                 //Niños
-                $data[9] = $generalReservation->getKidsCount();
+                $data[10] = $generalReservation->getKidsCount();
                 //Habitacion
-                $data[10] = $generalReservation->getRoomsCount();
+                $data[11] = $generalReservation->getRoomsCount();
                 //Precio Total CUC
 
                 $touristTax = $generalReservation->getGenResTotalInSite() * 0.1;
@@ -1687,22 +1690,22 @@ ORDER BY own.own_mcp_code ASC
                 $completePayment=$generalReservation->getGenResTotalInSite()+$touristTax+$transferTax;
                 $pagoCasa=($generalReservation->getGenResTotalInSite()-($generalReservation->getGenResTotalInSite() * ($accommodation->getOwnCommissionPercent() / 100)));
                 $comision=$completePayment-$pagoCasa;
-                $data[11] = ($currentReservation != $generalReservation->getGenResId()) ?$completePayment : "";
+                $data[12] = ($currentReservation != $generalReservation->getGenResId()) ?$completePayment : "";
                 //Precio Total EUR
-                $data[12] = ($currentReservation != $generalReservation->getGenResId()) ? $completePayment*0.9: "";
+                $data[13] = ($currentReservation != $generalReservation->getGenResId()) ? $completePayment*0.9: "";
 
                 //Pago a Casa
-                $data[13] = ($currentReservation != $generalReservation->getGenResId()) ? $pagoCasa : "";
+                $data[14] = ($currentReservation != $generalReservation->getGenResId()) ? $pagoCasa : "";
 
                 //Comision
-                $data[14] = ($currentReservation != $generalReservation->getGenResId()) ? $comision: "";
+                $data[15] = ($currentReservation != $generalReservation->getGenResId()) ? $comision: "";
 
                 //TourOperadot
-                $data[15] = ($currentReservation != $generalReservation->getGenResId()) ? $generalReservation->getGenResUserId()->getUsername() : "";
+                $data[16] = ($currentReservation != $generalReservation->getGenResId()) ? $generalReservation->getGenResUserId()->getUsername() : "";
 
                 //Agencia
                 $agency=$this->em->getRepository('PartnerBundle:paTravelAgency')->getByUserId($generalReservation->getGenResUserId()->getUserId());
-                $data[16] = ($currentReservation != $generalReservation->getGenResId()) ? $agency[0]['name']: "";
+                $data[17] = ($currentReservation != $generalReservation->getGenResId()) ? $agency[0]['name']: "";
 
 
 
@@ -1726,30 +1729,30 @@ ORDER BY own.own_mcp_code ASC
         $sheet = $this->createSheet($excel, $sheetName);
 
         $sheet->setCellValue('a1', "Listado de reservas");
-        $sheet->mergeCells("A1:Q1");
+        $sheet->mergeCells("A1:R1");
         $now = new \DateTime();
         $sheet->setCellValue('a2', 'Reporte generado con las reservas de Agencias');
-        $sheet->mergeCells("A2:Q2");
+        $sheet->mergeCells("A2:R2");
         $sheet->setCellValue('a3', 'Fecha de creación: '.$now->format('d/m/Y H:s'));
-        $sheet->mergeCells("A3:Q3");
-
-        $sheet->setCellValue('a5', 'Estado');
-        $sheet->setCellValue('b5', 'Booking');
-        $sheet->setCellValue('c5', 'CAS');
-        $sheet->setCellValue('d5', 'Cliente');
-        $sheet->setCellValue('e5', 'Alojamiento');
-        $sheet->setCellValue('f5', 'LLegada');
-        $sheet->setCellValue('g5', 'Salida');
-        $sheet->setCellValue('h5', 'Noches');
-        $sheet->setCellValue('i5', 'Adultos');
-        $sheet->setCellValue('j5', 'Niños');
-        $sheet->setCellValue('k5', 'Habitaciones)');
-        $sheet->setCellValue('l5', 'Total a Pagar CUC');
-        $sheet->setCellValue('m5', 'Total a Pagar EUR');
-        $sheet->setCellValue('n5', 'Pago a Casa');
-        $sheet->setCellValue('o5', 'Comisión MyCP');
-        $sheet->setCellValue('p5', 'TourOperador');
-        $sheet->setCellValue('q5', 'Agencia');
+        $sheet->mergeCells("A3:R3");
+        $sheet->setCellValue('a5', 'Fecha de Reserva');
+        $sheet->setCellValue('b5', 'Estado');
+        $sheet->setCellValue('c5', 'Booking');
+        $sheet->setCellValue('d5', 'CAS');
+        $sheet->setCellValue('e5', 'Cliente');
+        $sheet->setCellValue('f5', 'Alojamiento');
+        $sheet->setCellValue('g5', 'LLegada');
+        $sheet->setCellValue('h5', 'Salida');
+        $sheet->setCellValue('i5', 'Noches');
+        $sheet->setCellValue('j5', 'Adultos');
+        $sheet->setCellValue('k5', 'Niños');
+        $sheet->setCellValue('l5', 'Habitaciones)');
+        $sheet->setCellValue('m5', 'Total a Pagar CUC');
+        $sheet->setCellValue('n5', 'Total a Pagar EUR');
+        $sheet->setCellValue('o5', 'Pago a Casa');
+        $sheet->setCellValue('p5', 'Comisión MyCP');
+        $sheet->setCellValue('q5', 'TourOperador');
+        $sheet->setCellValue('r5', 'Agencia');
 
 
 
@@ -1758,9 +1761,9 @@ ORDER BY own.own_mcp_code ASC
                 'horizontal' => \PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
             )
         );
-        $sheet->getStyle("A1:Q1")->applyFromArray($centerStyle);
+        $sheet->getStyle("A1:R1")->applyFromArray($centerStyle);
 
-        $sheet = $this->styleHeader("A5:Q5", $sheet);
+        $sheet = $this->styleHeader("A5:R5", $sheet);
 
         $style = array(
             'font' => array(
@@ -1772,10 +1775,10 @@ ORDER BY own.own_mcp_code ASC
 
         $sheet->fromArray($data, ' ', 'A6');
 
-        $this->setColumnAutoSize("a", "q", $sheet);
+        $this->setColumnAutoSize("a", "r", $sheet);
 
         //$sheet->setAutoFilter($sheet->calculateWorksheetDimension());
-        $sheet->setAutoFilter("A5:Q".(count($data)+5));
+        $sheet->setAutoFilter("A5:R".(count($data)+5));
 
         return $excel;
     }
