@@ -37,8 +37,13 @@
     </tr>
     <tr>
         <td>
+            {% if agency.getUserPhoto is not null %}
+                {% set avatar_img =  asset('uploads/logos/'~agency.getUserPhoto.phoName) %}
+            {% else %}
+                {% set avatar_img = asset('bundles/frontend/img/user-no-photo.png') %}
+            {% endif %}
             {% if agency.getUserPhoto() is not null %}
-                {% set avatar_img =  'bundles/partner/img/logos/'~agency.getUserPhoto.phoName %}
+
                 <img src="{{ avatar_img }}" alt="agency" style="height: 50px"/>
 
             {% endif %}

@@ -804,7 +804,7 @@ class BackendReservationAgController extends Controller {
                                         'rooms' => $rooms
                                     ));
                                     //$emailService->sendEmail(array("reservation@mycasaparticular.com","sarahy_amor@yahoo.com"),"Pago Pendiente a Agencia:",$body,"no-reply@mycasaparticular.com");
-                                    $emailService->sendEmail(array("damian.flores@mycasaparticular.com", "andy.cabrera08@gmail.com"), "Pago Pendiente a Agencia:", $body, "no-reply@mycasaparticular.com");
+                                    $emailService->sendEmail(array("contabilidad1@mycasaparticular.com", "andy.cabrera08@gmail.com"), "Pago Pendiente a Agencia:", $body, "no-reply@mycasaparticular.com");
                                 }
                                 catch(\Exception $e)
                                 {
