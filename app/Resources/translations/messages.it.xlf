@@ -4493,6 +4493,14 @@
                                  <source>REGISTER_MESSAGE_OBSERVATIONS</source>
                                <target>Observations</target>
                                 </trans-unit>
+              <trans-unit id="4819">
+                             <source>CHAT_MESAGE</source>
+               <target>Cosa possiamo fare per te?</target>
+             </trans-unit>
+                 <trans-unit id="4820">
+              <source>CHAT_MESAGE_1</source>
+                 <target>Hello,My name is Lisandra. I would like to help you find what you are looking for in our site. Do not hesitate to contact me at the following email:</target>
+       </trans-unit>
         </body>
     </file>
 </xliff>

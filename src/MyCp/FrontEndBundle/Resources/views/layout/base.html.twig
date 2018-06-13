@@ -26,6 +26,7 @@
             '@LayoutBundle/Resources/public/css/bootstrap-submenu.css'
             '@FrontEndBundle/Resources/public/css/economic_house.css'
             '@FrontEndBundle/Resources/public/css/premium_house.css'
+            '@LayoutBundle/Resources/public/css/chat.css'
             filter='?uglifycss' %}
             <link rel="stylesheet" href="{{ asset_url }}"/>
         {% endstylesheets %}
@@ -118,6 +119,7 @@
             {% endblock %}
         {% endblock %}
     </div>
+
     {% block footer_big %}{% endblock %}
 
     {% block go_up %}
@@ -259,6 +261,30 @@
         </div>
     </footer>
     {{ include('FrontEndBundle:mails:sendMailPopup.html.twig') }}
+    <div id="chat" class="floating-chat">
+        <i class="fa fa-question" rel="tooltip" title="Help Center" style="font-size: 40px" aria-hidden="true"></i>
+
+        <div class="chat">
+            <div class="header">
+            <span class="title">
+                {{ "CHAT_MESAGE" | trans }}
+            </span>
+                <button>
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                </button>
+
+            </div>
+            <ul class="messages">
+
+                <li class="self"> {{ "CHAT_MESAGE_1" | trans }} <a href="mailto:experience@mycasaparticular.com">experience@mycasaparticular.com</a> </li>
+
+            </ul>
+            <div class="footer" style="display: none">
+                <div class="text-boxx" contenteditable="true" disabled="true"></div>
+                <button id="sendMessage">send</button>
+            </div>
+        </div>
+    </div>
     <script type="text/javascript">
         var today_date = "{{ "now"|date("d/m/Y") }}";
         var showMarquesina = false;
@@ -295,6 +321,7 @@
         var rsheight;
         {% javascripts
             '@FrontEndBundle/Resources/public/js/jquery-3.1.1.min.js'
+
             filter='?uglifyjs2' %}
         $LAB.script('{{ asset_url }}')
         {% endjavascripts %}
@@ -335,7 +362,9 @@
             '@FrontEndBundle/Resources/public/js/destinations.js'
             '@FrontEndBundle/Resources/public/js/ownership.min.js'
             '@FrontEndBundle/Resources/public/js/custom.js'
+            '@LayoutBundle/Resources/public/js/chat.js'
             '@FrontEndBundle/Resources/public/js/base.twig.js'
+
             filter='?uglifyjs2' %}
             .script('{{ asset_url }}')
             {% endjavascripts %}
@@ -421,6 +450,7 @@
     <!-- End Google Tag Manager (noscript) -->
 
     {% block javascripts %}{% endblock javascripts %}
+
     </body>
     </html>
 {% endspaceless %}

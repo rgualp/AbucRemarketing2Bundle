@@ -4420,6 +4420,14 @@
                                  <source>REGISTER_MESSAGE_OBSERVATIONS</source>
                                <target>Observations</target>
                                 </trans-unit>
+                  <trans-unit id="4819">
+                          <source>CHAT_MESAGE</source>
+                           <target>En que podemos ayudarle?</target>
+                           </trans-unit>
+                           <trans-unit id="4820">
+                <source>CHAT_MESAGE_1</source>
+            <target>Hola mi nombre es Lisandra, me gustaria ayudarlo  encontrar lo que està buscando en nuestro sitio. No dude en contactarme al siguiente correo:</target>
+        </trans-unit>
         </body>
     </file>
 </xliff>
