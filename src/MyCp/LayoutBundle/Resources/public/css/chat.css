@@ -170,7 +170,7 @@
 }
 .floating-chat .chat .messages li.self:before {
   left: -45px;
-  background-image: url(https://www.mycasaparticular.com/bundles/frontend/img/team/8.jpg);
+  background-image: url(../bundles/frontend/img/team/8.jpg);
 }
 .floating-chat .chat .messages li.self:after {
   border-left: 10px solid transparent;
