@@ -1809,7 +1809,6 @@ class ownershipRepository extends EntityRepository
     {
         $query_string = "SELECT o.own_id AS own_id,
                              o.own_name AS own_name,
-                             o.own_discount AS own_discount,
                             pho.pho_name AS photo,
                             prov.prov_name AS prov_name,
                             mun.mun_name AS mun_name,
@@ -2028,31 +2027,6 @@ class ownershipRepository extends EntityRepository
                            AND o.own_id <> $exclude_id
                          ORDER BY o.own_inmediate_booking_2 DESC, o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC";
         $results = ($results_total != null && $results_total > 0) ? $em->createQuery($query_string)->setParameter('category', $category)->setMaxResults($results_total)->getResult() : $em->createQuery($query_string)->setParameter('category', $category)->getResult();
-
-        for ($i = 0; $i < count($results); $i++) {
-            if ($results[$i]['photo'] == null)
-                $results[$i]['photo'] = "no_photo.png";
-            else if (!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo']))) {
-                $results[$i]['photo'] = "no_photo.png";
-            }
-        }
-        return $results;
-    }
-
-    function getWhitOffers($results_total = null, $exclude_id = null, $user_id = null, $session_id = null)
-    {
-        $em = $this->getEntityManager();
-
-        $query_string = $this->getBasicQuery($user_id, $session_id);
-
-        if ($exclude_id == null)
-            $query_string .= " WHERE o.own_discount IS NOT NULL AND o.own_status = " . ownershipStatus::STATUS_ACTIVE . "
-                              ORDER BY o.own_inmediate_booking_2 DESC, o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC";
-        else
-            $query_string .= " WHERE o.own_discount IS NOT NULL AND o.own_status = " . ownershipStatus::STATUS_ACTIVE . "
-                           AND o.own_id <> $exclude_id
-                         ORDER BY o.own_inmediate_booking_2 DESC, o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC";
-        $results = ($results_total != null && $results_total > 0) ? $em->createQuery($query_string)->setMaxResults($results_total)->getResult() : $em->createQuery($query_string)->getResult();
 
         for ($i = 0; $i < count($results); $i++) {
             if ($results[$i]['photo'] == null)

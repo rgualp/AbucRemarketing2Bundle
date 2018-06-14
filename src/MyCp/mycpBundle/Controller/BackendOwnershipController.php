@@ -447,7 +447,6 @@ class BackendOwnershipController extends Controller
         $post['ownership_phone_number'] = $ownership->getOwnPhoneNumber();
         $post['ownership_email_1'] = $ownership->getOwnEmail1();
         $post['ownership_email_2'] = $ownership->getOwnEmail2();
-        $post['own_discount'] = $ownership->getOwnDiscount();
         $post['ownership_category'] = $ownership->getOwnCategory();
         $post['ownership_type'] = $ownership->getOwnType();
         $post['comment'] = $ownership->getOwnComment();
@@ -1079,7 +1078,6 @@ class BackendOwnershipController extends Controller
                 $data['status_id'] = $ownership->getOwnStatus()->getStatusId();
                 $data['status_name'] = $ownership->getOwnStatus()->getStatusName();
                 $data['top_20'] = $ownership->getOwnTop20();
-                $post['own_discount'] = $ownership->getOwnDiscount();
                 $data['not_recommendable'] = $ownership->getOwnNotRecommendable();
                 $data['with_ical'] = $ownership->getWithIcal();
                 $data['ownership_visit_date'] = $ownership->getOwnVisitDate();

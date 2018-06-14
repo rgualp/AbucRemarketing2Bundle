@@ -2,10 +2,8 @@
         <ul class="nav nav-tabs" id="homeCarrousel">
             <li class="active"><a data-toggle="tab" href="#popularDestinations">{{"POPULAR_DESTINATIONS_HOME_TABS" | trans}}</a></li>
             <li><a data-toggle="tab" href="#lastAdded">{{"LAST_ADDED_HOME_TABS" | trans}}</a></li>
-            <li><a data-toggle="tab" href="#economic">{{"ECONOMIC_HOME_TABS" | trans}}</a></li>
-            <li><a data-toggle="tab" href="#medium">{{"MIDRANGE_HOME_TABS" | trans}}</a></li>
-            <li><a data-toggle="tab" href="#premium">{{"PREMIUM_HOME_TABS" | trans}}</a></li>
-            {#<li><a data-toggle="tab" href="#best">{{"BEST_VALUED_ORDER_BY" | trans}}</a></li>#}
+
+            <li><a data-toggle="tab" href="#best">{{"BEST_VALUED_ORDER_BY" | trans}}</a></li>
         </ul>
         <div class="tab-content">
             <div id="popularDestinations" class="tab-pane active">
@@ -54,17 +52,9 @@
             <div id="lastAdded" class="tab-pane" data-url="{{ path("frontend_carrousel_last_added_callback") }}" data-has-content="false">
                {{ "LOADING_MESSAGE" | trans }}
             </div>
-            <div id="economic" class="tab-pane" data-url="{{ path("frontend_carrousel_bycategory_callback") }}" data-has-content="false">
-                {{ "LOADING_MESSAGE" | trans }}
-            </div>
-            <div id="medium" class="tab-pane" data-url="{{ path("frontend_carrousel_bycategory_callback") }}" data-has-content="false">
-                {{ "LOADING_MESSAGE" | trans }}
-            </div>
-            <div id="premium" class="tab-pane" data-url="{{ path("frontend_carrousel_bycategory_callback") }}" data-has-content="false">
 
+            <div id="best" class="tab-pane" data-url="{{ path("frontend_carrousel_top_callback") }}" data-has-content="false">
+                {{ "LOADING_MESSAGE" | trans }}
             </div>
-            {#<div id="best" class="tab-pane" data-url="{{ path("frontend_carrousel_top_callback") }}" data-has-content="false">#}
-                {#{{ "LOADING_MESSAGE" | trans }}#}
-            {#</div>#}
         </div>
     </div>
