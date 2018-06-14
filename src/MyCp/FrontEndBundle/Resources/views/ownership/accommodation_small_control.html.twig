@@ -33,6 +33,12 @@
                     style="text-align: left;">{{ 'IMMEDIATE_BOOKING'|trans }}</span>
         </div>
     {% endif %}
+    {% if  discount %}
+        <div class="discount-label red"> <span>-{{ discount }}%</span> </div>
+
+
+    {% endif %}
+
 
     <div style="height: 63px">
         {% if award %}
@@ -54,6 +60,7 @@
                  data-bttrlazyloading-md-src="{{ url_image | apply_filter('mycp_thumb_front') }}"/>
         {% endif %}
     </a>
+
 </div>
 
 <div class="row">

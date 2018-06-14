@@ -1967,6 +1967,27 @@ class OwnershipController extends Controller
 
         return new Response($response, 200);
     }
+    public function getCarrouselOffersCallbackAction()
+    {
+        $request = $this->get('request');
+        $em = $this->getDoctrine()->getManager();
+        $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
+
+        $elementId = $request->get("elementId");
+
+
+
+        $list = $em->getRepository('mycpBundle:ownership')->getWhitOffers(18, null, $user_ids['user_id'], $user_ids['session_id']);
+
+        $response = $this->renderView('FrontEndBundle:public:homeCarrouselAccommodationsList.html.twig', array(
+            'list' => $list,
+            'list_preffix' => $elementId,
+            "moreUrl" => $this->generateUrl("frontend_search_ownership", array('text'=>"null",'guest'=>'1','rooms'=>'1','inmediate'=>'1')),
+            "sliderId" => "th-" . $elementId . "-carousel"
+        ));
+
+        return new Response($response, 200);
+    }
 
     public function getThumbnailForSearcherAction($photo, $title)
     {

@@ -289,6 +289,17 @@
                                     {% endif %}
                                 </select>
                         </div>
+                         <div class="span6">
+                            <label>Descuento (*)</label>
+                            <select name="own_discount" class="input-block-level">
+                                    {% if post['own_discount'] is defined %}
+                                    {{ render(controller('mycpBundle:BackendReservation:get_percent_list', {'post':{'percent':post['own_discount']}})) }}
+                                    {% else %}
+                                    {{ render(controller('mycpBundle:BackendReservation:get_percent_list', {'post':''})) }}
+                                    {% endif %}
+                            </select>
+
+                        </div>
                         <div class="span6">
                             <label>Tiene fotos buenas?</label>
                              <label><input {% if post['good_picture'] is defined and post['good_picture'] == true %} checked="checked" {% endif %} type="checkbox" name="goodPicture"/> Si</label>

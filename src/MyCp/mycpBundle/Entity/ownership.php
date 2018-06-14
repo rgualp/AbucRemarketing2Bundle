@@ -378,6 +378,29 @@ class ownership
     /**
      * @var integer
      *
+     * @ORM\Column(name="own_discount", type="integer", nullable=true)
+     */
+    private $own_discount;
+
+    /**
+     * @return int
+     */
+    public function getOwnDiscount()
+    {
+        return $this->own_discount;
+    }
+
+    /**
+     * @param int $own_discount
+     */
+    public function setOwnDiscount($own_discount)
+    {
+        $this->own_discount = $own_discount;
+    }
+
+    /**
+     * @var integer
+     *
      * @ORM\Column(name="own_ranking", type="float", nullable=true)
      */
     private $own_ranking;
