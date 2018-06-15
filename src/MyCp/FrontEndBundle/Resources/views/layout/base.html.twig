@@ -5,7 +5,7 @@
     <head>
         <title>{% block title %}{{ "WELCOMEPAGE_TITLE" | trans }}{% endblock %}</title>
         <meta name="google" content="notranslate"/>
-
+        <meta http-equiv="Cache-Control" content="max-age=300" />
         {% block metas %}
             {{ get_metas('Main', lang_code)|raw }}
         {% endblock metas %}
