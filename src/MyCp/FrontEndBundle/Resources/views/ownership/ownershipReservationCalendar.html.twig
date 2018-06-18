@@ -216,26 +216,40 @@
     var today_date="{{"now"|date("d/m/Y") }}";
     var isCompletePayment = ("{{ isCompletePayment}}"==='true');
 </script>
-{% if fromPartner is defined and fromPartner and completePayment is defined and completePayment %}
+{% if isSpecial is defined and isSpecial %}
     {% javascripts
     '@PartnerBundle/Resources/public/js/ownership.calendar.partner.js'
     filter='?uglifyjs2'
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
+{%elseif isBasic is defined and isBasic %}
+    {% javascripts
+        '@PartnerBundle/Resources/public/js/ownership.calendar.partner.basic.js'
+        filter='?uglifyjs2'
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{%elseif isEconomic is defined and isEconomic%}
+    {% javascripts
+        '@PartnerBundle/Resources/public/js/ownership.calendar.partner.economic.js'
+        filter='?uglifyjs2'
+    %}
+        <script src="{{ asset_url }}"></script>
+{% endjavascripts %}
 {%elseif fromBackend%}
     {% javascripts
-    '@mycpBundle/Resources/public/js/ownership.calendar.backend.js'
-    filter='?uglifyjs2'
+        '@mycpBundle/Resources/public/js/ownership.calendar.backend.js'
+        filter='?uglifyjs2'
     %}
-    <script src="{{ asset_url }}"></script>
+        <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
 {%else%}
     {% javascripts
-    '@FrontEndBundle/Resources/public/js/ownership.calendar.js'
-    filter='?uglifyjs2'
+        '@FrontEndBundle/Resources/public/js/ownership.calendar.js'
+        filter='?uglifyjs2'
     %}
-    <script src="{{ asset_url }}"></script>
+        <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
 {%endif%}
 

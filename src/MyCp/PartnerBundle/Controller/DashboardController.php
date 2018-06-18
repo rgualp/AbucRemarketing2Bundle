@@ -1983,6 +1983,10 @@ class DashboardController extends Controller
             $do_operation = true;
             $flag_room++;
         }
+        $packageService = $this->get("mycp.partner.package.service");
+        $isSpecial = $packageService->isSpecialPackage();
+        $isBasic = $packageService->isBasicPackage();
+        $isEconomic = $packageService->isEconomicPackage();
         $currentServiceFee = $em->getRepository("mycpBundle:serviceFee")->getCurrent();
         //$no_available_days_ready[351]=array(11,12,13,14,15,21,22);
         return $this->render('FrontEndBundle:ownership:ownershipReservationCalendar.html.twig', array(
@@ -2000,7 +2004,10 @@ class DashboardController extends Controller
             'completePayment' => $agencyPackage->getPackage()->getCompletePayment(),
             'nights' => $nights,
             "tripleChargeRoom" => $this->container->getParameter('configuration.triple.room.charge'),
-            'isCompletePayment' => false
+            'isCompletePayment' => false,
+            "isSpecial" => $isSpecial,
+            "isBasic"=>$isBasic,
+            "isEconomic"=>$isEconomic
         ));
     }
 

@@ -276,20 +276,52 @@ class CartController extends Controller
             $touristFee = $item["totalInSite"]*0.1;
             $commission = $item["totalInSite"]*$item["commission"]/100;
 
-            $totalTouristAgencyTax += $touristFee;
+
 
             $reservations = $em->getRepository("mycpBundle:generalReservation")->getReservationCart($item["gen_res_id"], $ownReservationIds);
 
             if(!$completePayment) {
-                $totalPrepayment += $commission + $touristFee;
-                $totalAccommodationPayment += $item["totalInSite"];
-                $totalServicesTax += $touristFee;
-                $totalPercentAccommodationPrepayment += $commission;
 
-                $dinner = ($item["dinner"] != null) ? $item["dinner"] : 0;
-                $breakfast = ($item["breakfast"] != null) ? $item["breakfast"] : 0;
-                $totalPayment += $dinner + $breakfast;
+                $packageService = $this->get("mycp.partner.package.service");
 
+                $isBasic = $packageService->isBasicPackage();
+                if ($isBasic)
+                {
+                    $totalTouristAgencyTax += 0;
+                    $totalPrepayment += $item["totalInSite"]*0.2;
+                    $totalAccommodationPayment += $item["totalInSite"];
+                    $totalServicesTax += 0;
+                    $totalPercentAccommodationPrepayment += 20;
+
+                    $dinner = ($item["dinner"] != null) ? $item["dinner"] : 0;
+                    $breakfast = ($item["breakfast"] != null) ? $item["breakfast"] : 0;
+                    $totalPayment += $dinner + $breakfast;
+                    $payments[$item["gen_res_id"]] = array(
+                        "totalPayment" => $item["totalInSite"],
+                        "totalPrepayment" => $item["totalInSite"]*0.2,
+                        "payAtAccommodation" => $item["totalInSite"] - $item["totalInSite"]*0.2,
+                        "touristFee" => 0,
+                        "commission" => $item["totalInSite"]*0.2,
+                        "commissionPercent" => 20,
+                        "reservations" => $reservations,
+                        "lodgingPrice" => $item["totalInSite"],
+                        "fixedFee" => 0,
+                        "dinner"=>0,
+                        "breakfast"=>0,
+                        "agency_tax"=>0,
+                        "taxFees" => 0
+                    );
+                }
+                else{
+                    $totalTouristAgencyTax += $touristFee;
+                    $totalPrepayment += $commission + $touristFee;
+                    $totalAccommodationPayment += $item["totalInSite"];
+                    $totalServicesTax += $touristFee;
+                    $totalPercentAccommodationPrepayment += $commission;
+
+                    $dinner = ($item["dinner"] != null) ? $item["dinner"] : 0;
+                    $breakfast = ($item["breakfast"] != null) ? $item["breakfast"] : 0;
+                    $totalPayment += $dinner + $breakfast;
                 $payments[$item["gen_res_id"]] = array(
                     "totalPayment" => $item["totalInSite"] + $touristFee,
                     "totalPrepayment" => $commission + $touristFee,
@@ -304,7 +336,7 @@ class CartController extends Controller
                     "breakfast"=>$breakfast,
                     "agency_tax"=>($item["totalInSite"]+$dinner+$breakfast)*0.1,
                     "taxFees" => $touristFee
-                );
+                );}
             }
             else{ // agregar la tarfia fija a los calculos
                 $subTotal = $item["totalInSite"] + $touristFee;
@@ -326,7 +358,10 @@ class CartController extends Controller
                 $totalTransferFee += $transferFee;
                 $totalAgencyCommission += $agencyCommission;
 
-                $payments[$item["gen_res_id"]] = array(
+
+
+
+                    $payments[$item["gen_res_id"]] = array(
                     "totalPayment" => $totalPayment +  $agencyCommission,
                     "transferFee" => $transferFee,
                     "agencyCommission" => $agencyCommission,
@@ -433,6 +468,7 @@ class CartController extends Controller
         $package = $agencyPackage->getPackage();
         $completePayment = $package->getCompletePayment();
         $isSpecialPackage = $package->isSpecial();
+        $isBasicPackage = $package->isBasic();
 
         $roomsToPay = $request->get("roomsToPay");
         $roomsToPay = explode(",", $roomsToPay);

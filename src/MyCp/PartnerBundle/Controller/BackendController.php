@@ -123,6 +123,8 @@ class BackendController extends Controller
 
         $packageService = $this->get("mycp.partner.package.service");
         $isSpecial = $packageService->isSpecialPackage();
+        $isBasic = $packageService->isBasicPackage();
+        $isEconomic = $packageService->isEconomicPackage();
         /*$list = $em->getRepository('PartnerBundle:paReservation')->getOpenReservationsList($tourOperator->getTravelAgency());
 
         $response = $this->renderView('PartnerBundle:Modal:open-reservations-list.html.twig', array(
@@ -153,7 +155,9 @@ class BackendController extends Controller
             'fromPartner' => true,
             'completePayment' => $tourOperator->getTravelAgency()->getAgencyPackages()[0]->getPackage()->getCompletePayment(),
             'comisionAgency' => $tourOperator->getTravelAgency()->getAgencyPackages()[0]->getPackage()->getId(),
-            "isSpecial" => $isSpecial
+            "isSpecial" => $isSpecial,
+            "isBasic" => $isBasic,
+            "isEconomic" => $isEconomic
 
         ));
         return new Response($response, 200);

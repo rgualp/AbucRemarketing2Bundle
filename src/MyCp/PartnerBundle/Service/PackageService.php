@@ -38,6 +38,12 @@ class PackageService extends Controller
     public function isSpecialPackage(){
         return $this->getActivePackage()->isSpecial();
     }
+    public function isEconomicPackage(){
+        return $this->getActivePackage()->isEconomic();
+    }
+    public function isBasicPackage(){
+        return $this->getActivePackage()->isBasic();
+    }
 
     public function getActivePackageFromAgency($travelAgency)
     {

@@ -35,64 +35,34 @@ function totalPrice(curr,percent, totalNights)
     var tourist_fee_percent = 0;
     var roomsTotal = $('.id_room').size();
 
-    if(totalNights == 1)
-    {
-        if(roomsTotal == 1)
-        {
-            if(avgPrice < parseInt(20)*curr )
-                tourist_fee_percent = parseFloat($("#tourist_service").attr("data-one-nr-until-20-percent"));
-            else if(avgPrice >= parseInt(20)*curr && avgPrice < parseInt(25)*curr)
-                tourist_fee_percent = parseFloat($("#tourist_service").attr("data-one-nr-from-20-to-25-percent"));
-            else if(avgPrice >= parseInt(25)*curr)
-                tourist_fee_percent = parseFloat($("#tourist_service").attr("data-one-nr-from-more-25-percent"));
-        }
-        else
-            tourist_fee_percent = parseFloat($("#tourist_service").attr("data-one-night-several-rooms-percent"));
-    }
-    else if(totalNights == 2) {
-        tourist_fee_percent = parseFloat($("#tourist_service").attr("data-one-2-nights-percent"));
-    }
-    else if(totalNights == 3)
-        tourist_fee_percent = parseFloat($("#tourist_service").attr("data-one-3-nights-percent"));
-    else if(totalNights == 4)
-        tourist_fee_percent = parseFloat($("#tourist_service").attr("data-one-4-nights-percent"));
-    else if(totalNights >= 5)
-        tourist_fee_percent = parseFloat($("#tourist_service").attr("data-one-5-nights-percent"));
+
 
 
     $('#data_reservation').val(string_url);
-    console.log(total_price_var);
+
 
     $('#subtotal_price').html(normalize_prices(total_price_var));
-    var percent_value=total_price_var * percent / parseFloat(100);
-    //var tourist_service = total_price_var*tourist_fee_percent;
-    var tourist_service = total_price_var*0.1;
-    var tour_serv=(total_price_var+totalPriceDinner+totalPriceBreakfast)*parseFloat(0.1);
+    var prepayment=total_price_var * percent / parseFloat(100);
+
+
+    var tour_serv=0;
 
     $("#tourist_service").html(normalize_prices(tour_serv));
-    $('#initial_deposit').html(normalize_prices(percent_value));
+
+    $('#tourist_service').css({display: 'none'});
+
     $('#accommodation_price').html(normalize_prices(total_price_var));
-    $('#pay_at_service').html(normalize_prices(total_price_var - percent_value));
+    $('#pay_at_service').html(normalize_prices(total_price_var - prepayment));
 
-    var fixed_tax = /*parseFloat($("#tourist_service").data("fixed-tax"))*/0;
-    fixed_tax = fixed_tax*curr;
-    var commissionAgency = parseInt($("#commissionAgency").val());
-    var completePayment = parseInt($("#completePayment").val());
-    console.log(total_price_var,tourist_service,fixed_tax);
-    var summatoryTax = parseFloat(total_price_var+tourist_service + fixed_tax);
-    console.log("Sumatoria " + summatoryTax);
-    //var agencyCommissionTax = parseFloat((total_price_var+tourist_service + fixed_tax) * commissionAgency/100);
-    //var agencyCommissionTax = parseFloat((total_price_var+tourist_service + fixed_tax) * parseFloat(0.1));
-    console.log("Comision Agencia Especial " );
-    var transferTax = parseFloat((total_price_var+tourist_service + fixed_tax) * parseFloat(0.1));
-    console.log("Tansferencia " + transferTax);
+
+
+
+    var transferTax = 0;
+
     var totalCost = parseFloat(total_price_var+tour_serv + transferTax);
-    console.log("Costo total " + totalCost);
 
-    if(completePayment != 0)
-        var prepayment = parseFloat(totalCost);
-    else
-        var prepayment = parseFloat(summatoryTax) ;
+
+
 
     $('#total_prepayment').html(normalize_prices(prepayment));
     $('#total_price').html( normalize_prices(totalPriceDinner + totalPriceBreakfast + totalCost ) );
@@ -100,32 +70,15 @@ function totalPrice(curr,percent, totalNights)
     $("#commissionPercent").html(percent);
     $("#totalNightsToShow").html(totalNights);
     $("#service_transfer_tax").html(normalize_prices(transferTax));
-  //  $("#agency_commission").html(normalize_prices(agencyCommissionTax));
-  //  $("#agency_commission_one").html(normalize_prices(agencyCommissionTax));
+    $("#service_transfer_tax").css({display: 'none'});
+
     $('.calendar-results').css({display: 'block'});
 
-    /*if(checkTotalPrice) {
-        if (total_price_var !== originalTotalPrice) {
-            $("#btn_submit").attr("disabled", true);
-            $(".btn_submit").attr("disabled", true);
-            $("#error").css({display: 'block'});
-            $(".all-prices-numbers").addClass("error");
-
-        }
-        else {
-            $("#btn_submit").removeAttr("disabled");
-            $(".btn_submit").removeAttr("disabled");
-            $("#error").css({display: 'none'});
-            $(".all-prices-numbers").removeClass("error");
-
-        }
-    }
-    else{*/
         $("#btn_submit").removeAttr("disabled");
         $(".btn_submit").removeAttr("disabled");
         $("#error").css({display: 'none'});
         $(".all-prices-numbers").removeClass("error");
-    //}
+
 }
 function updateService(){
    // $('.calendar-results').css({display: 'none'});

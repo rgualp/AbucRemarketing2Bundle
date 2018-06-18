@@ -205,6 +205,10 @@ class paPackage extends baseEntity
     {
         return $this->name == "Económico";
     }
+    public function isBasic()
+    {
+        return $this->name == "Básico";
+    }
 
 
 }
