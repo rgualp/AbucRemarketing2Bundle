@@ -587,7 +587,7 @@ bottom: 120%;
     transform: translate(0, 30%);
 }
 .modal.modal-mini .modal-dialog {
-    max-width: 255px;
+    max-width: min-content;
     margin: 0 auto;
 }
 .modal.modal-mini .modal-profile {
