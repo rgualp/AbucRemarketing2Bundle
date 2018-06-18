@@ -1,4 +1,5 @@
-<div class="modal fade modal-mini modal-primary show" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow: hidden;display: block; padding-right: 17px;">
+<div class="modal-backdrop in" onclick="this.hide();$('.modal-mini').hide()"></div>
+<div class="modal modal-mini modal-primary fade in" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow: hidden;display: block; padding-right: 17px;">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header justify-content-center" style="padding-bottom: 0">
@@ -50,7 +51,7 @@
                 </div>
             <div class="modal-footer">
                 <button type="button" style="display: none" class=" btn btn-link btn-neutral">Details</button>
-                <button type="button" onclick="$('.modal-mini').removeClass('show').css({display:'none'})" class=" btn btn-link btn-neutral" data-dismiss="modal">Close
+                <button type="button" onclick="$('.modal-mini').hide();$('.modal-backdrop').hide()" class=" btn btn-link btn-neutral" data-dismiss="modal">Close
 
                 </button>
             </div>
