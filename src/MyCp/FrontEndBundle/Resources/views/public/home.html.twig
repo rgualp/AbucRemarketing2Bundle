@@ -20,7 +20,9 @@
     </div>
 {% endblock %}
 {% block body %}
-
+    {% block marquesina %}
+        {{ include('FrontEndBundle:layout:marquesina.html.twig') }}
+    {% endblock %}
     <div class="container">
         <h2 class="text-center caecilia-roman h-grey h-size-2">{{ "HOMEPAGE_SUBTITLE_2" | trans }}</h2>
         <div class="row">

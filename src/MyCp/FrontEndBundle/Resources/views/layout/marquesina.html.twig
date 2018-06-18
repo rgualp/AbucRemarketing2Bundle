@@ -1,17 +1,59 @@
-<div class="marquesina navbar bg-gradient-green-bar m-a-0 col-sm-12" style="height: auto;">
-    <div class="col-sm-12">
-        <div class="col-sm-12">
-            <span style="font-size: 30px; text-align: center">
-                <i style="font-size: 30px ; position: relative">{{ 'OFFERS_MAIN_MENU' | trans }} </i>
-                {{ "MARQUESINA_TEXT" | trans }}
-            </span>
+<div class="modal fade modal-mini modal-primary show" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow: hidden;display: block; padding-right: 17px;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center" style="padding-bottom: 0">
+                <div class="modal-profile">
+                    <i class="fa fa-star "></i>
+
+                </div>
+            </div>
+            <h2 style="text-align: center;">{{ 'OFFERS_MAIN_MENU' | trans }}</h2>
+            <div class="modal-body" style="padding-top: 0">
+
+                <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators">
+                        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                        {#<li data-target="#carousel-example-generic" data-slide-to="1"></li>#}
+
+                    </ol>
+
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner">
+                        <div class="item active">
+
+                            <div class="carousel-caption" style="position: unset">
+                                {#<h3><a>See Details..</a></h3>#}
+                                <p>{{ "MARQUESINA_TEXT" | trans }}</p>
+                            </div>
+                        </div>
+                        {#<div class="item">#}
+
+                            {#<div class="carousel-caption"style="position: unset">#}
+                                {#<h3><a>See Details..</a></h3>#}
+                                {#<p>{{ "MARQUESINA_TEXT" | trans }}</p>#}
+                            {#</div>#}
+                        {#</div>#}
+
+
+                    </div>
+
+                    <!-- Controls -->
+                    <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                        <span class="icon-prev"></span>
+                    </a>
+                    <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                        <span class="icon-next"></span>
+                    </a>
+                </div>
+
+                </div>
+            <div class="modal-footer">
+                <button type="button" style="display: none" class=" btn btn-link btn-neutral">Details</button>
+                <button type="button" onclick="$('.modal-mini').removeClass('show')" class=" btn btn-link btn-neutral" data-dismiss="modal">Close
+
+                </button>
+            </div>
         </div>
-        {#{% set today_date = "now" | date("d-m-Y") %}#}
-        {#{% set leavingDate = "+2 days" |date("d-m-Y") %}#}
-        {#<div class="col-sm-1 text-center p-a-0">#}
-            {#<a href="{{ path('frontend_search_ownership',{'text':"null", 'arrival': today_date,'departure':leavingDate,'guests':'1','rooms':'1','inmediate':'1'})}}" class="btn btn-warning">{{ 'SEE_NOW' | trans }}</a>#}
-        {#</div>#}
-        {#<div class="col-sm-1 text-right pull-right p-a-0"><a style="color: rgb(255, 255, 255); font-size: 21px;" id="marquee-close" href="#"><i class="ion-android-cancel"></i></a></div>#}
     </div>
 </div>
-
