@@ -208,3 +208,7 @@ function search() {
 
     window.location = url;
 }
+function hideModal() {
+    $('.modal-mini').hide();
+    $('.modal-backdrop').hide();
+}
