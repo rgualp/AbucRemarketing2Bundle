@@ -1,7 +1,7 @@
 
 $(function () {
 
-
+document.getElementsByClassName()
     $("#btn_search").click(search);
     $('#btn_insert_comment').click(insert_comment);
 });
