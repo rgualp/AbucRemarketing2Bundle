@@ -263,6 +263,7 @@
         </div>
     </footer>
     {{ include('FrontEndBundle:mails:sendMailPopup.html.twig') }}
+
     <div id="chat" class="floating-chat">
         <i class="fa fa-question" rel="tooltip" title="Help Center" style="font-size: 40px" aria-hidden="true"></i>
 
@@ -287,6 +288,9 @@
             </div>
         </div>
     </div>
+    {% block marquesina %}
+        {{ include('FrontEndBundle:layout:marquesina.html.twig') }}
+    {% endblock %}
     <script type="text/javascript">
         var today_date = "{{ "now"|date("d/m/Y") }}";
         var showMarquesina = false;

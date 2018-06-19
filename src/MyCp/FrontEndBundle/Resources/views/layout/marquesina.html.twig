@@ -1,5 +1,12 @@
-<div class="modal-backdrop in" onclick="this.hide();$('.modal-mini').hide()"></div>
-<div class="modal modal-mini modal-primary fade in" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow: hidden;display: block; padding-right: 17px;">
+<a id="offers" data-toggle="modal"  data-target="#mofferts" rel="tooltip" title="{{ 'OFFERS_MAIN_MENU' | trans }}" class="floating-offers">
+    <i class="fa fa-star "></i>
+
+
+</a>
+{% if is_home is defined and is_home == 1 %}
+<div class="modal-backdrop in"></div>
+{% endif %}
+<div {% if is_home is defined and is_home == 1 %}class="modal modal-mini modal-primary fade in" style="overflow: hidden;display: block; padding-right: 17px;"{% else %}class="modal modal-mini modal-primary fade" style="overflow: hidden;display: none; padding-right: 17px;"{% endif %} id="mofferts" aria-hidden="true" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header justify-content-center" style="padding-bottom: 0">

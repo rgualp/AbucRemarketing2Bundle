@@ -9,6 +9,10 @@ setTimeout(function() {
     $('#chat').addClass('enter');
 
 }, 100);
+setTimeout(function() {
+    $('#offers').addClass('enter');
+
+}, 100);
 
 $('#chat').click(openElement);
 
