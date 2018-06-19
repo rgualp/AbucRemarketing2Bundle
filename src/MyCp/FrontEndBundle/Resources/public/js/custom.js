@@ -527,3 +527,7 @@ function move(id) {
     var distance = position_to.top;
     $('body,html').animate({scrollTop: distance}, 500);
 }
+function hideModal() {
+    $('.modal-mini').hide();
+    $('.modal-backdrop').hide();
+}

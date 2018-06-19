@@ -4302,7 +4302,7 @@ JOIN owres_2.own_res_reservation_booking AS b1 JOIN b1.payments AS p WHERE owres
             }
             if($from_between) {
                 $qb->andWhere('r.gen_res_from_date >= :date_a');
-                $qb->andWhere('r.gen_res_from_date <= :date_b');
+//                $qb->andWhere('r.gen_res_from_date <= :date_b');
                 $qb->setParameter('date_a', Dates::createForQuery($filters['from_between'][0], 'd-m-Y'));
                 $qb->setParameter('date_b', Dates::createForQuery($filters['from_between'][1], 'd-m-Y'));
 
@@ -4319,15 +4319,15 @@ JOIN owres_2.own_res_reservation_booking AS b1 JOIN b1.payments AS p WHERE owres
                     $qb->setParameter('cas', $filters['to_between'][0]);
                 }
                 $qb->setParameter('date_a', Dates::createForQuery($filters['to_between'][1], 'd-m-Y'));
-                $qb->setParameter('date_b', Dates::createForQuery($filters['to_between'][2], 'd-m-Y'));
+//                $qb->setParameter('date_b', Dates::createForQuery($filters['to_between'][2], 'd-m-Y'));
                 $qb->orderBy('r.gen_res_to_date','ASC');
 
             }
             if($to_limit) {
 
-                $qb->andWhere('r.gen_res_to_date <= :date_b');
-
-                $qb->setParameter('date_b', Dates::createForQuery($filters['to_limit'], 'd-m-Y'));
+//                $qb->andWhere('r.gen_res_to_date <= :date_b');
+//
+//                $qb->setParameter('date_b', Dates::createForQuery($filters['to_limit'], 'd-m-Y'));
                 $qb->orderBy('r.gen_res_to_date','ASC');
             }
             if($to) {
