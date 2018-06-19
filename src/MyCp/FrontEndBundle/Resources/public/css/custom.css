@@ -812,7 +812,8 @@ div#div_b h4{
     transform: translate(0, 30%);
 }
 .modal.modal-mini .modal-dialog {
-    max-width: 400px;
+    padding-top: 100px;
+    max-width: max-content;
     margin: 0 auto;
 }
 .modal.modal-mini .modal-profile {
@@ -851,7 +852,7 @@ div#div_b h4{
     border-bottom: 1px solid transparent;
     min-height: 11.644px;
     padding-top: 10px;
-    padding-left: 40%;
+    padding-left: 43%;
 }
 .modal.modal-mini.fade.show {
     opacity: 1;
