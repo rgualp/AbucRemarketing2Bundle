@@ -251,7 +251,7 @@
 .floating-offers{
     z-index: 1000;
     bottom: 80%;
-    right: 94%;
+    right: 1.5%;
     cursor: pointer;
     position: fixed;
     width: 50px;
