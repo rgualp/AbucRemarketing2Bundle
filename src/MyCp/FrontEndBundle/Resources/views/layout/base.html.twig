@@ -288,9 +288,9 @@
             </div>
         </div>
     </div>
-    {% block marquesina %}
-        {{ include('FrontEndBundle:layout:marquesina.html.twig') }}
-    {% endblock %}
+    
+    {{ include('FrontEndBundle:layout:marquesina.html.twig') }}
+
     <script type="text/javascript">
         var today_date = "{{ "now"|date("d/m/Y") }}";
         var showMarquesina = false;
