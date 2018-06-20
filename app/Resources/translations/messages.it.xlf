@@ -4500,6 +4500,25 @@
               <source>CHAT_MESAGE_1</source>
                  <target>Hello,My name is Natalie. I would like to help you find what you are looking for in our site. Do not hesitate to contact me at the following email:</target>
        </trans-unit>
+         <trans-unit id="4821">
+                                                                            <source>CAROUSER_TEXT1</source>
+                                                                        <target>
+       MyCasaParticular è consapevole dell'impatto sociale ed economico che rappresenta ogni visita di un turista di alloggio privato. Migliaia di famiglie cubane beneficiano in questo modo e creare posti di lavoro. Squadra MyCasaParticular non conosce un modo migliore per aiutare il popolo di Cuba, a praticare una fiera, responsabile e il rispetto per il turismo natura.
+                                                                          </target>
+                                                                    </trans-unit>
+
+          <trans-unit id="4822">
+                                                       <source>CASA_PARTICULAR_TITLE</source>
+                                                                        <target>
+                                                                Che cosa è una casa particular?
+                                       </target>
+                          </trans-unit>
+        <trans-unit id="4823">
+                                                             <source>CASA_PARTICULAR_TITLE_AWSER</source>
+                                                                              <target>
+  Casa Particular è il termine usato a Cuba per descrivere una casa intera, stanza o un appartamento privato appartenente ad una famiglia cubana, in cui il servizio di noleggio o di locazione è offerto ai turisti.<br><br>Di solito, questi padroni di casa sono disposti ad affittare per periodi brevi o lunghi soggiorni. Molti accettano gruppi e famiglie, gli altri sono solo disposti ad accogliere una coppia. La maggior parte offrono servizi complementari per pernottamento e prima colazione, cena, lavanderia, ecc.
+                                             </target>
+                                </trans-unit>
         </body>
     </file>
 </xliff>

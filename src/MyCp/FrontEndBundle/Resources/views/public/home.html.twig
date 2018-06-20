@@ -6,22 +6,17 @@
 {#{% block title %}{{"HOMEPAGE_TITLE" | trans | title}}{% endblock %}#}
 
 {% block big_banner %}
-    <div id="full-width-slider" style="background-image: url('{{ asset('bundles/frontend/img/slideshow/3/1.jpg') }}'); background-color: #80c4c7; background-position: center center; background-size: cover; min-height: 600px">
 
-    </div>
-    <div id="banner-msg-cont">
-        <div id="banner-msg">
-            <h1 class="caecilia-roman">{{ "SLOGAN_1" | trans }}<br> {{ "SLOGAN_2" | trans }}</h1>
-            <h2>{{ "SLOGAN_3" | trans }}</h2>
-        </div>
-    </div>
-    <div id="main-search" style="position: relative; z-index: 999">
+        {{ include('FrontEndBundle:layout:carousel.html.twig') }}
+
+
+    <div id="main-search" style="position: relative; z-index: 999;top: 120px;">
         {{ render(controller('FrontEndBundle:Ownership:orangeSearchBar')) }}
     </div>
 {% endblock %}
 {% block body %}
 
-    <div class="container">
+    <div class="container" style="margin-top: 20px">
         <h2 class="text-center caecilia-roman h-grey h-size-2">{{ "HOMEPAGE_SUBTITLE_2" | trans }}</h2>
         <div class="row">
                       <div class="bg-solid-orange" style="margin: 35px 0 30px;">
@@ -76,11 +71,7 @@
         </div>
 
 
-        <div class="text-center" style="margin-top: 3em;"><span
-                    class="caecilia-roman"
-                    style="margin-top: 15px; margin-bottom: 15px; font-size: 24px; font-weight:normal;color: #999999;margin-bottom:11.5px">{{ "HOMEPAGE_SUBTITLE_1" | trans }}</span>
-        </div>
-        <p>{{ "HOMEPAGE_TEXT" | trans }}</p>
+
     </div>
     <div class="container">
         {{ render(controller('FrontEndBundle:Public:homeCarrousel')) }}
@@ -98,148 +89,5 @@
     <div class="modal inmodal fade" id="myModalOwnerShipCalendar" tabindex="-1" role="dialog"  aria-hidden="true"></div>
     {{ include('FrontEndBundle:script:script.html.twig') }}
 {% endblock %}
-{% block javascripts %}
-    <script type="text/javascript">
-        var frontend_public_load_slide = "{{ path("frontend_public_load_slide") }}";
 
-        function initJSTwig() {
-            $("#full-width-slider").load(frontend_public_load_slide, [], function (e) {
-
-                if (jQuery(".revolution-slider").length > 0){
-                    jQuery("#banner-msg-cont").hide();
-                    // Revolution slider
-                    if (jQuery().revolution) {
-                        jQuery('.revolution-slider .banner').revolution({
-                            delay: 9000,
-                            startwidth: 1170,
-                            startheight: rsheight,
-                            autoHeight:"off",
-                            fullScreenAlignForce:"off",
-
-                            onHoverStop: "on",
-
-                            thumbWidth: 100,
-                            thumbHeight: 50,
-                            thumbAmount: 3,
-
-                            hideThumbsOnMobile: "on",
-                            hideBulletsOnMobile: "on",
-                            hideArrowsOnMobile: "on",
-                            hideThumbsUnderResoluition: 0,
-
-                            hideThumbs:0,
-                            hideTimerBar:"on",
-
-                            keyboardNavigation:"on",
-
-                            navigationType:"off",
-                            navigationArrows:"solo",
-                            navigationStyle:"round",
-
-                            navigationHAlign:"center",
-                            navigationVAlign:"bottom",
-                            navigationHOffset:30,
-                            navigationVOffset:30,
-
-                            soloArrowLeftHalign:"left",
-                            soloArrowLeftValign:"center",
-                            soloArrowLeftHOffset:5,
-                            soloArrowLeftVOffset:0,
-
-                            soloArrowRightHalign:"right",
-                            soloArrowRightValign:"center",
-                            soloArrowRightHOffset:5,
-                            soloArrowRightVOffset:0,
-
-                            touchenabled: "on",
-                            swipe_velocity:"0.7",
-                            swipe_max_touches:"1",
-                            swipe_min_touches:"1",
-                            drag_block_vertical:"false",
-
-                            stopAtSlide: -1,
-                            stopAfterLoops: -1,
-                            hideCaptionAtLimit: 0,
-                            hideAllCaptionAtLilmit: 0,
-                            hideSliderAtLimit: 0,
-
-                            dottedOverlay: "none",
-
-                            fullWidth:"on",
-                            forceFullWidth:"on",
-                            fullScreen: "off",
-                            fullScreenOffsetContainer: "#topheader-to-offset",
-
-                            shadow: 0
-
-                        });
-                    }
-                }else{
-                    $("#full-width-slider").css("min-height", "400px");
-                    jQuery("#banner-msg-cont").show();
-                    jQuery('#camera_wrap_1').camera({
-                        thumbnails: false,
-                        pagination: false,
-                        height: '400px'
-                    });
-                }
-
-                findTopRate(1);
-            });
-
-            $('#th-destination-carousel').on('slid.bs.carousel', function () {
-                $(window).trigger("scroll");
-            })
-
-            old_class = '';
-            $('.home_cat .col-md-4 div').mouseover(function () {
-                elem = $('.' + $(this).attr('data'));
-                old_class = elem.attr('class');
-                elem.addClass('hover');
-            })
-            $('.home_cat .col-md-4 div').mouseout(function () {
-                elem = $('.' + $(this).attr('data'));
-                elem.attr('class', old_class);
-            });
-        }
-
-        function initNavigationTopRate(){
-
-            jQuery('#toprate-navigation span.act').click(function (s) {
-                if (jQuery(this).hasClass('tr-next')){
-                    var _page = parseInt(jQuery('#toprate-list .thumbs-houses').attr('current-page')) + 1;
-                    console.log(_page);
-                    if (_page <= parseInt(jQuery('#toprate-list .thumbs-houses').attr('total-page'))){
-                        findTopRate(_page);
-                    }
-                }else{
-                    var _page = parseInt(jQuery('#toprate-list .thumbs-houses').attr('current-page')) - 1;
-                    console.log(_page);
-                    if (_page > 0)
-                        findTopRate(_page);
-                }
-            })
-        }
-        function findTopRate(page) {
-            jQuery('#toprate-navigation span.act').unbind();
-            jQuery("#toprate-list").empty();
-
-            jQuery("#toprate-list").append(jQuery("#grid-load").html());
-
-            jQuery("#toprate-list").load(top_rated_callback, {page: page}, function (result) {
-                initNavigationTopRate();
-
-                if ($('.bttrlazyloading').length > 0){
-                    $('.bttrlazyloading').each(function () {
-                        $("#"+$(this).attr("id")).bttrlazyloading();
-                    });
-                }
-
-                $("[rel='tooltip']").tooltip();
-                $("[data-rel='tooltip']").tooltip();
-            });
-        }
-
-    </script>
-{% endblock javascripts %}
 

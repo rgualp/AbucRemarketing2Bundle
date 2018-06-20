@@ -4429,6 +4429,31 @@
                    <source>CHAT_MESAGE_1</source>
                <target>Hello,My name is Natalie I would like to help you find what you are looking for in our site. Do not hesitate to contact me at the following email:</target>
            </trans-unit>
+             <trans-unit id="4821">
+                                   <source>CAROUSER_TEXT1</source>
+                               <target>
+                                MycasaParticular is aware of the economic and social impact of the stay of every tourist at a private accommodation facility. This is a way to increase jobs and also the way through which thousands of cuban families get income. The team of Mycasaparticular doesn't know a better way to help the cuban people: to practice a responsible and equitable tourism that cares for nature.
+                              </target>
+                           </trans-unit>
+                               <trans-unit id="4822">
+                                                                   <source>CASA_PARTICULAR_TITLE</source>
+                                                               <target>
+                                                                   What is a casa Particular?
+                                                                                      </target>
+                                                           </trans-unit>
+          <trans-unit id="4823">
+                                                                                              <source>CASA_PARTICULAR_TITLE_AWSER</source>
+                                                                                                               <target>
+                Casa Particular is the term used in Cuba to denominate
+                a whole house, room, or independent apartment that belongs to a Cuban family
+                and it is rented or leased to tourist.
+                Generally the Hosts are eager to rent for short or
+                long periods. Many would accept groups, families, while others can only lodge a
+                couple. Most of the rentals offer complimentary services such as breakfast,
+                dinner, laundry, etc…“Casas
+                Particulares” generally also offer other services such as breakfast and dinner.
+                                                                               </target>
+                                                                 </trans-unit>
             </body>
     </file>
 </xliff>

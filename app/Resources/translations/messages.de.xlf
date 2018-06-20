@@ -4469,6 +4469,28 @@ Für weitere Informationen, konsultieren Sie unsere Datenschutzbestimmungen, die
                                  <source>CHAT_MESAGE_1</source>
                              <target>Hallo, Ich heiße Natalie.Ich möchte gerne Ihnen helfen zu finden, was Sie auf unserer Website suchen. Zögern Sie nicht, mich unter der folgenden E-Mail zu kontaktieren:</target>
                          </trans-unit>
+                         <trans-unit id="4821">
+                                                            <source>CAROUSER_TEXT1</source>
+                                                        <target>
+Die positiven sozialen und wirtschaftlichen Auswirkungen, die ein Tourismus, der nahe bei der kubanischen Bevölkerung ist, hat, sind enorm. Tausende von kubanischen Familien ziehen daraus Nutzen und nicht zuletzt werden auch neue Arbeitsplätze geschaffen. Das Team von MyCasaParticular.com könnte sich keine bessere Methode vorstellen, dem kubanischen Volk zu helfen, als einen gleichwertigen, verantwortungsbewussten Tourismus zu fördern, der die Umwelt respektiert.
+                                                        </target>
+                                                    </trans-unit>
+                                                      <trans-unit id="4822">
+                                              <source>CASA_PARTICULAR_TITLE</source>
+                                                               <target>
+                                                         Was ist eine casa particular?
+                              </target>
+                 </trans-unit>
+                  <trans-unit id="4823">
+                                                                                     <source>CASA_PARTICULAR_TITLE_AWSER</source>
+                                                                                                      <target>
+       Eine Casa particular ist der Begriff, der in Kuba
+       verwendet ist mit Bezug auf ein komplettes Wohnhaus, ein Zimmers oder eine
+       private Wohnung, die zu einer kubanischen Familie gehört. Diese Familie ihrem
+       Haus an Touristen vermietet <span>Im allgemeinen, die Gastgeber können während eines kurzen
+       oder eines langen Aufenthalt vermieten. Viele Vermieter akzeptieren&nbsp; Gruppe&nbsp;
+       oder Familien, andere sind bereit nur um ein Paar zu empfangen                                                               </target>
+                                                        </trans-unit>
         </body>
     </file>
 </xliff>

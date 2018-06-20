@@ -221,7 +221,7 @@
                 {%endif%}
 
             <td>
-            
+
             <select style="width: 100px" class="input-block-level" id="service_own_res_status_{{reservation_rooms.getOwnResId}}" name="service_own_res_status_{{reservation_rooms.getOwnResId}}" onchange="changeReservationStatus({{ reservation_rooms.getOwnResId }})">
                 {% if post['service_own_res_status_'~reservation_rooms.getOwnResId] is defined %}
                     {{ render(controller('mycpBundle:BackendReservation:get_reservation_status', {'post': {'selected':post['service_own_res_status_'~reservation_rooms.getOwnResId]}})) }}

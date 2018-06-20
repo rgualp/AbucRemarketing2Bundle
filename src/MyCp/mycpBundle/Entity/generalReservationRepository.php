@@ -4304,13 +4304,13 @@ JOIN owres_2.own_res_reservation_booking AS b1 JOIN b1.payments AS p WHERE owres
                 $qb->andWhere('r.gen_res_from_date >= :date_a');
 //                $qb->andWhere('r.gen_res_from_date <= :date_b');
                 $qb->setParameter('date_a', Dates::createForQuery($filters['from_between'][0], 'd-m-Y'));
-                $qb->setParameter('date_b', Dates::createForQuery($filters['from_between'][1], 'd-m-Y'));
+//                $qb->setParameter('date_b', Dates::createForQuery($filters['from_between'][1], 'd-m-Y'));
 
             }
             if($to_between) {
 
                 $qb->andWhere('r.gen_res_to_date >= :date_a');
-                $qb->andWhere('r.gen_res_to_date <= :date_b');
+//                $qb->andWhere('r.gen_res_to_date <= :date_b');
                 if(($filters['to_between'][0])==null){
                     $qb->andWhere('r.gen_res_id IS NOT NULL');
                 }
