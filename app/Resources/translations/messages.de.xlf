@@ -4477,19 +4477,16 @@ Die positiven sozialen und wirtschaftlichen Auswirkungen, die ein Tourismus, der
                                                     </trans-unit>
                                                       <trans-unit id="4822">
                                               <source>CASA_PARTICULAR_TITLE</source>
-                                                               <target>
-                                                         Was ist eine casa particular?
-                              </target>
+                                                               <target>  Was ist eine casa particular?</target>
                  </trans-unit>
                   <trans-unit id="4823">
-                                                                                     <source>CASA_PARTICULAR_TITLE_AWSER</source>
-                                                                                                      <target>
-       Eine Casa particular ist der Begriff, der in Kuba
+                            <source>CASA_PARTICULAR_TITLE_AWSER</source>
+                                                              <target> Eine Casa particular ist der Begriff, der in Kuba
        verwendet ist mit Bezug auf ein komplettes Wohnhaus, ein Zimmers oder eine
        private Wohnung, die zu einer kubanischen Familie gehört. Diese Familie ihrem
-       Haus an Touristen vermietet <span>Im allgemeinen, die Gastgeber können während eines kurzen
-       oder eines langen Aufenthalt vermieten. Viele Vermieter akzeptieren&nbsp; Gruppe&nbsp;
-       oder Familien, andere sind bereit nur um ein Paar zu empfangen                                                               </target>
+       Haus an Touristen vermietet Im allgemeinen, die Gastgeber können während eines kurzen
+       oder eines langen Aufenthalt vermieten. Viele Vermieter akzeptieren; Gruppe;
+       oder Familien, andere sind bereit nur um ein Paar zu empfangen</target>
                                                         </trans-unit>
         </body>
     </file>
