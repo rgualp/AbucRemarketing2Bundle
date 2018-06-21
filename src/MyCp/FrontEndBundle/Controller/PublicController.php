@@ -222,10 +222,27 @@ class PublicController extends Controller {
         $economic_own_list = $em->getRepository('mycpBundle:ownership')->getByCategory('Económica', 12,null, $user_ids['user_id'], $user_ids['session_id']);
         $medium_own_list = $em->getRepository('mycpBundle:ownership')->getByCategory('Rango medio', 12,null, $user_ids['user_id'], $user_ids['session_id']);
         $premium_own_list = $em->getRepository('mycpBundle:ownership')->getByCategory('Premium', 12,null, $user_ids['user_id'], $user_ids['session_id']);*/
+        //destinations
+        $url_destinations=array();
+        foreach ($popular_destinations_list as $prov)
+        {
+
+            $ulr_name = $prov['des_name'];
+
+            $ulr_name = str_replace("ñ", "nn", $ulr_name);
+            $ulr_name = Utils::urlNormalize($ulr_name);
+            $url= array('url'=>$ulr_name,
+                  'destination'=>$prov
+            );
+            array_push($url_destinations,$url);
+
+
+
+        }
 
         if ($mobileDetector->isMobile()){
             return $this->render('MyCpMobileFrontendBundle:utils:couruseldestination.html.twig', array(
-                'popular_places' => $popular_destinations_list,
+                'popular_places' => $url_destinations,
                 //'last_added' => $last_added,
                 //'offers' => $offers_list,
                 //'economic_own_list' => $economic_own_list,
@@ -235,7 +252,7 @@ class PublicController extends Controller {
         }
         else {
             return $this->render('FrontEndBundle:public:homeCarousel.html.twig', array(
-                'popular_places' => $popular_destinations_list,
+                'popular_places' => $url_destinations,
                 //'last_added' => $last_added,
                 //'offers' => $offers_list,
                 //'economic_own_list' => $economic_own_list,

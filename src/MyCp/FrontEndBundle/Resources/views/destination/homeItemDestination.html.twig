@@ -6,7 +6,7 @@
             <img src="{{ asset('bundles/frontend/img/nophoto.gif') }}" alt="{{ "DESTINATIONS"|trans }} {{ destination_name }}" title="{{ "DESTINATIONS"|trans }} {{ destination_name }}" id="image{{ destination_id }}" class="bttrlazyloading" data-bttrlazyloading-md-src="{{ url_image | apply_filter('my_thumb_destination') }}" />
         </a>
     </div>
-    <a href="{{ path('frontend_details_destination',{'destination_name':destination_name|lower|replace(' ','-')}) }}">
+    <a href="{{ path('frontend_details_destination',{'destination_name':url|lower|replace(' ','-')}) }}">
     <h2 class="h-blue">
         {{destination_name | title | slice(0, 27)}}
         {%if destination_name | length > 27%}...{%endif%}
