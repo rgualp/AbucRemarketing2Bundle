@@ -22,65 +22,63 @@
 
 
 </a>
-{#{% if is_home is defined and is_home == 1 %}#}
-{#<div class="modal-backdrop in"></div>#}
-{#{% endif %}#}
-{#<div {% if is_home is defined and is_home == 1 %}class="modal modal-mini modal-primary fade in" style="overflow: hidden;display: block; padding-right: 17px;"{% else %}class="modal modal-mini modal-primary fade" style="overflow: hidden;display: none; padding-right: 17px;"{% endif %} id="mofferts" aria-hidden="true" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >#}
-    {#<div class="modal-dialog">#}
-        {#<div class="modal-content">#}
-            {#<div class="modal-header justify-content-center" style="padding-bottom: 0">#}
-                {#<div class="modal-profile">#}
-                    {#<i class="fa fa-star "></i>#}
 
-                {#</div>#}
-            {#</div>#}
-            {#<h2 style="text-align: center;">{{ 'OFFERS_MAIN_MENU' | trans }}</h2>#}
-            {#<div class="modal-body" style="padding-top: 0">#}
+<div {% if is_home is defined and is_home == 1 %}class="modal modal-mini modal-primary fade " style="overflow: hidden;display: none; padding-right: 17px;"{% else %}class="modal modal-mini modal-primary fade" style="overflow: hidden;display: none; padding-right: 17px;"{% endif %} id="mofferts" aria-hidden="true" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center" style="padding-bottom: 0">
+                <div class="modal-profile">
+                    <i class="fa fa-star "></i>
 
-                {#<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">#}
-                    {#<!-- Indicators -->#}
-                    {#<ol class="carousel-indicators">#}
-                        {#<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>#}
-                        {#<li data-target="#carousel-example-generic" data-slide-to="1"></li>#}
+                </div>
+            </div>
+            <h2 style="text-align: center;">{{ 'OFFERS_MAIN_MENU' | trans }}</h2>
+            <div class="modal-body" style="padding-top: 0">
 
-                    {#</ol>#}
+                <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators">
+                        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
 
-                    {#<!-- Wrapper for slides -->#}
-                    {#<div class="carousel-inner">#}
-                        {#<div class="item active">#}
+                    </ol>
 
-                            {#<div class="carousel-caption" style="position: unset">#}
-                                {#<h3><a>...</a></h3>#}
-                                {#<p>{{ "MARQUESINA_TEXT" | trans }}</p>#}
-                            {#</div>#}
-                        {#</div>#}
-                        {#<div class="item">#}
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner">
+                        <div class="item active">
 
-                            {#<div class="carousel-caption"style="position: unset">#}
-                                {#<h3><a>See Details..</a></h3>#}
-                                {#<p>{{ "MARQUESINA_TEXT" | trans }}</p>#}
-                            {#</div>#}
-                        {#</div>#}
+                            <div class="carousel-caption" style="position: unset">
+                                <h3><a>...</a></h3>
+                                <p>{{ "MARQUESINA_TEXT" | trans }}</p>
+                            </div>
+                        </div>
+                        <div class="item">
+
+                            <div class="carousel-caption"style="position: unset">
+                                <h3><a>See Details..</a></h3>
+                                <p>{{ "MARQUESINA_TEXT" | trans }}</p>
+                            </div>
+                        </div>
 
 
-                    {#</div>#}
+                    </div>
 
-                    {#<!-- Controls -->#}
-                    {#<a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">#}
-                        {#<span class="icon-prev"></span>#}
-                    {#</a>#}
-                    {#<a class="right carousel-control" href="#carousel-example-generic" data-slide="next">#}
-                        {#<span class="icon-next"></span>#}
-                    {#</a>#}
-                {#</div>#}
+                    <!-- Controls -->
+                    <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                        <span class="icon-prev"></span>
+                    </a>
+                    <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                        <span class="icon-next"></span>
+                    </a>
+                </div>
 
-                {#</div>#}
-            {#<div class="modal-footer">#}
-                {#<button type="button" style="display: none" class=" btn btn-link btn-neutral">Details</button>#}
-                {#<button type="button" onclick="hideModal();" class=" btn btn-link btn-neutral" data-dismiss="modal">Close#}
+                </div>
+            <div class="modal-footer">
+                <button type="button" style="display: none" class=" btn btn-link btn-neutral">Details</button>
+                <button type="button" onclick="hideModal();" class=" btn btn-link btn-neutral" data-dismiss="modal">Close
 
-                {#</button>#}
-            {#</div>#}
-        {#</div>#}
-    {#</div>#}
-{#</div>#}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
