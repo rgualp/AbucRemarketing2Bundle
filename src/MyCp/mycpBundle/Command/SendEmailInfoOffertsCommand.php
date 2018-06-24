@@ -44,13 +44,13 @@ class SendEmailInfoOffertsCommand extends ContainerAwareCommand
 
 		$mails= array();
 		$clients= $this->getClients();
-//		foreach ($clients as $client) {
-//			$mail = trim($client->getUserEmail());
-//			if (empty($mail))
-//				$mail = trim($client->getUserEmail());
-//
-//			$mails[]= $mail;
-//		}
+		foreach ($clients as $client) {
+			$mail = trim($client->getUserEmail());
+			if (empty($mail))
+				$mail = trim($client->getUserEmail());
+
+			$mails[]= $mail;
+		}
         $mails[]='orlando@hds.li';
         $mails[]='laura@hds.li';
         $mails[]='andy@hds.li';
