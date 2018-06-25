@@ -1,160 +1,57 @@
 {% extends 'FrontEndBundle:layout:translatedbaseMailTemplateNew.html.twig' %}
 
 {% block content %}
+    <style type="text/css">
+        .table {
+            width: 100%;
+            max-width: 100%;
+            margin-bottom: 20px;
+            background-color: transparent;
+            border-spacing: 0;
+            border-collapse: collapse;
+            border-top: 1px solid #e7eaec;
+            line-height: 1.42857;
+            padding: 8px;
+        }
 
-<p style="padding-top: 2pt;padding-left: 5pt;text-indent: 0pt;text-align: left;">{{"DEAR_MR" | trans({}, "messages", user_locale)}} <i>{{user_name}}</i>:</p>
-<p style="text-indent: 0pt;line-height: 9pt;text-align: left;"><br/>
-</p>
-<p style="padding-left: 5pt;text-indent: 0pt;text-align: left;">¡{{ "EMAIL_USER_ACCOUNT_BODY_TEXT_1"|trans({}, "messages", user_locale) }}!</p>
-<p style="text-indent: 0pt;line-height: 9pt;text-align: left;"><br/></p>
-<p style="padding-left: 5pt;text-indent: 0pt;line-height: 108%;text-align: left;">
-{{ "REGISTER_MESSAGE1"|trans({}, "messages", user_locale) }}
-</p>
-<p style="text-indent: 0pt;line-height: 8pt;text-align: left;"><br/></p>
-<p style="padding-left: 5pt;text-indent: 0pt;line-height: 108%;text-align: left;">
-{{ "REGISTER_MESSAGE2"|trans({}, "messages", user_locale) }}
-</p>
-<p style="text-indent: 0pt;line-height: 8pt;text-align: left;"><br/></p>
-<h1 style="padding-left: 5pt;text-indent: 0pt;text-align: left;">
-{{ "REGISTER_MESSAGE_TABLE1"|trans({}, "messages", user_locale) }}
-</h1>
-<p style="text-indent: 0pt;line-height: 9pt;text-align: left;"><br/></p>
-<table style="border-collapse:collapse;width:305pt;margin-left:72.85pt" cellspacing="0">
-<tr>
-<td style="border-top-style:solid;border-top-width:1pt;border-top-color:#4471C4;border-left-style:solid;border-left-width:1pt;border-left-color:#4471C4;border-bottom-style:solid;border-bottom-width:1pt;border-bottom-color:#4471C4;border-right-style:solid;border-right-width:1pt;border-right-color:#4471C4" colspan="2" bgcolor="#4471C4">
-<p class="s2" style="text-indent: 0pt;line-height: 13pt;text-align: center;">
-{{ "DESTINATIONS"|trans({}, "messages", user_locale) }}
-</p>
-</td>
-<td style="border-top-style:solid;border-top-width:1pt;border-top-color:#4471C4;border-left-style:solid;border-left-width:1pt;border-left-color:#4471C4;border-bottom-style:solid;border-bottom-width:1pt;border-bottom-color:#4471C4;border-right-style:solid;border-right-width:1pt;border-right-color:#4471C4" colspan="2" bgcolor="#4471C4">
-<p class="s2" style="text-indent: 0pt;line-height: 13pt;text-align: center;">
-{{ "SELECT_OWNERSHIP_PRICES_OPTION"|trans({}, "messages", user_locale) }}(CUC)
-</p>
-</td></tr><tr>
-<td style="border-top-style:solid;border-top-width:1pt;border-top-color:#4471C4;border-left-style:solid;border-left-width:1pt;border-left-color:#4471C4;border-bottom-style:solid;border-bottom-width:1pt;border-bottom-color:#4471C4;border-right-style:solid;border-right-width:1pt;border-right-color:#4471C4">
-<p class="s3" style="padding-left: 16pt;text-indent: 0pt;line-height: 13pt;text-align: left;">
-{{ "FROM_PRICES"|trans({}, "messages", user_locale) }}
-</p>
-</td>
-<td style="border-top-style:solid;border-top-width:1pt;border-top-color:#4471C4;border-left-style:solid;border-left-width:1pt;border-left-color:#4471C4;border-bottom-style:solid;border-bottom-width:1pt;border-bottom-color:#4471C4;border-right-style:solid;border-right-width:1pt;border-right-color:#4471C4">
-<p class="s3" style="padding-left: 18pt;text-indent: 0pt;line-height: 13pt;text-align: left;">
-{{ "TO"|trans({}, "messages", user_locale) }}
-</p>
-</td><td style="border-top-style:solid;border-top-width:1pt;border-top-color:#4471C4;border-left-style:solid;border-left-width:1pt;border-left-color:#4471C4;border-bottom-style:solid;border-bottom-width:1pt;border-bottom-color:#4471C4;border-right-style:solid;border-right-width:1pt;border-right-color:#4471C4">
-<p class="s3" style="padding-left: 4pt;text-indent: 0pt;line-height: 13pt;text-align: left;">
-{{ "REGISTER_MESSAGE_STANDA_TAXI"|trans({}, "messages", user_locale) }}
-</p>
-</td>
-<td style="border-top-style:solid;border-top-width:1pt;border-top-color:#4471C4;border-left-style:solid;border-left-width:1pt;border-left-color:#4471C4;border-bottom-style:solid;border-bottom-width:1pt;border-bottom-color:#4471C4;border-right-style:solid;border-right-width:1pt;border-right-color:#4471C4">
-<p class="s3" style="padding-left: 4pt;text-indent: 0pt;line-height: 13pt;text-align: left;">
-{{ "REGISTER_MESSAGE_VAN"|trans({}, "messages", user_locale) }}
-</p>
-</td></tr>
-<tr>
-<td style="border-top-style:solid;border-top-width:1pt;border-top-color:#4471C4;border-left-style:solid;border-left-width:1pt;border-left-color:#4471C4;border-bottom-style:solid;border-bottom-width:1pt;border-bottom-color:#4471C4;border-right-style:solid;border-right-width:1pt;border-right-color:#4471C4">
-<p class="s4" style="padding-left: 5pt;text-indent: 0pt;line-height: 13pt;text-align: left;">
-{{ "REGISTER_MESSAGE_AIRPORT"|trans({}, "messages", user_locale) }}
-</p>
-</td>
-<td style="border-top-style:solid;border-top-width:1pt;border-top-color:#4471C4;border-left-style:solid;border-left-width:1pt;border-left-color:#4471C4;border-bottom-style:solid;border-bottom-width:1pt;border-bottom-color:#4471C4;border-right-style:solid;border-right-width:1pt;border-right-color:#4471C4">
-<p class="s4" style="padding-left: 13pt;text-indent: 0pt;line-height: 13pt;text-align: left;">
-Habana
-</p>
-</td>
-<td style="border-top-style:solid;border-top-width:1pt;border-top-color:#4471C4;border-left-style:solid;border-left-width:1pt;border-left-color:#4471C4;border-bottom-style:solid;border-bottom-width:1pt;border-bottom-color:#4471C4;border-right-style:solid;border-right-width:1pt;border-right-color:#4471C4">
-<p class="s4" style="padding-left: 44pt;padding-right: 44pt;text-indent: 0pt;line-height: 13pt;text-align: center;">30</p>
-</td>
-<td style="border-top-style:solid;border-top-width:1pt;border-top-color:#4471C4;border-left-style:solid;border-left-width:1pt;border-left-color:#4471C4;border-bottom-style:solid;border-bottom-width:1pt;border-bottom-color:#4471C4;border-right-style:solid;border-right-width:1pt;border-right-color:#4471C4">
-<p class="s4" style="padding-left: 26pt;padding-right: 26pt;text-indent: 0pt;line-height: 13pt;text-align: center;">45</p>
-</td>
-</tr>
-<tr>
-<td style="border-top-style:solid;border-top-width:1pt;border-top-color:#4471C4;border-left-style:solid;border-left-width:1pt;border-left-color:#4471C4;border-bottom-style:solid;border-bottom-width:1pt;border-bottom-color:#4471C4;border-right-style:solid;border-right-width:1pt;border-right-color:#4471C4"><p class="s4" style="padding-left: 13pt;text-indent: 0pt;text-align: left;">
-Habana
-</p>
-</td>
-<td style="border-top-style:solid;border-top-width:1pt;border-top-color:#4471C4;border-left-style:solid;border-left-width:1pt;border-left-color:#4471C4;border-bottom-style:solid;border-bottom-width:1pt;border-bottom-color:#4471C4;border-right-style:solid;border-right-width:1pt;border-right-color:#4471C4">
-<p class="s4" style="padding-left: 10pt;text-indent: 0pt;text-align: left;">
-Varadero
-</p>
-</td>
-<td style="border-top-style:solid;border-top-width:1pt;border-top-color:#4471C4;border-left-style:solid;border-left-width:1pt;border-left-color:#4471C4;border-bottom-style:solid;border-bottom-width:1pt;border-bottom-color:#4471C4;border-right-style:solid;border-right-width:1pt;border-right-color:#4471C4">
-<p class="s4" style="padding-left: 44pt;padding-right: 44pt;text-indent: 0pt;text-align: center;">
-120</p>
-</td>
-<td style="border-top-style:solid;border-top-width:1pt;border-top-color:#4471C4;border-left-style:solid;border-left-width:1pt;border-left-color:#4471C4;border-bottom-style:solid;border-bottom-width:1pt;border-bottom-color:#4471C4;border-right-style:solid;border-right-width:1pt;border-right-color:#4471C4">
-<p class="s4" style="padding-left: 26pt;padding-right: 26pt;text-indent: 0pt;text-align: center;">180</p>
-</td>
-</tr>
-<tr>
-<td style="border-top-style:solid;border-top-width:1pt;border-top-color:#4471C4;border-left-style:solid;border-left-width:1pt;border-left-color:#4471C4;border-bottom-style:solid;border-bottom-width:1pt;border-bottom-color:#4471C4;border-right-style:solid;border-right-width:1pt;border-right-color:#4471C4"><p class="s4" style="padding-left: 13pt;text-indent: 0pt;line-height: 13pt;text-align: left;">Habana</p>
-</td>
-<td style="border-top-style:solid;border-top-width:1pt;border-top-color:#4471C4;border-left-style:solid;border-left-width:1pt;border-left-color:#4471C4;border-bottom-style:solid;border-bottom-width:1pt;border-bottom-color:#4471C4;border-right-style:solid;border-right-width:1pt;border-right-color:#4471C4"><p class="s4" style="padding-left: 12pt;text-indent: 0pt;line-height: 13pt;text-align: left;">Trinidad</p>
-</td>
-<td style="border-top-style:solid;border-top-width:1pt;border-top-color:#4471C4;border-left-style:solid;border-left-width:1pt;border-left-color:#4471C4;border-bottom-style:solid;border-bottom-width:1pt;border-bottom-color:#4471C4;border-right-style:solid;border-right-width:1pt;border-right-color:#4471C4"><p class="s4" style="padding-left: 44pt;padding-right: 44pt;text-indent: 0pt;line-height: 13pt;text-align: center;">200</p>
-</td>
-<td style="border-top-style:solid;border-top-width:1pt;border-top-color:#4471C4;border-left-style:solid;border-left-width:1pt;border-left-color:#4471C4;border-bottom-style:solid;border-bottom-width:1pt;border-bottom-color:#4471C4;border-right-style:solid;border-right-width:1pt;border-right-color:#4471C4"><p class="s4" style="padding-left: 26pt;padding-right: 26pt;text-indent: 0pt;line-height: 13pt;text-align: center;">300</p>
-</td></tr>
-<tr>
-<td style="border-top-style:solid;border-top-width:1pt;border-top-color:#4471C4;border-left-style:solid;border-left-width:1pt;border-left-color:#4471C4;border-bottom-style:solid;border-bottom-width:1pt;border-bottom-color:#4471C4;border-right-style:solid;border-right-width:1pt;border-right-color:#4471C4"><p class="s4" style="padding-left: 13pt;text-indent: 0pt;line-height: 13pt;text-align: left;">Habana</p></td>
-<td style="border-top-style:solid;border-top-width:1pt;border-top-color:#4471C4;border-left-style:solid;border-left-width:1pt;border-left-color:#4471C4;border-bottom-style:solid;border-bottom-width:1pt;border-bottom-color:#4471C4;border-right-style:solid;border-right-width:1pt;border-right-color:#4471C4"><p class="s4" style="padding-left: 14pt;text-indent: 0pt;line-height: 13pt;text-align: left;">Viñales</p>
-</td>
-<td style="border-top-style:solid;border-top-width:1pt;border-top-color:#4471C4;border-left-style:solid;border-left-width:1pt;border-left-color:#4471C4;border-bottom-style:solid;border-bottom-width:1pt;border-bottom-color:#4471C4;border-right-style:solid;border-right-width:1pt;border-right-color:#4471C4"><p class="s4" style="padding-left: 44pt;padding-right: 44pt;text-indent: 0pt;line-height: 13pt;text-align: center;">120</p>
-</td>
-<td style="border-top-style:solid;border-top-width:1pt;border-top-color:#4471C4;border-left-style:solid;border-left-width:1pt;border-left-color:#4471C4;border-bottom-style:solid;border-bottom-width:1pt;border-bottom-color:#4471C4;border-right-style:solid;border-right-width:1pt;border-right-color:#4471C4"><p class="s4" style="padding-left: 26pt;padding-right: 26pt;text-indent: 0pt;line-height: 13pt;text-align: center;">200</p>
-</td>
-</tr>
-</table>
-<p style="text-indent: 0pt;line-height: 10pt;text-align: left;">
-<br/></p>
-<p style="padding-top: 2pt;padding-left: 5pt;text-indent: 0pt;text-align: left;">
-{{ "REGISTER_MESSAGE_INFO"|trans({}, "messages", user_locale) }}<a href="mailto:services@mycasaparticular.com" class="a" target="_blank">services@mycasaparticular.com</a>
-</p>
-<p style="text-indent: 0pt;line-height: 6pt;text-align: left;">
-<br/>
-</p>
-<p style="padding-top: 2pt;padding-left: 5pt;text-indent: 0pt;text-align: left;">
-{{ "REGISTER_MESSAGE_INFO1"|trans({}, "messages", user_locale) }}
-</p>
-<p style="text-indent: 0pt;line-height: 9pt;text-align: left;"><br/>
-</p><ul id="l1">
-<li style="padding-left: 41pt;text-indent: -18pt;text-align: left;">
-<p style="display: inline;">{{ "NAME_COMMENTS_DETAILS"|trans({}, "messages", user_locale) }},{{ "FORMS_LASTNAME"|trans({}, "messages", user_locale) }}
-</p>
-</li><li style="padding-left: 41pt;text-indent: -18pt;text-align: left;">
-<p style="display: inline;">
-{{ "REGISTER_MESSAGE_SERVICE_DATE"|trans({}, "messages", user_locale) }}
-</p>
-</li><li style="padding-top: 1pt;padding-left: 41pt;text-indent: -18pt;text-align: left;">
-<p style="display: inline;">
-{{ "REGISTER_MESSAGE_PEOPLE"|trans({}, "messages", user_locale) }}
-</p></li>
-<li style="padding-top: 1pt;padding-left: 41pt;text-indent: -18pt;text-align: left;">
-<p style="display: inline;">
-{{ "REGISTER_MESSAGE_ARRIVAL"|trans({}, "messages", user_locale) }}
-</p>
-</li><li style="padding-top: 1pt;padding-left: 41pt;text-indent: -18pt;text-align: left;">
-<p style="display: inline;">
-{{ "REGISTER_MESSAGE_DESTINA_FROM"|trans({}, "messages", user_locale) }}
-</p>
-</li>
-<li style="padding-left: 41pt;text-indent: -18pt;text-align: left;">
-<p style="display: inline;">
-{{ "REGISTER_MESSAGE_DESTINA_TO"|trans({}, "messages", user_locale) }}
-</p>
-</li>
-<li style="padding-top: 1pt;padding-left: 41pt;text-indent: -18pt;text-align: left;">
-<p style="display: inline;">
-{{ "REGISTER_MESSAGE_FLIGHT"|trans({}, "messages", user_locale) }}
-</p>
-</li><li style="padding-top: 1pt;padding-left: 41pt;text-indent: -18pt;text-align: left;">
-<p style="display: inline;">
-{{ "REGISTER_MESSAGE_OBSERVATIONS"|trans({}, "messages", user_locale) }}
-</p>
-</li></ul>
-<p style="text-indent: 0pt;line-height: 9pt;text-align: left;"><br/>
-</p><p style="padding-left: 5pt;text-indent: 0pt;line-height: 168%;text-align: left;">
-{{ "REGISTER_MESSAGE_GREETINGS"|trans({}, "messages", user_locale) }}
+        .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+            border: 1px solid #e7eaec;
+            line-height: 1.42857;
+            padding: 8px;
+            vertical-align: top;
+        }
+
+        th {
+            text-align: left;
+        }
+
+        tr > td.center {
+            text-align: center;
+        }
+
+    </style>
+
+    <p style="padding-top: 2pt;padding-left: 5pt;text-indent: 0pt;text-align: left;">{{ "DEAR_MR" | trans({}, "messages", user_locale) }}:
+        <i>{{ user_name }}</i>
+    </p>
+
+    <p style="padding-left: 5pt;text-indent: 0pt;text-align: left;">
+        ¡{{ "EMAIL_USER_ACCOUNT_BODY_TEXT_1"|trans({}, "messages", user_locale) }}!</p>
+    <p style="padding-left: 5pt;text-indent: 0pt;line-height: 108%;text-align: left;">
+        {{ "REGISTER_MESSAGE1"|trans({}, "messages", user_locale) | raw  }}
+    </p>
+
+    <h3>
+        {{ "REGISTER_MESSAGE_TABLE1"|trans({}, "messages", user_locale) }}
+    </h3>
+
+    {{ include('FrontEndBundle:mails/partials:_tax_table.html.twig') }}
+
+    {{ "REGISTER_MESSAGE_INFO"|trans({}, "messages", user_locale) }}<a href="mailto:services@mycasaparticular.com" class="a" target="_blank">services@mycasaparticular.com</a>
+
+    <p> {{ "REGISTER_MESSAGE_INFO2"|trans({}, "messages", user_locale) }}</p>
+    <p> {{ "REGISTER_MESSAGE_GREETINGS2"|trans({}, "messages", user_locale) }}</p>
+    <p> {{ "MYCP_TEAM"|trans({}, "messages", user_locale) }}</p>
 
 </p>
 

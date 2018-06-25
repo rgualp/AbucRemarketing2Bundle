@@ -1,0 +1,114 @@
+<style type="text/css">
+    .table {
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 20px;
+        background-color: transparent;
+        border-spacing: 0;
+        border-collapse: collapse;
+        border-top: 1px solid #e7eaec;
+        line-height: 1.42857;
+        padding: 8px;
+    }
+
+    .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+        border: 1px solid #e7eaec;
+        line-height: 1.42857;
+        padding: 8px;
+        vertical-align: top;
+    }
+
+    th {
+        text-align: left;
+    }
+
+    tr > td.center {
+        text-align: center;
+    }
+
+    p.custom {
+        text-indent: 0pt;
+        line-height: 13pt;
+        text-align: center;
+        color: white;
+        font-size: 18px;
+    }
+
+    td.td-custom {
+        border-top-style: solid;
+        border-top-width: 1pt;
+        border-top-color: #4471C4;
+        border-left-style: solid;
+        border-left-width: 1pt;
+        border-left-color: #4471C4;
+        border-bottom-style: solid;
+        border-bottom-width: 1pt;
+        border-bottom-color: #4471C4;
+        border-right-style: solid;
+        border-right-width: 1pt;
+        border-right-color: #4471C4
+    }
+
+</style>
+
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <td class="td-custom" colspan="2" bgcolor="#4471C4">
+            <p class="s2 custom">
+                {{ "DESTINATIONS"|trans({}, "messages", user_locale) }}
+            </p>
+        </td>
+        <td class="td-custom"
+            colspan="3" bgcolor="#4471C4">
+            <p class="s2 custom">
+                {{ "SELECT_OWNERSHIP_PRICES_OPTION"|trans({}, "messages", user_locale) }}(CUC)
+            </p>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2"></td>
+        <td colspan="2"> {{ "TRANSFER_TAXI_TYPE_PRIVATE"|trans({}, "messages", user_locale) }}</td>
+        <td>{{ "TRANSFER_TAXI_TYPE_COLECTIVE"|trans({}, "messages", user_locale) }}</td>
+
+    </tr>
+    <tr>
+        <th> {{ "FROM_DATE"|trans({}, "messages", user_locale) }}</th>
+        <th> {{ "TO_DATE"|trans({}, "messages", user_locale) }}</th>
+        <th> {{ "TRANSFER_TAXI_TYPE"|trans({}, "messages", user_locale) }}</th>
+        <th>Van</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Aeropuerto</td>
+        <td>Habana</td>
+        <td class="center">30</td>
+        <td class="center">45</td>
+        <td class="center">-</td>
+    </tr>
+    <tr>
+        <td>Habana</td>
+        <td>Varadero</td>
+        <td class="center">120</td>
+        <td class="center">180</td>
+        <td class="center">25</td>
+    </tr>
+    <tr>
+        <td>Habana</td>
+        <td>Trinidad</td>
+        <td class="center">200</td>
+        <td class="center">300</td>
+        <td class="center">30</td>
+    </tr>
+
+    <tr>
+        <td>Habana</td>
+        <td>Vinales</td>
+        <td class="center">120</td>
+        <td class="center">200</td>
+        <td class="center">25</td>
+    </tr>
+    </tbody>
+</table>
