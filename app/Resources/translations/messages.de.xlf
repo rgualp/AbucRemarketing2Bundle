@@ -4543,6 +4543,33 @@ Zusätzlich zu der Verwaltung der Unterkunft, bieten wir Ihnen mehrere <strong>T
                 <source>TRANSFER_ROUTE_VINNALES</source>
                 <target>Viñales</target>
             </trans-unit>
+            <trans-unit id="4834">
+                <source>OFFERS_SERVICE_TRANSFER_MESSAGE1</source>
+                <target>
+                <![CDATA[Sie können jeden Zweifel auf diese Art und Weise besprechen. Zögern Sie nicht, uns zu schreiben!</br></br>Wenn Sie den Transfer-Service anfordern möchten, senden Sie uns die folgenden Informationen und wir reservieren es für Sie:</br></br>
+                Vor- und Nachname</br>Datum des Services</br>Anzahl der Personen</br>Ankunftszeit</br>Sammelstelle</br>Bestimmungsort</br>Fluginformationen</br>Beobachtungen</br>]]>
+                </target>
+            </trans-unit>
+            <trans-unit id="4835">
+                <source>REGISTER_MESSAGE_GREETINGS3</source>
+                <target>
+               !Ein herzlicher Gruß!
+                </target>
+            </trans-unit>
+            <trans-unit id="4836">
+                <source>RESERVATION_THANKS</source>
+                <target>Danke für die Buchung mit uns.</target>
+            </trans-unit>
+            <trans-unit id="4837">
+                <source>OFFERS_SERVICE_TRANSFER_MESSAGE</source>
+                <target>
+                <![CDATA[In Ihrem Abenteuer durch Kuba werden Sie viele Fragen haben, die Sie beantworten möchten. Wir würden uns freuen, Ihnen zu helfen und Ihre Reise zu einem angenehmen und einzigartigen Erlebnis zu machen.</br></br>Unsere Dienstleistungen konzentrieren sich auf eine kollaborative Wirtschaft, die den privaten Sektor in Kuba unterstützt. Daher empfehlen wir Collective Taxis als die billigste und am häufigsten verwendete Alternative, um durch unser Land zu reisen.</br></br> Wir bieten auch andere Dienstleistungen für Ihre Abholung und Abfahrt am Flughafen, Fahrer zur Verfügung und den <strong>Transfer</strong> zwischen den verschiedenen Destinationen, die Sie besuchen möchten.]]>
+                </target>
+            </trans-unit>
+            <trans-unit id="4838">
+                <source>DEAR_MR2</source>
+                <target>Hallo</target>
+            </trans-unit>
          </body>
     </file>
 </xliff>

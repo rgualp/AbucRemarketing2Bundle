@@ -4594,6 +4594,34 @@ En plus de la gestion du logement, nous vous offrons plusieurs options de <stron
                 <source>TRANSFER_ROUTE_VINNALES</source>
                 <target>Viñales</target>
             </trans-unit>
+            <trans-unit id="4834">
+                <source>OFFERS_SERVICE_TRANSFER_MESSAGE1</source>
+                <target>
+                <![CDATA[Au cas où vous aurez des doutes, n’hésitez pas à nous écrire !</br></br>Si vous voulez demander le service de transfert, envoyez-nous les informations suivantes et nous vous le réserverons:</br></br>
+                Prénom et nom</br>Date du service</br>Nombre de personnes</br>Heure d'arrivée</br>Point de collecte (adresse)</br>Destination</br>Les informations du vol</br>Observations</br>]]>
+                </target>
+            </trans-unit>
+            <trans-unit id="4835">
+                <source>REGISTER_MESSAGE_GREETINGS3</source>
+                <target>
+                Cordialement
+                </target>
+            </trans-unit>
+            <trans-unit id="4836">
+                <source>RESERVATION_THANKS</source>
+                <target>Merci de votre réservation avec nous!</target>
+            </trans-unit>
+            <trans-unit id="4837">
+                <source>OFFERS_SERVICE_TRANSFER_MESSAGE</source>
+                <target>
+                <![CDATA[Lors de votre aventure à Cuba il se peut que vous ayez des questions auxquelles vous voudrez répondre. Nous aimerions vous aider et faire de votre voyage une expérience agréable et unique.</br></br>Nos services sont axés sur une économie de collaboration qui sert de soutien au secteur privé à Cuba. Nous recommandons donc les taxis collectifs comme l'alternative la moins chère et la plus fréquemment utilisée pour parcourir notre pays.</br></br> En plus nous vous offrons d’autres services de transfert lors de votre entrée et de votre départ à l’aéroport, des chauffeurs disponibles et des transferts entre plusieurs destinations.]]>
+                </target>
+            </trans-unit>
+            <trans-unit id="4838">
+                <source>DEAR_MR2</source>
+                <target>Salut
+                </target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -1,7 +1,7 @@
 {% extends 'FrontEndBundle:layout:translatedbaseMailTemplateNew.html.twig' %}
 
 {% block content %}
-    <p>{{"DEAR_MR"|trans({}, "messages", user_locale)}} <strong>Gual</strong>!</p>
+    <p>{{"DEAR_MR2"|trans({}, "messages", user_locale)}} <strong>Gual</strong>!</p>
     <p>{{ 'RESERVATION_THANKS'|trans({}, "messages", user_locale) | raw }}</p>
     <p>{{ 'OFFERS_SERVICE_TRANSFER_MESSAGE'|trans({}, "messages", user_locale) | raw }}</p>
     <h3>
@@ -10,7 +10,7 @@
 
     {{ include('FrontEndBundle:mails/partials:_tax_table.html.twig') }}
 
-    <p> {{ "REGISTER_MESSAGE_INFO2"|trans({}, "messages", user_locale) }}</p>
-    <p> {{ "REGISTER_MESSAGE_GREETINGS2"|trans({}, "messages", user_locale) }}</p>
+    <p> {{ "OFFERS_SERVICE_TRANSFER_MESSAGE1"|trans({}, "messages", user_locale) | raw }}</p>
+    <p> {{ "REGISTER_MESSAGE_GREETINGS3"|trans({}, "messages", user_locale) }}</p>
     <p> <strong>{{ "MYCP_TEAM"|trans({}, "messages", user_locale) }}</strong></p>
 {% endblock %}

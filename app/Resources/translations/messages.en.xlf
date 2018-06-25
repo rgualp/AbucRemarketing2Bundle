@@ -4509,7 +4509,34 @@
             <trans-unit id="4834">
                 <source>TRANSFER_ROUTE_VINNALES</source>
                 <target>Viñales</target>
-            </trans-unit>            
+            </trans-unit>
+            <trans-unit id="4835">
+                <source>OFFERS_SERVICE_TRANSFER_MESSAGE1</source>
+                <target>
+                <![CDATA[You can write us anytime you want using this email. We would love to help you.</br></br>If you want to make a request for a transfer, send us the following information so we can arrange it for you:</br></br>
+                Name and Last Name</br>Date of service</br>Number of People</br>Arrival time</br>Destination (From)</br>Destination (To)</br>Flight information</br>Observations</br>]]>
+                </target>
+            </trans-unit>
+            <trans-unit id="4836">
+                <source>REGISTER_MESSAGE_GREETINGS3</source>
+                <target>
+                Warm regards
+                </target>
+            </trans-unit>
+            <trans-unit id="4837">
+                <source>RESERVATION_THANKS</source>
+                <target>Thank you for your reservation!</target>
+            </trans-unit>
+            <trans-unit id="4838">
+                <source>OFFERS_SERVICE_TRANSFER_MESSAGE</source>
+                <target>
+                <![CDATA[You must have many questions about your trip. We will like to answered them and make the experience of traveling a worthy memory to keep.</br></br>Our services are focused on the collaborative economy to support the private sector in Cuba. That´s why we recommend as we call them “Taxis Colectivos” (shared taxis) as it is the most economical and frequently used way to get around the island.</br></br> We also inform you about other services we provide regarding <strong>TRANSPORTATION</strong>, like the pick-up and departure at the airport, drivers at disposal and transfer between destinations.]]>
+                </target>
+            </trans-unit>
+            <trans-unit id="4839">
+                <source>DEAR_MR2</source>
+                <target>Hi</target>
+            </trans-unit>       
         </body>
     </file>
 </xliff>

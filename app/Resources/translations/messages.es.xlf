@@ -2009,7 +2009,7 @@
             </trans-unit>
             <trans-unit id="506">
                 <source>DEAR_MR</source>
-                <target>Hola</target>
+                <target>Querido</target>
             </trans-unit>
             <trans-unit id="507">
                 <source>THANKS_RESERVATION_MYCP</source>
@@ -4457,7 +4457,7 @@
                 <source>OFFERS_SERVICE_TRANSFER_MESSAGE</source>
                 <target>
                 <![CDATA[En tu aventura por Cuba tendrás muchas interrogantes que querrás responder. Nos encantaría ayudarte y hacer de tu viaje una experiencia placentera y única.</br></br>
-                                                         Nuestros servicios están enfocados en una economía colaborativa que sirva de apoyo al sector privado en Cuba, por ello te recomendamos los Taxis Colectivos como alternativa más económica y de uso más frecuente para recorrer nuestro país. También ponemos a tu disposición otros servicios para tu recogida y salida en el aeropuerto, choferes a disposición y traslado entre los diferentes destinos que elijas visitar.]]>
+                                                         Nuestros servicios están enfocados en una economía colaborativa que sirva de apoyo al sector privado en Cuba, por ello te recomendamos los Taxis Colectivos como alternativa más económica y de uso más frecuente para recorrer nuestro país.</br></br> También ponemos a tu disposición otros servicios para tu recogida y salida en el aeropuerto, choferes a disposición y traslado entre los diferentes destinos que elijas visitar.]]>
                 </target>
             </trans-unit>
             <trans-unit id="4826">
@@ -4491,6 +4491,24 @@
             <trans-unit id="4833">
                 <source>TRANSFER_ROUTE_VINNALES</source>
                 <target>Viñales</target>
+            </trans-unit>
+            <trans-unit id="4834">
+                <source>OFFERS_SERVICE_TRANSFER_MESSAGE1</source>
+                <target>
+                <![CDATA[Puedes consultarnos cualquier duda por esta vía. ¡No dudes en escribirnos!</br></br>Si deseas solicitar el servicio de transfer, envíanos la siguiente información y lo reservamos para ti:</br></br>
+                Nombre y Apellido</br>Fecha del servicio</br>Cantidad de Personas</br>Hora de arribo</br>Punto de recogida (dirección)</br>Punto de entrega</br>Información de vuelo</br>Observaciones</br>]]>
+                </target>
+            </trans-unit>
+            <trans-unit id="4835">
+                <source>REGISTER_MESSAGE_GREETINGS3</source>
+                <target>
+                ! Un cálido saludo!
+                </target>
+            </trans-unit>
+            <trans-unit id="4836">
+                <source>DEAR_MR2</source>
+                <target>Hola
+                </target>
             </trans-unit>
         </body>
     </file>
