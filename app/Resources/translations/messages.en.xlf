@@ -4489,6 +4489,26 @@
             <trans-unit id="4829">
                 <source>REGISTER_MESSAGE_TABLE1</source>
                 <target>Here you have some prices per transfer service per route for your consideration:</target>
+            </trans-unit>
+            <trans-unit id="4830">
+                <source>TRANSFER_ROUTE_AEROPUERTO</source>
+                <target>Airport</target>
+            </trans-unit>
+            <trans-unit id="4831">
+                <source>TRANSFER_ROUTE_HABANA</source>
+                <target>Havana</target>
+            </trans-unit>
+            <trans-unit id="4832">
+                <source>TRANSFER_ROUTE_VARADERO</source>
+                <target>Varadero</target>
+            </trans-unit>
+            <trans-unit id="4833">
+                <source>TRANSFER_ROUTE_TRINIDAD</source>
+                <target>Trinidad</target>
+            </trans-unit>
+            <trans-unit id="4834">
+                <source>TRANSFER_ROUTE_VINNALES</source>
+                <target>Viñales</target>
             </trans-unit>            
         </body>
     </file>

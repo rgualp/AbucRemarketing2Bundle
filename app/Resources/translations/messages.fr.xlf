@@ -4574,6 +4574,26 @@ En plus de la gestion du logement, nous vous offrons plusieurs options de <stron
                 <source>TRANSFER_TAXI_TYPE</source>
                 <target>Taxi Standard</target>
             </trans-unit>
+            <trans-unit id="4829">
+                <source>TRANSFER_ROUTE_AEROPUERTO</source>
+                <target>Aéroport</target>
+            </trans-unit>
+            <trans-unit id="4830">
+                <source>TRANSFER_ROUTE_HABANA</source>
+                <target>Havanne</target>
+            </trans-unit>
+            <trans-unit id="4831">
+                <source>TRANSFER_ROUTE_VARADERO</source>
+                <target>Varadero</target>
+            </trans-unit>
+            <trans-unit id="4832">
+                <source>TRANSFER_ROUTE_TRINIDAD</source>
+                <target>Trinidad</target>
+            </trans-unit>
+            <trans-unit id="4833">
+                <source>TRANSFER_ROUTE_VINNALES</source>
+                <target>Viñales</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
