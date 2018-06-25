@@ -4460,6 +4460,18 @@
                                                          Nuestros servicios están enfocados en una economía colaborativa que sirva de apoyo al sector privado en Cuba, por ello te recomendamos los Taxis Colectivos como alternativa más económica y de uso más frecuente para recorrer nuestro país. También ponemos a tu disposición otros servicios para tu recogida y salida en el aeropuerto, choferes a disposición y traslado entre los diferentes destinos que elijas visitar.]]>
                 </target>
             </trans-unit>
+            <trans-unit id="4826">
+                <source>TRANSFER_TAXI_TYPE_PRIVATE</source>
+                <target>Privados (Precio por Servicio)</target>
+            </trans-unit>
+            <trans-unit id="4827">
+                <source>TRANSFER_TAXI_TYPE_COLECTIVE</source>
+                <target>Colectivos (Precio por Persona)</target>
+            </trans-unit>
+            <trans-unit id="4828">
+                <source>TRANSFER_TAXI_TYPE</source>
+                <target>Taxi Standard </target>
+            </trans-unit>
 
         </body>
     </file>
