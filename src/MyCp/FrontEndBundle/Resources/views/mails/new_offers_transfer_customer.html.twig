@@ -1,7 +1,7 @@
 {% extends 'FrontEndBundle:layout:translatedbaseMailTemplateNew.html.twig' %}
 
 {% block content %}
-    <p>{{"DEAR_MR2"|trans({}, "messages", user_locale)}} <strong>Gual</strong>!</p>
+    <p>{{"DEAR_MR2"|trans({}, "messages", user_locale)}} <strong>{{user.getUserUserName|capitalize}}</strong>!</p>
     <p>{{ 'RESERVATION_THANKS'|trans({}, "messages", user_locale) | raw }}</p>
     <p>{{ 'OFFERS_SERVICE_TRANSFER_MESSAGE'|trans({}, "messages", user_locale) | raw }}</p>
     <h3>
