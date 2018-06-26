@@ -2006,7 +2006,7 @@
             </trans-unit>
             <trans-unit id="506">
                 <source>DEAR_MR</source>
-                <target>Hello</target>
+                <target>Dear</target>
             </trans-unit>
             <trans-unit id="507">
                 <source>THANKS_RESERVATION_MYCP</source>
@@ -2693,7 +2693,7 @@
             </trans-unit>
             <trans-unit id="675">
                 <source>TO_DATE</source>
-                <target>to</target>
+                <target>To</target>
             </trans-unit>
             <trans-unit id="676">
                 <source>FEEDBACK_REMINDER</source>
@@ -2717,7 +2717,9 @@
             </trans-unit>
             <trans-unit id="680">
                 <source>ADD_TO_CART_ERROR</source>
-                <target>One room already exists in your wishlist and the selected date range collides with which it is stored. Please change the date range.</target>
+                <target>One room already exists in your wishlist and the selected date range collides with which it is
+                    stored. Please change the date range.
+                </target>
             </trans-unit>
             <trans-unit id="681">
                 <source>ADDRESS_STREET</source>
@@ -4076,7 +4078,7 @@
             </trans-unit>
             <trans-unit id="996">
                 <source>EMAIL_USER_ACCOUNT_BODY_TEXT_1</source>
-                <target>You have successfulyl registered in MyCasaParticular.</target>
+                <target>Your registration in our system has been successful.</target>
             </trans-unit>
             <trans-unit id="997">
                 <source>NEW_USER_ACCOUNT</source>
@@ -4279,9 +4281,9 @@
             <trans-unit id="4785">
                 <source>EXTRA_SERVICES_2</source>
                 <target>To make your trip a more pleasant, organized and stress-free experience,
-                 Mycasaparticular reminds you that you have several transfers services available:
-                 from and to the Airport, between the different tourist destinations and drivers at disposal.
-                 If you wish to consult new routes, please click here: oncky.com
+                    Mycasaparticular reminds you that you have several transfers services available:
+                    from and to the Airport, between the different tourist destinations and drivers at disposal.
+                    If you wish to consult new routes, please click here: oncky.com
                 </target>
             </trans-unit>
             <trans-unit id="4786">
@@ -4291,7 +4293,8 @@
             <trans-unit id="4787">
                 <source>EXTRA_SERVICES_4</source>
                 <target>If you are interested in discovering new destinations, do not hesitate to contact us.
-                 Among the most visited are:</target>
+                    Among the most visited are:
+                </target>
             </trans-unit>
             <trans-unit id="4788">
                 <source>EXTRA_SERVICES_5</source>
@@ -4358,102 +4361,182 @@
                 <target>MyCasaParticular Favorites</target>
             </trans-unit>
             <trans-unit id="4803">
-                            <source>REGISTER_MESSAGE1</source>
-                            <target>We are pleased to welcome you to our community. We are a collaborative tourism platform with 8 years of experience, mainly oriented to the private sector, focuses on building experiences between those who visit us and our community.</target>
+                <source>REGISTER_MESSAGE1</source>
+                <target><![CDATA[ Welcome to our community. </br></br>In addition to accommodation services, we can offer you several options for <strong>TRANSPORTATION</strong>, both for pick-up and departure at the airport, drivers at disposal and transfer between destinations.]]>
+                </target>
             </trans-unit>
-             <trans-unit id="4804">
-             <source>REGISTER_MESSAGE2</source>
-             <target>In addition to accommodation services, we can offer you several options for TRANSPORTATION with our collaborator Oncky, both for pick-up and departure at the airport, drivers at disposal and transfer between destinations.</target>
-             </trans-unit>
-             <trans-unit id="4805">
-              <source>REGISTER_MESSAGE_TABLE1</source>
-              <target>Prices per transfer service per route:</target>
-             </trans-unit>
-             <trans-unit id="4806">
+            <trans-unit id="4804">
+                <source>REGISTER_MESSAGE2</source>
+                <target>In addition to accommodation services, we can offer you several options for TRANSPORTATION with
+                    our collaborator Oncky, both for pick-up and departure at the airport, drivers at disposal and
+                    transfer between destinations.
+                </target>
+            </trans-unit>
+            <trans-unit id="4805">
+                <source>REGISTER_MESSAGE_TABLE1</source>
+                <target>Prices per transfer service per route:</target>
+            </trans-unit>
+            <trans-unit id="4806">
                 <source>REGISTER_MESSAGE_STANDA_TAXI</source>
                 <target>Standard Taxi (3pax)</target>
-             </trans-unit>
-              <trans-unit id="4807">
+            </trans-unit>
+            <trans-unit id="4807">
                 <source>REGISTER_MESSAGE_VAN</source>
                 <target>Van (4-6 pax)</target>
-             </trans-unit>
-    <trans-unit id="4808">
-                  <source>REGISTER_MESSAGE_AIRPORT</source>
-                  <target>Airport</target>
-               </trans-unit>
-   <trans-unit id="4809">
-                   <source>REGISTER_MESSAGE_INFO</source>
-                   <target>For more information about other routes you can contact us at:</target>
-                </trans-unit>
-      <trans-unit id="4810">
-            <source>REGISTER_MESSAGE_INFO1</source>
-          <target>Send us the following information to make your transfer reservation:</target>
-           </trans-unit>
-    <trans-unit id="4811">
-               <source>REGISTER_MESSAGE_GREETINGS</source>
-             <target>Thank you for choosing us! Your satisfaction is our priority! Mycasaparticular team</target>
-              </trans-unit>
-     <trans-unit id="4812">
+            </trans-unit>
+            <trans-unit id="4808">
+                <source>REGISTER_MESSAGE_AIRPORT</source>
+                <target>Airport</target>
+            </trans-unit>
+            <trans-unit id="4809">
+                <source>REGISTER_MESSAGE_INFO</source>
+                <target>Don´t hesitate to contact us at:</target>
+            </trans-unit>
+            <trans-unit id="4810">
+                <source>REGISTER_MESSAGE_INFO1</source>
+                <target>Send us the following information to make your transfer reservation:</target>
+            </trans-unit>
+            <trans-unit id="4811">
+                <source>REGISTER_MESSAGE_GREETINGS</source>
+                <target>Thank you for choosing us! Your satisfaction is our priority! Mycasaparticular team</target>
+            </trans-unit>
+            <trans-unit id="4812">
                 <source>REGISTER_MESSAGE_SERVICE_DATE</source>
-              <target>Date of service</target>
-               </trans-unit>
- <trans-unit id="4813">
+                <target>Date of service</target>
+            </trans-unit>
+            <trans-unit id="4813">
                 <source>REGISTER_MESSAGE_PEOPLE</source>
-              <target>Number of People</target>
-               </trans-unit>
- <trans-unit id="4814">
+                <target>Number of People</target>
+            </trans-unit>
+            <trans-unit id="4814">
                 <source>REGISTER_MESSAGE_ARRIVAL</source>
-              <target>Arrival time</target>
-               </trans-unit>
-  <trans-unit id="4815">
-                  <source>REGISTER_MESSAGE_DESTINA_FROM</source>
+                <target>Arrival time</target>
+            </trans-unit>
+            <trans-unit id="4815">
+                <source>REGISTER_MESSAGE_DESTINA_FROM</source>
                 <target>Destination (From)</target>
-                 </trans-unit>
-  <trans-unit id="4816">
-                    <source>REGISTER_MESSAGE_DESTINA_TO</source>
-                  <target>Destination (To)</target>
-                   </trans-unit>
- <trans-unit id="4817">
-                    <source>REGISTER_MESSAGE_FLIGHT</source>
-                  <target>Flight information</target>
-                   </trans-unit>
-  <trans-unit id="4818">
-                     <source>REGISTER_MESSAGE_OBSERVATIONS</source>
-                   <target>Observations</target>
-                    </trans-unit>
-  <trans-unit id="4819">
-      <source>CHAT_MESAGE</source>
-        <target>What we can do for you?</target>
-   </trans-unit>
-             <trans-unit id="4820">
-                   <source>CHAT_MESAGE_1</source>
-               <target>Hello,My name is Natalie I would like to help you find what you are looking for in our site. Do not hesitate to contact me at the following email:</target>
-           </trans-unit>
-             <trans-unit id="4821">
-                                   <source>CAROUSER_TEXT1</source>
-                               <target>
-                                MycasaParticular is aware of the economic and social impact of the stay of every tourist at a private accommodation facility. This is a way to increase jobs and also the way through which thousands of cuban families get income. The team of Mycasaparticular doesn't know a better way to help the cuban people: to practice a responsible and equitable tourism that cares for nature.
-                              </target>
-                           </trans-unit>
-                               <trans-unit id="4822">
-                                                                   <source>CASA_PARTICULAR_TITLE</source>
-                                                               <target>
-                                                                   What is a casa Particular?
-                                                                                      </target>
-                                                           </trans-unit>
-          <trans-unit id="4823">
-                                                                                              <source>CASA_PARTICULAR_TITLE_AWSER</source>
-                                                                                                               <target>
-                Casa Particular is the term used in Cuba to denominate
-                a whole house, room, or independent apartment that belongs to a Cuban family
-                and it is rented or leased to tourist.
-                Generally the Hosts are eager to rent for short or
-                long periods. Many would accept groups, families, while others can only lodge a
-                couple. Most of the rentals offer complimentary services such as breakfast,
-                dinner, laundry, etc…“Casas
-                Particulares” generally also offer other services such as breakfast and dinner.
-                                                                               </target>
-                                                                 </trans-unit>
-            </body>
+            </trans-unit>
+            <trans-unit id="4816">
+                <source>REGISTER_MESSAGE_DESTINA_TO</source>
+                <target>Destination (To)</target>
+            </trans-unit>
+            <trans-unit id="4817">
+                <source>REGISTER_MESSAGE_FLIGHT</source>
+                <target>Flight information</target>
+            </trans-unit>
+            <trans-unit id="4818">
+                <source>REGISTER_MESSAGE_OBSERVATIONS</source>
+                <target>Observations</target>
+            </trans-unit>
+            <trans-unit id="4819">
+                <source>CHAT_MESAGE</source>
+                <target>What we can do for you?</target>
+            </trans-unit>
+            <trans-unit id="4820">
+                <source>CHAT_MESAGE_1</source>
+                <target>Hello,My name is Natalie I would like to help you find what you are looking for in our site. Do
+                    not hesitate to contact me at the following email:
+                </target>
+            </trans-unit>
+            <trans-unit id="4821">
+                <source>CAROUSER_TEXT1</source>
+                <target>
+                    MycasaParticular is aware of the economic and social impact of the stay of every tourist at a
+                    private accommodation facility. This is a way to increase jobs and also the way through which
+                    thousands of cuban families get income. The team of Mycasaparticular doesn't know a better way to
+                    help the cuban people: to practice a responsible and equitable tourism that cares for nature.
+                </target>
+            </trans-unit>
+            <trans-unit id="4822">
+                <source>CASA_PARTICULAR_TITLE</source>
+                <target>
+                    What is a casa Particular?
+                </target>
+            </trans-unit>
+            <trans-unit id="4823">
+                <source>CASA_PARTICULAR_TITLE_AWSER</source>
+                <target>
+                    Casa Particular is the term used in Cuba to denominate
+                    a whole house, room, or independent apartment that belongs to a Cuban family
+                    and it is rented or leased to tourist.
+                    Generally the Hosts are eager to rent for short or
+                    long periods. Many would accept groups, families, while others can only lodge a
+                    couple. Most of the rentals offer complimentary services such as breakfast,
+                    dinner, laundry, etc…“Casas
+                    Particulares” generally also offer other services such as breakfast and dinner.
+                </target>
+            </trans-unit>
+            <trans-unit id="4824">
+                <source>REGISTER_MESSAGE_INFO2</source>
+                <target>We will love to help you organizing your trip.</target>
+            </trans-unit>
+            <trans-unit id="4825">
+                <source>REGISTER_MESSAGE_GREETINGS2</source>
+                <target>Have a nice day!</target>
+            </trans-unit>
+            <trans-unit id="4826">
+                <source>TRANSFER_TAXI_TYPE_PRIVATE</source>
+                <target>Private (Price per Service)</target>
+            </trans-unit>
+            <trans-unit id="4827">
+                <source>TRANSFER_TAXI_TYPE_COLECTIVE</source>
+                <target>Collective (Price per Person)</target>
+            </trans-unit>
+            <trans-unit id="4828">
+                <source>TRANSFER_TAXI_TYPE</source>
+                <target>Taxi Standard</target>
+            </trans-unit>
+            <trans-unit id="4829">
+                <source>REGISTER_MESSAGE_TABLE1</source>
+                <target>Here you have some prices per transfer service per route for your consideration:</target>
+            </trans-unit>
+            <trans-unit id="4830">
+                <source>TRANSFER_ROUTE_AEROPUERTO</source>
+                <target>Airport</target>
+            </trans-unit>
+            <trans-unit id="4831">
+                <source>TRANSFER_ROUTE_HABANA</source>
+                <target>Havana</target>
+            </trans-unit>
+            <trans-unit id="4832">
+                <source>TRANSFER_ROUTE_VARADERO</source>
+                <target>Varadero</target>
+            </trans-unit>
+            <trans-unit id="4833">
+                <source>TRANSFER_ROUTE_TRINIDAD</source>
+                <target>Trinidad</target>
+            </trans-unit>
+            <trans-unit id="4834">
+                <source>TRANSFER_ROUTE_VINNALES</source>
+                <target>Viñales</target>
+            </trans-unit>
+            <trans-unit id="4835">
+                <source>OFFERS_SERVICE_TRANSFER_MESSAGE1</source>
+                <target>
+                <![CDATA[You can write us anytime you want using this email. We would love to help you.</br></br>If you want to make a request for a transfer, send us the following information so we can arrange it for you:</br></br>
+                Name and Last Name</br>Date of service</br>Number of People</br>Arrival time</br>Destination (From)</br>Destination (To)</br>Flight information</br>Observations</br>]]>
+                </target>
+            </trans-unit>
+            <trans-unit id="4836">
+                <source>REGISTER_MESSAGE_GREETINGS3</source>
+                <target>
+                Warm regards
+                </target>
+            </trans-unit>
+            <trans-unit id="4837">
+                <source>RESERVATION_THANKS</source>
+                <target>Thank you for your reservation!</target>
+            </trans-unit>
+            <trans-unit id="4838">
+                <source>OFFERS_SERVICE_TRANSFER_MESSAGE</source>
+                <target>
+                <![CDATA[You must have many questions about your trip. We will like to answered them and make the experience of traveling a worthy memory to keep.</br></br>Our services are focused on the collaborative economy to support the private sector in Cuba. That´s why we recommend as we call them “Taxis Colectivos” (shared taxis) as it is the most economical and frequently used way to get around the island.</br></br> We also inform you about other services we provide regarding <strong>TRANSPORTATION</strong>, like the pick-up and departure at the airport, drivers at disposal and transfer between destinations.]]>
+                </target>
+            </trans-unit>
+            <trans-unit id="4839">
+                <source>DEAR_MR2</source>
+                <target>Hi</target>
+            </trans-unit>       
+        </body>
     </file>
 </xliff>

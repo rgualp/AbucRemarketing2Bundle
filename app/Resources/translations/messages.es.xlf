@@ -2009,7 +2009,7 @@
             </trans-unit>
             <trans-unit id="506">
                 <source>DEAR_MR</source>
-                <target>Hola</target>
+                <target>Querido</target>
             </trans-unit>
             <trans-unit id="507">
                 <source>THANKS_RESERVATION_MYCP</source>
@@ -2165,7 +2165,9 @@
             </trans-unit>
             <trans-unit id="546">
                 <source>USER_ACTIVATE_ACCOUNT_SUCCESS</source>
-                <target>Gracias. Su usuario ha sido activado satisfactoriamente. Ahora usted debe acceder al sistema para completar los datos de su propiedad y PUBLICAR su alojamiento en nuestro sitio.</target>
+                <target>Gracias. Su usuario ha sido activado satisfactoriamente. Ahora usted debe acceder al sistema
+                    para completar los datos de su propiedad y PUBLICAR su alojamiento en nuestro sitio.
+                </target>
             </trans-unit>
             <trans-unit id="547">
                 <source>USER_ACTIVATE_ERROR</source>
@@ -2699,7 +2701,7 @@
             </trans-unit>
             <trans-unit id="675">
                 <source>TO_DATE</source>
-                <target>hasta</target>
+                <target>Hasta</target>
             </trans-unit>
             <trans-unit id="676">
                 <source>FEEDBACK_REMINDER</source>
@@ -4347,108 +4349,167 @@
                 <target>registros</target>
             </trans-unit>
             <trans-unit id="4801">
-                            <source>label.colaborators</source>
-                            <target>Colaboradores</target>
-           </trans-unit>
-           <trans-unit id="4802">
+                <source>label.colaborators</source>
+                <target>Colaboradores</target>
+            </trans-unit>
+            <trans-unit id="4802">
                 <source>FAVORITIES_TITLE</source>
                 <target>Favoritos MyCasaParticular</target>
             </trans-unit>
-               <trans-unit id="4803">
-                                        <source>REGISTER_MESSAGE1</source>
-                                        <target>We are pleased to welcome you to our community. We are a collaborative tourism platform with 8 years of experience, mainly oriented to the private sector, focuses on building experiences between those who visit us and our community.</target>
-                        </trans-unit>
-                         <trans-unit id="4804">
-                         <source>REGISTER_MESSAGE2</source>
-                         <target>In addition to accommodation services, we can offer you several options for TRANSPORTATION with our collaborator Oncky, both for pick-up and departure at the airport, drivers at disposal and transfer between destinations.</target>
-                         </trans-unit>
-                         <trans-unit id="4805">
-                          <source>REGISTER_MESSAGE_TABLE1</source>
-                          <target>Prices per transfer service per route:</target>
-                         </trans-unit>
-                         <trans-unit id="4806">
-                            <source>REGISTER_MESSAGE_STANDA_TAXI</source>
-                            <target>Standard Taxi (3pax)</target>
-                         </trans-unit>
-                          <trans-unit id="4807">
-                            <source>REGISTER_MESSAGE_VAN</source>
-                            <target>Van (4-6 pax)</target>
-                         </trans-unit>
-                <trans-unit id="4808">
-                              <source>REGISTER_MESSAGE_AIRPORT</source>
-                              <target>Airport</target>
-                           </trans-unit>
-               <trans-unit id="4809">
-                               <source>REGISTER_MESSAGE_INFO</source>
-                               <target>For more information about other routes you can contact us at:</target>
-                            </trans-unit>
-                  <trans-unit id="4810">
-                        <source>REGISTER_MESSAGE_INFO1</source>
-                      <target>Send us the following information to make your transfer reservation:</target>
-                       </trans-unit>
-                <trans-unit id="4811">
-                           <source>REGISTER_MESSAGE_GREETINGS</source>
-                         <target>Thank you for choosing us! Your satisfaction is our priority! Mycasaparticular team</target>
-                          </trans-unit>
-                 <trans-unit id="4812">
-                            <source>REGISTER_MESSAGE_SERVICE_DATE</source>
-                          <target>Date of service</target>
-                           </trans-unit>
-             <trans-unit id="4813">
-                            <source>REGISTER_MESSAGE_PEOPLE</source>
-                          <target>Number of People</target>
-                           </trans-unit>
-             <trans-unit id="4814">
-                            <source>REGISTER_MESSAGE_ARRIVAL</source>
-                          <target>Arrival time</target>
-                           </trans-unit>
-              <trans-unit id="4815">
-                              <source>REGISTER_MESSAGE_DESTINA_FROM</source>
-                            <target>Destination (From)</target>
-                             </trans-unit>
-              <trans-unit id="4816">
-                                <source>REGISTER_MESSAGE_DESTINA_TO</source>
-                              <target>Destination (To)</target>
-                               </trans-unit>
-             <trans-unit id="4817">
-                                <source>REGISTER_MESSAGE_FLIGHT</source>
-                              <target>Flight information</target>
-                               </trans-unit>
-              <trans-unit id="4818">
-                                 <source>REGISTER_MESSAGE_OBSERVATIONS</source>
-                               <target>Observations</target>
-                                </trans-unit>
-                  <trans-unit id="4819">
-                          <source>CHAT_MESAGE</source>
-                           <target>En que podemos ayudarle?</target>
-                           </trans-unit>
-                           <trans-unit id="4820">
+            <trans-unit id="4803">
+                <source>REGISTER_MESSAGE1</source>
+                <target>
+
+                <![CDATA[ Gracias por unirte a nuestra comunidad. </br></br>Además de la gestión del alojamiento, ponemos a tu alcance varias opciones de <strong>TRANSPORTACIÓN</strong> tanto para tu recogida y salida en el aeropuerto, choferes a disposición y traslado entre los diferentes destinos que elijas conocer.]]>
+
+                </target>
+            </trans-unit>
+            <trans-unit id="4804">
+                <source>REGISTER_MESSAGE2</source>
+                <target>In addition to accommodation services, we can offer you several options for TRANSPORTATION with
+                    our collaborator Oncky, both for pick-up and departure at the airport, drivers at disposal and
+                    transfer between destinations.
+                </target>
+            </trans-unit>
+            <trans-unit id="4805">
+                <source>REGISTER_MESSAGE_TABLE1</source>
+                <target>Aquí te enviamos algunos precios de transfer por ruta:</target>
+            </trans-unit>
+            <trans-unit id="4806">
+                <source>REGISTER_MESSAGE_STANDA_TAXI</source>
+                <target>Standard Taxi (3pax)</target>
+            </trans-unit>
+            <trans-unit id="4807">
+                <source>REGISTER_MESSAGE_VAN</source>
+                <target>Van (4-6 pax)</target>
+            </trans-unit>
+            <trans-unit id="4808">
+                <source>REGISTER_MESSAGE_AIRPORT</source>
+                <target>Airport</target>
+            </trans-unit>
+            <trans-unit id="4809">
+                <source>REGISTER_MESSAGE_INFO</source>
+                <target>No dudes en contactarnos  a este correo:</target>
+            </trans-unit>
+            <trans-unit id="4810">
+                <source>REGISTER_MESSAGE_INFO1</source>
+                <target>Send us the following information to make your transfer reservation:</target>
+            </trans-unit>
+            <trans-unit id="4811">
+                <source>REGISTER_MESSAGE_GREETINGS</source>
+                <target>Thank you for choosing us! Your satisfaction is our priority! Mycasaparticular team</target>
+            </trans-unit>
+            <trans-unit id="4812">
+                <source>REGISTER_MESSAGE_SERVICE_DATE</source>
+                <target>Date of service</target>
+            </trans-unit>
+            <trans-unit id="4813">
+                <source>REGISTER_MESSAGE_PEOPLE</source>
+                <target>Number of People</target>
+            </trans-unit>
+            <trans-unit id="4814">
+                <source>REGISTER_MESSAGE_ARRIVAL</source>
+                <target>Arrival time</target>
+            </trans-unit>
+            <trans-unit id="4815">
+                <source>REGISTER_MESSAGE_DESTINA_FROM</source>
+                <target>Destination (From)</target>
+            </trans-unit>
+            <trans-unit id="4816">
+                <source>REGISTER_MESSAGE_DESTINA_TO</source>
+                <target>Destination (To)</target>
+            </trans-unit>
+            <trans-unit id="4817">
+                <source>REGISTER_MESSAGE_FLIGHT</source>
+                <target>Flight information</target>
+            </trans-unit>
+            <trans-unit id="4818">
+                <source>REGISTER_MESSAGE_OBSERVATIONS</source>
+                <target>Observations</target>
+            </trans-unit>
+            <trans-unit id="4819">
+                <source>CHAT_MESAGE</source>
+                <target>En que podemos ayudarle?</target>
+            </trans-unit>
+            <trans-unit id="4820">
                 <source>CHAT_MESAGE_1</source>
-            <target>Hola mi nombre es Natalie, me gustaria ayudarlo a encontrar lo que està buscando en nuestro sitio. No dude en contactarme al siguiente correo:</target>
-        </trans-unit>
-                       <trans-unit id="4821">
-                        <source>CAROUSER_TEXT1</source>
-                    <target>
-                              MyCasaParticular está consciente del impacto social y económico que representa cada visita de un turista a un alojamiento privado. Miles de familias cubanas se benefician de esta manera además de crear puestos de trabajos. El equipo de MyCasaParticular no conoce un método mejor de ayudar al pueblo de Cuba, practicar un turismo equitativo, responsable y de respeto a la naturaleza.</target>
-                </trans-unit>
-                    <trans-unit id="4822">
-                                        <source>CASA_PARTICULAR_TITLE</source>
-                                    <target>
-                                        ¿Qué es una casa particular?
-                                                           </target>
-                                </trans-unit>
-       <trans-unit id="4823">
-                                                                                                    <source>CASA_PARTICULAR_TITLE_AWSER</source>
-                                                                                                                     <target>
-                  Casa Particular es el término que se utiliza en Cuba para denominar una casa entera,
-                  habitaciones, o un apartamento privado, perteneciente a una familia cubana en
-                  el que se ofrece el servicio de alquiler o arrendamiento a turistas.
-                  Por lo general, estos anfitriones están dispuestos a rentar por períodos breves o de
-                  larga estancia. Muchos aceptan grupos y familias, otros solo están preparados
-                  para recibir a una pareja. La mayoría ofrece otros servicios complementarios al
-                  alojamiento como desayuno, cena, lavandería, etc.
-                                                                                     </target>
-                                                                       </trans-unit>
+                <target>Hola mi nombre es Natalie, me gustaria ayudarlo a encontrar lo que està buscando en nuestro
+                    sitio. No dude en contactarme al siguiente correo:
+                </target>
+            </trans-unit>
+            <trans-unit id="4821">
+                <source>REGISTER_MESSAGE_INFO2</source>
+                <target>Nos encantará ayudarte en todo lo que puedas necesitar para organizar tu viaje de descubrimiento.</target>
+            </trans-unit>
+            <trans-unit id="4822">
+                <source>REGISTER_MESSAGE_GREETINGS2</source>
+                <target>¡Qué tengas un lindo día!</target>
+            </trans-unit>
+            <trans-unit id="4823">
+                <source>OFFERS_SERVICE_TRANSFER</source>
+                <target>Servicio de Transporte</target>
+            </trans-unit>
+            <trans-unit id="4824">
+                <source>RESERVATION_THANKS</source>
+                <target>Gracias por reservar con nosotros.</target>
+            </trans-unit>
+            <trans-unit id="4825">
+                <source>OFFERS_SERVICE_TRANSFER_MESSAGE</source>
+                <target>
+                <![CDATA[En tu aventura por Cuba tendrás muchas interrogantes que querrás responder. Nos encantaría ayudarte y hacer de tu viaje una experiencia placentera y única.</br></br>
+                                                         Nuestros servicios están enfocados en una economía colaborativa que sirva de apoyo al sector privado en Cuba, por ello te recomendamos los Taxis Colectivos como alternativa más económica y de uso más frecuente para recorrer nuestro país.</br></br> También ponemos a tu disposición otros servicios para tu recogida y salida en el aeropuerto, choferes a disposición y traslado entre los diferentes destinos que elijas visitar.]]>
+                </target>
+            </trans-unit>
+            <trans-unit id="4826">
+                <source>TRANSFER_TAXI_TYPE_PRIVATE</source>
+                <target>Privados (Precio por Servicio)</target>
+            </trans-unit>
+            <trans-unit id="4827">
+                <source>TRANSFER_TAXI_TYPE_COLECTIVE</source>
+                <target>Colectivos (Precio por Persona)</target>
+            </trans-unit>
+            <trans-unit id="4828">
+                <source>TRANSFER_TAXI_TYPE</source>
+                <target>Taxi Standard </target>
+            </trans-unit>
+            <trans-unit id="4829">
+                <source>TRANSFER_ROUTE_AEROPUERTO</source>
+                <target>Aeropuerto</target>
+            </trans-unit>
+            <trans-unit id="4830">
+                <source>TRANSFER_ROUTE_HABANA</source>
+                <target>Habana</target>
+            </trans-unit>
+            <trans-unit id="4831">
+                <source>TRANSFER_ROUTE_VARADERO</source>
+                <target>Varadero</target>
+            </trans-unit>
+            <trans-unit id="4832">
+                <source>TRANSFER_ROUTE_TRINIDAD</source>
+                <target>Trinidad</target>
+            </trans-unit>
+            <trans-unit id="4833">
+                <source>TRANSFER_ROUTE_VINNALES</source>
+                <target>Viñales</target>
+            </trans-unit>
+            <trans-unit id="4834">
+                <source>OFFERS_SERVICE_TRANSFER_MESSAGE1</source>
+                <target>
+                <![CDATA[Puedes consultarnos cualquier duda por esta vía. ¡No dudes en escribirnos!</br></br>Si deseas solicitar el servicio de transfer, envíanos la siguiente información y lo reservamos para ti:</br></br>
+                Nombre y Apellido</br>Fecha del servicio</br>Cantidad de Personas</br>Hora de arribo</br>Punto de recogida (dirección)</br>Punto de entrega</br>Información de vuelo</br>Observaciones</br>]]>
+                </target>
+            </trans-unit>
+            <trans-unit id="4835">
+                <source>REGISTER_MESSAGE_GREETINGS3</source>
+                <target>
+                ! Un cálido saludo!
+                </target>
+            </trans-unit>
+            <trans-unit id="4836">
+                <source>DEAR_MR2</source>
+                <target>Hola
+                </target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

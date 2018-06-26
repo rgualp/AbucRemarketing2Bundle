@@ -1163,6 +1163,18 @@ class BookingService extends Controller
             $logger->error($e->getMessage());
         }
         //Send Email Extra Services to Client
+        //Send transfer offer
+        $subject = $locale->trans('OFFERS_SERVICE_TRANSFER', array(), "messages", $userLocale);
+        $body = $this->render('FrontEndBundle:mails:new_offers_transfer_customer.html.twig', array(
+            'user' => $user,
+            'user_locale' => $userLocale
+        ));
+        $emailService->sendEmail( $subject,
+            $subject,
+            'no-reply@mycasaparticular.com',
+            $subject . ' - MyCasaParticular.com',
+            $userEmail,
+            $body, null);
 
         // send email to reservation team
         foreach ($arrayOwnershipReservationByHouse as $owns) {
