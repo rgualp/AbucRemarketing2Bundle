@@ -196,10 +196,15 @@ class BookingService extends Controller
         }
 
         $totalPriceToPayAtServiceInCUC = $totalPrice - $totalPercentPrice;
-
+        if($travelAgency->getAgencyPackages()->isSpecial()) {
+            $travelAgencycomision = $travelAgency->getCommission() / 100;
+        }
+        else{
+            $travelAgencycomision=0;
+        }
         if($completePayment){
             //Calcular los totales
-            $travelAgencycomision = $travelAgency->getCommission()/100;
+
             $comisioncal= $travelAgencycomision * ($totalPrice + $serviceChargeInCuc + $touristTaxTotal);
             $totalTransferTax = 0.1*($totalPrice + $serviceChargeInCuc + $touristTaxTotal);
             $totalAccommodationPayment = ($totalPrice + $touristTaxTotal + $serviceChargeInCuc + $totalTransferTax ) * $currencyRate;
@@ -367,13 +372,18 @@ class BookingService extends Controller
         }
 
         $totalPriceToPayAtServiceInCUC = $totalPrice - $totalPercentPrice;
-
+        if($travelAgency->getAgencyPackages()->isSpecial()) {
+            $travelAgencycomision = $travelAgency->getCommission() / 100;
+        }
+        else{
+            $travelAgencycomision=0;
+        }
         if($completePayment){
             //Calcular los totales
             $totalTransferTax = 0.1*($totalPrice + $serviceChargeInCuc + $touristTaxTotal);
             $totalAccommodationPayment = ($totalPrice + $touristTaxTotal + $serviceChargeInCuc + $totalTransferTax) * $currencyRate;
             $totalTransferTax = $totalTransferTax * $currencyRate;
-            $commissionAgency = ($travelAgency->getCommission()/100) * ($totalPrice + $serviceChargeInCuc + $touristTaxTotal) * $currencyRate;
+            $commissionAgency = ($travelAgencycomision) * ($totalPrice + $serviceChargeInCuc + $touristTaxTotal) * $currencyRate;
             $totalOnlinePayment = $totalAccommodationPayment - $commissionAgency;
         }
 

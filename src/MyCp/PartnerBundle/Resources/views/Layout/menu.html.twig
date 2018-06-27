@@ -1,3 +1,12 @@
+{% if not  isSpecialPackage%}
+<a id="offers" data-toggle="modal"  data-target="#mofferts" rel="tooltip" title="{{ 'OFFERS_MAIN_MENU' | trans }}" class="floating-offers">
+    <i class="fa fa-star ">
+        -15%
+    </i>
+
+
+</a>
+{% endif %}
 <nav role="navigation" class="navbar-default navbar-static-side">
 <div class="sidebar-collapse">
 <ul id="side-menu" class="nav metismenu" style="line-height: 0">
@@ -6,10 +15,10 @@
     <ul class="nav nav-second-level collapse in" style="line-height: 0.9">
 
         <li><a class="ajaxify" data-class="profile-agency" data-href="{{ path('partnet_dashboard_profile_user') }}">{{"dashboard.profile.user" | trans}}</a></li>
+        <li><a  class="ajaxify" data-class="profile-agency" data-href="{{ path('partnet_dashboard_profile_agency') }}">{{"dashboard.profile.agency" | trans}}</a></li>
 
     {% if isSpecialPackage and role=="ROLE_CLIENT_PARTNER" %}
            {#<li><a class="ajaxify" data-class="profile-agency" data-href="{{ path('partnet_dashboard_profile_agency') }}">Agency Profile</a></li>#}
-               <li><a  class="ajaxify" data-class="profile-agency" data-href="{{ path('partnet_dashboard_profile_agency') }}">{{"dashboard.profile.agency" | trans}}</a></li>
 
                <li><a id='ajaxcontacs' class="ajaxify" data-class="contacts-agency" data-href="{{ path('partnet_dashboard_contacts_agency') }}">{{"dashboard.contacts" | trans}}</a></li>
 
