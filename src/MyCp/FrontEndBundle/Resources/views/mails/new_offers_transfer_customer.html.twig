@@ -1,0 +1,16 @@
+{% extends 'FrontEndBundle:layout:translatedbaseMailTemplateNew.html.twig' %}
+
+{% block content %}
+    <p>{{"DEAR_MR2"|trans({}, "messages", user_locale)}} <strong>{{user.getUserUserName|capitalize}}</strong>!</p>
+    <p>{{ 'RESERVATION_THANKS'|trans({}, "messages", user_locale) | raw }}</p>
+    <p>{{ 'OFFERS_SERVICE_TRANSFER_MESSAGE'|trans({}, "messages", user_locale) | raw }}</p>
+    <h3>
+        {{ "REGISTER_MESSAGE_TABLE1"|trans({}, "messages", user_locale) }}
+    </h3>
+
+    {{ include('FrontEndBundle:mails/partials:_tax_table.html.twig') }}
+
+    <p> {{ "OFFERS_SERVICE_TRANSFER_MESSAGE1"|trans({}, "messages", user_locale) | raw }}</p>
+    <p> {{ "REGISTER_MESSAGE_GREETINGS3"|trans({}, "messages", user_locale) }}</p>
+    <p> <strong>{{ "MYCP_TEAM"|trans({}, "messages", user_locale) }}</strong></p>
+{% endblock %}
