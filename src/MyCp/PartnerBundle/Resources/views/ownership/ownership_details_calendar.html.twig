@@ -58,10 +58,10 @@
         </table>
     </li>
     <li class="lead">
+        {% set currSymbol = app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol %}
 
         {% if completePayment is defined and completePayment %}
-        {% set currSymbol = app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol %}
-            <hr/>
+             <hr/>
 
             {% if ownership.breakfast and not isSpecial %}
                 <div class="row col-breakfastprice" style="font-size: 14px" data-currentsymbol="{{ currSymbol }}" data-breakfastprice = "{{ ownership.breakfastPrice | price(null,2,'.',',',false)  }}">
@@ -155,11 +155,11 @@
                 <hr/>
             {% endif %}
         <div class="all-prices-numbers">
-            <div class="text-right" {% if isBasic %}style="display:none"{% endif %}>
+            <div class="text-right" >
                 {{ 'ACCOMMODATION_TOTAL_COST' | trans }}:
                 {{ currSymbol }} <span id="accommodation_price"></span>
             </div>
-            <div class="text-right" {% if isBasic %}style="display:none"{% endif %}><!--rel="tooltip" title="{#{ 'SERVICE_TOURIST_TAX_TITLE' | trans()}#}"-->
+            <div class="text-right"><!--rel="tooltip" title="{#{ 'SERVICE_TOURIST_TAX_TITLE' | trans()}#}"-->
                 {{ 'SERVICE_AGENCY_TAX' | trans }}:
                 {{ currSymbol }}
                 <span id="tourist_service"
@@ -173,7 +173,7 @@
                       data-one-5-nights-percent = "{{ currentServiceFee.one5NightsPercent }}"
                       data-fixed-tax = "{{ currentServiceFee.fixedFee }}"></span>
             </div>
-            <div  class="text-right" {% if isBasic %}style="display:none"{% endif %}> <!--rel="tooltip" title="{#{ 'SERVICE_FIXED_TAX_TITLE' | trans()}#}"-->
+            <div  class="text-right" > <!--rel="tooltip" title="{#{ 'SERVICE_FIXED_TAX_TITLE' | trans()}#}"-->
                 {{ 'SERVICE_TRANSFERENCE_TAX' | trans }}:
                 {{ currSymbol }}
                 <span id="service_transfer_tax"  ></span>
@@ -215,50 +215,47 @@
             {#</div>#}
         {#</div>#}
         {% else %}
-        <div class="row all-prices-numbers">
-            <div class="col-sm-3" {% if isBasic %}style="display:none"{% endif %}>
-                {{ 'ACCOMMODATION_TOTAL_COST' | trans }} <br/>
-                {{ app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol }}
-                <span id="accommodation_price"></span>
-            </div>
-            <div class="col-sm-1" {% if isBasic %}style="display:none"{% endif %}>
-                <label>+</label>
-            </div>
-            <div class="col-sm-2" {% if isBasic %}style="display:none"{% endif %}><!--rel="tooltip" title="{#{ 'SERVICE_TOURIST_TAX_TITLE' | trans()}#}"-->
-                {{ 'SERVICE_TOURIST_TAX' | trans }}<br/>
-                {{ app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol }}
-                <span id="tourist_service"
-                      data-one-nr-until-20-percent ="{{ currentServiceFee.oneNrUntil20Percent }}"
-                      data-one-nr-from-20-to-25-percent ="{{ currentServiceFee.oneNrFrom20To25Percent }}"
-                      data-one-nr-from-more-25-percent = "{{ currentServiceFee.oneNrFromMore25Percent }}"
-                      data-one-night-several-rooms-percent = "{{ currentServiceFee.oneNightSeveralRoomsPercent }}"
-                      data-one-2-nights-percent = "{{ currentServiceFee.one2NightsPercent }}"
-                      data-one-3-nights-percent = "{{ currentServiceFee.one3NightsPercent }}"
-                      data-one-4-nights-percent = "{{ currentServiceFee.one4NightsPercent }}"
-                      data-one-5-nights-percent = "{{ currentServiceFee.one5NightsPercent }}"
-                      data-fixed-tax = "{{ currentServiceFee.fixedFee }}"></span>
-            </div>
-            {% set flag = 1 %}
-            {% if comisionAgency is defined and comisionAgency==flag %}
-                <div class="col-sm-1" {% if isBasic %}style="display:none"{% endif %}>
-                    <label>+</label>
+        <div class="all-prices-numbers">
+                <div class="text-right" >
+                    {{ 'ACCOMMODATION_TOTAL_COST' | trans }}:
+                    {{ currSymbol }} <span id="accommodation_price"></span>
                 </div>
-                <div class="col-sm-2" {% if isBasic %}style="display:none"{% endif %}> <!--rel="tooltip" title="&#123;&#35;{ 'SERVICE_FIXED_TAX_TITLE' | trans()}"-->
-                    {% set currSymbol = app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol %}
-                    {{ 'SERVICE_FIXED_TAX' | trans }}<br/>
+                <div class="text-right"><!--rel="tooltip" title="{#{ 'SERVICE_TOURIST_TAX_TITLE' | trans()}#}"-->
+                    {{ 'SERVICE_AGENCY_TAX' | trans }}:
                     {{ currSymbol }}
-                    <span id="service_recharge">{{ (currentServiceFee.fixedFee * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))) | number_format(2) }}</span>
+                    <span id="tourist_service"
+                          data-one-nr-until-20-percent ="{{ currentServiceFee.oneNrUntil20Percent }}"
+                          data-one-nr-from-20-to-25-percent ="{{ currentServiceFee.oneNrFrom20To25Percent }}"
+                          data-one-nr-from-more-25-percent = "{{ currentServiceFee.oneNrFromMore25Percent }}"
+                          data-one-night-several-rooms-percent = "{{ currentServiceFee.oneNightSeveralRoomsPercent }}"
+                          data-one-2-nights-percent = "{{ currentServiceFee.one2NightsPercent }}"
+                          data-one-3-nights-percent = "{{ currentServiceFee.one3NightsPercent }}"
+                          data-one-4-nights-percent = "{{ currentServiceFee.one4NightsPercent }}"
+                          data-one-5-nights-percent = "{{ currentServiceFee.one5NightsPercent }}"
+                          data-fixed-tax = "{{ currentServiceFee.fixedFee }}"></span>
                 </div>
-            {% endif %}
-            <div class="col-sm-1" {% if isBasic %}style="display:none" {% else %}style="width: 5%"{% endif %} >
-                <label>=</label>
+                <div  class="text-right" {% if isBasic %} style="display: none"{% endif %} > <!--rel="tooltip" title="{#{ 'SERVICE_FIXED_TAX_TITLE' | trans()}#}"-->
+                    {{ 'SERVICE_TRANSFERENCE_TAX' | trans }}:
+                    {{ currSymbol }}
+                    <span id="service_transfer_tax"  ></span>
+                </div>
+                {# <div  class="text-right"> <!--rel="tooltip" title="&#123;&#35;{ 'SERVICE_FIXED_TAX_TITLE' | trans()}&#35;&#125;"-->
+                     {{ 'SERVICE_FIXED_TAX' | trans }}:
+                     {{ currSymbol }}
+                     <span id="service_recharge">{{ (currentServiceFee.fixedFee * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))) | number_format(2) }}</span>
+                 </div>#}
+                {#<div  class="text-right">#}
+                {#{{ 'AGENCY_COMMISSION'|trans }}#}
+                {#: {{ currSymbol }}#}
+                {#<span id="agency_commission_one"></span><br/>#}
+                {#{% if currSymbol != "CUC" %}#}
+                {#<span id="pay_at_service_cuc" style="font-size: small"></span>#}
+                {#{% endif %}#}
+                {#</div>#}
+
+
             </div>
-            <div  {% if isBasic %}class="col-sm-8" {% else %}class="col-sm-2"{% endif %} >
-                {{ 'RESERVATION_TOTAL_PRICE' | trans }}{% if not isBasic %} <br/>{% endif %}
-                {{ currSymbol }}
-                <span id="total_price"></span>
-            </div>
-        </div>
+
         <div class="row" style="font-size: 20px; margin-top: 10px">
             <div class="col-sm-6">
                 {{ 'PREPAYMENT'|trans }}

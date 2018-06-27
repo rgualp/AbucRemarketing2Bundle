@@ -198,7 +198,7 @@ class AccountigController extends Controller
         $draw = $request->get('draw') + 1;
         $curr=$this->getCurr($request);
         #endregion PAGINADO
-        if($account->getBalance()>0) {
+        if($account->getBalance()>0||$account->getBalance()<0) {
 
             if (count($ledge) == 0) {
                 $today = date('d-m-Y');

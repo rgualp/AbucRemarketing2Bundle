@@ -312,6 +312,7 @@ class CartController extends Controller
                         "taxFees" => 0
                     );
                 }
+
                 else{
                     $totalTouristAgencyTax += $touristFee;
                     $totalPrepayment += $commission + $touristFee;
@@ -339,6 +340,47 @@ class CartController extends Controller
                 );}
             }
             else{ // agregar la tarfia fija a los calculos
+                if ($packageService->isEconomicPackage()){
+                    $touristFee=0;
+                    $subTotal = $item["totalInSite"] + $touristFee;
+
+                    $transferFee =  0.1 *  $subTotal;
+                    $agencyCommission = 0;
+                    $totalPayment = $item["totalInSite"] + $touristFee + $transferFee;
+                    $dinner = ($item["dinner"] != null) ? $item["dinner"] : 0;
+                    $breakfast = ($item["breakfast"] != null) ? $item["breakfast"] : 0;
+                    $totalPayment += $dinner + $breakfast;
+
+                    $totalOnlinePayment += $totalPayment;
+
+                    $totalPrepayment += $totalPayment + $agencyCommission;
+
+                    $totalAccommodationPayment += $item["totalInSite"];
+                    $totalServicesTax += $touristFee + $transferFee;
+
+                    $totalTransferFee += $transferFee;
+                    $totalAgencyCommission += $agencyCommission;
+
+
+
+
+                    $payments[$item["gen_res_id"]] = array(
+                        "totalPayment" => $totalPayment +  $agencyCommission,
+                        "transferFee" => $transferFee,
+                        "agencyCommission" => $agencyCommission,
+                        "onlinePayment" => $totalPayment,
+                        "agencyFee" => $touristFee,
+                        "reservations" => $reservations,
+                        "lodgingPrice" => $item["totalInSite"],
+                        "agencyCommissionPercent" => $currentTravelAgency->getCommission(),
+                        "dinner"=>$dinner,
+                        "breakfast"=>$breakfast,
+                        "agency_tax"=>0,
+                        "fixedFee" => $fixedFee,
+                        "taxFees" => $touristFee + $transferFee,
+                    );
+                }
+                else{
                 $subTotal = $item["totalInSite"] + $touristFee;
 
                 $transferFee =  0.1 *  $subTotal;
@@ -376,6 +418,7 @@ class CartController extends Controller
                     "fixedFee" => $fixedFee,
                     "taxFees" => $touristFee + $transferFee,
                 );
+            }
             }
         }
 

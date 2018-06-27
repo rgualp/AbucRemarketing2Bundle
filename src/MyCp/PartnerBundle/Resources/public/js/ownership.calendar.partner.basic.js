@@ -4,8 +4,7 @@ var totalPriceDinner=0;
 var totalPriceBreakfast=0;
 function totalPrice(curr,percent, totalNights)
 {
-    $('#agency_commission').css({display: 'none'});
-    $('#agency_commission_one').css({display: 'none'});
+
     var real_price=0;
     var total_price_var=0;
     var rooms_price='';
@@ -49,10 +48,10 @@ function totalPrice(curr,percent, totalNights)
 
     $("#tourist_service").html(normalize_prices(tour_serv));
 
-    $('#tourist_service').css({display: 'none'});
 
     $('#accommodation_price').html(normalize_prices(total_price_var));
     $('#pay_at_service').html(normalize_prices(total_price_var - prepayment));
+    $("#pay_at_service_cuc").html("CUC " + normalize_prices((total_price_var - prepayment)/curr));
 
 
 
@@ -126,7 +125,7 @@ function updateService(){
     $('#calcdinner').html( normalize_prices(parseFloat($('.col-dinnerPrice').data("dinnerprice"))* total*$("#totalNights").val()));
     $('#calcbreakfast').html( normalize_prices(parseFloat($('.col-breakfastprice').data("breakfastprice"))* total*$("#totalNights").val()));
 
-    var tour_serv=(eval($('#accommodation_price').html())+totalPriceDinner+totalPriceBreakfast)*parseFloat(0.1);
+    var tour_serv=0;
     $("#tourist_service").html(normalize_prices(tour_serv));
 
 }
