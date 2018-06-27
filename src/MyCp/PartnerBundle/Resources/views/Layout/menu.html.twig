@@ -6,10 +6,10 @@
     <ul class="nav nav-second-level collapse in" style="line-height: 0.9">
 
         <li><a class="ajaxify" data-class="profile-agency" data-href="{{ path('partnet_dashboard_profile_user') }}">{{"dashboard.profile.user" | trans}}</a></li>
+        <li><a  class="ajaxify" data-class="profile-agency" data-href="{{ path('partnet_dashboard_profile_agency') }}">{{"dashboard.profile.agency" | trans}}</a></li>
 
     {% if isSpecialPackage and role=="ROLE_CLIENT_PARTNER" %}
            {#<li><a class="ajaxify" data-class="profile-agency" data-href="{{ path('partnet_dashboard_profile_agency') }}">Agency Profile</a></li>#}
-               <li><a  class="ajaxify" data-class="profile-agency" data-href="{{ path('partnet_dashboard_profile_agency') }}">{{"dashboard.profile.agency" | trans}}</a></li>
 
                <li><a id='ajaxcontacs' class="ajaxify" data-class="contacts-agency" data-href="{{ path('partnet_dashboard_contacts_agency') }}">{{"dashboard.contacts" | trans}}</a></li>
 

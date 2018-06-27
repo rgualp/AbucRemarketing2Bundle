@@ -147,20 +147,14 @@ class FrontendController extends Controller
                 return $this->redirect($this->generateUrl('frontend_partner_home'));
             }
             else {
-                $package = $em->getRepository('PartnerBundle:paPackage')->find($request->get('packageSelect')); //Esperando a que venga de la vista
-
                 $obj->setCountry($em->getRepository('mycpBundle:country')->find($post['country']));
-                if($package->getName()=='Especial') {
-                    $obj->setCommission(10);
-                }
-                else{
-                    $obj->setCommission(0);
-                }
+                $obj->setCommission(10);
                 $em->persist($obj);
                 $em->flush();
 
                 //Save relations package agency
-                 if($package != null) {
+                $package = $em->getRepository('PartnerBundle:paPackage')->find($request->get('packageSelect')); //Esperando a que venga de la vista
+                if($package != null) {
                     $package_agency = new paAgencyPackage();
                     $package_agency->setPackage($package);
                     $package_agency->setTravelAgency($obj);

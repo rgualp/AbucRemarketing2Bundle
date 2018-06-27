@@ -236,10 +236,19 @@
                             var room = data.rooms[i];
                             adults += room.adults;
                             childrens += room.childrens;
-                            totalPrice += room.totalPrice;
+                            var comision;
                             curr_code = room.curr_code;
                             booking_code = room.booking.code;
                             date= room.booking.date;
+                            {% if isSpecial %}
+                            comision=0.1;
+                            {% else %}
+                            comision=0;
+                            {% endif %}
+
+
+                            totalPrice += room.totalPrice+(room.totalPrice*comision)+(room.totalPrice+(room.totalPrice*comision))*0.1;
+
 
                             if (room_types.hasOwnProperty(room.type)){
                                 room_types[room.type]++;
@@ -264,7 +273,7 @@
                                     {#/*'<em class="rt">{{"dashboard.booking.rooms" | trans}}:</em> <span class="rst">' + data.rooms.length + '</span> ' +*/#}
                                 '<em class="rt">{{"dashboard.booking.adults" | trans}}:</em> <span class="rst">' + adults + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.childrens" | trans}}:</em> <span class="rst">' + childrens + '</span> ' +
-                                '<em class="rt">{{"dashboard.booking.totalprice" | trans}}:</em> <span class="rst">' + roundTo((totalPrice+(totalPrice*0.1)+(totalPrice+(totalPrice*0.1))*0.1),2)+'-'+ curr_code + '</span> ' +
+                                '<em class="rt">{{"dashboard.booking.totalprice" | trans}}:</em> <span class="rst">' + roundTo(totalPrice,2)+'-'+ curr_code + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.bookingcode" | trans}}:</em> <span class="rst">' + booking_code + '</span> ' +
                                 '<em class="rt">{{"dashboard.booking.bookingdate" | trans}}:</em> <span class="rst">' + date + '</span> ';
 

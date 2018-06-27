@@ -212,7 +212,15 @@
                             adults += room.adults;
                             childrens += room.childrens;
                             curr_code = room.curr_code;
-                            totalPrice += room.totalPrice+(room.totalPrice*0.1)+(room.totalPrice+(room.totalPrice*0.1))*0.1;
+                            var comision;
+                            {% if isSpecial %}
+                            comision=0.1;
+                            {% else %}
+                            comision=0;
+                            {% endif %}
+
+
+                            totalPrice += room.totalPrice+(room.totalPrice*comision)+(room.totalPrice+(room.totalPrice*comision))*0.1;
 
                         }
 
