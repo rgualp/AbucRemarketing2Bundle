@@ -747,12 +747,6 @@ class ownershipRepository extends EntityRepository
 
         $em->persist($ownership);
 
-        //save client casa
-        if ($new_user && $status->getStatusId() == ownershipStatus::STATUS_ACTIVE) {
-            $file = $request->files->get('user_photo');
-            $em->getRepository('mycpBundle:userCasa')->createUserByBackend($ownership, $file, $factory, $send_creation_mail, $controller, $container, $userService);
-        }
-
         //If the status of the accommodation change from active to inactive, then the userCasa account associated must be set to disabled
         if ($old_status->getStatusId() == ownershipStatus::STATUS_ACTIVE && $status->getStatusId() == ownershipStatus::STATUS_INACTIVE)
             $em->getRepository('mycpBundle:userCasa')->changeStatus($ownership->getOwnId(), false);
