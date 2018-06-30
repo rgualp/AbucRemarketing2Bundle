@@ -34,7 +34,7 @@
             <link rel="stylesheet" href="{{ asset_url }}"/>
         {% endstylesheets %}
         <style>
-            /* Necessary for full page carousel*/
+                  /* Necessary for full page carousel*/
             html,
             body,
             header,
@@ -99,26 +99,26 @@
         </div>
     {% endfor %}
 
-    <!-- Navbar -->
-    {% block navbar %}
-        {% include 'FrontEndBundle:new_layout:navbar_fixed.html.twig' %}
-    {% endblock navbar %}
+     <!-- Navbar -->
+     {% block navbar %}
+     {% include 'FrontEndBundle:new_layout:navbar_fixed.html.twig' %}
+     {% endblock navbar %}
     <!-- Navbar -->
     <!-- data-ride="carousel" -->
     <!--Carousel Wrapper-->
-    {% block carousel %}
-        <!--/.Carousel Wrapper-->
-    {% endblock carousel %}
+     {% block carousel %}
+      <!--/.Carousel Wrapper-->
+     {% endblock carousel %}
     <!--Main layout-->
     <main>
-        <div class="container-fluid" style="    margin-top: 8%;">
+
             {% block body %}
                 {% block include_javascripts %}{% endblock %}
                 {% block include_javascripts_datepicker_message %}
 
                 {% endblock %}
             {% endblock %}
-        </div>
+
 
         <div id="chat" class="floating-chat">
             <i class="fa fa-question" rel="tooltip" title="Help Center" style="font-size: 40px" aria-hidden="true"></i>
@@ -153,7 +153,7 @@
         <p class="text-center"><a title="{{ "GO_UP" | trans }}" href="#"><em class="icon-chevron-up"></em></a></p>
     {% endblock %}
     <!--Footer-->
-    {% include 'FrontEndBundle:new_layout:footer.html.twig' %}
+   {% include 'FrontEndBundle:new_layout:footer.html.twig' %}
 
 
 

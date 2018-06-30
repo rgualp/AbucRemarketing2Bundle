@@ -1,0 +1,137 @@
+
+<!-- Navbar -->
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark top-nav-collapse" style="margin: 0;border-bottom: solid #98CD34 7px;">
+
+    <div class="container" style=" margin-left: 0px;  max-width: 2200px;
+    margin-right: 0px;">
+
+        <!--Brand -->
+        <a class="navbar-brand waves-effect" href="{{ path('frontend-welcome') }}"  style="padding:0">
+            <img src="{{ asset('bundles/mycpmobilefrontend/img/home.png') }}" style="height:40px;" >
+            </a>
+
+        <!-- Collapse -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Links -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            <!-- Left -->
+            <ul class="navbar-nav  mr-auto" style="margin-left: 10%;">
+
+                <li class="nav-item">
+                    {{ render(controller('FrontEndBundle:Cart:countCestatItems')) }}
+                </li>
+
+
+
+
+
+              
+
+            </ul>
+
+            <!-- Right -->
+            <ul class="navbar-nav nav-flex-icons">
+
+
+                <li class="nav-item">
+
+                    <div class="dropdown">
+                        <a class="nav-link dropdown-toggle" type="" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="mr-5">
+                                {% if app.user.getUserUserName is defined and app.user.UserPhoto is not null and app.user.UserPhoto.phoName is not null %}
+                                    <img class="icon-avatar img-circle" src="{{ asset('uploads/userImages/'~app.user.UserPhoto.phoName)}}" title="{{"User image" | trans}}" alt="{{"User image" | trans}}" />
+                                {% else %}
+                                    <img class="icon-avatar img-circle" src="{{ asset('bundles/frontend/img/user-no-photo.png')}}" title="{{"MyCasaparticular" | trans}}" alt="{{"MyCasaparticular" | trans}}"/>
+                                {% endif %}
+
+                            </i>{% if app.user.getUserUserName is defined %}
+                            {{app.user.getUserUserName | slice(0,10)}}{% if app.user.getUserUserName|length > 10 %}...{% endif %}
+                            {%else%}
+                                {{"USER_ZONE" | trans}}
+                            {%endif%}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                            {% if app.user.getUserUserName is defined %}
+                            <a class="dropdown-item" title="{{"USER_PROFILE" | trans }}" onclick='HoldOn.open();' href="{{ path('frontend_profile_user') }}">{{"USER_PROFILE" | trans }}</a>
+                            <a class="dropdown-item" title="{{"USER_CHANGE_PASSWORD" | trans }}"onclick='HoldOn.open();'  href="{{ path('frontend_change_password_start_user') }}">{{"USER_CHANGE_PASSWORD" | trans }}</a>
+                            <a class="dropdown-item" title="{{"LOG_OUT" | trans}}"onclick='HoldOn.open();'  href="{{ path('mycp_logout') }}">{{"LOG_OUT" | trans}} </a>
+
+                            {% else %}
+                                <a class="dropdown-item" title="{{"LOG_IN" | trans }}" onclick='HoldOn.open();' href="{{ path('frontend_public_login') }}">{{"LOG_IN" | trans }}</a>
+                                <a class="dropdown-item" title="{{"USER_NEW_ACCOUNT" | trans }}" onclick='HoldOn.open();' href="{{ path('frontend_register_user') }}">{{"USER_NEW_ACCOUNT" | trans }}</a>
+
+
+
+
+                            {% endif %}
+
+
+
+
+
+
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item dropdown" >
+
+                    <a title="{{"LANGUAGE" | trans }}" class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                        {{(app.session.get('app_lang_name') == null or app.session.get('app_lang_name') == "") ? "Español" : app.session.get('app_lang_name')}}</a>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        {{ render_esi(controller('MyCpMobileFrontendBundle:LanguageMobile:getLanguages', {'route': app.request.get('_route'), 'routeParams':  app.request.get('_route_params')})) }}
+
+
+
+                    </div>
+                </li>
+                <li class="nav-item dropdown" >
+                    <a title="{{"CURRENCY" | trans }}" class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" alt="{{"CURRENCY" | trans }}"/>
+
+                    {{(app.session.get('curr_acronym') == null or app.session.get('curr_acronym') == "") ? default_currency().currcode|upper : app.session.get('curr_acronym')|upper}}
+                    </a>
+
+
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" >
+                        {{ render_esi(controller('FrontEndBundle:Currency:getCurrencies', {'params': app.request.attributes.all, 'route': app.request.get('_route'), 'routeParams': app.request.get('_route_params')})) }}
+
+
+                    </div>
+                </li>
+                {% if app.user.getUserUserName is defined %}
+                    <li class="nav-item dropdown" style="width: 100%;">
+
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons ">home</i>
+                            MyCasaTrip
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            {% if menu is not defined %}
+                                {% set menu = 0 %}
+                            {% endif %}
+                            {{ render(controller('FrontEndBundle:Mycasatrip:getMenuCount', {'menu_selected': menu})) }}
+
+
+                        </div>
+                    </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link waves-effect waves-light" style="display: block;width: 114px;text-align: center;margin: 2px;text-transform: uppercase;font-size: 11px; font-weight: bold" title="{{"JOIN_CASA" | trans }}" href="{{ path('my_cp_casa_module_registration')}}">{{"JOIN_CASA"| trans }}</a></li>
+
+                        </li>
+                {% endif %}
+
+
+            </ul>
+
+        </div>
+
+    </div>
+</nav>
+<!-- Navbar -->

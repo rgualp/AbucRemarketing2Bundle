@@ -1,4 +1,6 @@
-<a title="{{"CART" | trans }}" href="{{ path('frontend_mycasatrip_available') }}"  class="count-info" style="margin-top: 10px;">
+<a style=" color:white;display: unset; top: 2px;
+    padding-right: 15px;
+    left: -115px;" title="{{"CART" | trans }}" href="{{ path('frontend_mycasatrip_available') }}"  class="count-info" style="margin-top: 10px;">
     <img style="width: 26px; height: 23px;" class="icon {%if count > 0%}cart-full-icon{%else%}cart-icon{%endif%}" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" title="Mycasaparticular" alt="{{"Mycasaparticular" | trans}}"/>
     {% if is_mobile() != true %}
         {% if search != true %}

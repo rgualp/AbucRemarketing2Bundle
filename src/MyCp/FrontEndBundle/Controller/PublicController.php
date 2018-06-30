@@ -90,7 +90,7 @@ class PublicController extends Controller {
             ));
         }else{
             $slides = Utils::loadFrontendSlides();
-            $response = $this->render('FrontEndBundle:public:home.html.twig', array(
+            $response = $this->render('FrontEndBundle:new_layout:landing.html.twig', array(
                 'locale' => $glogal_locale,
                 'provinces' => $provinces,
                 'slide_folder' => $slide_folder,
