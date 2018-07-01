@@ -94,7 +94,7 @@ class PublicController extends Controller {
                 'locale' => $glogal_locale,
                 'provinces' => $provinces,
                 'slide_folder' => $slide_folder,
-
+                'own_top20_list' => $own_top20_list,
                 'premium_total' => $statistics['premium_total'],
                 'midrange_total' => $statistics['midrange_total'],
                 'economic_total' => $statistics['economic_total'],
