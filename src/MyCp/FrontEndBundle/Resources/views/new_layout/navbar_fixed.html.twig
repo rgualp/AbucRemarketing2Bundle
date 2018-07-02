@@ -60,6 +60,7 @@
                             <a class="dropdown-item" title="{{"USER_PROFILE" | trans }}" onclick='HoldOn.open();' href="{{ path('frontend_profile_user') }}">{{"USER_PROFILE" | trans }}</a>
                             <a class="dropdown-item" title="{{"USER_CHANGE_PASSWORD" | trans }}"onclick='HoldOn.open();'  href="{{ path('frontend_change_password_start_user') }}">{{"USER_CHANGE_PASSWORD" | trans }}</a>
                             <a class="dropdown-item" title="{{"LOG_OUT" | trans}}"onclick='HoldOn.open();'  href="{{ path('mycp_logout') }}">{{"LOG_OUT" | trans}} </a>
+                                <div class="dropdown-divider"></div>
                                 {{ render(controller('FrontEndBundle:Public:getMainMenuMycasatrip')) }}
                             {% else %}
                                 <a class="dropdown-item" title="{{"LOG_IN" | trans }}" onclick='HoldOn.open();' href="{{ path('frontend_public_login') }}">{{"LOG_IN" | trans }}</a>
