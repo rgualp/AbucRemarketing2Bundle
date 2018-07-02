@@ -28,10 +28,16 @@ class DashboardController extends Controller
     /*BookingPending*/
     public function indexBookingPendingAction()
     {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $travelAgency = $tourOperator->getTravelAgency();
+        $isSpecial=$travelAgency->getAgencyPackages()[0]->getPackage()->isSpecial();
         return new JsonResponse([
             'success' => true,
             'id' => 'id_dashboard_booking_pending',
-            'html' => $this->renderView('PartnerBundle:Dashboard:booking_pending.html.twig', array()),
+
+            'html' => $this->renderView('PartnerBundle:Dashboard:booking_pending.html.twig', array('isSpecial'=>$isSpecial)),
             'msg' => 'Vista del listado de reservas PENDIENTES']);
     }
 //Pendientes
@@ -104,10 +110,16 @@ class DashboardController extends Controller
     /*BookingAvailability*/
     public function indexBookingAvailabilityAction()
     {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $travelAgency = $tourOperator->getTravelAgency();
+        $isSpecial=$travelAgency->getAgencyPackages()[0]->getPackage()->isSpecial();
         return new JsonResponse([
             'success' => true,
             'id' => 'id_dashboard_booking_availability',
-            'html' => $this->renderView('PartnerBundle:Dashboard:booking_availability.html.twig', array()),
+
+            'html' => $this->renderView('PartnerBundle:Dashboard:booking_availability.html.twig', array('isSpecial'=>$isSpecial)),
             'msg' => 'Vista del listado de reservas DISPONIBLES']);
     }
 
@@ -185,10 +197,17 @@ class DashboardController extends Controller
     /*BookingNotavailability*/
     public function indexBookingNotavailabilityAction()
     {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $travelAgency = $tourOperator->getTravelAgency();
+        $isSpecial=$travelAgency->getAgencyPackages()[0]->getPackage()->isSpecial();
+
         return new JsonResponse([
             'success' => true,
             'id' => 'id_dashboard_booking_notavailability',
-            'html' => $this->renderView('PartnerBundle:Dashboard:booking_notavailability.html.twig', array()),
+
+            'html' => $this->renderView('PartnerBundle:Dashboard:booking_notavailability.html.twig', array('isSpecial'=>$isSpecial)),
             'msg' => 'Vista del listado de reservas NO DISPONIBLES']);
     }
 
@@ -263,10 +282,16 @@ class DashboardController extends Controller
     /*BookingReserved*/
     public function indexBookingReservedAction()
     {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $travelAgency = $tourOperator->getTravelAgency();
+        $isSpecial=$travelAgency->getAgencyPackages()[0]->getPackage()->isSpecial();
+
         return new JsonResponse([
             'success' => true,
             'id' => 'id_dashboard_booking_reserved',
-            'html' => $this->renderView('PartnerBundle:Dashboard:booking_reserved.html.twig', array()),
+            'html' => $this->renderView('PartnerBundle:Dashboard:booking_reserved.html.twig', array('isSpecial'=>$isSpecial)),
             'msg' => 'Vista del listado de reservas PENDIENTES']);
     }
 
@@ -380,10 +405,16 @@ class DashboardController extends Controller
     /*Pending payment*/
     public function indexBookingPendingPaymentAction()
     {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $travelAgency = $tourOperator->getTravelAgency();
+        $isSpecial=$travelAgency->getAgencyPackages()[0]->getPackage()->isSpecial();
+
         return new JsonResponse([
             'success' => true,
             'id' => 'id_dashboard_booking_pending_payment',
-            'html' => $this->renderView('PartnerBundle:Dashboard:booking_pending_payment.html.twig', array()),
+            'html' => $this->renderView('PartnerBundle:Dashboard:booking_pending_payment.html.twig', array('isSpecial'=>$isSpecial)),
             'msg' => 'Vista del listado de reservas PENDIENTES DE PAGO']);
     }
 
@@ -467,10 +498,16 @@ class DashboardController extends Controller
     /*BookingBeaten*/
     public function indexBookingBeatenAction()
     {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $travelAgency = $tourOperator->getTravelAgency();
+        $isSpecial=$travelAgency->getAgencyPackages()[0]->getPackage()->isSpecial();
+
         return new JsonResponse([
             'success' => true,
             'id' => 'id_dashboard_booking_beaten',
-            'html' => $this->renderView('PartnerBundle:Dashboard:booking_beaten.html.twig', array()),
+            'html' => $this->renderView('PartnerBundle:Dashboard:booking_beaten.html.twig', array('isSpecial'=>$isSpecial)),
             'msg' => 'Vista del listado de reservas VENCIDAS']);
     }
 
@@ -546,10 +583,15 @@ class DashboardController extends Controller
     /*BookingCanceled*/
     public function indexBookingCanceledAction()
     {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $travelAgency = $tourOperator->getTravelAgency();
+        $isSpecial=$travelAgency->getAgencyPackages()[0]->getPackage()->isSpecial();
         return new JsonResponse([
             'success' => true,
             'id' => 'id_dashboard_booking_canceled',
-            'html' => $this->renderView('PartnerBundle:Dashboard:booking_canceled.html.twig', array()),
+            'html' => $this->renderView('PartnerBundle:Dashboard:booking_canceled.html.twig', array('isSpecial'=>$isSpecial)),
             'msg' => 'Vista del listado de reservas CANCELADAS']);
     }
 
@@ -682,10 +724,16 @@ class DashboardController extends Controller
     /*BookingCheckin*/
     public function indexBookingCheckinAction()
     {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $travelAgency = $tourOperator->getTravelAgency();
+        $isSpecial=$travelAgency->getAgencyPackages()[0]->getPackage()->isSpecial();
+
         return new JsonResponse([
             'success' => true,
             'id' => 'id_dashboard_booking_checkin',
-            'html' => $this->renderView('PartnerBundle:Dashboard:booking_checkin.html.twig', array()),
+            'html' => $this->renderView('PartnerBundle:Dashboard:booking_checkin.html.twig', array('isSpecial'=>$isSpecial)),
             'msg' => 'Vista del listado de reservas reservadas Checkin']);
     }
 
@@ -805,10 +853,15 @@ class DashboardController extends Controller
     /*BookingProccess*/
     public function indexBookingProccessAction()
     {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $travelAgency = $tourOperator->getTravelAgency();
+        $isSpecial=$travelAgency->getAgencyPackages()[0]->getPackage()->isSpecial();
         return new JsonResponse([
             'success' => true,
             'id' => 'id_dashboard_booking_proccess',
-            'html' => $this->renderView('PartnerBundle:Dashboard:booking_proccess.html.twig', array()),
+            'html' => $this->renderView('PartnerBundle:Dashboard:booking_proccess.html.twig', array('isSpecial'=>$isSpecial)),
             'msg' => 'Vista del listado de reservas en Proccess']);
     }
 
@@ -887,6 +940,7 @@ class DashboardController extends Controller
 
     public function indexBookingProccessDetailAction($id_reservation, Request $request)
     {
+
         $em = $this->getDoctrine()->getManager();
         $reservation = $em->getRepository('PartnerBundle:paGeneralReservation')->find($id_reservation);
         $ownership_reservations = $reservation->getPaOwnershipReservations();
