@@ -58,10 +58,10 @@
 
 <div class="row">
     <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':name  | urlNormalize}) }}">
-        <div class="col-sm-8 h-blue">
+        <div class="col h-blue">
             {{ name| title }}
             </br>
-            <span style="font-size: 12px;margin-top: -6px;position: absolute;">
+            <span>
                 {% if destination is defined %}
                     {{ destination }}
                 {% else %}
@@ -70,7 +70,8 @@
             </span>
         </div>
     </a>
-    <div class="col-sm-4 text-right" style="margin-top: 20px;">
+    <div class="col text-right" style="margin-top: 20px;">
+
         {{ include('FrontEndBundle:favorite:itemFavorite.html.twig',
             {'is_in_favorite': is_in_favorite,
                 'favorite_type': 'ownership',

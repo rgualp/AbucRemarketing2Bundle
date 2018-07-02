@@ -131,3 +131,51 @@
 {% endblock %}
 
 
+{% block javascripts %}
+    <script type="text/javascript">
+        var frontend_public_load_slide = "{{ path("frontend_public_load_slide") }}";
+
+        function initJSTwig() {
+            findTopRate(1);
+
+
+        }
+
+        function initNavigationTopRate(){
+
+            jQuery('#toprate-navigation span.act').click(function (s) {
+                if (jQuery(this).hasClass('tr-next')){
+                    var _page = parseInt(jQuery('#toprate-list .thumbs-houses').attr('current-page')) + 1;
+                    console.log(_page);
+                    if (_page <= parseInt(jQuery('#toprate-list .thumbs-houses').attr('total-page'))){
+                        findTopRate(_page);
+                    }
+                }else{
+                    var _page = parseInt(jQuery('#toprate-list .thumbs-houses').attr('current-page')) - 1;
+                    console.log(_page);
+                    if (_page > 0)
+                        findTopRate(_page);
+                }
+            })
+        }
+        function findTopRate(page) {
+            jQuery('#toprate-navigation span.act').unbind();
+            jQuery("#toprate-list").empty();
+
+            jQuery("#toprate-list").append(jQuery("#grid-load").html());
+
+            jQuery("#toprate-list").load(top_rated_callback, {page: page}, function (result) {
+                 initNavigationTopRate();
+
+                if ($('.bttrlazyloading').length > 0){
+                    $('.bttrlazyloading').each(function () {
+                        $("#"+$(this).attr("id")).bttrlazyloading();
+                    });
+                }
+
+                $("[rel='tooltip']").tooltip();
+                $("[data-rel='tooltip']").tooltip();
+            });
+        }
+    </script>
+{% endblock javascripts %}
