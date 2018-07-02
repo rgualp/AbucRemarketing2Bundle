@@ -115,7 +115,7 @@ class AccountigController extends Controller
                $price_booking = $this->getPriceandBooking($reservation, $curr);
                $ledge_temp = new paAccountLedgers();
                $ledge_temp->setAccount($account);
-               $ledge_temp->setCreated($reservation->getGenResToDate());
+               $ledge_temp->setCreated($reservation->getGenResDate());
                $ledge_temp->setDescription("Client:" . $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getClient()->getFullName() . "," . "BR:" .
                    $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getReference() . "," . "CAS-" . $reservation->getGenResId() .
                    "," . "Booking:" . $price_booking['booking']);
@@ -146,7 +146,7 @@ class AccountigController extends Controller
             $ledge_temp->setAccount($account);
             $ledge_temp->setCas($reservation->getGenResId());
 
-            $ledge_temp->setCreated($reservation->getGenResToDate());
+            $ledge_temp->setCreated($reservation->getGenResDate());
             $ledge_temp->setDescription("Client:".$reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getClient()->getFullName().","."BR:".
                 $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getReference().","."CAS-".$reservation->getGenResId().
                 ","."Booking:".$price_booking['booking']);
