@@ -77,7 +77,7 @@
                         data_type_room='{{room.getRoomType and not isCompletePayment}}'
                         data_is_triple='{{room.isTriple}}'
                         data-up-2 = '{{ room.getRoomCapacity }}'
-                        style="width: 50px">
+                        style="width: fit-content;">
                     <option value="0">0</option>
                     {% if not isCompletePayment %}
                     {{ include('FrontEndBundle:ownership:listGuestRoomOwnership.html.twig',{'room_type': room.getRoomType}) }}
@@ -100,7 +100,7 @@
                         data_is_triple='{{room.isTriple and not isCompletePayment}}'
                         data_triple_recharge ="{{configuration_triple_room_charge}}"
                         data-up-2 = '{{ room.getRoomCapacity }}'
-                        style="width: 50px">
+                        style="width: fit-content;">
                     <option value="0">0</option>
                     {% if not isCompletePayment %}
                     {{ include('FrontEndBundle:ownership:listGuestRoomOwnership.html.twig',{'room_type': room.getRoomType}) }}
@@ -120,7 +120,7 @@
                         data_curr="{{ currRate }}"
                         percent_charge="{{ ownership.OwnCommissionPercent }}"
                         class="guest_age guest_age_1 form-control form-control-2"
-                        style="width: 50px">
+                        style="width: fit-content;">
                     <option value="-1"></option>
                     <option value="0">0</option>
                     <option value="1">1</option>
@@ -172,7 +172,7 @@
                         data_curr="{{ currRate }}"
                         percent_charge="{{ ownership.OwnCommissionPercent }}"
                         class="guest_age guest_age_3 form-control form-control-2"
-                        style="width: 50px">
+                        style="width: fit-content;">
                     <option value="-1"></option>
                     <option value="0">0</option>
                     <option value="1">1</option>

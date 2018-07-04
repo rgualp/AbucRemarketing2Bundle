@@ -24,11 +24,12 @@
     'container_class': 'pagination',
     'previousPageText': '«',
     'nextPageText': '»',
-    'currentClass': 'current',
+        'disableClass':'page-item disabled',
+        'currentClass': 'page-item active',
     'firstPageText': 'FIRST_PAGE' | trans,
     'lastPageText': 'LAST_PAGE' | trans,
     'route_params': {'items_per_page':items_per_page}
-}) }}
+},'FrontEndBundle:new_layout:paginator.html.twig') }}
     </div>
 {%endif%}
     </div>

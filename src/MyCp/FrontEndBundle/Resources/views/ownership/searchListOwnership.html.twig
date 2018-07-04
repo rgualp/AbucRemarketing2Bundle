@@ -80,18 +80,20 @@
     'container_class': 'pagination',
     'previousPageText': '«',
     'nextPageText': '»',
-    'currentClass': 'current',
+  'disableClass':'page-item disabled',
+   'currentClass': 'page-item active',
     'firstPageText': 'FIRST_PAGE' | trans,
     'lastPageText': 'LAST_PAGE' | trans,
     'route_params': {'destination_name': destination_name}
-}) }}
+},'FrontEndBundle:new_layout:paginator.html.twig') }}
 
             {%else%}
               {{ simple_paginator_render('frontend_search_ownership',null,{
     'container_class': 'pagination',
     'previousPageText': '«',
     'nextPageText': '»',
-    'currentClass': 'current',
+    'disableClass':'page-item disabled',
+   'currentClass': 'page-item active',
     'firstPageText': 'FIRST_PAGE' | trans,
     'lastPageText': 'LAST_PAGE' | trans,
     'route_params': {'text': app.session.get('search_text'),
@@ -99,7 +101,7 @@
                      'departure': app.session.get('search_departure_date'),
                      'guests': app.session.get('search_guests'),
                      'rooms': app.session.get('search_rooms')}
-}) }}
+},'FrontEndBundle:new_layout:paginator.html.twig') }}
                 {%endif%}
             </div>
 

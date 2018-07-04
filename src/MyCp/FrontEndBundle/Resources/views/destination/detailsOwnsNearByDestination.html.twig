@@ -38,7 +38,8 @@
                     'container_class': 'pagination',
                     'previousPageText': '«',
                     'nextPageText': '»',
-                    'currentClass': 'current',
+                    'disableClass':'page-item disabled',
+                    'currentClass': 'page-item active',
                     'firstPageText': 'FIRST_PAGE' | trans,
                     'lastPageText': 'LAST_PAGE' | trans,
                     'route_params': {'destination_name': destination_name},
@@ -50,17 +51,18 @@
                     'currentPage':paginator['currentPage'],
                     'nextPage':paginator['nextPage'],
                     'lastPage':paginator['lastPage']
-                }) }}
+                },'FrontEndBundle:new_layout:paginator.html.twig') }}
             {% else %}
                 {{ simple_paginator_render('frontend_details_destination',null,{
                     'container_class': 'pagination',
                     'previousPageText': '«',
                     'nextPageText': '»',
-                    'currentClass': 'current',
+                    'disableClass':'page-item disabled',
+                    'currentClass': 'page-item active',
                     'firstPageText': 'FIRST_PAGE' | trans,
                     'lastPageText': 'LAST_PAGE' | trans,
                     'route_params': {'destination_name': destination_name}
-                }) }}
+                },'FrontEndBundle:new_layout:paginator.html.twig') }}
             {% endif %}
 
         </div>

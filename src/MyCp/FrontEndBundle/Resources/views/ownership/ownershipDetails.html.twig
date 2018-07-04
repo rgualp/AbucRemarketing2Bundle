@@ -77,13 +77,7 @@
 
 {% block title %}{{ ownership.ownname }}{% endblock %}
 {% set main_tab = 5 %}
-{% block breadcrumbs %}
-    <a href="{{ path('frontend-welcome') }}" title="{{ "HOMEPAGE_TITLE" | trans }}">{{ "HOME_MAIN_MENU" | trans }}</a>
-    <span>››</span>
-    <a href="{{ path('frontend_search_ownership') }}" title="{{ "OWNERSHIPS" | trans }}">{{ "OWNERSHIPS" | trans }}</a>
-    <span>››</span>
-    <a href="#" class="active" title="{{ ownership.ownname }}">{{ ownership.ownname }}</a>
-{% endblock %}
+
 {% block body %}
 
     <div class="bg-solid-ligth-blue" style="margin-top: -16px">

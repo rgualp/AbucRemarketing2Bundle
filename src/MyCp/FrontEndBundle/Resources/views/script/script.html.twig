@@ -3,6 +3,7 @@
     var end_date = "{{ (isDateTime(app.session.get('search_departure_date')) ) ? (app.session.get('search_departure_date')|date("d/m/Y")) : "+2 days" |date("d/m/Y")}}";
 
 
+
     function refresh_calendar(from, to,own_id) {
         if (from != '' && to != '') {
             $('.calendar-results').css({display: 'none'});
@@ -49,7 +50,7 @@
         var own_id= e.data('idown');
         if(own_id!=''){
             modal.load(xpath, {'idOwn':e.data('idown')}, function(e){
-                modal.modal('show');
+                modal.modal('toggle');
                 var arrival = $('#input_arrival_date').val();
                 var departure = $('#input_departure_date').val();
                 $('#filter_date_from').datepicker({

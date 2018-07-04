@@ -63,8 +63,8 @@
                                 <div class="dropdown-divider"></div>
                                 {{ render(controller('FrontEndBundle:Public:getMainMenuMycasatrip')) }}
                             {% else %}
-                                <a class="dropdown-item" title="{{"LOG_IN" | trans }}" onclick='HoldOn.open();' href="{{ path('frontend_public_login') }}">{{"LOG_IN" | trans }}</a>
-                                <a class="dropdown-item" title="{{"USER_NEW_ACCOUNT" | trans }}" onclick='HoldOn.open();' href="{{ path('frontend_register_user') }}">{{"USER_NEW_ACCOUNT" | trans }}</a>
+                                <a class="dropdown-item" title="{{"LOG_IN" | trans }}"  href="{{ path('frontend_public_login') }}">{{"LOG_IN" | trans }}</a>
+                                <a class="dropdown-item" title="{{"USER_NEW_ACCOUNT" | trans }}"  href="{{ path('frontend_register_user') }}">{{"USER_NEW_ACCOUNT" | trans }}</a>
 
 
 
