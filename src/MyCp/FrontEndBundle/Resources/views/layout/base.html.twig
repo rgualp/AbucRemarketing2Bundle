@@ -116,7 +116,8 @@
     {% endblock carousel %}
     <!--Main layout-->
     <main>
-        <div class="container-fluid" style="    margin-top: 8%;">
+
+        <div class="container-fluid {{ css_category }}" style=" margin-top: 8%;">
             {% block body %}
                 {% block include_javascripts %}{% endblock %}
                 {% block include_javascripts_datepicker_message %}
