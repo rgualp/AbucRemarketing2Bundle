@@ -16,19 +16,15 @@
     {% endjavascripts %}
 {% endblock %}
 {% set main_tab = 2 %}
-{% block breadcrumbs %}
-    <a href="{{ path('frontend-welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
-    <span>››</span>
-    <a href="#" class="active"  title="{{"DESTINATIONS" | trans}}">{{"DESTINATIONS" | trans}}</a>
-{% endblock %}
+
 {% block body %}
 <div class="container cont-form" style="margin-top: -20px">
-<div id="main-search-2" class="container">
+<div id="main-search-2" >
     {{ render(controller('FrontEndBundle:Ownership:orangeSearchBar')) }}
 </div>
 </div>
 
-<div class="container">
+<div class="container" style="    margin-top: 11%;">
     <h1 class="caecilia-roman text-center h-grey h-size-1">{{"HOMEPAGE_SUBTITLE_2" | trans}}</h1>
     <div id="full-width-slider" class="royalSlider rsDefault">
     </div>

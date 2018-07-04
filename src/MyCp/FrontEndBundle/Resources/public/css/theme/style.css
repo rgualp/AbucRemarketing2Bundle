@@ -46,7 +46,7 @@ body,
 .search.fixed-top {
     position: fixed !important;
     top: 200px !important;
-    z-index: 9999 !important;
+    z-index: 1000 !important;
 }
 .bg-gradient-orange {
     background-color: #f4941c;
@@ -752,6 +752,7 @@ thumbs-destination .dest-description {
     left: 0;
     top: 0;
 }
+
 .rsDefault .rsArrow {
     height: 100%;
     width: 44px;
@@ -1222,4 +1223,33 @@ small {
     border: solid 1px #a1cb37;
     -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.3);
     box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+#main-search-2 .form {
+    border-radius: 8px;
+    top:200px;
+    padding: 1px;
+    z-index: 100;
+    -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+    position: absolute;
+    width: 70%;
+    margin: -124px 2% 0;
+    right: auto !important;
+    left: auto !important;
+}
+.prov-map ul {
+    padding-left: 0;
+    list-style: none;
+}
+.prov-map ul li.focus {
+    color: #f4961c;
+}
+.prov-map ul li {
+    cursor: pointer;
+}
+.rsDefault.rsHor .rsArrowRight .rsArrowIcn {
+     background-position: -64px -64px;
+}
+.rsDefault .rsArrowIcn:hover {
+    background-color: rgba(0,0,0,0.9);
 }
