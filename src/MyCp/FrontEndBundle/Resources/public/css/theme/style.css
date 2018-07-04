@@ -990,7 +990,11 @@ thumbs-destination .dest-description {
     font-weight: 200;
     line-height: 1.4;
 }
-
+h1, h2, h3, h4, h5, h6 {
+    font-family: "PT Sans",Helvetica,Arial,sans-serif;
+    font-weight: normal;
+    line-height: 1.1;
+}
 .price>li:nth-child(odd) {
     background: #f8f8f8;
 }
