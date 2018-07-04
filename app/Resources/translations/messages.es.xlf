@@ -4510,6 +4510,30 @@
                 <target>Hola
                 </target>
             </trans-unit>
+
+                <trans-unit id="4837">
+                                        <source>CAROUSER_TEXT1</source>
+                                    <target>
+                    MyCasaParticular está consciente del impacto social y económico que representa cada visita de un turista a un alojamiento privado. Miles de familias cubanas se benefician de esta manera además de crear puestos de trabajos. El equipo de MyCasaParticular no conoce un método mejor de ayudar al pueblo de Cuba, practicar un turismo equitativo, responsable y de respeto a la naturaleza.</target>
+                                </trans-unit>
+                                    <trans-unit id="4838">
+                             <source>CASA_PARTICULAR_TITLE</source>
+                          <target>
+                       ¿Qué es una casa particular?
+                        </target>
+                                                </trans-unit>
+              <trans-unit id="4839">
+                                   <source>CASA_PARTICULAR_TITLE_AWSER</source>
+                       <target>
+                                Casa Particular es el término que se utiliza en Cuba para denominar una casa entera,
+                                habitaciones, o un apartamento privado, perteneciente a una familia cubana en
+                                el que se ofrece el servicio de alquiler o arrendamiento a turistas.
+                                Por lo general, estos anfitriones están dispuestos a rentar por períodos breves o de
+                                larga estancia. Muchos aceptan grupos y familias, otros solo están preparados
+                                para recibir a una pareja. La mayoría ofrece otros servicios complementarios al
+                                alojamiento como desayuno, cena, lavandería, etc.
+                </target>
+               </trans-unit>
         </body>
     </file>
 </xliff>

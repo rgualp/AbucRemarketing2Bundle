@@ -399,7 +399,7 @@ class OwnershipController extends Controller
 
 
         $owner_id = $ownership_array['own_id'];
-        $reservations = $em->getRepository('mycpBundle:generalReservation')->getReservationsByIdAccommodation($owner_id);
+//        $reservations = $em->getRepository('mycpBundle:generalReservation')->getReservationsByIdAccommodation($owner_id);
 
         $ownership = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_id' => $owner_id));
 
@@ -437,13 +437,13 @@ class OwnershipController extends Controller
 
         $own_photos = $em->getRepository('mycpBundle:ownership')->getPhotosAndDescription($owner_id, $locale);
 
-        $session = $this->get('session');
+//        $session = $this->get('session');
         $post = $request->request->getIterator()->getArrayCopy();
-        $start_date = (isset($post['top_reservation_filter_date_from'])) ? ($post['top_reservation_filter_date_from']) : (($session->get('search_arrival_date') != null && $session->get('search_arrival_date') instanceof \DateTime) ? $session->get('search_arrival_date') : 'now');
-        $end_date = (isset($post['top_reservation_filter_date_to'])) ? ($post['top_reservation_filter_date_to']) : (($session->get('search_departure_date') != null && $session->get('search_departure_date') instanceof \DateTime) ? $session->get('search_departure_date') : '+2 day');
+//        $start_date = (isset($post['top_reservation_filter_date_from'])) ? ($post['top_reservation_filter_date_from']) : (($session->get('search_arrival_date') != null && $session->get('search_arrival_date') instanceof \DateTime) ? $session->get('search_arrival_date') : 'now');
+//        $end_date = (isset($post['top_reservation_filter_date_to'])) ? ($post['top_reservation_filter_date_to']) : (($session->get('search_departure_date') != null && $session->get('search_departure_date') instanceof \DateTime) ? $session->get('search_departure_date') : '+2 day');
 
-        $start_timestamp = strtotime($start_date);
-        $end_timestamp = strtotime($end_date);
+//        $start_timestamp = strtotime($start_date);
+//        $end_timestamp = strtotime($end_date);
 
 
         if (isset($post['top_reservation_filter_date_from'])) {
@@ -451,34 +451,32 @@ class OwnershipController extends Controller
             $post['reservation_filter_date_to'] = $post['top_reservation_filter_date_to'];
         }
 
-        if ($this->get('request')->getMethod() == 'POST') {
-            if (isset($post['reservation_filter_date_from']) && isset($post['reservation_filter_date_to'])) {
-                $reservation_filter_date_from = $post['reservation_filter_date_from'];
-                $reservation_filter_date_from = explode('/', $reservation_filter_date_from);
-                $start_timestamp = mktime(0, 0, 0, $reservation_filter_date_from[1], $reservation_filter_date_from[0], $reservation_filter_date_from[2]);
+//        if ($this->get('request')->getMethod() == 'POST') {
+//            if (isset($post['reservation_filter_date_from']) && isset($post['reservation_filter_date_to'])) {
+//                $reservation_filter_date_from = $post['reservation_filter_date_from'];
+//                $reservation_filter_date_from = explode('/', $reservation_filter_date_from);
+//                $start_timestamp = mktime(0, 0, 0, $reservation_filter_date_from[1], $reservation_filter_date_from[0], $reservation_filter_date_from[2]);
+//
+//                $reservation_filter_date_to = $post['reservation_filter_date_to'];
+//                $reservation_filter_date_to = explode('/', $reservation_filter_date_to);
+//                $end_timestamp = mktime(0, 0, 0, $reservation_filter_date_to[1], $reservation_filter_date_to[0], $reservation_filter_date_to[2]);
+//            }
+//        }
 
-                $reservation_filter_date_to = $post['reservation_filter_date_to'];
-                $reservation_filter_date_to = explode('/', $reservation_filter_date_to);
-                $end_timestamp = mktime(0, 0, 0, $reservation_filter_date_to[1], $reservation_filter_date_to[0], $reservation_filter_date_to[2]);
-            }
-        } else {
-
-        }
-
-        $service_time = $this->get('Time');
-        $array_dates = $service_time->datesBetween($start_timestamp, $end_timestamp);
+//        $service_time = $this->get('Time');
+//        $array_dates = $service_time->datesBetween($start_timestamp, $end_timestamp);
 
 
 
-        $array_dates_keys = array();
-        $count = 1;
-        foreach ($array_dates as $date) {
-            $array_dates_keys[$count] = array('day_number' => date('d', $date), 'day_name' => date('D', $date));
-            $count++;
-        }
-        if ($this->get('request')->getMethod() != 'POST') {
-            // array_pop($array_dates_keys);
-        }
+//        $array_dates_keys = array();
+//        $count = 1;
+//        foreach ($array_dates as $date) {
+//            $array_dates_keys[$count] = array('day_number' => date('d', $date), 'day_name' => date('D', $date));
+//            $count++;
+//        }
+//        if ($this->get('request')->getMethod() != 'POST') {
+//            // array_pop($array_dates_keys);
+//        }
 
 
         //exit();
@@ -515,7 +513,7 @@ class OwnershipController extends Controller
                 'rooms' => $rooms,
                 'gallery_photos' => $own_photos,
                 'is_in_favorite' => $ownership_array['is_in_favorites'],
-                'array_dates' => $array_dates_keys,
+
                 'post' => $post,
 
                 'comments_items_per_page' => $items_per_page,
@@ -549,7 +547,7 @@ class OwnershipController extends Controller
                 'rooms' => $rooms,
                 'gallery_photos' => $own_photos,
                 'is_in_favorite' => $ownership_array['is_in_favorites'],
-                'array_dates' => $array_dates_keys,
+
                 'post' => $post,
 
                 'comments_items_per_page' => $items_per_page,
