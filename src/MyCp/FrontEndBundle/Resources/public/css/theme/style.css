@@ -1253,3 +1253,11 @@ small {
 .rsDefault .rsArrowIcn:hover {
     background-color: rgba(0,0,0,0.9);
 }
+.google-translator{background-position: -62px -73px; width: 37px; height: 36px;}
+.h-size-3 {
+    font-size: 23px;
+}
+#big_map_details {
+    width: 100%;
+    height: 500px;
+}

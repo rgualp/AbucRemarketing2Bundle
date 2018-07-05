@@ -1,17 +1,17 @@
 {%if destinations | length%}
 <div class="carousel slide carousel-mini" id="destinationCarousel">
                 <h4 class="carousel-title">{{"VISIT_ANOTHER_DESTINATIONS" | trans}}</h4>
-                <div class="carousel-inner">
+                <div class="carousel-inner" role="listbox">
                     {%set counter = 0%}
                     {%for dest in destinations%}
-                    <div class="item {%if counter == 0%}active{%endif%}">
+                    <div class="carousel-item {%if counter == 0%}active{%endif%}">
                         <div class="row">
-                            <div class="col-xs-6">
+                            <div class="col">
                                 <a href="{{ path('frontend_details_destination',{'destination_name':dest.des_name|lower|replace(' ','-')}) }}">
                                 <img src="{{ asset("uploads/destinationImages/thumbnails/" ~ dest.photo)}}" class="thumbnail full-width" title="{{dest.des_name}}" alt="{{dest.des_name}}">
                                 </a>
                             </div>
-                            <div class="col-xs-6"><b>
+                            <div class="col"><b>
                             <a href="{{ path('frontend_details_destination',{'destination_name':dest.des_name|lower|replace(' ','-')}) }}">
                             {{dest.des_name}}
                             </a></b><br/>
@@ -24,7 +24,13 @@
                         {%set counter = counter + 1%}
                     {%endfor%}
                 </div>
-                <a data-slide="prev" href="#destinationCarousel" class="left carousel-control">‹</a>
-                <a data-slide="next" href="#destinationCarousel" class="right carousel-control">›</a>
-            </div>
+    <a class="carousel-control-prev" href="#carousel-example-1z" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carousel-example-1z" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+                 </div>
 {%endif%}

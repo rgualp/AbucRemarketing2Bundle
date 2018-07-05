@@ -638,14 +638,14 @@
                     </li>
                     <li class="lead"  {% if ownership['OwnInmediateBooking'] or ownership['OwnInmediateBooking2']  %}style="padding: 0; font-size: 18px; border: none;"{% endif %}>
                         {% if ownership['OwnInmediateBooking2'] %}
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="col-md-5" style="background-color:#ff0000; padding: 10px 0px;"
+                            <div >
+                                <div class="row" style="margin: 0;">
+                                    <div class="col" style="background-color:#ff0000; padding: 10px 0px;"
                                          rel="tooltip" title="{{ "IMMEDIATE_BOOKING" | trans }}">
-                                        <i class="fa fa-rocket white icon-padding" style="padding-right: 5px;"></i>
+                                        <i class="fa fa-rocket icon-padding" style="padding-right: 5px;"></i>
                                         <span style="text-align: left;">{{ 'IMMEDIATE_BOOKING'|trans }}</span>
                                     </div>
-                                    <div class="col-md-7">
+                                    <div class="col">
                                         <h2 class="no-margin" style="margin-top: 3px; font-size: 26px;">
                                             <small class="h-white-1">{{ "FROM_PRICES" | trans | lower }}</small><br/> {{ promoPrice | price }}
                                         </h2>
@@ -653,14 +653,14 @@
                                 </div>
                             </div>
                         {% elseif ownership['OwnInmediateBooking'] %}
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="col-md-5" style="background-color: #e94b3d;padding: 10px 0px;"
+                            <div >
+                                <div class="row">
+                                    <div class="col" style="background-color: #e94b3d;padding: 10px 0px;"
                                          rel="tooltip" title="{{ "quick_booking_tooltip" | trans }}">
                                         <i class="glyphicons white electricity icon-padding"></i> <span
                                                 style="text-align: left;">{{ 'quick_bookinhg'|trans }}</span>
                                     </div>
-                                    <div class="col-md-7">
+                                    <div class="col">
                                         <h2 class="no-margin" style="margin-top: 3px; font-size: 26px;">
                                             <small class="h-white-1">{{ "FROM_PRICES" | trans | lower }}</small>
                                             <br/> {{ promoPrice | price }}
