@@ -346,7 +346,7 @@ ul, menu, dir {
 .nav>li {
     position: relative;
     display: block;
-    
+
 }
 .nav>li>a>img {
     max-width: none;

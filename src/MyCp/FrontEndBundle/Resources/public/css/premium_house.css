@@ -4,7 +4,7 @@
 .premium_house .big-price-green{
     color:#f06b12!important
 }
-.premium_house .nav-tabs>li.active>a,.premium_house .nav-tabs>li.active>a:hover,.premium_house .nav-tabs>li.active>a:focus{
+.premium_house .nav-tabs>li>a.active,.premium_house .nav-tabs>li>a.active:hover,.premium_house .nav-tabs>li>a.active:focus{
     border-top-color:#f06b12
 }
 .premium_house .hr-green{
