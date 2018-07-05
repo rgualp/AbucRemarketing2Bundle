@@ -4517,6 +4517,10 @@
 <source>CASA_PARTICULAR_TITLE_AWSER</source>
 <target>Casa Particular è il termine usato a Cuba per descrivere una casa intera, stanza o un appartamento privato appartenente ad una famiglia cubana, in cui il servizio di noleggio o di locazione è offerto ai turisti.Di solito, questi padroni di casa sono disposti ad affittare per periodi brevi o lunghi soggiorni. Molti accettano gruppi e famiglie, gli altri sono solo disposti ad accogliere una coppia. La maggior parte offrono servizi complementari per pernottamento e prima colazione, cena, lavanderia, ecc.</target>
  </trans-unit>
+    <trans-unit id="4824">
+                             <source>MyCasaparticular</source>
+                             <target>MyCasaparticular</target>
+                         </trans-unit>
         </body>
     </file>
 </xliff>

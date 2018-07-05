@@ -4534,6 +4534,10 @@
                                 alojamiento como desayuno, cena, lavandería, etc.
                 </target>
                </trans-unit>
+                  <trans-unit id="4840">
+                                           <source>MyCasaparticular</source>
+                                           <target>MyCasaparticular</target>
+                                       </trans-unit>
         </body>
     </file>
 </xliff>

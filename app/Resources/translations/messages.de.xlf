@@ -4570,6 +4570,10 @@ Zusätzlich zu der Verwaltung der Unterkunft, bieten wir Ihnen mehrere <strong>T
                 <source>DEAR_MR2</source>
                 <target>Hallo</target>
             </trans-unit>
+               <trans-unit id="4840">
+                                        <source>MyCasaparticular</source>
+                                        <target>MyCasaparticular</target>
+                                    </trans-unit>
          </body>
     </file>
 </xliff>
