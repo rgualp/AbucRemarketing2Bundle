@@ -39,7 +39,6 @@
     margin-bottom: 10px;
 }
 .carousel-mini .carousel-control {
-    height: auto!important;
     position: absolute;
     left: auto;
     top: 0px;
