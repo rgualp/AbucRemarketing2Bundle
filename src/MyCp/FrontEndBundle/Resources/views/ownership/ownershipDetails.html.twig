@@ -117,19 +117,19 @@
                 <div class="tabbable">
                     <ul class="nav nav-tabs">
                         {% if gallery_photos | length %}
-                            <li onclick="javascript:hide_calendar()" class="active li-tabs"><a data-toggle="tab"
+                            <li onclick="javascript:hide_calendar()" class="nav-item active li-tabs"><a style ="color:#5e95cc;" class="nav-link" data-toggle="tab"
                                                                                                href="#tab-photos">{{ "PHOTO_TAB_DETAILS" | trans }}</a>
                             </li>
                         {% endif %}
                         {% if ownership.OwnGeolocateX != "" and ownership.OwnGeolocateY != "" %}
-                            <li onclick="javascript:hide_calendar()" {% if not gallery_photos | length %} class="active li-tabs" {% endif %}>
-                                <a id="mapTab" data-toggle="tab" href="#tab-map">{{ "MAPS_TAB_DETAILS" | trans }}</a>
+                            <li onclick="javascript:hide_calendar()" class="nav-item{% if not gallery_photos | length %} active li-tabs {% endif %}">
+                                <a style ="color:#5e95cc;" class="nav-link" id="mapTab" data-toggle="tab" href="#tab-map">{{ "MAPS_TAB_DETAILS" | trans }}</a>
                             </li>
                         {% endif %}
 
                         <li id="li-reservations"
-                            class="li-tabs {% if gallery_photos | length == 0 and ownership.OwnGeolocateX == "" and ownership.OwnGeolocateY == "" %}active{% endif %}">
-                            <a data-toggle="tab" href="#tab-reservations">{{ 'RESERVATION_TITLE' | trans }}</a></li>
+                            class="nav-item li-tabs {% if gallery_photos | length == 0 and ownership.OwnGeolocateX == "" and ownership.OwnGeolocateY == "" %}active{% endif %}">
+                            <a style ="color:#5e95cc;" class="nav-link" data-toggle="tab" href="#tab-reservations">{{ 'RESERVATION_TITLE' | trans }}</a></li>
                     </ul>
                     <div class="tab-content">
                         {% if gallery_photos | length %}
@@ -171,10 +171,10 @@
 
                 <div class="tabbable">
                     <ul class="nav nav-tabs">
-                        <li class="active"><a data-toggle="tab"
+                        <li class="nav-item active"><a style ="color:#5e95cc;" class="nav-link" data-toggle="tab"
                                               href="#tab-desc">{{ "DESCRIPTION_TAB_DETAILS" | trans }}</a></li>
-                        <li><a data-toggle="tab" href="#tab-serv">{{ "SERVICES_TAB_DETAILS" | trans }}</a></li>
-                        <li><a data-toggle="tab" href="#tab-rooms">{{ "ROOMS_TAB_DETAILS" | trans }}</a></li>
+                        <li class="nav-item"><a style ="color:#5e95cc;" class="nav-link" data-toggle="tab" href="#tab-serv">{{ "SERVICES_TAB_DETAILS" | trans }}</a></li>
+                        <li class="nav-item"><a style ="color:#5e95cc;" class="nav-link" data-toggle="tab" href="#tab-rooms">{{ "ROOMS_TAB_DETAILS" | trans }}</a></li>
                     </ul>
                     <div class="tab-content">
                         <div id="tab-desc" class="tab-pane active">
@@ -726,8 +726,7 @@
                     <button class="btn btn-default btn-block" style="padding: 6px 25%; text-align: left"
                             onclick="$('#send_to_friend_popup').attr('data-email-type', 'recommend_property');
                                     $('#send_to_friend_popup').attr('data-dest-prop-id', '{{ ownership.own_id }}');">
-                        <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon icon-mail"
-                             alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/>
+                       <i class="fa fa-mail-forward"></i>
                         {{ "TELL_A_FRIEND" | trans }}
                     </button>
                 </a>
@@ -735,8 +734,7 @@
                 <div>
                     <a class="click" onclick="facebookPopup();">
                         <button class="btn btn-default btn-block" style="padding: 6px 25%; text-align: left">
-                            <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
-                                 class="icon-services  icon-facebook" alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/>
+                         <i class="fa fa-facebook"></i>
                             {{ "SHARE_FACEBOOK" | trans }}
                         </button>
                     </a>

@@ -32,6 +32,7 @@
 }
 .carousel-mini .carousel-title {
     margin-top: 0px;
+    margin-right: 4px;
     padding-bottom: 10px;
     border-bottom: 1px solid rgb(238, 238, 238);
 }
