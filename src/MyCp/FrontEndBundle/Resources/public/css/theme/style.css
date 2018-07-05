@@ -1273,3 +1273,15 @@ small {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fffcfcff',endColorstr='#ffeeeeee',GradientType=0);
     margin-bottom: 20px;
 }
+h1 {
+     font-size: 32px; 
+}
+h1, h2, h3 {
+    margin-top: 23px;
+    margin-bottom: 11.5px;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: "PT Sans",Helvetica,Arial,sans-serif;
+    font-weight: normal;
+    line-height: 1.1;
+}
