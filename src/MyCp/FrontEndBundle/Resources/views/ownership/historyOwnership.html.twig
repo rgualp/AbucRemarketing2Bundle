@@ -1,10 +1,10 @@
 {%if history_list | length%}
-<div class="carousel slide carousel-mini" id="housesCarousel">
+<div class="carousel slide carousel-mini" id="housesCarousel"  style="height: auto;">
                 <h4 class="carousel-title">{{"LAST_VISITED_OWNERSHIPS" | trans}}</h4>
-                <div class="carousel-inner">
+                <div class="carousel-inner" role="listbox">
                     {%set counter = 0%}
                     {%for own in history_list%}
-                    <div class="item {%if counter == 0%}active{%endif%}">
+                    <div class="carousel-item {%if counter == 0%}active{%endif%}">
                         <div class="row">
                             <div class="col">
                                 <a href="{{ path('frontend_details_ownership',{'own_name':own.ownName  | urlNormalize}) }}">
@@ -22,7 +22,7 @@
                         {%set counter = counter + 1%}
                         {%endfor%}
                 </div>
-                <a data-slide="prev" href="#housesCarousel" class="left carousel-control">‹</a>
-                <a data-slide="next" href="#housesCarousel" class="right carousel-control">›</a>
+                <a data-slide="prev" href="#housesCarousel" class="left carousel-control carousel-control-prev">‹</a>
+                <a data-slide="next" href="#housesCarousel" class="right carousel-control carousel-control-prev"style="right: 5px;">›</a>
             </div>
 {%endif%}
