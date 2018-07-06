@@ -4536,7 +4536,13 @@
             <trans-unit id="4839">
                 <source>DEAR_MR2</source>
                 <target>Hi</target>
-            </trans-unit>       
+            </trans-unit>
+            <trans-unit id="4840">
+                               <source>BANNER_INFO</source>
+                                     <target>
+                Save up to 15% per reservation from 2 nights on.
+                                     </target>
+                </trans-unit>
         </body>
     </file>
 </xliff>

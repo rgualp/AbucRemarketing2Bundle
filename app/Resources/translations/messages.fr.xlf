@@ -4622,6 +4622,12 @@ En plus de la gestion du logement, nous vous offrons plusieurs options de <stron
                 <target>Salut
                 </target>
             </trans-unit>
+            <trans-unit id="4840">
+                               <source>BANNER_INFO</source>
+                                     <target>
+            Économisez jusqu'à 15% par réservation à partir de 2 nuits.
+                                     </target>
+                </trans-unit>
         </body>
     </file>
 </xliff>

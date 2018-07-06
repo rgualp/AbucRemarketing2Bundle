@@ -4534,6 +4534,14 @@
                                 alojamiento como desayuno, cena, lavandería, etc.
                                                                                                    </target>
                                                                                      </trans-unit>
+
+
+        <trans-unit id="4840">
+                   <source>BANNER_INFO</source>
+                         <target>
+    Ahórrate hasta un 15% por reserva a partir de 2 noches.
+                         </target>
+    </trans-unit>
         </body>
     </file>
 </xliff>
