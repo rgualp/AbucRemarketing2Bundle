@@ -117,13 +117,13 @@
                 <div class="tabbable">
                     <ul class="nav nav-tabs">
                         {% if gallery_photos | length %}
-                            <li onclick="javascript:hide_calendar()" class="nav-item active li-tabs"><a style ="color:#5e95cc;" class="nav-link" data-toggle="tab"
+                            <li onclick="javascript:hide_calendar()" class="nav-item  li-tabs"><a style ="color:#5e95cc;" class="nav-link active" data-toggle="tab"
                                                                                                href="#tab-photos">{{ "PHOTO_TAB_DETAILS" | trans }}</a>
                             </li>
                         {% endif %}
                         {% if ownership.OwnGeolocateX != "" and ownership.OwnGeolocateY != "" %}
-                            <li onclick="javascript:hide_calendar()" class="nav-item{% if not gallery_photos | length %} active li-tabs {% endif %}">
-                                <a style ="color:#5e95cc;" class="nav-link" id="mapTab" data-toggle="tab" href="#tab-map">{{ "MAPS_TAB_DETAILS" | trans }}</a>
+                            <li onclick="javascript:hide_calendar()" class="nav-item">
+                                <a style ="color:#5e95cc;" class="nav-link {% if not gallery_photos | length %} active li-tabs {% endif %}" id="mapTab" data-toggle="tab" href="#tab-map">{{ "MAPS_TAB_DETAILS" | trans }}</a>
                             </li>
                         {% endif %}
 
@@ -171,7 +171,7 @@
 
                 <div class="tabbable">
                     <ul class="nav nav-tabs">
-                        <li class="nav-item active"><a style ="color:#5e95cc;" class="nav-link" data-toggle="tab"
+                        <li class="nav-item "><a style ="color:#5e95cc;" class="nav-link active" data-toggle="tab"
                                               href="#tab-desc">{{ "DESCRIPTION_TAB_DETAILS" | trans }}</a></li>
                         <li class="nav-item"><a style ="color:#5e95cc;" class="nav-link" data-toggle="tab" href="#tab-serv">{{ "SERVICES_TAB_DETAILS" | trans }}</a></li>
                         <li class="nav-item"><a style ="color:#5e95cc;" class="nav-link" data-toggle="tab" href="#tab-rooms">{{ "ROOMS_TAB_DETAILS" | trans }}</a></li>
