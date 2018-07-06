@@ -1282,3 +1282,15 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: normal;
     line-height: 1.1;
 }
+.items-cart {
+    margin: 15px 0 15px;
+}
+.items-cart .item {
+    background-color: #f0f0f0;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    padding: 0 10px;
+}
+.h-size-1 {
+    font-size: 28px;
+}
