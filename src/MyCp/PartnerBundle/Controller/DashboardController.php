@@ -25,22 +25,37 @@ use MyCp\mycpBundle\Helpers\Dates;
 
 class DashboardController extends Controller
 {
-    /*BookingPending*/
+    const SUCCESS = 'success';
+
+    const MSG_RESERVAS_PENDIENTES = 'Vista del listado de reservas PENDIENTES';
+
+    const VAR_TOUR_OPERATOR = "tourOperator";
+
+    const VAR_IS_SPECIAL = 'isSpecial';
+
+
+    /**
+     * BookingPending
+     */
+
     public function indexBookingPendingAction()
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
-        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array(self::VAR_TOUR_OPERATOR => $user->getUserId()));
         $travelAgency = $tourOperator->getTravelAgency();
-        $isSpecial=$travelAgency->getAgencyPackages()[0]->getPackage()->isSpecial();
-        return new JsonResponse([
-            'success' => true,
+        $isSpecial = $travelAgency->getAgencyPackages()[0]->getPackage()->isSpecial();
+        return new JsonResponse(array(
+            self::SUCCESS => true,
             'id' => 'id_dashboard_booking_pending',
-
-            'html' => $this->renderView('PartnerBundle:Dashboard:booking_pending.html.twig', array('isSpecial'=>$isSpecial)),
-            'msg' => 'Vista del listado de reservas PENDIENTES']);
+            'html' => $this->renderView('PartnerBundle:Dashboard:booking_pending.html.twig', array(self::VAR_IS_SPECIAL => $isSpecial)),
+            'msg' => self::MSG_RESERVAS_PENDIENTES
+        ));
     }
-//Pendientes
+
+    /**
+     * Pendientes
+     */
     public function listBookingPendingAction(Request $request)
     {
         $filters = $request->get('booking_pending_filter_form');
@@ -84,10 +99,8 @@ class DashboardController extends Controller
                     $totalPrice = 0;
                     if ($ownReservation->getOwnResNightPrice() > 0) {
                         $totalPrice += $ownReservation->getOwnResNightPrice() * $nights;
-                        //$initialPayment += $res->getOwnResNightPrice() * $nights * $comission;
                     } else {
                         $totalPrice += $ownReservation->getOwnResTotalInSite();
-                        //$initialPayment += $res->getOwnResTotalInSite() * $comission;
                     }
                     $arrTmp['data']['rooms'][] = array(
                         'type' => $ownReservation->getOwnResRoomType(),
@@ -108,19 +121,57 @@ class DashboardController extends Controller
     /*End BookingPending*/
 
     /*BookingAvailability*/
+
+    public function getReservationsData($filters, $start, $limit, $draw, $status)
+    {
+        $user = $this->getUser();
+
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('mycpBundle:generalReservation');
+        $userrepo = $em->getRepository('mycpBundle:user');
+        $touroperators = array();
+        $touroperators = $userrepo->getAllTourOperators($touroperators, $user);
+
+        #region PAGINADO
+        $paginator = $repository->getReservationsPartner($user->getUserId(), $status, $filters, $start, $limit, $touroperators);;
+        $reservations = $paginator['data'];
+        #endregion PAGINADO
+
+        $data = array();
+        $data['draw'] = $draw;
+        $data['iTotalRecords'] = $paginator['count'];
+        $data['iTotalDisplayRecords'] = $paginator['count'];
+        $data['aaData'] = $reservations;
+
+        return $data;
+    }
+
+    public function getCurr(Request $request)
+    {
+        $session = $request->getSession();
+        $a = $session->get("curr_rate");
+        $b = $session->get("curr_symbol");
+        $c = $session->get("curr_acronym");
+
+        return array("change" => $a, "code" => $c);
+    }
+    /*End BookingAvailability*/
+
+    /*BookingNotavailability*/
+
     public function indexBookingAvailabilityAction()
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
-        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array(self::VAR_TOUR_OPERATOR => $user->getUserId()));
         $travelAgency = $tourOperator->getTravelAgency();
-        $isSpecial=$travelAgency->getAgencyPackages()[0]->getPackage()->isSpecial();
-        return new JsonResponse([
-            'success' => true,
+        $isSpecial = $travelAgency->getAgencyPackages()[0]->getPackage()->isSpecial();
+        return new JsonResponse(array(
+            self::SUCCESS => true,
             'id' => 'id_dashboard_booking_availability',
-
-            'html' => $this->renderView('PartnerBundle:Dashboard:booking_availability.html.twig', array('isSpecial'=>$isSpecial)),
-            'msg' => 'Vista del listado de reservas DISPONIBLES']);
+            'html' => $this->renderView('PartnerBundle:Dashboard:booking_availability.html.twig', array(self::VAR_IS_SPECIAL => $isSpecial)),
+            'msg' => 'Vista del listado de reservas DISPONIBLES'
+        ));
     }
 
     public function listBookingAvailabilityAction(Request $request)
@@ -167,10 +218,8 @@ class DashboardController extends Controller
                     $totalPrice = 0;
                     if ($ownReservation->getOwnResNightPrice() > 0) {
                         $totalPrice += $ownReservation->getOwnResNightPrice() * $nights;
-                        //$initialPayment += $res->getOwnResNightPrice() * $nights * $comission;
                     } else {
                         $totalPrice += $ownReservation->getOwnResTotalInSite();
-                        //$initialPayment += $res->getOwnResTotalInSite() * $comission;
                     }
 
                     $arrTmp['data']['rooms'][] = array(
@@ -179,9 +228,6 @@ class DashboardController extends Controller
                         'childrens' => $ownReservation->getOwnResCountChildrens(),
                         'totalPrice' => ($totalPrice * $curr['change']),
                         'curr_code' => $curr['code']
-                        /*'booking'=>array(
-                            'prepay'=>$ownReservation->getOwnResReservationBooking()->getBookingPrepay()
-                        )*/
                     );
                     $ownReservation = $ownReservations->next();
                 } while ($ownReservation);
@@ -192,23 +238,23 @@ class DashboardController extends Controller
 
         return new JsonResponse($data);
     }
-    /*End BookingAvailability*/
+    /*End BookingNotavailability*/
 
-    /*BookingNotavailability*/
+    /*BookingReserved*/
+
     public function indexBookingNotavailabilityAction()
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
-        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array(self::VAR_TOUR_OPERATOR => $user->getUserId()));
         $travelAgency = $tourOperator->getTravelAgency();
-        $isSpecial=$travelAgency->getAgencyPackages()[0]->getPackage()->isSpecial();
-
-        return new JsonResponse([
-            'success' => true,
+        $isSpecial = $travelAgency->getAgencyPackages()[0]->getPackage()->isSpecial();
+        return new JsonResponse(array(
+            self::SUCCESS => true,
             'id' => 'id_dashboard_booking_notavailability',
-
-            'html' => $this->renderView('PartnerBundle:Dashboard:booking_notavailability.html.twig', array('isSpecial'=>$isSpecial)),
-            'msg' => 'Vista del listado de reservas NO DISPONIBLES']);
+            'html' => $this->renderView('PartnerBundle:Dashboard:booking_notavailability.html.twig', array(self::VAR_IS_SPECIAL => $isSpecial)),
+            'msg' => 'Vista del listado de reservas NO DISPONIBLES'
+        ));
     }
 
     public function listBookingNotavailabilityAction(Request $request)
@@ -255,10 +301,8 @@ class DashboardController extends Controller
                     $totalPrice = 0;
                     if ($ownReservation->getOwnResNightPrice() > 0) {
                         $totalPrice += $ownReservation->getOwnResNightPrice() * $nights;
-                        //$initialPayment += $res->getOwnResNightPrice() * $nights * $comission;
                     } else {
                         $totalPrice += $ownReservation->getOwnResTotalInSite();
-                        //$initialPayment += $res->getOwnResTotalInSite() * $comission;
                     }
 
                     $arrTmp['data']['rooms'][] = array(
@@ -277,22 +321,23 @@ class DashboardController extends Controller
 
         return new JsonResponse($data);
     }
-    /*End BookingNotavailability*/
+    /*End BookingReserved*/
 
-    /*BookingReserved*/
+    /*Pending payment*/
+
     public function indexBookingReservedAction()
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
-        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array(self::VAR_TOUR_OPERATOR => $user->getUserId()));
         $travelAgency = $tourOperator->getTravelAgency();
-        $isSpecial=$travelAgency->getAgencyPackages()[0]->getPackage()->isSpecial();
+        $isSpecial = $travelAgency->getAgencyPackages()[0]->getPackage()->isSpecial();
 
-        return new JsonResponse([
-            'success' => true,
+        return new JsonResponse(array(
+            self::SUCCESS => true,
             'id' => 'id_dashboard_booking_reserved',
-            'html' => $this->renderView('PartnerBundle:Dashboard:booking_reserved.html.twig', array('isSpecial'=>$isSpecial)),
-            'msg' => 'Vista del listado de reservas PENDIENTES']);
+            'html' => $this->renderView('PartnerBundle:Dashboard:booking_reserved.html.twig', array(self::VAR_IS_SPECIAL => $isSpecial)),
+            'msg' => self::MSG_RESERVAS_PENDIENTES));
     }
 
     public function listBookingReservedAction(Request $request)
@@ -328,8 +373,6 @@ class DashboardController extends Controller
                 'client_dates' => $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getClient()->getFullName(),
                 'own_name' => $reservation->getGenResOwnId()->getOwnName(),
                 'reference' => $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getReference()
-                /*,
-                                'client_name'=>$reservation->getTravelAgencyDetailReservations()->getReservation()->getClient()->getFullName()*/
             );
 
             $ownReservations = $reservation->getOwn_reservations();
@@ -343,10 +386,8 @@ class DashboardController extends Controller
                     $totalPrice = 0;
                     if ($ownReservation->getOwnResNightPrice() > 0) {
                         $totalPrice += $ownReservation->getOwnResNightPrice() * $nights;
-                        //$initialPayment += $res->getOwnResNightPrice() * $nights * $comission;
                     } else {
                         $totalPrice += $ownReservation->getOwnResTotalInSite();
-                        //$initialPayment += $res->getOwnResTotalInSite() * $comission;
                     }
 
                     $arrTmp['data']['rooms'][] = array(
@@ -369,53 +410,44 @@ class DashboardController extends Controller
         }
         $datas = $this->getReservationsData($filters, 1, false, $draw, generalReservation::STATUS_RESERVED);
         $reservationes = $datas['aaData'];
-        $totalprices =0;
+        $totalprices = 0;
 
-        foreach ($reservationes as $reserva){
-            $id=$reserva->getGenResId();
+        foreach ($reservationes as $reserva) {
+            $id = $reserva->getGenResId();
             $em = $this->getDoctrine()->getManager();
             $reservation = $em->getRepository('mycpBundle:generalReservation')->find($id);
             $ownership_reservations = $reservation->getOwnReservations();
-
             $service_time = $this->get('time');
-
-
-             $price_temp=0;
+            $price_temp = 0;
             foreach ($ownership_reservations as $res) {
-
-
-                $total_price = $res->getPriceTotal($service_time) ;
-
+                $total_price = $res->getPriceTotal($service_time);
                 $price_temp += $total_price;
-
-
-
-
             }
-            $totalprices+=round((($price_temp+($price_temp*0.1)+($price_temp+($price_temp*0.1))*0.1)*$curr['change']),2);
+            $totalprices += round((($price_temp + ($price_temp * 0.1) + ($price_temp + ($price_temp * 0.1)) * 0.1) * $curr['change']), 2);
 
         }
 
-        $data['prices']= $totalprices.' '.$curr['code'];
+        $data['prices'] = $totalprices . ' ' . $curr['code'];
 
         return new JsonResponse($data);
     }
     /*End BookingReserved*/
 
-    /*Pending payment*/
+    /*BookingBeaten*/
+
     public function indexBookingPendingPaymentAction()
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
-        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array(self::VAR_TOUR_OPERATOR => $user->getUserId()));
         $travelAgency = $tourOperator->getTravelAgency();
-        $isSpecial=$travelAgency->getAgencyPackages()[0]->getPackage()->isSpecial();
-
-        return new JsonResponse([
-            'success' => true,
+        $isSpecial = $travelAgency->getAgencyPackages()[0]->getPackage()->isSpecial();
+        return new JsonResponse(array(
+            self::SUCCESS => true,
             'id' => 'id_dashboard_booking_pending_payment',
-            'html' => $this->renderView('PartnerBundle:Dashboard:booking_pending_payment.html.twig', array('isSpecial'=>$isSpecial)),
-            'msg' => 'Vista del listado de reservas PENDIENTES DE PAGO']);
+            'html' => $this->renderView('PartnerBundle:Dashboard:booking_pending_payment.html.twig', array(self::VAR_IS_SPECIAL => $isSpecial)),
+            'msg' => 'Vista del listado de reservas PENDIENTES DE PAGO'
+        ));
     }
 
     public function listBookingPendingPaymentAction(Request $request)
@@ -451,10 +483,6 @@ class DashboardController extends Controller
                 'client_dates' => $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getClient()->getFullName(),
                 'own_name' => $reservation->getGenResOwnId()->getOwnName(),
                 'reference' => $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getReference()
-                /*,
-
-
-                  'client_name'=>$reservation->getTravelAgencyDetailReservations()->getReservation()->getClient()->getFullName()*/
             );
 
             $ownReservations = $reservation->getOwn_reservations();
@@ -467,17 +495,15 @@ class DashboardController extends Controller
                     $totalPrice = 0;
                     if ($ownReservation->getOwnResNightPrice() > 0) {
                         $totalPrice += $ownReservation->getOwnResNightPrice() * $nights;
-                        //$initialPayment += $res->getOwnResNightPrice() * $nights * $comission;
                     } else {
                         $totalPrice += $ownReservation->getOwnResTotalInSite();
-                        //$initialPayment += $res->getOwnResTotalInSite() * $comission;
                     }
 
                     $arrTmp['data']['rooms'][] = array(
                         'type' => $ownReservation->getOwnResRoomType(),
                         'adults' => $ownReservation->getOwnResCountAdults(),
                         'childrens' => $ownReservation->getOwnResCountChildrens(),
-                        'totalPrice' => (($totalPrice+($totalPrice*0.1)+(($totalPrice+($totalPrice*0.1))*0.1)) * $curr['change']),
+                        'totalPrice' => (($totalPrice + ($totalPrice * 0.1) + (($totalPrice + ($totalPrice * 0.1)) * 0.1)) * $curr['change']),
                         'curr_code' => $curr['code'],
                         'booking' => array(
                             'code' => $ownReservation->getOwnResReservationBooking()->getBookingId(),
@@ -493,22 +519,23 @@ class DashboardController extends Controller
 
         return new JsonResponse($data);
     }
-    /*End BookingReserved*/
+    /*End BookingBeaten*/
 
-    /*BookingBeaten*/
+    /*BookingCanceled*/
+
     public function indexBookingBeatenAction()
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
-        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array(self::VAR_TOUR_OPERATOR => $user->getUserId()));
         $travelAgency = $tourOperator->getTravelAgency();
-        $isSpecial=$travelAgency->getAgencyPackages()[0]->getPackage()->isSpecial();
-
-        return new JsonResponse([
-            'success' => true,
+        $isSpecial = $travelAgency->getAgencyPackages()[0]->getPackage()->isSpecial();
+        return new JsonResponse(array(
+            self::SUCCESS => true,
             'id' => 'id_dashboard_booking_beaten',
-            'html' => $this->renderView('PartnerBundle:Dashboard:booking_beaten.html.twig', array('isSpecial'=>$isSpecial)),
-            'msg' => 'Vista del listado de reservas VENCIDAS']);
+            'html' => $this->renderView('PartnerBundle:Dashboard:booking_beaten.html.twig', array(self::VAR_IS_SPECIAL => $isSpecial)),
+            'msg' => 'Vista del listado de reservas VENCIDAS'
+        ));
     }
 
     public function listBookingBeatenAction(Request $request)
@@ -555,10 +582,8 @@ class DashboardController extends Controller
                     $totalPrice = 0;
                     if ($ownReservation->getOwnResNightPrice() > 0) {
                         $totalPrice += $ownReservation->getOwnResNightPrice() * $nights;
-                        //$initialPayment += $res->getOwnResNightPrice() * $nights * $comission;
                     } else {
                         $totalPrice += $ownReservation->getOwnResTotalInSite();
-                        //$initialPayment += $res->getOwnResTotalInSite() * $comission;
                     }
 
                     $arrTmp['data']['rooms'][] = array(
@@ -578,21 +603,23 @@ class DashboardController extends Controller
 
         return new JsonResponse($data);
     }
-    /*End BookingBeaten*/
+    /*End BookingCanceled*/
 
-    /*BookingCanceled*/
+    /*BookingCheckin*/
+
     public function indexBookingCanceledAction()
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
-        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array(self::VAR_TOUR_OPERATOR => $user->getUserId()));
         $travelAgency = $tourOperator->getTravelAgency();
-        $isSpecial=$travelAgency->getAgencyPackages()[0]->getPackage()->isSpecial();
-        return new JsonResponse([
-            'success' => true,
+        $isSpecial = $travelAgency->getAgencyPackages()[0]->getPackage()->isSpecial();
+        return new JsonResponse(array(
+            self::SUCCESS => true,
             'id' => 'id_dashboard_booking_canceled',
-            'html' => $this->renderView('PartnerBundle:Dashboard:booking_canceled.html.twig', array('isSpecial'=>$isSpecial)),
-            'msg' => 'Vista del listado de reservas CANCELADAS']);
+            'html' => $this->renderView('PartnerBundle:Dashboard:booking_canceled.html.twig', array(self::VAR_IS_SPECIAL => $isSpecial)),
+            'msg' => 'Vista del listado de reservas CANCELADAS'
+        ));
     }
 
     public function listBookingCanceledAction(Request $request)
@@ -633,12 +660,12 @@ class DashboardController extends Controller
                 'destination' => $reservation->getGenResOwnId()->getOwnDestination()->getDesName(),
                 'date' => $reservation->getGenResDate()->format('d-m-Y'),
                 'client_dates' => $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getClient()->getFullName(),
-                'reference' => ($reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getReference() != null && $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getReference() !='')?$reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getReference():'-',
+                'reference' => ($reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getReference() != null && $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getReference() != '') ? $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getReference() : '-',
 
                 'own_name' => $reservation->getGenResOwnId()->getOwnName(),
-                'cancelDate' => ($reservation != null) ? $reservation->getGenResStatusDate()->format('d-m-Y'): '-',
-                'cancelAmount'  => ($pendingPayment != null && $paymentCurrencyChangeRate != null) ?  number_format($pendingPayment->getAmount() * $paymentCurrencyChangeRate, 2) : 0,
-                'cancelCurrencyCode' => ($currencyEntity != null) ? $currencyEntity->getCurrCode(): 'EUR'
+                'cancelDate' => ($reservation != null) ? $reservation->getGenResStatusDate()->format('d-m-Y') : '-',
+                'cancelAmount' => ($pendingPayment != null && $paymentCurrencyChangeRate != null) ? number_format($pendingPayment->getAmount() * $paymentCurrencyChangeRate, 2) : 0,
+                'cancelCurrencyCode' => ($currencyEntity != null) ? $currencyEntity->getCurrCode() : 'EUR'
             );
 
             $ownReservations = $reservation->getOwn_reservations();
@@ -656,15 +683,14 @@ class DashboardController extends Controller
                         $totalPrice += $ownReservation->getOwnResTotalInSite();
                         //$initialPayment += $res->getOwnResTotalInSite() * $comission;
                     }
-                    if($ownReservation->getOwnResReservationBooking()==null){
-                        $booking_code='';
-                        $booking_date='';
-                        $type='';
-                    }
-                    else{
-                        $booking_code=  $ownReservation->getOwnResReservationBooking()->getBookingId();
-                         $booking_date= $ownReservation->getOwnResReservationBooking()->getPayments()->first()->getCreated()->format('d-m-Y');
-                         $type=    $ownReservation->getOwnResRoomType();
+                    if ($ownReservation->getOwnResReservationBooking() == null) {
+                        $booking_code = '';
+                        $booking_date = '';
+                        $type = '';
+                    } else {
+                        $booking_code = $ownReservation->getOwnResReservationBooking()->getBookingId();
+                        $booking_date = $ownReservation->getOwnResReservationBooking()->getPayments()->first()->getCreated()->format('d-m-Y');
+                        $type = $ownReservation->getOwnResRoomType();
                     }
 
 
@@ -689,53 +715,43 @@ class DashboardController extends Controller
         }
         $datas = $this->getReservationsData($filters, 1, false, $draw, generalReservation::STATUS_CANCELLED);
         $reservationes = $datas['aaData'];
-        $totalprices =0;
+        $totalprices = 0;
 
-        foreach ($reservationes as $reserva){
-            $id=$reserva->getGenResId();
+        foreach ($reservationes as $reserva) {
+            $id = $reserva->getGenResId();
             $em = $this->getDoctrine()->getManager();
             $reservation = $em->getRepository('mycpBundle:generalReservation')->find($id);
             $ownership_reservations = $reservation->getOwnReservations();
-
             $service_time = $this->get('time');
-
-
-            $price_temp=0;
+            $price_temp = 0;
             foreach ($ownership_reservations as $res) {
-
-
-                $total_price = $res->getPriceTotal($service_time) ;
-
+                $total_price = $res->getPriceTotal($service_time);
                 $price_temp += $total_price;
-
-
-
-
             }
-            $totalprices+=round((($price_temp+($price_temp*0.1)+($price_temp+($price_temp*0.1))*0.1)*$curr['change']),2);
-
+            $totalprices += round((($price_temp + ($price_temp * 0.1) + ($price_temp + ($price_temp * 0.1)) * 0.1) * $curr['change']), 2);
         }
 
-        $data['prices']= $totalprices.' '.$curr['code'];;
+        $data['prices'] = $totalprices . ' ' . $curr['code'];;
         return new JsonResponse($data);
     }
-    /*End BookingCanceled*/
 
-    /*BookingCheckin*/
     public function indexBookingCheckinAction()
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
-        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array(self::VAR_TOUR_OPERATOR => $user->getUserId()));
         $travelAgency = $tourOperator->getTravelAgency();
-        $isSpecial=$travelAgency->getAgencyPackages()[0]->getPackage()->isSpecial();
-
-        return new JsonResponse([
-            'success' => true,
+        $isSpecial = $travelAgency->getAgencyPackages()[0]->getPackage()->isSpecial();
+        return new JsonResponse(array(
+            self::SUCCESS => true,
             'id' => 'id_dashboard_booking_checkin',
-            'html' => $this->renderView('PartnerBundle:Dashboard:booking_checkin.html.twig', array('isSpecial'=>$isSpecial)),
-            'msg' => 'Vista del listado de reservas reservadas Checkin']);
+            'html' => $this->renderView('PartnerBundle:Dashboard:booking_checkin.html.twig', array(self::VAR_IS_SPECIAL => $isSpecial)),
+            'msg' => 'Vista del listado de reservas reservadas Checkin'
+        ));
     }
+    /*End BookingCheckin*/
+
+    /*BookingProccess*/
 
     public function listBookingCheckinAction(Request $request)
     {
@@ -779,7 +795,7 @@ class DashboardController extends Controller
                 'date' => $reservation->getGenResDate()->format('d-m-Y'),
                 'client_dates' => $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getClient()->getFullName(),
                 'own_name' => $reservation->getGenResOwnId()->getOwnName(),
-                'reference'=> $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getReference()
+                'reference' => $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getReference()
 
                 /*,
                 'client_name'=>$reservation->getTravelAgencyDetailReservations()->getReservation()->getClient()->getFullName()*/
@@ -848,21 +864,20 @@ class DashboardController extends Controller
             return $exporter->exportReservationsCheckinAg($reservations, new \DateTime(), $curr);
         }
     }
-    /*End BookingCheckin*/
 
-    /*BookingProccess*/
     public function indexBookingProccessAction()
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
-        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array(self::VAR_TOUR_OPERATOR => $user->getUserId()));
         $travelAgency = $tourOperator->getTravelAgency();
-        $isSpecial=$travelAgency->getAgencyPackages()[0]->getPackage()->isSpecial();
-        return new JsonResponse([
-            'success' => true,
+        $isSpecial = $travelAgency->getAgencyPackages()[0]->getPackage()->isSpecial();
+        return new JsonResponse(array(
+            self::SUCCESS => true,
             'id' => 'id_dashboard_booking_proccess',
-            'html' => $this->renderView('PartnerBundle:Dashboard:booking_proccess.html.twig', array('isSpecial'=>$isSpecial)),
-            'msg' => 'Vista del listado de reservas en Proccess']);
+            'html' => $this->renderView('PartnerBundle:Dashboard:booking_proccess.html.twig', array(self::VAR_IS_SPECIAL => $isSpecial)),
+            'msg' => 'Vista del listado de reservas en Proccess'
+        ));
     }
 
     public function listBookingProccessAction(Request $request)
@@ -918,14 +933,14 @@ class DashboardController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository('PartnerBundle:paGeneralReservation');
-        $userrepo= $em->getRepository('mycpBundle:user');
-        $touroperators= array();
+        $userrepo = $em->getRepository('mycpBundle:user');
+        $touroperators = array();
 
-         $touroperators=$userrepo->getAllTourOperators($touroperators,$user);
+        $touroperators = $userrepo->getAllTourOperators($touroperators, $user);
 
         #region PAGINADO
         $page = ($start > 0) ? $start / $limit + 1 : 1;
-        $paginator = $repository->getReservationsPartner($user->getUserId(), $filters, $start, $limit,$touroperators);
+        $paginator = $repository->getReservationsPartner($user->getUserId(), $filters, $start, $limit, $touroperators);
         $reservations = $paginator['data'];
         #endregion PAGINADO
 
@@ -959,8 +974,8 @@ class DashboardController extends Controller
             array_push($array_total_prices, $total_price);
         }
 
-        return new JsonResponse([
-            'success' => true,
+        return new JsonResponse(array(
+            self::SUCCESS => true,
             'id' => 'id_dashboard_booking_proccess_detail_' . $id_reservation,
             'html' => $this->renderView('PartnerBundle:Dashboard:details_proccess.html.twig', array(
                 'id_res' => $id_reservation,
@@ -971,7 +986,8 @@ class DashboardController extends Controller
                 'nights' => $array_nights,
                 'total_prices' => $array_total_prices
             )),
-            'msg' => 'Vista del detalle de una reserva en proceso']);
+            'msg' => 'Vista del detalle de una reserva en proceso'
+        ));
     }
 
     public function closeReservationAction(Request $request)
@@ -982,28 +998,14 @@ class DashboardController extends Controller
         $paGeneralReservation = $em->getRepository('PartnerBundle:paGeneralReservation')->find($id_reservation);
         $r = $this->closeReservation($paGeneralReservation);
 
-        return new JsonResponse([
-            'success' => true,
+        return new JsonResponse(array(
+            self::SUCCESS => true,
             'id' => 'id_dashboard_booking_proccess_detail_' . $r,
             'message' => ""
-        ]);
+        ));
     }
 
-    public function closeAllReservationAction(Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $id_reservations = $request->get("ids");
-        foreach ($id_reservations as $id_reservation) {
-            $paGeneralReservation = $em->getRepository('PartnerBundle:paGeneralReservation')->find($id_reservation);
-            $this->closeReservation($paGeneralReservation);
-        }
-
-        return new JsonResponse([
-            'success' => true,
-            'message' => ""
-        ]);
-    }
+    /*End BookingProccess*/
 
     public function closeReservation($paGeneralReservation)
     {
@@ -1025,7 +1027,7 @@ class DashboardController extends Controller
         ));
         $service_email->sendTemplatedEmailPartner($subject, 'partner@mycasaparticular.com', $user->getUserEmail(), $content);
 
-        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array(self::VAR_TOUR_OPERATOR => $user->getUserId()));
         $travelAgency = $tourOperator->getTravelAgency();
         $contacts = $travelAgency->getContacts();
         $phone_contact = (count($contacts)) ? $contacts[0]->getPhone() . ', ' . $contacts[0]->getMobile() : ' ';
@@ -1076,49 +1078,20 @@ class DashboardController extends Controller
         return $paGeneralReservation->getId();
     }
 
-    /*End BookingProccess*/
-
-    public function getReservationsData($filters, $start, $limit, $draw, $status)
+    public function closeAllReservationAction(Request $request)
     {
-        $user = $this->getUser();
-
         $em = $this->getDoctrine()->getManager();
-        $repository = $em->getRepository('mycpBundle:generalReservation');
-        $userrepo= $em->getRepository('mycpBundle:user');
-        $touroperators= array();
 
-        $touroperators=$userrepo->getAllTourOperators($touroperators,$user);
-
-        #region PAGINADO
-        if($limit==false){
-
-        }
-        else{
-            $page = ($start > 0) ? $start / $limit + 1 : 1;
+        $id_reservations = $request->get("ids");
+        foreach ($id_reservations as $id_reservation) {
+            $paGeneralReservation = $em->getRepository('PartnerBundle:paGeneralReservation')->find($id_reservation);
+            $this->closeReservation($paGeneralReservation);
         }
 
-        $paginator = $repository->getReservationsPartner($user->getUserId(), $status, $filters, $start, $limit,$touroperators);;
-        $reservations = $paginator['data'];
-
-        #endregion PAGINADO
-
-        $data = array();
-        $data['draw'] = $draw;
-        $data['iTotalRecords'] = $paginator['count'];
-        $data['iTotalDisplayRecords'] = $paginator['count'];
-        $data['aaData'] = $reservations;
-
-        return $data;
-    }
-
-    public function getCurr(Request $request)
-    {
-        $session = $request->getSession();
-        $a = $session->get("curr_rate");
-        $b = $session->get("curr_symbol");
-        $c = $session->get("curr_acronym");
-
-        return array("change" => $a, "code" => $c);
+        return new JsonResponse(array(
+            self::SUCCESS => true,
+            'message' => ""
+        ));
     }
 
     /**
@@ -1195,7 +1168,7 @@ class DashboardController extends Controller
             $post['reservation_filter_date_to'] = $post['top_reservation_filter_date_to'];
         }
 
-        if ($this->getRequest()->getMethod() == 'POST') {
+        if ($this->get('request')->getMethod() == 'POST') {
             if (isset($post['reservation_filter_date_from']) && isset($post['reservation_filter_date_to'])) {
                 $reservation_filter_date_from = $post['reservation_filter_date_from'];
                 $reservation_filter_date_from = explode('/', $reservation_filter_date_from);
@@ -1299,7 +1272,7 @@ class DashboardController extends Controller
             $array_dates_keys[$count] = array('day_number' => date('d', $date), 'day_name' => date('D', $date));
             $count++;
         }
-        if ($this->getRequest()->getMethod() != 'POST') {
+        if ($this->get('request')->getMethod() != 'POST') {
             // array_pop($array_dates_keys);
         }
 
@@ -1340,7 +1313,7 @@ class DashboardController extends Controller
         $currentServiceFee = $em->getRepository("mycpBundle:serviceFee")->getCurrent();
 
         $user = $this->getUser();
-        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array(self::VAR_TOUR_OPERATOR => $user->getUserId()));
         $travelAgency = $tourOperator->getTravelAgency();
         $packageService = $this->get("mycp.partner.package.service");
         $isSpecialPackage = $packageService->isSpecialPackageFromAgency($travelAgency);
@@ -1349,15 +1322,15 @@ class DashboardController extends Controller
 
         $curr = $this->getCurr($request);
 
-        if(isset($ownership_array['ownFacilitiesDinner']) && $ownership_array['ownFacilitiesDinner']){
-            $ownership_array['ownFacilitiesDinnerPriceTo'] = ($ownership_array['ownFacilitiesDinnerPriceTo'] * $curr['change']) . ' ' .$curr['code'];
+        if (isset($ownership_array['ownFacilitiesDinner']) && $ownership_array['ownFacilitiesDinner']) {
+            $ownership_array['ownFacilitiesDinnerPriceTo'] = ($ownership_array['ownFacilitiesDinnerPriceTo'] * $curr['change']) . ' ' . $curr['code'];
         }
 
-        if(isset($ownership_array['ownFacilitiesBreakfast']) && $ownership_array['ownFacilitiesBreakfast']){
+        if (isset($ownership_array['ownFacilitiesBreakfast']) && $ownership_array['ownFacilitiesBreakfast']) {
             $ownership_array['ownFacilitiesBreakfastPrice'] = ($ownership_array['ownFacilitiesBreakfastPrice'] * $curr['change']) . ' ' . $curr['code'];
         }
 
-        if(isset($ownership_array['ownFacilitiesParking']) && $ownership_array['ownFacilitiesParking']){
+        if (isset($ownership_array['ownFacilitiesParking']) && $ownership_array['ownFacilitiesParking']) {
             $ownership_array['ownFacilitiesParkingPrice'] = ($ownership_array['ownFacilitiesParkingPrice'] * $curr['change']) . ' ' . $curr['code'];
         }
 
@@ -1403,7 +1376,7 @@ class DashboardController extends Controller
 
     public function addFavoritesAction()
     {
-        $request = $this->getRequest();
+        $request = $this->get('request');
         $em = $this->getDoctrine()->getManager();
 
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
@@ -1429,7 +1402,7 @@ class DashboardController extends Controller
 
     public function removeFavoritesAction()
     {
-        $request = $this->getRequest();
+        $request = $this->get('request');
         $em = $this->getDoctrine()->getManager();
 
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
@@ -1452,7 +1425,8 @@ class DashboardController extends Controller
 
         return new Response($response, 200);
     }
-   #Detalles 1
+
+    #Detalles 1
     public function indexBookingDetailAction($id_reservation, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -1469,18 +1443,18 @@ class DashboardController extends Controller
         $curr = $this->getCurr($request);
         $today = new \DateTime();
         $oneCanBeCanceled = false;
-        $temp_price=0;
-        $booking=array();
+        $temp_price = 0;
+        $booking = array();
+
 
         foreach ($ownership_reservations as $res) {
             $nights = $res->getNights($service_time);
             array_push($rooms, $em->getRepository('mycpBundle:room')->find($res->getOwnResSelectedRoomId()));
             array_push($array_nights, $nights);
 
-            if($res->getOwnResReservationBooking()!=null) {
+            if ($res->getOwnResReservationBooking() != null) {
                 array_push($booking, $res->getOwnResReservationBooking()->getBookingId());
-            }
-            else{
+            } else {
                 array_push($booking, '-');
 
             }
@@ -1491,49 +1465,43 @@ class DashboardController extends Controller
             if (!$oneCanBeCanceled)
                 $oneCanBeCanceled = $canCancel;
 
-            $total_price = round(($res->getPriceTotal($service_time) * $curr['change']) ,2) . $curr['code'];
-            $temp_price+=$res->getPriceTotal($service_time);
-
+            if ($res->getOwnResStatus() != ownershipReservation::STATUS_CANCELLED) {
+                $total_price = round(($res->getPriceTotal($service_time) * $curr['change']), 2) . $curr['code'];
+                $temp_price += $res->getPriceTotal($service_time);
+            }
             array_push($array_total_prices, $total_price);
-
-
-
 
 
         }
 
-            $array_complete_prices+=round((($temp_price+($temp_price*0.1)+($temp_price+($temp_price*0.1))*0.1)*$curr['change']),2);
+        $array_complete_prices += round((($temp_price + ($temp_price * 0.1) + ($temp_price + ($temp_price * 0.1)) * 0.1) * $curr['change']), 2);
 
 
-
-        if($reservation->getGenResStatus()==10) {
-            return new JsonResponse([
-                'success' => true,
+        if ($reservation->getGenResStatus() == 10) {
+            return new JsonResponse(array(self::SUCCESS => true,
                 'id' => 'id_dashboard_booking_detail_' . $id_reservation,
                 'html' => $this->renderView('PartnerBundle:Dashboard:details.html.twig', array(
                     'id_res' => $id_reservation,
                     'cas' => "CAS.$id_reservation",
                     'reservation' => $reservation,
                     'user' => $reservation->getGenResUserId()->getUsername(),
-                    'agency'=> $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getClient()->getTravelAgency()->getName(),
-                    'invoice'=>$reservation->getInvoice()->getFilename(),
-                    'invoice_date'=>$reservation->getInvoice()->getInvoicedate(),
-                    'array_complete_prices'=>round($array_complete_prices ,2). $curr['code'],
+                    'agency' => $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getClient()->getTravelAgency()->getName(),
+                    'invoice' => $reservation->getInvoice()->getFilename(),
+                    'invoice_date' => $reservation->getInvoice()->getInvoicedate(),
+                    'array_complete_prices' => round($array_complete_prices, 2) . $curr['code'],
                     'reservations' => $ownership_reservations,
                     'rooms' => $rooms,
                     'nights' => $array_nights,
                     'total_prices' => $array_total_prices,
                     'canBeCanceled' => $canBeCanceled,
                     'oneCanBeCanceled' => $oneCanBeCanceled,
-                    'booking'=>$booking[0],
-                    'reference'=> $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getReference()
+                    'booking' => $booking[0],
+                    'reference' => $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getReference()
 
                 )),
-                'msg' => 'Vista del detalle de una reserva']);
-        }
-        else {
-            return new JsonResponse([
-                'success' => true,
+                'msg' => 'Vista del detalle de una reserva'));
+        } else {
+            return new JsonResponse(array(self::SUCCESS => true,
                 'id' => 'id_dashboard_booking_detail_' . $id_reservation,
                 'html' => $this->renderView('PartnerBundle:Dashboard:details.html.twig', array(
                     'id_res' => $id_reservation,
@@ -1554,7 +1522,7 @@ class DashboardController extends Controller
                     'reference' => $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getReference()
 
                 )),
-                'msg' => 'Vista del detalle de una reserva']);
+                'msg' => 'Vista del detalle de una reserva'));
         }
 
     }
@@ -1589,8 +1557,8 @@ class DashboardController extends Controller
             array_push($array_total_prices, $total_price);
         }
 
-        return new JsonResponse([
-            'success' => true,
+        return new JsonResponse(array(
+            self::SUCCESS => true,
             'id' => 'id_dashboard_booking_detail_' . $id_reservation,
             'html' => $this->renderView('PartnerBundle:Dashboard:detailsCancel.html.twig', array(
                 'id_res' => $id_reservation,
@@ -1603,11 +1571,12 @@ class DashboardController extends Controller
                 'canBeCanceled' => $canBeCanceled,
                 'oneCanBeCanceled' => $oneCanBeCanceled,
                 'cancelDate' => $date,
-                'reference'=> $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getReference(),
+                'reference' => $reservation->getTravelAgencyDetailReservations()->first()->getReservation()->getReference(),
 
-                'cancelAmount' => $amount." ".$currency
+                'cancelAmount' => $amount . " " . $currency
             )),
-            'msg' => 'Vista del detalle de una reserva']);
+            'msg' => 'Vista del detalle de una reserva'
+        ));
     }
 
     public function cancelFromAgencyAction(Request $request)
@@ -1628,10 +1597,10 @@ class DashboardController extends Controller
 
         $em->flush();
 
-        return new JsonResponse([
-            'success' => true,
+        return new JsonResponse(array(
+            self::SUCCESS => true,
             'message' => "Cancelado correctamente"
-        ]);
+        ));
     }
 
     public function cancelReservationAction($idReservation, Request $request)
@@ -1641,17 +1610,17 @@ class DashboardController extends Controller
         $generalReservation = $em->getRepository('mycpBundle:generalReservation')->find($idReservation);
 
         $user = $this->getUser();
-        $currentTourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $currentTourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array(self::VAR_TOUR_OPERATOR => $user->getUserId()));
         $currentTravelAgency = $currentTourOperator->getTravelAgency();
 
         $reservationUser = $generalReservation->getGenResUserId();
-        $reservationTourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $reservationUser->getUserId()));
+        $reservationTourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array(self::VAR_TOUR_OPERATOR => $reservationUser->getUserId()));
         $reservationTravelAgency = $reservationTourOperator->getTravelAgency();
 
-        if (($reservationUser->getUserRole() == "ROLE_CLIENT_PARTNER"||$reservationUser->getUserRole() == "ROLE_ECONOMY_PARTNER"||$reservationUser->getUserRole() == "ROLE_CLIENT_PARTNER_TOUROPERATOR") && $currentTravelAgency->getId() == $reservationTravelAgency->getId()) {
+        if (($reservationUser->getUserRole() == "ROLE_CLIENT_PARTNER" || $reservationUser->getUserRole() == "ROLE_ECONOMY_PARTNER" || $reservationUser->getUserRole() == "ROLE_CLIENT_PARTNER_TOUROPERATOR") && $currentTravelAgency->getId() == $reservationTravelAgency->getId()) {
             //Comprobar si la reserva fue hecha por la agencia a la que pertenece ese usuario
 
-            if ($this->getRequest()->getMethod() == 'POST') {
+            if ($this->get('request')->getMethod() == 'POST') {
                 $ownershipReservations = $generalReservation->getOwn_reservations();
                 foreach ($ownershipReservations as $ownRes) {
                     $ownRes->setOwnResStatus(ownershipReservation::STATUS_CANCELLED);
@@ -1690,14 +1659,14 @@ class DashboardController extends Controller
         $generalReservation = $ownershipReservation->getOwnResGenResId();
 
         $user = $this->getUser();
-        $currentTourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $currentTourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array(self::VAR_TOUR_OPERATOR => $user->getUserId()));
         $currentTravelAgency = $currentTourOperator->getTravelAgency();
 
         $reservationUser = $generalReservation->getGenResUserId();
-        $reservationTourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $reservationUser->getUserId()));
+        $reservationTourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array(self::VAR_TOUR_OPERATOR => $reservationUser->getUserId()));
         $reservationTravelAgency = $reservationTourOperator->getTravelAgency();
 
-        if (($reservationUser->getUserRole() == "ROLE_CLIENT_PARTNER"||$reservationUser->getUserRole() == "ROLE_ECONOMY_PARTNER"||$reservationUser->getUserRole() == "ROLE_CLIENT_PARTNER_TOUROPERATOR") && $currentTravelAgency->getId() == $reservationTravelAgency->getId()) {
+        if (($reservationUser->getUserRole() == "ROLE_CLIENT_PARTNER" || $reservationUser->getUserRole() == "ROLE_ECONOMY_PARTNER" || $reservationUser->getUserRole() == "ROLE_CLIENT_PARTNER_TOUROPERATOR") && $currentTravelAgency->getId() == $reservationTravelAgency->getId()) {
             //Comprobar si la reserva fue hecha por la agencia a la que pertenece ese usuario
 
             //Calcular el dinero a devolver
@@ -1760,30 +1729,29 @@ class DashboardController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $booking = $em->getRepository('mycpBundle:booking')->find($bookingId);
-        $pdfservice=$this->get("front_end.services.booking");
+        $pdfservice = $this->get("front_end.services.booking");
         $user = $pdfservice->getUserFromBooking($booking);
         $clients = $em->getRepository("PartnerBundle:paClient")->getClientsFromBooking($bookingId, $user);
 
-        $currentTourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $currentTourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array(self::VAR_TOUR_OPERATOR => $user->getUserId()));
         $currentTravelAgency = $currentTourOperator->getTravelAgency();
 
         $name = 'voucher' . $booking->getBookingUserId() . '_' . $booking->getBookingId() . '.pdf';
-        $name_client= 'voucher' . $user->getUserId(). '_' . $bookingId . '_' . $clients[0]['id'] .'.pdf';
-        $nameZip = 'vouchers_'.$booking->getBookingId(). '_' . $booking->getBookingUserId() . '.zip';
+        $name_client = 'voucher' . $user->getUserId() . '_' . $bookingId . '_' . $clients[0]['id'] . '.pdf';
+        $nameZip = 'vouchers_' . $booking->getBookingId() . '_' . $booking->getBookingUserId() . '.zip';
 
-        if (file_exists(realpath($pathToFile.$nameZip))&&file_exists(realpath($pathToFile.$name))&&file_exists(realpath($pathToFile.$name_client))){
-           
+        if (file_exists(realpath($pathToFile . $nameZip)) && file_exists(realpath($pathToFile . $name)) && file_exists(realpath($pathToFile . $name_client))) {
+
             $response = new BinaryFileResponse($pathToFile . $nameZip);
             $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $nameZip);
 
-        }
-        else{
+        } else {
 
-            $pdfFilePath = $pdfservice->createBookingVoucherIfNotExistingPartner($bookingId,$user,true);
-            $pdfClientFilePaths = $pdfservice->createBookingVoucherForClientsIfNotExistsPartner($bookingId, $user,$currentTravelAgency,true);
+            $pdfFilePath = $pdfservice->createBookingVoucherIfNotExistingPartner($bookingId, $user, true);
+            $pdfClientFilePaths = $pdfservice->createBookingVoucherForClientsIfNotExistsPartner($bookingId, $user, $currentTravelAgency, true);
 
             $filePaths = array_merge(array($pdfFilePath), $pdfClientFilePaths);
-            $zipFileName = $pdfservice->zipService->createZipFile("vouchers_".$bookingId."_".$user->getUserId().".zip", $filePaths, $pdfservice->voucherDirectoryPath);
+            $zipFileName = $pdfservice->zipService->createZipFile("vouchers_" . $bookingId . "_" . $user->getUserId() . ".zip", $filePaths, $pdfservice->voucherDirectoryPath);
 
             $response = new BinaryFileResponse($pathToFile . $nameZip);
             $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $nameZip);
@@ -1814,11 +1782,10 @@ class DashboardController extends Controller
         $name = $gr->getInvoice()->getFilename() . '.pdf';
 
 
-        if (file_exists(realpath($pathToFile.$name))){
+        if (file_exists(realpath($pathToFile . $name))) {
             $response = new BinaryFileResponse($pathToFile . $name);
             $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $name);
-        }
-        else{
+        } else {
             $response = new BinaryFileResponse($pathToFile . $name);
             $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $name);
         }
@@ -1832,7 +1799,7 @@ class DashboardController extends Controller
 
         $user = $this->getUser();
 
-        $currentTourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+        $currentTourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array(self::VAR_TOUR_OPERATOR => $user->getUserId()));
         $currentTravelAgency = $currentTourOperator->getTravelAgency();
         $agencyPackage = $currentTravelAgency->getAgencyPackages()[0];
 
@@ -1936,7 +1903,6 @@ class DashboardController extends Controller
             }
 
             $reservations = $em->getRepository('mycpBundle:ownershipReservation')->getReservationReservedByRoomAndDateForCalendar($room->getRoomId(), $dateFrom, $dateTo);
-            //var_dump("Habitacion id ". $room->getRoomId(). ": REservaciones " .count($reservations). ". Desde: ".date("d-m-Y",$dateFrom->getTimestamp()). ". Hasta: ".date("d-m-Y",$dateTo->getTimestamp())."<br/>");
             foreach ($reservations as $reservation) {
                 $reservationStartDate = $reservation->getOwnResReservationFromDate()->getTimestamp();
                 $reservationEndDate = $reservation->getOwnResReservationToDate()->getTimestamp();
@@ -2010,7 +1976,6 @@ class DashboardController extends Controller
                 $no_available_days_ready[$item[$keys[0]]] = array();
             $no_available_days_ready[$item[$keys[0]]] = array_merge($no_available_days_ready[$item[$keys[0]]], $item['check']);
         }
-        //var_dump($no_available_days);
         $array_dates_keys = array();
         $count = 1;
         foreach ($array_dates as $date) {
@@ -2059,9 +2024,9 @@ class DashboardController extends Controller
             'nights' => $nights,
             "tripleChargeRoom" => $this->container->getParameter('configuration.triple.room.charge'),
             'isCompletePayment' => false,
-            "isSpecial" => $isSpecial,
-            "isBasic"=>$isBasic,
-            "isEconomic"=>$isEconomic
+            self::VAR_IS_SPECIAL => $isSpecial,
+            "isBasic" => $isBasic,
+            "isEconomic" => $isEconomic
         ));
     }
 
@@ -2073,8 +2038,7 @@ class DashboardController extends Controller
         $user1 = $this->getUser();
 
 
-
-        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user1->getUserId()));
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array(self::VAR_TOUR_OPERATOR => $user1->getUserId()));
         $travelAgency = $tourOperator->getTravelAgency();
         $completePayment = $travelAgency->getAgencyPackages()[0]->getPackage()->getCompletePayment();
 
@@ -2280,60 +2244,6 @@ class DashboardController extends Controller
         }
     }
 
-    public function createReservedPartner($general_reservation, $request, $min_date, $max_date, $id_ownership)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        //Adding new reservation
-        $clientName = $request->get("clientName");
-        if($clientName == "")
-            $clientName = $request->get("partnerClientName");
-
-        $clientId = $request->get("clientId");
-        if($clientId == "")
-            $clientId = $request->get("partnerClientId");
-
-        $clientCountry = $request->get("clientCountry");
-        if($clientCountry == "")
-            $clientCountry = $request->get("partnerClientCountry");
-
-        $clientComments = $request->get("clientComments");
-        if($clientComments == "")
-            $clientComments = $request->get("partnerClientComments");
-
-        $reservationNumber = $request->get("reservationNumber");
-        if($reservationNumber == "")
-            $reservationNumber = $request->get("partnerReservationReference");
-
-        $client = array(
-            "clientName" => $clientName,
-            "clientCountry" => $clientCountry,
-            "clientId" => $clientId,
-            "clientComments" => $clientComments,
-        );
-
-        $dateFrom = $min_date;
-        $dateTo = $max_date;
-//        $adults = $request->get("adults");
-//        $children = $request->get("children");
-
-
-        $accommodationId = $id_ownership;
-        //$roomType = $request->get("roomType");
-        //$roomsTotal = $request->get("roomsTotal");
-        //$clientEmail= $request->get("clientEmail");
-
-
-        $user = $this->getUser();
-        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
-        $travelAgency = $tourOperator->getTravelAgency();
-        $accommodation = $em->getRepository("mycpBundle:ownership")->find($accommodationId);
-
-        $translator = $this->get('translator');
-        $returnedObject = $em->getRepository("PartnerBundle:paReservation")->newReservation($general_reservation, $travelAgency, $client, $adults = 0, $children = 0, $dateFrom, $dateTo, $accommodation, $user, $this->container, $translator, $reservationNumber, null, null/*,$clientEmail*/);
-        return true;
-    }
-
     /**
      * @param $id_car
      * @param $request
@@ -2406,8 +2316,7 @@ class DashboardController extends Controller
                     $general_reservation->setCompletePayment($completePayment);
                     if ($inmediatily_booking) {
                         $general_reservation->setGenResStatus(generalReservation::STATUS_AVAILABLE);
-                    }
-                    else
+                    } else
                         $general_reservation->setGenResStatus(generalReservation::STATUS_PENDING);
                     $general_reservation->setGenResFromDate($min_date);
                     $general_reservation->setGenResToDate($max_date);
@@ -2418,7 +2327,6 @@ class DashboardController extends Controller
                     $general_reservation->setServiceFee($serviceFee);
                     $general_reservation->setServicedinner($request->get('servicedinner'));
                     $general_reservation->setServicefast($request->get('servicefast'));
-
 
 
                     $total_price = 0;
@@ -2480,9 +2388,9 @@ class DashboardController extends Controller
 
                     }
 
-                    if($inmediatily_booking){
+                    if ($inmediatily_booking) {
                         $session = $request->getSession();
-                        $session->set("ri_ids",array($general_reservation->getGenResId()));
+                        $session->set("ri_ids", array($general_reservation->getGenResId()));
                     }
 
                 }
@@ -2530,12 +2438,67 @@ class DashboardController extends Controller
             return $own_ids;
     }
 
+    public function createReservedPartner($general_reservation, $request, $min_date, $max_date, $id_ownership)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        //Adding new reservation
+        $clientName = $request->get("clientName");
+        if ($clientName == "")
+            $clientName = $request->get("partnerClientName");
+
+        $clientId = $request->get("clientId");
+        if ($clientId == "")
+            $clientId = $request->get("partnerClientId");
+
+        $clientCountry = $request->get("clientCountry");
+        if ($clientCountry == "")
+            $clientCountry = $request->get("partnerClientCountry");
+
+        $clientComments = $request->get("clientComments");
+        if ($clientComments == "")
+            $clientComments = $request->get("partnerClientComments");
+
+        $reservationNumber = $request->get("reservationNumber");
+        if ($reservationNumber == "")
+            $reservationNumber = $request->get("partnerReservationReference");
+
+        $client = array(
+            "clientName" => $clientName,
+            "clientCountry" => $clientCountry,
+            "clientId" => $clientId,
+            "clientComments" => $clientComments,
+        );
+
+        $dateFrom = $min_date;
+        $dateTo = $max_date;
+//        $adults = $request->get("adults");
+//        $children = $request->get("children");
+
+
+        $accommodationId = $id_ownership;
+        //$roomType = $request->get("roomType");
+        //$roomsTotal = $request->get("roomsTotal");
+        //$clientEmail= $request->get("clientEmail");
+
+
+        $user = $this->getUser();
+        $tourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array(self::VAR_TOUR_OPERATOR => $user->getUserId()));
+        $travelAgency = $tourOperator->getTravelAgency();
+        $accommodation = $em->getRepository("mycpBundle:ownership")->find($accommodationId);
+
+        $translator = $this->get('translator');
+        $returnedObject = $em->getRepository("PartnerBundle:paReservation")->newReservation($general_reservation, $travelAgency, $client, $adults = 0, $children = 0, $dateFrom, $dateTo, $accommodation, $user, $this->container, $translator, $reservationNumber, null, null/*,$clientEmail*/);
+        return true;
+    }
+
     public function reservationsToCancelAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $timer = $this->get("Time");
         $user = $this->getUser();
-        $currentTourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array("tourOperator" => $user->getUserId()));
+
+        $currentTourOperator = $em->getRepository("PartnerBundle:paTourOperator")->findOneBy(array(self::VAR_TOUR_OPERATOR => $user->getUserId()));
         $currentTravelAgency = $currentTourOperator->getTravelAgency();
         $agencyPackage = $currentTravelAgency->getAgencyPackages()[0];
         $nomCancelFromAgency = $em->getRepository('mycpBundle:nomenclator')->findOneBy(array("nom_name" => "acpt_from_agency", "nom_category" => "agencyCancelPaymentType"));
@@ -2552,7 +2515,7 @@ class DashboardController extends Controller
         $totalInSite = 0;
         $ch = 0;
 
-        if($agencyPackage->getPackage()->getCompletePayment()) { //Solo se cancela si la agencia tiene el paquete con pago completo
+        if ($agencyPackage->getPackage()->getCompletePayment()) { //Solo se cancela si la agencia tiene el paquete con pago completo
 
             $cancelPayment = new paCancelPayment();
             $cancelPayment->setBooking($ownershipReservations[0]->getOwnResReservationBooking());
@@ -2561,13 +2524,12 @@ class DashboardController extends Controller
             $cancelPayment->setUser($this->getUser());
             $cancelPayment->setType($nomCancelFromAgency);
 
-            foreach($ownershipReservations as $reservation)
-            {
+            foreach ($ownershipReservations as $reservation) {
                 $totalNights += $timer->nights($reservation->getOwnResReservationFromDate()->getTimestamp(), $reservation->getOwnResReservationToDate()->getTimestamp());
                 $totalInSite += $reservation->getOwnResTotalInSite();
                 $ch += $reservation->getOwnResTotalInSite();
 
-                if($reservation->getTripleRoomCharged())
+                if ($reservation->getTripleRoomCharged())
                     $ch -= $tripleChargeRoom;
 
                 $cancelPayment->addOwnershipReservation($reservation);
@@ -2584,21 +2546,21 @@ class DashboardController extends Controller
 
             //Calcular montos a devolver
             $cancelReservationService = $this->get("mycp.partner.cancelreservation.service");
-            $cancelReservationService->calculatePendingPayments(true, new \DateTime(), $currentTravelAgency, $generalReservation, $booking, $ch, $totalInSite, $totalNights, $totalRooms, $cancelPayment );
+            $cancelReservationService->calculatePendingPayments(true, new \DateTime(), $currentTravelAgency, $generalReservation, $booking, $ch, $totalInSite, $totalNights, $totalRooms, $cancelPayment);
 
 
-            return new JsonResponse([
-                'success' => true,
+            return new JsonResponse(array(
+                self::SUCCESS => true,
                 'id' => 'id_dashboard_booking_reserved',
                 'html' => $this->renderView('PartnerBundle:Dashboard:booking_reserved.html.twig', array()),
-                'msg' => 'Vista del listado de reservas PENDIENTES']);
-        }
-        else{
-            return new JsonResponse([
-                'success' => false,
-                'html' => null,
-                'message' => ""
-            ]);
+                'msg' => self::MSG_RESERVAS_PENDIENTES
+            ));
+        } else {
+            return new JsonResponse(
+                array(self::SUCCESS => false,
+                    'html' => null,
+                    'message' => ""
+                ));
         }
     }
 }
