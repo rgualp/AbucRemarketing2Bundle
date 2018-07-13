@@ -53,12 +53,19 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-10" style="padding-left: 5px;">
+                        <div class="col-sm-8" style="padding-left: 5px;">
                             <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
                                 <h1 class="h-blue">{{ ownership.own_name | title }}</h1>
                             </a>
                         </div>
-                        <div class="col-sm-2 p-0" style="text-align: center;">
+                        <div class="col-sm-4 p-0" style="text-align: center;">
+                            {% if ownership.breakfast_include %}
+                                <span class="favorite_action" style="margin-right: 16px;">
+                                <img class="icon icon-medium cofee-icon" style="margin-left:-8px"
+                                     src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
+                                     title="{{ "INCLUDE_BREAKFAST" | trans }}" alt="{{ "INCLUDE_BREAKFAST" | trans }}">
+                            </span>
+                            {% endif %}
                             {{ include('FrontEndBundle:favorite:itemFavorite.html.twig',
                             {'is_in_favorite': ownership.is_in_favorites,
                                 'favorite_type': 'ownership',

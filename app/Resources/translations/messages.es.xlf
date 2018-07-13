@@ -4542,6 +4542,13 @@
     Ahórrate hasta un 15% por reserva a partir de 2 noches.
                          </target>
     </trans-unit>
+    <trans-unit id="4841">
+                   <source>INCLUDE_BREAKFAST</source>
+                         <target>
+    Desayuno Incluido
+                         </target>
+    </trans-unit>
+
         </body>
     </file>
 </xliff>
