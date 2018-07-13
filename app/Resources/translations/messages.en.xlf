@@ -4543,6 +4543,12 @@
                 Save up to 15% per reservation from 2 nights on.
                                      </target>
                 </trans-unit>
+                <trans-unit id="4841">
+                   <source>INCLUDE_BREAKFAST</source>
+                         <target>
+    Breakfast Included
+                         </target>
+    </trans-unit>
         </body>
     </file>
 </xliff>

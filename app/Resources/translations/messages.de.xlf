@@ -4576,6 +4576,12 @@ Zusätzlich zu der Verwaltung der Unterkunft, bieten wir Ihnen mehrere <strong>T
                       Sparen Sie bis zu 15% pro Buchung ab 2 Nächten.
                                                  </target>
                             </trans-unit>
+                            <trans-unit id="4841">
+                   <source>INCLUDE_BREAKFAST</source>
+                         <target>
+    Frühstück Inklusive
+                         </target>
+    </trans-unit>
          </body>
     </file>
 </xliff>

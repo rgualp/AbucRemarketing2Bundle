@@ -1949,6 +1949,7 @@ class ownershipRepository extends EntityRepository
                         o.own_geolocate_y as OwnGeolocateY,
                         o.own_facilities_breakfast as ownFacilitiesBreakfast,
                         o.own_facilities_breakfast_price as ownFacilitiesBreakfastPrice,
+                        o.own_facilities_breakfast_include as ownFacilitiesBreakfastInclude,
                         o.own_facilities_dinner as ownFacilitiesDinner,
                         o.own_facilities_dinner_price_from as ownFacilitiesDinnerPriceFrom,
                         o.own_facilities_dinner_price_to as ownFacilitiesDinnerPriceTo,
