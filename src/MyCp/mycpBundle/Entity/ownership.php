@@ -243,6 +243,14 @@ class ownership
      */
     private $own_facilities_breakfast_price;
 
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="own_facilities_breakfast_include", type="boolean")
+     */
+    private $own_facilities_breakfast_include;
+
     /**
      * @var boolean
      *
@@ -3301,7 +3309,6 @@ class ownership
     }
 
 
-
     /**
      * @return string
      */
@@ -3332,5 +3339,23 @@ class ownership
             }
         }
     }
+
+    /**
+     * @return bool
+     */
+    public function isOwnFacilitiesBreakfastInclude()
+    {
+        return $this->own_facilities_breakfast_include;
+    }
+
+    /**
+     * @param bool $own_facilities_breakfast_include
+     */
+    public function setOwnFacilitiesBreakfastInclude($own_facilities_breakfast_include)
+    {
+        $this->own_facilities_breakfast_include = $own_facilities_breakfast_include;
+    }
+
+
 }
 

@@ -4523,6 +4523,12 @@
              5.	Risparmia fino al 15% per prenotazione da 2 notti.
                                       </target>
                  </trans-unit>
+                 <trans-unit id="4841">
+                   <source>INCLUDE_BREAKFAST</source>
+                         <target>
+    Colazione Inclusa
+                         </target>
+    </trans-unit>
         </body>
     </file>
 </xliff>

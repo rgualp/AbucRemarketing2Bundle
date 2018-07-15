@@ -4628,6 +4628,12 @@ En plus de la gestion du logement, nous vous offrons plusieurs options de <stron
             Économisez jusqu'à 15% par réservation à partir de 2 nuits.
                                      </target>
                 </trans-unit>
+                <trans-unit id="4841">
+                   <source>INCLUDE_BREAKFAST</source>
+                         <target>
+    Petit Déjeuner Inclus
+                         </target>
+    </trans-unit>
         </body>
     </file>
 </xliff>
