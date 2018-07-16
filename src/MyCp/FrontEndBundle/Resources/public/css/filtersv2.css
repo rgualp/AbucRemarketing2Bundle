@@ -155,3 +155,18 @@
         text-align: center;
     }
 }
+
+.tag{
+    font-weight: bold;
+    color: white;
+    background: #f96332;
+    border-radius: 20px;
+    display: inline-block;
+    height: 26px;
+    line-height: 26px;
+    padding: 0 20px 0 23px;
+    position: relative;
+    margin: 0 10px 10px 0;
+    text-decoration: none;
+    -webkit-transition: color 0.2s;
+}

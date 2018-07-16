@@ -778,112 +778,119 @@ function refresh_filters_statistics(checked_filters)
 var map_big;
 var markers_big;
 function initialize_search_map() {
-    var json_url = $("#json_search_source").attr('data-url');
-    var icon_small = $("#json_search_source").attr('data-icon-small');
-    var icon = $("#json_search_source").attr('data-icon');
+    var $JSON_SEARCH_SOURCE = $("#json_search_source");
+    var json_url = $JSON_SEARCH_SOURCE.attr('data-url');
+    var icon_small = $JSON_SEARCH_SOURCE.attr('data-icon-small');
+    var icon = $JSON_SEARCH_SOURCE.attr('data-icon');
 
     if (document.getElementById("search_map") != null)
     {
-        //create empty LatLngBounds object
-        //var latlngbounds = new google.maps.LatLngBounds();
-        var center = new google.maps.LatLng(22.01300, -79.26635);//La Habana 23.09725, -82.37548
-        //latlngbounds.extend(center);
-        var options = {
-            'zoom': 8,
-            'center': center,
-            'mapTypeId': google.maps.MapTypeId.ROADMAP
-        };
+        try {
 
-        var map = new google.maps.Map(document.getElementById("search_map"), options);
-        var markers = [];
-        $.getJSON(json_url, function(data) {
-            if (data) {
-                var myOptions_own = {
-                    disableAutoPan: false,
-                    maxWidth: 0,
-                    pixelOffset: new google.maps.Size(-140, 0),
-                    zIndex: null,
-                    boxStyle: {
-                        opacity: 0.85,
-                        width: "280px"
-                    },
-                    closeBoxMargin: "10px 2px 2px 2px",
-                    infoBoxClearance: new google.maps.Size(1, 1),
-                    isHidden: false,
-                    pane: "floatPane",
-                    enableEventPropagation: false
-                };
-                var ib_own = new InfoBox(myOptions_own);
-                var latlng_pos="";
-                for (i = 0; i < data.length; i++) {
-                    var latlng = new google.maps.LatLng(data[i].latitude, data[i].longitude);
-                    if(latlng_pos==''){
-                        if(data[i].destination.geolocate_x != '' && data[i].destination.geolocate_y != '')
-                            latlng_pos= new google.maps.LatLng(data[i].destination.geolocate_x,data[i].destination.geolocate_y);
+            //create empty LatLngBounds object
+            //var latlngbounds = new google.maps.LatLngBounds();
+            var center = new google.maps.LatLng(22.01300, -79.26635);//La Habana 23.09725, -82.37548
+            //latlngbounds.extend(center);
+            var options = {
+                'zoom': 8,
+                'center': center,
+                'mapTypeId': google.maps.MapTypeId.ROADMAP
+            };
+
+            var map = new google.maps.Map(document.getElementById("search_map"), options);
+            var markers = [];
+            $.getJSON(json_url, function(data) {
+                if (data) {
+                    var myOptions_own = {
+                        disableAutoPan: false,
+                        maxWidth: 0,
+                        pixelOffset: new google.maps.Size(-140, 0),
+                        zIndex: null,
+                        boxStyle: {
+                            opacity: 0.85,
+                            width: "280px"
+                        },
+                        closeBoxMargin: "10px 2px 2px 2px",
+                        infoBoxClearance: new google.maps.Size(1, 1),
+                        isHidden: false,
+                        pane: "floatPane",
+                        enableEventPropagation: false
+                    };
+                    var ib_own = new InfoBox(myOptions_own);
+                    var latlng_pos="";
+                    for (i = 0; i < data.length; i++) {
+                        var latlng = new google.maps.LatLng(data[i].latitude, data[i].longitude);
+                        if(latlng_pos==''){
+                            if(data[i].destination.geolocate_x != '' && data[i].destination.geolocate_y != '')
+                                latlng_pos= new google.maps.LatLng(data[i].destination.geolocate_x,data[i].destination.geolocate_y);
+                        }
+                        var marker_bullet = new google.maps.Marker({
+                            id: data[i].id,
+                            map: map,
+                            position: latlng,
+                            title: data[i].title,
+                            icon: icon_small,
+                            content: "<tr><td class='map_image' style='background-image:url(" + data[i].image + ")'></td><td style='padding-left:4px; line-height:12px;' valign='top'>" + data[i].title + "<br/><b>" + data[i].content + "</b></td></tr>",
+
+                        });
+
+                        google.maps.event.addListener(marker_bullet, 'mouseover', (function(marker_bullet, i)
+                        {
+                            return function()
+                            {
+                                var boxText = document.createElement("div");
+                                boxText.style.cssText = "border: 1px solid #ccc; margin-top: 8px; background: #fff; padding: 5px; font-size:11px";
+                                boxText.innerHTML = "<div class='row'>" +
+                                    "<div class='map_image col-sm-4' style='background-image:url(" + data[i].image + ");height: 60px !important; margin: 0 10px;width: 65px !important;'></div>" +
+                                    "<div class='col-sm-8' style='line-height:12px;text-align: left'>" + data[i].title + "<br/>" +
+                                    "<b>" + data[i].content + "</b>" +
+                                    "</div>" +
+                                    "</div>";
+
+                                ib_own.setContent(boxText);
+                                ib_own.open(map, marker_bullet);
+                            };
+                        })(marker_bullet, i));
+
+                        google.maps.event.addListener(marker_bullet, 'mouseout', (function(marker_bullet, i)
+                        {
+                            return function()
+                            {
+                                ib_own.close();
+                                $('.elementList[data-id="' + data[i].id + '"]').removeClass("markerActive");
+                            };
+                        })(marker_bullet, i));
+                        google.maps.event.addListener(marker_bullet, 'click', (function(marker_bullet, i)
+                        {
+                            return function()
+                            {
+                                var url = data[i].url;
+                                window.open(url, '_blank');
+                                return false;
+                            };
+                        })(marker_bullet, i));
+                        markers.push(marker_bullet);
                     }
-                    var marker_bullet = new google.maps.Marker({
-                        id: data[i].id,
-                        map: map,
-                        position: latlng,
-                        title: data[i].title,
-                        icon: icon_small,
-                        content: "<tr><td class='map_image' style='background-image:url(" + data[i].image + ")'></td><td style='padding-left:4px; line-height:12px;' valign='top'>" + data[i].title + "<br/><b>" + data[i].content + "</b></td></tr>",
-
+                    var mcOptions = {
+                        gridSize: 50,
+                        maxZoom: 15,
+                        averageCenter:true
+                    };
+                    var markerCluster = new MarkerClusterer(map, markers, mcOptions);
+                    map.setCenter( latlng_pos);
+                    $('.elementList').mouseover(function() {
+                        showMarkerInfoGeneric($(this),map,markers);
                     });
 
-                    google.maps.event.addListener(marker_bullet, 'mouseover', (function(marker_bullet, i)
-                    {
-                        return function()
-                        {
-                            var boxText = document.createElement("div");
-                            boxText.style.cssText = "border: 1px solid #ccc; margin-top: 8px; background: #fff; padding: 5px; font-size:11px";
-                            boxText.innerHTML = "<div class='row'>" +
-                                "<div class='map_image col-sm-4' style='background-image:url(" + data[i].image + ");height: 60px !important; margin: 0 10px;width: 65px !important;'></div>" +
-                                "<div class='col-sm-8' style='line-height:12px;text-align: left'>" + data[i].title + "<br/>" +
-                                "<b>" + data[i].content + "</b>" +
-                                "</div>" +
-                                "</div>";
-
-                            ib_own.setContent(boxText);
-                            ib_own.open(map, marker_bullet);
-                        };
-                    })(marker_bullet, i));
-
-                    google.maps.event.addListener(marker_bullet, 'mouseout', (function(marker_bullet, i)
-                    {
-                        return function()
-                        {
-                            ib_own.close();
-                            $('.elementList[data-id="' + data[i].id + '"]').removeClass("markerActive");
-                        };
-                    })(marker_bullet, i));
-                    google.maps.event.addListener(marker_bullet, 'click', (function(marker_bullet, i)
-                    {
-                        return function()
-                        {
-                            var url = data[i].url;
-                            window.open(url, '_blank');
-                            return false;
-                        };
-                    })(marker_bullet, i));
-                    markers.push(marker_bullet);
+                    $('.elementList').mouseout(function() {
+                        hideMarkerInfoGeneric($(this),map,markers);
+                    });
                 }
-                var mcOptions = {
-                    gridSize: 50,
-                    maxZoom: 15,
-                    averageCenter:true
-                };
-                var markerCluster = new MarkerClusterer(map, markers, mcOptions);
-                map.setCenter( latlng_pos);
-                $('.elementList').mouseover(function() {
-                    showMarkerInfoGeneric($(this),map,markers);
-                });
-
-                $('.elementList').mouseout(function() {
-                    hideMarkerInfoGeneric($(this),map,markers);
-                });
-            }
-        });
+            });
+        }
+        catch (e){
+            console.log(e.message);
+        }
     }
 }
 

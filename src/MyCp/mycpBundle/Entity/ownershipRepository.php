@@ -1669,6 +1669,7 @@ class ownershipRepository extends EntityRepository
                         SUM(IF(o.own_rooms_total = 5, 1, 0)) AS rooms_total_5,
                         SUM(IF(o.own_rooms_total > 5, 1, 0)) AS rooms_total_more_5,
                         SUM(IF(o.own_facilities_breakfast = 1, 1, 0)) AS own_services_breakfast,
+                        SUM(IF(o.own_facilities_breakfast_include = 1 AND o.own_facilities_breakfast = 1 , 1, 0)) AS own_services_breakfast_include,
                         SUM(IF(o.own_facilities_dinner = 1, 1, 0)) AS own_services_dinner,
                         SUM(IF(o.own_facilities_parking = 1, 1, 0)) AS own_services_parking,
                         SUM(IF(o.own_water_piscina = 1, 1, 0)) AS own_water_pool,
