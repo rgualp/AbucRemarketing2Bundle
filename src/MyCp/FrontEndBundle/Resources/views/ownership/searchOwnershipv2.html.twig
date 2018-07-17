@@ -43,16 +43,7 @@
     {{ "SEARCH_DESCRIPTION_MAIN_MENU" | trans }}
 {% endblock %}
 {% block marquesina %}{% endblock %}
-{% block custom_menus %}
-    <div id="top-menu-cont" style="height: 52px; margin: 0; background: #86b32b;">
-        <nav id="top-menu" class="navbar navbar-inverse bg-gradient-blue"
-             style="{% if is_home is defined %}border-bottom: solid #98CD34 7px;{% endif %}">
-            <div class="container">
-                {% include 'FrontEndBundle:utils:searchTopNav.html.twig' with { 'route': app.request.get('_route'), 'routeParams': app.request.get('_route_params')|json_encode|url_encode } %}
-            </div>
-        </nav>
-    </div>
-{% endblock %}
+
 {% block class_breadcrumbs %}{% endblock %}
 {% block breadcrumbs %}{% endblock %}
 {% block body %}
@@ -96,7 +87,7 @@
                 <div class="modal inmodal fade" id="myModalOwnerShipCalendar" tabindex="-1" role="dialog"
                      aria-hidden="true"></div>
                 <div class="houses-list thumbs-houses lazy-cont result_list ownerships_mosaic" id="div_result"
-                     data-current-page="{{ current_page }}" data-cant-page="{{ cant_pages }}">
+                     data-current-page="{{ current_page }}" data-cant-page="{{ cant_pages }}" style="height: 300px;">
 
                     {#{{ include('FrontEndBundle:ownership:searchMosaicOwnershipv2.html.twig',#}
                     {#{'list': list,#}
