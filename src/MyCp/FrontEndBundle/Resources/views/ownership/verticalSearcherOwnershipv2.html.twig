@@ -60,17 +60,18 @@
                     <option value="+5" {% if app.session.get('search_rooms') != null and app.session.get('search_rooms') == "+5" %} selected {% endif %}>
                         +5 {{ "ROOM_PLURAL" | trans | capitalize }}</option>
                 </select></div>
+            <div class="col pull-right">
+                {% if is_within_search_results %}
+                    <button style="padding: 2px 15px;" id="button_research" class="btn btn-primary btn-large pull-right"
+                            data-url="{{ path('frontend_research_ownership_callback') }}">{{ "SEARCH" | trans|capitalize }}</button>
+                {% else %}
+                    <button style="padding: 2px 15px;" id="btn_search" class="btn btn-primary btn-large pull-right"
+                            data-url="{{ path('frontend_search_ownership',{'text':'_text', 'arrival':'_arrival','departure':'_departure','guests':'_guests','rooms':'_rooms','order_price':'_order_price', 'order_comments':'_order_comments', 'order_books':'_order_books' }) }}"
+                            onclick="search()">{{ "SEARCH" | trans|capitalize }}</button>
+                {% endif %}
+            </div>
         </div>
-        <div class="col pull-right">
-            {% if is_within_search_results %}
-                <button style="padding: 2px 15px;" id="button_research" class="btn btn-primary btn-large pull-right"
-                        data-url="{{ path('frontend_research_ownership_callback') }}">{{ "SEARCH" | trans|capitalize }}</button>
-            {% else %}
-                <button style="padding: 2px 15px;" id="btn_search" class="btn btn-primary btn-large pull-right"
-                        data-url="{{ path('frontend_search_ownership',{'text':'_text', 'arrival':'_arrival','departure':'_departure','guests':'_guests','rooms':'_rooms','order_price':'_order_price', 'order_comments':'_order_comments', 'order_books':'_order_books' }) }}"
-                        onclick="search()">{{ "SEARCH" | trans|capitalize }}</button>
-            {% endif %}
-        </div>
+
     </div>
     <div class="row">
         <div class="col">

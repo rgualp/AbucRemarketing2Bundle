@@ -49,7 +49,7 @@
         var xpath = "{{ path('frontend_show_modal_ownership_calendar') }}";
         var own_id= e.data('idown');
         if(own_id!=''){
-            modal.load(xpath, {'idOwn':e.data('idown')}, function(e){
+            modal.find('.modal-body').load(xpath, {'idOwn':e.data('idown')}, function(e){
                 $("#myModalOwnerShipCalendar").modal('show');
                 var arrival = $('#input_arrival_date').val();
                 var departure = $('#input_departure_date').val();
