@@ -1314,3 +1314,18 @@ h1, h2, h3, h4, h5, h6 {
     width: auto;
     height: 484px;
 }
+#poput-description {
+    height: 100%;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+#poput-description .images-destination {
+    background-position: center center;
+    background-size: cover;
+    height: 100%;
+}
+.destination-bar-title {
+    border-bottom: 3px solid #ccc;
+    background-color: rgba(255,255,255,0.8);
+}
