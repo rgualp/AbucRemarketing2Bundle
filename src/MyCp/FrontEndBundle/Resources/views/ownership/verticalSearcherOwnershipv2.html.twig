@@ -1,6 +1,6 @@
 <div class="filters-container">
     <div class="row">
-        <div class="col-sm-12">
+        <div class="row">
             <div class="col-sm-3 p-5"><input {% if isDestination is defined and isDestination == true %}disabled{% endif %} type="text" class="form-control gtm-input-text"
                                              {% if app.session.get('search_text') != null and app.session.get('search_text') != 'null' %}value="{{ app.session.get('search_text') }}"{% endif %}
                                              placeholder="{{ "PLACE_WATERMARK" | trans }}" id="input_text"
@@ -61,7 +61,7 @@
                         +5 {{ "ROOM_PLURAL" | trans | capitalize }}</option>
                 </select></div>
         </div>
-        <div class="col-sm-1 p-5 pull-right">
+        <div class="col pull-right">
             {% if is_within_search_results %}
                 <button style="padding: 2px 15px;" id="button_research" class="btn btn-primary btn-large pull-right"
                         data-url="{{ path('frontend_research_ownership_callback') }}">{{ "SEARCH" | trans|capitalize }}</button>
@@ -73,7 +73,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-4">
+        <div class="col">
             <div class="checkbox" style="margin: 0">
                 <label>
                     <input class="action_remove_filter_up" type="checkbox" id="own_inmediate_booking2"
@@ -83,7 +83,7 @@
                 </label>
             </div>
         </div>
-        <div class="col-sm-4">
+        <div class="col">
             <div class="checkbox" style="margin: 0">
                 <label>
                     <input class="action_remove_filter_up" type="checkbox" id="own_inmediate_booking"
@@ -93,7 +93,7 @@
                 </label>
             </div>
         </div>
-        <div class="col-sm-4">
+        <div class="col">
             <div class="checkbox" style="margin: 0">
                 <label>
                     <input class="action_remove_filter_up" type="checkbox" id="own_update_avaliable"
