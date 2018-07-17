@@ -646,6 +646,10 @@ class SearchUtils {
                 case 'POOL':
                     $where .= " AND o.own_water_piscina = 1";
                     break;
+                case 'BREAKFAST_INCLUDED':
+                    $where .= " AND o.own_facilities_breakfast = 1";
+                    $where .= " AND o.own_facilities_breakfast_include = 1 ";
+                    break;
             }
         }
         return $where;
