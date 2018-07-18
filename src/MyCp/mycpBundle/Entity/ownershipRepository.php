@@ -747,12 +747,6 @@ class ownershipRepository extends EntityRepository
 
         $em->persist($ownership);
 
-        //save client casa
-        if ($new_user && $status->getStatusId() == ownershipStatus::STATUS_ACTIVE) {
-            $file = $request->files->get('user_photo');
-            $em->getRepository('mycpBundle:userCasa')->createUserByBackend($ownership, $file, $factory, $send_creation_mail, $controller, $container, $userService);
-        }
-
         //If the status of the accommodation change from active to inactive, then the userCasa account associated must be set to disabled
         if ($old_status->getStatusId() == ownershipStatus::STATUS_ACTIVE && $status->getStatusId() == ownershipStatus::STATUS_INACTIVE)
             $em->getRepository('mycpBundle:userCasa')->changeStatus($ownership->getOwnId(), false);
@@ -1675,6 +1669,7 @@ class ownershipRepository extends EntityRepository
                         SUM(IF(o.own_rooms_total = 5, 1, 0)) AS rooms_total_5,
                         SUM(IF(o.own_rooms_total > 5, 1, 0)) AS rooms_total_more_5,
                         SUM(IF(o.own_facilities_breakfast = 1, 1, 0)) AS own_services_breakfast,
+                        SUM(IF(o.own_facilities_breakfast_include = 1 AND o.own_facilities_breakfast = 1 , 1, 0)) AS own_services_breakfast_include,
                         SUM(IF(o.own_facilities_dinner = 1, 1, 0)) AS own_services_dinner,
                         SUM(IF(o.own_facilities_parking = 1, 1, 0)) AS own_services_parking,
                         SUM(IF(o.own_water_piscina = 1, 1, 0)) AS own_water_pool,
@@ -1955,6 +1950,7 @@ class ownershipRepository extends EntityRepository
                         o.own_geolocate_y as OwnGeolocateY,
                         o.own_facilities_breakfast as ownFacilitiesBreakfast,
                         o.own_facilities_breakfast_price as ownFacilitiesBreakfastPrice,
+                        o.own_facilities_breakfast_include as ownFacilitiesBreakfastInclude,
                         o.own_facilities_dinner as ownFacilitiesDinner,
                         o.own_facilities_dinner_price_from as ownFacilitiesDinnerPriceFrom,
                         o.own_facilities_dinner_price_to as ownFacilitiesDinnerPriceTo,

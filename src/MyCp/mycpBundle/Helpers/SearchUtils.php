@@ -264,6 +264,7 @@ class SearchUtils {
                             data.reservedRooms as count_reservations,
                             data.publishedComments  as comments,
                             o.own_facilities_breakfast as breakfast,
+                            o.own_facilities_breakfast_include as breakfast_include,
                             o.own_facilities_dinner as dinner,
                             o.own_facilities_parking as parking,
                             o.own_water_piscina as pool,
@@ -311,6 +312,7 @@ class SearchUtils {
                             data.reservedRooms as count_reservations,
                             data.publishedComments  as comments,
                             o.own_facilities_breakfast as breakfast,
+                            o.own_facilities_breakfast_include as breakfast_include,
                             o.own_facilities_dinner as dinner,
                             o.own_facilities_parking as parking,
                             o.own_water_piscina as pool,
@@ -643,6 +645,10 @@ class SearchUtils {
                     break;
                 case 'POOL':
                     $where .= " AND o.own_water_piscina = 1";
+                    break;
+                case 'BREAKFAST_INCLUDED':
+                    $where .= " AND o.own_facilities_breakfast = 1";
+                    $where .= " AND o.own_facilities_breakfast_include = 1 ";
                     break;
             }
         }

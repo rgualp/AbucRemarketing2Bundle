@@ -651,6 +651,10 @@ class ownershipReservation {
         return $this;
     }
 
+    public function isCanceled(){
+        return $this->own_res_status == self::STATUS_CANCELLED;
+    }
+
 
 
 }

@@ -196,7 +196,7 @@ class BookingService extends Controller
         }
 
         $totalPriceToPayAtServiceInCUC = $totalPrice - $totalPercentPrice;
-        if($travelAgency->getAgencyPackages()->isSpecial()) {
+        if($travelAgency->getAgencyPackages()[0]->getPackage()->isSpecial()) {
             $travelAgencycomision = $travelAgency->getCommission() / 100;
         }
         else{
@@ -372,7 +372,7 @@ class BookingService extends Controller
         }
 
         $totalPriceToPayAtServiceInCUC = $totalPrice - $totalPercentPrice;
-        if($travelAgency->getAgencyPackages()->isSpecial()) {
+        if($travelAgency->getAgencyPackages()[0]->getPackage()->isSpecial()) {
             $travelAgencycomision = $travelAgency->getCommission() / 100;
         }
         else{

@@ -34,7 +34,7 @@ twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     globals:
-         global_google_maps_api_url_with_key: //maps.googleapis.com/maps/api/js?v=3&sensor=false&key=AIzaSyCmDojZzlVMZkNntKwDZeAS9VBoPJVYBFQ
+         global_google_maps_api_url_with_key: //maps.googleapis.com/maps/api/js?v=3&key=AIzaSyCmDojZzlVMZkNntKwDZeAS9VBoPJVYBFQ
          mycasa_office_geolocate_x: 47.547490
          mycasa_office_geolocate_y: 7.594289
          mycasa_office_phone: (+41)44 586 64 44
@@ -343,30 +343,30 @@ mobile_detect:
     request_response_listener_class: "SunCat\MobileDetectBundle\EventListener\RequestResponseListener"
     twig_extension_class: "SunCat\MobileDetectBundle\Twig\Extension\MobileDetectExtension"
 
-google:
-    analytics:
-        enhanced_ecommerce: false
-        session_auto_started: true
-        trackers:
-            default:
-                name: MyJavaScriptCompatibleVariableNameWithNoSpaces
-                accountId: %id_google_analitics%
-                domain: .mycasaparticular.com
-                setSiteSpeedSampleRate: 5
-                allowAnchor: true
-                allowHash: true
-                includeNamePrefix: false
-                plugins:
-                    - 'linkid'
-                    - 'ecommerce'
-        whitelist: [ 'q', 'utm_source', 'utm_medium', 'utm_term', 'utm_content', 'utm_campaign' ]
-
-    adwords:
-        conversions:
-            checkout_thanks:
-                id:    1016854742
-                label: -guECPr9lAMQ1vHv5AM
-                value: 0
+#google:
+#    analytics:
+#        enhanced_ecommerce: false
+#        session_auto_started: true
+#        trackers:
+#            default:
+#                name: MyJavaScriptCompatibleVariableNameWithNoSpaces
+#                accountId: %id_google_analitics%
+#                domain: .mycasaparticular.com
+#                setSiteSpeedSampleRate: 5
+#                allowAnchor: true
+#                allowHash: true
+#                includeNamePrefix: false
+#                plugins:
+#                    - 'linkid'
+#                    - 'ecommerce'
+#        whitelist: [ 'q', 'utm_source', 'utm_medium', 'utm_term', 'utm_content', 'utm_campaign' ]
+#
+#    adwords:
+#        conversions:
+#            checkout_thanks:
+#                id:    1016854742
+#                label: -guECPr9lAMQ1vHv5AM
+#                value: 0
 
 tinypng:
     api_key: Va2dGNIare8Aj3xo8tKZOrZKI6GIqY9R

@@ -3,9 +3,8 @@
     <div class="ibox-title card">
 
 
-        <span class="title-card" >{{ "dashboard.booking.detail" | trans }} - {{ cas }}  - {{ agency }} : {{ user }} </span>
-
-
+        <span class="title-card">{{ "dashboard.booking.detail" | trans }} - {{ cas }} - {{ agency }}
+            : {{ user }} </span>
 
 
         <div class="ibox-tools">
@@ -27,22 +26,27 @@
                             <dd><span class="rst">{{ reference }}</span></dd>
 
                             <dt><em class="rt">{{ "dashboard.booking.client_dates" | trans }}:</em></dt>
-                            <dd><span class="rst">{{ reservation.getTravelAgencyDetailReservations.first.getReservation.getClient.getFullName }}</span></dd>
-
+                            <dd>
+                                <span class="rst">{{ reservation.getTravelAgencyDetailReservations.first.getReservation.getClient.getFullName }}</span>
+                            </dd>
 
 
                             <dt><em class="rt">{{ "FORMS_COMMENTS" | trans }}:</em></dt>
-                            <dd><span class="rst">{{ reservation.getTravelAgencyDetailReservations.first.getReservation.getClient.getComments }}</span></dd>
+                            <dd>
+                                <span class="rst">{{ reservation.getTravelAgencyDetailReservations.first.getReservation.getClient.getComments }}</span>
+                            </dd>
 
                             <dt><em class="rt">{{ "label.name.country" | trans }}:</em></dt>
-                            <dd><span class="rst">{{ reservation.getTravelAgencyDetailReservations.first.getReservation.getClient.getCountry }}</span></dd>
+                            <dd>
+                                <span class="rst">{{ reservation.getTravelAgencyDetailReservations.first.getReservation.getClient.getCountry }}</span>
+                            </dd>
 
                             <dt><em class="rt">{{ "dashboard.booking.cas" | trans }}:</em></dt>
                             <dd><span class="rst">{{ reservation.getGenResId }}</span></dd>
 
                             {% if reservation.getGenResStatus==2 %}
-                            <dt><em class="rt">{{ "dashboard.booking.bookingcode" | trans }}:</em></dt>
-                            <dd><span class="rst">{{ booking }}</span></dd>
+                                <dt><em class="rt">{{ "dashboard.booking.bookingcode" | trans }}:</em></dt>
+                                <dd><span class="rst">{{ booking }}</span></dd>
 
                                 <dt><em class="rt">{{ "dashboard.booking.bookingdate" | trans }}:</em></dt>
                                 <dd><span class="rst">{{ reservation.getGenResDate | date("d-m-Y") }}</span></dd>
@@ -56,10 +60,9 @@
                                 <dd><span class="rst">{{ invoice_date| date("d-m-Y") }}</span></dd>
 
                             {% else %}
-                            <dt><em class="rt">{{ "dashboard.booking.date" | trans }}:</em></dt>
-                            <dd><span class="rst">{{ reservation.getGenResDate | date("d-m-Y") }}</span></dd>
+                                <dt><em class="rt">{{ "dashboard.booking.date" | trans }}:</em></dt>
+                                <dd><span class="rst">{{ reservation.getGenResDate | date("d-m-Y") }}</span></dd>
                             {% endif %}
-
 
 
                         </dl>
@@ -68,7 +71,11 @@
                         <dl class="dl-horizontal">
 
                             <dt><em class="rt">{{ "dashboard.booking.acomodation" | trans }}:</em></dt>
-                            <dd><span class="rst"><a href="{{ path("partner_dashboard_page_detail",{'own_name':reservation.getGenResOwnId.getOwnName  | urlNormalize}) }}" target="_blank"><b style="font-style: italic;text-decoration: underline;">{{ reservation.getGenResOwnId.getOwnMcpCode }}-{{ reservation.getGenResOwnId.getOwnName }}</b></a></span></dd>
+                            <dd><span class="rst"><a
+                                            href="{{ path("partner_dashboard_page_detail",{'own_name':reservation.getGenResOwnId.getOwnName  | urlNormalize}) }}"
+                                            target="_blank"><b
+                                                style="font-style: italic;text-decoration: underline;">{{ reservation.getGenResOwnId.getOwnMcpCode }}
+                                            -{{ reservation.getGenResOwnId.getOwnName }}</b></a></span></dd>
 
 
                             <dt><em class="rt">{{ "dashboard.booking.home.type" | trans }}:</em></dt>
@@ -78,18 +85,22 @@
                             <dd><span class="rst">{{ reservation.getGenResOwnId.getOwnCategory }}</span></dd>
 
                             <dt><em class="rt">{{ "dashboard.booking.home.province" | trans }}:</em></dt>
-                            <dd><span class="rst">{{ reservation.getGenResOwnId.getOwnAddressProvince.getProvName }}</span></dd>
+                            <dd>
+                                <span class="rst">{{ reservation.getGenResOwnId.getOwnAddressProvince.getProvName }}</span>
+                            </dd>
 
                             <dt><em class="rt">{{ "dashboard.booking.home.destination" | trans }}:</em></dt>
-                            <dd><span class="rst">{{ reservation.getGenResOwnId.getOwnDestination.getDesName }}</span></dd>
+                            <dd><span class="rst">{{ reservation.getGenResOwnId.getOwnDestination.getDesName }}</span>
+                            </dd>
 
                             <dt><em class="rt">{{ "dashboard.booking.home.owns" | trans }}:</em></dt>
                             <dd><span class="rst">{{ reservation.getGenResOwnId.getOwnHomeowner1 }}</span></dd>
 
 
-
                             <dt><em class="rt">{{ "dashboard.booking.status" | trans }}:</em></dt>
-                            <dd><span class="rst">{% include 'PartnerBundle:Dashboard:general_reservation_status_name.html.twig' with {'status': reservation.getGenResStatus} %}</span></dd>
+                            <dd>
+                                <span class="rst">{% include 'PartnerBundle:Dashboard:general_reservation_status_name.html.twig' with {'status': reservation.getGenResStatus} %}</span>
+                            </dd>
                         </dl>
                     </div>
                 </div>
@@ -115,7 +126,8 @@
             </tr>
         </table>#}
 
-        <table class="table striped1 table-striped table-bordered table-hover dataTables-example" style="font-size: 12px">
+        <table class="table striped1 table-striped table-bordered table-hover dataTables-example"
+               style="font-size: 12px">
             <thead>
             <tr>
                 <th></th>
@@ -159,25 +171,56 @@
                         {% endif %}
                     </td>
                     <td>
-                        <span class="rst">Hab #{{ rooms[flag].getRoomNum }} - {{ rooms[flag].getRoomType }}</span>
+                        {% if reservation_rooms.isCanceled() %}
+                            <span class="rst"><del>Hab #{{ rooms[flag].getRoomNum }}
+                                    - {{ rooms[flag].getRoomType }}</del></span>
+                        {% else %}
+                            <span class="rst">Hab #{{ rooms[flag].getRoomNum }} - {{ rooms[flag].getRoomType }}</span>
+                        {% endif %}
                     </td>
                     <td style="width: 50px">
-                        <span class="rst">{{ reservation_rooms.getOwnResCountAdults }}</span>
+                        {% if reservation_rooms.isCanceled() %}
+                            <span class="rst"><del>{{ reservation_rooms.getOwnResCountAdults }}</del></span>
+                        {% else %}
+                            <span class="rst">{{ reservation_rooms.getOwnResCountAdults }}</span>
+                        {% endif %}
+
                     </td>
                     <td>
-                        <span class="rst">{{ reservation_rooms.getOwnResCountChildrens }}</span>
+                        {% if reservation_rooms.isCanceled() %}
+                            <span class="rst"><del>{{ reservation_rooms.getOwnResCountChildrens }}</del></span>
+                        {% else %}
+                            <span class="rst">{{ reservation_rooms.getOwnResCountChildrens }}</span>
+                        {% endif %}
                     </td>
                     <td>
-                        <span class="rst">{% if post['date_from_'~reservation_rooms.getOwnResId] is defined %}{{ post['date_from_'~reservation_rooms.getOwnResId] }}{% else %}{{ reservation_rooms.getOwnResReservationFromDate | date("d-m-Y") }}{% endif %}</span>
+                        {% if reservation_rooms.isCanceled() %}
+                            <span class="rst"><del>{% if post['date_from_'~reservation_rooms.getOwnResId] is defined %}{{ post['date_from_'~reservation_rooms.getOwnResId] }}{% else %}{{ reservation_rooms.getOwnResReservationFromDate | date("d-m-Y") }}{% endif %}</del></span>
+                        {% else %}
+                            <span class="rst">{% if post['date_from_'~reservation_rooms.getOwnResId] is defined %}{{ post['date_from_'~reservation_rooms.getOwnResId] }}{% else %}{{ reservation_rooms.getOwnResReservationFromDate | date("d-m-Y") }}{% endif %}</span>
+                        {% endif %}
+
                     </td>
                     <td>
-                        <span class="rst">{% if post['date_from_'~reservation_rooms.getOwnResId] is defined %}{{ post['date_to_'~reservation_rooms.getOwnResId] }}{% else %}{{ reservation_rooms.getOwnResReservationToDate | date("d-m-Y") }}{% endif %}</span>
+                        {% if reservation_rooms.isCanceled() %}
+                            <span class="rst"><del>{% if post['date_from_'~reservation_rooms.getOwnResId] is defined %}{{ post['date_to_'~reservation_rooms.getOwnResId] }}{% else %}{{ reservation_rooms.getOwnResReservationToDate | date("d-m-Y") }}{% endif %}</del></span>
+                        {% else %}
+                            <span class="rst">{% if post['date_from_'~reservation_rooms.getOwnResId] is defined %}{{ post['date_to_'~reservation_rooms.getOwnResId] }}{% else %}{{ reservation_rooms.getOwnResReservationToDate | date("d-m-Y") }}{% endif %}</span>
+                        {% endif %}
                     </td>
                     <td>
-                        <span class="rst">{{ nights[loop.index0] }}</span>
+                        {% if reservation_rooms.isCanceled() %}
+                            <span class="rst"><del>{{ nights[loop.index0] }}</del></span>
+                        {% else %}
+                            <span class="rst">{{ nights[loop.index0] }}</span>
+                        {% endif %}
                     </td>
                     <td nowrap="nowrap">
-                        <span class="rst">{{ total_prices[loop.index0] }}</span>
+                        {% if reservation_rooms.isCanceled() %}
+                            <span class="rst"><del>{{ total_prices[loop.index0] }}</del></span>
+                        {% else %}
+                            <span class="rst">{{ total_prices[loop.index0] }}</span>
+                        {% endif %}
                     </td>
                 </tr>
                 {% set flag = flag + 1 %}
@@ -201,30 +244,41 @@
 
             </td>
             <td>
-                <span class="rst"  >{{ 'PAYMENT_COMPLETE' | trans }}</span>
+                <span class="rst">{{ 'PAYMENT_COMPLETE' | trans }}</span>
 
             </td>
             <td>
-                <span class="rst" > {{ array_complete_prices }}</span>
+                <span class="rst"> {{ array_complete_prices }}</span>
 
             </td>
         </table>
 
         {% if oneCanBeCanceled %}
-            <a style="float: right" id="btnCancel" data-url="{{ path("partner_frontend_cancel_reservations_callback") }}"><span class="rt"> {{ 'label.cancel' | trans }} </span></a>
+            <a style="float: right" id="btnCancel"
+               data-url="{{ path("partner_frontend_cancel_reservations_callback") }}"><span
+                        class="rt"> {{ 'label.cancel' | trans }} </span></a>
         {% endif %}
         {% if reservation.getGenResStatus==10 %}
-            <a style="float: right" href="{{ path("partner_download_invoice") }}/{{ reservation.getGenResId }}"> <span class="rt" style="float: right; margin-right: 20px;"> {{ "partner.download.invoice" | trans }} </span> </a>
-            <a style="float: right" href="{{ path("partner_download_voucher") }}/{{ booking }}"> <span class="rt" style="float: right; margin-right: 20px;"> {{ "partner.download.voucher" | trans }} </span> </a>
+            <a style="float: right" href="{{ path("partner_download_invoice") }}/{{ reservation.getGenResId }}"> <span
+                        class="rt"
+                        style="float: right; margin-right: 20px;"> {{ "partner.download.invoice" | trans }} </span> </a>
+            <a style="float: right" href="{{ path("partner_download_voucher") }}/{{ booking }}"> <span class="rt"
+                                                                                                       style="float: right; margin-right: 20px;"> {{ "partner.download.voucher" | trans }} </span>
+            </a>
 
         {% endif %}
         {% if reservation.getGenResStatus==2 %}
-            <a style="float: right" href="{{ path("partner_download_voucher") }}/{{ booking }}"> <span class="rt" style="float: right; margin-right: 20px;"> {{ "partner.download.voucher" | trans }} </span> </a>
+            <a style="float: right" href="{{ path("partner_download_voucher") }}/{{ booking }}"> <span class="rt"
+                                                                                                       style="float: right; margin-right: 20px;"> {{ "partner.download.voucher" | trans }} </span>
+            </a>
 
         {% endif %}
         {% include 'PartnerBundle:Dashboard:general_reservation_action.html.twig' with {'status': reservation.getGenResStatus, 'id_res':id_res} %}
     </div>
-    <span id="alertMessages" data-alerttitle="{{ "cart.alert.title" | trans }}" data-alertcontent="{{ "cart.alert.content" | trans }}" data-cancelbutton="{{ "cart.alert.cancel_button" | trans }}" data-confirmbutton="{{ "cart.alert.confirm_button" | trans }}"></span>
+    <span id="alertMessages" data-alerttitle="{{ "cart.alert.title" | trans }}"
+          data-alertcontent="{{ "cart.alert.content" | trans }}"
+          data-cancelbutton="{{ "cart.alert.cancel_button" | trans }}"
+          data-confirmbutton="{{ "cart.alert.confirm_button" | trans }}"></span>
 </div>
 
 <script type="text/javascript">

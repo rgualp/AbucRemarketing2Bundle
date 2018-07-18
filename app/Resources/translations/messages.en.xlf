@@ -4540,6 +4540,19 @@
                             <source>MyCasaparticular</source>
                             <target>MyCasaparticular</target>
                         </trans-unit>
+            </trans-unit>
+            <trans-unit id="4840">
+                               <source>BANNER_INFO</source>
+                                     <target>
+                Save up to 15% per reservation from 2 nights on.
+                                     </target>
+                </trans-unit>
+                <trans-unit id="4841">
+                   <source>INCLUDE_BREAKFAST</source>
+                         <target>
+    Breakfast Included
+                         </target>
+    </trans-unit>
         </body>
     </file>
 </xliff>
