@@ -4550,18 +4550,18 @@
     </trans-unit>
 
 
-                <trans-unit id="4837">
+                <trans-unit id="4842">
                                         <source>CAROUSER_TEXT1</source>
                                     <target>
                     MyCasaParticular está consciente del impacto social y económico que representa cada visita de un turista a un alojamiento privado. Miles de familias cubanas se benefician de esta manera además de crear puestos de trabajos. El equipo de MyCasaParticular no conoce un método mejor de ayudar al pueblo de Cuba, practicar un turismo equitativo, responsable y de respeto a la naturaleza.</target>
                                 </trans-unit>
-                                    <trans-unit id="4838">
+                                    <trans-unit id="4843">
                              <source>CASA_PARTICULAR_TITLE</source>
                           <target>
                        ¿Qué es una casa particular?
                         </target>
                                                 </trans-unit>
-              <trans-unit id="4839">
+              <trans-unit id="4844">
                                    <source>CASA_PARTICULAR_TITLE_AWSER</source>
                        <target>
                                 Casa Particular es el término que se utiliza en Cuba para denominar una casa entera,
@@ -4573,7 +4573,7 @@
                                 alojamiento como desayuno, cena, lavandería, etc.
                 </target>
                </trans-unit>
-                  <trans-unit id="4840">
+                  <trans-unit id="4845">
                                            <source>MyCasaparticular</source>
                                            <target>MyCasaparticular</target>
                                        </trans-unit>
