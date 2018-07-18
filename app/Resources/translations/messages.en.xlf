@@ -4539,7 +4539,7 @@
             <trans-unit id="4840">
                             <source>MyCasaparticular</source>
                             <target>MyCasaparticular</target>
-                        </trans-unit>
+
             </trans-unit>
             <trans-unit id="4841">
                                <source>BANNER_INFO</source>
@@ -4549,7 +4549,7 @@
                 </trans-unit>
      <trans-unit id="4842">
        <source>INCLUDE_BREAKFAST</source>
-                <target>
+        <target>
     Breakfast Included
         </target>
     </trans-unit>
