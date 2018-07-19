@@ -200,6 +200,10 @@
                     iconBase: 'fa',
                     tickIcon: 'fa-check'
                 });
+                $('#cancel-filters').on('click', function () {
+                    $('#button_research').removeClass('hide');
+                    $('#more_filters').addClass('collapsed');
+                });
                 $('#more_filters').on('click', function () {
                     if ($('#more_filters').hasClass('collapsed')) {
                         $('#button_research').addClass('hide');
