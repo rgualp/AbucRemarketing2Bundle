@@ -1,39 +1,44 @@
+<div class="card">
 
-<div class="col">
-<div class="thumbnail">
-        <a title="{{ "DESTINATIONS"|trans }} {{ destination_name }}" href="{{ path('frontend_details_destination',{'destination_name':destination_name|lower|replace(' ','-')}) }}">
-            {% set url_image = asset("uploads/destinationImages/" ~ photo) %}
-            <img src="{{ asset('bundles/frontend/img/nophoto.gif') }}" alt="{{ "DESTINATIONS"|trans }} {{ destination_name }}" title="{{ "DESTINATIONS"|trans }} {{ destination_name }}" id="image{{ destination_id }}" class="bttrlazyloading" data-bttrlazyloading-md-src="{{ url_image | apply_filter('my_thumb_destination') }}" />
+    <!--Card image-->
+    <div class="view overlay">
+        {% set url_image = asset("uploads/destinationImages/" ~ photo) %}
+        <img src="{{ asset('bundles/frontend/img/nophoto.gif') }}" class="card-img-top bttrlazyloading" alt="{{ "DESTINATIONS"|trans }} {{ destination_name }}" title="{{ "DESTINATIONS"|trans }} {{ destination_name }}" id="image{{ destination_id }}"  data-bttrlazyloading-md-src="{{ url_image | apply_filter('my_thumb_destination') }}" />
+
+        <a href="{{ path('frontend_details_destination',{'destination_name':url|lower|replace(' ','-')}) }}">
+            <div class="mask rgba-white-slight"></div>
         </a>
     </div>
-    <a href="{{ path('frontend_details_destination',{'destination_name':url|lower|replace(' ','-')}) }}">
-    <h2 class="h-blue">
-        {{destination_name | title | slice(0, 27)}}
-        {%if destination_name | length > 27%}...{%endif%}
-    </h2>
-    </a>
-    <div class="no-margin">
-        <table style="width: 100%;">
-            <tr>
-                <td>
-                    <small>{{localization}}</small>
-                </td>
-                <td>
-                    <div class="favorite">
-                       {{ include('FrontEndBundle:favorite:itemFavorite.html.twig',
-                        {'is_in_favorite': is_in_favorite,
-                         'favorite_type': 'destination',
-                         'element_id':destination_id,
-                         'list_preffix' : list_preffix,
-                       'include_text': false
-                         }) }}
-                    </div>
-                </td>
-            </tr>
-        </table>
-        <div class="h-blue h-blue-2" style="line-height:1.1">{{"FROM_PRICES" | trans | lower}} {{ statistics['minimum_prize'] | price}}</div>
+
+    <!--Card content-->
+    <div class="card-body">
+        <!--Title-->
+        <h4 class="card-title">{{destination_name | title | slice(0, 27)}}{%if destination_name | length > 27%}...{%endif%}</h4>
+        <!--Text-->
+        <p class="card-text"> {{localization}}</p>
+        <div class="no-margin">
+            {#<table style="width: 100%;">#}
+                {#<tr>#}
+
+                    {#<td>#}
+                        {#<div class="favorite">#}
+                            {#{{ include('FrontEndBundle:favorite:itemFavorite.html.twig',#}
+                                {#{'is_in_favorite': is_in_favorite,#}
+                                    {#'favorite_type': 'destination',#}
+                                    {#'element_id':destination_id,#}
+                                    {#'list_preffix' : list_preffix,#}
+                                    {#'include_text': false#}
+                                {#}) }}#}
+                        {#</div>#}
+                    {#</td>#}
+                {#</tr>#}
+            {#</table>#}
+            <div class="h-blue h-blue-2" style="line-height:1.1">{{"FROM_PRICES" | trans | lower}} {{ statistics['minimum_prize'] | price}}</div>
+        </div>
     </div>
+
 </div>
+
 
 
 
