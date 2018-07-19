@@ -247,7 +247,7 @@ class ownership
     /**
      * @var boolean
      *
-     * @ORM\Column(name="own_facilities_breakfast_include", type="boolean")
+     * @ORM\Column(name="own_facilities_breakfast_include", type="boolean" )
      */
     private $own_facilities_breakfast_include;
 
@@ -747,6 +747,7 @@ class ownership
         $this->effectiveMethodsPayment = new ArrayCollection();
         $this->count_visits = 0;
         $this->withIcal = false;
+        $this->own_facilities_breakfast_include = false;
     }
 
     /**
