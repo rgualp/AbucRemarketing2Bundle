@@ -1329,3 +1329,15 @@ h1, h2, h3, h4, h5, h6 {
     border-bottom: 3px solid #ccc;
     background-color: rgba(255,255,255,0.8);
 }
+#poput-description.dhide {
+    display: none;
+}
+#poput-description .images-destination .p-description {
+    position: absolute;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    padding: 20px;
+}
+.destination-bar-title ul li {
+    display: inline-block;
+}
