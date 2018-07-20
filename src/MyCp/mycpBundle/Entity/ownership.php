@@ -247,7 +247,7 @@ class ownership
     /**
      * @var boolean
      *
-     * @ORM\Column(name="own_facilities_breakfast_include", type="boolean")
+     * @ORM\Column(name="own_facilities_breakfast_include", type="boolean" )
      */
     private $own_facilities_breakfast_include;
 
