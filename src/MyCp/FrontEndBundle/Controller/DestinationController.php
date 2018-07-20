@@ -7,9 +7,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class DestinationController extends Controller {
+class DestinationController extends Controller
+{
 
-    public function getBigMapAction() {
+    public function getBigMapAction()
+    {
         $em = $this->getDoctrine()->getManager();
         $locale = $this->get('translator')->getLocale();
         $destinations = $em->getRepository('mycpBundle:destination')->getActiveForMap();
@@ -20,7 +22,8 @@ class DestinationController extends Controller {
             'des_categories_lang' => $categories_lang));
     }
 
-    public function getMapByProvinceAction() {
+    public function getMapByProvinceAction()
+    {
         $em = $this->getDoctrine()->getManager();
         //$dest_location = $em->getRepository('mycpBundle:destinationLocation')->findAll();
 
@@ -35,7 +38,8 @@ class DestinationController extends Controller {
         ));
     }
 
-    public function popularListAction() {
+    public function popularListAction()
+    {
         $em = $this->getDoctrine()->getManager();
         $locale = $this->get('translator')->getLocale();
         $users_id = $em->getRepository('mycpBundle:user')->getIds($this);
@@ -48,9 +52,10 @@ class DestinationController extends Controller {
         ));
     }
 
-    public function detailsAction($destination_name) {
+    public function detailsAction($destination_name)
+    {
         $destination_name = Utils::convert_text($destination_name);
-        $request = $this->getRequest();
+        $request = $this->get('request');
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
         $mobileDetector = $this->get('mobile_detect.mobile_detector');
@@ -60,45 +65,44 @@ class DestinationController extends Controller {
         $destination_name = str_replace('-', ' ', $destination_name);
         $language = $em->getRepository('mycpBundle:lang')->findOneBy(array('lang_code' => $locale));
 
-        if($destination_name=='vinnales'){
-            $destiny=str_replace('nn', 'ñ', $destination_name);
-            $destinationsLang = $em->getRepository('mycpBundle:destinationLang')->findOneBy(array('des_lang_name'=>$destiny,'des_lang_lang'=>$language->getLangId()));
+        if ($destination_name == 'vinnales') {
+            $destiny = str_replace('nn', 'ñ', $destination_name);
+            $destinationsLang = $em->getRepository('mycpBundle:destinationLang')->findOneBy(array('des_lang_name' => $destiny, 'des_lang_lang' => $language->getLangId()));
+
+        } else {
+            $destinationsLang = $em->getRepository('mycpBundle:destinationLang')->findOneBy(array('des_lang_name' => $destination_name, 'des_lang_lang' => $language->getLangId()));
 
         }
-        else{
-            $destinationsLang = $em->getRepository('mycpBundle:destinationLang')->findOneBy(array('des_lang_name'=>$destination_name,'des_lang_lang'=>$language->getLangId()));
-
-        }
 
 
-        if ( $destinationsLang ){
+        if ($destinationsLang) {
             $destination = $destinationsLang->getDesLangDestination();
-        }else{
+        } else {
             $destination = $em->getRepository('mycpBundle:destination')->findOneBy(array('des_name' => $destination_name));
 
-            if ( $destination ){
-                $destinationsLang = $em->getRepository('mycpBundle:destinationLang')->findOneBy(array('des_lang_destination'=>$destination->getDesId(),'des_lang_lang'=>$language->getLangId()));
-                if ( $destinationsLang && $destinationsLang->getDesLangName() != ""){
+            if ($destination) {
+                $destinationsLang = $em->getRepository('mycpBundle:destinationLang')->findOneBy(array('des_lang_destination' => $destination->getDesId(), 'des_lang_lang' => $language->getLangId()));
+                if ($destinationsLang && $destinationsLang->getDesLangName() != "") {
                     $url_destination_name = Utils::convert_text($destinationsLang->getDesLangName());
                     $url_destination_name = strtolower($url_destination_name);
                     $url_destination_name = str_replace(' ', '-', $url_destination_name);
 
-                    return $this->redirect($this->generateUrl('frontend_details_destination', array('destination_name'=> $url_destination_name)));
+                    return $this->redirect($this->generateUrl('frontend_details_destination', array('destination_name' => $url_destination_name)));
                 }
             }
         }
 
 
-        if($destination == null) {
+        if ($destination == null) {
             throw $this->createNotFoundException();
         }
 
-        if ($destinationsLang->getDesLangName() != ""){
+        if ($destinationsLang->getDesLangName() != "") {
             $original_destination_name = $destinationsLang->getDesLangName();
         }
 
         $destination_array = $em->getRepository('mycpBundle:destination')->getDestination($destination->getDesId(), $locale);
-        if($destination_array == null || count($destination_array) == 0) {
+        if ($destination_array == null || count($destination_array) == 0) {
             throw $this->createNotFoundException();
         }
 
@@ -130,17 +134,12 @@ class DestinationController extends Controller {
             $provinces_for_url[$prov->getProvId()] = Utils::urlNormalize($prov->getProvName());
 
 
-        if ($mobileDetector->isMobile()){
-            $view = $session->get('search_view_results_destination');
-
+        if ($mobileDetector->isMobile()) {
             /**************************to pagin***********/
             $page = 1;
-            if(isset($_GET['page']))
+            if (isset($_GET['page']))
                 $page = $_GET['page'];
             $items_per_page = 6;
-            //$paginator = $this->get('ideup.simple_paginator');
-            //$paginator->setItemsPerPage($items_per_page);
-
             $start = ($page - 1) * $items_per_page;
             $limit = $items_per_page;
             /**********************************************/
@@ -161,24 +160,21 @@ class DestinationController extends Controller {
             $maxPage = ($currentPage == $lastPage) ? ($lastPage) : ($currentPage + 1);//($minPage + $items_per_page > $lastPage) ? ($lastPage) : ($minPage + $items_per_page - 1);
             $nextPage = $currentPage + 1;
             $paginator = array(
-                'firstPage'=>$firstPage,
-                'previousPage'=>$previousPage,
-                'minPage'=>$minPage,
-                'lastPage'=>$lastPage,
-                'maxPage'=>$maxPage,
-                'currentPage'=>$currentPage,
-                'nextPage'=>$nextPage
+                'firstPage' => $firstPage,
+                'previousPage' => $previousPage,
+                'minPage' => $minPage,
+                'lastPage' => $lastPage,
+                'maxPage' => $maxPage,
+                'currentPage' => $currentPage,
+                'nextPage' => $nextPage
             );
 
             /**********************************************/
             $desName = $destination->getDesName();
             $search_text = Utils::getTextFromNormalized($desName);
             $session->set('search_text', $search_text);
-        }else{
+        } else {
             /**************************to pagin***********/
-
-            //$paginator = $this->get('ideup.simple_paginator');
-            //$paginator->setItemsPerPage($items_per_page);
 
             $start = null;
             $limit = null;
@@ -217,14 +213,12 @@ class DestinationController extends Controller {
             $arrival = ($request->get('arrival') != null && $request->get('arrival') != "" && $request->get('arrival') != "null") ? $request->get('arrival') : $today->format('d-m-Y');
 
             $departure = null;
-            if($request->get('departure') != null && $request->get('departure') != "" && $request->get('departure') != "null")
+            if ($request->get('departure') != null && $request->get('departure') != "" && $request->get('departure') != "null")
                 $departure = $request->get('departure');
-            else if($arrival != null)
-            {
-                $arrivalDateTime = \DateTime::createFromFormat("d-m-Y",$arrival);
+            else if ($arrival != null) {
+                $arrivalDateTime = \DateTime::createFromFormat("d-m-Y", $arrival);
                 $departure = date_add($arrivalDateTime, date_interval_create_from_date_string("2 days"))->format('d-m-Y');
-            }
-            else
+            } else
                 $departure = date_add($today, date_interval_create_from_date_string("2 days"))->format('d-m-Y');
 
             $session->set('search_text', $search_text);
@@ -243,8 +237,7 @@ class DestinationController extends Controller {
         $session->set('own_ids', $own_ids);
 
 
-
-        if ($mobileDetector->isMobile()){
+        if ($mobileDetector->isMobile()) {
             return $this->render('MyCpMobileFrontendBundle:destination:destinationDetails.html.twig', array(
                 'destination' => $destination_array[0],
                 'is_in_favorite' => $em->getRepository('mycpBundle:favorite')->isInFavorite($destination->getDesId(), false, $users_id["user_id"], $users_id["session_id"]),
@@ -267,7 +260,7 @@ class DestinationController extends Controller {
                 'owns_nearby' => $owns_nearby,
                 'items_per_page' => $items_per_page,
                 'total_items' => $totalItems,
-                'paginator'=>$paginator,
+                'paginator' => $paginator,
                 'destination_name' => $original_destination_name,
                 'name_for_search' => $original_destination_name,
                 'data_view' => (($view == null) ? 'LIST' : $view),
@@ -280,7 +273,7 @@ class DestinationController extends Controller {
                 'search_text' => $search_text
 
             ));
-        }else{
+        } else {
             return $this->render('FrontEndBundle:destination:newDestinationDetails.html.twig', array(
                 'destination' => $destination_array[0],
                 'is_in_favorite' => $em->getRepository('mycpBundle:favorite')->isInFavorite($destination->getDesId(), false, $users_id["user_id"], $users_id["session_id"]),
@@ -304,7 +297,7 @@ class DestinationController extends Controller {
                 'provinces' => $provinces,
                 'items_per_page' => $items_per_page,
                 'total_items' => $paginator->getTotalItems(),
-                'paginator'=>$paginator,
+                'paginator' => $paginator,
                 'destination_name' => $original_destination_name,
                 'data_view' => (($view == null) ? 'LIST' : $view),
                 'popular_destinations_for_url' => $popular_destinations_for_url,
@@ -317,7 +310,7 @@ class DestinationController extends Controller {
                 'owns_categories' => $categories_own_list,
                 'owns_types' => $types_own_list,
                 'owns_prices' => $prices_own_list,
-                'awards'=>$awards,
+                'awards' => $awards,
                 'current_page' => $page,
                 'cant_pages' => $paginator->getLastPage(),
                 'search_text' => $search_text,
@@ -328,10 +321,10 @@ class DestinationController extends Controller {
         }
 
 
-
     }
 
-    public function ownsNearbyCallbackAction($destination_name, $destination_id) {
+    public function ownsNearbyCallbackAction($destination_name, $destination_id)
+    {
         $request = $this->getRequest();
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
@@ -363,7 +356,8 @@ class DestinationController extends Controller {
         return new Response($response, 200);
     }
 
-    public function byProvinceAction() {
+    public function byProvinceAction()
+    {
         $request = $this->getRequest();
         $em = $this->getDoctrine()->getManager();
         $province_name = $request->request->get('province_name');
@@ -377,7 +371,8 @@ class DestinationController extends Controller {
         return new Response($response, 200);
     }
 
-    public function filterAction() {
+    public function filterAction()
+    {
         $em = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
         $prov_id = $request->request->get('province');
@@ -388,7 +383,7 @@ class DestinationController extends Controller {
         $paginator->setItemsPerPage($items_per_page);
         $popular_places = $paginator->paginate($em->getRepository('mycpBundle:destination')->filter($mun_id, $prov_id))->getResult();
         $page = 1;
-        if(isset($_GET['page']))
+        if (isset($_GET['page']))
             $page = $_GET['page'];
 
         $popular_places_photos = $em->getRepository('mycpBundle:destination')->getAllPhotos($popular_places);
@@ -408,7 +403,8 @@ class DestinationController extends Controller {
         return new Response($response, 200);
     }
 
-    public function searchChangeViewResultsAction($destination_name, $destination_id) {
+    public function searchChangeViewResultsAction($destination_name, $destination_id)
+    {
         $request = $this->getRequest();
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
@@ -417,7 +413,7 @@ class DestinationController extends Controller {
         $view = $request->request->get('view');
         $session->set('search_view_results_destination', $view);
 
-        if($session->get("destination_details_show_rows") == null)
+        if ($session->get("destination_details_show_rows") == null)
             $session->set('destination_details_show_rows', 3);
 
         $paginator = $this->get('ideup.simple_paginator');
@@ -439,7 +435,8 @@ class DestinationController extends Controller {
         return new Response($response, 200);
     }
 
-    public function getDestinationsByActivitiesForMapAction(){
+    public function getDestinationsByActivitiesForMapAction()
+    {
         $em = $this->getDoctrine()->getManager();
         $locale = $this->get('translator')->getLocale();
         $activities = $em->getRepository('mycpBundle:destinationCategoryLang')->getForMap($locale);
@@ -447,29 +444,29 @@ class DestinationController extends Controller {
         $items = array_slice($activities, -6);
 //        dump($items);die;
         $list = array();
-        if ( count($items) > 0){
-            foreach ($items as $activity){
+        if (count($items) > 0) {
+            foreach ($items as $activity) {
                 $destinations = $em->getRepository('mycpBundle:destination')->getDestinationsByActivities($locale, $activity->getDesCatIdCat()->getDesCatId());
                 //dump($activity);die;
                 $prov = array();
                 $dest_prov = array();
 
-                if (count($destinations) > 0){
-                    foreach ($destinations as $destination){
+                if (count($destinations) > 0) {
+                    foreach ($destinations as $destination) {
 
                         $key_prov = Utils::urlNormalize($destination["province_name"]);
                         $key_prov = strtolower($key_prov);
 
-                        if (!array_key_exists($key_prov, $prov)){
+                        if (!array_key_exists($key_prov, $prov)) {
                             $dest = array(
                                 "name" => $destination["province_name"],
                                 "prov_id" => $destination["prov_id"],
-                                "url"=>$this->generateUrl('frontend_search_own_bydestination'),
+                                "url" => $this->generateUrl('frontend_search_own_bydestination'),
                                 "location" => array($destination["latituded"], $destination["longituded"])
                             );
                             $prov[$key_prov] = $dest;
                             $dest_prov[$key_prov][] = $destination;
-                        }else{
+                        } else {
                             $dest_prov[$key_prov][] = $destination;
                         }
                     }
@@ -478,12 +475,12 @@ class DestinationController extends Controller {
 //                <a href="{{ path('newfrontend_details_destination',{'destination_name':des_name|lower|replace(' ','-')}) }}">
 //                           {% set url_image = asset("uploads/destinationImages/" ~ (des_photo)) %}
 
-                if (count($dest_prov) > 0){
-                    foreach ($dest_prov as $key => $item){
+                if (count($dest_prov) > 0) {
+                    foreach ($dest_prov as $key => $item) {
                         $html = "";
                         $html .= '<ul style="padding: 0; margin: 0; list-style: none;">';
-                        foreach ($item as $li){
-                            $html .= '<li style="display: inline-block; padding: 5px; text-align: center;"><a href="'.$this->generateUrl('frontend_details_destination', array('destination_name' => $li['des_name_for_url'])).'"><img src="'.$this->container->get('templating.helper.assets')->getUrl('uploads/destinationImages/' . $li['photo']).'" width="150" height="100" style="border-radius: 10px;" /> </br> <span class="text-center" style="display: block; margin-top: 8px;">'.$li['des_name'].'</span></a></li>';
+                        foreach ($item as $li) {
+                            $html .= '<li style="display: inline-block; padding: 5px; text-align: center;"><a href="' . $this->generateUrl('frontend_details_destination', array('destination_name' => $li['des_name_for_url'])) . '"><img src="' . $this->container->get('templating.helper.assets')->getUrl('uploads/destinationImages/' . $li['photo']) . '" width="150" height="100" style="border-radius: 10px;" /> </br> <span class="text-center" style="display: block; margin-top: 8px;">' . $li['des_name'] . '</span></a></li>';
                         }
                         $html .= '</ul>';
                         $prov[$key]['html'] = $html;
@@ -493,8 +490,8 @@ class DestinationController extends Controller {
                 $key_act = Utils::urlNormalize($activity->getDesCatName());
                 $key_act = strtolower($key_act);
                 $data_act = array(
-                    "icons" => $this->getRequest()->getSchemeAndHttpHost()."/uploads/destinationImages/icons/".$activity->getDesCatIdCat()->getDesIcon(),
-                    "image" => $this->getRequest()->getSchemeAndHttpHost()."/uploads/destinationImages/icons/".$activity->getDesCatIdCat()->getDesIconProvMap(),
+                    "icons" => $this->getRequest()->getSchemeAndHttpHost() . "/uploads/destinationImages/icons/" . $activity->getDesCatIdCat()->getDesIcon(),
+                    "image" => $this->getRequest()->getSchemeAndHttpHost() . "/uploads/destinationImages/icons/" . $activity->getDesCatIdCat()->getDesIconProvMap(),
                     "name" => $activity->getDesCatName(),
                     "description" => $activity->getDesCatDescription(),
                     "destinations" => $prov,
