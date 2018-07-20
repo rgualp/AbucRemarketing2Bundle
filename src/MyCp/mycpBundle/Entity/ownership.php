@@ -747,6 +747,7 @@ class ownership
         $this->effectiveMethodsPayment = new ArrayCollection();
         $this->count_visits = 0;
         $this->withIcal = false;
+        $this->own_facilities_breakfast_include = false;
     }
 
     /**
