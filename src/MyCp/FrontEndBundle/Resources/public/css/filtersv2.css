@@ -158,8 +158,9 @@
 
 .tag{
     font-weight: bold;
+    font-size: 12px;
     color: white;
-    background: #f96332;
+    background: #6fb231;
     border-radius: 20px;
     display: inline-block;
     height: 26px;

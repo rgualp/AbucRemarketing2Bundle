@@ -4,7 +4,6 @@
 {%set show_bath_outer =  own_statistics['own_bathroom_outer'] > 0 or (check_filters is defined and 'Exterior privado' in check_filters['room_bathroom']) %}
 {%set show_bath_shared =  own_statistics['own_bathroom_shared'] > 0 or (check_filters is defined and 'Compartido' in check_filters['room_bathroom']) %}
 {%set service_breakfast = false%}
-{%set service_breakfast_included = false%}
 {%set service_dinner = false%}
 {%set service_laundry = false%}
 {%set service_parking = false%}
@@ -40,9 +39,6 @@
         {%endif%}
         {%if service == "JACUZZY"%}
             {%set service_jacuzzy = true%}
-        {%endif%}
-        {%if service == "BREAKFAST_INCLUDED"%}
-            {%set service_breakfast_included = true%}
         {%endif%}
     {%endfor%}
 {% endif %}
@@ -230,12 +226,6 @@
                     <label>
                         <input class="action_remove_filter_up" type="checkbox" name="others_not_included" id="others_not_included" value="BREAKFAST" {%if service_breakfast%} checked="checked" {%endif%} {%if not( own_statistics['own_services_breakfast'] > 0 or service_breakfast)%} disabled="disabled" {%endif%}/>{{"BREAKFAST_FILTER" | trans}} ({{own_statistics['own_services_breakfast']}})
                     </label>
-                </div>
-                <div class="checkbox">
-                    <label>
-                        <input class="action_remove_filter_up" type="checkbox" name="others_included" id="breakfast_included" value="BREAKFAST_INCLUDED" {%if service_breakfast_included %} checked="checked" {%endif%} {%if not( own_statistics['own_services_breakfast_include'] > 0 or service_breakfast_included )%} disabled="disabled" {%endif%}/>{{"INCLUDE_BREAKFAST" | trans}} ({{own_statistics['own_services_breakfast_include']}})
-                    </label>
-                    <span class="tag red">{{"NEW" | trans}}</span>
                 </div>
                 <div class="checkbox">
                     <label>
