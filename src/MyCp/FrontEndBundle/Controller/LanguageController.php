@@ -4,10 +4,13 @@ namespace MyCp\FrontEndBundle\Controller;
 
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 
 
 class LanguageController extends Controller
 {
+
+    const DEV_ENVIRONMENT = "dev";
 
     public function getLanguagesAction($route, $routeParams = null)
     {
@@ -94,40 +97,37 @@ class LanguageController extends Controller
                 $em->flush();
             }
         }
-
-        return $this->redirect($this->setLocale($newlang));
+        return $this->setLocale($newlang);
     }
 
     public function setLocale($newLocale)
     {
         $request = $this->get('request');
-        
         // get last requested path
         $referer = $request->headers->get('referer');
         $logger = $this->container->get('logger');
         $logger->warning($this->get('request')->getHost());
         $parameters = array();
-        
+
         if (!is_null($referer) && $referer != "") {
             //get Host
             $lastPath = substr($referer, strpos($referer, $request->getHost()));
-            
             $lastPath = str_replace($request->getHost(), '', $lastPath);
-            $lastPath = str_replace('/app_dev.php/', '/', $lastPath);
-
+            $environment = $this->get('service_container')->getParameter("kernel.environment");
+            if ($environment == self::DEV_ENVIRONMENT) {
+                $lastPath = str_replace('/app_dev.php/', '/', $lastPath);
+            }
             $matcher = $this->get('router');
-
             $parameters = $matcher->match($lastPath);
-            
         }
 
         // set new locale (to session and to the route parameters)
         $parameters['_locale'] = $newLocale;
         $parameters['locale'] = $newLocale;
         $route = $parameters['_route'];
-        
+
         unset($parameters['_route']);
         unset($parameters['_controller']);
-        return $this->generateUrl($route, $parameters);
+        return new Response($this->generateUrl($route, $parameters), Response::HTTP_OK);
     }
 }
