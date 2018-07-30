@@ -246,7 +246,7 @@ function research(_page)
         manage_favorities(".favorite_off_action");
         manage_favorities(".favorite_on_action");
 
-        initialize_search_map();
+        // initialize_search_map();
 
     });
 
