@@ -120,7 +120,6 @@
                     start: 'top',
                     allowPageScroll: true
                 }).bind('slimscrolling', function (e, pos) {
-                    alert(post);
                     if (pos >= $('#div_result')[0].scrollHeight - $('#div_result').height()) {
                         otherpage++;
                         if (parseInt(otherpage) <= parseInt($('#div_result').attr("data-cant-page"))) {

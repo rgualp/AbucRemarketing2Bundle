@@ -31,3 +31,7 @@ services:
     mycp.logger:
             class: MyCp\FrontEndBundle\Helpers\Logger
             arguments: ["%kernel.root_dir%"]
+
+    front_end.convert_destination_name:
+        class: MyCp\FrontEndBundle\Service\DestinationService
+        arguments: ["@doctrine.orm.entity_manager"]
