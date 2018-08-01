@@ -11,7 +11,7 @@
             padding: 6px 10px;
             position: absolute;
             top: 5%;
-            z-index: 200;
+            z-index: 1002;
         }
 
         .quick-ribbon-custom > span {
@@ -31,7 +31,7 @@
                     <!--Card image-->
                     <div class="view">
                         {% set url_image = asset("uploads/ownershipImages/" ~ ownership.photo) %}
-                        <img src="{{ asset('bundles/frontend/img/nophoto.gif') }}" class="card-img-top bttrlazyloading" alt="{{ "DESTINATIONS"|trans }} {{ ownership.own_name }}" title="{{ "DESTINATIONS"|trans }} {{ ownership.own_name }}" id="image{{ ownership.own_name }}"  data-bttrlazyloading-md-src="{{ url_image | apply_filter('mycp_thumb_front') }}" />
+                        {{ render(controller( 'FrontEndBundle:Ownership:getThumbnailForSearcher', { 'photo': ownership.photo, 'title': ownership.own_name} )) }}
 
                         <a  href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
                             <div class="overlay mask rgba-white-slight ">
@@ -43,17 +43,20 @@
                                     </p>
                                 </div>
 
-                            {% if ownership.OwnInmediateBooking and ownership.OwnInmediateBooking2 %}
+                                {% if ownership.OwnInmediateBooking2 %}
                                     <div class="quick-ribbon-custom" style="background-color: #ff0000">
-                                        <i class="fa fa-rocket" style="padding: 0px 5px"></i> <span
-                                                style="text-align: left;">{{ 'IMMEDIATE_BOOKING'|trans }}</span>
+                                        <i class="fa fa-rocket" style="padding: 0px 5px"></i>
+                                        <span style="text-align: left;">{{ 'IMMEDIATE_BOOKING'|trans }}</span>
                                     </div>
-                            {% elseif  ownership.OwnInmediateBooking2 and not ownership.OwnInmediateBooking %}
-                                    <div class="quick-ribbon-custom" style="background-color: #ff0000">
-                                        <i class="fa fa-rocket" style="padding: 0px 5px"></i> <span
-                                                style="text-align: left;">{{ 'IMMEDIATE_BOOKING'|trans }}</span>
+
+                                {% elseif  ownership.OwnInmediateBooking %}
+                                    <div class="quick-ribbon-custom" style="background-color: #e44f37">
+                                        <i class="fa fa-flash" style="padding: 0px 5px"></i>
+                                        <span style="text-align: left;">{{ 'quick_bookinhg'|trans }}</span>
                                     </div>
-                            {% endif %}
+
+
+                                {% endif %}
                             </div>
                         </a>
                     </div>
@@ -107,6 +110,13 @@
                                 </div>
                                 <div class="col">
                                     <div class="pull-right">
+                                        {% if ownership.breakfast_include %}
+                                            <span class="favorite_action" style="margin-right: 16px;">
+                                <img class="icon icon-medium cofee-icon" style="margin-left:-8px"
+                                     src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
+                                     title="{{ "INCLUDE_BREAKFAST" | trans }}" alt="{{ "INCLUDE_BREAKFAST" | trans }}">
+                                   </span>
+                                        {% endif %}
                                     {{ include('FrontEndBundle:favorite:itemFavorite.html.twig',
                                         {'is_in_favorite': ownership.is_in_favorites,
                                             'favorite_type': 'ownership',

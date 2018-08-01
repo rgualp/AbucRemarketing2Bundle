@@ -1347,3 +1347,25 @@ h1, h2, h3, h4, h5, h6 {
 .thumbnail-title {
     background-color: rgba(224,220,220,0.8);
 }
+quick-ribbon::before {
+    border-color: #945e18 transparent;
+    border-style: solid;
+    border-width: 10px 0 0 10px;
+    bottom: -10px;
+    content: "";
+    height: 0;
+    left: 0;
+    position: absolute;
+    width: 0;
+}
+quick-ribbon-custom::before {
+    border-color: #945e18 transparent;
+    border-style: solid;
+    border-width: 10px 0 0 10px;
+    bottom: -10px;
+    content: "";
+    height: 0;
+    left: 0;
+    position: absolute;
+    width: 0;
+}
