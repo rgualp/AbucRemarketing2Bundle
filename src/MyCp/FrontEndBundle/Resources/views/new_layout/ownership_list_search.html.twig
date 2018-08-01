@@ -35,11 +35,14 @@
 
                         <a  href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
                             <div class="overlay mask rgba-white-slight ">
-                                <p style="position: relative; float: right;">
-                                    {{ "FROM_PRICES" | trans | capitalize }}:
-                                    <span class="h-blue h-blue-2"
-                                          style="color: #0088dd; font-weight: bold;"> {{ ownership.minimum_price | price }}</span>
-                                </p>
+                                <div class="thumbnail-title  clearfix">
+                                    <p style="position: relative; float: right;">
+                                        {{ "FROM_PRICES" | trans | capitalize }}:
+                                        <span class="h-blue h-blue-2"
+                                              style="color: #0088dd; font-weight: bold;"> {{ ownership.minimum_price | price }}</span>
+                                    </p>
+                                </div>
+
                             {% if ownership.OwnInmediateBooking and ownership.OwnInmediateBooking2 %}
                                     <div class="quick-ribbon-custom" style="background-color: #ff0000">
                                         <i class="fa fa-rocket" style="padding: 0px 5px"></i> <span
