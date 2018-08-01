@@ -1,22 +1,6 @@
 {% if list | length %}
     <style type="text/css">
-        .mbox {
-            clear: both;
-            margin-bottom: 25px;
-            margin-top: 0;
-            padding: 0;
-            border: 1px solid #e7eaec;
-            background-color: #e2e2e2;
-        }
 
-        .mbox-header {
-            padding: 0;
-
-        }
-
-        .mbox-body {
-
-        }
 
         .quick-ribbon-custom {
             background-color: #e44f37;
@@ -35,126 +19,105 @@
             font-size: 14px;
         }
 
-        .mbox:hover {
-            border: solid 1px #A1CB37;
-            -webkit-box-shadow: 0 0px 10px rgba(0, 0, 0, 0.3);
-            box-shadow: 0 0px 10px rgba(0, 0, 0, 0.3);
-        }
 
-        .product-desc {
-            padding: 8px;
-            position: relative;
-        }
-
-        .product-title {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            width: 80%
-        }
 
 
     </style>
     <div class="row">
         {% for ownership in list %}
-            <div class="col-md-3 col-sm-3 col-lg-3 col-xlg-3">
-                <div class="mbox">
-                    <div class="mbox-header">
-                        <div class="thumbnail elementList {% if ownership.OwnInmediateBooking %}with-quick-ribbon {% endif %}"
-                             data-id="{{ ownership.own_id }}">
-                            {% if ownership.OwnInmediateBooking and ownership.OwnInmediateBooking2 %}
-                                <div class="quick-ribbon-custom" style="background-color: #ff0000">
-                                    <i class="fa fa-rocket" style="padding: 0px 5px"></i> <span
-                                            style="text-align: left;">{{ 'IMMEDIATE_BOOKING'|trans }}</span>
-                                </div>
-                            {% elseif  ownership.OwnInmediateBooking2 and not ownership.OwnInmediateBooking %}
-                                <div class="quick-ribbon-custom" style="background-color: #ff0000">
-                                    <i class="fa fa-rocket" style="padding: 0px 5px"></i> <span
-                                            style="text-align: left;">{{ 'IMMEDIATE_BOOKING'|trans }}</span>
-                                </div>
-                            {% endif %}
-                            <a target="_blank"
-                               href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
-                                {{ render(controller( 'FrontEndBundle:Ownership:getThumbnailForSearcher', { 'photo': ownership.photo, 'title': ownership.own_name} )) }}
-                            </a>
+            <div class="col-lg-3 col-md-10 col-md-5 mb-3">
+                <div class="card">
 
-                            <div class="thumbnail-over col-sm-12">
-                                <div class="efect-blur" style="
-                                        background-blend-mode: lighten;
-                                        background-color: rgba(255, 255, 255, 0.8);
-                                        background-image: url('{{ asset('/uploads/ownershipImages/'~ownership.photo) }}');
-                                        background-position: center top;
-                                        background-repeat: no-repeat;
-                                        background-size: 100% auto;
-                                        -webkit-filter: blur(3px);
-                                        filter: url('http://jordanhollinger.com/media/blur.svg#blur');
-                                        filter: blur(3px);
-                                        left: 0;
-                                        overflow: hidden;
-                                        padding-top: 15px;
-                                        position: absolute;
-                                        top: 0;
-                                        width: 100%;
-                                        height: 100%;
-                                        display: block;
-                                        position: absolute;
-                                        top: 0;
-                                        left: 0;
-                                        ">
-                                </div>
+                    <!--Card image-->
+                    <div class="view">
+                        {% set url_image = asset("uploads/ownershipImages/" ~ ownership.photo) %}
+                        <img src="{{ asset('bundles/frontend/img/nophoto.gif') }}" class="card-img-top bttrlazyloading" alt="{{ "DESTINATIONS"|trans }} {{ ownership.own_name }}" title="{{ "DESTINATIONS"|trans }} {{ ownership.own_name }}" id="image{{ ownership.own_name }}"  data-bttrlazyloading-md-src="{{ url_image | apply_filter('mycp_thumb_front') }}" />
+
+                        <a  href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
+                            <div class="overlay mask rgba-white-slight ">
                                 <p style="position: relative; float: right;">
                                     {{ "FROM_PRICES" | trans | capitalize }}:
                                     <span class="h-blue h-blue-2"
                                           style="color: #0088dd; font-weight: bold;"> {{ ownership.minimum_price | price }}</span>
                                 </p>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="mbox-body">
-                        <div class="product-desc">
-                            <div class="product-title">
-                                <a target="_blank"
-                                   href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
-                                    <h1 class="h-blue"
-                                        style="padding-bottom: 12px;">{{ ownership.own_name | title }}</h1>
-                                </a>
-                            </div>
-
-                            {% if ownership.category == "Premium" %}
-                                <img rel="tooltip" title="{{ ownership.category | trans }}"
-                                     class="icon icon-3 tiny-premium-icon"
-                                     src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
-                                     style="margin-top: -5px;"
-                                     alt="{{ "Mycasaparticular" | trans }}"
-                                     title="{{ "Mycasaparticular" | trans }}"/>
-                            {% else %}
-                                {% if (ownership.category | lower) == ("Rango Medio" | lower) %}
-                                    <img alt="{{ "Mycasaparticular" | trans }}"
-                                         title="{{ "Mycasaparticular" | trans }}"
-                                         rel="tooltip" title="{{ ownership.category | trans }}"
-                                         class="icon icon-3 tiny-middle-icon"
-                                         src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
-                                         style="margin-top: -5px;"/>
-                                {% else %}
-                                    <img alt="{{ "Mycasaparticular" | trans }}"
-                                         title="{{ "Mycasaparticular" | trans }}"
-                                         rel="tooltip" title="{{ ownership.category | trans }}"
-                                         class="icon icon-3 tiny-economic-icon"
-                                         src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
-                                         style="margin-top: -5px;"/>
-                                {% endif %}
+                            {% if ownership.OwnInmediateBooking and ownership.OwnInmediateBooking2 %}
+                                    <div class="quick-ribbon-custom" style="background-color: #ff0000">
+                                        <i class="fa fa-rocket" style="padding: 0px 5px"></i> <span
+                                                style="text-align: left;">{{ 'IMMEDIATE_BOOKING'|trans }}</span>
+                                    </div>
+                            {% elseif  ownership.OwnInmediateBooking2 and not ownership.OwnInmediateBooking %}
+                                    <div class="quick-ribbon-custom" style="background-color: #ff0000">
+                                        <i class="fa fa-rocket" style="padding: 0px 5px"></i> <span
+                                                style="text-align: left;">{{ 'IMMEDIATE_BOOKING'|trans }}</span>
+                                    </div>
                             {% endif %}
-                            <span>{{ ownership.category | trans }}</span>
+                            </div>
+                        </a>
+                    </div>
 
-                            {{ include('FrontEndBundle:favorite:itemFavorite.html.twig',
-                                {'is_in_favorite': ownership.is_in_favorites,
-                                    'favorite_type': 'ownership',
-                                    'element_id':ownership.own_id,
-                                    'list_preffix' : list_preffix,
-                                    'include_text': false
-                                }) }}
-                            {{ include('FrontEndBundle:cart:addCart.html.twig',{'idOwnership':ownership.own_id}) }}
+                    <!--Card content-->
+                    <div class="card-body">
+                        <!--Title-->
+                        <div class="card-title">
+                        <a target="_blank"
+                           href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
+                            <h1 class="h-blue"
+                                style="padding-bottom: 12px;">{{ ownership.own_name | title }}</h1>
+                        </a>
+                            {% if ownership.award %}
+                                <img src="{{ asset("uploads/awards/") ~ ownership.award }}" class="overlay pull-right"
+                                     style="margin-top: -15px;" alt="{{ "Mycasaparticular" | trans }}"
+                                     title="{{ "Mycasaparticular" | trans }}"/>
+
+                            {% endif %}
+                        </div>
+                        <!--Text-->
+
+                        <div class="no-margin">
+                            <div class="row">
+                                <div class="col">
+                                    {% if ownership.category == "Premium" %}
+                                        <img rel="tooltip" title="{{ ownership.category | trans }}"
+                                             class="icon icon-3 tiny-premium-icon"
+                                             src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
+                                             style="margin-top: -5px;"
+                                             alt="{{ "Mycasaparticular" | trans }}"
+                                             title="{{ "Mycasaparticular" | trans }}"/>
+                                    {% else %}
+                                        {% if (ownership.category | lower) == ("Rango Medio" | lower) %}
+                                            <img alt="{{ "Mycasaparticular" | trans }}"
+                                                 title="{{ "Mycasaparticular" | trans }}"
+                                                 rel="tooltip" title="{{ ownership.category | trans }}"
+                                                 class="icon icon-3 tiny-middle-icon"
+                                                 src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
+                                                 style="margin-top: -5px;"/>
+                                        {% else %}
+                                            <img alt="{{ "Mycasaparticular" | trans }}"
+                                                 title="{{ "Mycasaparticular" | trans }}"
+                                                 rel="tooltip" title="{{ ownership.category | trans }}"
+                                                 class="icon icon-3 tiny-economic-icon"
+                                                 src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
+                                                 style="margin-top: -5px;"/>
+                                        {% endif %}
+                                    {% endif %}
+                                    <small>{{ ownership.category | trans }}</small>
+                                </div>
+                                <div class="col">
+                                    <div class="pull-right">
+                                    {{ include('FrontEndBundle:favorite:itemFavorite.html.twig',
+                                        {'is_in_favorite': ownership.is_in_favorites,
+                                            'favorite_type': 'ownership',
+                                            'element_id':ownership.own_id,
+                                            'list_preffix' : list_preffix,
+                                            'include_text': false
+                                        }) }}
+                                    {{ include('FrontEndBundle:cart:addCart.html.twig',{'idOwnership':ownership.own_id}) }}
+
+                                    </div> </div>
+                            </div>
+
+
+
                             <p style="margin: 0;">{{ ownership.prov_name | trans }} , {{ ownership.mun_name }}</p>
                             <p style="margin: 0;">{{ ownership.type | trans }}
 
@@ -196,16 +159,14 @@
                                          title="{{ "Mycasaparticular" | trans }}"/>
                                 {% endfor %}
                             {% endif %}
-                            <span>{{ ownership.comments_total }} {{ 'FORMS_COMMENTS'|trans }}</span>
-                            {% if ownership.award %}
-                                <img src="{{ asset("uploads/awards/") ~ ownership.award }}" class="pull-right"
-                                     style="margin-top: -65px;" alt="{{ "Mycasaparticular" | trans }}"
-                                     title="{{ "Mycasaparticular" | trans }}"/>
-
-                            {% endif %}
-                        </div>
+                            <small>{{ ownership.comments_total }} {{ 'FORMS_COMMENTS'|trans }}</small>
+                                </div>
                     </div>
+
                 </div>
+
+
+
             </div>
         {% endfor %}
     </div>
