@@ -7,14 +7,18 @@
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-16697066-1"></script>
         <script>
             window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
+
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+
             gtag('js', new Date());
 
             gtag('config', 'UA-16697066-1');
         </script>
         <title>{% block title %}{{ "WELCOMEPAGE_TITLE" | trans }}{% endblock %}</title>
         <meta name="google" content="notranslate"/>
-        <meta http-equiv="Cache-Control" content="max-age=300" />
+        <meta http-equiv="Cache-Control" content="max-age=300"/>
         {% block metas %}
             {{ get_metas('Main', lang_code)|raw }}
         {% endblock metas %}
@@ -277,6 +281,24 @@
                             $("#" + $(this).attr("id")).bttrlazyloading();
                         });
                     }
+
+
+                    var $CHANGED_LANGUAGE = $('a.change_language');
+                    $CHANGED_LANGUAGE.click(function (event) {
+                        event.preventDefault();
+                        var url = $(this).data('url');
+                        var $ajax = $.ajax({
+                            url: url,
+                            type: 'POST'
+                        });
+                        $ajax.error(function (data) {
+                            console.log(data);
+                        });
+                        $ajax.success(function (data) {
+                            window.location.assign(data);
+
+                        });
+                    });
 
                 });
 

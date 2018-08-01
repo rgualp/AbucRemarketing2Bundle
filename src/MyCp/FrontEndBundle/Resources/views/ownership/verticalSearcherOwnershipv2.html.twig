@@ -1,3 +1,12 @@
+{% set service_breakfast_included = false %}
+{% if check_filters['own_others_included'] is defined %}
+    {% for service in check_filters['own_others_included'] %}
+        {% if service == "BREAKFAST_INCLUDED" %}
+            {% set service_breakfast_included = true %}
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
 <div class="filters-container">
     <div class="row">
         <div class="row">
@@ -87,11 +96,11 @@
         <div class="col">
             <div class="checkbox" style="margin: 0">
                 <label>
-                    <input class="action_remove_filter_up" type="checkbox" id="own_inmediate_booking"
-                           name="own_inmediate_booking" {% if check_filters is defined and check_filters['own_inmediate_booking'] is defined and check_filters['own_inmediate_booking'] %} checked="checked"{% endif %}
-                           data-aux-text="{{ "quick_bookinhg" | trans }}"
-                           data-aux-text="{{ "quick_bookinhg" | trans }}"/>{{ 'quick_bookinhg'|trans }}
+                    <input class="action_remove_filter_up" type="checkbox" name="others_included"
+                           id="breakfast_included"
+                           value="BREAKFAST_INCLUDED" {% if service_breakfast_included %} checked="checked" {% endif %} {% if not( own_statistics['own_services_breakfast_include'] > 0 or service_breakfast_included ) %} disabled="disabled" {% endif %}/>{{ "INCLUDE_BREAKFAST" | trans }}
                 </label>
+                <span class="tag red">{{ "NEW" | trans }}</span>
             </div>
         </div>
         <div class="col">
@@ -99,15 +108,16 @@
                 <label>
                     <input class="action_remove_filter_up" type="checkbox" id="own_update_avaliable"
                            name="own_update_avaliable" {% if check_filters is defined and check_filters['own_update_avaliable'] is defined and check_filters['own_update_avaliable'] %} checked="checked"{% endif %}
-                           data-aux-text="{{"Calendario Actualizado" | trans}}"
-                           data-aux-text="{{"Calendario Actualizado" | trans}}"/>{{"Calendario Actualizado" | trans}}
+                           data-aux-text="{{ "Calendario Actualizado" | trans }}"
+                           data-aux-text="{{ "Calendario Actualizado" | trans }}"/>{{ "Calendario Actualizado" | trans }}
                 </label>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-12 text-center">
-            <a id="more_filters" class="collapsed" data-toggle="collapse" href="#collapseFilters" style="margin-right: 10px;">{{ 'MORE_FILTERS'|trans }}</a>
+            <a id="more_filters" class="collapsed" data-toggle="collapse" href="#collapseFilters"
+               style="margin-right: 10px;">{{ 'MORE_FILTERS'|trans }}</a>
         </div>
     </div>
 
