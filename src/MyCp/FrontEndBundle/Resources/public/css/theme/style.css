@@ -1344,3 +1344,6 @@ h1, h2, h3, h4, h5, h6 {
 .overlay{
     z-index:1000;
 }
+.thumbnail-title {
+    background-color: rgba(224,220,220,0.8);
+}
