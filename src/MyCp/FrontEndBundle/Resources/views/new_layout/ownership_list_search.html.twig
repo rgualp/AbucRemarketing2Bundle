@@ -31,7 +31,7 @@
                     <!--Card image-->
                     <div class="view">
                         {% set url_image = asset("uploads/ownershipImages/" ~ ownership.photo) %}
-                        <img src="{{ asset('bundles/frontend/img/nophoto.gif') }}" class="card-img-top bttrlazyloading" alt="{{ "DESTINATIONS"|trans }} {{ ownership.own_name }}" title="{{ "DESTINATIONS"|trans }} {{ ownership.own_name }}" id="image{{ ownership.own_name }}"  data-bttrlazyloading-md-src="{{ url_image | apply_filter('mycp_thumb_front') }}" />
+                        <img src="{{ asset("uploads/ownershipImages/" ~ ownership.photo) }}" class="card-img-top bttrlazyloading" alt="{{ "DESTINATIONS"|trans }} {{ ownership.own_name }}" title="{{ "DESTINATIONS"|trans }} {{ ownership.own_name }}" id="image{{ ownership.own_name }}"  data-bttrlazyloading-md-src="{{ url_image | apply_filter('mycp_thumb_front') }}" />
 
                         <a  href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
                             <div class="overlay mask rgba-white-slight ">
