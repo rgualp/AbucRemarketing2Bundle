@@ -1,7 +1,7 @@
 .filters-container{
     background-color: #e2e2e2;
     padding: 10px 20px 0;
-    border-bottom: 4px solid #bfbfbf;
+    border: 4px solid #bfbfbf;
 }
 .form-control{
     box-shadow: none;

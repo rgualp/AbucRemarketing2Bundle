@@ -5,8 +5,8 @@
         {% set url_image = asset("uploads/destinationImages/" ~ photo) %}
         <img src="{{ asset('bundles/frontend/img/nophoto.gif') }}" class="card-img-top bttrlazyloading" alt="{{ "DESTINATIONS"|trans }} {{ destination_name }}" title="{{ "DESTINATIONS"|trans }} {{ destination_name }}" id="image{{ destination_id }}"  data-bttrlazyloading-md-src="{{ url_image | apply_filter('my_thumb_destination') }}" />
 
-        <a class="overlay" href="{{ path('frontend_details_destination',{'destination_name':url|lower|replace(' ','-')}) }}">
-            <div class="mask rgba-white-slight"></div>
+        <a  href="{{ path('frontend_details_destination',{'destination_name':url|lower|replace(' ','-')}) }}">
+            <div class="overlay mask rgba-white-slight"></div>
         </a>
     </div>
 

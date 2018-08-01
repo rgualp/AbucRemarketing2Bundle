@@ -100,7 +100,7 @@
                            id="breakfast_included"
                            value="BREAKFAST_INCLUDED" {% if service_breakfast_included %} checked="checked" {% endif %} {% if not( own_statistics['own_services_breakfast_include'] > 0 or service_breakfast_included ) %} disabled="disabled" {% endif %}/>{{ "INCLUDE_BREAKFAST" | trans }}
                 </label>
-                <span class="tag red">{{ "NEW" | trans }}</span>
+                <span class="tag">{{ "NEW" | trans }}</span>
             </div>
         </div>
         <div class="col">

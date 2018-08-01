@@ -1119,7 +1119,7 @@ class OwnershipController extends Controller
                     'show_paginator' => true
                 ));
             else if ($session->get('search_view_results') != null && $session->get('search_view_results') == 'PHOTOS')
-                $response = $this->renderView('FrontEndBundle:ownership:searchMosaicOwnershipv2.html.twig', array(
+                $response = $this->renderView('FrontEndBundle:new_layout:ownership_list_search.html.twig', array(
                     'list' => $list,
                     'cant_pages' => $cant_pages,
                     'items_per_page' => $items_per_page,

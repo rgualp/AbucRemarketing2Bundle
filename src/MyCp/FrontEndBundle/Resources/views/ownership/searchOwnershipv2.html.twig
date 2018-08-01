@@ -48,7 +48,7 @@
 {% block breadcrumbs %}{% endblock %}
 {% block body %}
     <div class="row" id="search-container" style="width: 100%; margin:0;">
-        <div class="col-sm-7 p-0" style="padding-right: 0; position: relative">
+        <div class="col" style="padding-right: 0; position: relative">
             <div id="loading" class="hidden">
                 <div class="layer-loading"></div>
                 <div class="loading-signal"><img class="img-circle load-icon"
@@ -113,31 +113,31 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-5 p-0">
-            <div class="col-sm-12 clearfix" style="padding: 0;">
-                <div style="padding: 0 15px 13px;">
-                    <ul class="nav" style="margin: 0">
-                        <li><h1 class="h-green caecilia-roman font-size-18">
-                                {% set description = get_meta_value('Alojamientos ' ~ province_name, app.session.get('app_lang_code')|lower, 'meta', 'DESCRIPTION')|raw %}
-                                {% if description == "" %}
-                                    {{ province_name }}
-                                {% else %}
-                                    {{ description }}
-                                {% endif %}
-                            </h1>
-                        </li>
-                    </ul>
-                </div>
+        {#<div class="col-sm-5 p-0">#}
+            {#<div class="col-sm-12 clearfix" style="padding: 0;">#}
+                {#<div style="padding: 0 15px 13px;">#}
+                    {#<ul class="nav" style="margin: 0">#}
+                        {#<li><h1 class="h-green caecilia-roman font-size-18">#}
+                                {#{% set description = get_meta_value('Alojamientos ' ~ province_name, app.session.get('app_lang_code')|lower, 'meta', 'DESCRIPTION')|raw %}#}
+                                {#{% if description == "" %}#}
+                                    {#{{ province_name }}#}
+                                {#{% else %}#}
+                                    {#{{ description }}#}
+                                {#{% endif %}#}
+                            {#</h1>#}
+                        {#</li>#}
+                    {#</ul>#}
+                {#</div>#}
 
-            </div>
-            {% if view_results != 'MAP' %}
-                <div class="thumbnail" id="search_map" style="width:100%;" class="google-maps"></div>
-            {% endif %}
-            <div id="json_search_source" data-url="{{ path("frontend_map_markers_ownership_callback") }}"
-                 data-icon-small="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_small.png') }}"
-                 data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}"></div>
+            {#</div>#}
+            {#{% if view_results != 'MAP' %}#}
+                {#<div class="thumbnail" id="search_map" style="width:100%;" class="google-maps"></div>#}
+            {#{% endif %}#}
+            {#<div id="json_search_source" data-url="{{ path("frontend_map_markers_ownership_callback") }}"#}
+                 {#data-icon-small="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_small.png') }}"#}
+                 {#data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}"></div>#}
 
-        </div>
+        {#</div>#}
     </div>
     {% block marquesina_js %}{% endblock %}
     {% block javascripts %}
@@ -158,7 +158,7 @@
                     start: 'top',
                     allowPageScroll: true
                 }).bind('slimscrolling', function (e, pos) {
-                    alert(post);
+
                     if (pos >= $('#div_result')[0].scrollHeight - $('#div_result').height()) {
                         otherpage++;
                         if (parseInt(otherpage) <= parseInt($('#div_result').attr("data-cant-page"))) {
@@ -170,7 +170,7 @@
 
                 var h1 = $('#search-container').height();
 
-                $('#search_map').css('height', h1 + 'px');
+                // $('#search_map').css('height', h1 + 'px');
 
 
                 $('[data-submenu]').submenupicker();
