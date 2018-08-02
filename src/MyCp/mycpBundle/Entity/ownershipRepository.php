@@ -1163,13 +1163,13 @@ class ownershipRepository extends EntityRepository
         }
 
         if($guest_total != null && $guest_total != 'null' && $guest_total != ""){
-            $query->setParameter('guests_total', ($guest_total != "+10" ? $guest_total : 11));
-            $query_count->setParameter('guests_total', ($guest_total != "+10" ? $guest_total : 11));
+            $query->setParameter('guests_total', ($guest_total != "+10" ? $guest_total : 10));
+            $query_count->setParameter('guests_total', ($guest_total != "+10" ? $guest_total : 10));
         }
 
         if(isset($rooms_total) && $rooms_total != null && $rooms_total != 'null' && $rooms_total != ""){
-            $query->setParameter('rooms_total', ($rooms_total != "+5" ? $rooms_total : 6));
-            $query_count->setParameter('rooms_total', ($rooms_total != "+5" ? $rooms_total : 6));
+            $query->setParameter('rooms_total', ($rooms_total != "+5" ? $rooms_total : 5));
+            $query_count->setParameter('rooms_total', ($rooms_total != "+5" ? $rooms_total : 5));
         }
 
         //$return_list = array();
