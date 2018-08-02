@@ -85,7 +85,8 @@
                         {{(app.session.get('app_lang_name') == null or app.session.get('app_lang_name') == "") ? "Español" : app.session.get('app_lang_name')}}</a>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        {{ render_esi(controller('MyCpMobileFrontendBundle:LanguageMobile:getLanguages', {'route': app.request.get('_route'), 'routeParams':  app.request.get('_route_params')})) }}
+                        {{ render_esi(controller('FrontEndBundle:Language:getLanguages', {'route': app.request.get('_route'), 'routeParams':  app.request.get('_route_params')})) }}
+
 
 
 

@@ -108,25 +108,7 @@
                                     {% endif %}
                                     <small>{{ ownership.category | trans }}</small>
                                 </div>
-                                <div class="col">
-                                    <div class="pull-right">
-                                        {% if ownership.breakfast_include %}
-                                            <span class="favorite_action" style="margin-right: 16px;">
-                                <img class="icon icon-medium cofee-icon" style="margin-left:-8px"
-                                     src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
-                                     title="{{ "INCLUDE_BREAKFAST" | trans }}" alt="{{ "INCLUDE_BREAKFAST" | trans }}">
-                                   </span>
-                                        {% endif %}
-                                    {{ include('FrontEndBundle:favorite:itemFavorite.html.twig',
-                                        {'is_in_favorite': ownership.is_in_favorites,
-                                            'favorite_type': 'ownership',
-                                            'element_id':ownership.own_id,
-                                            'list_preffix' : list_preffix,
-                                            'include_text': false
-                                        }) }}
-                                    {{ include('FrontEndBundle:cart:addCart.html.twig',{'idOwnership':ownership.own_id}) }}
 
-                                    </div> </div>
                             </div>
 
 
@@ -173,7 +155,26 @@
                                 {% endfor %}
                             {% endif %}
                             <small>{{ ownership.comments_total }} {{ 'FORMS_COMMENTS'|trans }}</small>
-                                </div>
+                            <div class="row-eq-height">
+                                <div class="pull-right">
+                                    {% if ownership.breakfast_include %}
+                                        <span class="favorite_action" style="margin-right: 16px;">
+                                <img class="icon icon-medium cofee-icon" style="margin-left:-8px"
+                                     src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
+                                     title="{{ "INCLUDE_BREAKFAST" | trans }}" alt="{{ "INCLUDE_BREAKFAST" | trans }}">
+                                   </span>
+                                    {% endif %}
+                                    {{ include('FrontEndBundle:favorite:itemFavorite.html.twig',
+                                        {'is_in_favorite': ownership.is_in_favorites,
+                                            'favorite_type': 'ownership',
+                                            'element_id':ownership.own_id,
+                                            'list_preffix' : list_preffix,
+                                            'include_text': false
+                                        }) }}
+                                    {{ include('FrontEndBundle:cart:addCart.html.twig',{'idOwnership':ownership.own_id}) }}
+
+                                </div> </div>
+                        </div>
                     </div>
 
                 </div>

@@ -265,6 +265,22 @@
                             $("#" + $(this).attr("id")).bttrlazyloading();
                         });
                     }
+                    var $CHANGED_LANGUAGE = $('a.change_language');
+                    $CHANGED_LANGUAGE.click(function (event) {
+                        event.preventDefault();
+                        var url = $(this).data('url');
+                        var $ajax = $.ajax({
+                            url: url,
+                            type: 'POST'
+                        });
+                        $ajax.error(function (data) {
+                            console.log(data);
+                        });
+                        $ajax.success(function (data) {
+                            window.location.assign(data);
+
+                        });
+                    });
 
                 });
 

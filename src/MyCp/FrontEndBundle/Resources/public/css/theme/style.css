@@ -371,9 +371,7 @@ ul, menu, dir {
     padding: 6px 0;
     width: 100%;
 }
-.pull-right {
-    float: right !important;
-}
+
 infoBox .map_image{background-size: cover;display: inline-block;height: 65px;width: 65px;}
 .infoBox img{
     width: 10px !important;
