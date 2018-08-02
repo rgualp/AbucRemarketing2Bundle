@@ -23,9 +23,9 @@
 
 
     </style>
-    <div class="row">
+    <div class="row" style="margin:0;">
         {% for ownership in list %}
-            <div class="col-lg-3 col-md-10 col-md-5 mb-3">
+            <div class="col-lg-4 col-md-10 col-md-5 mb-3">
                 <div class="card">
 
                     <!--Card image-->
@@ -33,7 +33,7 @@
                         {% set url_image = asset("uploads/ownershipImages/" ~ ownership.photo) %}
                         {{ render(controller( 'FrontEndBundle:Ownership:getThumbnailForSearcher', { 'photo': ownership.photo, 'title': ownership.own_name} )) }}
 
-                        <a  href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
+                        <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
                             <div class="overlay mask rgba-white-slight ">
                                 <div class="thumbnail-title  clearfix">
                                     <p style="position: relative; float: right;">

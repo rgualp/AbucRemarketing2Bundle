@@ -47,8 +47,11 @@
 {% block class_breadcrumbs %}{% endblock %}
 {% block breadcrumbs %}{% endblock %}
 {% block body %}
-    <div class="row" id="search-container" style="width: 100%; margin:0;">
-        <div class="col" style="padding-right: 0; position: relative">
+    <div class="row" style="width: 100%;">
+
+    <div class="col" id="search-container" style="width: 100%; margin:0;padding: 0;">
+
+        <div class="col" style="padding-right: 0;position: relative">
             <div id="loading" class="hidden">
                 <div class="layer-loading"></div>
                 <div class="loading-signal"><img class="img-circle load-icon"
@@ -59,7 +62,7 @@
             {{ include('FrontEndBundle:ownership:verticalSearcherOwnershipv2.html.twig',
                 {'is_within_search_results':true,
                     'locale': locale}) }}
-            <div class="filter accordion-body collapse" id="collapseFilters">
+            <div class="d-none filter accordion-body collapse" id="collapseFilters">
                 <div id="filters" data-url-filter="{{ path('frontend_filter_ownership_callback') }}"
                      data-url-statistics="{{ path('frontend_filter_statistics_ownership_callback') }}">
                     {% if check_filters is defined %}
@@ -76,8 +79,187 @@
 
                 {% endif %}
             </div>
+            <div class="row">
+            <div class="d-none d-xl-block col-md-auto" id="div_fillters" style="overflow:hidden; height: 522px;">
+                <article class="card-group-item">
+                    <header class="card-header">
+                        <h6 class="title">{{"SELECT_OWNERSHIP_PRICES_OPTION" | trans}}</h6>
+                    </header>
+                    <div class="filter-content">
+                        <div class="card-body">
+                            {% set count=owns_prices|length-1 %}
+                            <div class="row" style="margin-top: 20px; padding-left: 15px;">
+                                <b style="display: inline-block; margin-right: 20px;">${{ owns_prices[0][0] }}</b>
+                                <input id="priceFilter2" type="text" class="span2" style="width: 100%;" value="" data-slider-min="0" data-slider-max="{{ owns_prices[count][1] }}" data-slider-step="1" data-slider-value="[{{ owns_prices[0][0] }},40]"/>
+                                <b style="display: inline-block; margin-left: 15px;">${{ owns_prices[count][1] }}</b>
+                            </div>
 
-            <div class="col-sm-12">
+                        </div> <!-- card-body.// -->
+                    </div>
+                </article>
+                <article class="card-group-item">
+                    <header class="card-header">
+                        <h6 class="title">{{"SELECT_OWNERSHIP_TYPE_OPTION" | trans}}</h6>
+                    </header>
+                    <div class="filter-content">
+                        <div class="card-body">
+                            {%for type in owns_types%}
+                                <label class="form-check">
+                                    <input class="form-check-input action_remove_filter_up" type="checkbox" name="own_type" id="own_type_{{ loop.index }}" value="{{type[0]}}" {%if check_filters is defined and check_filters['own_type'] is defined and type[0] in check_filters['own_type']%} checked="checked" {%endif%} {%if type[1] == '0'%} disabled="disabled" {%endif%}/>
+                                    <span class="form-check-label">
+			    {{type[0] | trans}} ({{type[1]}})
+			  </span>
+                                </label>
+
+                            {%endfor%}
+
+                        </div> <!-- card-body.// -->
+                    </div>
+                </article>
+                <article class="card-group-item">
+                    <header class="card-header">
+                        <h6 class="title">{{"SELECT_OTHER_LANGUAGE_OPTION" | trans}}</h6>
+                    </header>
+                    <div class="filter-content">
+                        <div class="card-body">
+
+                            <label class="form-check">
+                                 <input class="form-check-input action_remove_filter_up" type="checkbox" name="others_languages" id="others_languages1" value="1___" {%if check_filters is defined and check_filters['own_others_languages'] is defined and check_filters['own_others_languages'] == '1___'%} checked="checked" {%endif%} {%if not( own_statistics['own_lang_english'] > 0 or (check_filters is defined and check_filters['own_others_languages'] == '1___'))%} disabled="disabled" {%endif%}/>{{"LANG_ENGLISH" | trans}} ({{own_statistics['own_lang_english']}})
+
+                            </label>
+
+                            <label class="form-check">
+                                  <input class="form-check-input  action_remove_filter_up" type="checkbox" name="others_languages" id="others_languages2" value="_1__" {%if check_filters is defined and check_filters['own_others_languages'] is defined and check_filters['own_others_languages'] == '_1__'%} checked="checked" {%endif%} {%if not(own_statistics['own_lang_french'] > 0 or (check_filters is defined and check_filters['own_others_languages'] == '_1__'))%}disabled="disabled" {%endif%}/>{{"LANG_FRENCH" | trans}} ({{own_statistics['own_lang_french']}})
+
+                            </label>
+                            <label class="form-check">
+                                <input class="form-check-input  action_remove_filter_up" type="checkbox" name="others_languages" id="others_languages3" value="__1_" {%if check_filters is defined and check_filters['own_others_languages'] is defined and check_filters['own_others_languages'] == '__1_'%} checked="checked" {%endif%} {%if not( own_statistics['own_lang_german'] > 0 or (check_filters is defined and check_filters['own_others_languages'] == '__1_'))%} disabled="disabled" {%endif%}/>{{"LANG_GERMAN" | trans}} ({{own_statistics['own_lang_german']}})
+
+                            </label>
+                            <label class="form-check">
+                             
+                                <input class="form-check-input action_remove_filter_up" type="checkbox" name="others_languages" id="others_languages4" value="___1" {%if check_filters is defined and check_filters['own_others_languages'] is defined and check_filters['own_others_languages'] == '___1'%} checked="checked" {%endif%} {%if not( own_statistics['own_lang_italian'] > 0 or (check_filters is defined and check_filters['own_others_languages'] == '___1'))%} disabled="disabled" {%endif%}/>{{"LANG_ITALIAN" | trans}} ({{own_statistics['own_lang_italian']}})
+
+                            </label>
+                            <label class="form-check">
+                                <input class="form-check-input action_remove_filter_up" type="checkbox" data-aux-text="{{"BEDS_ROOMS" | trans}}" name="room_beds_total" id="room_beds_total_5" value="5" {%if check_filters is defined and check_filters['own_beds_total'] is defined and '5' in check_filters['own_beds_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_beds_5'] == 0%} disabled="disabled" {%endif%}/>
+
+                                <span class="form-check-label">
+			   5 ({{own_statistics['room_total_beds_5']}})
+			  </span>
+                            </label>
+                            <label class="form-check">
+                                <input class="form-check-input action_remove_filter_up" type="checkbox" data-aux-text="{{"BEDS_ROOMS" | trans}}" name="room_beds_total" id="room_beds_total_more6" value="+6" {%if check_filters is defined and check_filters['own_beds_total'] is defined and '+6' in check_filters['own_beds_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_beds_more_5'] == 0%} disabled="disabled" {%endif%}/>
+
+                                <span class="form-check-label">
+			   5+ ({{own_statistics['room_total_beds_more_5']}})
+			  </span>
+                            </label>
+
+
+                        </div> <!-- card-body.// -->
+                    </div>
+                </article><!-- card-group-item.// -->
+                <article class="card-group-item">
+                    <header class="card-header">
+                        <h6 class="title">{{"SELECT_ROOM_TYPE_OPTION" | trans}}</h6>
+                    </header>
+                    <div class="filter-content">
+                        <div class="card-body">
+
+                            <label class="form-check">
+                                <input class="form-check-input action_remove_filter_up" type="checkbox" name="room_type" id="room_type_hi"  value="Habitación individual" {%if check_filters is defined and check_filters['room_type'] is defined and 'Habitación individual' in check_filters['room_type']%} checked="checked" {%endif%} {%if not (own_statistics['room_simple'] > 0 or (check_filters is defined and 'Habitación individual' in check_filters['room_type']))%} disabled="disabled" {%endif%}/>
+
+                                <span class="form-check-label">
+			 {{"SINGLE_ROOM_FILTER" | trans}} ({{own_statistics['room_simple']}})
+			  </span>
+                            </label>
+
+                            <label class="form-check">
+                                <input class="form-check-input action_remove_filter_up" type="checkbox" name="room_type" id="room_type_hd" value="Habitación doble" {%if check_filters is defined and check_filters['room_type'] is defined and  'Habitación doble' in check_filters['room_type']%} checked="checked" {%endif%} {%if not(own_statistics['room_double'] > 0 or (check_filters is defined and 'Habitación doble' in check_filters['room_type']))%} disabled="disabled" {%endif%}/>
+
+                                <span class="form-check-label">
+			   {{"DOUBLE_ROOM_FILTER" | trans}} ({{own_statistics['room_double']}})
+			  </span>
+                            </label>
+                            <label class="form-check">
+                                <input class="form-check-input action_remove_filter_up" type="checkbox" name="room_type" id="room_type_hd2c" value="Habitación doble (Dos camas)" {%if check_filters is defined and check_filters['room_type'] is defined and 'Habitación doble (Dos camas)' in check_filters['room_type']%} checked="checked" {%endif%} {%if not( own_statistics['room_double_two_beds'] > 0 or (check_filters is defined and 'Habitación doble (Dos camas)' in check_filters['room_type']))%} disabled="disabled" {%endif%}/>
+
+                                <span class="form-check-label">
+			    {{"DOUBLE_2_BEDS_FILTER" | trans}} ({{own_statistics['room_double_two_beds']}})
+			  </span>
+                            </label>
+                            <label class="form-check">
+                                <input class="form-check-input action_remove_filter_up" type="checkbox" name="room_type" id="room_type_ht" value="Habitación Triple" {%if check_filters is defined and check_filters['room_type'] is defined and 'Habitación Triple' in check_filters['room_type']%} checked="checked" {%endif%} {%if not(own_statistics['room_triple'] > 0 or (check_filters is defined and 'Habitación Triple' in check_filters['room_type']))%} disabled="disabled" {%endif%}/>
+
+                                <span class="form-check-label">
+			  {{"TRIPLE_ROOM_FILTER" | trans}} ({{own_statistics['room_triple']}})
+			  </span>
+                            </label>
+
+
+                        </div> <!-- card-body.// -->
+                    </div>
+                </article><!-- card-group-item.// -->
+                <article class="card-group-item">
+                    <header class="card-header">
+                        <h6 class="title">{{"backend.menu.package.services" | trans}}</h6>
+                    </header>
+                    <div class="filter-content">
+                        <div class="card-body">
+
+                            <label class="form-check">
+                                <input class="form-check-input action_remove_filter_up" type="checkbox" id="room_airconditioner" data-value="Aire acondicionado" {%if check_filters is defined and check_filters['room_climatization'] is defined and check_filters['room_climatization']%} checked="checked" {%endif%} {%if not( own_statistics['room_climatization'] > 0 or (check_filters is defined and check_filters['room_climatization']))%} disabled="disabled" {%endif%}/>
+
+                                <span class="form-check-label">
+			               {{"AIR_CONDITIONING_FILTER" | trans}} ({{own_statistics['room_climatization']}})
+			               </span>
+                            </label>
+
+                            <label class="form-check">
+                                 <input class="form-check-input action_remove_filter_up" type="checkbox" id="room_others_pets" {%if check_filters is defined and check_filters['own_others_pets'] is defined and check_filters['own_others_pets']%} checked="checked" {%endif%} {%if not( own_statistics['own_services_pets'] > 0 or (check_filters is defined and check_filters['own_others_pets']))%} disabled="disabled" {%endif%}/>
+
+                                <span class="form-check-label">
+			                {{"PETS_OTHERS_FILTER" | trans}} ({{own_statistics['own_services_pets']}})
+			                 </span>
+                            </label>
+
+                            <label class="form-check">
+                                <input class="form-check-input action_remove_filter_up" type="checkbox" id="room_smoker" {%if check_filters is defined and check_filters['room_smoker'] is defined and check_filters['room_smoker']%} checked="checked" {%endif%} {%if not(own_statistics['room_smoker'] > 0 or (check_filters is defined and check_filters['room_smoker']))%} disabled="disabled" {%endif%}/>
+
+                                <span class="form-check-label">
+			{{"SMOKER_FILTER" | trans}} ({{own_statistics['room_smoker']}})
+			  </span>
+                            </label>
+                            </label>
+                            <label class="form-check">
+                                 <input class="form-check-input action_remove_filter_up" type="checkbox" id="room_safe" {%if check_filters is defined and check_filters['room_safe'] is defined and check_filters['room_safe']%} checked="checked" {%endif%} {%if not( own_statistics['room_safe'] > 0 or (check_filters is defined and check_filters['room_safe']))%} disabled="disabled" {%endif%}/>
+
+                                <span class="form-check-label">
+			{{"SAFE_FILTER" | trans}} ({{own_statistics['room_safe']}})
+			  </span>
+                            </label>
+                            <label class="form-check">
+                                  <input class="form-check-input action_remove_filter_up" type="checkbox" id="room_balcony" {%if check_filters is defined and check_filters['room_balcony'] is defined and check_filters['room_balcony']%} checked="checked" {%endif%} {%if not(own_statistics['room_balcony'] > 0 or (check_filters is defined and check_filters['room_balcony']))%} disabled="disabled" {%endif%}/>
+
+                                <span class="form-check-label">
+			{{"BALCONY_FILTER" | trans}} ({{own_statistics['room_balcony']}})
+			  </span>
+                            </label>
+                            <label class="form-check">
+                                 <input class="form-check-input  action_remove_filter_up" type="checkbox" id="room_terraza" {%if check_filters is defined and check_filters['room_terraza'] is defined and check_filters['room_terraza']%} checked="checked" {%endif%} {%if not( own_statistics['room_terrace'] > 0 or (check_filters is defined and check_filters['room_terraza']))%} disabled="disabled" {%endif%}/>
+
+                                <span class="form-check-label">
+			{{"TERRACE_FILTER" | trans}} ({{own_statistics['room_terrace']}})
+			  </span>
+                            </label>
+
+                        </div> <!-- card-body.// -->
+                    </div>
+                </article><!-- card-group-item.// -->
+            </div> <!-- card.// -->
+
+            <div class="col">
                 <div class="modal fade" id="myModalOwnerShipCalendar"  tabindex="-1" role="dialog"  aria-hidden="true" role="dialog" >
                     <div class="modal-dialog modal-lg "  role="document" style="width: auto">
                         <div class="modal-content">
@@ -103,7 +285,7 @@
                     </div>
                 </div>
                 <div class="houses-list thumbs-houses lazy-cont result_list ownerships_mosaic" id="div_result"
-                     data-current-page="{{ current_page }}" data-cant-page="{{ cant_pages }}" style="height: 400px;">
+                     data-current-page="{{ current_page }}" data-cant-page="{{ cant_pages }}" style="height: 500px;">
 
                     {#{{ include('FrontEndBundle:ownership:searchMosaicOwnershipv2.html.twig',#}
                     {#{'list': list,#}
@@ -111,6 +293,7 @@
                     {#}) }}#}
 
                 </div>
+            </div>
             </div>
         </div>
         {#<div class="col-sm-5 p-0">#}
@@ -139,7 +322,9 @@
 
         {#</div>#}
     </div>
-    {% block marquesina_js %}{% endblock %}
+        <div>
+
+        {% block marquesina_js %}{% endblock %}
     {% block javascripts %}
         <script>
             var otherpage = {{ current_page }};
@@ -150,7 +335,11 @@
                     iconBase: 'fa',
                     tickIcon: 'fa-check'
                 });
-
+                $('#div_fillters').slimScroll({
+                    height: h + 'px',
+                    start: 'top',
+                    allowPageScroll: true
+                })
                 var h = $(window).height() - 24 - $('#top-menu-cont').height() - $('.filters-container').height();
                 $(".destination-bar-title").css("height", $('.filters-container').height() + 14 + "px");
                 $('#div_result').slimScroll({
@@ -182,6 +371,7 @@
 
                 $("iframe").css("position", "fixed");
                 jQuery("#priceFilter").slider({});
+                jQuery("#priceFilter2").slider({});
                 $('#cancel-filters').on('click', function () {
                     $('#button_research').removeClass('hide');
                     $('#more_filters').addClass('collapsed');

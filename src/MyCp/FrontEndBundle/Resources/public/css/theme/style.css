@@ -1299,6 +1299,7 @@ h1, h2, h3, h4, h5, h6 {
 .tooltip.top {
     margin-top: -3px;
     padding: 5px 0;
+    opacity: 1;
 }
 #search_map{
     width: 100%; border-radius: 0px; height: 487px; position: relative; overflow: hidden;
