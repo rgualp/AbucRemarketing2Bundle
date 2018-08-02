@@ -3351,10 +3351,13 @@ class ownership
 
     /**
      * @param bool $own_facilities_breakfast_include
+     * @return ownership
      */
     public function setOwnFacilitiesBreakfastInclude($own_facilities_breakfast_include)
     {
         $this->own_facilities_breakfast_include = $own_facilities_breakfast_include;
+
+        return $this;
     }
 
 

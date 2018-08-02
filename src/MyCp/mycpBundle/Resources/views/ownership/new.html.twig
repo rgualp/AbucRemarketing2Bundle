@@ -431,10 +431,10 @@
                     <div class="row-fluid">
                         <div class="span3"><label>Desayuno (*)</label></div>
                         <div class="span3">{% if errors['facilities_breakfast'] is defined %}<label class="error">{{errors['facilities_breakfast']|trim(':')}}</label>{%endif%}
-                            <select class="input-block-level" name="facilities_breakfast">
+                            <select class="input-block-level" name="facilities_breakfast" id="facilities_breakfast">
                                 {{ render(controller('mycpBundle:BackendOwnership:get_facilities_breakfast_list', {'post':post})) }}
                             </select></div>
-                        <div class="span3"><label><input value="{% if(post['facilities_breakfast_price'] is defined) %}{{post['facilities_breakfast_price']}}{% endif %}" type="text" class="input-block-level" name="facilities_breakfast_price"/></label></div>
+                        <div class="span3"><label><input value="{% if(post['facilities_breakfast_price'] is defined) %}{{post['facilities_breakfast_price']}}{% endif %}" type="text" class="input-block-level" name="facilities_breakfast_price" id="facilities_breakfast_price"/></label></div>
                         <div class="span3"></div>
                     </div>
                     <div class="row-fluid">
@@ -1103,5 +1103,21 @@
             }
         }
 
+        var BREAKFAST_INCLUDED_SELECT = $('select#facilities_breakfast');
+        var BREAKFAST_PRICE = $('#facilities_breakfast_price');
+        function updatePriceBreakfast(){
+            $('select#facilities_breakfast option:selected').each(function() {
+                  if($(this).val() === "1")
+                    BREAKFAST_PRICE.show();
+                  else
+                      BREAKFAST_PRICE.hide();
+            });
+        }
+        $(document).ready(function() {
+            updatePriceBreakfast();
+            BREAKFAST_INCLUDED_SELECT.change(function() {
+               updatePriceBreakfast();
+            });
+        });
     </script>
 {% endblock %}
