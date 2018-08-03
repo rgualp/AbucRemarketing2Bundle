@@ -82,12 +82,12 @@
         </div>
 
     </div>
-    <div class="row-fluid">
+    <div class="row-fluid text-center">
     <div class="row">
         <div class="col">
             <div class="checkbox" style="margin: 0">
                 <label>
-                    <input class="action_remove_filter_up" type="checkbox" id="own_inmediate_booking2"
+                    <input class="form-check-input action_remove_filter_up" type="checkbox" id="own_inmediate_booking2"
                            name="own_inmediate_booking2" {% if app.session.get('inmediate') != null and app.session.get('inmediate') == "1" %} checked="checked"{% endif %}
                            data-aux-text="{{ "IMMEDIATE_BOOKING" | trans }}"
                            data-aux-text="{{ "IMMEDIATE_BOOKING" | trans }}"/>{{ 'IMMEDIATE_BOOKING'|trans }}
@@ -97,7 +97,7 @@
         <div class="col">
             <div class="checkbox" style="margin: 0">
                 <label>
-                    <input class="action_remove_filter_up" type="checkbox" name="others_included"
+                    <input class="form-check-input action_remove_filter_up" type="checkbox" name="others_included"
                            id="breakfast_included"
                            value="BREAKFAST_INCLUDED" {% if service_breakfast_included %} checked="checked" {% endif %} {% if not( own_statistics['own_services_breakfast_include'] > 0 or service_breakfast_included ) %} disabled="disabled" {% endif %}/>{{ "INCLUDE_BREAKFAST" | trans }}
                 </label>
@@ -107,7 +107,7 @@
         <div class="col">
             <div class="checkbox" style="margin: 0">
                 <label>
-                    <input class="action_remove_filter_up" type="checkbox" id="own_update_avaliable"
+                    <input class="form-check-input action_remove_filter_up" type="checkbox" id="own_update_avaliable"
                            name="own_update_avaliable" {% if check_filters is defined and check_filters['own_update_avaliable'] is defined and check_filters['own_update_avaliable'] %} checked="checked"{% endif %}
                            data-aux-text="{{ "Calendario Actualizado" | trans }}"
                            data-aux-text="{{ "Calendario Actualizado" | trans }}"/>{{ "Calendario Actualizado" | trans }}

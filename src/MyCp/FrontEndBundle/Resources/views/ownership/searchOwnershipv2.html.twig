@@ -141,20 +141,7 @@
                                 <input class="form-check-input action_remove_filter_up" type="checkbox" name="others_languages" id="others_languages4" value="___1" {%if check_filters is defined and check_filters['own_others_languages'] is defined and check_filters['own_others_languages'] == '___1'%} checked="checked" {%endif%} {%if not( own_statistics['own_lang_italian'] > 0 or (check_filters is defined and check_filters['own_others_languages'] == '___1'))%} disabled="disabled" {%endif%}/>{{"LANG_ITALIAN" | trans}} ({{own_statistics['own_lang_italian']}})
 
                             </label>
-                            <label class="form-check">
-                                <input class="form-check-input action_remove_filter_up" type="checkbox" data-aux-text="{{"BEDS_ROOMS" | trans}}" name="room_beds_total" id="room_beds_total_5" value="5" {%if check_filters is defined and check_filters['own_beds_total'] is defined and '5' in check_filters['own_beds_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_beds_5'] == 0%} disabled="disabled" {%endif%}/>
 
-                                <span class="form-check-label">
-			   5 ({{own_statistics['room_total_beds_5']}})
-			  </span>
-                            </label>
-                            <label class="form-check">
-                                <input class="form-check-input action_remove_filter_up" type="checkbox" data-aux-text="{{"BEDS_ROOMS" | trans}}" name="room_beds_total" id="room_beds_total_more6" value="+6" {%if check_filters is defined and check_filters['own_beds_total'] is defined and '+6' in check_filters['own_beds_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_beds_more_5'] == 0%} disabled="disabled" {%endif%}/>
-
-                                <span class="form-check-label">
-			   5+ ({{own_statistics['room_total_beds_more_5']}})
-			  </span>
-                            </label>
 
 
                         </div> <!-- card-body.// -->
@@ -253,6 +240,29 @@
 			{{"TERRACE_FILTER" | trans}} ({{own_statistics['room_terrace']}})
 			  </span>
                             </label>
+
+                        </div> <!-- card-body.// -->
+                    </div>
+                </article><!-- card-group-item.// -->
+                <article class="card-group-item">
+                    <header class="card-header">
+                        <h6 class="title">{{"CATEGORY" | trans}}</h6>
+                    </header>
+                    <div class="filter-content">
+                        <div class="card-body">
+
+
+
+                            {%for category in owns_categories%}
+                                <label class="form-check">
+                                     <input class="form-check-input action_remove_filter_up" type="checkbox" name="own_category" id="own_category{{ loop.index }}"  value="{{category[0]}}" {%if check_filters is defined and category[0] in check_filters['own_category']%} checked="checked" {%endif%} {%if category[1] == '0'%} disabled="disabled" {%endif%}/>
+
+                                    <span class="form-check-label">
+			              {{category[0] | trans}} ({{category[1]}})
+			               </span>
+                                </label>
+
+                            {%endfor%}
 
                         </div> <!-- card-body.// -->
                     </div>

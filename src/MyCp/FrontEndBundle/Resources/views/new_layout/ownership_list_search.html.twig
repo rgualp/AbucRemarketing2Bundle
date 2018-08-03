@@ -7,7 +7,6 @@
             box-shadow: 4px 5px 5px #444;
             color: white;
             font-size: 14px;
-            left: -10px;
             padding: 6px 10px;
             position: absolute;
             top: 5%;
@@ -23,7 +22,8 @@
 
 
     </style>
-    <div class="row" style="margin:0;">
+    <div class="row" style="margin:0;background-image: url({{ asset('bundles/frontend/img/background2.jpg') }});visibility: visible;
+    animation-name: fadeIn;">
         {% for ownership in list %}
             <div class="col-lg-4 col-md-10 col-md-5 mb-3">
                 <div class="card">
