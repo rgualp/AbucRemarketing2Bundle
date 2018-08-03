@@ -128,14 +128,14 @@
         <form action="{{ path('frontend_add_to_cart',{'id_ownership':ownership.own_id}) }}" id="form-check-available" method="POST">
             <input type="hidden" value="{{ hasCompleteReservation }}" name="hasCompleteReservation"/>
             <div class="row">
-                <div class="col-sm-12 text-center">
-                    <div class="col-sm-6">
+                <div class="row text-center">
+                    <div class="col">
                         <button style="padding: 5px 10px" onclick="$('#check_dispo').val('')" class="btn btn-primary {% if ownership.OwnInmediateBooking2 %} hide {% endif %}" id="addWhisList" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
                             <img style="width: 23px; height: 23px;" src="{{ asset('bundles/frontend/img/icons/wishlistwhite.png')}}" alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/> {{ 'ADD_WHISH_LIST' | trans }}
                         </button>
                     </div>
                     <input type="hidden"  value="{% if ownership.OwnInmediateBooking2 %}2{% else %}1{% endif %}" name="check_dispo" id="check_dispo"/>
-                    <div class="col-sm-6">
+                    <div class="col">
                         {% if ownership.OwnInmediateBooking2 %}
                             <button style="padding: 5px 10px" type="submit" class="btn btn-primary" id="reservedOwnerShip" {% if modal_check_class is defined %}data-modal="{{ modal_check_class }}"{% endif %}>
                                 <i class="fa fa-check"></i> {{ 'RESERVATION_RESERVE' | trans }}
