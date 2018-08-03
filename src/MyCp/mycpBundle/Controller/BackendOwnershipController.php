@@ -489,6 +489,7 @@ class BackendOwnershipController extends Controller
 
         $post['facilities_breakfast'] = $ownership->getOwnFacilitiesBreakfast();
         $post['facilities_breakfast_price'] = $ownership->getOwnFacilitiesBreakfastPrice();
+        $post['facilities_breakfast_include'] = $ownership->isOwnFacilitiesBreakfastInclude();
         $post['facilities_dinner'] = $ownership->getOwnFacilitiesDinner();
         $post['facilities_dinner_price_from'] = $ownership->getOwnFacilitiesDinnerPriceFrom();
         $post['facilities_dinner_price_to'] = $ownership->getOwnFacilitiesDinnerPriceTo();
@@ -535,6 +536,7 @@ class BackendOwnershipController extends Controller
         $post['not_recommendable'] = ($post['not_recommendable'] == false) ? 0 : 1;
         $post['with_ical'] = ($post['with_ical'] == false) ? 0 : 1;
         $post['facilities_breakfast'] = ($post['facilities_breakfast'] == false) ? 0 : 1;
+        $post['facilities_breakfast_include'] = ($post['facilities_breakfast_include'] == false) ? 0 : 1;
         $post['facilities_dinner'] = ($post['facilities_dinner'] == false) ? 0 : 1;
         $post['facilities_parking'] = ($post['facilities_parking'] == false) ? 0 : 1;
         $post['water_sauna'] = $ownership->getOwnWaterSauna();
