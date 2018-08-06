@@ -1,4 +1,50 @@
 {% extends 'FrontEndBundle:new_layout:base_filters.html.twig' %}
+{%set included_in_price = own_statistics['own_water_jacuzzi'] > 0 or (check_filters is defined and check_filters['own_others_included'] == "JACUZZY") or own_statistics['own_water_sauna'] > 0 or (check_filters is defined and check_filters['own_others_included'] == "SAUNA") or own_statistics['own_water_pool'] > 0 or (check_filters is defined and check_filters['own_others_included'] == "POOL")%}
+{%set languages = own_statistics['own_lang_english'] > 0 or (check_filters is defined and check_filters['own_others_languages'] == '1___') or own_statistics['own_lang_french'] > 0 or (check_filters is defined and check_filters['own_others_languages'] == '_1__') or own_statistics['own_lang_german'] > 0 or (check_filters is defined and check_filters['own_others_languages'] == '__1_') or own_statistics['own_lang_italian'] > 0 or (check_filters is defined and check_filters['own_others_languages'] == '___1')%}
+{%set show_bath_inner =  own_statistics['own_bathroom_inner'] > 0 or (check_filters is defined and 'Interior privado' in check_filters['room_bathroom']) %}
+{%set show_bath_outer =  own_statistics['own_bathroom_outer'] > 0 or (check_filters is defined and 'Exterior privado' in check_filters['room_bathroom']) %}
+{%set show_bath_shared =  own_statistics['own_bathroom_shared'] > 0 or (check_filters is defined and 'Compartido' in check_filters['room_bathroom']) %}
+{%set service_breakfast = false%}
+{%set service_dinner = false%}
+{%set service_laundry = false%}
+{%set service_parking = false%}
+
+{%set service_pool = false%}
+{%set service_sauna = false%}
+{%set service_jacuzzy = false%}
+
+{%if check_filters is defined and check_filters != null%}
+    {% if check_filters['own_others_not_included'] is defined  %}
+        {%for service in check_filters['own_others_not_included']%}
+            {%if service == "BREAKFAST"%}
+                {%set service_breakfast = true%}
+            {%endif%}
+            {%if service == "DINNER"%}
+                {%set service_dinner = true%}
+            {%endif%}
+            {%if service == "LAUNDRY"%}
+                {%set service_laundry = true%}
+            {%endif%}
+            {%if service == "PARKING"%}
+                {%set service_parking = true%}
+            {%endif%}
+        {%endfor%}
+    {% endif %}
+    {% if check_filters['own_others_included'] is defined  %}
+        {%for service in check_filters['own_others_included']%}
+            {%if service == "POOL"%}
+                {%set service_pool = true%}
+            {%endif%}
+            {%if service == "SAUNA"%}
+                {%set service_sauna = true%}
+            {%endif%}
+            {%if service == "JACUZZY"%}
+                {%set service_jacuzzy = true%}
+            {%endif%}
+        {%endfor%}
+    {% endif %}
+{%endif%}
+
 {% block include_javascripts_and_css %}
     {% stylesheets
         '@FrontEndBundle/Resources/public/css/plugins/ionRangeSlider/ion.rangeSlider.css'
@@ -80,9 +126,10 @@
                 {% endif %}
             </div>
             <div class="row">
-            <div class="d-none d-xl-block col-md-auto" id="div_fillters" style="overflow:hidden; height: 522px;">
+            <div class="d-none d-xl-block col-md-auto" id="div_fillters" style="padding-right: 0px;font-size: 12px;overflow:hidden; height: 522px;">
+
                 <article class="card-group-item">
-                    <header class="card-header">
+                    <header class="card-header text-center">
                         <h6 class="title">{{"SELECT_OWNERSHIP_PRICES_OPTION" | trans}}</h6>
                     </header>
                     <div class="filter-content">
@@ -98,7 +145,7 @@
                     </div>
                 </article>
                 <article class="card-group-item">
-                    <header class="card-header">
+                    <header class="card-header text-center">
                         <h6 class="title">{{"SELECT_OWNERSHIP_TYPE_OPTION" | trans}}</h6>
                     </header>
                     <div class="filter-content">
@@ -117,7 +164,7 @@
                     </div>
                 </article>
                 <article class="card-group-item">
-                    <header class="card-header">
+                    <header class="card-header text-center">
                         <h6 class="title">{{"SELECT_OTHER_LANGUAGE_OPTION" | trans}}</h6>
                     </header>
                     <div class="filter-content">
@@ -148,7 +195,7 @@
                     </div>
                 </article><!-- card-group-item.// -->
                 <article class="card-group-item">
-                    <header class="card-header">
+                    <header class="card-header text-center">
                         <h6 class="title">{{"SELECT_ROOM_TYPE_OPTION" | trans}}</h6>
                     </header>
                     <div class="filter-content">
@@ -189,7 +236,7 @@
                     </div>
                 </article><!-- card-group-item.// -->
                 <article class="card-group-item">
-                    <header class="card-header">
+                    <header class="card-header text-center">
                         <h6 class="title">{{"backend.menu.package.services" | trans}}</h6>
                     </header>
                     <div class="filter-content">
@@ -240,12 +287,43 @@
 			{{"TERRACE_FILTER" | trans}} ({{own_statistics['room_terrace']}})
 			  </span>
                             </label>
+                            <label class="form-check">
+                                     <input class="form-check-input action_remove_filter_up" type="checkbox" id="room_others_internet" {%if check_filters is defined and check_filters['own_others_internet'] is defined and check_filters['own_others_internet']%} checked="checked" {%endif%} {%if not( own_statistics['own_service_internet_email'] > 0 or (check_filters is defined and check_filters['own_others_internet']))%} disabled="disabled" {%endif%}/>
 
+                                <span class="form-check-label">
+			 {{"INTERNET_OTHERS_FILTER" | trans}} ({{own_statistics['own_service_internet_email']}})
+			  </span>
+                            </label>
+                            <label class="form-check">
+
+                                  <input class="form-check-input action_remove_filter_up" type="checkbox" name="others_included" id="others_included" value="JACUZZY" {%if service_jacuzzy%} checked="checked" {%endif%} {%if not( own_statistics['own_water_jacuzzi'] > 0 or service_jacuzzy)%} disabled="disabled" {%endif%}/>{{"JACUZZI_BATROOM_FILTER" | trans}} ({{own_statistics['own_water_jacuzzi']}})
+
+                            </label>
+                            <label class="form-check">
+
+                                      <input class="form-check-input action_remove_filter_up" type="checkbox" name="others_included" id="others_included1" value="POOL" {%if service_pool%} checked="checked" {%endif%} {%if not(own_statistics['own_water_pool'] > 0 or service_pool)%} disabled="disabled" {%endif%}/>{{"POOL_OTHERS_FILTER" | trans}} ({{own_statistics['own_water_pool']}})
+
+                            </label>
+                            <label class="form-check">
+
+                                <input class="form-check-input action_remove_filter_up" type="checkbox" name="others_not_included" id="others_not_included1" value="DINNER" {%if service_dinner%} checked="checked" {%endif%} {%if not(own_statistics['own_services_dinner'] > 0 or service_dinner)%} disabled="disabled" {%endif%}/>{{"DINNER_OTHERS_FILTER" | trans}} ({{own_statistics['own_services_dinner']}})
+
+                            </label>
+                            <label class="form-check">
+                                <input class="form-check-input action_remove_filter_up" type="checkbox" name="others_not_included" id="others_not_included2" value="LAUNDRY" {%if service_laundry%} checked="checked" {%endif%} {%if not(own_statistics['own_services_laundry'] > 0 or service_laundry)%} disabled="disabled" {%endif%}/>{{"LAUNDRY_OTHERS_FILTER" | trans}} ({{own_statistics['own_services_laundry']}})
+
+
+                            </label>
+                            <label class="form-check">
+
+                                <input class="form-check-input action_remove_filter_up" type="checkbox" name="others_not_included" id="others_not_include3" value="PARKING" {%if service_parking%} checked="checked" {%endif%} {%if not(own_statistics['own_services_parking'] > 0 or service_parking)%} disabled="disabled" {%endif%}/>{{"PARKING_THERS_FILTER" | trans}} ({{own_statistics['own_services_parking']}})
+
+                            </label>
                         </div> <!-- card-body.// -->
                     </div>
                 </article><!-- card-group-item.// -->
                 <article class="card-group-item">
-                    <header class="card-header">
+                    <header class="card-header text-center">
                         <h6 class="title">{{"CATEGORY" | trans}}</h6>
                     </header>
                     <div class="filter-content">
@@ -267,9 +345,10 @@
                         </div> <!-- card-body.// -->
                     </div>
                 </article><!-- card-group-item.// -->
+
             </div> <!-- card.// -->
 
-            <div class="col">
+            <div class="col" style="padding-left: 0px;">
                 <div class="modal fade" id="myModalOwnerShipCalendar"  tabindex="-1" role="dialog"  aria-hidden="true" role="dialog" >
                     <div class="modal-dialog modal-lg "  role="document" style="width: auto">
                         <div class="modal-content">

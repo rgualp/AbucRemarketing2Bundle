@@ -19,7 +19,7 @@
 {% block body %}
     <div class="container" style=' padding-top: 0;'>
         <div class="row">
-            <div class="col-md-10 ml-auto mr-auto">
+            <div class="col-md-5 ml-auto mr-auto ml-auto mr-auto">
                 <div class="card card-signup">
                     <h2 class="caecilia-roman big-price-green text-center no-margin" style="font-weight: normal; margin-top: 20px">{{"USER_REGISTRATION_SUBTITLE" | trans}}</h2>
                     <div><img src="{{ asset('bundles/frontend/img/line-gradient-green.png') }}" style="width: 100%; height: 1px; margin: 16px 0" alt="{{"Gradient" | trans}}"></div>
@@ -102,7 +102,7 @@
 
                                     <div class="form-group">
                                         <div class="text-center">
-                                            <button onclick='HoldOn.open();' id="btn_submit" class="btn btn-primary btn-block"
+                                            <button  id="btn_submit" class="btn btn-primary btn-block"
                                                     disabled="disabled" type="submit">{{ "REGISTER_USER_REGISTRATION" | trans }}</button>
                                         </div>
                                     </div>
