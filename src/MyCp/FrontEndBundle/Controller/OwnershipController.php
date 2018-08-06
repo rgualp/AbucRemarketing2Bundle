@@ -55,15 +55,6 @@ class OwnershipController extends Controller
         if ($bookingModality != null and $bookingModality->getBookingModality()->getName() == bookingModality::COMPLETE_RESERVATION_BOOKING)
             $completeReservationPrice = $bookingModality->getPrice();
 
-        /*$general_reservations = $em->getRepository('mycpBundle:generalReservation')->findBy(array('gen_res_own_id' => $owner_id));
-        $reservations = array();
-        foreach ($general_reservations as $gen_res) {
-            $own_reservations = $em->getRepository('mycpBundle:ownershipReservation')->getReservationReservedByGeneralAndDate($gen_res->getGenResId(), $dateFrom, $dateTo);//findBy(array('own_res_gen_res_id' => $gen_res->getGenResId()));
-            foreach ($own_reservations as $own_res) {
-                array_push($reservations, $own_res);
-            }
-        }*/
-
         $roomsAux = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $owner_id, 'room_active' => true), array("room_num" => "ASC"));
 
         $rooms = ($completeReservationPrice > 0) ? array($roomsAux[0]) : $roomsAux;
@@ -87,32 +78,6 @@ class OwnershipController extends Controller
                     // unavailable details
                     $array_no_available[$room->getRoomId()] = $room->getRoomId();
                     $flag = 1;
-                    /*if ($start_timestamp <= $ur->getUdFromDate()->getTimestamp() &&
-                            $end_timestamp >= $ur->getUdToDate()->getTimestamp()) {
-                        $array_no_available[$room->getRoomId()] = $room->getRoomId();
-                        $flag = 1;
-                    }
-
-                    if ($start_timestamp >= $ur->getUdFromDate()->getTimestamp() &&
-                            $start_timestamp <= $ur->getUdToDate()->getTimestamp() &&
-                            $end_timestamp >= $ur->getUdToDate()->getTimestamp()) {
-                        $array_no_available[$room->getRoomId()] = $room->getRoomId();
-                        $flag = 1;
-                    }
-
-                    if ($start_timestamp <= $ur->getUdFromDate()->getTimestamp() &&
-                            $end_timestamp <= $ur->getUdToDate()->getTimestamp() &&
-                            $end_timestamp >= $ur->getUdFromDate()->getTimestamp()) {
-
-                        $array_no_available[$room->getRoomId()] = $room->getRoomId();
-                        $flag = 1;
-                    }
-
-                    if ($start_timestamp >= $ur->getUdFromDate()->getTimestamp() &&
-                            $end_timestamp <= $ur->getUdToDate()->getTimestamp()) {
-                        $array_no_available[$room->getRoomId()] = $room->getRoomId();
-                        $flag = 1;
-                    }*/
                     $temp = array();
                     foreach ($unavailable_days as $unav_date) {
                         for ($s = 0; $s < count($array_dates) - 1; $s++) {
@@ -128,9 +93,6 @@ class OwnershipController extends Controller
                 }
             }
 
-            /*dump($room->getRoomId());
-            dump($dateFrom);
-            dump($dateTo); die;*/
             $reservations = $em->getRepository('mycpBundle:ownershipReservation')->getReservationReservedByRoomAndDateForCalendar($room->getRoomId(), $dateFrom, $dateTo);
             //var_dump("Habitacion id ". $room->getRoomId(). ": REservaciones " .count($reservations). ". Desde: ".date("d-m-Y",$dateFrom->getTimestamp()). ". Hasta: ".date("d-m-Y",$dateTo->getTimestamp())."<br/>");
             foreach ($reservations as $reservation) {
@@ -141,28 +103,6 @@ class OwnershipController extends Controller
                 $reservationEndDate = $date->getTimestamp();
 
                 $array_no_available[$room->getRoomId()] = $room->getRoomId();
-
-                /*if ($start_timestamp <= $reservationStartDate && $end_timestamp >= $reservationEndDate) {
-
-                    $array_no_available[$room->getRoomId()] = $room->getRoomId();
-                }
-
-                if ($start_timestamp >= $reservationStartDate && $start_timestamp <= $reservationEndDate &&
-                        $end_timestamp >= $reservationEndDate) {
-
-                    $array_no_available[$room->getRoomId()] = $room->getRoomId();
-                }
-
-                if ($start_timestamp <= $reservationStartDate && $end_timestamp <= $reservationEndDate &&
-                        $end_timestamp >= $reservationStartDate) {
-
-                    $array_no_available[$room->getRoomId()] = $room->getRoomId();
-                }
-
-                if ($start_timestamp >= $reservationStartDate && $end_timestamp <= $reservationEndDate) {
-
-                    $array_no_available[$room->getRoomId()] = $room->getRoomId();
-                }*/
 
                 $array_numbers_check = array();
                 $cont_numbers = 1;
@@ -183,9 +123,6 @@ class OwnershipController extends Controller
             $total_price_room = 0;
             $prices_dates_temp = array();
             $x = 1;
-            /* if ($request->getMethod() != 'POST') {
-              //$x = 2;
-              } */
             $destination_id = ($ownership->getOwnDestination() != null) ? $ownership->getOwnDestination()->getDesId() : null;
             $seasons = $em->getRepository("mycpBundle:season")->getSeasons($from, $to, $destination_id);
             for ($a = 0; $a < count($array_dates) - $x; $a++) {
@@ -206,7 +143,6 @@ class OwnershipController extends Controller
                 $no_available_days_ready[$item[$keys[0]]] = array();
             $no_available_days_ready[$item[$keys[0]]] = array_merge($no_available_days_ready[$item[$keys[0]]], $item['check']);
         }
-        //var_dump($no_available_days);
         $array_dates_keys = array();
         $count = 1;
         foreach ($array_dates as $date) {
@@ -252,7 +188,6 @@ class OwnershipController extends Controller
                 'completeReservationPrice' => $completeReservationPrice
             ));
         } else {
-            //$no_available_days_ready[351]=array(11,12,13,14,15,21,22);
             return $this->render('FrontEndBundle:ownership:ownershipReservationCalendar.html.twig', array(
                 'array_dates' => $array_dates_keys,
                 'rooms' => $rooms,
@@ -415,8 +350,6 @@ class OwnershipController extends Controller
             $em->persist($ownership);
             $em->flush();
         }
-        // $similar_houses = $em->getRepository('mycpBundle:ownership')->getByCategory($ownership_array['category'], null, $owner_id, $user_ids["user_id"], $user_ids["session_id"]);
-        // $total_similar_houses = count($similar_houses);
         $mobileDetector = $this->get('mobile_detect.mobile_detector');
         $paginator = $this->get('ideup.simple_paginator');
         if ($mobileDetector->isMobile()){

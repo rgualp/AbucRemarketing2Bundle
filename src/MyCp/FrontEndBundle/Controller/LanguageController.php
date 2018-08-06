@@ -125,9 +125,11 @@ class LanguageController extends Controller
         $parameters['_locale'] = $newLocale;
         $parameters['locale'] = $newLocale;
         $route = $parameters['_route'];
-
         unset($parameters['_route']);
         unset($parameters['_controller']);
+        if (key_exists('destination_name', $parameters)) {
+            $parameters['destination_name'] = $this->get('front_end.convert_destination_name')->convertDistinationByLang($parameters['destination_name'], $newLocale);
+        }
         return new Response($this->generateUrl($route, $parameters), Response::HTTP_OK);
     }
 }

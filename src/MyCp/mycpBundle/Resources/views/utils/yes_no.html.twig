@@ -1,6 +1,9 @@
 
 <option value=""></option>
-<option {% if selected== 1  %} selected="TRUE" {% endif %} value="1">Si</option>
-<option {% if selected != 1 %} selected="TRUE" {% endif %} value="0">No</option>
+<option {% if selected == 1  %} selected="selected" {% endif %} value="1">Si</option>
+<option {% if selected == 0 %} selected="selected" {% endif %} value="0">No</option>
+{% if show_included is defined and show_included %}
+    <option {% if selected == 2 %} selected="selected" {% endif %} value="2">Incluido</option>
+{% endif %}
 
 

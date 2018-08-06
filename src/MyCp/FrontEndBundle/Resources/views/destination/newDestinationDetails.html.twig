@@ -47,7 +47,7 @@
 {% block breadcrumbs %}{% endblock %}
 {% block body %}
     <div class="row" id="search-container" style="width: 100%; margin:0;">
-        <div class="col-sm-7 p-0" style="padding-right: 0; position: relative">
+        <div class="col-sm-12 p-0" style="padding-right: 0; position: relative">
             <div id="loading" class="hidden">
                 <div class="layer-loading"></div>
                 <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}" title="{{"Loading" | trans}}" alt="{{"Loading" | trans}}"/></div>
@@ -113,81 +113,6 @@
 
                 </div>
             </div>
-        </div>
-        <div class="col-sm-5 p-0">
-            <div class="destination-bar-title fmap col-sm-12 clearfix" style="padding: 0;">
-                <div class="col-sm-7" style="padding: 0 15px 13px;">
-                    <ul class="nav" style="margin: 0">
-                        <li><h1 class="h-green caecilia-roman">
-                                {{ desName }}
-                            </h1></li>
-                        <li><a class="show-hide-description" title="{{ 'DESCRIPTION_TAB_DETAILS' | trans }}" href="#" style="font-size: 26px;margin-left: 7px; padding: 0 10px;"><i class="ion-more"></i></a></li>
-                    </ul>
-                </div>
-                <div class="col-sm-5" style="padding: 6px 0px 7px;">
-                    {#<div class="col-sm-12">#}
-                        {#{{ include('FrontEndBundle:favorite:detailsFavorite.html.twig',#}
-                        {#{'is_in_favorite': is_in_favorite,#}
-                            {#'favorite_type': 'destination',#}
-                            {#'element_id':destination.desid#}
-                        {#}) }}#}
-                    {#</div>#}
-                    {#<div class="col-sm-12">#}
-                        {#<a href="#send_to_friend_popup" title="{{ 'SEND_TO_FRIEND' | trans }}" data-toggle="modal" style="text-decoration: none">#}
-                            {#<button style="margin-top: 15px" class="btn btn-default btn-block" onclick="$('#send_to_friend_popup').attr('data-email-type', 'recommend_destiny'); $('#send_to_friend_popup').attr('data-dest-prop-id', '{{ destination.getDesId }}');">#}
-                                {#<img src="{{ asset('bundles/frontend/img/main_to_friend.gif') }}" alt="{{ "TELL_A_FRIEND" | trans }}">{{ "TELL_A_FRIEND" | trans }}#}
-                            {#</button>#}
-                        {#</a>#}
-                    {#</div>#}
-                </div>
-            </div>
-            <div class="thumbnail" id="search_map" style="width:100%; border-radius: 0;" class="google-maps"></div>
-            <div  id="json_search_source" data-url="{{path("frontend_map_markers_ownership_callback")}}"
-                  data-icon-small="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_small.png') }}"
-                  data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}"></div>
-
-            {% if gallery_photos | length %}
-                <div id="poput-description" class="clearfix dhide">
-                    {% set img = "" %}
-                    {% for photo in  gallery_photos%}
-                        {% if loop.first %}
-                            {% set img = asset('uploads/destinationImages/'~photo)  %}
-                        {% endif %}
-                    {%endfor%}
-                    <div class="images-destination" style="background-image: url('{{ img }}');">
-                        <div class="destination-bar-title col-sm-12 clearfix">
-                            <div class="col-sm-7" style="padding: 0px;">
-                                <ul class="nav" style="margin: 0">
-                                    <li><h2 class="h-green caecilia-roman">
-                                            {{ desName }}
-                                        </h2></li>
-                                    <li><a class="show-hide-description" title="{{ 'MAP_VIEW' | trans }}" href="#" style="font-size: 26px;margin-left: 7px; padding: 0 10px;"><i class="ion-ios-location"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="col-sm-5" style="padding: 6px 0px 7px;">
-                                <div class="col-sm-12">
-                                    {{ include('FrontEndBundle:favorite:detailsFavorite.html.twig',
-                                    {'is_in_favorite': is_in_favorite,
-                                        'favorite_type': 'destination',
-                                        'element_id':destination.desid
-                                    }) }}
-                                </div>
-                                <div class="col-sm-12">
-                                    <a href="#send_to_friend_popup" title="{{ 'SEND_TO_FRIEND' | trans }}" data-toggle="modal" style="text-decoration: none">
-                                        <button style="margin-top: 15px" class="btn btn-default btn-block" onclick="$('#send_to_friend_popup').attr('data-email-type', 'recommend_destiny'); $('#send_to_friend_popup').attr('data-dest-prop-id', '{{ destination.getDesId }}');">
-                                            <img src="{{ asset('bundles/frontend/img/main_to_friend.gif') }}" title="{{ "TELL_A_FRIEND" | trans }}" alt="{{ "TELL_A_FRIEND" | trans }}">{{ "TELL_A_FRIEND" | trans }}
-                                        </button>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="p-description">
-                            <p>{{ description | raw }}</p>
-                        </div>
-
-                    </div>
-                </div>
-            {% endif %}
         </div>
     </div>
     {% block marquesina_js %}{% endblock %}

@@ -4,14 +4,14 @@
 {% set image = ((gallery_photos[0] is defined) ? gallery_photos[0].photo_name : "no_photo.png") %}
 {% set promoPrice = (ownership.completePrice != null and ownership.completePrice > 0) ? ownership.completePrice : ownership.ownminimumprice %}
 {% set nightPriceTextTag = (ownership.completePrice != null and ownership.completePrice > 0) ? "BYNIGHT" :  "NIGHT_PER_ROOM" %}
-{% set hasCompleteReservation = (ownership.completePrice != null and ownership.completePrice > 0)  %}
+{% set hasCompleteReservation = (ownership.completePrice != null and ownership.completePrice > 0) %}
 
 
 {% extends 'FrontEndBundle:layout:base.html.twig' %}
 {% set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_ACCOMMODATIONS') %}
 {% block metas %}
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" >
+    <meta name="robots">
     <meta name="description"
           content="{{ ownership.owntype  | trans }} {{ "IN" | trans }} {{ ownership.ownAddressProvince }}: {{ ownership.ownname }}.
                 {% if rooms is defined and rooms | length %}
@@ -26,11 +26,13 @@
     {#<meta name="keywords" content="{{ ownership.owntype | trans }} {{ ownership.ownaddressmunicipality }} {{ ownership.ownAddressProvince }} Cuba {{ ownership.ownname }}">#}
 
     {% set page = app.request.query.get('page') %}
-    <link rel="canonical" href="{{ url("frontend_details_ownership", {'own_name':ownership.ownname|lower|replace(' ','-'), "page": page, "locale": locale}) }}"/>
+    <link rel="canonical"
+          href="{{ url("frontend_details_ownership", {'own_name':ownership.ownname|lower|replace(' ','-'), "page": page, "locale": locale}) }}"/>
 
     {% for lang in allLanguages %}
         {% if lang.langCode | lower != locale %}
-            <link rel="alternate" hreflang="{{ langCountry[lang.langCode|lower] }}" href="{{ url("frontend_details_ownership", {'own_name':ownership.ownname|lower|replace(' ','-'), "page": page, "locale": lang.langCode | lower}) }}"/>
+            <link rel="alternate" hreflang="{{ langCountry[lang.langCode|lower] }}"
+                  href="{{ url("frontend_details_ownership", {'own_name':ownership.ownname|lower|replace(' ','-'), "page": page, "locale": lang.langCode | lower}) }}"/>
         {% endif %}
     {% endfor %}
 
@@ -69,9 +71,9 @@
 
 {% block other_load_js %}
     {% javascripts
-    '@FrontEndBundle/Resources/public/js/ownership.calendar.js'
-    filter='?uglifyjs2' %}
-    .script('{{ asset_url }}')
+        '@FrontEndBundle/Resources/public/js/ownership.calendar.js'
+        filter='?uglifyjs2' %}
+        .script('{{ asset_url }}')
     {% endjavascripts %}
 {% endblock %}
 
@@ -134,18 +136,18 @@
                     <div class="tab-content">
                         {% if gallery_photos | length %}
                             <div id="tab-photos" class="tab-pane active">
-                                <div id="full-width-sliders" style="margin-top: -26px;"> 
-                                    <div id="myCarousel" class="carousel slide"> 
+                                <div id="full-width-sliders" style="margin-top: -26px;">
+                                    <div id="myCarousel" class="carousel slide">
                                         <div class="camera_wrap camera_azure_skin" id="camera_wrap_1">
-                                               {% for photo in  gallery_photos %} 
-                                                {% set photoOriginalPath = 'uploads/ownershipImages/originals/'~photo.photo_name  %}
-                                                {% set photoPath = 'uploads/ownershipImages/'~photo.photo_name  %}
-                                            <div data-thumb="{{ (existsFile(photoOriginalPath)) ? asset(photoOriginalPath) : asset(photoPath) }}"
-                                                 data-src="{{ (existsFile(photoOriginalPath)) ? asset(photoOriginalPath) : asset(photoPath) }}">
-                                            </div>
-                                              {% endfor %} 
-                                        </div><!-- #camera_wrap_1 --> 
-                                    </div> <!-- /.carousel --> 
+                                            {% for photo in  gallery_photos %}
+                                                {% set photoOriginalPath = 'uploads/ownershipImages/originals/'~photo.photo_name %}
+                                                {% set photoPath = 'uploads/ownershipImages/'~photo.photo_name %}
+                                                <div data-thumb="{{ (existsFile(photoOriginalPath)) ? asset(photoOriginalPath) : asset(photoPath) }}"
+                                                     data-src="{{ (existsFile(photoOriginalPath)) ? asset(photoOriginalPath) : asset(photoPath) }}">
+                                                </div>
+                                            {% endfor %}
+                                        </div><!-- #camera_wrap_1 -->
+                                    </div> <!-- /.carousel -->
                                 </div>
                             </div>
                         {% endif %}
@@ -218,10 +220,10 @@
                                             <li class="lead-2">
                                                 <div class="row">
                                                     <div class="col-xs-8"><img
-                                                    src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
-                                                    class="icon-services cofee-icon"
-                                                    alt="Service"
-                                                    title="Service"/> {{ "BREAKFAST_TAB_DESCRIPTION" | trans }}
+                                                                src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
+                                                                class="icon-services cofee-icon"
+                                                                alt="Service"
+                                                                title="Service"/> {{ "BREAKFAST_TAB_DESCRIPTION" | trans }}
                                                     </div>
 
                                                     <div class="col-xs-4 text-right">
@@ -245,7 +247,8 @@
                                                     <div class="col-xs-8"><img
                                                                 src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
                                                                 class="icon-services food-icon"
-                                                                alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/> {{ "DINNER_TAB_DESCRIPTION" | trans }}
+                                                                alt="{{ "Mycasaparticular" | trans }}"
+                                                                title="{{ "Mycasaparticular" | trans }}"/> {{ "DINNER_TAB_DESCRIPTION" | trans }}
                                                     </div>
                                                     <div class="col-xs-4 text-right"><b>
                                                             {% if ownership.ownFacilitiesDinnerPriceFrom != null and ownership.ownFacilitiesDinnerPriceFrom != 0 %}
@@ -264,7 +267,8 @@
                                                     <div class="col-xs-8"><img
                                                                 src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
                                                                 class="icon-services parking-icon"
-                                                                alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/> {{ "PARKING_TAB_DESCRIPTION" | trans }}
+                                                                alt="{{ "Mycasaparticular" | trans }}"
+                                                                title="{{ "Mycasaparticular" | trans }}"/> {{ "PARKING_TAB_DESCRIPTION" | trans }}
                                                     </div>
                                                     <div class="col-xs-4 text-right">
                                                         <b>
@@ -284,7 +288,8 @@
                                                     <div class="col-xs-8"><img
                                                                 src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
                                                                 class="icon-services bicicle-icon"
-                                                                alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/> {{ "BIKE_PARKING_TAB_DESCRIPTION" | trans }}
+                                                                alt="{{ "Mycasaparticular" | trans }}"
+                                                                title="{{ "Mycasaparticular" | trans }}"/> {{ "BIKE_PARKING_TAB_DESCRIPTION" | trans }}
                                                     </div>
                                                     <div class="col-xs-4 text-right"><b>{{ "YES" | trans }}</b></div>
                                                 </div>
@@ -296,7 +301,8 @@
                                                     <div class="col-xs-8"><img
                                                                 src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
                                                                 class="icon-services pet-icon"
-                                                                alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/> {{ "PETS_TAB_DESCRIPTION" | trans }}
+                                                                alt="{{ "Mycasaparticular" | trans }}"
+                                                                title="{{ "Mycasaparticular" | trans }}"/> {{ "PETS_TAB_DESCRIPTION" | trans }}
                                                     </div>
                                                     <div class="col-xs-4 text-right"><b>{{ "YES" | trans }}</b></div>
                                                 </div>
@@ -308,7 +314,8 @@
                                                     <div class="col-xs-8"><img
                                                                 src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
                                                                 class="icon-services laund-icon"
-                                                                alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/> {{ "LAUNDRY_TAB_DESCRIPTION" | trans }}
+                                                                alt="{{ "Mycasaparticular" | trans }}"
+                                                                title="{{ "Mycasaparticular" | trans }}"/> {{ "LAUNDRY_TAB_DESCRIPTION" | trans }}
                                                     </div>
                                                     <div class="col-xs-4 text-right"><b>{{ "YES" | trans }}</b></div>
                                                 </div>
@@ -320,7 +327,8 @@
                                                     <div class="col-xs-8"><img
                                                                 src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
                                                                 class="icon-services inet-icon"
-                                                                alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/> {{ "INTERNET_TAB_DESCRIPTION" | trans }}
+                                                                alt="{{ "Mycasaparticular" | trans }}"
+                                                                title="{{ "Mycasaparticular" | trans }}"/> {{ "INTERNET_TAB_DESCRIPTION" | trans }}
                                                     </div>
                                                     <div class="col-xs-4 text-right"><b>{{ "YES" | trans }}</b></div>
                                                 </div>
@@ -332,7 +340,8 @@
                                                     <div class="col-xs-8"><img
                                                                 src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
                                                                 class="icon-services jacuzee-icon"
-                                                                alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/> {{ "JACUZEE_TAB_DESCRIPTION" | trans }}
+                                                                alt="{{ "Mycasaparticular" | trans }}"
+                                                                title="{{ "Mycasaparticular" | trans }}"/> {{ "JACUZEE_TAB_DESCRIPTION" | trans }}
                                                     </div>
                                                     <div class="col-xs-4 text-right"><b>{{ "YES" | trans }}</b></div>
                                                 </div>
@@ -344,7 +353,8 @@
                                                     <div class="col-xs-8"><img
                                                                 src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
                                                                 class="icon-services sauna-icon"
-                                                                alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/> {{ "SAUNA_TAB_DESCRIPTION" | trans }}
+                                                                alt="{{ "Mycasaparticular" | trans }}"
+                                                                title="{{ "Mycasaparticular" | trans }}"/> {{ "SAUNA_TAB_DESCRIPTION" | trans }}
                                                     </div>
                                                     <div class="col-xs-4 text-right"><b>{{ "YES" | trans }}</b></div>
                                                 </div>
@@ -356,7 +366,8 @@
                                                     <div class="col-xs-8"><img
                                                                 src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
                                                                 class="icon-services pool-icon"
-                                                                alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/> {{ "POOL_TAB_DESCRIPTION" | trans }}
+                                                                alt="{{ "Mycasaparticular" | trans }}"
+                                                                title="{{ "Mycasaparticular" | trans }}"/> {{ "POOL_TAB_DESCRIPTION" | trans }}
                                                     </div>
                                                     <div class="col-xs-4 text-right"><b>{{ "YES" | trans }}</b></div>
                                                 </div>
@@ -379,8 +390,8 @@
                                                     </div>
                                                     <div class="col-xs-6">
                                                         {% if not hasCompleteReservation %}
-                                                        <h4 class="no-margin text-right"
-                                                            style="margin-right: 20px">{{ "FROM_PRICES" | trans }} {{ room.roomPriceDownTo | price }}</h4>
+                                                            <h4 class="no-margin text-right"
+                                                                style="margin-right: 20px">{{ "FROM_PRICES" | trans }} {{ room.roomPriceDownTo | price }}</h4>
                                                         {% endif %}
                                                     </div>
                                                 </div>
@@ -404,7 +415,8 @@
                                                             <div class="col-xs-6"><img
                                                                         src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
                                                                         class="icon-services bed-icon"
-                                                                        alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/> {{ "BEDS_ROOMS" | trans }}
+                                                                        alt="{{ "Mycasaparticular" | trans }}"
+                                                                        title="{{ "Mycasaparticular" | trans }}"/> {{ "BEDS_ROOMS" | trans }}
                                                                 :
                                                             </div>
                                                             <div class="col-xs-6"><b>{{ room.roomBeds }}</b></div>
@@ -415,7 +427,8 @@
                                                             <div class="col-xs-6"><img
                                                                         src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
                                                                         class="icon-services win-icon"
-                                                                        alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/> {{ "WINDOWS_ROOMS" | trans }}
+                                                                        alt="{{ "Mycasaparticular" | trans }}"
+                                                                        title="{{ "Mycasaparticular" | trans }}"/> {{ "WINDOWS_ROOMS" | trans }}
                                                                 :
                                                             </div>
                                                             <div class="col-xs-6">
@@ -433,7 +446,8 @@
                                                             <div class="col-xs-6"><img
                                                                         src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
                                                                         class="icon-services clima-icon"
-                                                                        alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/> {{ "CLIMATIZATION_ROOMS" | trans }}
+                                                                        alt="{{ "Mycasaparticular" | trans }}"
+                                                                        title="{{ "Mycasaparticular" | trans }}"/> {{ "CLIMATIZATION_ROOMS" | trans }}
                                                                 :
                                                             </div>
                                                             <div class="col-xs-6"><b>{{ room.roomClimate | trans }}</b>
@@ -445,7 +459,8 @@
                                                             <div class="col-xs-6"><img
                                                                         src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
                                                                         class="icon-services bal-icon"
-                                                                        alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/> {{ "BALCONY_ROOMS" | trans }}
+                                                                        alt="{{ "Mycasaparticular" | trans }}"
+                                                                        title="{{ "Mycasaparticular" | trans }}"/> {{ "BALCONY_ROOMS" | trans }}
                                                                 :
                                                             </div>
                                                             <div class="col-xs-6">
@@ -462,7 +477,8 @@
                                                             <div class="col-xs-6"><img
                                                                         src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
                                                                         class="icon-services media-icon"
-                                                                        alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/> {{ "AUDIOVISUALS_ROOMS" | trans }}
+                                                                        alt="{{ "Mycasaparticular" | trans }}"
+                                                                        title="{{ "Mycasaparticular" | trans }}"/> {{ "AUDIOVISUALS_ROOMS" | trans }}
                                                                 :
                                                             </div>
                                                             <div class="col-xs-6">
@@ -475,7 +491,8 @@
                                                             <div class="col-xs-6"><img
                                                                         src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
                                                                         class="icon-services terr-icon"
-                                                                        alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/> {{ "TERRACE_ROOMS" | trans }}
+                                                                        alt="{{ "Mycasaparticular" | trans }}"
+                                                                        title="{{ "Mycasaparticular" | trans }}"/> {{ "TERRACE_ROOMS" | trans }}
                                                                 :
                                                             </div>
                                                             <div class="col-xs-6">
@@ -492,7 +509,8 @@
                                                             <div class="col-xs-6"><img
                                                                         src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
                                                                         class="icon-services ba-icon"
-                                                                        alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/> {{ "BATHROOM_ROOMS" | trans }}
+                                                                        alt="{{ "Mycasaparticular" | trans }}"
+                                                                        title="{{ "Mycasaparticular" | trans }}"/> {{ "BATHROOM_ROOMS" | trans }}
                                                                 :
                                                             </div>
                                                             <div class="col-xs-6">
@@ -505,7 +523,8 @@
                                                             <div class="col-xs-6"><img
                                                                         src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
                                                                         class="icon-services gard-icon"
-                                                                        alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/> {{ "YARD_ROOMS" | trans }}
+                                                                        alt="{{ "Mycasaparticular" | trans }}"
+                                                                        title="{{ "Mycasaparticular" | trans }}"/> {{ "YARD_ROOMS" | trans }}
                                                                 :
                                                             </div>
                                                             <div class="col-xs-6">
@@ -522,7 +541,8 @@
                                                             <div class="col-xs-6"><img
                                                                         src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
                                                                         class="icon-services smok-icon"
-                                                                        alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/> {{ "SMOKER_ROOMS" | trans }}
+                                                                        alt="{{ "Mycasaparticular" | trans }}"
+                                                                        title="{{ "Mycasaparticular" | trans }}"/> {{ "SMOKER_ROOMS" | trans }}
                                                                 :
                                                             </div>
                                                             <div class="col-xs-6">
@@ -535,7 +555,8 @@
                                                             <div class="col-xs-6"><img
                                                                         src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
                                                                         class="icon-services est-icon"
-                                                                        alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/> {{ "STEREO_ROOMS" | trans }}
+                                                                        alt="{{ "Mycasaparticular" | trans }}"
+                                                                        title="{{ "Mycasaparticular" | trans }}"/> {{ "STEREO_ROOMS" | trans }}
                                                                 :
                                                             </div>
                                                             <div class="col-xs-6">
@@ -552,7 +573,8 @@
                                                             <div class="col-xs-6"><img
                                                                         src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
                                                                         class="icon-services box-icon"
-                                                                        alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/> {{ "SAFE_ROOMS" | trans }}
+                                                                        alt="{{ "Mycasaparticular" | trans }}"
+                                                                        title="{{ "Mycasaparticular" | trans }}"/> {{ "SAFE_ROOMS" | trans }}
                                                                 :
                                                             </div>
                                                             <div class="col-xs-6">
@@ -565,7 +587,8 @@
                                                             <div class="col-xs-6"><img
                                                                         src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
                                                                         class="icon-services kids-icon"
-                                                                        alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/> {{ "KIDS_ROOMS" | trans }}
+                                                                        alt="{{ "Mycasaparticular" | trans }}"
+                                                                        title="{{ "Mycasaparticular" | trans }}"/> {{ "KIDS_ROOMS" | trans }}
                                                                 :
                                                             </div>
                                                             <div class="col-xs-6">
@@ -609,7 +632,8 @@
                             {{ "SEND_COMMENT_DETAILS" | trans }}
                         </button>
                         <div id="loading" class="alert alert-info hidden">
-                            <img src="{{ asset('bundles/frontend/img/loading.gif') }}" title="{{ "Loading" | trans }}" alt="{{ "Loading" | trans }}"/>
+                            <img src="{{ asset('bundles/frontend/img/loading.gif') }}" title="{{ "Loading" | trans }}"
+                                 alt="{{ "Loading" | trans }}"/>
                         </div>
                         <div id="message_text" class="hidden"
                              ok-message="{% if can_public_comment %}{{ "COMMENT_INSERTED" | trans }}{% else %}{{ "COMMENT_TO_PUBLIC" | trans }}{% endif %}"></div>
@@ -618,8 +642,8 @@
                     {% if show_comments_and_friends %}
                         <div id="user_comments">
                             {{ include('FrontEndBundle:comment:listComments.html.twig',
-                            {'show_comments_and_friends': show_comments_and_friends,
-                                'comments': comments}) }}
+                                {'show_comments_and_friends': show_comments_and_friends,
+                                    'comments': comments}) }}
                         </div>
                     {% endif %}
                 </div>
@@ -630,21 +654,25 @@
                         {% if ownership.category == "Premium" %}
                             <img rel="tooltip" title="{{ ownership.category | trans }}"
                                  class="icon icon-3 tiny-premium-icon"
-                                 src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/>
+                                 src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
+                                 alt="{{ "Mycasaparticular" | trans }}" title="{{ "Mycasaparticular" | trans }}"/>
                         {% else %}
                             {% if (ownership.category | lower) == ("Rango Medio" | lower) %}
                                 <img rel="tooltip" title="{{ ownership.category | trans }}"
                                      class="icon icon-3 tiny-middle-icon"
-                                     src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/>
+                                     src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
+                                     alt="{{ "Mycasaparticular" | trans }}" title="{{ "Mycasaparticular" | trans }}"/>
                             {% else %}
                                 <img rel="tooltip" title="{{ ownership.category | trans }}"
                                      class="icon icon-3 tiny-economic-icon"
-                                     src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}">
+                                     src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
+                                     alt="{{ "Mycasaparticular" | trans }}" title="{{ "Mycasaparticular" | trans }}">
                             {% endif %}
                         {% endif %}
                         {{ "CATEGORY_TAB_DESCRIPTION" | trans }}: {{ ownership.category | trans }}
                     </li>
-                    <li class="lead"  {% if ownership['OwnInmediateBooking'] or ownership['OwnInmediateBooking2']  %}style="padding: 0; font-size: 18px; border: none;"{% endif %}>
+                    <li class="lead"
+                        {% if ownership['OwnInmediateBooking'] or ownership['OwnInmediateBooking2'] %}style="padding: 0; font-size: 18px; border: none;"{% endif %}>
                         {% if ownership['OwnInmediateBooking2'] %}
                             <div >
                                 <div class="row" style="margin: 0;">
@@ -655,7 +683,8 @@
                                     </div>
                                     <div class="col">
                                         <h2 class="no-margin" style="margin-top: 3px; font-size: 26px;">
-                                            <small class="h-white-1">{{ "FROM_PRICES" | trans | lower }}</small><br/> {{ promoPrice | price }}
+                                            <small class="h-white-1">{{ "FROM_PRICES" | trans | lower }}</small>
+                                            <br/> {{ promoPrice | price }}
                                         </h2>
                                     </div>
                                 </div>
@@ -724,10 +753,10 @@
                 {% endif %}
                 <hr class="margin-t"/>
                 {{ include('FrontEndBundle:favorite:detailsFavorite.html.twig',
-                {'is_in_favorite': is_in_favorite,
-                    'favorite_type': 'ownership',
-                    'element_id':ownership.own_id
-                }) }}
+                    {'is_in_favorite': is_in_favorite,
+                        'favorite_type': 'ownership',
+                        'element_id':ownership.own_id
+                    }) }}
                 <hr class="no-margin" style="margin-bottom: 5px"/>
                 <a href="#send_to_friend_popup" title="{{ 'SEND_TO_FRIEND' | trans }}" data-toggle="modal"
                    style="text-decoration: none">
@@ -748,7 +777,7 @@
                     </a>
                 </div>
                 {{ include('FrontEndBundle:ownership:ownershipRating.html.twig',
-                {'ownership': ownership}) }}
+                    {'ownership': ownership}) }}
 
                 <hr/>
                 {{ render(controller( 'FrontEndBundle:Ownership:lastOwnsVisited', { 'exclude_ownership_id': ownership.own_id })) }}
@@ -765,35 +794,35 @@
                 </h4>
                 {#<hr class="no-margin" style="margin-bottom: 10px"/>#}
                 {#{% if can_comment %}#}
-                    {#<span class="h-grey">{{ "QUEST_COMMENTS_DETAILS" | trans }}</span>#}
-                    {#<div class="radio"><label><input type="radio" value="5" id="option5"#}
-                                                     {#name="radio_rating">{{ "5_STARS_COMMENTS_DETAILS" | trans }}#}
-                        {#</label></div>#}
-                    {#<div class="radio"><label><input type="radio" value="4" id="option4"#}
-                                                     {#name="radio_rating">{{ "4_STARS_COMMENTS_DETAILS" | trans }}#}
-                        {#</label></div>#}
-                    {#<div class="radio"><label><input type="radio" checked="checked" value="3" id="option3"#}
-                                                     {#name="radio_rating">{{ "3_STARS_COMMENTS_DETAILS" | trans }}#}
-                        {#</label></div>#}
-                    {#<div class="radio"><label><input type="radio" value="2" id="option2"#}
-                                                     {#name="radio_rating">{{ "2_STARS_COMMENTS_DETAILS" | trans }}#}
-                        {#</label></div>#}
-                    {#<div class="radio"><label><input type="radio" value="1" id="option1"#}
-                                                     {#name="radio_rating">{{ "1_STARS_COMMENTS_DETAILS" | trans }}#}
-                        {#</label></div>#}
-                    {#<span class="h-grey">{{ "TEXT_COMMENTS_DETAILS" | trans }} *</span><br/>#}
-                    {#<textarea class="col-sm-12 form-control" id="input_comment"#}
-                              {#requiered-message="{{ "COMMENTTEXT_REQUIERED_MESSAGE" | trans }}"></textarea>#}
-                    {#<button class="btn btn-primary margin-t" id="btn_insert_comment"#}
-                            {#data-url="{{ path('frontend_insert_comment',{'ownid':ownership.own_id}) }}">#}
-                        {#{{ "SEND_COMMENT_DETAILS" | trans }}#}
-                    {#</button>#}
-                    {#<div id="loading" class="alert alert-info hidden">#}
-                        {#<img src="{{ asset('bundles/frontend/img/loading.gif') }}"/>#}
-                    {#</div>#}
-                    {#<div id="message_text" class="hidden"#}
-                         {#ok-message="{% if can_public_comment %}{{ "COMMENT_INSERTED" | trans }}{% else %}{{ "COMMENT_TO_PUBLIC" | trans }}{% endif %}"></div>#}
-                    {#<hr class="margin-t hr-green"/>#}
+                {#<span class="h-grey">{{ "QUEST_COMMENTS_DETAILS" | trans }}</span>#}
+                {#<div class="radio"><label><input type="radio" value="5" id="option5"#}
+                {#name="radio_rating">{{ "5_STARS_COMMENTS_DETAILS" | trans }}#}
+                {#</label></div>#}
+                {#<div class="radio"><label><input type="radio" value="4" id="option4"#}
+                {#name="radio_rating">{{ "4_STARS_COMMENTS_DETAILS" | trans }}#}
+                {#</label></div>#}
+                {#<div class="radio"><label><input type="radio" checked="checked" value="3" id="option3"#}
+                {#name="radio_rating">{{ "3_STARS_COMMENTS_DETAILS" | trans }}#}
+                {#</label></div>#}
+                {#<div class="radio"><label><input type="radio" value="2" id="option2"#}
+                {#name="radio_rating">{{ "2_STARS_COMMENTS_DETAILS" | trans }}#}
+                {#</label></div>#}
+                {#<div class="radio"><label><input type="radio" value="1" id="option1"#}
+                {#name="radio_rating">{{ "1_STARS_COMMENTS_DETAILS" | trans }}#}
+                {#</label></div>#}
+                {#<span class="h-grey">{{ "TEXT_COMMENTS_DETAILS" | trans }} *</span><br/>#}
+                {#<textarea class="col-sm-12 form-control" id="input_comment"#}
+                {#requiered-message="{{ "COMMENTTEXT_REQUIERED_MESSAGE" | trans }}"></textarea>#}
+                {#<button class="btn btn-primary margin-t" id="btn_insert_comment"#}
+                {#data-url="{{ path('frontend_insert_comment',{'ownid':ownership.own_id}) }}">#}
+                {#{{ "SEND_COMMENT_DETAILS" | trans }}#}
+                {#</button>#}
+                {#<div id="loading" class="alert alert-info hidden">#}
+                {#<img src="{{ asset('bundles/frontend/img/loading.gif') }}"/>#}
+                {#</div>#}
+                {#<div id="message_text" class="hidden"#}
+                {#ok-message="{% if can_public_comment %}{{ "COMMENT_INSERTED" | trans }}{% else %}{{ "COMMENT_TO_PUBLIC" | trans }}{% endif %}"></div>#}
+                {#<hr class="margin-t hr-green"/>#}
                 {#{% endif %}#}
 
             </div>
@@ -952,7 +981,8 @@
         "price": "{{ promoPrice }}"
       }
     }
-</script>
+
+    </script>
 
 {% endblock %}
 

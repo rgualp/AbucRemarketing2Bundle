@@ -489,6 +489,7 @@ class BackendOwnershipController extends Controller
 
         $post['facilities_breakfast'] = $ownership->getOwnFacilitiesBreakfast();
         $post['facilities_breakfast_price'] = $ownership->getOwnFacilitiesBreakfastPrice();
+        $post['facilities_breakfast_include'] = $ownership->isOwnFacilitiesBreakfastInclude();
         $post['facilities_dinner'] = $ownership->getOwnFacilitiesDinner();
         $post['facilities_dinner_price_from'] = $ownership->getOwnFacilitiesDinnerPriceFrom();
         $post['facilities_dinner_price_to'] = $ownership->getOwnFacilitiesDinnerPriceTo();
@@ -535,6 +536,7 @@ class BackendOwnershipController extends Controller
         $post['not_recommendable'] = ($post['not_recommendable'] == false) ? 0 : 1;
         $post['with_ical'] = ($post['with_ical'] == false) ? 0 : 1;
         $post['facilities_breakfast'] = ($post['facilities_breakfast'] == false) ? 0 : 1;
+        $post['facilities_breakfast_include'] = ($post['facilities_breakfast_include'] == false) ? 0 : 1;
         $post['facilities_dinner'] = ($post['facilities_dinner'] == false) ? 0 : 1;
         $post['facilities_parking'] = ($post['facilities_parking'] == false) ? 0 : 1;
         $post['water_sauna'] = $ownership->getOwnWaterSauna();
@@ -945,7 +947,7 @@ class BackendOwnershipController extends Controller
                 if ($data['count_errors'] == 0) {
                     $dir = $this->container->getParameter('user.dir.photos');
                     $factory = $this->get('security.encoder_factory');
-
+                    $post = $this->managementBreakfast($post);
                     if ($request->request->get('edit_ownership')) {
                         $id_own = $request->request->get('edit_ownership');
                         if ($request->request->get('status') == ownershipStatus::STATUS_DELETED) {
@@ -1134,6 +1136,27 @@ class BackendOwnershipController extends Controller
         return $this->render('mycpBundle:ownership:new.html.twig', array('languages' => $languages, 'count_rooms' => $count_rooms, 'post' => $post, 'data' => $data, 'errors' => $errors, 'errors_tab' => $errors_tab));
     }
 
+    private function managementBreakfast($data)
+    {
+        $value = $data['facilities_breakfast'];
+        switch ($value) {
+            case 1:
+                $data['facilities_breakfast_include'] = 0;
+                break;
+            case 2:
+                $data['facilities_breakfast_include'] = 1;
+                $data['facilities_breakfast'] = 1;
+                $data['facilities_breakfast_price'] = 0;
+                break;
+            default:
+                $data['facilities_breakfast_include'] = 0;
+                $data['facilities_breakfast'] = 0;
+                $data['facilities_breakfast_price'] = 0;
+                break;
+        }
+        return $data;
+    }
+
     public function edit_photoAction($id_photo, $id_ownership, Request $request)
     {
         $service_security = $this->get('Secure');
@@ -1315,10 +1338,14 @@ class BackendOwnershipController extends Controller
 
     public function get_facilities_breakfast_listAction($post)
     {
-        $selected = '';
-        if (isset($post['facilities_breakfast']))
-            $selected = $post['facilities_breakfast'];
-        return $this->render('mycpBundle:utils:yes_no.html.twig', array('selected' => $selected));
+        $include = false;
+        $selected = $post['facilities_breakfast'];
+        if (isset($post['facilities_breakfast_include']) && $post['facilities_breakfast_include'] == true){
+            $include = true;
+            $selected = 2;
+        }
+
+        return $this->render('mycpBundle:utils:yes_no.html.twig', array('selected' => $selected, 'include'=> $include, 'show_included'=> true));
     }
 
     public function get_facilities_dinner_listAction($post)
@@ -1424,7 +1451,7 @@ class BackendOwnershipController extends Controller
         $selected = '';
         if (isset($post['own_modalityReservation']))
             $selected = $post['own_modalityReservation'];
-        $listModality = array('Por solicitudes','Reserva Inmediata', 'Reserva Rápida');
+        $listModality = array('Por solicitudes', 'Reserva Inmediata', 'Reserva Rápida');
         return $this->render('mycpBundle:utils:list_modalityReservation.html.twig', array('selected' => $selected, 'list' => $listModality));
     }
 
