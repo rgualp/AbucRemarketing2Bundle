@@ -16,13 +16,13 @@
                 <div class="card">
 
                     <!--Card image-->
-                    <div class="view">
+                    <div class="thumbnail elementList view">
                         {% set url_image = asset("uploads/ownershipImages/" ~ ownership.photo) %}
                         {{ render(controller( 'FrontEndBundle:Ownership:getThumbnailForSearcher', { 'photo': ownership.photo, 'title': ownership.own_name} )) }}
 
                         <a style="text-decoration: none; color: #555555;" target="_blank" href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
                             <div class="overlay mask rgba-white-slight ">
-                                <div class="thumbnail-title  clearfix">
+                                <div class="thumbnail-title  clearfix" style="height: 20% !important;padding-right: 10px;">
                                     <p style="position: relative; float: right;">
                                         {{ "FROM_PRICES" | trans | capitalize }}:
                                         <span class="h-blue h-blue-2"
@@ -51,7 +51,7 @@
                     <!--Card content-->
                     <div class="card-body">
                         <!--Title-->
-                        <div class="card-title">
+                        <div class="card-title" style="margin-bottom: 0">
                             <a target="_blank"
                                href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
                                 <h1 class="h-blue"
@@ -61,7 +61,7 @@
                         </div>
                         <!--Text-->
 
-                        <div class="no-margin">
+                        <div class="no-margin" style="font-size: small;">
                             <div class="row">
                                 <div class="col">
                                     {% if ownership.category == "Premium" %}
