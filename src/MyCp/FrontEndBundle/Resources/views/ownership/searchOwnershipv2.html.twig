@@ -381,7 +381,9 @@
                     </div>
                 </div>
                 <div class="houses-list thumbs-houses lazy-cont result_list ownerships_mosaic" id="div_result"
-                     data-current-page="{{ current_page }}" data-cant-page="{{ cant_pages }}" style="height: 500px;">
+                     data-current-page="{{ current_page }}" data-cant-page="{{ cant_pages }}" style="background-image: url({{ asset('bundles/frontend/img/background2.jpg') }});    visibility: visible;
+                        animation-name: fadeIn;
+                        background-size: cover;    margin: 0;height: 500px;">
 
                     {#{{ include('FrontEndBundle:ownership:searchMosaicOwnershipv2.html.twig',#}
                     {#{'list': list,#}
