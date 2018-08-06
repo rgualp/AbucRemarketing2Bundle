@@ -568,7 +568,7 @@ class DestinationController extends Controller
                 'awards' => $awards,
                 "lastPage" => $paginator->getLastPage(),
 
-                "province_name" => 'no',
+                "province_name" => $search_text,
 
             ));
         }

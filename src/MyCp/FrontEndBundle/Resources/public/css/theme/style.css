@@ -971,7 +971,9 @@ thumbs-destination .dest-description {
     font-size: 20px;
     font-family: sans-serif;
 }
-
+.icon-remove-sign:before {
+    content: "\f057";
+}
 .lead {
     font-size: 21px;
 }
