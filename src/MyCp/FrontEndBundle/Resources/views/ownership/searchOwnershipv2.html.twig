@@ -62,7 +62,7 @@
 
 {% block title %}
     {% if get_tagvalue_bytag('Alojamientos ' ~ province_name, app.session.get('app_lang_code')|lower, 'title') == false %}
-        {{ "SEARCH_RESULTS_PAGE_TITLE" | trans }}
+        {{ "SEARCH_RESULTS_PAGE_TITLE" | trans }} {{ province_name }}
     {% else %}
         {{ get_tagvalue_bytag('Alojamientos ' ~ province_name, app.session.get('app_lang_code')|lower, 'title')|raw }}
     {% endif %}
@@ -94,7 +94,14 @@
 {% block breadcrumbs %}{% endblock %}
 {% block body %}
     <div class="row" style="width: 100%;">
-
+        <h1 class="d-none h-green caecilia-roman font-size-18">
+            {% set description = get_meta_value('Alojamientos ' ~ province_name, app.session.get('app_lang_code')|lower, 'meta', 'DESCRIPTION')|raw %}
+            {% if description == "" %}
+                {{ province_name }}
+            {% else %}
+                {{ description }}
+            {% endif %}
+        </h1>
     <div class="col" id="search-container" style="width: 100%; margin:0;padding: 0;">
 
         <div class="col" style="padding-right: 0;position: relative">
