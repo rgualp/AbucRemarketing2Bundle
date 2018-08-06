@@ -100,7 +100,7 @@
                     <strong>{{ description | raw }}</strong>
                 </div>
                 <div class="text-center">
-                <a href="{{ path('frontend_details_destination_search',{'destination_name':desName|lower|replace(' ','-')}) }}" class="btn btn-outline-white btn-lg waves-effect waves-light">
+                <a href="{{ path('frontend_search_ownership',{'text':desName|lower|replace(' ','-'), 'arrival':'null','departure':'null','guests':'1','rooms':'1'})}}"  class="btn btn-outline-white btn-lg waves-effect waves-light">
 
                     <i class="fa fa-search ml-2"> {{ 'KEEP_SEARCHING'|trans }}</i>
                 </a>
