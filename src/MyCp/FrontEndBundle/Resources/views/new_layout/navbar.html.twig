@@ -7,7 +7,8 @@
 
         <!--Brand -->
         <a class="navbar-brand waves-effect" href="{{ path('frontend-welcome') }}"  style="padding:0">
-            <img src="{{ asset('bundles/mycpmobilefrontend/img/home.png') }}" style="height:40px;" alt="brand">
+            <img src="{{ asset('bundles/mycpmobilefrontend/img/home.png') }}" style="height:40px;" alt="brand" >
+            <strong class="white-text">MyCasaParticular</strong>
             </a>
 
         <!-- Collapse -->
@@ -22,9 +23,7 @@
             <!-- Left -->
             <ul class="navbar-nav nav-flex-icons mr-auto" >
 
-                <li class="nav-item">
-                    {{ render(controller('FrontEndBundle:Cart:countCestatItems')) }}
-                </li>
+
 
 
 
@@ -37,7 +36,9 @@
             <!-- Right -->
             <ul class="navbar-nav nav-flex-icons">
 
-
+                <li class="nav-item">
+                    {{ render(controller('FrontEndBundle:Cart:countCestatItems')) }}
+                </li>
                 <li class="nav-item">
 
                     <div class="dropdown">
@@ -78,11 +79,13 @@
                         </div>
                     </div>
                 </li>
+
+
                 <li class="nav-item dropdown" >
 
                     <a title="{{"LANGUAGE" | trans }}" class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
-                        {{(app.session.get('app_lang_name') == null or app.session.get('app_lang_name') == "") ? "Español" : app.session.get('app_lang_name')}}</a>
+                        {{(app.session.get('app_lang_code') == null or app.session.get('app_lang_code') == "") ? "Español" : app.session.get('app_lang_code')}}</a>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         {{ render_esi(controller('FrontEndBundle:Language:getLanguages', {'route': app.request.get('_route'), 'routeParams':  app.request.get('_route_params')})) }}
