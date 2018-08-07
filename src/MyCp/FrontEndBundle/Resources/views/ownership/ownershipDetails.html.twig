@@ -27,12 +27,12 @@
 
     {% set page = app.request.query.get('page') %}
     <link rel="canonical"
-          href="{{ url("frontend_details_ownership", {'own_name':ownership.ownname|lower|replace(' ','-'), "page": page, "locale": locale}) }}"/>
+          href="{{ url("frontend_details_ownership", {'own_name':ownership.ownname| urlNormalize, "page": page, "locale": locale}) }}"/>
 
     {% for lang in allLanguages %}
 
             <link rel="alternate" hreflang="{{ langCountry[lang.langCode|lower] }}"
-                  href="{{ url("frontend_details_ownership", {'own_name':ownership.ownname|lower|replace(' ','-'), "page": page, "locale": lang.langCode | lower}) }}"/>
+                  href="{{ url("frontend_details_ownership", {'own_name':ownership.ownname| urlNormalize, "page": page, "locale": lang.langCode | lower}) }}"/>
       
     {% endfor %}
 
@@ -41,15 +41,15 @@
     {% set prev = page - 1 %}
     {% if page == "" or page == 1 %}
         <link rel="next"
-              href="{{ url("frontend_details_ownership", {'own_name':ownership.ownname|lower|replace(' ','-')| urlNormalize, "page": next}) }}"/>
+              href="{{ url("frontend_details_ownership", {'own_name':ownership.ownname| urlNormalize, "page": next}) }}"/>
     {% elseif page > 1 and page < lastPage %}
         <link rel="next"
-              href="{{ url("frontend_details_ownership", {'own_name':ownership.ownname|lower|replace(' ','-')| urlNormalize, "page": next}) }}"/>
+              href="{{ url("frontend_details_ownership", {'own_name':ownership.ownname| urlNormalize, "page": next}) }}"/>
         <link rel="prev"
-              href="{{ url("frontend_details_ownership", {'own_name':ownership.ownname|lower|replace(' ','-')| urlNormalize, "page": prev}) }}"/>
+              href="{{ url("frontend_details_ownership", {'own_name':ownership.ownname|urlNormalize, "page": prev}) }}"/>
     {% elseif page == lastPage %}
         <link rel="prev"
-              href="{{ url("frontend_details_ownership", {'own_name':ownership.ownname|lower|replace(' ','-')| urlNormalize, "page": prev}) }}"/>
+              href="{{ url("frontend_details_ownership", {'own_name':ownership.ownname| urlNormalize, "page": prev}) }}"/>
     {% endif %}
 {% endblock %}
 {% block open_graph_metas %}
