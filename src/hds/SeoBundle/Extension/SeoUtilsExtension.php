@@ -180,8 +180,6 @@ class SeoUtilsExtension extends \Twig_Extension
             $metas .= '<!---Seo: Ocurrio un ERROR!!! --->';
             $metas .= '<!---' . $content . ' --->';
         }
-        dump($metas);die;
-
         return $metas;
     }
 
