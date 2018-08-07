@@ -30,10 +30,10 @@
           href="{{ url("frontend_details_ownership", {'own_name':ownership.ownname|lower|replace(' ','-'), "page": page, "locale": locale}) }}"/>
 
     {% for lang in allLanguages %}
-        {% if lang.langCode | lower != locale %}
+
             <link rel="alternate" hreflang="{{ langCountry[lang.langCode|lower] }}"
                   href="{{ url("frontend_details_ownership", {'own_name':ownership.ownname|lower|replace(' ','-'), "page": page, "locale": lang.langCode | lower}) }}"/>
-        {% endif %}
+      
     {% endfor %}
 
     {% set page = (page == "" or page == 0)? 1: page %}
