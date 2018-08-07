@@ -169,9 +169,9 @@ class SeoUtilsExtension extends \Twig_Extension
 
                     if (strtolower($lang->getLangCode()) == $language_code) {
                         $metas .= '<link rel="canonical" href="' . $new_url . '" >';
+                    }else{
+                        $metas .= '<link rel="' . $rel . '" href="' . $new_url . '" ' . $hreflang . ' >';
                     }
-
-                    $metas .= '<link rel="' . $rel . '" href="' . $new_url . '" ' . $hreflang . ' >';
                 }
             }
 
@@ -180,6 +180,8 @@ class SeoUtilsExtension extends \Twig_Extension
             $metas .= '<!---Seo: Ocurrio un ERROR!!! --->';
             $metas .= '<!---' . $content . ' --->';
         }
+        dump($metas);die;
+
         return $metas;
     }
 
