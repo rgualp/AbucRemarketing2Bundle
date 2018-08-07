@@ -101,7 +101,7 @@
                     <strong>{{ description | raw }}</strong>
                 </div>
                 <div class="text-center">
-                <a rel="nofollow" href="{{ path('frontend_search_ownership',{'text':desName|lower|replace(' ','-'), 'arrival':'null','departure':'null','guests':'1','rooms':'1'})}}"  class="btn btn-outline-white btn-lg waves-effect waves-light">
+                <a rel="nofollow" href="{{ path('frontend_search_ownership',{'text':desName|urlNormalize})}}"  class="btn btn-outline-white btn-lg waves-effect waves-light">
 
                     <i class="fa fa-search ml-2"> {{ 'KEEP_SEARCHING'|trans }}</i>
                 </a>
@@ -176,7 +176,7 @@
                         <div class="accordion-body collapse" id="collapseFour">
                             <div class="accordion-inner">
                                 {% for province in provinces %}
-                                    <a href="{{ path('frontend_search_ownership',{'text':provinces_for_url[province.provid], 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'}) }}">{{ province.provName }}</a><br/>
+                                    <a href="{{ path('frontend_search_ownership',{'text':provinces_for_url[province.provid]|urlNormalize}}">{{ province.provName }}</a><br/>
                                 {% else %}
                                     <div class="alert a alert-info">{{ "EMPTY_LIST" | trans }}</div>
                                 {% endfor %}
