@@ -137,7 +137,7 @@
                         {% if gallery_photos | length %}
                             <div id="tab-photos" class="tab-pane active">
                                 <div id="full-width-sliders" style="margin-top: -26px;">
-                                    <div id="myCarousel" class="carousel slide">
+                                    <div id="myCarousel" class="carousel slide" style="height: 400px;">
                                         <div class="camera_wrap camera_azure_skin" id="camera_wrap_1">
                                             {% for photo in  gallery_photos %}
                                                 {% set photoOriginalPath = 'uploads/ownershipImages/originals/'~photo.photo_name %}

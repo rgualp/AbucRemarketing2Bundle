@@ -282,7 +282,7 @@ input[type="radio"][disabled], input[type="checkbox"][disabled], .radio[disabled
     padding: 6px 10px;
     position: absolute;
     top: 45%;
-    z-index: 100;
+    z-index: 101;
 }
 #ownership-of-map .box.p {
     min-height: 200px;
