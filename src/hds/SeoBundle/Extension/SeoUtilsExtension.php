@@ -170,9 +170,9 @@ class SeoUtilsExtension extends \Twig_Extension
                     if (strtolower($lang->getLangCode()) == $language_code) {
                         $metas .= '<link rel="canonical" href="' . $new_url . '" >';
                     }
-                    else  {
+
                         $metas .= '<link rel="' . $rel . '" href="' . $new_url . '" ' . $hreflang . ' >';
-                    }
+
 
 
                 }
