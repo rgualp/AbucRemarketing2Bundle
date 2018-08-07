@@ -4553,6 +4553,25 @@
     Breakfast Included
         </target>
     </trans-unit>
+     <trans-unit id="4843">
+                           <source>INMIDIATE_BOOKING_DESC</source>
+           <target>
+        The accommodations in the category of immediate booking allow you to make the payment instantly for the reservation you have made.
+             </target>
+            </trans-unit>
+                  <trans-unit id="4844">
+                                   <source>PREPAYMENT_DESC</source>
+                  <target>
+                To make the payment of your reservation, you can use any of our payment methods to make your transfer.
+                           </target>
+                    </trans-unit>
+                    <trans-unit id="4845">
+                 <source>VOUCHER_DESC</source>
+                     <target>
+               Once you have made the payment, we will send you a Voucher with all the details regarding your accommodation and the services you have booked.
+               </target>
+
+                    </trans-unit>
         </body>
     </file>
 </xliff>

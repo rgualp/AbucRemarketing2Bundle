@@ -4577,6 +4577,25 @@
                                            <source>MyCasaparticular</source>
                                            <target>MyCasaparticular</target>
                                        </trans-unit>
+                 <trans-unit id="4846">
+                                            <source>INMIDIATE_BOOKING_DESC</source>
+                            <target>
+                       Las Casas en la categoría de reserva inmediata te permiten realizar el pago al momento por la reserva que has realizado.
+                                 </target>
+                             </trans-unit>
+                                   <trans-unit id="4847">
+                                                    <source>PREPAYMENT_DESC</source>
+                                   <target>
+                           Para efectuar el pago de tu reserva, puedes utilizar cualquiera de nuestras formas de pago para realizar tu transferencia.
+                                               </target>
+                                     </trans-unit>
+                                     <trans-unit id="4848">
+                                  <source>VOUCHER_DESC</source>
+                                      <target>
+                           •	Una vez que hayas realizado el pago, te enviamos un Voucher con todos los detalles relativos a tu alojamiento y los servicios que has reservado.
+                                    </target>
+
+                                     </trans-unit>
         </body>
     </file>
 </xliff>

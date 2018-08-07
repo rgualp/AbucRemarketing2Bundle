@@ -4586,6 +4586,23 @@ Zusätzlich zu der Verwaltung der Unterkunft, bieten wir Ihnen mehrere <strong>T
     Frühstück Inklusive
                          </target>
     </trans-unit>
+      <trans-unit id="4843">
+                       <source>INMIDIATE_BOOKING_DESC</source>
+       <target>
+        Die Unterkünfte  dieser Kategorie ermöglichen die online Anzahlung  der Reservierung sofort zu leisten.
+         </target>
+        </trans-unit>
+              <trans-unit id="4844">
+                               <source>PREPAYMENT_DESC</source>
+              <target>
+                Um die online Anzahlug Ihrer Buchung zu leisten, können Sie unsere Zahlungsarten zu benutzen um die Überweisung durchzuführen.
+               </target>
+                </trans-unit>
+                <trans-unit id="4845">
+             <source>VOUCHER_DESC</source>
+                 <target>
+                  Nach dem Sie die Zahlung durchgeführt haben, senden wir Ihnen eine digitale Bestaetigung/Voucher mit allen Casadaten und alle Service, die Sie reserviert haben.                             </target>
+           </trans-unit>
          </body>
     </file>
 </xliff>
