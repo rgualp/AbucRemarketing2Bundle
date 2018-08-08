@@ -622,10 +622,16 @@ class OwnershipController extends Controller
         }
 
         $provinces = $em->getRepository('mycpBundle:province')->findOneBy(array('prov_name' => $search_text));
+        $des = $em->getRepository('mycpBundle:destination')->findOneBy(array('des_name' => $search_text));
+
         $province_name = 'no';
 
         if ($provinces) {
             $province_name = $provinces->getProvName();
+        }
+        else if($des)
+        {
+            $province_name = $des->getDesName();
         }
 
         $search_guests = ($guests != null && $guests != '' && $guests != $this->get('translator')->trans('GUEST_WATERMARK')) ? $guests : "1";
