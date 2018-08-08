@@ -1306,11 +1306,12 @@ h1, h2, h3, h4, h5, h6 {
 #search_map{
     width: 100%; border-radius: 0px; height: 487px; position: relative; overflow: hidden;
 }
-#div_result{
-    overflow: hidden;
-    width: auto;
-    height: 484px;
-}
+.ownerships_mosaic{
+     overflow: hidden;
+     width: auto;
+     height: 484px;
+ }
+
 #poput-description {
     height: 100%;
     position: absolute;
@@ -1367,3 +1368,72 @@ quick-ribbon-custom::before {
     width: 0;
 }
 .bg-solid-blue-bar{ background-color: #3564B7; }
+.language-partner{
+    background:rgba(0, 0, 0, 0.44) none repeat scroll 0 0;
+    margin-top: 22px;
+    padding: 3px 5px 3px 3px !important;
+    margin-right: 10px;
+    color: white;
+}
+.dropdown-menu-partner {
+    background: rgba(0, 0, 0, 0.44) none repeat scroll 0 0;
+    border: medium none;
+    border-radius: 3px;
+    box-shadow: 0 0 3px rgba(86, 96, 117, 0.7);
+    display: none;
+    float: left;
+    font-size: 12px;
+    left: 0;
+    list-style: none outside none;
+    padding: 0;
+    position: absolute;
+    text-shadow: none;
+    top: 100%;
+    z-index: 1000;
+    font-family: MyriadProCond !important;
+    font-weight: 700 !important;
+    letter-spacing: 0px !important;
+    text-transform: none !important;
+    font-size: 18px !important;
+    color:white;
+}
+.dropdown-menu-partner:before {
+    content: '';
+    display: inline-block;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 0px solid #89b733;
+    position: absolute;
+    top: -6px;
+    left: 10px;
+}
+.dropdown-menu-partner:before {
+    content: '';
+    display: inline-block;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 0px solid #89b733;
+    position: absolute;
+    top: -6px;
+    left: 10px;
+}
+.list-footer{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+.firstwow{
+    background-color: #ffffffa6;    width: 30%;
+    height: fit-content;
+    height:-moz-fit-content;
+    margin-left: 50%!important;
+    color: #165078!important;
+    font-family: MyriadProBoldCond;padding: 10px
+}
+.wow2{
+    background-color: #ffffff82;;
+
+    color: #165078!important;
+    font-family: MyriadProBoldCond;padding: 10px
+}
