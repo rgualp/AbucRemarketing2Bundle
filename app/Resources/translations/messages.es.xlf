@@ -4592,7 +4592,7 @@
                                      <trans-unit id="4848">
                                   <source>VOUCHER_DESC</source>
                                       <target>
-                           •	Una vez que hayas realizado el pago, te enviamos un Voucher con todos los detalles relativos a tu alojamiento y los servicios que has reservado.
+                            Una vez que hayas realizado el pago, te enviamos un Voucher con todos los detalles relativos a tu alojamiento y los servicios que has reservado.
                                     </target>
 
                                      </trans-unit>
