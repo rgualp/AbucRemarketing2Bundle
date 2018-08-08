@@ -1437,7 +1437,7 @@ class OwnershipController extends Controller
         $statistics_own_list = $em->getRepository('mycpBundle:ownership')->getSearchStatistics();
         $awards = $em->getRepository('mycpBundle:award')->findAll();
         return $this->render('FrontEndBundle:ownership:searchOwnershipv2.html.twig', array(
-            'search_text' => 'Voted Best List',
+            'search_text' => null,
             'search_guests' => '1',
             'search_arrival_date' => null,
             'search_departure_date' => null,
@@ -1455,6 +1455,7 @@ class OwnershipController extends Controller
             'current_page' => $page,
             'list_preffix' => 'voted_best',
             'awards' => $awards,
+            'province_name'=>'Voted Best List',
             'cant_pages' => $items_per_page,
             'lastPage' => $paginator->getLastPage()
         ));
@@ -1551,7 +1552,7 @@ class OwnershipController extends Controller
             $page = $_GET['page'];
 
         return $this->render('FrontEndBundle:ownership:searchOwnershipv2.html.twig', array(
-            'search_text' => $type,
+            'search_text' => null,
             'search_guests' => '1',
             'search_arrival_date' => null,
             'search_departure_date' => null,
@@ -1565,6 +1566,7 @@ class OwnershipController extends Controller
             'autocomplete_text_list' => $em->getRepository('mycpBundle:ownership')->autocompleteTextList(),
             'check_filters' => $check_filters,
             'list_preffix' => 'search',
+            'province_name'=>$type,
             'list' => $search_results_list,
             'awards' => $awards,
             'current_page' => $page,

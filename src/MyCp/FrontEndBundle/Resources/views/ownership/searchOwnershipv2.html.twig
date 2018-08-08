@@ -62,11 +62,7 @@
 
 {% block title %}
     {% if get_tagvalue_bytag('Alojamientos ' ~ province_name, app.session.get('app_lang_code')|lower, 'title') == false %}
-        {% if province_name is define %}
         {{ "SEARCH_RESULTS_PAGE_TITLE" | trans }} {{ province_name }}
-            {% else %}
-      {{ "SEARCH_RESULTS_PAGE_TITLE" | trans }} {{ search_text }}
-     {% endif %}
     {% else %}
         {{ get_tagvalue_bytag('Alojamientos ' ~ province_name, app.session.get('app_lang_code')|lower, 'title')|raw }}
     {% endif %}
