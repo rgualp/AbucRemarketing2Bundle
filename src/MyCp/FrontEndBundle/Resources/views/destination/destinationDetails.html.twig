@@ -176,7 +176,7 @@
                         <div class="accordion-body collapse" id="collapseFour">
                             <div class="accordion-inner">
                                 {% for province in provinces %}
-                                    <a href="{{ path('frontend_search_ownership',{'text':provinces_for_url[province.provid]|urlNormalize})}}">{{ province.provName }}</a><br/>
+                                    <a href="{{ path('frontend_search_ownership',{'text':provinces_for_url[province.provid]})}}">{{ province.provName }}</a><br/>
                                 {% else %}
                                     <div class="alert a alert-info">{{ "EMPTY_LIST" | trans }}</div>
                                 {% endfor %}
