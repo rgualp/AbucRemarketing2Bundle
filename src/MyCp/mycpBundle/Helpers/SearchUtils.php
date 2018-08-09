@@ -47,7 +47,7 @@ class SearchUtils {
             $departure = \DateTime::createFromFormat('d-m-Y', $leavingDate);
             if ($departure == null)
                 $departure = \DateTime::createFromFormat('Y-m-d', $leavingDate);
-            $departure = $departure->format("Y-m-d");
+            $departure = $departure->modify('-1 days')->format("Y-m-d");
 
         }
         else{
