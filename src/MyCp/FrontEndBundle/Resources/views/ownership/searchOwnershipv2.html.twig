@@ -93,7 +93,7 @@
 {% block class_breadcrumbs %}{% endblock %}
 {% block breadcrumbs %}{% endblock %}
 {% block body %}
-    <div class="row" style="width: 100%;">
+    <div class="row" >
         <h1 class="d-none h-green caecilia-roman font-size-18">
             {% set description = get_meta_value('Alojamientos ' ~ province_name, app.session.get('app_lang_code')|lower, 'meta', 'DESCRIPTION')|raw %}
             {% if description == "" %}
