@@ -525,7 +525,7 @@ class SearchUtils {
                 $insideWhere = SearchUtils::getStringFromArray($filters['own_type']);
 
                 if($insideWhere != "")
-                    $where .= " AND o.own_type IN (" . $insideWhere . ")";
+                    $where .= " AND (o.own_type IN (" . $insideWhere . ") OR o.own_rental_type IN (" . $insideWhere . ") )";
             }
 
             if (array_key_exists('own_price_from', $filters) && $filters['own_price_from'] != null && is_array($filters['own_price_from']) && count($filters['own_price_from']) > 0 && $filters['own_price_to'] != null && is_array($filters['own_price_to']) && count($filters['own_price_to']) > 0) {

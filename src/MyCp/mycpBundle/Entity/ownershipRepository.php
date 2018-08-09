@@ -1736,7 +1736,7 @@ class ownershipRepository extends EntityRepository
         $query_string = "SELECT SUM(IF(o.own_type='Penthouse', 1, 0)) AS penthouse,
                          SUM(IF(o.own_type='Villa con piscina', 1, 0)) AS villa,
                          SUM(IF(o.own_type='Apartamento', 1, 0)) AS apartamento,
-                         SUM(IF(o.own_type='Propiedad completa', 1, 0)) AS propiedad,
+                         SUM(IF(o.own_rental_type='Propiedad completa', 1, 0)) AS propiedad,
                          SUM(IF(o.own_type='Casa particular', 1, 0)) AS casa,
                          SUM(IF(o.own_minimum_price< 25 AND o.own_minimum_price >=0, 1, 0)) AS primero,
                          SUM(IF(o.own_minimum_price< 50 AND o.own_minimum_price >=25, 1, 0)) AS segundo,
