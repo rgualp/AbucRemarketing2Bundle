@@ -26,6 +26,9 @@ Fecha: {{ "now"|date("D, d M Y H:m:s O") }}
 <br/>
 <b>Alojamiento:</b> {{ reservations[0].getOwnResGenResId.getGenResOwnId.getOwnMcpCode }} - {{ reservations[0].getOwnResGenResId.getGenResOwnId.getOwnName }}
 <br/>
+{% if reservations[0].getOwnResGenResId.getGenResOwnId.isOwnFacilitiesBreakfastInclude==1 %}
+<b style="color: red">Incluye Desayuno</b>
+{% endif %}
 <br/>
 <h3>Reservas (Total: {{ reservations| length }})</h3>
 {% set total_price = 0 %}

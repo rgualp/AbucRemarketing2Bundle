@@ -13,6 +13,9 @@ Estimado/a {{ reservations[0].getOwnResGenResId.getGenResOwnId.getOwnHomeowner1 
 <br/><br/>
 <b>Alojamiento:</b> {{ reservations[0].getOwnResGenResId.getGenResOwnId.getOwnMcpCode }} - {{ reservations[0].getOwnResGenResId.getGenResOwnId.getOwnName }}
 <br/><br/>
+{% if reservations[0].getOwnResGenResId.getGenResOwnId.isOwnFacilitiesBreakfastInclude==1 %}
+    <b style="color: red">Incluye Desayuno</b>
+{% endif %}
 Por este medio le confirmamos la reservación del cliente correspondientes al booking {{ booking }}:
 <br/><br/>
 
