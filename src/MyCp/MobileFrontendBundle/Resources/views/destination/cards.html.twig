@@ -72,6 +72,13 @@
             {#<a data-rel="tooltip" href="#" class="favorite_off_action"  title="Agregar a Favoritos" >#}
             {#<i class="material-icons">favorite</i>#}
             {#</a></span>#}
+            {% if ownership.breakfast_include %}
+                <span class="favorite_action" style="margin-right: 16px;">
+                                <img class="icon icon-medium cofee-icon" style="margin-left:-8px"
+                                     src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
+                                     title="{{ "INCLUDE_BREAKFAST" | trans }}" alt="{{ "INCLUDE_BREAKFAST" | trans }}">
+                                   </span>
+            {% endif %}
             <a onclick='HoldOn.open();' href="{{ path('my_cp_mobile_ownership_calendar',{'own_id':own.own_id  | urlNormalize}) }}">
                 <img title="{{ 'RESERVATION_CHECK_AVAILABILITY'| trans }}" style="width: 35px; height: 35px;cursor: pointer" src="{{ asset('bundles/frontend/img/icons/consult.dispov.png')}}" alt="{{"WELCOMEPAGE_TITLE" | trans}}" title="{{ 'WELCOMEPAGE_TITLE' | trans }}"  >
             </a>
