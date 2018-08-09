@@ -859,8 +859,7 @@ thumbs-destination .dest-description {
     padding-right: 24px;
     padding-bottom: 16px;
     padding-left: 24px;
-    -webkit-justify-content: space-between;
-    justify-content: space-between;
+   
 }
 .modal-footer {
     display: -ms-flexbox;
@@ -1032,14 +1031,7 @@ h1, h2, h3, h4, h5, h6 {
 .modal-content .modal-body+.modal-footer {
     padding-top: 0;
 }
-.modal-content .modal-footer {
-    border-top: none;
-    padding-right: 24px;
-    padding-bottom: 16px;
-    padding-left: 24px;
-    -webkit-justify-content: space-between;
-    justify-content: space-between;
-}
+
 .modal-footer {
     display: -ms-flexbox;
     display: flex;
