@@ -71,7 +71,7 @@ class SearchUtils {
                             (SELECT DISTINCT r3.room_id,o3.own_id from unavailabilitydetails ud
                                     INNER JOIN room r3 ON r3.room_id = ud.room_id
                                     INNER JOIN ownership o3 ON o3.own_id = r3.room_ownership
-                                    WHERE (( ud.ud_from_date<="'.$arrival.'"  AND ud.ud_to_date >="'.$arrival.'" ) OR ( ud.ud_from_date <="'.$departure.'"  AND  ud.ud_to_date >="'.$departure.'"))
+                                    WHERE ud.ud_sync_st <> 2 AND ((( ud.ud_from_date<="'.$arrival.'"  AND ud.ud_to_date >="'.$arrival.'" ) OR ( ud.ud_from_date <="'.$departure.'"  AND  ud.ud_to_date >="'.$departure.'")))
                         )
                        ) as two WHERE two.own_id=o.own_id
                     ) >= o.own_rooms_total ';
