@@ -54,8 +54,6 @@ class PublicController extends Controller {
             return $this->redirect($this->generateUrl("frontend-welcome", $locale));
         }
 
-        $provinces = $em->getRepository('mycpBundle:province')->findAll();
-        $slide_folder = rand(1, 1);
 
         $paginator = $this->get('ideup.simple_paginator');
 
@@ -74,31 +72,27 @@ class PublicController extends Controller {
 
         $own_top20_list = $paginator->paginate($top_20)->getResult();
 
-        $statistics = $em->getRepository("mycpBundle:ownership")->top20Statistics();
+
 
 
         if ($mobileDetector->isMobile()){
             $response = $this->render('MyCpMobileFrontendBundle:home:home.html.twig', array(
                 'locale' => $glogal_locale,
-                'provinces' => $provinces,
-                'slide_folder' => $slide_folder,
+
+
                 'own_top20_list' => $top_20->setMaxResults(20)->getResult(),
-                'top_rated_total_items' => $paginator->getTotalItems(),
-                'premium_total' => $statistics['premium_total'],
-                'midrange_total' => $statistics['midrange_total'],
-                'economic_total' => $statistics['economic_total']
+
+
             ));
         }else{
-            $slides = Utils::loadFrontendSlides();
-            $response = $this->render('FrontEndBundle:public:home.html.twig', array(
-                'locale' => $glogal_locale,
-                'provinces' => $provinces,
-                'slide_folder' => $slide_folder,
 
-                'premium_total' => $statistics['premium_total'],
-                'midrange_total' => $statistics['midrange_total'],
-                'economic_total' => $statistics['economic_total'],
-                'slides' => $slides
+            $response = $this->render('FrontEndBundle:new_layout:landing.html.twig', array(
+                'locale' => $glogal_locale,
+
+
+                'own_top20_list' => $own_top20_list
+
+
             ));
         }
 

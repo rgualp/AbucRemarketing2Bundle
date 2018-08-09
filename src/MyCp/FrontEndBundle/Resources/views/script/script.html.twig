@@ -3,6 +3,7 @@
     var end_date = "{{ (isDateTime(app.session.get('search_departure_date')) ) ? (app.session.get('search_departure_date')|date("d/m/Y")) : "+2 days" |date("d/m/Y")}}";
 
 
+
     function refresh_calendar(from, to,own_id) {
         if (from != '' && to != '') {
             $('.calendar-results').css({display: 'none'});
@@ -48,16 +49,17 @@
         var xpath = "{{ path('frontend_show_modal_ownership_calendar') }}";
         var own_id= e.data('idown');
         if(own_id!=''){
-            modal.load(xpath, {'idOwn':e.data('idown')}, function(e){
-                modal.modal('show');
+            modal.find('.modal-body').load(xpath, {'idOwn':e.data('idown')}, function(e){
+                $("#myModalOwnerShipCalendar").modal('show');
                 var arrival = $('#input_arrival_date').val();
                 var departure = $('#input_departure_date').val();
+                console.log(arrival);
                 $('#filter_date_from').datepicker({
                     format: 'dd/mm/yyyy',
                     todayBtn: false,
                     autoclose: true,
-                    startDate: (arrival!='')?new Date(create_date_in(arrival)):start_date,
-                    date: (arrival!='')?new Date(create_date_in(arrival)):start_date
+                    startDate: (arrival!=''&&arrival!=undefined)?new Date(create_date_in(arrival)):start_date,
+                    date: (arrival!=''&&arrival!=undefined)?new Date(create_date_in(arrival)):start_date
                 }).on('changeDate', function (ev) {
                             if (!ev.date) {
                                 return;
@@ -77,7 +79,7 @@
                     todayBtn: false,
                     autoclose: true,
                     startDate: '+1d',
-                    date: (departure!='')?new Date(create_date_in(departure)):end_date
+                    date: (departure!=''&& arrival!=undefined)?new Date(create_date_in(departure)):end_date
                 }).on('changeDate', function (ev) {
                             from = $('#filter_date_from').val();
                             to = $('#filter_date_to').val();

@@ -64,11 +64,11 @@
 
 
     <div class="main main-raised">
-    <div class="text-center caecilia-roman white f-s-16" style="background: #f4941c; color:white; font-size:20px; ">
+    <h1 class="text-center caecilia-roman white f-s-16" style="margin:0;background: #f4941c; color:white; font-size:20px; ">
 
         {{ ownership.ownname }}
 
-    </div>
+    </h1>
 
     <div class="profile-content">
 
@@ -185,22 +185,31 @@
                                         <div class="col-sm-12">
                                             <div class="col-sm-12">
                                                 <ul class="price">
-                                                    {% if ownership.ownFacilitiesBreakfast %}
-                                                        <li class="lead-2">
-                                                            <div class="row">
-                                                                <div class="col-xs-8">
+                                                  {% if ownership.ownFacilitiesBreakfast %}
+                                            <li class="lead-2">
+                                                <div class="row">
+                                                    <div class="col-xs-8"><img
+                                                                src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
+                                                                class="icon-services cofee-icon"
+                                                                alt="Service"
+                                                                title="Service"/> {{ "BREAKFAST_TAB_DESCRIPTION" | trans }}
+                                                    </div>
 
-                                                                    {{ "BREAKFAST_TAB_DESCRIPTION" | trans }}:
-                                                                </div>
-                                                                <div class="col-xs-4 text-right">
-                                                                    <b>
-                                                                        {% if ownership.ownFacilitiesBreakfastPrice != null and ownership.ownFacilitiesBreakfastPrice != 0 %}
-                                                                            {{ ownership.ownFacilitiesBreakfastPrice | price }}
-                                                                        {% else %} {{ "YES" | trans }}{% endif %}
-                                                                    </b></div>
-                                                            </div>
-                                                        </li>
-                                                    {% endif %}
+                                                    <div class="col-md-4">
+                                                        <b>
+
+                                                            {% if ownership.ownFacilitiesBreakfastInclude %}
+                                                                {{ "INCLUDE_BREAKFAST" | trans }}
+                                                            {% elseif  ownership.ownFacilitiesBreakfastPrice != null and ownership.ownFacilitiesBreakfastPrice != 0 %}
+                                                                {{ ownership.ownFacilitiesBreakfastPrice | price }}
+                                                            {% else %}
+                                                                {{ "YES" | trans }}
+                                                            {% endif %}
+                                                        </b>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        {% endif %}
                                                     {% if ownership.ownFacilitiesDinner %}
                                                         <li class="lead-2">
                                                             <div class="row">

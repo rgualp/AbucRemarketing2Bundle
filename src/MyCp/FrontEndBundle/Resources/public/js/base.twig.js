@@ -43,14 +43,14 @@ var BaseTwigJs = function () {
 
         topmenucont = $('#top-menu-cont');
         topmenu = $("#top-menu").offset().top;
-        $('#top-menu').affix({
-            offset: {
-                top: function() {
-                    topmenucont.html = "&nbsp;";
-                    return topmenu;
-                }
-            }
-        });
+        // $('#top-menu').affix({
+        //     offset: {
+        //         top: function() {
+        //             topmenucont.html = "&nbsp;";
+        //             return topmenu;
+        //         }
+        //     }
+        // });
 
         if (showMarquesina){
 
@@ -61,7 +61,7 @@ var BaseTwigJs = function () {
             });
 
         }
-        NavbarScrollFixed.init(".search", "fixed-top", $(".search").height() + 90, showMarqee, hideMarqee);
+        NavbarScrollFixed.init(".search", "fixed-top", $(".search").height() + 20, showMarqee, hideMarqee);
 
 
         $('#homeCarrousel a[href="#lastAdded"]').click(function () {

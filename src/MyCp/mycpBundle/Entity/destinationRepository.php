@@ -535,6 +535,7 @@ class destinationRepository extends EntityRepository {
 
         $query_select = "SELECT DISTINCT o.own_id,
                              o.own_name,
+                             o.own_facilities_breakfast_include as breakfast_include, 
                              prov.prov_name,
                              mun.mun_name,
                              o.own_comments_total as comments_total,
@@ -764,7 +765,12 @@ class destinationRepository extends EntityRepository {
                     $photos_array['photo_name'][] = $destination_photo['photo'];
                     $photos_array['photo_description'][] = $destination_photo['description'];
                 }
+                else{
+                    $photos_array['photo_name'][] = 'sample.jpg';
+                    $photos_array['photo_description'][] = 'No foto description jaja;';
+                }
             }
+
         }
 
         return $photos_array;

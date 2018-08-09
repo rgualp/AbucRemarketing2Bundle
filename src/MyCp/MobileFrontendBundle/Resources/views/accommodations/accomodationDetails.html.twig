@@ -2,7 +2,11 @@
 
 
 {% block title %}
-    {{ "SEARCH_RESULTS_PAGE_TITLE" | trans }}
+    {% if get_tagvalue_bytag('Alojamientos ' ~ province_name, app.session.get('app_lang_code')|lower, 'title') == false %}
+        {{ "SEARCH_RESULTS_PAGE_TITLE" | trans }} {{ province_name }}
+    {% else %}
+        {{ get_tagvalue_bytag('Alojamientos ' ~ province_name, app.session.get('app_lang_code')|lower, 'title')|raw }}
+    {% endif %}
 {% endblock %}
 
 {% set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_ACCOMMODATIONS') %}
@@ -37,10 +41,14 @@
 
     <div class="main main-raised">
         <div class="text-center caecilia-roman white f-s-16" style="background: #f4941c; color:white; font-size:20px; ">
-            <i  style="width: 25px;height: 25px;color:#3C4858;" class="fa fa-star" alt="Pixel" ></i>
-            <a>{{ "SEARCH_RESULTS_PAGE_TITLE" | trans }}</a>
 
-            <i  style="width: 25px;height: 25px;color:#3C4858;" class="fa fa-star" alt="Pixel" ></i>
+            <h1 class="text-center caecilia-roman white f-s-16" style="margin: 0;background: #f4941c; color:white; font-size:20px; ">
+                <i  style="width: 25px;height: 25px;color:#3C4858;" class="fa fa-star" alt="Pixel" ></i>
+                {{ "SEARCH_RESULTS_PAGE_TITLE" | trans }}
+                <i  style="width: 25px;height: 25px;color:#3C4858;" class="fa fa-star" alt="Pixel" ></i>
+            </h1>
+
+
 
         </div>
 

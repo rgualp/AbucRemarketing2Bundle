@@ -1,0 +1,195 @@
+{% set main_tab = 1 %}
+{% set is_home = 1 %}
+{% extends 'FrontEndBundle:new_layout:template.html.twig' %}
+{% set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_HOMEPAGE') %}
+
+{#{% block title %}{{"HOMEPAGE_TITLE" | trans | title}}{% endblock %}#}
+ {% block navbar %}
+     {% include 'FrontEndBundle:new_layout:navbar.html.twig' %}
+ {% endblock navbar %}
+  {% block carousel %}
+      {% include 'FrontEndBundle:new_layout:carousel_new.html.twig' %}
+      <!--/.Carousel Wrapper-->
+  {% endblock carousel %}
+{% block body %}
+
+    <div class="container">
+
+        <!--Section: Main features & Quick Start-->
+        <section class="mt-5 wow fadeIn">
+
+            <h3 class="h3 text-center mb-5">{{ 'POSSIBILITY_RESERVE_ONLINE'|trans }}</h3>
+
+            <!--Grid row-->
+            <div class="row wow fadeIn">
+
+                <!--Grid column-->
+                <div class="col-lg-6 col-md-12 px-4">
+
+                    <!--First row-->
+                    <div class="row">
+                        <div class="col-1 mr-3">
+                            <i class="fa fa-rocket fa-2x red-text" style="color:red;"></i>
+                        </div>
+                        <div class="col-10">
+                            <h5 class="feature-title">{{ 'IMMEDIATE_BOOKING'|trans }}</h5>
+                            <p class="grey-text">{{'INMIDIATE_BOOKING_DESC'|trans }}</p>
+                        </div>
+                    </div>
+                    <!--/First row-->
+
+                    <div style="height:30px"></div>
+
+                    <!--Second row-->
+                    <div class="row">
+                        <div class="col-1 mr-3">
+                            <i class="fa fa-money fa-2x green-text"></i>
+                        </div>
+                        <div class="col-10">
+                            <h5 class="feature-title">{{ 'PREPAYMENT'|trans }}</h5>
+                            <p class="grey-text">{{'PREPAYMENT_DESC'|trans }}
+                                <img src="{{ asset('bundles/frontend/img/Todospostfinance.png') }}" alt="Postfinance"/>
+                                <img src="{{ asset('bundles/frontend/img/icons/skrill-icon.png') }}" alt="Skrill"/>
+                            </p>
+                        </div>
+                    </div>
+                    <!--/Second row-->
+
+                    <div style="height:30px"></div>
+
+                    <!--Third row-->
+                    <div class="row">
+                        <div class="col-1 mr-3">
+                            <i class="fa fa-book fa-2x cyan-text"></i>
+                        </div>
+                        <div class="col-10">
+                            <h5 class="feature-title">{{ 'PAYMENT_CONFIRMATION'|trans }}</h5>
+                            <p class="grey-text">{{'VOUCHER_DESC'|trans }}</p>
+                        </div>
+                    </div>
+                    <!--/Third row-->
+
+                </div>
+                <!--/Grid column-->
+
+                <!--Grid column-->
+                <div class="col-lg-6 col-md-12">
+                    <p class="h5 text-center mb-4">Watch our 1 min Quick Start tutorial</p>
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/IRKyDy5hYkk" allowfullscreen></iframe>
+                    </div>
+                </div>
+                <!--/Grid column-->
+
+            </div>
+            <!--/Grid row-->
+
+        </section>
+
+        <hr class="my-5">
+
+        <section class="text-center" >
+            <h3 class="h3 text-center mb-5">{{ 'PLACE_IN_CUBA_TO_VISIT'|trans }}</h3>
+            <!--Grid row-->
+
+
+            {{ render(controller('FrontEndBundle:Public:homeCarrousel')) }}
+
+
+            <!--Grid row-->
+
+        </section>
+
+        <hr class="mb-5">
+        <!--Section: Not enough-->
+        <section>
+
+            <div class="lazyContent row" data-loader="toprateLoader">
+                {{ include('FrontEndBundle:ownership:newHomeTopRatedOwnership.html.twig') }}
+            </div>
+
+        </section>
+
+
+
+
+
+    </div>
+
+
+    <div class="modal fade" id="myModalOwnerShipCalendar"  tabindex="-1" role="dialog"  aria-hidden="true"  >
+        <div class="modal-dialog modal-lg "  role="dialog" style="width: auto">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" >{{ 'RESERVATION_RESERVE' | trans }}</h5>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    {#<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>#}
+                    {#<h4 class="modal-title">{{ 'RESERVATION_RESERVE' | trans }}</h4>#}
+                    {#<small class="font-bold">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>#}
+                </div>
+                <div class="modal-body">
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'CANCEL' | trans }}</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ include('FrontEndBundle:script:script.html.twig') }}
+{% endblock %}
+
+
+{% block javascripts %}
+    <script type="text/javascript">
+        var frontend_public_load_slide = "{{ path("frontend_public_load_slide") }}";
+
+        function initJSTwig() {
+            findTopRate(1);
+
+
+        }
+
+        function initNavigationTopRate(){
+
+            jQuery('#toprate-navigation span.act').click(function (s) {
+                if (jQuery(this).hasClass('tr-next')){
+                    var _page = parseInt(jQuery('#toprate-list .thumbs-houses').attr('current-page')) + 1;
+                    console.log(_page);
+                    if (_page <= parseInt(jQuery('#toprate-list .thumbs-houses').attr('total-page'))){
+                        findTopRate(_page);
+                    }
+                }else{
+                    var _page = parseInt(jQuery('#toprate-list .thumbs-houses').attr('current-page')) - 1;
+                    console.log(_page);
+                    if (_page > 0)
+                        findTopRate(_page);
+                }
+            })
+        }
+        function findTopRate(page) {
+            jQuery('#toprate-navigation span.act').unbind();
+            jQuery("#toprate-list").empty();
+
+            jQuery("#toprate-list").append(jQuery("#grid-load").html());
+
+            jQuery("#toprate-list").load(top_rated_callback, {page: page}, function (result) {
+                 initNavigationTopRate();
+
+                if ($('.bttrlazyloading').length > 0){
+                    $('.bttrlazyloading').each(function () {
+                        $("#"+$(this).attr("id")).bttrlazyloading();
+                    });
+                }
+
+                $("[rel='tooltip']").tooltip();
+                $("[data-rel='tooltip']").tooltip();
+            });
+        }
+    </script>
+{% endblock javascripts %}

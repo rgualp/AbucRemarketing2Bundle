@@ -1,61 +1,81 @@
-<div class="tabbable carousel-bottom">
-        <ul class="nav nav-tabs" id="homeCarrousel">
-            <li class="active"><a data-toggle="tab" href="#popularDestinations">{{"POPULAR_DESTINATIONS_HOME_TABS" | trans}}</a></li>
-            <li><a data-toggle="tab" href="#lastAdded">{{"LAST_ADDED_HOME_TABS" | trans}}</a></li>
 
-            <li><a data-toggle="tab" href="#best">{{"BEST_VALUED_ORDER_BY" | trans}}</a></li>
-        </ul>
-        <div class="tab-content">
-            <div id="popularDestinations" class="tab-pane active">
-                <div class="carousel slide" id="th-destination-carousel">
-                    <div class="carousel-inner thumbs-houses">
-                        {% set flag_item = 0 %}
-                        {% for i in 1..4 %}
-                            <div class="item {% if i == 1 %}active{% endif %}">
-                                <div class="row">
-                                    {% for e in 1..3%}
-                                        {% if popular_places[flag_item] is defined %}
-                                            {{ include('FrontEndBundle:destination:homeItemDestination.html.twig',{'destination_id': popular_places[flag_item]['destination']['des_id'],
-                                            'destination_name':popular_places[flag_item]['destination']['des_name'],
-                                             'url':popular_places[flag_item]['url'],
-                                            'is_in_favorite': popular_places[flag_item]['destination']['is_in_favorites'],
-                                            'photo': popular_places[flag_item]['destination']['photo'],
-                                            'localization': popular_places[flag_item]['destination']['municipality_name'] ~ ' / ' ~ popular_places[flag_item]['destination']['province_name'],
-                                            'statistics': {'total': popular_places[flag_item]['destination']['count_ownership'], 'minimum_prize': popular_places[flag_item]['destination']['min_price']},
-                                            'list_preffix': 'popular_places'}) }}
-                                            {% set flag_item = flag_item + 1 %}
-                                        {% endif %}
-                                    {% endfor %}
-                                </div>
-                                <div class="row text-right">
-                                    <a href="{{path("frontend_list_destinations")}}">
-                                        <small>{{'RESERVATION_CONFIRM_DESTINATION_MORE' | trans | lower}} <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-medium icon-more" alt="{{"Mycasaparticular" | trans}}" title="{{"Mycasaparticular" | trans}}"/></small>
-                                    </a>
-                                </div>
-                            </div>
-                        {% else %}
-                            <div class="item active">
-                                <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>
-                            </div>
-                        {% endfor %}
 
-                    </div>
-                    {%if popular_places | length > 3%}
-                        <a data-slide="prev" href="#th-destination-carousel" class="left carousel-control">
-                            <span class="icon-prev"></span>
-                        </a>
-                        <a data-slide="next" href="#th-destination-carousel" class="right carousel-control">
-                            <span class="icon-next"></span>
-                        </a>
-                    {%endif%}
-                </div>
-            </div>
-            <div id="lastAdded" class="tab-pane" data-url="{{ path("frontend_carrousel_last_added_callback") }}" data-has-content="false">
-               {{ "LOADING_MESSAGE" | trans }}
-            </div>
+{% set flag_item = 0 %}
+<!--Section: Cards-->
 
-            <div id="best" class="tab-pane" data-url="{{ path("frontend_carrousel_top_callback") }}" data-has-content="false">
-                {{ "LOADING_MESSAGE" | trans }}
-            </div>
+
+    <!--Grid row-->
+    <div class="row mb-4 wow fadeIn">
+
+        <!--Grid column-->
+            <!--Card-->
+            {% for e in 1..3%}
+        <div class="col-lg-4 {% if flag_item==0 %}col-md-12{% else %}col-md-6{% endif %} mb-4">
+
+        {% if popular_places[flag_item] is defined %}
+                    {{ include('FrontEndBundle:destination:homeItemDestination.html.twig',{'destination_id': popular_places[flag_item]['destination']['des_id'],
+                        'destination_name':popular_places[flag_item]['destination']['des_name'],
+                        'url':popular_places[flag_item]['url'],
+                        'is_in_favorite': popular_places[flag_item]['destination']['is_in_favorites'],
+                        'photo': popular_places[flag_item]['destination']['photo'],
+                        'localization': popular_places[flag_item]['destination']['municipality_name'] ~ ' / ' ~ popular_places[flag_item]['destination']['province_name'],
+                        'statistics': {'total': popular_places[flag_item]['destination']['count_ownership'], 'minimum_prize': popular_places[flag_item]['destination']['min_price']},
+                        'list_preffix': 'popular_places'}) }}
+                    {% set flag_item = flag_item + 1 %}
+                {% endif %}
         </div>
+            {% endfor %}
+
+
+            <!--/.Card-->
+
+
+        <!--Grid column-->
+
+
+
     </div>
+    <!--Grid row-->
+
+    <!--Grid row-->
+    <div class="row mb-4 wow fadeIn">
+
+        <!--Grid column-->
+
+
+            <!--Card-->
+            {% for e in 4..6%}
+        <div class="col-lg-4 {% if flag_item==3 %}col-md-12{% else %}col-md-6{% endif %} mb-4">
+                {% if popular_places[flag_item] is defined %}
+                    {{ include('FrontEndBundle:destination:homeItemDestination.html.twig',{'destination_id': popular_places[flag_item]['destination']['des_id'],
+                        'destination_name':popular_places[flag_item]['destination']['des_name'],
+                        'url':popular_places[flag_item]['url'],
+                        'is_in_favorite': popular_places[flag_item]['destination']['is_in_favorites'],
+                        'photo': popular_places[flag_item]['destination']['photo'],
+                        'localization': popular_places[flag_item]['destination']['municipality_name'] ~ ' / ' ~ popular_places[flag_item]['destination']['province_name'],
+                        'statistics': {'total': popular_places[flag_item]['destination']['count_ownership'], 'minimum_prize': popular_places[flag_item]['destination']['min_price']},
+                        'list_preffix': 'popular_places'}) }}
+                    {% set flag_item = flag_item + 1 %}
+                {% endif %}
+        </div>
+            {% endfor %}
+            <!--/.Card-->
+
+        </div>
+        <!--Grid column-->
+
+
+
+
+
+    <!--Grid row-->
+    <div class="d-flex justify-content-center wow fadeIn" style="font-size: x-large;">
+        <a href="{{path("frontend_list_destinations")}}">
+            <small>{{'RESERVATION_CONFIRM_DESTINATION_MORE' | trans | lower}} <i class="fa fa-plus-circle"></i></small>
+        </a>
+    </div>
+
+
+<!--Section: Cards-->
+
+

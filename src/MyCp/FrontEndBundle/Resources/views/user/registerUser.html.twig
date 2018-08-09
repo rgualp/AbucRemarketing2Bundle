@@ -17,57 +17,106 @@
        title="{{ "USER_REGISTRATION_SUBTITLE" | trans }}">{{ "USER_REGISTRATION_SUBTITLE" | trans }}</a>
 {% endblock %}
 {% block body %}
-    <div class="container">
-        <h1 class="caecilia-roman big-price-green text-center no-margin"
-            style="font-weight: normal;">{{ "USER_REGISTRATION_SUBTITLE" | trans }}</h1>
-        <div><img src="{{ asset('bundles/frontend/img/line-gradient-green.png') }}"
-                  style="width: 100%; height: 1px; margin: 16px 0" alt="{{ "Green" | trans }}"/></div>
-        <form novalidate class="form-horizontal" action="{{ path('frontend_register_user') }}" method="post">
-            {% if errors['used_email'] is defined %}
-                <div class="alert alert-danger text-center">{{ errors['used_email'] }}</div>
-            {% endif %}
-            {% if errors['user_email'] is defined %}
-                <div class="alert alert-danger text-center">{{ errors['user_email'] }}</div>
-            {% endif %}
-            <div class="row">
-                <div class="col-sm-4"></div>
-                <div class="col-sm-4">
-                    {{ form_widget(form) }}
-                </div>
-                <div class="col-sm-4"></div>
-            </div>
-            <div class="row">
-                <div class="col-sm-4"></div>
-                <div class="col-sm-8">
-                    <label class="checkbox">
-                        <input {% if post['policies'] is defined %} checked="checked" {% endif %} type="checkbox"
-                                                                                                  name="policies"
-                                                                                                  id="policies"/> {{ "PRIVATE_POLICY_USER_REGISTRATION" | trans }}
-                    </label>
-                    <label class="checkbox">
-                        <input {% if post['user_newsletters'] is defined %} checked="checked" {% endif %}
-                                type="checkbox" name="user_newsletters"/> {{ "NEWSLETTER_USER_REGISTRATION" | trans }}
-                    </label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-4"></div>
-                <div class="col-sm-4">
-                    <button id="btn_submit" disabled="disabled" style="margin-top: 20px" type="submit"
-                            class="btn btn-primary btn-block">{{ "REGISTER_USER_REGISTRATION" | trans }}</button>
-                </div>
-                <div class="col-sm-4"></div>
-            </div>
-            <div class="row">
-                <div class="col-sm-4"></div>
-                <div class="col-sm-8" style="margin-top: 12px">
-                    <a href="{{ path('frontend_login') }}" style="text-decoration: none; "><h4
-                                class="caecilia-roman h-orange link-under-line">{{ "FORMS_LOGIN_QUESTION" | trans }}</h4>
-                    </a>
-                </div>
-            </div>
+    <div class="container" style=' padding-top: 0;'>
+        <div class="row">
+            <div class="col-md-5 ml-auto mr-auto ml-auto mr-auto">
+                <div class="card card-signup">
+                    <h1 class="caecilia-roman big-price-green text-center no-margin" style="font-weight: normal; margin-top: 20px">{{"USER_REGISTRATION_SUBTITLE" | trans}}</h1>
+                    <div><img src="{{ asset('bundles/frontend/img/line-gradient-green.png') }}" style="width: 100%; height: 1px; margin: 16px 0" alt="{{"Gradient" | trans}}"></div>
 
-        </form>
+                    <div class="card-body">
+                        <div class="row">
+
+                            <div class="col-md-12 mr-auto">
+
+                                <form class="form-horizontal" action="{{ path('frontend_register_user') }}" method="post">
+                                    {% if errors['used_email'] is defined %}
+                                        <div class="alert alert-danger text-center">{{ errors['used_email'] }}</div>
+                                    {% endif %}
+                                    {% if errors['user_email'] is defined %}
+                                        <div class="alert alert-danger text-center">{{ errors['user_email'] }}</div>
+                                    {% endif %}
+                                    {% if errors['errors'] is defined %}
+                                        <div class="alert alert-danger text-center">{{ errors['errors'] }}</div>
+                                    {% endif %}
+
+
+
+                                    <div class="form-group">
+
+                                        <label for="exampleInput1" class="bmd-label-floating">{{ 'FORMS_NAME'|trans }}</label>
+                                        {{ form_widget(form.user_user_name,{ 'attr': {'class': 'form-control'} }) }}
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="exampleInput1" class="bmd-label-floating">{{ 'FORMS_LASTNAME'|trans }}</label>
+
+                                        {{ form_widget(form.user_last_name,{ 'attr': {'class': 'form-control'} }) }}
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInput1" class="bmd-label-floating">{{ 'FORMS_EMAIL'|trans }}</label>
+
+                                        {{ form_widget(form.user_email,{ 'attr': {'class': 'form-control'} }) }}
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInput1" class="bmd-label-floating">{{ 'FORMS_PASSWORD'|trans }}</label>
+                                        {{ form_widget(form.user_password.first,{ 'attr': {'class': 'form-control'} }) }}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInput1" class="bmd-label-floating">{{ 'FORMS_REPEAT'|trans }}</label>
+
+                                        {{ form_widget(form.user_password.confirm,{ 'attr': {'class': 'form-control'} }) }}
+
+                                    </div>
+                                    <div class="form-group">
+
+                                        <label for="exampleInput1" class="bmd-label-floating">{{ 'COUNTRY'|trans }}</label>
+
+                                        {{ form_widget(form.user_country,{ 'attr': {'class': 'form-control'} }) }}
+                                    </div>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input onclick="onClickHandler(this)" class="form-check-input" {% if post['policies'] is defined %} checked="checked" {% endif %} type="checkbox"
+                                                   name="policies"
+                                                   id="policies"/>
+                                            {{"ACCEPT_TERMS_CONDITIONS" | trans}}
+                                            <span class="form-check-sign">
+              <span class="check"></span>
+
+            </span>
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input"{% if post['user_newsletters'] is defined %} checked="checked" {% endif %}
+                                                   type="checkbox" name="user_newsletters"/>
+                                            {{ "NEWSLETTER_USER_REGISTRATION" | trans }}
+                                            <span class="form-check-sign">
+              <span class="check"></span>
+            </span>
+                                        </label>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="text-center">
+                                            <button  id="btn_submit" class="btn btn-primary btn-block"
+                                                    disabled="disabled" type="submit">{{ "REGISTER_USER_REGISTRATION" | trans }}</button>
+                                        </div>
+                                    </div>
+                                    {{ form_rest(form) }}
+
+
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
 {% block javascripts %}

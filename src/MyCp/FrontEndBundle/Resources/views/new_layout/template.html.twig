@@ -1,0 +1,332 @@
+{% spaceless %}
+    {% set lang_code=app.session.get('app_lang_code')|lower %}
+    <!DOCTYPE html>
+    <html id="top" {{ get_lang(lang_code)|raw }}>
+    <head>
+        <title>{% block title %}{{ "WELCOMEPAGE_TITLE" | trans }}{% endblock %}</title>
+        <meta name="google" content="notranslate"/>
+        <meta http-equiv="Cache-Control" content="max-age=300" />
+        {% block metas %}
+            {{ get_metas('Main', lang_code)|raw }}
+        {% endblock metas %}
+
+        {% stylesheets
+
+            '@FrontEndBundle/Resources/public/css/theme/bootstrap.min.css'
+            '@FrontEndBundle/Resources/public/css/glyphicons.css'
+            '@FrontEndBundle/Resources/public/css/theme/mdb.css'
+            '@FrontEndBundle/Resources/public/css/theme/style.css'
+            '@FrontEndBundle/Resources/public/css/plugins/font-awesome/css/font-awesome.min.css'
+         
+            '@FrontEndBundle/Resources/public/js/rs-plugin/css/settings.css'
+            '@FrontEndBundle/Resources/public/css/bttrlazyloading.min.css'
+            '@FrontEndBundle/Resources/public/css/plugins/iCheck/custom.css'
+            '@LayoutBundle/Resources/public/css/plugins/sweetalert/sweetalert.css'
+            '@LayoutBundle/Resources/public/css/plugins/toastr/toastr.min.css'
+            '@FrontEndBundle/Resources/public/css/glyphicons.css'
+            '@MyCpCasaModuleBundle/Resources/public/css/animate.css'
+            '@FrontEndBundle/Resources/public/css/ionicons.css'
+            '@LayoutBundle/Resources/public/css/bootstrap-submenu.css'
+
+            '@FrontEndBundle/Resources/public/css/chat.css'
+            '@LayoutBundle/Resources/public/css/chat.css'
+            filter='?uglifycss' %}
+            <link rel="stylesheet" href="{{ asset_url }}"/>
+        {% endstylesheets %}
+        <style>
+                  /* Necessary for full page carousel*/
+            html,
+            body,
+            header,
+            .view {
+                width: unset;
+                height: 100%;
+            }
+
+            /* Carousel*/
+            .carousel,
+            .carousel-item,
+            .carousel-item.active {
+                height: 100%;
+            }
+            .carousel-inner {
+                height: 100%;
+            }
+
+            @media (min-width: 800px) and (max-width: 850px) {
+                .navbar:not(.top-nav-collapse) {
+                    background: #1C2331!important;
+                }
+            }
+
+        </style>
+        {% set css_category = "" %}
+        {% if ownership.category is defined and  ownership.category == 'Económica' %}
+            {% set css_category = "economic_house" %}
+        {% endif %}
+        {% if ownership.category is defined and  ownership.category == 'Premium' %}
+            {% set css_category = "premium_house" %}
+        {% endif %}
+
+
+        {% block include_javascripts_and_css %}{% endblock %}
+    </head>
+
+    <body>
+    {% block marquesina %}
+
+    {% endblock %}
+    {% block custom_menus %}
+
+    {% endblock %}
+    {% block big_banner %}{% endblock %}
+
+
+     <!-- Navbar -->
+     {% block navbar %}
+     {% include 'FrontEndBundle:new_layout:navbar_fixed.html.twig' %}
+     {% endblock navbar %}
+    <!-- Navbar -->
+    <!-- data-ride="carousel" -->
+    <!--Carousel Wrapper-->
+     {% block carousel %}
+      <!--/.Carousel Wrapper-->
+     {% endblock carousel %}
+    <!--Main layout-->
+    <main>
+
+            {% block body %}
+                {% block include_javascripts %}{% endblock %}
+                {% block include_javascripts_datepicker_message %}
+
+                {% endblock %}
+            {% endblock %}
+
+
+        <div id="chat" class="floating-chat ">
+            <i class="fa fa-question" rel="tooltip" title="Help Center" style="font-size: 40px" aria-hidden="true"></i>
+
+            <div class="chat">
+                <div class="header">
+            <span class="title">
+                {{ "CHAT_MESAGE" | trans }}
+            </span>
+                    <button>
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </button>
+
+                </div>
+                <ul class="messages">
+
+                    <li class="self"> {{ "CHAT_MESAGE_1" | trans }} <a href="mailto:experience@mycasaparticular.com">experience@mycasaparticular.com</a> </li>
+
+                </ul>
+                <div class="footer" style="display: none">
+                    <div class="text-boxx" contenteditable="true" disabled="true"></div>
+                    <button id="sendMessage">send</button>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!--Main layout-->
+    {% block footer_big %}{% endblock %}
+
+    {% block go_up %}
+        <hr>
+        <p class="text-center"><a title="{{ "GO_UP" | trans }}" href="#"><em class="icon-chevron-up"></em></a></p>
+    {% endblock %}
+    <!--Footer-->
+   {% include 'FrontEndBundle:new_layout:footer.html.twig' %}
+
+
+
+
+    <script type="text/javascript">
+        var today_date = "{{ "now"|date("d/m/Y") }}";
+        var showMarquesina = false;
+        {% block marquesina_js %}
+        showMarquesina = true;
+        {% endblock %}
+    </script>
+    <script type="text/javascript">
+        var today_date = "{{ "now"|date("d/m/Y") }}";
+    </script>
+
+    <script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
+
+
+    {% if app.session.get('search_guests') != null and app.session.get('search_guests') == "0" %}
+        {{ app.session.set('search_guests', 1) }}
+    {% endif %}
+    {% if app.session.get('search_rooms') != null and app.session.get('search_rooms') == "0" %}
+        {{ app.session.set('search_rooms', 1) }}
+    {% endif %}
+
+    <script>
+        var start_date = "{{ (isDateTime(app.session.get('search_arrival_date')) ) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now"|date("d/m/Y")) }}";
+        var end_date = "{{ (isDateTime(app.session.get('search_departure_date')) ) ? (app.session.get('search_departure_date')|date("d/m/Y")) : "+2 days" |date("d/m/Y") }}";
+    </script>
+
+    {% javascripts
+        '@FrontEndBundle/Resources/public/js/plugins/labs/LAB.min.js'
+        filter='?uglifyjs2' %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    <script>
+        var rsheight;
+        {% javascripts
+            '@FrontEndBundle/Resources/public/js/jquery-3.1.1.min.js'
+
+            filter='?uglifyjs2' %}
+        $LAB.script('{{ asset_url }}')
+        {% endjavascripts %}
+
+        {% javascripts
+
+            '@FrontEndBundle/Resources/public/js/theme/popper.min.js'
+            '@FrontEndBundle/Resources/public/js/theme/bootstrap.min.js'
+            '@FrontEndBundle/Resources/public/js/theme/mdb.min.js'
+            '@FrontEndBundle/Resources/public/js/jquery-migrate-3.0.0.min.js'
+            '@FrontEndBundle/Resources/public/js/bootstrap-datepicker.js'
+            '@FrontEndBundle/Resources/public/js/bootstrap-datepicker.es.js'
+            '@FrontEndBundle/Resources/public/js/bootstrap-datepicker.de.js'
+            '@FrontEndBundle/Resources/public/js/plugins/bootstrap-select/bootstrap-select.min.js'
+            '@FrontEndBundle/Resources/public/js/jquery.bttrlazyloading.min.js'
+            '@LayoutBundle/Resources/public/js/plugins/slimscroll/jquery.slimscroll.js'
+            '@FrontEndBundle/Resources/public/js/typeahead.js'
+            '@LayoutBundle/Resources/public/js/bootstrap-submenu.js'
+            '@FrontEndBundle/Resources/public/js/toastr-master/build/toastr.min.js'
+            '@FrontEndBundle/Resources/public/js/toastr-master/abuc-toastr.js'
+            '@FrontEndBundle/Resources/public/js/carousel-master/jquery.min.js'
+            '@FrontEndBundle/Resources/public/js/carousel-master/jquery.mobile.customized.min.js'
+            '@FrontEndBundle/Resources/public/js/carousel-master/jquery.easing.1.3.js'
+            '@FrontEndBundle/Resources/public/js/carousel-master/camera.min.js'
+            '@FrontEndBundle/Resources/public/js/jquery.ui.map.js'
+            '@FrontEndBundle/Resources/public/js/jquery.ui.map.infobox.js'
+            '@FrontEndBundle/Resources/public/js/jquery.ui.map.markerclusterer.js'
+            '@FrontEndBundle/Resources/public/js/infobox.js'
+            '@FrontEndBundle/Resources/public/js/plugins/gmap3.min.js'
+            '@FrontEndBundle/Resources/public/js/jquery.royalslider.min.js'
+            '@FrontEndBundle/Resources/public/js/rs-plugin/js/jquery.themepunch.tools.min.js'
+            '@FrontEndBundle/Resources/public/js/rs-plugin/js/jquery.themepunch.revolution.min.js'
+            '@FrontEndBundle/Resources/public/js/bootstrap-slider.js'
+            '@FrontEndBundle/Resources/public/js/plugins/iCheck/icheck.min.js'
+            '@FrontEndBundle/Resources/public/js/plugins/navbar-scroll-fixed.js'
+            '@LayoutBundle/Resources/public/js/plugins/sweetalert/sweetalert.min.js'
+            '@LayoutBundle/Resources/public/js/plugins/toastr/toastr.min.js'
+            '@LayoutBundle/Resources/public/js/plugins/toastr/toastr-hds.js'
+            '@FrontEndBundle/Resources/public/js/plugins/ionRangeSlider/ion.rangeSlider.min.js'
+            '@FrontEndBundle/Resources/public/js/destinations.js'
+            '@FrontEndBundle/Resources/public/js/ownership.min.js'
+            '@FrontEndBundle/Resources/public/js/custom.js'
+            '@LayoutBundle/Resources/public/js/chat.js'
+            '@FrontEndBundle/Resources/public/js/respond.min.js'
+            '@FrontEndBundle/Resources/public/js/base.twig.js'
+
+            filter='?uglifyjs2' %}
+            .script('{{ asset_url }}')
+            {% endjavascripts %}
+
+            {% block other_load_js %}{% endblock %}
+
+            .wait(function () {
+                rsheight = jQuery(window).height() - (jQuery(".marquesina").height() + jQuery("#top-menu").height() + 67);
+                $("#full-width-slider").css("min-height", rsheight + "px");
+
+                jQuery(document).ready(function () {
+                    BaseTwigJs.init();
+
+                    (typeof initJSTwig === 'function') ? initJSTwig() : console.log("No existe Init");
+
+                    console.log("Termino!!!");
+                    if ($('.bttrlazyloading').length > 0) {
+                        $('.bttrlazyloading').each(function () {
+                            $("#" + $(this).attr("id")).bttrlazyloading();
+                        });
+                    }
+                    var $CHANGED_LANGUAGE = $('a.change_language');
+                    $CHANGED_LANGUAGE.click(function (event) {
+                        event.preventDefault();
+                        var url = $(this).data('url');
+                        var $ajax = $.ajax({
+                            url: url,
+                            type: 'POST'
+                        });
+                        $ajax.error(function (data) {
+                            console.log(data);
+                        });
+                        $ajax.success(function (data) {
+                            window.location.assign(data);
+
+                        });
+                    });
+
+                });
+
+            });
+
+    </script>
+
+    <!-- Google Analytics -->
+    {#{% include "GoogleBundle:Analytics:async_universal.html.twig" %}#}
+    {#{% include "GoogleBundle:Adwords:track.html.twig" %}#}
+
+
+    <!-- Facebook Pixel Code -->
+
+    <script>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return;
+            n = f.fbq = function () {
+                n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n;
+            n.push = n;
+            n.loaded = !0;
+            n.version = '2.0';
+            n.queue = [];
+            t = b.createElement(e);
+            t.async = !0;
+            t.src = v;
+            s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window,
+            document, 'script', '//connect.facebook.net/en_US/fbevents.js');
+
+        fbq('init', '1240648305949371');
+        fbq('track', "PageView");</script>
+    <noscript><img height="1" width="1" style="display:none"
+                   src="https://www.facebook.com/tr?id=1240648305949371&ev=PageView&noscript=1"
+                   alt="{{ "Facebook" | trans }}"/></noscript>
+    <!-- End Facebook Pixel Code -->
+
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src =
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-NQDW23K');</script>
+    <!-- End Google Tag Manager -->
+
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NQDW23K"
+                height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    {% block javascripts %}{% endblock javascripts %}
+
+    </body>
+    </html>
+{% endspaceless %}

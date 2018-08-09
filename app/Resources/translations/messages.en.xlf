@@ -4462,8 +4462,7 @@
                     Generally the Hosts are eager to rent for short or
                     long periods. Many would accept groups, families, while others can only lodge a
                     couple. Most of the rentals offer complimentary services such as breakfast,
-                    dinner, laundry, etc…“Casas
-                    Particulares” generally also offer other services such as breakfast and dinner.
+                    dinner, laundry, etc…“
                 </target>
             </trans-unit>
             <trans-unit id="4824">
@@ -4538,17 +4537,41 @@
                 <target>Hi</target>
             </trans-unit>
             <trans-unit id="4840">
+                            <source>MyCasaparticular</source>
+                            <target>MyCasaparticular</target>
+
+            </trans-unit>
+            <trans-unit id="4841">
                                <source>BANNER_INFO</source>
                                      <target>
                 Save up to 15% per reservation from 2 nights on.
                                      </target>
                 </trans-unit>
-                <trans-unit id="4841">
-                   <source>INCLUDE_BREAKFAST</source>
-                         <target>
+     <trans-unit id="4842">
+       <source>INCLUDE_BREAKFAST</source>
+        <target>
     Breakfast Included
-                         </target>
+        </target>
     </trans-unit>
+     <trans-unit id="4843">
+                           <source>INMIDIATE_BOOKING_DESC</source>
+           <target>
+        The accommodations in the category of immediate booking allow you to make the payment instantly for the reservation you have made.
+             </target>
+            </trans-unit>
+                  <trans-unit id="4844">
+                                   <source>PREPAYMENT_DESC</source>
+                  <target>
+                To make the payment of your reservation, you can use any of our payment methods to make your transfer.
+                           </target>
+                    </trans-unit>
+                    <trans-unit id="4845">
+                 <source>VOUCHER_DESC</source>
+                     <target>
+               Once you have made the payment, we will send you a Voucher with all the details regarding your accommodation and the services you have booked.
+               </target>
+
+                    </trans-unit>
         </body>
     </file>
 </xliff>

@@ -1,4 +1,4 @@
-{% extends 'FrontEndBundle:layout:base.html.twig' %}
+{% extends 'FrontEndBundle:new_layout:base_filters.html.twig' %}
 {% block include_javascripts_and_css %}
     {% stylesheets
     '@FrontEndBundle/Resources/public/css/plugins/ionRangeSlider/ion.rangeSlider.css'
@@ -42,15 +42,7 @@
     {{"SEARCH_DESCRIPTION_MAIN_MENU" | trans}}
 {% endblock %}
 {% block marquesina %}{% endblock %}
-{% block custom_menus %}
-    <div id="top-menu-cont" style="height: 52px; margin: 0; background: #86b32b;">
-        <nav id="top-menu" class="navbar navbar-inverse bg-gradient-blue" style="{% if is_home is defined %}border-bottom: solid #98CD34 7px;{% endif %}">
-            <div class="container">
-                {% include 'FrontEndBundle:utils:searchTopNav.html.twig' with { 'route': app.request.get('_route'), 'routeParams': app.request.get('_route_params')|json_encode|url_encode } %}
-            </div>
-        </nav>
-    </div>
-{% endblock %}
+
 {% block class_breadcrumbs %}{% endblock %}
 {% block breadcrumbs %}{% endblock %}
 {% block body %}
@@ -88,8 +80,31 @@
             </div>
 
             <div class="col-sm-12">
-                <div class="modal inmodal fade" id="myModalOwnerShipCalendar" tabindex="-1" role="dialog"  aria-hidden="true"></div>
-                <div class="houses-list thumbs-houses lazy-cont result_list ownerships_mosaic" id="div_result" data-current-page="{{ current_page }}" data-cant-page="{{ cant_pages }}">
+                <div class="modal fade" id="myModalOwnerShipCalendar"  tabindex="-1" role="dialog"  aria-hidden="true" role="dialog" >
+                    <div class="modal-dialog modal-lg "  role="document" style="width: auto">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" >{{ 'RESERVATION_RESERVE' | trans }}</h5>
+
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                {#<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>#}
+                                {#<h4 class="modal-title">{{ 'RESERVATION_RESERVE' | trans }}</h4>#}
+                                {#<small class="font-bold">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>#}
+                            </div>
+                            <div class="modal-body">
+
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'CANCEL' | trans }}</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="houses-list thumbs-houses lazy-cont result_list ownerships_mosaic" id="div_result" data-current-page="{{ current_page }}" data-cant-page="{{ cant_pages }}" style="height: 400px;">
 
                     {#{{ include('FrontEndBundle:ownership:searchMosaicOwnershipv2.html.twig',#}
                     {#{'list': list,#}
@@ -110,7 +125,33 @@
                     iconBase: 'fa',
                     tickIcon: 'fa-check'
                 });
+                $('#cancel-filters').on('click', function () {
+                    $('#button_research').removeClass('hide');
+                    $('#more_filters').addClass('collapsed');
+                });
+                $('#more_filters').on('click', function () {
+                    if ($('#more_filters').hasClass('collapsed')) {
+                        $('#button_research').addClass('hide');
+                        $('#more_filters').removeClass('collapsed');
 
+
+                        var full_height = $(window).height() - ($("#search-container").offset().top + $(".filters-container").height() + 20);
+                        var scroll_h = full_height - 100;
+
+                        $('#collapseFilters .thumbnail').css("height", full_height + "px");
+
+                        $('#collapseFilters .thumbnail .content-filter').slimScroll({
+                            height: scroll_h + 'px',
+                            start: 'top'
+                        });
+
+
+                    }
+                    else {
+                        $('#button_research').removeClass('hide');
+                        $('#more_filters').addClass('collapsed');
+                    }
+                });
                 var h = $(window).height() - 24 - $('#top-menu-cont').height()-$('.filters-container').height();
                 $(".destination-bar-title").css("height", $('.filters-container').height() + 14 +"px");
 
@@ -130,7 +171,7 @@
 
                 var h1 = $('#search-container').height() - $(".destination-bar-title.fmap").height();
 
-                $('#search_map').css('height',h1+'px');
+                // $('#search_map').css('height',h1+'px');
 
 
                 $('[data-submenu]').submenupicker();
@@ -161,7 +202,7 @@
         {{ include('FrontEndBundle:script:script.html.twig') }}
     {% endblock %}
 {% endblock %}
-{% block go_up %}
-    <div class="show-more-footer text-center"><a title="{{"FOOTER" | trans }}" href="#"><i class="ion-more"></i></a></div>
-{% endblock %}
+{#{% block go_up %}#}
+    {#<div class="show-more-footer text-center"><a title="{{"FOOTER" | trans }}" href="#"><i class="ion-more"></i></a></div>#}
+{#{% endblock %}#}
 {% block forsearch %}{{ 'footer-static' }}{% endblock %}

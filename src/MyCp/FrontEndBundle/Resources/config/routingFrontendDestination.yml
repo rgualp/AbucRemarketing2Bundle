@@ -14,6 +14,10 @@ frontend_details_destination:
     locales:  { en: "/destinations/{destination_name}", es: "/destinos/{destination_name}", de: "/reiseziele/{destination_name}", fr: "/destinations/{destination_name}", it: "/destinazioni/{destination_name}" }
     defaults: { _controller: FrontEndBundle:Destination:details }
 
+frontend_details_destination_search:
+    locales:  { en: "/search/destinations/{destination_name}", es: "/destinos/{destination_name}", de: "/reiseziele/{destination_name}", fr: "/destinations/{destination_name}", it: "/destinazioni/{destination_name}" }
+    defaults: { _controller: FrontEndBundle:Destination:search }
+
 frontend_filter_destination:
     locales:  { en: "/filter-destinations/", es: "/filtrar-destinos/", de: "/filter-destinations/", fr: "/filter-destinations/", it: "/filter-destinations/" }
     defaults: { _controller: FrontEndBundle:Destination:filter }

@@ -1,81 +1,114 @@
-{% extends 'FrontEndBundle:layout:base.html.twig' %}
-
-{% set desName = (destination.desName | trans) %}
-
-{% block title %}
-    {{ 'DESTINATION_DETAILS' | trans ({'%destinationName%': desName}) }}
-{% endblock %}
-
-{% set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_DESTINATIONS') %}
-{% set lang_code=app.session.get('app_lang_code')|lower %}
-{% block metas %}
-    {{ get_metas('Destino ' ~ destination.desName, lang_code)|raw }}
-    {#{%if keyword_description != "" and keyword != ""%}
-    <meta name="description" content="{{keyword_description}}">
-    <meta name="keywords" content="{{keyword}}">
-    {%else%}
-    {{parent()}}
-    {%endif%}#}
-{% endblock %}
+{% extends 'FrontEndBundle:new_layout:base_filters.html.twig' %}
 
 {% block include_javascripts_and_css %}
-    <link href="{{ asset('bundles/frontend/css/filtersv2.css') }}" rel="stylesheet">
+    {% stylesheets
+        '@FrontEndBundle/Resources/public/js/plugins/bootstrap-select/bootstrap-select.min.css'
+
+        '@FrontEndBundle/Resources/public/css/filtersv2.css'
+        filter='?uglifycss'
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+    <style>
+    </style>
+{% endblock %}
+{% block other_load_js %}
 
 {% endblock %}
+
+{% set desName = destination_name %}
+{% block title %}
+    {% if get_tagvalue_bytag('Destino ' ~ destination.desName, lang_code, 'title') == false %}
+        {{ 'DESTINATION_DETAILS' | trans ({'%destinationName%': desName}) }}
+    {% else %}
+        {{ get_tagvalue_bytag('Destino ' ~ destination.desName, lang_code, 'title')|raw }}
+    {% endif %}
+{% endblock %}
+
+
+{% set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_DESTINATIONS') %}
+
+ {% block metas %}
+     {{ get_metas('Destino ' ~ destination.desName, lang_code)|raw }}
+ {% endblock metas %}
+
 {% set main_tab = 2 %}
-{% block breadcrumbs %}
-    <a href="{{ path('frontend-welcome') }}" title="{{ "HOMEPAGE_TITLE" | trans }}">{{ "HOME_MAIN_MENU" | trans }}</a>
-    <span>››</span>
-    <a href="{{ path('frontend_list_destinations') }}" title="{{ "DESTINATIONS" | trans }}">{{ "DESTINATIONS" | trans }}</a>
-    <span>››</span>
-    <a href="#" class="active" title="{{ destination.desname }}">{{ destination.desname }}</a>
+{% block content_nav_top_body %}
+    {{"SEARCH_DESCRIPTION_MAIN_MENU" | trans}}
 {% endblock %}
+{% block marquesina %}{% endblock %}
+
+{% block class_breadcrumbs %}{% endblock %}
+{% block breadcrumbs %}{% endblock %}
 {% block body %}
-    <div class="container cont-form" style="margin-top: -20px">
-        <div id="main-search-2">
-            {{ render(controller('FrontEndBundle:Ownership:orangeSearchBar')) }}
-        </div>
-    </div>
+
+
     <div class="container">
-        <div>&nbsp;</div>
+        <div id="main-search " class="d-none">
+            {{ render(controller('FrontEndBundle:Ownership:orangeSearchBar')) }}
+
+        </div>
         <div class="row">
-            {% if gallery_photos | length %}
-                <div class="col-sm-12">
-                    <div id="shadow_bottom" style="position: absolute; left: 15px; right: 30px; height: 0; bottom: 0; z-index: 23;
-            -webkit-transition: all 0.6s ease;
-             transition: all 0.6s ease;
-            background: rgba(0,0,0,0);
-            background: -moz-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);
-            background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(0,0,0,0)), color-stop(100%, rgba(0,0,0,1)));
-            background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);
-            background: -o-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);
-            background: -ms-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);
-            background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);
-            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#000000', GradientType=0 );
-            "></div>
-                    <div id="description_cont" style="
-            background-color: #000000; position: absolute; z-index: 22; top: 0; left: 15px; right: 15px;
-            padding: 8px 60px 30px;
-            background: #333333;
-            background: rgba(0, 0, 0, 0.5);
-             color: #ffffff; overflow: hidden;
-             height: 54px;
-             -webkit-transition: all 0.6s ease;
-             transition: all 0.6s ease;
-            ">
-                        <div class="row">
-                            <div class="col-xs-5"><h1 class="caecilia-roman no-margin h-size-2">{{ desName }}</h1></div>
-                            <div class="col-xs-1 text-center"><em id="description_arrow" class="icon-chevron-down" style="margin-top: 10px; cursor: pointer;display:block"></em></div>
+        <div class="col-md-6 mb-1">
+
+            <!--Carousel Wrapper-->
+            <div id="carousel-example-1z" class="carousel slide carousel-fade" data-ride="carousel">
+                <!--Indicators-->
+                <ol class="carousel-indicators">
+                    {% for photo in  gallery_photos %}
+                        <li data-target="#carousel-example-1z" data-slide-to="{{ loop.index }}" class="{% if loop.index==1 %}active{% endif %}"></li>
+                    {% endfor %}
+
+                </ol>
+                <!--/.Indicators-->
+                <!--Slides-->
+                <div class="carousel-inner" role="listbox">
+                    <!--First slide-->
+                    {% for photo in  gallery_photos %}
+                        <div class="carousel-item {% if loop.index==1 %}active{% endif %}">
+                            <img class="d-block w-100 h-100" src="{{  asset('uploads/destinationImages/'~photo) }}" alt="{{ loop.index }} slide">
                         </div>
-
-                        <p style="margin: 20px 0; font-size: 14px; line-height: 24px; ">{{ description | raw }}</p>
-                    </div>
-                    <div id="full-width-slider" class="royalSlider rsDefault">
+                    {% endfor %}
 
 
-                    </div>
                 </div>
-            {% endif %}
+                <!--/.Slides-->
+                <!--Controls-->
+                <a class="carousel-control-prev" href="#carousel-example-1z" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carousel-example-1z" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+                <!--/.Controls-->
+            </div>
+            <!--/.Carousel Wrapper-->
+
+
+        </div>
+        <div class="col-md-6 mb-1" style="background-image: url({{ asset('bundles/frontend/img/background2.jpg') }}); visibility: visible; animation-name: fadeIn;">
+
+            <!-- Content -->
+            <div class="card-body text-white ">
+
+                <h1 class="mb-4">
+                    <strong>{{ desName }}</strong>
+                </h1>
+
+                <div class="mb-4 scroll">
+                    <strong>{{ description | raw }}</strong>
+                </div>
+                <div class="text-center">
+                <a rel="nofollow" href="{{ path('frontend_search_ownership',{'text':desName|urlNormalize})}}"  class="btn btn-outline-white btn-lg waves-effect waves-light">
+
+                    <i class="fa fa-search ml-2"> {{ 'KEEP_SEARCHING'|trans }}</i>
+                </a>
+                </div>
+            </div>
+            <!-- Content -->
+        </div>
         </div>
         <br/>
 
@@ -143,7 +176,7 @@
                         <div class="accordion-body collapse" id="collapseFour">
                             <div class="accordion-inner">
                                 {% for province in provinces %}
-                                    <a href="{{ path('frontend_search_ownership',{'text':provinces_for_url[province.provid], 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'}) }}">{{ province.provName }}</a><br/>
+                                    <a href="{{ path('frontend_search_ownership',{'text':provinces_for_url[province.provid]})}}">{{ province.provName }}</a><br/>
                                 {% else %}
                                     <div class="alert a alert-info">{{ "EMPTY_LIST" | trans }}</div>
                                 {% endfor %}
@@ -165,27 +198,43 @@
             <div class="col-sm-9">
                 <a name="#nearby"></a>
                 {% if owns_nearby | length %}
-                    <div id="loading" class="hidden">
-                        <div class="layer-loading"></div>
-                        <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}" title="{{ "Loading" | trans }}" alt="{{ "Loading" | trans }}"/></div>
-                    </div>
+
                     <div class="bg-solid-blue-bar" style="margin-top: 0">
                         <div class="row">
-                            <div class="col-xs-8">
-                                <h1 class="h-white caecilia-roman">
-                                    {{ 'WHERE_RENT_IN_DESTINATION' | trans ({'%destinationName%': desName}) }}
-                                </h1>
+                            <div class="col text-center">
+                                <h2 class="text-white caecilia-roman">
+                                    {{ 'NEARBY_HOUSES_DETAILS' | trans }}
+                                </h2>
                             </div>
-                            <div class="col-xs-4 text-right">
 
-                                {#<a id="change_view_to_list" href="#nearby" data-url="{{path('frontend_change_view_destination_callback', {'destination_name':desName,'destination_id': destination.desId})}}" rel="tooltip" data-placement="top" title="{{'LIST_VIEW' | trans}}"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon three-lines2-icon"></a>#}
-                                <a id="change_view_to_photo" href="#nearby" data-url="{{ path('frontend_change_view_destination_callback', {'destination_name':desName,'destination_id': destination.desId}) }}" rel="tooltip" data-placement="top" title="{{ 'MOISAIC_VIEW' | trans }}"><img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon cam-icon" title="Mycasaparticular" alt="{{ "Mycasaparticular" | trans }}"></a>
-                                <a id="change_view_to_map" href="#nearby" data-url="{{ path('frontend_change_view_destination_callback', {'destination_name':desName,'destination_id': destination.desId}) }}" rel="tooltip" data-placement="top" title="{{ 'MAP_VIEW' | trans }}"><img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon point-icon" title="Mycasaparticular" alt="{{ "Mycasaparticular" | trans }}"></a>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="myModalOwnerShipCalendar"  tabindex="-1" role="dialog"  aria-hidden="true" role="dialog" >
+                        <div class="modal-dialog modal-lg "  role="document" style="width: auto">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" >{{ 'RESERVATION_RESERVE' | trans }}</h5>
 
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    {#<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>#}
+                                    {#<h4 class="modal-title">{{ 'RESERVATION_RESERVE' | trans }}</h4>#}
+                                    {#<small class="font-bold">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>#}
+                                </div>
+                                <div class="modal-body">
+
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'CANCEL' | trans }}</button>
+
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div id="near_houses_container" class="houses-list" data-url="{{ path('frontend_nearby_destination',{'destination_name': destination.desname | lower | replace(" ", "-"),'destination_id': destination.desid }) }}">
+
+                    <div id="near_houses_container" class="houses-list scroll" data-url="{{ path('frontend_nearby_destination',{'destination_name': destination.desname | lower | replace(" ", "-"),'destination_id': destination.desid }) }}">
                         {{ include('FrontEndBundle:destination:detailsOwnsNearByDestination.html.twig',
                         {'owns_nearby': owns_nearby,
                             'destination_name': destination.desname | lower | replace(" ", "-"),
@@ -196,65 +245,27 @@
             </div>
         </div>
         <br/>
-        {{ render(controller('FrontEndBundle:Public:homeCarrousel')) }}
+
+
     </div>
     {% block include_javascripts %}
-        <script type="text/javascript">
-            status = 0;
-            $("#description_arrow").click(function () {
-                layer_cont = $("#description_cont");
-                shadow = $("#shadow_bottom");
-                chevron = $("#description_arrow");
-                if (status == 0) {
-                    layer_cont.css('height', '100%');
-                    layer_cont.css('overflowY', 'scroll');
-                    shadow.css('height', '110px');
-                    chevron.attr('class', 'icon-chevron-up')
-                    status = 1;
-                }
-                else {
-                    layer_cont.css('height', '54px');
-                    layer_cont.css('overflowY', 'hidden');
-                    shadow.css('height', '0');
-                    chevron.attr('class', 'icon-chevron-down')
-                    status = 0;
+        <script>
 
-                }
 
-            });
+            function initJSTwig() {
+
+
+                $('.scroll').slimScroll({
+                    height: 400+'px',
+                    start: 'top',
+                    allowPageScroll: true
+                })
+
+
+
+
+            }
         </script>
-        <script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
-        <script type="text/javascript">
-            jQuery(document).ready(function ($) {
-                $('#full-width-slider').royalSlider({
-                    numImagesToPreload: 5,
-                    arrowsNav: true,
-                    loop: false,
-                    keyboardNavEnabled: true,
-                    imageScaleMode: 'fill',
-                    arrowsNavAutoHide: false,
-                    autoScaleSlider: true,
-                    autoScaleSliderWidth: 916,
-                    autoScaleSliderHeight: 311,
-                    controlNavigation: false,
-                    thumbsFitInViewport: false,
-                    navigateByClick: true,
-                    startSlideId: 0,
-                    autoPlay: false,
-                    transitionType: 'move',
-                    globalCaption: false,
-                    deeplinking: {
-                        enabled: true,
-                        change: false
-                    }
-                });
-
-                {% for photo in  gallery_photos%}
-                var slider = $("#full-width-slider").data('royalSlider');
-                var img = "{{asset('uploads/destinationImages/'~photo)}}";
-                slider.appendSlide('<img class="rsImg" src="' + img + '" alt="" />');
-                {%endfor%}
-            });
-        </script>
+        {{ include('FrontEndBundle:script:script.html.twig') }}
     {% endblock %}
 {% endblock %}

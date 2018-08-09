@@ -21,20 +21,20 @@ function startD() {
     //     }
     // });
     
-    initialize_map();
-    $('#change_view_to_list').click(change_view_to_list);
-    $('#change_view_to_photo').click(change_view_to_photo);
-    $('#change_view_to_map').click(change_view_to_map);
-
-    $('.details_items_per_page').click(function()
-    {
-       $('.blue_nav_tools li.active').removeClass('active');
-       $(this).addClass('active'); 
-       var show_rows = $(this).attr('data-content-value');
-       $('#items_per_page').html(show_rows);
-       
-       visualize_rows(show_rows);
-    });
+    // initialize_map();
+    // $('#change_view_to_list').click(change_view_to_list);
+    // $('#change_view_to_photo').click(change_view_to_photo);
+    // $('#change_view_to_map').click(change_view_to_map);
+    //
+    // $('.details_items_per_page').click(function()
+    // {
+    //    $('.blue_nav_tools li.active').removeClass('active');
+    //    $(this).addClass('active');
+    //    var show_rows = $(this).attr('data-content-value');
+    //    $('#items_per_page').html(show_rows);
+    //
+    //    visualize_rows(show_rows);
+    // });
     
     //$('.top_rated_tools .paginator-cont a').click(do_paginate);
 }

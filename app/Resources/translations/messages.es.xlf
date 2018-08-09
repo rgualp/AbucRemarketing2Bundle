@@ -4549,6 +4549,53 @@
                          </target>
     </trans-unit>
 
+
+                <trans-unit id="4842">
+                                        <source>CAROUSER_TEXT1</source>
+                                    <target>
+                    MyCasaParticular está consciente del impacto social y económico que representa cada visita de un turista a un alojamiento privado. Miles de familias cubanas se benefician de esta manera además de crear puestos de trabajos. El equipo de MyCasaParticular no conoce un método mejor de ayudar al pueblo de Cuba, practicar un turismo equitativo, responsable y de respeto a la naturaleza.</target>
+                                </trans-unit>
+                                    <trans-unit id="4843">
+                             <source>CASA_PARTICULAR_TITLE</source>
+                          <target>
+                       ¿Qué es una casa particular?
+                        </target>
+                                                </trans-unit>
+              <trans-unit id="4844">
+                                   <source>CASA_PARTICULAR_TITLE_AWSER</source>
+                       <target>
+                                Casa Particular es el término que se utiliza en Cuba para denominar una casa entera,
+                                habitaciones, o un apartamento privado, perteneciente a una familia cubana en
+                                el que se ofrece el servicio de alquiler o arrendamiento a turistas.
+                                Por lo general, estos anfitriones están dispuestos a rentar por períodos breves o de
+                                larga estancia. Muchos aceptan grupos y familias, otros solo están preparados
+                                para recibir a una pareja. La mayoría ofrece otros servicios complementarios al
+                                alojamiento como desayuno, cena, lavandería, etc.
+                </target>
+               </trans-unit>
+                  <trans-unit id="4845">
+                                           <source>MyCasaparticular</source>
+                                           <target>MyCasaparticular</target>
+                                       </trans-unit>
+                 <trans-unit id="4846">
+                                            <source>INMIDIATE_BOOKING_DESC</source>
+                            <target>
+                       Las Casas en la categoría de reserva inmediata te permiten realizar el pago al momento por la reserva que has realizado.
+                                 </target>
+                             </trans-unit>
+                                   <trans-unit id="4847">
+                                                    <source>PREPAYMENT_DESC</source>
+                                   <target>
+                           Para efectuar el pago de tu reserva, puedes utilizar cualquiera de nuestras formas de pago para realizar tu transferencia.
+                                               </target>
+                                     </trans-unit>
+                                     <trans-unit id="4848">
+                                  <source>VOUCHER_DESC</source>
+                                      <target>
+                            Una vez que hayas realizado el pago, te enviamos un Voucher con todos los detalles relativos a tu alojamiento y los servicios que has reservado.
+                                    </target>
+
+                                     </trans-unit>
         </body>
     </file>
 </xliff>

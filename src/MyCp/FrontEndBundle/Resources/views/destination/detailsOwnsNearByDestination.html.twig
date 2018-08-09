@@ -1,68 +1,164 @@
 {% if owns_nearby | length %}
-    <div id="json_source" data-url="{{ path("frontend_map_markers_ownership_callback") }}"
-         data-icon-small="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_small.png') }}"
-         data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}"></div>
-    <div class="houses-list thumbs-houses lazy-cont" id="div_result">
-        {% if data_view is not defined or data_view == 'LIST' %}
-            {{ include('FrontEndBundle:ownership:ownershipArrayItemList.html.twig',
-            {'list': owns_nearby,
-                'list_preffix' : 'own_nearby',
-                'is_in_favorites_list': false,
-                'total_items': total_items
-            }) }}
-        {% else %}
-            {% if data_view == 'PHOTOS' %}
-                {{ include('FrontEndBundle:ownership:searchMosaicOwnershipv2.html.twig',
-                {'list': owns_nearby,
-                    'list_preffix': 'mosaic',
-                    'total_items': total_items,
-                    'show_paginator' : false
-                }) }}
-            {% else %}
-                {{ include('FrontEndBundle:ownership:searchMapOwnership.html.twig',
-                {'list': owns_nearby,
-                    'list_preffix': 'map',
-                    'total_items': total_items,
-                    'show_paginator' : true,
-                    'in_searcher': false,
-                    'destination_name': destination_name
-                }) }}
-            {% endif %}
-        {% endif %}
+    <style type="text/css">
+
+
+
+
+
+
+
+
+
+    </style>
+    <div class="row" style="margin:0;">
+        {% for ownership in owns_nearby %}
+            <div class="col-lg-4 col-md-10 col-md-5 mb-3">
+                <div class="card">
+
+                    <!--Card image-->
+                    <div class="thumbnail elementList view">
+                        {% set url_image = asset("uploads/ownershipImages/" ~ ownership.photo) %}
+                        {{ render(controller( 'FrontEndBundle:Ownership:getThumbnailForSearcher', { 'photo': ownership.photo, 'title': ownership.own_name} )) }}
+
+                        <a style="text-decoration: none; color: #555555;" target="_blank" href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
+                            <div class="overlay mask rgba-white-slight ">
+                                <div class="thumbnail-title  clearfix" style="height: 20% !important;padding-right: 10px;">
+                                    <p style="position: relative; float: right;">
+                                        {{ "FROM_PRICES" | trans | capitalize }}:
+                                        <span class="h-blue h-blue-2"
+                                              style="color: #0088dd; font-weight: bold;"> {{ ownership.minimum_price | price }}</span>
+                                    </p>
+                                </div>
+
+                                {% if ownership.OwnInmediateBooking2 %}
+                                    <div class="quick-ribbon" style="background-color: #ff0000">
+                                        <i class="fa fa-rocket" style="padding: 0px 5px"></i>
+                                        <span style="text-align: left;">{{ 'IMMEDIATE_BOOKING'|trans }}</span>
+                                    </div>
+
+                                {% elseif  ownership.OwnInmediateBooking %}
+                                    <div class="quick-ribbon" style="background-color: #e44f37">
+                                        <i class="fa fa-flash" style="padding: 0px 5px"></i>
+                                        <span style="text-align: left;">{{ 'quick_bookinhg'|trans }}</span>
+                                    </div>
+
+
+                                {% endif %}
+                            </div>
+                        </a>
+                    </div>
+
+                    <!--Card content-->
+                    <div class="card-body">
+                        <!--Title-->
+                        <div class="card-title" style="margin-bottom: 0">
+                            <a target="_blank"
+                               href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
+                                <h1 class="h-blue"
+                                    style="padding-bottom: 12px;">{{ ownership.own_name | title }}</h1>
+                            </a>
+                           
+                        </div>
+                        <!--Text-->
+
+                        <div class="no-margin" style="font-size: small;">
+                            <div class="row">
+                                <div class="col">
+                                    {% if ownership.category == "Premium" %}
+                                        <img rel="tooltip" title="{{ ownership.category | trans }}"
+                                             class="icon icon-3 tiny-premium-icon"
+                                             src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
+                                             style="margin-top: -5px;"
+                                             alt="{{ "Mycasaparticular" | trans }}"
+                                             title="{{ "Mycasaparticular" | trans }}"/>
+                                    {% else %}
+                                        {% if (ownership.category | lower) == ("Rango Medio" | lower) %}
+                                            <img alt="{{ "Mycasaparticular" | trans }}"
+                                                 title="{{ "Mycasaparticular" | trans }}"
+                                                 rel="tooltip" title="{{ ownership.category | trans }}"
+                                                 class="icon icon-3 tiny-middle-icon"
+                                                 src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
+                                                 style="margin-top: -5px;"/>
+                                        {% else %}
+                                            <img alt="{{ "Mycasaparticular" | trans }}"
+                                                 title="{{ "Mycasaparticular" | trans }}"
+                                                 rel="tooltip" title="{{ ownership.category | trans }}"
+                                                 class="icon icon-3 tiny-economic-icon"
+                                                 src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
+                                                 style="margin-top: -5px;"/>
+                                        {% endif %}
+                                    {% endif %}
+                                    <small>{{ ownership.category | trans }}</small>
+                                </div>
+
+                            </div>
+
+
+
+                           
+                            <p style="margin: 0;">{{ ownership.type | trans }}
+
+                                {#<script type="text/javascript">#}
+                                {#$(function () {#}
+                                {#$("img.lazyload").unveil();#}
+
+                                {#/*$('.accommodationPhoto').each(function()}#}
+                                {#var imageHeight = parseInt($(this).height());#}
+                                {#var imageWidth = parseInt($(this).width());#}
+                                {#if (imageHeight > imageWidth) }#}
+                                {#$(this).addClass('taller');#}
+                                {#}#}
+                                {#});*/#}
+
+
+                                {#});#}
+                                {#</script>#}
+                                {{ include('FrontEndBundle:script:script.html.twig') }}
+                                {{ ownership.rooms_count }} {% if ownership.rooms_count> 1 %}{{ 'ROOM_PLURAL'|trans }}{% else %}{{ 'ROOM_SINGULAR'|trans }}{% endif %}
+                            </p>
+
+                            {% if ownership.rating > 0 %}
+                                {% for i in 1..ownership.rating %}
+                                    <img class="icon icon-2 tiny-star-icon"
+                                         src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
+                                         style="margin-top: -5px;"
+                                         alt="{{ "Mycasaparticular" | trans }}"
+                                         title="{{ "Mycasaparticular" | trans }}"/>
+                                {% endfor %}
+                            {% endif %}
+
+                            {% if ownership.rating < 5 %}
+                                {% for i in 1..(5-ownership.rating) %}
+                                    <img class="icon icon-2 tiny-star-off-icon"
+                                         src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
+                                         style="margin-top: -5px;"
+                                         alt="{{ "Mycasaparticular" | trans }}"
+                                         title="{{ "Mycasaparticular" | trans }}"/>
+                                {% endfor %}
+                            {% endif %}
+                            <small>{{ ownership.comments_total }} {{ 'FORMS_COMMENTS'|trans }}</small>
+                            <div class="row-eq-height">
+                                <div class="pull-right">
+                                    {% if ownership.breakfast_include %}
+                                        <span class="favorite_action" style="margin-right: 16px;">
+                                <img class="icon icon-medium cofee-icon" style="margin-left:-8px"
+                                     src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
+                                     title="{{ "INCLUDE_BREAKFAST" | trans }}" alt="{{ "INCLUDE_BREAKFAST" | trans }}">
+                                   </span>
+                                    {% endif %}
+
+                                    {{ include('FrontEndBundle:cart:addCart.html.twig',{'idOwnership':ownership.own_id}) }}
+
+                                </div> </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+            </div>
+        {% endfor %}
     </div>
-    {% if total_items > items_per_page and data_view != 'MAP' %}
-        <div class="text-center">
 
-            {% if paginator is defined %}
-                {{ simple_paginator_render('frontend_details_destination',null,{
-                    'container_class': 'pagination',
-                    'previousPageText': '«',
-                    'nextPageText': '»',
-                    'currentClass': 'current',
-                    'firstPageText': 'FIRST_PAGE' | trans,
-                    'lastPageText': 'LAST_PAGE' | trans,
-                    'route_params': {'destination_name': destination_name},
-
-                    'firstPage': paginator['firstPage'],
-                    'previousPage':paginator['previousPage'],
-                    'minPage':paginator['minPage'],
-                    'maxPage':paginator['maxPage'],
-                    'currentPage':paginator['currentPage'],
-                    'nextPage':paginator['nextPage'],
-                    'lastPage':paginator['lastPage']
-                }) }}
-            {% else %}
-                {{ simple_paginator_render('frontend_details_destination',null,{
-                    'container_class': 'pagination',
-                    'previousPageText': '«',
-                    'nextPageText': '»',
-                    'currentClass': 'current',
-                    'firstPageText': 'FIRST_PAGE' | trans,
-                    'lastPageText': 'LAST_PAGE' | trans,
-                    'route_params': {'destination_name': destination_name}
-                }) }}
-            {% endif %}
-
-        </div>
-    {% endif %}
 {% endif %}

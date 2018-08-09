@@ -29,8 +29,9 @@
 {% block body %}
 <div class="container">
     <h1 class="caecilia-roman h-green">{{"MOST_VISITED_CITIES"|trans}}</h1>
-    <hr/>
-<div class="container lazy-cont">
+    <div><img src="{{ asset('bundles/frontend/img/line-gradient-green.png') }}" style="width: 100%; height: 1px; margin: 16px 0" alt="{{"Gradient" | trans}}"></div>
+
+    <div class="container lazy-cont">
     <div class="row result_list ownerships_list thumbs-houses" id="div_result">
    {%for item in list%}
             <div class="row">
@@ -77,21 +78,23 @@
                     </div>
                 </div>
             </div>
-            <hr/>
-{%else%}
+       <div><img src="{{ asset('bundles/frontend/img/line-gradient-green.png') }}" style="width: 100%; height: 1px; margin: 16px 0" alt="{{"Gradient" | trans}}"></div>
+
+   {%else%}
            <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
 {%endfor%}
 {%if list | length  and total_items > items_per_page%}
-            <div class="text-center">
+            <div class="text-center" style="width:100%;">
     {{ simple_paginator_render('frontend_get_with_reservations_municipality',null,{
-    'container_class': 'pagination',
+    'container_class': 'pagination pg-blue',
     'previousPageText': '«',
     'nextPageText': '»',
-    'currentClass': 'current',
+    'disableClass':'page-item disabled',
+    'currentClass': 'page-item active',
     'firstPageText': 'FIRST_PAGE' | trans,
     'lastPageText': 'LAST_PAGE' | trans,
     'route_params': null
-}) }}
+},'FrontEndBundle:new_layout:paginator.html.twig') }}
                 </div>
 {%endif%}
             </div>

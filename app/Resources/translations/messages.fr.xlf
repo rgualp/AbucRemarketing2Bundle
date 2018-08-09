@@ -4634,6 +4634,29 @@ En plus de la gestion du logement, nous vous offrons plusieurs options de <stron
     Petit Déjeuner Inclus
                          </target>
     </trans-unit>
+               <trans-unit id="4842">
+                                        <source>MyCasaparticular</source>
+                                        <target>MyCasaparticular</target>
+                                    </trans-unit>
+     <trans-unit id="4843">
+                                <source>INMIDIATE_BOOKING_DESC</source>
+                <target>
+           Les logements qui sont dans la catégorie de Réservation immédiate vous permettent  de réaliser le paiement pour la réservation faite sur l’instant.
+                      </target>
+                 </trans-unit>
+                       <trans-unit id="4844">
+                                        <source>PREPAYMENT_DESC</source>
+                       <target>
+                    Pour effectuer le paiement de votre réservation, vous pouvez utiliser nos méthodes de paiement.
+                                  </target>
+                         </trans-unit>
+                         <trans-unit id="4845">
+                      <source>VOUCHER_DESC</source>
+                          <target>
+              Une fois le paiement effectué, nous vous envoyons un voucher (confirmation) avec tous les détails de votre logement et des services réservés.
+                      </target>
+
+                         </trans-unit>
         </body>
     </file>
 </xliff>

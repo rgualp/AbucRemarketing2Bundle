@@ -27,13 +27,13 @@
 
     {% set page = app.request.query.get('page') %}
     <link rel="canonical"
-          href="{{ url("frontend_details_ownership", {'own_name':ownership.ownname|lower|replace(' ','-'), "page": page, "locale": locale}) }}"/>
+          href="{{ url("frontend_details_ownership", {'own_name':ownership.ownname| urlNormalize, "page": page, "locale": locale}) }}"/>
 
     {% for lang in allLanguages %}
-        {% if lang.langCode | lower != locale %}
+
             <link rel="alternate" hreflang="{{ langCountry[lang.langCode|lower] }}"
-                  href="{{ url("frontend_details_ownership", {'own_name':ownership.ownname|lower|replace(' ','-'), "page": page, "locale": lang.langCode | lower}) }}"/>
-        {% endif %}
+                  href="{{ url("frontend_details_ownership", {'own_name':ownership.ownname| urlNormalize, "page": page, "locale": lang.langCode | lower}) }}"/>
+      
     {% endfor %}
 
     {% set page = (page == "" or page == 0)? 1: page %}
@@ -41,15 +41,15 @@
     {% set prev = page - 1 %}
     {% if page == "" or page == 1 %}
         <link rel="next"
-              href="{{ url("frontend_details_ownership", {'own_name':ownership.ownname|lower|replace(' ','-'), "page": next}) }}"/>
+              href="{{ url("frontend_details_ownership", {'own_name':ownership.ownname| urlNormalize, "page": next}) }}"/>
     {% elseif page > 1 and page < lastPage %}
         <link rel="next"
-              href="{{ url("frontend_details_ownership", {'own_name':ownership.ownname|lower|replace(' ','-'), "page": next}) }}"/>
+              href="{{ url("frontend_details_ownership", {'own_name':ownership.ownname| urlNormalize, "page": next}) }}"/>
         <link rel="prev"
-              href="{{ url("frontend_details_ownership", {'own_name':ownership.ownname|lower|replace(' ','-'), "page": prev}) }}"/>
+              href="{{ url("frontend_details_ownership", {'own_name':ownership.ownname|urlNormalize, "page": prev}) }}"/>
     {% elseif page == lastPage %}
         <link rel="prev"
-              href="{{ url("frontend_details_ownership", {'own_name':ownership.ownname|lower|replace(' ','-'), "page": prev}) }}"/>
+              href="{{ url("frontend_details_ownership", {'own_name':ownership.ownname| urlNormalize, "page": prev}) }}"/>
     {% endif %}
 {% endblock %}
 {% block open_graph_metas %}
@@ -79,22 +79,15 @@
 
 {% block title %}{{ ownership.ownname }}{% endblock %}
 {% set main_tab = 5 %}
-{% block breadcrumbs %}
-    <a href="{{ path('frontend-welcome') }}" title="{{ "HOMEPAGE_TITLE" | trans }}">{{ "HOME_MAIN_MENU" | trans }}</a>
-    <span>››</span>
-    <a href="{{ path('frontend_search_ownership') }}" title="{{ "OWNERSHIPS" | trans }}">{{ "OWNERSHIPS" | trans }}</a>
-    <span>››</span>
-    <a href="#" class="active" title="{{ ownership.ownname }}">{{ ownership.ownname }}</a>
-{% endblock %}
+
 {% block body %}
 
     <div class="bg-solid-ligth-blue" style="margin-top: -16px">
         <div class="container">
             <div class="row">
                 <div {% if ownership.award %}class="col-lg-10"{% endif %}>
-                    <h1 class="caecilia-roman h-size-3">
-                        {{ ownership.owntype  | trans }} {{ "IN" | trans }} {{ ownership.ownAddressProvince }}
-                        : {{ ownership.ownname }} ({{ ownership.mycpcode }}).
+                    <h1 class="caecilia-roman h-size-3" style="padding-top: 20px;">
+                        {{ ownership.owntype  | trans }} {{ "IN" | trans }} {{ ownership.ownAddressProvince }}: {{ ownership.ownname }} ({{ ownership.mycpcode }}).
                         {% if rooms is defined and rooms | length %}
                             {{ rooms | length }} {% if rooms | length == 1 %} {{ "ROOM_SINGULAR" | trans }}. {% else %} {{ "ROOM_PLURAL" | trans }}. {% endif %}
                         {% endif %}
@@ -126,25 +119,25 @@
                 <div class="tabbable">
                     <ul class="nav nav-tabs">
                         {% if gallery_photos | length %}
-                            <li onclick="javascript:hide_calendar()" class="active li-tabs"><a data-toggle="tab"
+                            <li onclick="javascript:hide_calendar()" class="nav-item  li-tabs"><a style ="color:#5e95cc;" class="nav-link active" data-toggle="tab"
                                                                                                href="#tab-photos">{{ "PHOTO_TAB_DETAILS" | trans }}</a>
                             </li>
                         {% endif %}
                         {% if ownership.OwnGeolocateX != "" and ownership.OwnGeolocateY != "" %}
-                            <li onclick="javascript:hide_calendar()" {% if not gallery_photos | length %} class="active li-tabs" {% endif %}>
-                                <a id="mapTab" data-toggle="tab" href="#tab-map">{{ "MAPS_TAB_DETAILS" | trans }}</a>
+                            <li onclick="javascript:hide_calendar()" class="nav-item">
+                                <a style ="color:#5e95cc;" class="nav-link {% if not gallery_photos | length %} active li-tabs {% endif %}" id="mapTab" data-toggle="tab" href="#tab-map">{{ "MAPS_TAB_DETAILS" | trans }}</a>
                             </li>
                         {% endif %}
 
                         <li id="li-reservations"
-                            class="li-tabs {% if gallery_photos | length == 0 and ownership.OwnGeolocateX == "" and ownership.OwnGeolocateY == "" %}active{% endif %}">
-                            <a data-toggle="tab" href="#tab-reservations">{{ 'RESERVATION_TITLE' | trans }}</a></li>
+                            class="nav-item li-tabs {% if gallery_photos | length == 0 and ownership.OwnGeolocateX == "" and ownership.OwnGeolocateY == "" %}active{% endif %}">
+                            <a style ="color:#5e95cc;" class="nav-link" data-toggle="tab" href="#tab-reservations">{{ 'RESERVATION_TITLE' | trans }}</a></li>
                     </ul>
                     <div class="tab-content">
                         {% if gallery_photos | length %}
                             <div id="tab-photos" class="tab-pane active">
                                 <div id="full-width-sliders" style="margin-top: -26px;">
-                                    <div id="myCarousel" class="carousel slide">
+                                    <div id="myCarousel" class="carousel slide" style="height: 400px;">
                                         <div class="camera_wrap camera_azure_skin" id="camera_wrap_1">
                                             {% for photo in  gallery_photos %}
                                                 {% set photoOriginalPath = 'uploads/ownershipImages/originals/'~photo.photo_name %}
@@ -180,10 +173,10 @@
 
                 <div class="tabbable">
                     <ul class="nav nav-tabs">
-                        <li><a data-toggle="tab"
+                        <li class="nav-item "><a style ="color:#5e95cc;" class="nav-link active" data-toggle="tab"
                                               href="#tab-desc">{{ "DESCRIPTION_TAB_DETAILS" | trans }}</a></li>
-                        <li  class="active"><a data-toggle="tab" href="#tab-serv">{{ "SERVICES_TAB_DETAILS" | trans }}</a></li>
-                        <li><a data-toggle="tab" href="#tab-rooms">{{ "ROOMS_TAB_DETAILS" | trans }}</a></li>
+                        <li class="nav-item"><a style ="color:#5e95cc;" class="nav-link" data-toggle="tab" href="#tab-serv">{{ "SERVICES_TAB_DETAILS" | trans }}</a></li>
+                        <li class="nav-item"><a style ="color:#5e95cc;" class="nav-link" data-toggle="tab" href="#tab-rooms">{{ "ROOMS_TAB_DETAILS" | trans }}</a></li>
                     </ul>
                     <div class="tab-content">
                         <div id="tab-desc" class="tab-pane">
@@ -233,7 +226,7 @@
                                                                 title="Service"/> {{ "BREAKFAST_TAB_DESCRIPTION" | trans }}
                                                     </div>
 
-                                                    <div class="col-xs-4 text-right">
+                                                    <div class="col-md-4">
                                                         <b>
 
                                                             {% if ownership.ownFacilitiesBreakfastInclude %}
@@ -257,7 +250,7 @@
                                                                 alt="{{ "Mycasaparticular" | trans }}"
                                                                 title="{{ "Mycasaparticular" | trans }}"/> {{ "DINNER_TAB_DESCRIPTION" | trans }}
                                                     </div>
-                                                    <div class="col-xs-4 text-right"><b>
+                                                    <div class="col-md-4"><b>
                                                             {% if ownership.ownFacilitiesDinnerPriceFrom != null and ownership.ownFacilitiesDinnerPriceFrom != 0 %}
                                                                 {{ ownership.ownFacilitiesDinnerPriceFrom | price }}
                                                                 {% if ownership.ownFacilitiesDinnerPriceTo != null and ownership.ownFacilitiesDinnerPriceTo != 0 %}
@@ -277,7 +270,7 @@
                                                                 alt="{{ "Mycasaparticular" | trans }}"
                                                                 title="{{ "Mycasaparticular" | trans }}"/> {{ "PARKING_TAB_DESCRIPTION" | trans }}
                                                     </div>
-                                                    <div class="col-xs-4 text-right">
+                                                    <div class="col-md-4">
                                                         <b>
                                                             {% if ownership.ownFacilitiesParkingPrice != null and ownership.ownFacilitiesParkingPrice != 0 %}
                                                                 {{ ownership.ownFacilitiesParkingPrice | price }}
@@ -298,7 +291,7 @@
                                                                 alt="{{ "Mycasaparticular" | trans }}"
                                                                 title="{{ "Mycasaparticular" | trans }}"/> {{ "BIKE_PARKING_TAB_DESCRIPTION" | trans }}
                                                     </div>
-                                                    <div class="col-xs-4 text-right"><b>{{ "YES" | trans }}</b></div>
+                                                    <div class="col-md-4"><b>{{ "YES" | trans }}</b></div>
                                                 </div>
                                             </li>
                                         {% endif %}
@@ -324,7 +317,7 @@
                                                                 alt="{{ "Mycasaparticular" | trans }}"
                                                                 title="{{ "Mycasaparticular" | trans }}"/> {{ "LAUNDRY_TAB_DESCRIPTION" | trans }}
                                                     </div>
-                                                    <div class="col-xs-4 text-right"><b>{{ "YES" | trans }}</b></div>
+                                                    <div class="col-md-4"><b>{{ "YES" | trans }}</b></div>
                                                 </div>
                                             </li>
                                         {% endif %}
@@ -337,7 +330,7 @@
                                                                 alt="{{ "Mycasaparticular" | trans }}"
                                                                 title="{{ "Mycasaparticular" | trans }}"/> {{ "INTERNET_TAB_DESCRIPTION" | trans }}
                                                     </div>
-                                                    <div class="col-xs-4 text-right"><b>{{ "YES" | trans }}</b></div>
+                                                    <div class="col-md-4"><b>{{ "YES" | trans }}</b></div>
                                                 </div>
                                             </li>
                                         {% endif %}
@@ -350,7 +343,7 @@
                                                                 alt="{{ "Mycasaparticular" | trans }}"
                                                                 title="{{ "Mycasaparticular" | trans }}"/> {{ "JACUZEE_TAB_DESCRIPTION" | trans }}
                                                     </div>
-                                                    <div class="col-xs-4 text-right"><b>{{ "YES" | trans }}</b></div>
+                                                    <div class="col-md-4"><b>{{ "YES" | trans }}</b></div>
                                                 </div>
                                             </li>
                                         {% endif %}
@@ -363,7 +356,7 @@
                                                                 alt="{{ "Mycasaparticular" | trans }}"
                                                                 title="{{ "Mycasaparticular" | trans }}"/> {{ "SAUNA_TAB_DESCRIPTION" | trans }}
                                                     </div>
-                                                    <div class="col-xs-4 text-right"><b>{{ "YES" | trans }}</b></div>
+                                                    <div class="col-md-4"><b>{{ "YES" | trans }}</b></div>
                                                 </div>
                                             </li>
                                         {% endif %}
@@ -376,7 +369,7 @@
                                                                 alt="{{ "Mycasaparticular" | trans }}"
                                                                 title="{{ "Mycasaparticular" | trans }}"/> {{ "POOL_TAB_DESCRIPTION" | trans }}
                                                     </div>
-                                                    <div class="col-xs-4 text-right"><b>{{ "YES" | trans }}</b></div>
+                                                    <div class="col-md-4"><b>{{ "YES" | trans }}</b></div>
                                                 </div>
                                             </li>
                                         {% endif %}
@@ -681,14 +674,14 @@
                     <li class="lead"
                         {% if ownership['OwnInmediateBooking'] or ownership['OwnInmediateBooking2'] %}style="padding: 0; font-size: 18px; border: none;"{% endif %}>
                         {% if ownership['OwnInmediateBooking2'] %}
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="col-md-5" style="background-color:#ff0000; padding: 10px 0px;"
+                            <div >
+                                <div class="row" style="margin: 0;">
+                                    <div class="col" style="background-color:#ff0000; padding: 10px 0px;"
                                          rel="tooltip" title="{{ "IMMEDIATE_BOOKING" | trans }}">
-                                        <i class="fa fa-rocket white icon-padding" style="padding-right: 5px;"></i>
+                                        <i class="fa fa-rocket icon-padding" style="padding-right: 5px;"></i>
                                         <span style="text-align: left;">{{ 'IMMEDIATE_BOOKING'|trans }}</span>
                                     </div>
-                                    <div class="col-md-7">
+                                    <div class="col">
                                         <h2 class="no-margin" style="margin-top: 3px; font-size: 26px;">
                                             <small class="h-white-1">{{ "FROM_PRICES" | trans | lower }}</small>
                                             <br/> {{ promoPrice | price }}
@@ -697,14 +690,14 @@
                                 </div>
                             </div>
                         {% elseif ownership['OwnInmediateBooking'] %}
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="col-md-5" style="background-color: #e94b3d;padding: 10px 0px;"
+                            <div >
+                                <div class="row">
+                                    <div class="col" style="background-color: #e94b3d;padding: 10px 0px;"
                                          rel="tooltip" title="{{ "quick_booking_tooltip" | trans }}">
                                         <i class="glyphicons white electricity icon-padding"></i> <span
                                                 style="text-align: left;">{{ 'quick_bookinhg'|trans }}</span>
                                     </div>
-                                    <div class="col-md-7">
+                                    <div class="col">
                                         <h2 class="no-margin" style="margin-top: 3px; font-size: 26px;">
                                             <small class="h-white-1">{{ "FROM_PRICES" | trans | lower }}</small>
                                             <br/> {{ promoPrice | price }}
@@ -770,8 +763,7 @@
                     <button class="btn btn-default btn-block" style="padding: 6px 25%; text-align: left"
                             onclick="$('#send_to_friend_popup').attr('data-email-type', 'recommend_property');
                                     $('#send_to_friend_popup').attr('data-dest-prop-id', '{{ ownership.own_id }}');">
-                        <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon icon-mail"
-                             alt="{{ "Mycasaparticular" | trans }}" title="{{ "Mycasaparticular" | trans }}"/>
+                       <i class="fa fa-mail-forward"></i>
                         {{ "TELL_A_FRIEND" | trans }}
                     </button>
                 </a>
@@ -779,9 +771,7 @@
                 <div>
                     <a class="click" onclick="facebookPopup();">
                         <button class="btn btn-default btn-block" style="padding: 6px 25%; text-align: left">
-                            <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"
-                                 class="icon-services  icon-facebook" alt="{{ "Mycasaparticular" | trans }}"
-                                 title="{{ "Mycasaparticular" | trans }}"/>
+                         <i class="fa fa-facebook"></i>
                             {{ "SHARE_FACEBOOK" | trans }}
                         </button>
                     </a>
@@ -850,8 +840,7 @@
         var hasCompleteReservation = "{{ hasCompleteReservation }}";
         hasCompleteReservation = (hasCompleteReservation != "false");
 
-        var cont_array_dates
-            ={{ array_dates | length }};
+
         var today_date = "{{ "now"|date("d/m/Y") }}";
         var start_date = "{{ start_date }}";
         var end_date = "{{ end_date }}";

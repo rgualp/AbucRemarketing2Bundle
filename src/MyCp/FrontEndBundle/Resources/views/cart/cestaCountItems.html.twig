@@ -1,10 +1,10 @@
-<a title="{{"CART" | trans }}" href="{{ path('frontend_mycasatrip_available') }}"  class="count-info" style="margin-top: 10px;">
+<a style="top: 8px; color:white;display: unset;" title="{{"CART" | trans }}" href="{{ path('frontend_mycasatrip_available') }}"  class="count-info">
     <img style="width: 26px; height: 23px;" class="icon {%if count > 0%}cart-full-icon{%else%}cart-icon{%endif%}" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" title="Mycasaparticular" alt="{{"Mycasaparticular" | trans}}"/>
-    {% if is_mobile() != true %}
-        {% if search != true %}
-            {{"CART" | trans }}
-        {% endif %}
-    {% endif %}
+    {#{% if is_mobile() != true %}#}
+        {#{% if search != true %}#}
+            {#{{"CART" | trans }}#}
+        {#{% endif %}#}
+    {#{% endif %}#}
     <span class="label" id="count-cesta">  {{count}} </span>
 </a>
 {{ render(controller('FrontEndBundle:Mycasatrip:available',{'order_by':'0','flag':'1'})) }}

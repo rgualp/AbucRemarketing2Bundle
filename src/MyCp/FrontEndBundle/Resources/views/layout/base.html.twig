@@ -24,10 +24,11 @@
         {% endblock metas %}
 
         {% stylesheets
-            '@FrontEndBundle/Resources/public/css/custom.css'
+
+            '@FrontEndBundle/Resources/public/css/theme/bootstrap.min.css'
             '@FrontEndBundle/Resources/public/css/glyphicons.css'
-            '@MyCpCasaModuleBundle/Resources/public/css/animate.css'
-            '@FrontEndBundle/Resources/public/css/ionicons.css'
+            '@FrontEndBundle/Resources/public/css/theme/mdb.css'
+            '@FrontEndBundle/Resources/public/css/theme/style.css'
             '@FrontEndBundle/Resources/public/css/plugins/font-awesome/css/font-awesome.min.css'
             '@FrontEndBundle/Resources/public/css/carousel-master/camera.css'
             '@FrontEndBundle/Resources/public/js/rs-plugin/css/settings.css'
@@ -35,62 +36,45 @@
             '@FrontEndBundle/Resources/public/css/plugins/iCheck/custom.css'
             '@LayoutBundle/Resources/public/css/plugins/sweetalert/sweetalert.css'
             '@LayoutBundle/Resources/public/css/plugins/toastr/toastr.min.css'
-            '@FrontEndBundle/Resources/public/css/chat.css'
+            '@FrontEndBundle/Resources/public/css/glyphicons.css'
+            '@MyCpCasaModuleBundle/Resources/public/css/animate.css'
+            '@FrontEndBundle/Resources/public/css/ionicons.css'
             '@LayoutBundle/Resources/public/css/bootstrap-submenu.css'
             '@FrontEndBundle/Resources/public/css/economic_house.css'
             '@FrontEndBundle/Resources/public/css/premium_house.css'
+            '@FrontEndBundle/Resources/public/css/theme/mycasatrip.css'
+            '@FrontEndBundle/Resources/public/css/theme/owndetails.css'
+            '@FrontEndBundle/Resources/public/css/chat.css'
             '@LayoutBundle/Resources/public/css/chat.css'
             filter='?uglifycss' %}
             <link rel="stylesheet" href="{{ asset_url }}"/>
         {% endstylesheets %}
         <style>
-            .dropdown-submenu {
-                position: relative;
+            /* Necessary for full page carousel*/
+            html,
+            body,
+            header,
+            .view {
+                width: unset;
+                height: 100%;
             }
 
-            .dropdown-submenu > .dropdown-menu {
-                top: 0;
-                left: 100%;
-                margin-top: -6px;
-                margin-left: -1px;
-                -webkit-border-radius: 0 6px 6px 6px;
-                -moz-border-radius: 0 6px 6px 6px;
-                border-radius: 0 6px 6px 6px;
+            /* Carousel*/
+            .carousel,
+            .carousel-item,
+            .carousel-item.active {
+                height: 100%;
+            }
+            .carousel-inner {
+                height: 100%;
             }
 
-            .dropdown-submenu:hover > .dropdown-menu {
-                display: block;
+            @media (min-width: 800px) and (max-width: 850px) {
+                .navbar:not(.top-nav-collapse) {
+                    background: #1C2331!important;
+                }
             }
 
-            .dropdown-submenu > a:after {
-                display: block;
-                content: " ";
-                float: right;
-                width: 0;
-                height: 0;
-                border-color: transparent;
-                border-style: solid;
-                border-width: 5px 0 5px 5px;
-                border-left-color: #cccccc;
-                margin-top: 5px;
-                margin-right: -10px;
-            }
-
-            .dropdown-submenu:hover > a:after {
-                border-left-color: #ffffff;
-            }
-
-            .dropdown-submenu.pull-left {
-                float: none;
-            }
-
-            .dropdown-submenu.pull-left > .dropdown-menu {
-                left: -100%;
-                margin-left: 10px;
-                -webkit-border-radius: 6px 0 6px 6px;
-                -moz-border-radius: 6px 0 6px 6px;
-                border-radius: 6px 0 6px 6px;
-            }
         </style>
         {% set css_category = "" %}
         {% if ownership.category is defined and  ownership.category == 'Económica' %}
@@ -106,55 +90,16 @@
 
     <body>
     {% block marquesina %}
-        {#{{ include('FrontEndBundle:layout:marquesina.html.twig') }}#}
+
     {% endblock %}
     {% block custom_menus %}
 
-        <div class="space space-10"></div>
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-3 " id="center-cont">
-                    <a href="{{ path('frontend-welcome') }}" class="brand"  title="{{"HOMEPAGE_TITLE" | trans}}">
-                        <img src="{{ asset('bundles/frontend/img/mycp.png') }}" style="max-width: 100%" title="my casa particular" alt="my casa particular"/>
-                    </a>
-                </div>
-
-                {% if app.request.get('_route') %}
-                {{ render_esi(url('frontend_public_top_nav_control', { 'route': app.request.get('_route'), 'routeParams': app.request.get('_route_params')|json_encode|url_encode })) }}
-                {% endif %}
-            </div>
-        </div>
-        <div id="top-menu-cont" style="height: {% block nav_heigth %}{% if is_home is defined %}52px;{% else %}{% if reservation_confirm is defined %}76px{% else %}95px{% endif %}{% endif %}{% endblock %}">
-        <nav id="top-menu" class="navbar navbar-inverse bg-gradient-blue" style="{% if is_home is defined %}border-bottom: solid #98CD34 7px;{% endif %}">
-            <div class="navbar-header">
-                <button data-target=".navbar-ex1-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
-                    <span class="sr-only">Menu</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
-            <div class="container">
-                {{ include('FrontEndBundle:utils:navTopBody.html.twig') }}
-            </div>
-
-            {% if is_home is not defined %}
-                <div class="{% block class_breadcrumbs %} breadcrumb-top {% endblock %}">
-                    <div class="container">
-                        {% block breadcrumbs %}
-                            <a href="#">&nbsp;</a>
-                        {% endblock %}
-                    </div>
-                </div>
-            {% endif %}
-        </nav>
-    </div>
     {% endblock %}
     {% block big_banner %}{% endblock %}
     {% for message in app.session.flashbag.get('message_global_success') %}
         <div class="container">
             <br/>
-            <div class="alert alert-info" style="margin-bottom: 10px">
+            <div class="alert alert-info" style="margin-bottom: 10px;top: 64px;">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
                 {{ message }}
             </div>
@@ -163,188 +108,71 @@
     {% for message in app.session.flashbag.get('message_global_error') %}
         <div class="container">
             <br/>
-            <div class="alert alert-danger" style="margin-bottom: 10px">
+            <div class="alert alert-danger" style="margin-bottom: 10px;top: 64px;">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
                 {{ message }}
             </div>
         </div>
     {% endfor %}
-    <div class="{{ css_category }}">
-        {% block body %}
-            {% block include_javascripts %}{% endblock %}
-            {% block include_javascripts_datepicker_message %}
 
+    <!-- Navbar -->
+    {% block navbar %}
+        {% include 'FrontEndBundle:new_layout:navbar_fixed.html.twig' %}
+    {% endblock navbar %}
+    <!-- Navbar -->
+    <!-- data-ride="carousel" -->
+    <!--Carousel Wrapper-->
+    {% block carousel %}
+        <!--/.Carousel Wrapper-->
+    {% endblock carousel %}
+    <!--Main layout-->
+    <main>
+
+        <div class="container-fluid {{ css_category }}" style=" margin-top: 8%;">
+            {% block body %}
+                {% block include_javascripts %}{% endblock %}
+                {% block include_javascripts_datepicker_message %}
+
+                {% endblock %}
             {% endblock %}
-        {% endblock %}
-    </div>
+        </div>
 
+        <div id="chat" class="floating-chat">
+            <i class="fa fa-question" rel="tooltip" title="Help Center" style="font-size: 40px" aria-hidden="true"></i>
+
+            <div class="chat">
+                <div class="header">
+            <span class="title">
+                {{ "CHAT_MESAGE" | trans }}
+            </span>
+                    <button>
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </button>
+
+                </div>
+                <ul class="messages">
+
+                    <li class="self"> {{ "CHAT_MESAGE_1" | trans }} <a href="mailto:experience@mycasaparticular.com">experience@mycasaparticular.com</a> </li>
+
+                </ul>
+                <div class="footer" style="display: none">
+                    <div class="text-boxx" contenteditable="true" disabled="true"></div>
+                    <button id="sendMessage">send</button>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!--Main layout-->
     {% block footer_big %}{% endblock %}
 
     {% block go_up %}
         <hr>
-        <p class="text-center"><a title="{{ "GO_UP" | trans }}" href="#"><em class="icon-chevron-up"></em></a></p>
+        <p class="text-center"><a title="{{ "GO_UP" | trans }}" href="#"><em class="fa fa-arrow-up"></em></a></p>
     {% endblock %}
+    <!--Footer-->
+    {% include 'FrontEndBundle:new_layout:footer.html.twig' %}
 
-    <footer class="bg-gradient-blue {% block forsearch %}{% endblock %}">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-2">
-                    <div class="footer-title">{{ "DESTINATIONS" | trans }}</div>
-                    <ul>
-                        <li><a title="My Casa Particular - {{ "TOP_DESTINATIONS" | trans }}"
-                               href="{{ path('frontend_list_destinations') }}">{{ "TOP_DESTINATIONS" | trans }}</a></li>
-                        <li><a title="My Casa Particular - {{ "MOST_VISITED_CITIES" | trans }}"
-                               href="{{ path('frontend_get_with_reservations_municipality') }}">{{ "MOST_VISITED_CITIES" | trans }}</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-xs-2">
-                    <div class="footer-title">{{ "ACCOMMODATIONS" | trans }}</div>
-                    <ul>
-                        <li><a title="My Casa Particular - {{ "TOP_RATED" | trans }}"
-                               href="{{ path('frontend_voted_best_list_ownership') }}">{{ "TOP_RATED" | trans }}</a>
-                        </li>
-                        <li><a title="My Casa Particular - {{ "Penthouse" | trans }}"
-                               href="{{ path('frontend_type_list_ownership',{'type':'penthouse' | trans}) }}">{{ "Penthouse" | trans }}</a>
-                        </li>
-                        <li><a title="My Casa Particular - {{ "Villa con piscina" | trans }}"
-                               href="{{ path('frontend_type_list_ownership',{'type':'villa-con-piscina' | trans}) }}">{{ "Villa con piscina" | trans }}</a>
-                        </li>
-                        <li><a title="My Casa Particular - {{ "Apartamento" | trans }}"
-                               href="{{ path('frontend_type_list_ownership',{'type':'apartamento' | trans}) }}">{{ "Apartamento" | trans }}</a>
-                        </li>
-                        <li><a title="My Casa Particular - {{ "Casa particular" | trans }}"
-                               href="{{ path('frontend_type_list_ownership',{'type':'casa-particular' | trans}) }}">{{ "Casa particular" | trans }}</a>
-                        </li>
-                        <li><a title="My Casa Particular - {{ "Propiedad completa" | trans }}"
-                               href="{{ path('frontend_type_list_ownership',{'type':'propiedad-completa' | trans}) }}">{{ "Propiedad completa" | trans }}</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-xs-2">
-                    <div class="footer-title">{{ "ABOUT_MYCP" | trans }}</div>
-                    <ul>
-                        <li><a title="My Casa Particular - {{ "WHO_ARE_WE" | trans }}"
-                               href="{{ path('frontend_about_us') }}">{{ "WHO_ARE_WE" | trans }}</a></li>
-                        <li><a title="My Casa Particular - {{ "CONTACT_US" | trans }}"
-                               href="{{ path('frontend_contact_user') }}">{{ "CONTACT_US" | trans }}</a></li>
-                        <li><a title="My Casa Particular - {{ "FAQ" | trans }}"
-                               href="{{ path('frontend_list_faq') }}">{{ "FAQ" | trans }}</a></li>
-                        <li><a title="My Casa Particular - {{ "LEGAL_TERMS" | trans }}"
-                               href="{{ path('frontend_legal_terms') }}">{{ "LEGAL_TERMS" | trans }}</a></li>
-                        <li><a title="My Casa Particular - {{ "SECURITY_AND_PRIVACITY" | trans }}"
-                               href="{{ path('frontend_security_privacity') }}">{{ "SECURITY_AND_PRIVACITY" | trans }}</a>
-                        </li>
-                        {#<li><a target="_blank" title="Blog MyCasaParticular"#}
-                        {#href="http://blog.mycasaparticular.com">{{ "BLOG" | trans }}</a></li>#}
-
-                    </ul>
-                </div>
-                <div class="col-xs-2">
-                    <div class="col-xs-13">
-                        <div class="footer-title">{{ "SITE_MAP" | trans }}</div>
-                        <ul>
-                            <li><a title="My Casa Particular - {{ "SITE_MAP" | trans }}"
-                                   href="{{ path ('frontend_sitemap_information') }}">{{ "SITE_MAP" | trans }}</a></li>
-                        </ul>
-                    </div>
-
-                </div>
-
-                <div class="col-xs-2">
-                    <div class="col-xs-12">
-                        <div class="footer-title" style="margin-bottom: 5px;">{{ "HOUSE_QUESTION" | trans }}</div>
-                        <ul>
-                            <li style="font-size: 13px; margin-bottom: 5px;"><a
-                                        href="{{ path('frontend_mycasarenta_index') }}">{{ 'MYCASA_RENTA_APP'|trans }}</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-xs-12">
-                        <div class="footer-title" style="margin-bottom: 5px;">{{ "find_reservations" | trans }}</div>
-                        <ul>
-                            <li style="font-size: 13px; margin-bottom: 5px;"><a
-                                        href="{{ path('frontend_mycasatrip_apps') }}">{{ 'MyCasa Trip APP' | upper }}</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-xs-12">
-                        <div class="footer-title" style="margin-bottom: 5px;">{{ "find_location" | trans }}</div>
-                        <ul>
-                            <li style="font-size: 13px; margin-bottom: 5px;"><a
-                                        href="https://play.google.com/store/apps/details?id=hds.aplications.com.mycubamap">{{ 'MyCuba Map APP' | upper }}</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-xs-12">
-                        <div class="footer-title" style="margin-bottom: 5px;">{{ "find_partner" | trans }}</div>
-                        <ul>
-                            <li style="font-size: 13px; margin-bottom: 5px;"><a
-                                        href="{{ path('frontend_partner_home') }}">{{ 'hazte_partner' | trans | upper }}</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="col-xs-2 text-right">
-                    <img id="firm"
-                         src="{{ asset('bundles/frontend/img/seal_'~app.session.get('app_lang_code')|lower) }}.png"
-                         title="MyCasaParticular.com" alt="{{ "MyCasaParticular" | trans }}">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-3">
-                    <div style="margin: 0 0 10px;">
-                        <a title="{{ "HOMEPAGE_TITLE" | trans }}" href="{{ path('frontend-welcome') }}">
-                            <img title="{{ "HOMEPAGE_TITLE" | trans }}" alt="{{ "HOMEPAGE_TITLE" | trans }}"
-                                 src="{{ asset('bundles/frontend/img/mycp-grey.png') }}">
-                        </a>
-                    </div>
-                </div>
-                <div class="col-sm-4 col-md-3">
-
-                    <div id="social" class="col-sm-12  text-right">
-                        {{ include('FrontEndBundle:utils:netSocials.html.twig') }}
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-8" style="margin-bottom: 2em">
-                    <p>&copy; 2009 - {{ 'today'|date('Y') }}. <a style="font-size: 11px; color: #ffffff"
-                                                                 href="https://www.mycasaparticular.com">MyCasaParticular.com</a>.
-                        {{ "FOOTER_COPYRIGHT" | trans }}.</p>
-                </div>
-
-            </div>
-        </div>
-    </footer>
-    {{ include('FrontEndBundle:mails:sendMailPopup.html.twig') }}
-
-    <div id="chat" class="floating-chat">
-        <i class="fa fa-question" rel="tooltip" title="Help Center" style="font-size: 40px" aria-hidden="true"></i>
-
-        <div class="chat">
-            <div class="header">
-            <span class="title">
-                {{ "CHAT_MESAGE" | trans }}
-            </span>
-                <button>
-                    <i class="fa fa-times" aria-hidden="true"></i>
-                </button>
-
-            </div>
-            <ul class="messages">
-
-                <li class="self"> {{ "CHAT_MESAGE_1" | trans }} <a href="mailto:experience@mycasaparticular.com">experience@mycasaparticular.com</a>
-                </li>
-
-            </ul>
-            <div class="footer" style="display: none">
-                <div class="text-boxx" contenteditable="true" disabled="true"></div>
-                <button id="sendMessage">send</button>
-            </div>
-        </div>
-    </div>
+    {% include 'FrontEndBundle:mails:sendMailPopup.html.twig' %}
 
 
     <script type="text/javascript">
@@ -389,8 +217,11 @@
         {% endjavascripts %}
 
         {% javascripts
+
+            '@FrontEndBundle/Resources/public/js/theme/popper.min.js'
+            '@FrontEndBundle/Resources/public/js/theme/bootstrap.min.js'
+            '@FrontEndBundle/Resources/public/js/theme/mdb.min.js'
             '@FrontEndBundle/Resources/public/js/jquery-migrate-3.0.0.min.js'
-            '@FrontEndBundle/Resources/public/js/bootstrap.min.js'
             '@FrontEndBundle/Resources/public/js/bootstrap-datepicker.js'
             '@FrontEndBundle/Resources/public/js/bootstrap-datepicker.es.js'
             '@FrontEndBundle/Resources/public/js/bootstrap-datepicker.de.js'
@@ -410,7 +241,6 @@
             '@FrontEndBundle/Resources/public/js/jquery.ui.map.markerclusterer.js'
             '@FrontEndBundle/Resources/public/js/infobox.js'
             '@FrontEndBundle/Resources/public/js/plugins/gmap3.min.js'
-            '@FrontEndBundle/Resources/public/js/respond.min.js'
             '@FrontEndBundle/Resources/public/js/jquery.royalslider.min.js'
             '@FrontEndBundle/Resources/public/js/rs-plugin/js/jquery.themepunch.tools.min.js'
             '@FrontEndBundle/Resources/public/js/rs-plugin/js/jquery.themepunch.revolution.min.js'
@@ -424,6 +254,7 @@
             '@FrontEndBundle/Resources/public/js/destinations.js'
             '@FrontEndBundle/Resources/public/js/ownership.min.js'
             '@FrontEndBundle/Resources/public/js/custom.js'
+            '@FrontEndBundle/Resources/public/js/respond.min.js'
             '@LayoutBundle/Resources/public/js/chat.js'
             '@FrontEndBundle/Resources/public/js/base.twig.js'
 

@@ -1,7 +1,7 @@
 {% extends 'MyCpMobileFrontendBundle::base.html.twig' %}
 {% block title %}
     {% if get_tagvalue_bytag('Calendar', app.session.get('app_lang_code')|lower, 'title') == false %}
-        Calendar
+        Calendar-{{ ownership.ownname }}
     {% else %}
         {{ get_tagvalue_bytag('Calendar', app.session.get('app_lang_code')|lower, 'title')|raw }}
     {% endif %}

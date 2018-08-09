@@ -4517,6 +4517,10 @@
 <source>CASA_PARTICULAR_TITLE_AWSER</source>
 <target>Casa Particular è il termine usato a Cuba per descrivere una casa intera, stanza o un appartamento privato appartenente ad una famiglia cubana, in cui il servizio di noleggio o di locazione è offerto ai turisti.Di solito, questi padroni di casa sono disposti ad affittare per periodi brevi o lunghi soggiorni. Molti accettano gruppi e famiglie, gli altri sono solo disposti ad accogliere una coppia. La maggior parte offrono servizi complementari per pernottamento e prima colazione, cena, lavanderia, ecc.</target>
  </trans-unit>
+    <trans-unit id="4824">
+                             <source>MyCasaparticular</source>
+                             <target>MyCasaparticular</target>
+                         </trans-unit>
   <trans-unit id="4840">
                                 <source>BANNER_INFO</source>
                                       <target>
@@ -4529,6 +4533,26 @@
     Colazione Inclusa
                          </target>
     </trans-unit>
+    <trans-unit id="4842">
+                               <source>INMIDIATE_BOOKING_DESC</source>
+               <target>
+        Le sistemazioni nella categoria di prenotazione immediata consentono di effettuare il pagamento istantaneamente per la prenotazione effettuata.         </target>
+                </trans-unit>
+                      <trans-unit id="4843">
+                                       <source>PREPAYMENT_DESC</source>
+                      <target>
+
+Per effettuare il pagamento della tua prenotazione, puoi utilizzare uno dei nostri metodi di pagamento per effettuare il bonifico.
+                                </target>
+                        </trans-unit>
+                        <trans-unit id="4844">
+                     <source>VOUCHER_DESC</source>
+                         <target>
+
+Una volta effettuato il pagamento, ti invieremo un Voucher con tutti i dettagli relativi al tuo alloggio e ai servizi che hai prenotato.
+                    </target>
+
+                        </trans-unit>
         </body>
     </file>
 </xliff>

@@ -29,7 +29,7 @@
            {{ des_description | slice(0,200) | striptags }}{% if des_description|length>200 %}...{% endif %}
             </div>
            <div class="row margin-t-t">
-               <div class="col-xs-8">
+               <div class="col">
                    {{ include('FrontEndBundle:favorite:itemFavorite.html.twig',
                         {'is_in_favorite': is_in_favorite,
                          'favorite_type': 'destination',
@@ -38,7 +38,7 @@
                          'include_text': true
                          }) }}
                </div>
-               <div class="col-xs-4 text-right">
+               <div class="col text-right">
                    <a href="{{ path('frontend_details_destination',{'destination_name':des_name|lower|replace(' ','-')}) }}">
                    <small>{{'RESERVATION_CONFIRM_DESTINATION_MORE' | trans | lower}} <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-medium icon-more" title="MyCasaparticular" alt="{{"MyCasaparticular" | trans}}"/></small>
                    </a>

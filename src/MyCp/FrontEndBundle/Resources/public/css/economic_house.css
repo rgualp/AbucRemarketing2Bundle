@@ -4,7 +4,7 @@
 .economic_house .big-price-green{
     color:#5e95cc!important
 }
-.economic_house .nav-tabs>li.active>a,.economic_house .nav-tabs>li.active>a:hover, .economic_house .nav-tabs>li.active>a:focus{
+.economic_house .nav-tabs>li>a.active,.economic_house .nav-tabs>li>a.active:hover, .economic_house .nav-tabs>li>a.active:focus{
     border-top-color:#5e95cc
 }
 .economic_house .hr-green{

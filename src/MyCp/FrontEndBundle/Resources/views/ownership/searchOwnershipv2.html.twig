@@ -1,4 +1,50 @@
-{% extends 'FrontEndBundle:layout:base.html.twig' %}
+{% extends 'FrontEndBundle:new_layout:base_filters.html.twig' %}
+{%set included_in_price = own_statistics['own_water_jacuzzi'] > 0 or (check_filters is defined and check_filters['own_others_included'] == "JACUZZY") or own_statistics['own_water_sauna'] > 0 or (check_filters is defined and check_filters['own_others_included'] == "SAUNA") or own_statistics['own_water_pool'] > 0 or (check_filters is defined and check_filters['own_others_included'] == "POOL")%}
+{%set languages = own_statistics['own_lang_english'] > 0 or (check_filters is defined and check_filters['own_others_languages'] == '1___') or own_statistics['own_lang_french'] > 0 or (check_filters is defined and check_filters['own_others_languages'] == '_1__') or own_statistics['own_lang_german'] > 0 or (check_filters is defined and check_filters['own_others_languages'] == '__1_') or own_statistics['own_lang_italian'] > 0 or (check_filters is defined and check_filters['own_others_languages'] == '___1')%}
+{%set show_bath_inner =  own_statistics['own_bathroom_inner'] > 0 or (check_filters is defined and 'Interior privado' in check_filters['room_bathroom']) %}
+{%set show_bath_outer =  own_statistics['own_bathroom_outer'] > 0 or (check_filters is defined and 'Exterior privado' in check_filters['room_bathroom']) %}
+{%set show_bath_shared =  own_statistics['own_bathroom_shared'] > 0 or (check_filters is defined and 'Compartido' in check_filters['room_bathroom']) %}
+{%set service_breakfast = false%}
+{%set service_dinner = false%}
+{%set service_laundry = false%}
+{%set service_parking = false%}
+
+{%set service_pool = false%}
+{%set service_sauna = false%}
+{%set service_jacuzzy = false%}
+
+{%if check_filters is defined and check_filters != null%}
+    {% if check_filters['own_others_not_included'] is defined  %}
+        {%for service in check_filters['own_others_not_included']%}
+            {%if service == "BREAKFAST"%}
+                {%set service_breakfast = true%}
+            {%endif%}
+            {%if service == "DINNER"%}
+                {%set service_dinner = true%}
+            {%endif%}
+            {%if service == "LAUNDRY"%}
+                {%set service_laundry = true%}
+            {%endif%}
+            {%if service == "PARKING"%}
+                {%set service_parking = true%}
+            {%endif%}
+        {%endfor%}
+    {% endif %}
+    {% if check_filters['own_others_included'] is defined  %}
+        {%for service in check_filters['own_others_included']%}
+            {%if service == "POOL"%}
+                {%set service_pool = true%}
+            {%endif%}
+            {%if service == "SAUNA"%}
+                {%set service_sauna = true%}
+            {%endif%}
+            {%if service == "JACUZZY"%}
+                {%set service_jacuzzy = true%}
+            {%endif%}
+        {%endfor%}
+    {% endif %}
+{%endif%}
+
 {% block include_javascripts_and_css %}
     {% stylesheets
         '@FrontEndBundle/Resources/public/css/plugins/ionRangeSlider/ion.rangeSlider.css'
@@ -16,7 +62,7 @@
 
 {% block title %}
     {% if get_tagvalue_bytag('Alojamientos ' ~ province_name, app.session.get('app_lang_code')|lower, 'title') == false %}
-        {{ "SEARCH_RESULTS_PAGE_TITLE" | trans }}
+        {{ "SEARCH_RESULTS_PAGE_TITLE" | trans }} {{ province_name }}
     {% else %}
         {{ get_tagvalue_bytag('Alojamientos ' ~ province_name, app.session.get('app_lang_code')|lower, 'title')|raw }}
     {% endif %}
@@ -43,21 +89,22 @@
     {{ "SEARCH_DESCRIPTION_MAIN_MENU" | trans }}
 {% endblock %}
 {% block marquesina %}{% endblock %}
-{% block custom_menus %}
-    <div id="top-menu-cont" style="height: 52px; margin: 0; background: #86b32b;">
-        <nav id="top-menu" class="navbar navbar-inverse bg-gradient-blue"
-             style="{% if is_home is defined %}border-bottom: solid #98CD34 7px;{% endif %}">
-            <div class="container">
-                {% include 'FrontEndBundle:utils:searchTopNav.html.twig' with { 'route': app.request.get('_route'), 'routeParams': app.request.get('_route_params')|json_encode|url_encode } %}
-            </div>
-        </nav>
-    </div>
-{% endblock %}
+
 {% block class_breadcrumbs %}{% endblock %}
 {% block breadcrumbs %}{% endblock %}
 {% block body %}
-    <div class="row" id="search-container" style="width: 100%; margin:0;">
-        <div class="col-sm-12 p-0" style="padding-right: 0; position: relative">
+    <div class="row" style="width: -moz-available;width:-webkit-fill-available;">
+        <h1 class="d-none h-green caecilia-roman font-size-18">
+            {% set description = get_meta_value('Alojamientos ' ~ province_name, app.session.get('app_lang_code')|lower, 'meta', 'DESCRIPTION')|raw %}
+            {% if description == "" %}
+                {{ province_name }}
+            {% else %}
+                {{ description }}
+            {% endif %}
+        </h1>
+    <div class="col" id="search-container" style="width: 100%; margin:0;padding: 0;">
+
+        <div class="col" style="padding-right: 0;position: relative">
             <div id="loading" class="hidden">
                 <div class="layer-loading"></div>
                 <div class="loading-signal"><img class="img-circle load-icon"
@@ -68,7 +115,7 @@
             {{ include('FrontEndBundle:ownership:verticalSearcherOwnershipv2.html.twig',
                 {'is_within_search_results':true,
                     'locale': locale}) }}
-            <div class="filter accordion-body collapse" id="collapseFilters">
+            <div class="d-none filter accordion-body collapse" id="collapseFilters">
                 <div id="filters" data-url-filter="{{ path('frontend_filter_ownership_callback') }}"
                      data-url-statistics="{{ path('frontend_filter_statistics_ownership_callback') }}">
                     {% if check_filters is defined %}
@@ -85,12 +132,256 @@
 
                 {% endif %}
             </div>
+            <div class="row">
+            <div class="d-none d-xl-block col-md-auto" id="div_fillters" style="padding-right: 0px;font-size: 12px;overflow:hidden; height: 522px;">
 
-            <div class="col-sm-12">
-                <div class="modal inmodal fade" id="myModalOwnerShipCalendar" tabindex="-1" role="dialog"
-                     aria-hidden="true"></div>
+                <article class="card-group-item">
+                    <header class="card-header text-center">
+                        <h6 class="title">{{"SELECT_OWNERSHIP_PRICES_OPTION" | trans}}</h6>
+                    </header>
+                    <div class="filter-content">
+                        <div class="card-body">
+                            {% set count=owns_prices|length-1 %}
+                            <div class="row" style="margin-top: 20px; padding-left: 15px;">
+                                <b style="display: inline-block; margin-right: 20px;">${{ owns_prices[0][0] }}</b>
+                                <input id="priceFilter" type="text" class="span2" style="width: 100%;" value="" data-slider-min="0" data-slider-max="{{ owns_prices[count][1] }}" data-slider-step="1" data-slider-value="[{{ owns_prices[0][0] }},40]"/>
+                                <b style="display: inline-block; margin-left: 15px;">${{ owns_prices[count][1] }}</b>
+                            </div>
+
+                        </div> <!-- card-body.// -->
+                    </div>
+                </article>
+                <article class="card-group-item">
+                    <header class="card-header text-center">
+                        <h6 class="title">{{"SELECT_OWNERSHIP_TYPE_OPTION" | trans}}</h6>
+                    </header>
+                    <div class="filter-content">
+                        <div class="card-body">
+                            {%for type in owns_types%}
+                                <label class="form-check">
+                                    <input class="form-check-input action_remove_filter_up" type="checkbox" name="own_type" id="own_type_{{ loop.index }}" value="{{type[0]}}" {%if check_filters is defined and check_filters['own_type'] is defined and type[0] in check_filters['own_type']%} checked="checked" {%endif%} {%if type[1] == '0'%} disabled="disabled" {%endif%}/>
+                                    <span class="form-check-label">
+			    {{type[0] | trans}} ({{type[1]}})
+			  </span>
+                                </label>
+
+                            {%endfor%}
+
+                        </div> <!-- card-body.// -->
+                    </div>
+                </article>
+                <article class="card-group-item">
+                    <header class="card-header text-center">
+                        <h6 class="title">{{"SELECT_OTHER_LANGUAGE_OPTION" | trans}}</h6>
+                    </header>
+                    <div class="filter-content">
+                        <div class="card-body">
+
+                            <label class="form-check">
+                                 <input class="form-check-input action_remove_filter_up" type="checkbox" name="others_languages" id="others_languages1" value="1___" {%if check_filters is defined and check_filters['own_others_languages'] is defined and check_filters['own_others_languages'] == '1___'%} checked="checked" {%endif%} {%if not( own_statistics['own_lang_english'] > 0 or (check_filters is defined and check_filters['own_others_languages'] == '1___'))%} disabled="disabled" {%endif%}/>{{"LANG_ENGLISH" | trans}} ({{own_statistics['own_lang_english']}})
+
+                            </label>
+
+                            <label class="form-check">
+                                  <input class="form-check-input  action_remove_filter_up" type="checkbox" name="others_languages" id="others_languages2" value="_1__" {%if check_filters is defined and check_filters['own_others_languages'] is defined and check_filters['own_others_languages'] == '_1__'%} checked="checked" {%endif%} {%if not(own_statistics['own_lang_french'] > 0 or (check_filters is defined and check_filters['own_others_languages'] == '_1__'))%}disabled="disabled" {%endif%}/>{{"LANG_FRENCH" | trans}} ({{own_statistics['own_lang_french']}})
+
+                            </label>
+                            <label class="form-check">
+                                <input class="form-check-input  action_remove_filter_up" type="checkbox" name="others_languages" id="others_languages3" value="__1_" {%if check_filters is defined and check_filters['own_others_languages'] is defined and check_filters['own_others_languages'] == '__1_'%} checked="checked" {%endif%} {%if not( own_statistics['own_lang_german'] > 0 or (check_filters is defined and check_filters['own_others_languages'] == '__1_'))%} disabled="disabled" {%endif%}/>{{"LANG_GERMAN" | trans}} ({{own_statistics['own_lang_german']}})
+
+                            </label>
+                            <label class="form-check">
+                             
+                                <input class="form-check-input action_remove_filter_up" type="checkbox" name="others_languages" id="others_languages4" value="___1" {%if check_filters is defined and check_filters['own_others_languages'] is defined and check_filters['own_others_languages'] == '___1'%} checked="checked" {%endif%} {%if not( own_statistics['own_lang_italian'] > 0 or (check_filters is defined and check_filters['own_others_languages'] == '___1'))%} disabled="disabled" {%endif%}/>{{"LANG_ITALIAN" | trans}} ({{own_statistics['own_lang_italian']}})
+
+                            </label>
+
+
+
+                        </div> <!-- card-body.// -->
+                    </div>
+                </article><!-- card-group-item.// -->
+                <article class="card-group-item">
+                    <header class="card-header text-center">
+                        <h6 class="title">{{"SELECT_ROOM_TYPE_OPTION" | trans}}</h6>
+                    </header>
+                    <div class="filter-content">
+                        <div class="card-body">
+
+                            <label class="form-check">
+                                <input class="form-check-input action_remove_filter_up" type="checkbox" name="room_type" id="room_type_hi"  value="Habitación individual" {%if check_filters is defined and check_filters['room_type'] is defined and 'Habitación individual' in check_filters['room_type']%} checked="checked" {%endif%} {%if not (own_statistics['room_simple'] > 0 or (check_filters is defined and 'Habitación individual' in check_filters['room_type']))%} disabled="disabled" {%endif%}/>
+
+                                <span class="form-check-label">
+			 {{"SINGLE_ROOM_FILTER" | trans}} ({{own_statistics['room_simple']}})
+			  </span>
+                            </label>
+
+                            <label class="form-check">
+                                <input class="form-check-input action_remove_filter_up" type="checkbox" name="room_type" id="room_type_hd" value="Habitación doble" {%if check_filters is defined and check_filters['room_type'] is defined and  'Habitación doble' in check_filters['room_type']%} checked="checked" {%endif%} {%if not(own_statistics['room_double'] > 0 or (check_filters is defined and 'Habitación doble' in check_filters['room_type']))%} disabled="disabled" {%endif%}/>
+
+                                <span class="form-check-label">
+			   {{"DOUBLE_ROOM_FILTER" | trans}} ({{own_statistics['room_double']}})
+			  </span>
+                            </label>
+                            <label class="form-check">
+                                <input class="form-check-input action_remove_filter_up" type="checkbox" name="room_type" id="room_type_hd2c" value="Habitación doble (Dos camas)" {%if check_filters is defined and check_filters['room_type'] is defined and 'Habitación doble (Dos camas)' in check_filters['room_type']%} checked="checked" {%endif%} {%if not( own_statistics['room_double_two_beds'] > 0 or (check_filters is defined and 'Habitación doble (Dos camas)' in check_filters['room_type']))%} disabled="disabled" {%endif%}/>
+
+                                <span class="form-check-label">
+			    {{"DOUBLE_2_BEDS_FILTER" | trans}} ({{own_statistics['room_double_two_beds']}})
+			  </span>
+                            </label>
+                            <label class="form-check">
+                                <input class="form-check-input action_remove_filter_up" type="checkbox" name="room_type" id="room_type_ht" value="Habitación Triple" {%if check_filters is defined and check_filters['room_type'] is defined and 'Habitación Triple' in check_filters['room_type']%} checked="checked" {%endif%} {%if not(own_statistics['room_triple'] > 0 or (check_filters is defined and 'Habitación Triple' in check_filters['room_type']))%} disabled="disabled" {%endif%}/>
+
+                                <span class="form-check-label">
+			  {{"TRIPLE_ROOM_FILTER" | trans}} ({{own_statistics['room_triple']}})
+			  </span>
+                            </label>
+
+
+                        </div> <!-- card-body.// -->
+                    </div>
+                </article><!-- card-group-item.// -->
+                <article class="card-group-item">
+                    <header class="card-header text-center">
+                        <h6 class="title">{{"backend.menu.package.services" | trans}}</h6>
+                    </header>
+                    <div class="filter-content">
+                        <div class="card-body">
+
+                            <label class="form-check">
+                                <input class="form-check-input action_remove_filter_up" type="checkbox" id="room_airconditioner" data-value="Aire acondicionado" {%if check_filters is defined and check_filters['room_climatization'] is defined and check_filters['room_climatization']%} checked="checked" {%endif%} {%if not( own_statistics['room_climatization'] > 0 or (check_filters is defined and check_filters['room_climatization']))%} disabled="disabled" {%endif%}/>
+
+                                <span class="form-check-label">
+			               {{"AIR_CONDITIONING_FILTER" | trans}} ({{own_statistics['room_climatization']}})
+			               </span>
+                            </label>
+
+                            <label class="form-check">
+                                 <input class="form-check-input action_remove_filter_up" type="checkbox" id="room_others_pets" {%if check_filters is defined and check_filters['own_others_pets'] is defined and check_filters['own_others_pets']%} checked="checked" {%endif%} {%if not( own_statistics['own_services_pets'] > 0 or (check_filters is defined and check_filters['own_others_pets']))%} disabled="disabled" {%endif%}/>
+
+                                <span class="form-check-label">
+			                {{"PETS_OTHERS_FILTER" | trans}} ({{own_statistics['own_services_pets']}})
+			                 </span>
+                            </label>
+
+                            <label class="form-check">
+                                <input class="form-check-input action_remove_filter_up" type="checkbox" id="room_smoker" {%if check_filters is defined and check_filters['room_smoker'] is defined and check_filters['room_smoker']%} checked="checked" {%endif%} {%if not(own_statistics['room_smoker'] > 0 or (check_filters is defined and check_filters['room_smoker']))%} disabled="disabled" {%endif%}/>
+
+                                <span class="form-check-label">
+			{{"SMOKER_FILTER" | trans}} ({{own_statistics['room_smoker']}})
+			  </span>
+                            </label>
+                            </label>
+                            <label class="form-check">
+                                 <input class="form-check-input action_remove_filter_up" type="checkbox" id="room_safe" {%if check_filters is defined and check_filters['room_safe'] is defined and check_filters['room_safe']%} checked="checked" {%endif%} {%if not( own_statistics['room_safe'] > 0 or (check_filters is defined and check_filters['room_safe']))%} disabled="disabled" {%endif%}/>
+
+                                <span class="form-check-label">
+			{{"SAFE_FILTER" | trans}} ({{own_statistics['room_safe']}})
+			  </span>
+                            </label>
+                            <label class="form-check">
+                                  <input class="form-check-input action_remove_filter_up" type="checkbox" id="room_balcony" {%if check_filters is defined and check_filters['room_balcony'] is defined and check_filters['room_balcony']%} checked="checked" {%endif%} {%if not(own_statistics['room_balcony'] > 0 or (check_filters is defined and check_filters['room_balcony']))%} disabled="disabled" {%endif%}/>
+
+                                <span class="form-check-label">
+			{{"BALCONY_FILTER" | trans}} ({{own_statistics['room_balcony']}})
+			  </span>
+                            </label>
+                            <label class="form-check">
+                                 <input class="form-check-input  action_remove_filter_up" type="checkbox" id="room_terraza" {%if check_filters is defined and check_filters['room_terraza'] is defined and check_filters['room_terraza']%} checked="checked" {%endif%} {%if not( own_statistics['room_terrace'] > 0 or (check_filters is defined and check_filters['room_terraza']))%} disabled="disabled" {%endif%}/>
+
+                                <span class="form-check-label">
+			{{"TERRACE_FILTER" | trans}} ({{own_statistics['room_terrace']}})
+			  </span>
+                            </label>
+                            <label class="form-check">
+                                     <input class="form-check-input action_remove_filter_up" type="checkbox" id="room_others_internet" {%if check_filters is defined and check_filters['own_others_internet'] is defined and check_filters['own_others_internet']%} checked="checked" {%endif%} {%if not( own_statistics['own_service_internet_email'] > 0 or (check_filters is defined and check_filters['own_others_internet']))%} disabled="disabled" {%endif%}/>
+
+                                <span class="form-check-label">
+			 {{"INTERNET_OTHERS_FILTER" | trans}} ({{own_statistics['own_service_internet_email']}})
+			  </span>
+                            </label>
+                            <label class="form-check">
+
+                                  <input class="form-check-input action_remove_filter_up" type="checkbox" name="others_included" id="others_included" value="JACUZZY" {%if service_jacuzzy%} checked="checked" {%endif%} {%if not( own_statistics['own_water_jacuzzi'] > 0 or service_jacuzzy)%} disabled="disabled" {%endif%}/>{{"JACUZZI_BATROOM_FILTER" | trans}} ({{own_statistics['own_water_jacuzzi']}})
+
+                            </label>
+                            <label class="form-check">
+
+                                      <input class="form-check-input action_remove_filter_up" type="checkbox" name="others_included" id="others_included1" value="POOL" {%if service_pool%} checked="checked" {%endif%} {%if not(own_statistics['own_water_pool'] > 0 or service_pool)%} disabled="disabled" {%endif%}/>{{"POOL_OTHERS_FILTER" | trans}} ({{own_statistics['own_water_pool']}})
+
+                            </label>
+                            <label class="form-check">
+
+                                <input class="form-check-input action_remove_filter_up" type="checkbox" name="others_not_included" id="others_not_included1" value="DINNER" {%if service_dinner%} checked="checked" {%endif%} {%if not(own_statistics['own_services_dinner'] > 0 or service_dinner)%} disabled="disabled" {%endif%}/>{{"DINNER_OTHERS_FILTER" | trans}} ({{own_statistics['own_services_dinner']}})
+
+                            </label>
+                            <label class="form-check">
+                                <input class="form-check-input action_remove_filter_up" type="checkbox" name="others_not_included" id="others_not_included2" value="LAUNDRY" {%if service_laundry%} checked="checked" {%endif%} {%if not(own_statistics['own_services_laundry'] > 0 or service_laundry)%} disabled="disabled" {%endif%}/>{{"LAUNDRY_OTHERS_FILTER" | trans}} ({{own_statistics['own_services_laundry']}})
+
+
+                            </label>
+                            <label class="form-check">
+
+                                <input class="form-check-input action_remove_filter_up" type="checkbox" name="others_not_included" id="others_not_include3" value="PARKING" {%if service_parking%} checked="checked" {%endif%} {%if not(own_statistics['own_services_parking'] > 0 or service_parking)%} disabled="disabled" {%endif%}/>{{"PARKING_THERS_FILTER" | trans}} ({{own_statistics['own_services_parking']}})
+
+                            </label>
+                        </div> <!-- card-body.// -->
+                    </div>
+                </article><!-- card-group-item.// -->
+                <article class="card-group-item">
+                    <header class="card-header text-center">
+                        <h6 class="title">{{"CATEGORY" | trans}}</h6>
+                    </header>
+                    <div class="filter-content">
+                        <div class="card-body">
+
+
+
+                            {%for category in owns_categories%}
+                                <label class="form-check">
+                                     <input class="form-check-input action_remove_filter_up" type="checkbox" name="own_category" id="own_category{{ loop.index }}"  value="{{category[0]}}" {%if check_filters is defined and category[0] in check_filters['own_category']%} checked="checked" {%endif%} {%if category[1] == '0'%} disabled="disabled" {%endif%}/>
+
+                                    <span class="form-check-label">
+			              {{category[0] | trans}} ({{category[1]}})
+			               </span>
+                                </label>
+
+                            {%endfor%}
+
+                        </div> <!-- card-body.// -->
+                    </div>
+                </article><!-- card-group-item.// -->
+
+            </div> <!-- card.// -->
+
+            <div class="col" style="padding-left: 0px;">
+                <div class="modal fade" id="myModalOwnerShipCalendar"  tabindex="-1" role="dialog"  aria-hidden="true" role="dialog" >
+                    <div class="modal-dialog modal-lg "  role="document" style="width: auto">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" >{{ 'RESERVATION_RESERVE' | trans }}</h5>
+
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                {#<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>#}
+                                {#<h4 class="modal-title">{{ 'RESERVATION_RESERVE' | trans }}</h4>#}
+                                {#<small class="font-bold">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>#}
+                            </div>
+                            <div class="modal-body">
+
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'CANCEL' | trans }}</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="houses-list thumbs-houses lazy-cont result_list ownerships_mosaic" id="div_result"
-                     data-current-page="{{ current_page }}" data-cant-page="{{ cant_pages }}">
+                     data-current-page="{{ current_page }}" data-cant-page="{{ cant_pages }}" style=" margin: 0;height: 500px;">
 
                     {#{{ include('FrontEndBundle:ownership:searchMosaicOwnershipv2.html.twig',#}
                     {#{'list': list,#}
@@ -99,9 +390,37 @@
 
                 </div>
             </div>
+            </div>
         </div>
+        {#<div class="col-sm-5 p-0">#}
+            {#<div class="col-sm-12 clearfix" style="padding: 0;">#}
+                {#<div style="padding: 0 15px 13px;">#}
+                    {#<ul class="nav" style="margin: 0">#}
+                        {#<li><h1 class="h-green caecilia-roman font-size-18">#}
+                                {#{% set description = get_meta_value('Alojamientos ' ~ province_name, app.session.get('app_lang_code')|lower, 'meta', 'DESCRIPTION')|raw %}#}
+                                {#{% if description == "" %}#}
+                                    {#{{ province_name }}#}
+                                {#{% else %}#}
+                                    {#{{ description }}#}
+                                {#{% endif %}#}
+                            {#</h1>#}
+                        {#</li>#}
+                    {#</ul>#}
+                {#</div>#}
+
+            {#</div>#}
+            {#{% if view_results != 'MAP' %}#}
+                {#<div class="thumbnail" id="search_map" style="width:100%;" class="google-maps"></div>#}
+            {#{% endif %}#}
+            {#<div id="json_search_source" data-url="{{ path("frontend_map_markers_ownership_callback") }}"#}
+                 {#data-icon-small="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_small.png') }}"#}
+                 {#data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}"></div>#}
+
+        {#</div>#}
     </div>
-    {% block marquesina_js %}{% endblock %}
+        <div>
+
+        {% block marquesina_js %}{% endblock %}
     {% block javascripts %}
         <script>
             var otherpage = {{ current_page }};
@@ -112,7 +431,11 @@
                     iconBase: 'fa',
                     tickIcon: 'fa-check'
                 });
-
+                $('#div_fillters').slimScroll({
+                    height: h + 'px',
+                    start: 'top',
+                    allowPageScroll: true
+                })
                 var h = $(window).height() - 24 - $('#top-menu-cont').height() - $('.filters-container').height();
                 $(".destination-bar-title").css("height", $('.filters-container').height() + 14 + "px");
                 $('#div_result').slimScroll({
@@ -120,6 +443,7 @@
                     start: 'top',
                     allowPageScroll: true
                 }).bind('slimscrolling', function (e, pos) {
+
                     if (pos >= $('#div_result')[0].scrollHeight - $('#div_result').height()) {
                         otherpage++;
                         if (parseInt(otherpage) <= parseInt($('#div_result').attr("data-cant-page"))) {
@@ -131,7 +455,7 @@
 
                 var h1 = $('#search-container').height();
 
-                $('#search_map').css('height', h1 + 'px');
+                // $('#search_map').css('height', h1 + 'px');
 
 
                 $('[data-submenu]').submenupicker();
@@ -143,6 +467,7 @@
 
                 $("iframe").css("position", "fixed");
                 jQuery("#priceFilter").slider({});
+                jQuery("#priceFilter2").slider({});
                 $('#cancel-filters').on('click', function () {
                     $('#button_research').removeClass('hide');
                     $('#more_filters').addClass('collapsed');
@@ -185,8 +510,8 @@
         {{ include('FrontEndBundle:script:script.html.twig') }}
     {% endblock %}
 {% endblock %}
-{% block go_up %}
-    <div class="show-more-footer text-center"><a title="{{ "FOOTER" | trans }}" href="#"><i class="ion-more"></i></a>
-    </div>
-{% endblock %}
+{#{% block go_up %}#}
+    {#<div class="show-more-footer text-center"><a title="{{ "FOOTER" | trans }}" href="#"><i class="ion-more"></i></a>#}
+    {#</div>#}
+{#{% endblock %}#}
 {% block forsearch %}{{ 'footer-static' }}{% endblock %}

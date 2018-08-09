@@ -1,0 +1,59 @@
+.bg-solid-ligth-blue {
+    background-color: #dfeaf5;
+}
+
+.margin-t {
+    margin: 10px 0;
+}
+
+.h-size-3 {
+    font-size: 23px;
+}
+.caecilia-roman {
+    font-family: CaeciliaRoman;
+}
+.h-white-1 {
+    color: #fff;
+    font-size: 18px;
+    margin: 0;
+}
+.icon-facebook {
+    background-position: -62px -211px;
+    width: 22px;
+    height: 22px;
+    vertical-align: middle;
+}
+.carousel-mini {
+    min-height: 100px;
+    margin-bottom: 0px;
+    position: relative;
+    line-height: 23px;
+    margin-top: 15px;
+}
+.carousel-mini .carousel-title {
+    margin-top: 0px;
+    margin-right: 4px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgb(238, 238, 238);
+}
+.carousel-mini .row {
+    margin-bottom: 10px;
+}
+.carousel-mini .carousel-control {
+    position: absolute;
+    left: auto;
+    top: 0px;
+    right: 20px;
+    width: 10px;
+    height: 20px;
+    margin-top: 0px;
+    font-size: 30px;
+    font-weight: bold;
+    line-height: 16px;
+    color: rgb(102, 102, 102);
+    text-align: center;
+    opacity: 0.6;
+}
+.caecilia-roman {
+    font-family: CaeciliaRoman;
+}
