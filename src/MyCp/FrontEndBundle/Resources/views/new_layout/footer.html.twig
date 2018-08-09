@@ -23,16 +23,22 @@
                 <h5 style="    text-align: left;">{{"OUR_SERVICES" | trans}}</h5>
                 <ul class="list-footer" >
                     <li>
-                        <a  href="{{ path('frontend_partner_home') }}" target="_blank" role="button">{{ 'hazte_partner' | trans | upper }}
+                        <a  href="{{ path('frontend_partner_home') }}"  role="button">{{ 'hazte_partner' | trans | upper }}
 
                         </a>
 
                     </li>
                     <li>
-                        <a  href="{{ path('frontend_mycasatrip_apps') }}" target="_blank" role="button">{{ 'MyCasa Trip APP' | upper }}
+                        <a  href="{{ path('frontend_mycasatrip_apps') }}"  role="button">{{ 'MyCasa Trip APP' | upper }}
 
                         </a>
 
+                    </li>
+                    <li><a
+                                href="https://play.google.com/store/apps/details?id=hds.aplications.com.mycubamap">{{ 'MyCuba Map APP' | upper }}</a>
+                    <li>
+                        <a href="{{ path('frontend_mycasarenta_index') }}">{{ 'MYCASA_RENTA_APP'|trans }}</a>
+                    </li>
                     </li>
                 </ul>
             </div>
