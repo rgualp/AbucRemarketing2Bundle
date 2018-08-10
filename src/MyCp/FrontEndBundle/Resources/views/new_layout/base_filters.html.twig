@@ -3,6 +3,19 @@
 <!DOCTYPE html>
 <html id="top" {{ get_lang(lang_code)|raw }}>
 <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-16697066-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'UA-16697066-1');
+    </script>
     <title>{% block title %}{{ "WELCOMEPAGE_TITLE" | trans }}{% endblock %}</title>
     <meta name="google" content="notranslate"/>
     <meta http-equiv="Cache-Control" content="max-age=300" />
