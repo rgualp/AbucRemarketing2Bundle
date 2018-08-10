@@ -97,9 +97,9 @@
         <h1 class="d-none h-green caecilia-roman font-size-18">
             {% set description = get_meta_value('Alojamientos ' ~ province_name, app.session.get('app_lang_code')|lower, 'meta', 'DESCRIPTION')|raw %}
             {% if description == "" %}
-                {{ "SEARCH_RESULTS_PAGE_TITLE" | trans }}  {{ province_name }}
+                {{ "RESERVATION_RESERVE" | trans }}  {{ province_name }}
             {% else %}
-                {{ "SEARCH_RESULTS_PAGE_TITLE" | trans }}  {{ description }}
+                {{ "RESERVATION_RESERVE" | trans }}  {{ description }}
             {% endif %}
         </h1>
     <div class="col" id="search-container" style="width: 100%; margin:0;padding: 0;">
