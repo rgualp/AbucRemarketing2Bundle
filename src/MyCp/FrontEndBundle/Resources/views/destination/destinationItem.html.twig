@@ -2,7 +2,7 @@
            <table class="col-sm-12">
                <tr>
                    <td class="full-width">
-                       <a href="{{ path('frontend_details_destination',{'destination_name':des_name|lower|replace(' ','-')}) }}">
+                       <a href="{{ path('frontend_details_destination',{'destination_name':des_name|urlNormalize}) }}">
                            {% set url_image = asset("uploads/destinationImages/" ~ (des_photo)) %}
                            <img src="{{ asset('bundles/frontend/img/nophoto.gif') }}" title="alt="{{ des_name }}"" alt="{{ des_name }}" id="image_d{{ des_id }}" class="bttrlazyloading" data-bttrlazyloading-md-src="{{ url_image | apply_filter('my_thumb_destination') }}" />
                        </a>
@@ -22,7 +22,7 @@
                    </td>
                </tr>
            </table>
-           <a href="{{ path('frontend_details_destination',{'destination_name':des_name|lower|replace(' ','-')}) }}">
+           <a href="{{ path('frontend_details_destination',{'destination_name':des_name|urlNormalize}) }}">
            <h3 class="h-blue">{{des_name}}</h3>
            </a>
             <div class="dest-description">
@@ -39,7 +39,7 @@
                          }) }}
                </div>
                <div class="col text-right">
-                   <a href="{{ path('frontend_details_destination',{'destination_name':des_name|lower|replace(' ','-')}) }}">
+                   <a href="{{ path('frontend_details_destination',{'destination_name':des_name|urlNormalize}) }}">
                    <small>{{'RESERVATION_CONFIRM_DESTINATION_MORE' | trans | lower}} <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-medium icon-more" title="MyCasaparticular" alt="{{"MyCasaparticular" | trans}}"/></small>
                    </a>
                </div>
