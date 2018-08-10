@@ -32,13 +32,7 @@
     border-color: #6c9228 transparent;
     border-width: 0 0 10px 6px;
 }
-.has-ribbon:after, .has-ribbon:before {
-    display: inline-block;
-    position: absolute;
-    top: 50%;
-    left: -6px;
-    z-index: 10;
-}
+
 .houses-list .row {
     padding: 10px;
     color: #6d6c6c;
