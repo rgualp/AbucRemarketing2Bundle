@@ -18,10 +18,10 @@
             <div class="view" style="background-image: url('{{ asset('bundles/frontend/img/slideshow/nuevas/2.jpg') }}'); background-repeat: no-repeat; background-size: cover;">
 
                 <!-- Mask & flexbox options-->
-                <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+                <div class=" mask rgba-black-light d-flex justify-content-center align-items-center">
 
                     <!-- Content -->
-                    <div class="row text-center mx-5 wow fadeIn firstwow">
+                    <div class="d-none d-md-block row text-center mx-5 wow fadeIn firstwow">
                         <h1 class="mb-4">
                             <strong>{{ "SLOGAN_1" | trans }} {{ "SLOGAN_2" | trans }}</strong>
                         </h1>
@@ -36,7 +36,13 @@
 
                     </div>
                     <!-- Content -->
+                    <div class="d-md-none text-center white-text mx-5 wow wow2 fadeIn">
+                        <h1 class="mb-4">
+                            <strong>{{ "SLOGAN_1" | trans }} {{ "SLOGAN_2" | trans }}</strong>
+                        </h1>
 
+
+                    </div>
                 </div>
 
                 <!-- Mask & flexbox options-->

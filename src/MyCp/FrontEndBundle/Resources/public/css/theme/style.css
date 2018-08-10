@@ -861,7 +861,7 @@ thumbs-destination .dest-description {
     padding-left: 24px;
    
 }
-.dropdown-table a{ or: #ffffff; color: #D3E899; font-family: Arial; font-size: 13px; padding: 2px; display: block}
+.dropdown-table a{ color: #D3E899; font-family: Arial; font-size: 13px; padding: 3px 3px!important; display: block}
 .dropdown-table a:hover{ text-decoration: none; colbackground-color: #93c637}
 .modal-footer {
     display: -ms-flexbox;
