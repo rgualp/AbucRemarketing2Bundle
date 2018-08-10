@@ -70,7 +70,11 @@
 
  {% block metas %}
      {% if get_metas('Alojamientos ' ~ province_name, app.session.get('app_lang_code')|lower ) == false %}
-         {{ get_metas('Alojamientos', app.session.get('app_lang_code')|lower )|raw }}
+         {% if get_metas('Alojamientos ' ~ search_text, app.session.get('app_lang_code')|lower ) == false %}
+             {{ get_metas('Alojamientos ' ~ search_text, app.session.get('app_lang_code')|lower )}}
+         {% else %}
+             {{ get_metas('Alojamientos', app.session.get('app_lang_code')|lower )|raw }}
+             {% endif %}
      {% else %}
          {{ get_metas('Alojamientos ' ~ province_name, app.session.get('app_lang_code')|lower )|raw }}
      {% endif %}

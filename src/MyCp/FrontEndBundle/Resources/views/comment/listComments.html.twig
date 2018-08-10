@@ -4,10 +4,10 @@
 <div class="comments">
                     {%for comment in comments%}
         <div class="row">
-            <div class="col-xs-2">
-                <img src="{{asset('uploads/userImages/no_photo.gif')}}" title="No photo" alt="{{"No photo" | trans}}"/>
+            <div class="col-md-2">
+                <img class="img-circle" src="{{asset('uploads/userImages/no_photo.gif')}}" title="No photo" alt="{{"No photo" | trans}}"/>
             </div>
-            <div class="col-xs-10">
+            <div class="col-md-8">
             {%if comment.com_rate > 0%}
                     {%for i in 1..comment.com_rate%}
                     <img class="icon icon-2 tiny-star-icon" src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" title="MyCasaparticular" alt="{{"MyCasaparticular" | trans}}">
