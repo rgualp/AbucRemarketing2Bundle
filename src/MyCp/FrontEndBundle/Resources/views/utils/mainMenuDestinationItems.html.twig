@@ -1,14 +1,16 @@
-<a title="My Casa Particular - {{ "DESTINATIONS_MAIN_MENU" | trans }}"
+
+<li class="nav-item dropdown" >
+<a class="nav-link dropdown-toggle" title="My Casa Particular - {{ "DESTINATIONS_MAIN_MENU" | trans }}"
    href="{{ path('frontend_list_destinations') }}">{{ "DESTINATIONS_MAIN_MENU" | trans }} {% if destinations | length %}
         <b class="caret"></b>{% endif %}</a>
 {% set total = destinations | length %}
 {% if destinations | length %}
     {% set counter = 0 %}
     {% set cont = 1 %}
-    <ul class="dropdown-menu">
-        <li>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+
             <div class="row-fluid">
-                <table style="width: 350px" class="dropdown-table">
+                <table style="width: 280px" class="table-responsive-md dropdown-table">
                     <tbody>
 
                     {% for des in destinations %}
@@ -34,7 +36,8 @@
                     </tbody>
                 </table>
             </div>
-        </li>
 
-    </ul>
+
+    </div>
 {% endif %}
+</li>
