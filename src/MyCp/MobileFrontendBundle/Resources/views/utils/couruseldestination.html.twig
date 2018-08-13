@@ -19,8 +19,9 @@
                             {% else %}
                             <div class="carousel-item ">
                         {% endif %}
-
-                            <img class="d-block w-100 h-auto" src="{{ asset("uploads/destinationImages/" ~ location.destination.photo) }}" alt="slide">
+                                {% set url_image = asset("uploads/destinationImages/" ~ location.destination.photo) %}
+                              
+                                <img class="d-block w-100 h-auto" src="{{ url_image | apply_filter('my_thumb_destination') }}" alt="slide">
 
                                <div class="carousel-caption  d-md-block">
                                 <h4 class='h-blue' style="font-size: 35px">
