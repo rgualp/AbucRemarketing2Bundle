@@ -4,7 +4,7 @@
     {% for top in own_top20_list %}
     <div class="card search " style='height: auto;padding-top: 10px;' >
 
-        <a  onclick='HoldOn.open();'  href="{{ url('frontend_details_ownership',{'own_name':top.own_name | urlNormalize}) }}" style="background-image: url('{{ asset('uploads/ownershipImages/') ~  top.photo }}');background-size: cover; height:200px" class="col-md-12" rel="tooltip" >
+        <a  onclick='HoldOn.open();'  href="{{ url('frontend_details_ownership',{'own_name':top.own_name | urlNormalize}) }}" style="background-image: url('{{ asset('uploads/ownershipImages/') ~  top.photo | apply_filter('mycp_thumb_front') }}');background-size: cover; height:200px" class="col-md-12" rel="tooltip" >
             {% if top['OwnInmediateBooking2'] %}
                 <div class="quick-ribbon" style="background-color: #ff0000">
                     <i class="fa fa-rocket" style="padding: 0px 5px"></i>

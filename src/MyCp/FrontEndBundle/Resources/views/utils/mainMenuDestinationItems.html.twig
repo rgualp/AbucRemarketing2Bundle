@@ -18,7 +18,7 @@
                             <tr>
                         {% endif %}
                         <td>
-                            <a href="{{ path('frontend_search_ownership',{'text':for_url[des['dest'].getDesId ]})}}">{{ for_name[des['dest'].getDesId] }} {#({{des.total_owns}})#}</a>
+                            <a href="{{ path('frontend_details_destination',{'destination_name':for_url[des['dest'].getDesId ]})}}">{{ for_name[des['dest'].getDesId] }} {#({{des.total_owns}})#}</a>
                         </td>
                         {% if counter == 1 %}
                             </tr>

@@ -3,7 +3,7 @@
 
 
 
-    <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':own.own_name  | urlNormalize}) }}" style="background-image: url('{{ asset("uploads/ownershipImages/" ~  own.photo) }}');background-size: cover; height:200px" class="col-md-12" rel="tooltip" >
+    <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':own.own_name  | urlNormalize}) }}" style="background-image: url('{{ asset("uploads/ownershipImages/" ~  own.photo) | apply_filter('mycp_thumb_search') }}');background-size: cover; height:200px" class="col-md-12" rel="tooltip" >
         {% if own.OwnInmediateBooking2 %}
             <div class="quick-ribbon" style="background-color: #ff0000">
                 <i class="fa fa-rocket" style="padding: 0px 5px"></i>

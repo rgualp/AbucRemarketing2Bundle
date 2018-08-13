@@ -3,6 +3,19 @@
 <!DOCTYPE html>
 <html id="top" {{ get_lang(lang_code)|raw }}>
 <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-16697066-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'UA-16697066-1');
+    </script>
     <title>{% block title %}{{"WELCOMEPAGE_TITLE" | trans }}{% endblock %} - MyCasaParticular</title>
     <meta name="viewport" content="initial-scale=1.0,width=device-width,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0">
     <meta name="google" content="notranslate" />
@@ -68,8 +81,8 @@ filter='?uglifyjs2'
 
 {% endjavascripts %}
 <!-- Google Analytics -->
-{% include "GoogleBundle:Analytics:async_universal.html.twig" %}
-{% include "GoogleBundle:Adwords:track.html.twig" %}
+{#{% include "GoogleBundle:Analytics:async_universal.html.twig" %}#}
+{#{% include "GoogleBundle:Adwords:track.html.twig" %}#}
 
 
 <!-- Facebook Pixel Code -->
