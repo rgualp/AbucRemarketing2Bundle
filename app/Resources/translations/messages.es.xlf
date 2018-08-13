@@ -4596,6 +4596,13 @@
                                     </target>
 
                                      </trans-unit>
+    <trans-unit id="4849">
+        <source>YOUTUBE</source>
+           <target>
+    Mire nuestro tutorial de como reservar en 1 min.
+        </target>
+
+     </trans-unit>
         </body>
     </file>
 </xliff>

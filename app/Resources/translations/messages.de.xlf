@@ -4603,6 +4603,13 @@ Zusätzlich zu der Verwaltung der Unterkunft, bieten wir Ihnen mehrere <strong>T
                  <target>
                   Nach dem Sie die Zahlung durchgeführt haben, senden wir Ihnen eine digitale Bestaetigung/Voucher mit allen Casadaten und alle Service, die Sie reserviert haben.                             </target>
            </trans-unit>
+            <trans-unit id="4846">
+                <source>YOUTUBE</source>
+                   <target>
+          Sehen Sie sich unser 1-minütiges Schnellstart-Tutorial.
+                </target>
+
+             </trans-unit>
          </body>
     </file>
 </xliff>

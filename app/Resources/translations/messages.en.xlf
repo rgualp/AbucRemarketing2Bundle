@@ -4572,6 +4572,13 @@
                </target>
 
                     </trans-unit>
+ <trans-unit id="4845">
+     <source>YOUTUBE</source>
+        <target>
+ Watch our 1 min Quick Start tutorial
+     </target>
+
+  </trans-unit>
         </body>
     </file>
 </xliff>

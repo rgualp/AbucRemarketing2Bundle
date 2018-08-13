@@ -4657,6 +4657,13 @@ En plus de la gestion du logement, nous vous offrons plusieurs options de <stron
                       </target>
 
                          </trans-unit>
+        <trans-unit id="4846">
+                       <source>YOUTUBE</source>
+                          <target>
+              Regardez notre tutoriel Démarrage rapide de 1 min.
+                       </target>
+
+                    </trans-unit>
         </body>
     </file>
 </xliff>
