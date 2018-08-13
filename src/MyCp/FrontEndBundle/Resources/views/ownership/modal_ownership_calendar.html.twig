@@ -12,6 +12,7 @@
 
         <div>
             <small class="h-blue" style="font-size: 24px">{{ ownership.ownname }}</small>
+            <span rel="tooltip" id="discount" title="More than 5 nights " class="d-none float-lg-right badge badge-pill badge-danger large ">-10%</span>
             {%  include 'FrontEndBundle:ownership:ownership_details_calendar.html.twig' with { 'modal_check_class' : true }  %}
         </div>
 
