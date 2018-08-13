@@ -608,21 +608,29 @@
                     </div>
                     {% if can_comment %}
                         <h3 class="h-grey">{{ "QUEST_COMMENTS_DETAILS" | trans }}</h3>
-                        <div class="radio"><label><input type="radio" value="5" id="option5"
-                                                         name="radio_rating">{{ "5_STARS_COMMENTS_DETAILS" | trans }}
-                            </label></div>
-                        <div class="radio"><label><input type="radio" value="4" id="option4"
-                                                         name="radio_rating">{{ "4_STARS_COMMENTS_DETAILS" | trans }}
-                            </label></div>
-                        <div class="radio"><label><input type="radio" checked="checked" value="3" id="option3"
-                                                         name="radio_rating">{{ "3_STARS_COMMENTS_DETAILS" | trans }}
-                            </label></div>
-                        <div class="radio"><label><input type="radio" value="2" id="option2"
-                                                         name="radio_rating">{{ "2_STARS_COMMENTS_DETAILS" | trans }}
-                            </label></div>
-                        <div class="radio"><label><input type="radio" value="1" id="option1"
-                                                         name="radio_rating">{{ "1_STARS_COMMENTS_DETAILS" | trans }}
-                            </label></div>
+                        <div class="d-block">
+                            <div class="custom-control custom-radio">
+                                <input id="option5" value="5" name="radio_rating" type="radio" class="custom-control-input" checked="" required="">
+                                <label class="custom-control-label" for="option5">{{ "5_STARS_COMMENTS_DETAILS" | trans }}</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input id="option4" value="4" name="radio_rating" type="radio" class="custom-control-input" required="">
+                                <label class="custom-control-label" for="option4">{{ "4_STARS_COMMENTS_DETAILS" | trans }}</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input id="option3" name="radio_rating" value="3" type="radio" class="custom-control-input" required="">
+                                <label class="custom-control-label" for="option3">{{ "3_STARS_COMMENTS_DETAILS" | trans }}</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input id="option2" value="2" name="radio_rating" type="radio" class="custom-control-input" required="">
+                                <label class="custom-control-label" for="option2">{{ "2_STARS_COMMENTS_DETAILS" | trans }}</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input id="option1" name="radio_rating" value="1" type="radio" class="custom-control-input" required="">
+                                <label class="custom-control-label" for="option1">{{ "1_STARS_COMMENTS_DETAILS" | trans }}</label>
+                            </div>
+                        </div>
+
                         <span class="h-grey" style="font-size: 24px;">{{ "TEXT_COMMENTS_DETAILS" | trans }} *</span>
                         <br/>
                         <textarea class="col-sm-12 form-control" id="input_comment"
