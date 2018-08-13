@@ -238,7 +238,10 @@ function research(_page)
         if ($('.bttrlazyloading').length > 0){
             $('.bttrlazyloading.no_show').each(function () {
                 $(this).removeClass("no_show");
-                $(this).bttrlazyloading();
+                $(this).bttrlazyloading(
+                    { container: '#div_result' }
+
+            );
             });
         }
 
