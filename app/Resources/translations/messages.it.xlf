@@ -4553,6 +4553,14 @@ Una volta effettuato il pagamento, ti invieremo un Voucher con tutti i dettagli 
                     </target>
 
                         </trans-unit>
+                        <trans-unit id="4845">
+                                               <source>YOUTUBE</source>
+                                                  <target>
+
+Guarda il nostro tutorial di avvio rapido di 1 minuto.
+                                               </target>
+
+                                            </trans-unit>
         </body>
     </file>
 </xliff>
