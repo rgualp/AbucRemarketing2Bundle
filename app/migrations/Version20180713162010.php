@@ -19,7 +19,7 @@ class Version20180713162010 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
 
-        $this->addSql('ALTER TABLE ownership ADD own_facilities_breakfast_include TINYINT(1) NOT NULL');
+//        $this->addSql('ALTER TABLE ownership ADD own_facilities_breakfast_include TINYINT(1) NOT NULL');
 
     }
 
