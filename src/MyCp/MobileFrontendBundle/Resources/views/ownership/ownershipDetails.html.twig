@@ -333,7 +333,7 @@
                                                 <textarea style='color:black;' class="form-control" id="input_comment"  required-message="{{ "COMMENTTEXT_REQUIERED_MESSAGE" | trans }}"></textarea>
                                             </div>
                                             <div class="stars starrr" data-rating="3"></div>
-                                            <button class="btn btn-primary margin-t" id="btn_insert_comment"
+                                            <button onclick="insert_comment();" class="btn btn-primary margin-t" id="btn_insert_comment"
                                                     data-url="{{ path('frontend_insert_comment',{'ownid':ownership.own_id}) }}">
                                                 {{ "SEND_COMMENT_DETAILS" | trans }}
                                             </button>
