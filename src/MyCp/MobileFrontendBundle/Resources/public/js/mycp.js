@@ -2,7 +2,6 @@
 $(function () {
     $('#btn_search').on('click', search());
 
-    $("#btn_search").click(search());
     $('#btn_insert_comment').on('click', insert_comment());
 });
 function insert_comment()
