@@ -55,71 +55,85 @@
                 </tbody>
             </table>
         </div>
-    
-    
-          <div class="row all-prices-numbers" style="color:white;    padding-right: 5px;text-align: -webkit-right;display:block;background-color: #0c4d77; border: 1px solid #ddd;">
-               
-                   
-            <div class="col-xs-12 text-xs-right" rel="tooltip" title="{{ "ACCOMMODATION_TOTAL_COST_PLURAL_TOOLTIP" | trans }}">
-                
-                <span class="f-s-12 white"><i class="fa fa-info">-</i>{{ 'ACCOMMODATION_TOTAL_COST' | trans }}:</span>
-                <span class="f-s-16 white">
-                    {{ app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol }} <span id="accommodation_price"></span>
-                </span>
-            </div>
-            +
-            <div class="col-xs-12 text-xs-right" rel="tooltip" title="{{ "SERVICE_TOURIST_TAX_TITLE" | trans }}">
-                <span class="f-s-12 white"><i class="fa fa-info">-</i>{{ 'SERVICE_TOURIST_TAX' | trans }}:</span>
-                <span class="f-s-16 white">
-                    {{ app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol }} <span id="tourist_service"
-                                                                                                                                       data-one-nr-until-20-percent ="{{ currentServiceFee.oneNrUntil20Percent }}"
-                                                                                                                                       data-one-nr-from-20-to-25-percent ="{{ currentServiceFee.oneNrFrom20To25Percent }}"
-                                                                                                                                       data-one-nr-from-more-25-percent = "{{ currentServiceFee.oneNrFromMore25Percent }}"
-                                                                                                                                       data-one-night-several-rooms-percent = "{{ currentServiceFee.oneNightSeveralRoomsPercent }}"
-                                                                                                                                       data-one-2-nights-percent = "{{ currentServiceFee.one2NightsPercent }}"
-                                                                                                                                       data-one-3-nights-percent = "{{ currentServiceFee.one3NightsPercent }}"
-                                                                                                                                       data-one-4-nights-percent = "{{ currentServiceFee.one4NightsPercent }}"
-                                                                                                                                       data-one-5-nights-percent = "{{ currentServiceFee.one5NightsPercent }}"
-                                                                                                                                       data-fixed-tax = "{{ currentServiceFee.fixedFee }}"></span>
-                </span>
-            </div>
-            +
-            <div class="col-xs-12 text-xs-right" rel="tooltip" title="{{ "SERVICE_FIXED_TAX_TITLE" | trans }}">
-                <span class="f-s-12 white">
-                        <i class="fa fa-info">-</i>{{ 'SERVICE_FIXED_TAX' | trans }}:</span>
-                <span class="f-s-16 white">
-                    {% set currSymbol = app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol %}
-                    {{ currSymbol }}
-                    <span id="service_recharge">{{ (currentServiceFee.fixedFee * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))) | number_format(2) }}</span>
-                </span>
-            </div>
-            =
-            <div class="col-xs-12 text-xs-right"rel="tooltip" title="{{ "ACCOMMODATION_TOTAL_COST_PLURAL_TOOLTIP" | trans }}">
-                <span class="f-s-12 white" style="font-size: 18px;">
-                        <i class="fa fa-info">-</i>{{ 'RESERVATION_TOTAL_PRICE' | trans }}
-                   
-                </span>
 
-                <span class="f-s-20 f-w-bold white">
-                    {{ currSymbol }}
-                    <span id="total_price"></span>
-                </span>
-            </div>
-        </div>
+    <div class="col-md-12" style="color: white;
+    text-align: -webkit-center;
+    display: block;
+    border-top: 1px solid #ddd;
+    background-color: #84b231;">
+
+        <!-- Heading -->
+        <h4 class="d-flex justify-content-between align-items-center mb-3">
+            <span class="text-black-50">Your Payment</span>
+            <span rel="tooltip" id="discount" title="More than 4 nights " class="d-none float-lg-right badge badge-pill badge-danger large ">-10%</span>
+
+        </h4>
+
+        <!-- Cart -->
+        <ul class="list-group mb-3 z-depth-1">
+            {% set currSymbol = app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol %}
+
+            <li class="list-group-item d-flex justify-content-between lh-condensed">
+                <div>
+                    <h6 title="{{ "ACCOMMODATION_TOTAL_COST_PLURAL_TOOLTIP" | trans }}" class="my-0 text-black-50">  {{ 'ACCOMMODATION_TOTAL_COST' | trans }}</h6>
+
+                </div>
+                <span id="accommodation_price" ></span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between lh-condensed">
+                <div>
+                    <h6 class="my-0 text-black-50"  title="{{ 'SERVICE_TOURIST_TAX_TITLE' | trans()}}" >{{ 'SERVICE_TOURIST_TAX' | trans }}</h6>
+
+                </div>
+                <span id="tourist_service"
+                      data-one-nr-until-20-percent ="{{ currentServiceFee.oneNrUntil20Percent }}"
+                      data-one-nr-from-20-to-25-percent ="{{ currentServiceFee.oneNrFrom20To25Percent }}"
+                      data-one-nr-from-more-25-percent = "{{ currentServiceFee.oneNrFromMore25Percent }}"
+                      data-one-night-several-rooms-percent = "{{ currentServiceFee.oneNightSeveralRoomsPercent }}"
+                      data-one-2-nights-percent = "{{ currentServiceFee.one2NightsPercent }}"
+                      data-one-3-nights-percent = "{{ currentServiceFee.one3NightsPercent }}"
+                      data-one-4-nights-percent = "{{ currentServiceFee.one4NightsPercent }}"
+                      data-one-5-nights-percent = "{{ currentServiceFee.one5NightsPercent }}"
+                      data-fixed-tax = "{{ currentServiceFee.fixedFee }}" ></span>
+            </li>
+            <li class="d-none list-group-item justify-content-between lh-condensed">
+                <div>
+                    <h6 title="{{ 'SERVICE_FIXED_TAX_TITLE' | trans()}}" class="my-0">{{ 'SERVICE_FIXED_TAX' | trans }}</h6>
+
+                </div>
+                <span id="service_recharge" > {{ (currentServiceFee.fixedFee * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))) | number_format(2) }}</span>
+            </li>
+            <li id="discount-cotent" class="list-group-item d-none justify-content-between bg-light">
+                <div class="text-success">
+                    <h6 class="my-0">More than 4 nights</h6>
+                    <small>DISCOUNT</small>
+                </div>
+                <span id="discount-amount" class="text-success"></span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+                <span class="text-black-50" rel="tooltip" title="{{ 'ACCOMMODATION_TOTAL_COST_PLURAL_TOOLTIP' | trans()}}" > {{ 'RESERVATION_TOTAL_PRICE' | trans }} ( {{ currSymbol }})</span>
+                <strong class="text-black-50" id="total_price"></strong>
+            </li>
+            <li class="list-group-item d-flex justify-content-between" style="font-size: 12px;">
+                <span class="text-black-50" rel="tooltip" title="{{ 'TOTAL_PAY_AT_SERVICE_TOOLTIP' | trans()}}" > {{ 'TOTAL_PAY_AT_SERVICE' | trans }} ( {{ currSymbol }})</span>
+                <strong class="text-black-50" id="pay_at_service"></strong>
+                {% if currSymbol != "CUC" %}
+                    <span id="pay_at_service_cuc" ></span>
+                {% endif %}
+            </li>
+        </ul>
+        <!-- Cart -->
+
+        <!-- Promo code -->
+
+        <!-- Promo code -->
+
+    </div>
+
        
-            <div class="row all-prices-numbers" style="color:white;text-align: -webkit-center;display:block; border-top: 1px solid #ddd;background-color: #0c4d77;">
-                <div class="col-xs-12 text-xs-left" rel="tooltip" title="{{ "PREPAYMENT_TOOLTIP" | trans }}">
-                    <div style="text-align: -webkit-right;" class="col-xs-12 text-uppercase white f-s-14 p-a-0"rel="tooltip" title="{{ "TOTAL_PAY_AT_SERVICE_TOOLTIP" | trans }}">
-                            <i class="fa fa-info">-</i>{{ 'TOTAL_PAY_AT_SERVICE'|trans }}
-                       
-                    </div>
-                    <div style='    text-align: -webkit-right;'>
-                    {{ currSymbol }}
-                        <span class="f-s-14"  id="pay_at_service"></span>
-                        {% if currSymbol != "CUC" %}
-                            (<span id="pay_at_service_cuc" style="font-size: 14px;"  class="f-w-bold f-s-18"></span>)
-                        {% endif %}
-                    </div>
+    <div class="row all-prices-numbers" style="color:white;text-align: -webkit-center;display:block; border-top: 1px solid #ddd;background-color: #0c4d77;">
+                <div class="col-md-12 text-xs-left" rel="tooltip" title="{{ "PREPAYMENT_TOOLTIP" | trans }}">
+
                         <div style="font-size: 14px;font-family: -webkit-body;" class="col-xs-12 text-uppercase white f-s-16 p-a-0">
                                 <i class="fa fa-info">-</i>  {{ 'PREPAYMENT'|trans }}
                                  </div>
@@ -129,8 +143,7 @@
                             
                 </div>
             </div>
-    
-    
+
         <div class="row">
             {% if post['reservation_filter_date_from'] is defined %}
                 {% set date_from = post['reservation_filter_date_from']|replace("/","&") %}

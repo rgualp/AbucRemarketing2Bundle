@@ -55,7 +55,7 @@ function totalPrice(curr,percent, totalNights)
 
 
     $('#data_reservation').val(string_url);
-    $('#total_price').html( normalize_prices(total_price_var) );
+
     $('#subtotal_price').html(normalize_prices(total_price_var));
     var percent_value=total_price_var * percent / 100;
     var tourist_service = total_price_var*tourist_fee_percent;
@@ -66,6 +66,16 @@ function totalPrice(curr,percent, totalNights)
     var fixed_tax = $("#tourist_service").data("fixed-tax");
     var prepayment = parseFloat(percent_value)  + parseFloat(fixed_tax) + parseFloat(tourist_service);
     console.log(prepayment);
+    if(nights >= 4){
+        var discount=total_price*0.1;
+        prepayment=prepayment-discount;
+        total_price=total_price-discount;
+        $('#discount-amount').html(normalize_prices(discount));
+
+        $('#discount').removeClass('d-none').addClass('d-flex');
+
+    }
+    $('#total_price').html(normalize_prices(total_price));
     $('#total_prepayment').html(normalize_prices(prepayment));
 
     $("#commissionPercent").html(percent);
@@ -205,8 +215,14 @@ function reservationsBody()
                 '<td class="price-room" id="price_'+$(this).attr('data')+'">'+value+'</td>');
 
             totalPrice($(this).attr('data_curr'),$(this).attr('percent_charge'), $("#totalNights").val());
+
+        }
+        console.log($("#totalNights").val());
+        if($("#totalNights").val()>=4){
+            $('#discount-cotent').removeClass('d-none').addClass('d-flex');
         }
     });
+
 }
 
 function normalize_prices(price)

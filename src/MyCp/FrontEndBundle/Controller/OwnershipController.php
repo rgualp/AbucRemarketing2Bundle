@@ -22,6 +22,7 @@ class OwnershipController extends Controller
         $from = $request->get('from');
         $to = $request->get('to');
         $fromBackend = $request->get('backend');
+
         $timer = $this->get("Time");
         $fromBackend = ($fromBackend != "" && $fromBackend);
 

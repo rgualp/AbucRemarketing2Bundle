@@ -294,6 +294,7 @@ class ReservationController extends Controller {
         $total_percent_price = 0;
         $commissions = array();
         $nights = array();
+        $discount=0;
 
         $generalReservationIds = array();
         $triple_room_recharge = $this->container->getParameter('configuration.triple.room.charge');
@@ -315,8 +316,12 @@ class ReservationController extends Controller {
             if ($insert == 1) {
                 array_push($commissions, $commission);
             }
+            $tax = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFeeByGeneralReservation($reservation->getOwnResGenResId()->getGenResId(), $service_time);
 
             $totalNights = $service_time->nights($reservation->getOwnResReservationFromDate()->getTimestamp(), $reservation->getOwnResReservationToDate()->getTimestamp());
+            if($totalNights>=4){
+                $discount+=( $total_price_current_reservation+$tax)*0.1;
+            }
             array_push($nights, $totalNights);
 
         }
@@ -327,6 +332,7 @@ class ReservationController extends Controller {
 
         foreach($generalReservationIds as $genResId){
             $tax = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFeeByGeneralReservation($genResId, $service_time);
+
             $touristTax += $tax;
         }
 
@@ -360,7 +366,7 @@ class ReservationController extends Controller {
 
                 $booking->setBookingCurrency($currency);
                 $configuration_service_fee = floatval($currentServiceFee->getFixedFee());
-                $prepayment = ($touristTax  + $configuration_service_fee + $total_percent_price)* $currency->getCurrCucChange();
+                $prepayment = ($touristTax  + $configuration_service_fee + $total_percent_price-$discount)* $currency->getCurrCucChange();
                 $booking->setBookingPrepay($prepayment);
                 $booking->setBookingUserId($user->getUserId());
                 $booking->setBookingUserDates($user->getUserUserName() . ', ' . $user->getUserEmail());
@@ -410,7 +416,8 @@ class ReservationController extends Controller {
                 'post_country' => $post_country,
                 'total_errors' => $count_errors,
                 'currentServiceFee' => $currentServiceFee,
-                'touristTax' => $touristTax
+                'touristTax' => $touristTax,
+                'discount'=>$discount
             ));
         }else{
             return $this->render('FrontEndBundle:reservation:reservation.html.twig', array(
@@ -427,7 +434,8 @@ class ReservationController extends Controller {
                 'post_country' => $post_country,
                 'total_errors' => $count_errors,
                 'currentServiceFee' => $currentServiceFee,
-                'touristTax' => $touristTax
+                'touristTax' => $touristTax,
+                'discount'=>$discount
             ));
         }
 

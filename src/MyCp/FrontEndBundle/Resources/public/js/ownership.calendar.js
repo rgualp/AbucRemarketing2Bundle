@@ -83,13 +83,26 @@ function total_price(curr,percent)
     var fixed_tax = parseFloat($("#tourist_service").data("fixed-tax")) *curr;
     $("#tourist_service").html(normalize_prices(tourist_service));
     var total_price = total_price_var + tourist_service + fixed_tax;
-    $('#total_price').html(normalize_prices(total_price));
+
     var pay_at_service = total_price_var - percent_value;
     $('#pay_at_service').html(normalize_prices(pay_at_service));
     $("#pay_at_service_cuc").html("CUC " + normalize_prices(pay_at_service/curr));
-
-
     var prepayment = percent_value + fixed_tax + tourist_service;
+
+    if(nights >= 4){
+        var discount=total_price*0.1;
+        prepayment=prepayment-discount;
+        total_price=total_price-discount;
+        $('#discount-amount').html(normalize_prices(discount));
+        $('#discount-amount').removeClass('d-none').addClass('d-flex');
+        console.log($("#totalNights").val());
+        if($("#totalNights").val()>=4){
+            $('#discount-cotent').removeClass('d-none').addClass('d-flex');
+        }
+        $('#discount').removeClass('d-none').addClass('d-flex');
+
+    }
+    $('#total_price').html(normalize_prices(total_price));
     /*console.log("Porciento" + percent_value);
     console.log("Turista" + tourist_service);
     console.log("Tarifa fija" + fixed_tax);
@@ -213,7 +226,7 @@ function reservations_in_details()
                 }
                 else
                 {
-                    console.log("Antes de ver el up 2");
+                    console.log("Antes de ver el up 2.1");
                     isUp2($(this).attr("name"), $(this).attr('data'));
                     total_price($(this).attr('data_curr'),$(this).attr('percent_charge'));
                 }
@@ -222,7 +235,7 @@ function reservations_in_details()
             {
                 value=0;
                 persons=parseInt($('#combo_kids_'+$(this).attr('data')).val()) + parseInt($('#combo_guest_'+$(this).attr('data')).val());
-                console.log("Antes de ver el up 2");
+                console.log("Antes de ver el up 2.2");
                 isUp2($(this).attr("name"), $(this).attr('data'));
                 if(($(this).attr('data_is_triple')==='1' || $(this).attr('data_is_triple')==='true') && persons>=3 && !isCompletePayment)
                 {
