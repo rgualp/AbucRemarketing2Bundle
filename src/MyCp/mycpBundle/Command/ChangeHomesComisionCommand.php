@@ -79,7 +79,7 @@ class ChangeHomesComisionCommand extends ContainerAwareCommand
 	protected function getOwnerships(){
 		$sql= 'select o from mycpBundle:ownership o';
 
-		$sql.= " WHERE o.own_mcp_code = 'CH001' ";//Asegurar que tiene email
+		$sql.= " WHERE o.own_mcp_code > 10 ";//Asegurar que tiene email
 
 
 
