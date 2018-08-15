@@ -85,8 +85,7 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <div class="dropdown " style="top: -13px;
-    font-size: 10px;width: fit-content;width: -mos-fit-content">
+                    <div class="dropdown lang " >
                         <a title="{{"LANGUAGE" | trans }}" class="dropdown-toggle language-partner" href="#" style="text-transform: uppercase !important" aria-expanded="false" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img class="icon tiny-lang-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" alt="{{"Pixel" | trans}}"/>
                             {{(app.session.get('app_lang_name') == null or app.session.get('app_lang_name') == "") ? "ESP" : app.session.get('app_lang_name')|slice(0, 3)|upper}} <b class="caret caret-new"></b>
@@ -105,8 +104,7 @@
 
                 </li>
                 <li class="nav-item">
-                    <div class="dropdown " style="top: -13px;
-    font-size: 10px;width: fit-content;width: -mos-fit-content">
+                    <div class="dropdown money ">
                         <a title="{{"CURRENCY" | trans }}" class="dropdown-toggle language-partner" href="#" style="text-transform: uppercase !important" aria-expanded="false" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img class="icon tiny-curr-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" alt="{{"Pixel" | trans}}"/>
                             {{(app.session.get('curr_acronym') == null or app.session.get('curr_acronym') == "") ? default_currency().currcode|upper : app.session.get('curr_acronym')|upper}} <b class="caret caret-new"></b>
