@@ -1,6 +1,7 @@
 reservations_in_details();
 function total_price(curr,percent)
 {
+    console.log('frontendjs');
     var real_price=0;
     var total_price_var=0;
     var rooms_price='';

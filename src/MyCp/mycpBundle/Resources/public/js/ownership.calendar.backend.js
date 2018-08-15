@@ -1,6 +1,7 @@
 reservationsBody();
 function totalPrice(curr,percent, totalNights)
 {
+    console.log('backendjs');
     var real_price=0;
     var total_price_var=0;
     var rooms_price='';
