@@ -21,7 +21,7 @@ class Version20180813170528 extends AbstractMigration
 ,one_2_nights_percent,one_3_nights_percent,one_4_nights_percent,one_5_nights_percent,current)
 VALUES (NOW(),0,0.30,0.30,0.30,0.30,0.30,0.30,0.30,0.30,1)");
 
-        $this->addSql("update ownership SET own_commission_percent=10  Where ownership.own_commission_percent == 20 ");
+
 
     }
 
