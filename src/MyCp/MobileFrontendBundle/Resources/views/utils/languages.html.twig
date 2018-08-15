@@ -1,8 +1,8 @@
 {% for language in languages %}
     {% if arrTransDest is defined %}
-        <a rel="nofollow" class="dropdown-item" onclick='HoldOn.open();' href="{{ path('frontend_change_language_callback',{'lang': language.getLangCode|lower, 'route': route, 'routeParams': arrTransDest[language.getLangCode|lower] }) }}">{{ language.getLangName }}</a>
+        <a rel="nofollow" class="change_language dropdown-item" onclick='HoldOn.open();' data-url="{{ path('frontend_change_language_callback',{'lang': language.getLangCode|lower, 'route': route, 'routeParams': arrTransDest[language.getLangCode|lower] }) }}">{{ language.getLangName }}</a>
     {% else %}
-        <a rel="nofollow" class="dropdown-item" onclick='HoldOn.open();' href="{{ path('frontend_change_language_callback',{'lang': language.getLangCode|lower }) }}">{{ language.getLangName }}</a>
+        <a rel="nofollow" class="change_language dropdown-item" onclick='HoldOn.open();' data-url="{{ path('frontend_change_language_callback',{'lang': language.getLangCode|lower }) }}">{{ language.getLangName }}</a>
 
         {#<li><a rel="nofollow" href="{{ path('frontend_change_language_callback',{'lang': language.getLangCode|lower, 'route': route, 'routeParams': language.getLangCode|lower }) }}">{{ language.getLangName }}</a></li>#}
     {% endif %}
