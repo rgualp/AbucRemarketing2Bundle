@@ -124,7 +124,7 @@
 <!--/.Carousel Wrapper-->
 {% endblock carousel %}
 <!--Main layout-->
-<main>
+<main style="position: fixed;">
 
     <div class="row">
         {% block body %}
@@ -164,11 +164,10 @@
 {% block footer_big %}{% endblock %}
 
 {% block go_up %}
-<hr>
-<p class="text-center"><a title="{{ "GO_UP" | trans }}" href="#"><em class="fa fa-arrow-up"></em></a></p>
+
 {% endblock %}
 <!--Footer-->
-{% include 'FrontEndBundle:new_layout:footer.html.twig' %}
+
 
 {% include 'FrontEndBundle:mails:sendMailPopup.html.twig' %}
 
