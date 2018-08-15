@@ -287,10 +287,18 @@
             <td>{{ total_price - ( total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100)}} CUC</td>
             <td>{%if total_price%}{{touristTax}} CUC{%else%} - {%endif%}</td>
             <td>{%if total_price%}{{currentServiceFee.fixedFee}} CUC{%else%} - {%endif%}</td>
+           {% if total_nigths>=4 %}
+            {% if user[0].getUserTouristCurrency.getCurrCucChange is defined %}
+            <td style="text-align: right"><b>{{ (prepayment-((total_price+touristTax)*0.1))|round(2, 'ceil') }} CUC ({{(prepayment * user[0].getUserTouristCurrency.getCurrCucChange)|round(2, 'ceil') }} {{ user[0].getUserTouristCurrency.getCurrCode|upper }})</b></td>
+            {% else %}
+            <td style="text-align: right"><b>{{ (prepayment-((total_price+touristTax)*0.1)) }} CUC </b></td>
+            {% endif %}
+           {% else %}
             {% if user[0].getUserTouristCurrency.getCurrCucChange is defined %}
             <td style="text-align: right"><b>{{ prepayment|round(2, 'ceil') }} CUC ({{(prepayment * user[0].getUserTouristCurrency.getCurrCucChange)|round(2, 'ceil') }} {{ user[0].getUserTouristCurrency.getCurrCode|upper }})</b></td>
             {% else %}
-            <td style="text-align: right"><b>{{ prepayment }} CUC </b></td>
+            <td style="text-align: right"><b>{{ (prepayment-((total_price+touristTax)*0.1)) }} CUC </b></td>
+            {% endif %}
             {% endif %}
         </tr>
         <tr>
