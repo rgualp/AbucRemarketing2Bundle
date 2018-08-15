@@ -53,37 +53,7 @@
                     {#<li><a title="My Casa Particular - {{"Propiedad completa" | trans}}" href="{{ path('frontend_type_list_ownership',{'type':'propiedad-completa' | trans})}}">{{"Propiedad completa" | trans}}</a></li>#}
                 </ul>
             </div>
-            <div class="dropdown dropup" style="width: fit-content;width: -mos-fit-content">
-                <a title="{{"LANGUAGE" | trans }}" class="dropdown-toggle language-partner" href="#" style="text-transform: uppercase !important" aria-expanded="false" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img class="icon tiny-lang-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" alt="{{"Pixel" | trans}}"/>
-                    {{(app.session.get('app_lang_name') == null or app.session.get('app_lang_name') == "") ? "ESP" : app.session.get('app_lang_name')|slice(0, 3)|upper}} <b class="caret caret-new"></b>
 
-                </a>
-                <div class="dropdown-menu dropdown-menu-partner" aria-labelledby="navbarDropdownMenuLink">
-                    {{ render_esi(controller('FrontEndBundle:Language:getLanguages', {'route': app.request.get('_route'), 'routeParams':  app.request.get('_route_params')})) }}
-
-
-
-
-                </div>
-
-
-            </div>
-            <div class="dropdown dropup" style="width: fit-content;width: -mos-fit-content">
-                <a title="{{"CURRENCY" | trans }}" class="dropdown-toggle language-partner" href="#" style="text-transform: uppercase !important" aria-expanded="false" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img class="icon tiny-curr-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" alt="{{"Pixel" | trans}}"/>
-                    {{(app.session.get('curr_acronym') == null or app.session.get('curr_acronym') == "") ? default_currency().currcode|upper : app.session.get('curr_acronym')|upper}} <b class="caret caret-new"></b>
-                </a>
-                <div class="dropdown-menu dropdown-menu-partner" aria-labelledby="navbarDropdownMenuLink">
-                    {{ render_esi(controller('FrontEndBundle:Currency:getCurrencies', {'params': app.request.attributes.all, 'route': app.request.get('_route'), 'routeParams': app.request.get('_route_params')})) }}
-
-
-
-
-                </div>
-
-
-            </div>
 
 
 
