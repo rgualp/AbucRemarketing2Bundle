@@ -25,10 +25,22 @@
 
 /* Footer color for sake of consistency with Navbar */
 .page-footer {
-  background-color: #1C2331; }
+  background-color: #1C2331;
 }
 #main-search .form.fixed-top {
     margin: -60px 15% 0;
+}
+.lang{
+    top: -13px;
+    font-size: 10px;
+    width: fit-content;
+    width: -mos-fit-content
+}
+.money{
+    top: -13px;
+    font-size: 10px;
+    width: fit-content;
+    width: -mos-fit-content
 }
 #main-search .form {
     border-radius: 8px;
