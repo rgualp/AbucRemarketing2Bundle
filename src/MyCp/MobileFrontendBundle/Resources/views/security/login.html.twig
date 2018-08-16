@@ -14,6 +14,9 @@
         .form-control{
             color:black;
         }
+        .hide{
+            display:none;
+        }
     </style>
     {% endblock %}
 {% block content %}
@@ -50,7 +53,10 @@
                                    <button onclick="FB.login(checkLoginState, {scope: 'public_profile,email'});" class="btn btn-just-icon btn-round btn-facebook btn-info ">
                                        <i class="fa fa-facebook large"> </i>
                                    </button >
-                                   <h4> {{ "FACEBOOK_TITLE" | trans }} </h4>
+                                   <h4 id="facebookTitle" > {{ "FACEBOOK_TITLE" | trans }} </h4>
+                                   <div id="continueAfterLogin" class="hide">
+                                       {{ render(controller('FrontEndBundle:OAuth:facebookLogin')) }}
+                                   </div>
                                </div>
                                <form class="form" action="{{ path("frontend_ckeck") }}" role="form" method="post">
                                    <div class="form-group">
