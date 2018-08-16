@@ -3,6 +3,17 @@
     <!DOCTYPE html>
     <html id="top" {{ get_lang(lang_code)|raw }}>
     <head>
+        <!-- Smartsupp Live Chat script -->
+        <script type="text/javascript">
+            var _smartsupp = _smartsupp || {};
+            _smartsupp.key = 'ced119d0d47118fa6e677f1b5443e5e159739ba9';
+            window.smartsupp||(function(d) {
+                var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
+                s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+                c.type='text/javascript';c.charset='utf-8';c.async=true;
+                c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
+            })(document);
+        </script>
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-16697066-1"></script>
         <script>
@@ -31,7 +42,7 @@
             '@MyCpMobileFrontendBundle/Resources/public/css/material-kit.css'
             '@LayoutBundle/Resources/public/css/plugins/holdon/HoldOn.min.css'
             '@MyCpMobileFrontendBundle/Resources/public/css/mycp.css'
-            '@LayoutBundle/Resources/public/css/chat.css'
+
 
         filter='?uglifycss'
         %}
@@ -86,7 +97,6 @@
 
       {% javascripts
         '@FrontEndBundle/Resources/public/js/jquery-3.1.1.min.js'
-        '@LayoutBundle/Resources/public/js/chat.js'
         '@LayoutBundle/Resources/public/js/plugins/holdon/HoldOn.min.js'
         '@MyCpMobileFrontendBundle/Resources/public/js/core/popper.min.js'
         '@MyCpMobileFrontendBundle/Resources/public/js/bootstrap-material-design.min.js'
