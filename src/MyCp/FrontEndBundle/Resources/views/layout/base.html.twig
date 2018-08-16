@@ -14,12 +14,7 @@
                 c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
             })(document);
         </script>
-        {% if app.user.getUserUserName is defined %}
-            <script>
-                smartsupp('email', {{ app.user.getUserEmail }});
-                smartsupp('name', {{ app.user.getUserUserName }});
-            </script>
-        {% endif %}
+
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-16697066-1"></script>
         <script>
@@ -300,7 +295,7 @@
     {#{% include "GoogleBundle:Analytics:async_universal.html.twig" %}#}
     {#{% include "GoogleBundle:Adwords:track.html.twig" %}#}
 
-
+   
     <!-- Facebook Pixel Code -->
     <script>
         !function (f, b, e, v, n, t, s) {
