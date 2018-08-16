@@ -68,30 +68,7 @@
      {# COntenido#}
     {% endblock %}
     {{ render(controller('MyCpMobileFrontendBundle:Search:overlaySearchBar')) }}
-    <div id="chat" class="floating-chat">
-        <i class="fa fa-question" style="font-size: 40px" aria-hidden="true"></i>
 
-        <div class="chat">
-            <div class="header">
-            <span class="title">
-             {{ "CHAT_MESAGE" | trans }}
-            </span>
-                <button>
-                    <i class="fa fa-times" aria-hidden="true"></i>
-                </button>
-
-            </div>
-            <ul class="messages">
-
-                <li class="self"> {{ "CHAT_MESAGE_1" | trans }}<a href="mailto:experience@mycasaparticular.com">experience@mycasaparticular.com</a> </li>
-
-            </ul>
-            <div class="footer" style="display: none">
-                <div class="text-boxx" contenteditable="true" disabled="true"></div>
-                <button id="sendMessage">send</button>
-            </div>
-        </div>
-    </div>
     {% include 'MyCpMobileFrontendBundle:menus:footer.html.twig' %}
 
 
