@@ -3,6 +3,17 @@
     <!DOCTYPE html>
     <html id="top" {{ get_lang(lang_code)|raw }}>
     <head>
+        <!-- Smartsupp Live Chat script -->
+        <script type="text/javascript">
+            var _smartsupp = _smartsupp || {};
+            _smartsupp.key = 'ced119d0d47118fa6e677f1b5443e5e159739ba9';
+            window.smartsupp||(function(d) {
+                var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
+                s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+                c.type='text/javascript';c.charset='utf-8';c.async=true;
+                c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
+            })(document);
+        </script>
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-16697066-1"></script>
         <script>
@@ -30,7 +41,6 @@
             '@FrontEndBundle/Resources/public/css/theme/mdb.css'
             '@FrontEndBundle/Resources/public/css/theme/style.css'
             '@FrontEndBundle/Resources/public/css/plugins/font-awesome/css/font-awesome.min.css'
-         
             '@FrontEndBundle/Resources/public/js/rs-plugin/css/settings.css'
             '@FrontEndBundle/Resources/public/css/bttrlazyloading.min.css'
             '@FrontEndBundle/Resources/public/css/plugins/iCheck/custom.css'
@@ -40,9 +50,6 @@
             '@MyCpCasaModuleBundle/Resources/public/css/animate.css'
             '@FrontEndBundle/Resources/public/css/ionicons.css'
             '@LayoutBundle/Resources/public/css/bootstrap-submenu.css'
-
-            '@FrontEndBundle/Resources/public/css/chat.css'
-            '@LayoutBundle/Resources/public/css/chat.css'
             filter='?uglifycss' %}
             <link rel="stylesheet" href="{{ asset_url }}"/>
         {% endstylesheets %}
@@ -116,30 +123,6 @@
             {% endblock %}
 
 
-        <div id="chat" class="floating-chat ">
-            <i class="fa fa-question" rel="tooltip" title="Help Center" style="font-size: 40px" aria-hidden="true"></i>
-
-            <div class="chat">
-                <div class="header">
-            <span class="title">
-                {{ "CHAT_MESAGE" | trans }}
-            </span>
-                    <button>
-                        <i class="fa fa-times" aria-hidden="true"></i>
-                    </button>
-
-                </div>
-                <ul class="messages">
-
-                    <li class="self"> {{ "CHAT_MESAGE_1" | trans }} <a href="mailto:experience@mycasaparticular.com">experience@mycasaparticular.com</a> </li>
-
-                </ul>
-                <div class="footer" style="display: none">
-                    <div class="text-boxx" contenteditable="true" disabled="true"></div>
-                    <button id="sendMessage">send</button>
-                </div>
-            </div>
-        </div>
     </main>
     <!--Main layout-->
     {% block footer_big %}{% endblock %}
@@ -233,7 +216,6 @@
             '@FrontEndBundle/Resources/public/js/destinations.js'
             '@FrontEndBundle/Resources/public/js/ownership.min.js'
             '@FrontEndBundle/Resources/public/js/custom.js'
-            '@LayoutBundle/Resources/public/js/chat.js'
             '@FrontEndBundle/Resources/public/js/respond.min.js'
             '@FrontEndBundle/Resources/public/js/base.twig.js'
 
