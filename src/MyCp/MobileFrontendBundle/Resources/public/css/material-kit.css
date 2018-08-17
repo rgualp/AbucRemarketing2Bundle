@@ -15514,7 +15514,7 @@ h2.title {
     display: flex;
     flex-flow: nowrap;
     align-items: center;
-    color: #d3e899;
+    color: #d3e899!important;
     font-weight: normal;
     text-decoration: none;
     font-size: 1rem;

@@ -153,13 +153,17 @@
                         {% endif %}
                         {% if ownership.OwnGeolocateX != "" and ownership.OwnGeolocateY != "" %}
                             <div id="tab-map" class="tab-pane {% if gallery_photos | length == 0 %}active{% endif %}">
-                                <div id="big_map_details" class="flexible-container google-maps"
+                                <div id="big_map_details_disable" class="embed-responsive embed-responsive-16by9 flexible-container google-maps"
                                      data-x="{{ ownership.OwnGeolocateX }}"
                                      data-y="{{ ownership.OwnGeolocateY }}"
                                      data-name="{{ ownership.ownname }}"
                                      data-description="{{ "FROM_PRICES" | trans }} {{ promoPrice | price }} {{ "BYNIGHTS_PRICES" | trans }}"
                                      data-image="{{ asset('uploads/ownershipImages/thumbnails/'~image) }}"
                                      data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}">
+                                    {% if ownership.OwnGeolocateX != "" and ownership.OwnGeolocateY != "" %}
+                                        <iframe class="embed-responsive-item" src="https://maps.google.com/maps?q={{ ownership.OwnGeolocateX }}, {{ ownership.OwnGeolocateY }}&markers=icon:{{ asset('bundles/frontend/img/map_marker.png') }}&output=embed" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+
+                                    {% endif %}
                                 </div>
                             </div>
                         {% endif %}
@@ -384,16 +388,11 @@
                                         <ul class="price">
                                             <li class="lead">
                                                 <div class="row">
-                                                    <div class="col-xs-6">
+                                                    <div class="col">
                                                         <h4 class="no-margin text-left"
-                                                            style="margin-left: 20px">{{ room.roomtype | trans | title }}</h4>
+                                                            style="margin-left: 20px">{{ room.roomtype | trans | title }}-{{ "FROM_PRICES" | trans }} {{ room.roomPriceDownTo | price }}</h4>
                                                     </div>
-                                                    <div class="col-xs-6">
-                                                        {% if not hasCompleteReservation %}
-                                                            <h4 class="no-margin text-right"
-                                                                style="margin-right: 20px">{{ "FROM_PRICES" | trans }} {{ room.roomPriceDownTo | price }}</h4>
-                                                        {% endif %}
-                                                    </div>
+
                                                 </div>
 
                                             </li>
@@ -635,7 +634,7 @@
                         <br/>
                         <textarea class="col-sm-12 form-control" id="input_comment"
                                   required-message="{{ "COMMENTTEXT_REQUIERED_MESSAGE" | trans }}"></textarea>
-                        <button class="btn btn-primary margin-t" id="btn_insert_comment"
+                        <button class="btn  btn-primary margin-t" id="btn_insert_comment"
                                 data-url="{{ path('frontend_insert_comment',{'ownid':ownership.own_id}) }}">
                             {{ "SEND_COMMENT_DETAILS" | trans }}
                         </button>
@@ -745,7 +744,7 @@
                     </li>
                     <li>
                         <button onclick="javascript:refresh_calendar_button()"
-                                class="btn btn-primary">{{ "VERIFY_PRICES_FOR_THIS_DATES" | trans }}</button>
+                                class="btn btn-block btn-primary">{{ "VERIFY_PRICES_FOR_THIS_DATES" | trans }}</button>
                     </li>
                 </ul>
                 <hr class="margin-t"/>

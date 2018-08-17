@@ -14,12 +14,12 @@
     color:#f06b12
 }
 .premium_house .price li.lead{
-    background-image:-moz-linear-gradient(top,#f2970f,#f06b12);
-    background-image:-webkit-gradient(linear,0 0,0 100%,from(#f2970f),to(#f06b12));
-    background-image:-webkit-linear-gradient(top,#f2970f,#f06b12);
-    background-image:-o-linear-gradient(top,#f2970f,#f06b12);
-    background-image:linear-gradient(#f2970f,#f06b12);
-    background-repeat:repeat-x;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#F2970F',endColorstr='#F06B12',GradientType=0);
+    background-image:-moz-linear-gradient(top,#f2970f,#f06b12)!important;
+    background-image:-webkit-gradient(linear,0 0,0 100%,from(#f2970f),to(#f06b12))!important;
+    background-image:-webkit-linear-gradient(top,#f2970f,#f06b12)!important;
+    background-image:-o-linear-gradient(top,#f2970f,#f06b12)!important;
+    background-image:linear-gradient(#f2970f,#f06b12)!important;
+    background-repeat:repeat-x;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#F2970F',endColorstr='#F06B12',GradientType=0)!important;
     border:1px solid #b8510c;border-left-color:#b8510c
 }
 .premium_house .datepicker th.switch{border-bottom:1px solid #f2970f}

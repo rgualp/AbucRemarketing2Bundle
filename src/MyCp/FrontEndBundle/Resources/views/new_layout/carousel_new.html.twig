@@ -1,6 +1,6 @@
 <!--Carousel Wrapper-->
 
-<div id="carousel-example-1z" class="carousel slide carousel-fade">
+<div id="carousel-example-1z" class="carousel slide carousel-fade" data-interval="5000" data-pause="false" data-ride="carousel">
 
     <!--Indicators-->
     <ol class="carousel-indicators">
@@ -56,29 +56,31 @@
             <div class="view" style="background-image: url('{{ asset('bundles/frontend/img/slideshow/nuevas/3.jpg') }}'); background-repeat: no-repeat; background-size: cover;">
 
                 <!-- Mask & flexbox options-->
-                <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+                <div class=" mask rgba-black-light d-flex justify-content-center align-items-center">
 
                     <!-- Content -->
-                    <div class="text-center white-text mx-5 wow wow2 fadeIn">
+                    <div class="d-none d-md-block row text-center mx-5 wow fadeIn firstwow">
+                        <h1 class="mb-4">
+                            <strong>{{ "SLOGAN_1" | trans }} {{ "SLOGAN_2" | trans }}</strong>
+                        </h1>
+
+                        <h5 class="mb-4 d-none d-md-block dropdown-menu_partner">
+                            <strong>{{ "SLOGAN_3" | trans }}</strong>
+                        </h5>
+
+
+
+
+
+                    </div>
+                    <!-- Content -->
+                    <div class="d-md-none text-center white-text mx-5 wow wow2 fadeIn">
                         <h2 class="mb-4">
-                            <strong>{{ "HOMEPAGE_SUBTITLE_1" | trans }}</strong>
+                            <strong>{{ "SLOGAN_1" | trans }} {{ "SLOGAN_2" | trans }}</strong>
                         </h2>
 
 
-                        <p class="mb-4 d-none d-md-block">
-                            <strong>{{ "HOMEPAGE_TEXT" | trans }}</strong>
-                        </p>
-                        <a class="btn btn-outline-white btn-lg" title="{{"HOW_IT_WORKS" | trans }}" href="{{ path('frontend_how_it_works_information')}}">
-                            {{"HOW_IT_WORKS" | trans }}
-
-                        </a>
-
-                        <a  title="My Casa Particular - {{"MOST_VISITED_CITIES" | trans}}" href="{{path('frontend_get_with_reservations_municipality')}}" class="btn btn-outline-white btn-lg">{{"MOST_VISITED_CITIES" | trans}}
-
-                        </a>
                     </div>
-                    <!-- Content -->
-
                 </div>
                 <!-- Mask & flexbox options-->
 
@@ -91,28 +93,32 @@
             <div class="view" style="background-image: url('{{ asset('bundles/frontend/img/slideshow/nuevas/1.jpg') }}'); background-repeat: no-repeat; background-size: cover;">
 
                 <!-- Mask & flexbox options-->
-                <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+                <div class=" mask rgba-black-light d-flex justify-content-center align-items-center">
 
                     <!-- Content -->
-                    <div class="text-center white-text mx-5 wow wow2  fadeIn">
+                    <div class="d-none d-md-block row text-center mx-5 wow fadeIn firstwow">
+                        <h1 class="mb-4">
+                            <strong>{{ "SLOGAN_1" | trans }} {{ "SLOGAN_2" | trans }}</strong>
+                        </h1>
+
+                        <h5 class="mb-4 d-none d-md-block dropdown-menu_partner">
+                            <strong>{{ "SLOGAN_3" | trans }}</strong>
+                        </h5>
+
+
+
+
+
+                    </div>
+                    <!-- Content -->
+                    <div class="d-md-none text-center white-text mx-5 wow wow2 fadeIn">
                         <h2 class="mb-4">
-                            <strong>{{ "CASA_PARTICULAR_TITLE" | trans }}</strong>
+                            <strong>{{ "SLOGAN_1" | trans }} {{ "SLOGAN_2" | trans }}</strong>
                         </h2>
 
 
-
-                        <p class="mb-4 d-none d-md-block">
-                            <strong>{{ "CASA_PARTICULAR_TITLE_AWSER" | trans }}</strong>
-                        </p>
-
-                        <a  title="My Casa Particular - {{"CONTACT_US" | trans}}" href="{{path('frontend_contact_user')}}" class="btn btn-outline-white btn-lg">{{"CONTACT_US" | trans}}
-
-                        </a>
                     </div>
-                    <!-- Content -->
-
-                </div>
-                <!-- Mask & flexbox options-->
+                </div> <!-- Mask & flexbox options-->
 
             </div>
         </div>

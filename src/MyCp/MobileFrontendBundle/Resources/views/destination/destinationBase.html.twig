@@ -3,6 +3,17 @@
 <!DOCTYPE html>
 <html id="top" {{ get_lang(lang_code)|raw }}>
 <head>
+    <!-- Smartsupp Live Chat script -->
+    <script type="text/javascript">
+        var _smartsupp = _smartsupp || {};
+        _smartsupp.key = 'ced119d0d47118fa6e677f1b5443e5e159739ba9';
+        window.smartsupp||(function(d) {
+            var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
+            s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+            c.type='text/javascript';c.charset='utf-8';c.async=true;
+            c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
+        })(document);
+    </script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-16697066-1"></script>
     <script>
@@ -78,7 +89,24 @@
 filter='?uglifyjs2'
 %}
 <script src="{{ asset_url }}"></script>
+    <script>
+        var $CHANGED_LANGUAGE = $('a.change_language');
+        $CHANGED_LANGUAGE.click(function (event) {
+            event.preventDefault();
+            var url = $(this).data('url');
+            var $ajax = $.ajax({
+                url: url,
+                type: 'POST'
+            });
+            $ajax.error(function (data) {
+                console.log(data);
+            });
+            $ajax.success(function (data) {
+                window.location.assign(data);
 
+            });
+        });
+    </script>
 {% endjavascripts %}
 <!-- Google Analytics -->
 {#{% include "GoogleBundle:Analytics:async_universal.html.twig" %}#}

@@ -1,4 +1,4 @@
-{% extends 'FrontEndBundle:new_layout:base_filters.html.twig' %}
+{% extends 'FrontEndBundle:layout:base.html.twig' %}
 
 {% block include_javascripts_and_css %}
     {% stylesheets
@@ -190,7 +190,7 @@
                     'element_id':destination.desid
                 }) }}
                 <a href="#send_to_friend_popup" title="{{ 'SEND_TO_FRIEND' | trans }}" data-toggle="modal" style="text-decoration: none">
-                    <button style="margin-top: 15px" class="btn btn-default btn-block" onclick="$('#send_to_friend_popup').attr('data-email-type', 'recommend_destiny'); $('#send_to_friend_popup').attr('data-dest-prop-id', '{{ destination.getDesId }}');">
+                    <button style="margin-top: 15px" class="btn btn-block btn-default btn-block" onclick="$('#send_to_friend_popup').attr('data-email-type', 'recommend_destiny'); $('#send_to_friend_popup').attr('data-dest-prop-id', '{{ destination.getDesId }}');">
                         <i class="fa fa-mail-forward"></i>{{ "TELL_A_FRIEND" | trans }}
                     </button>
                 </a>
