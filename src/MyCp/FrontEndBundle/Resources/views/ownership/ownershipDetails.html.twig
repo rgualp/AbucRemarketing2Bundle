@@ -153,13 +153,17 @@
                         {% endif %}
                         {% if ownership.OwnGeolocateX != "" and ownership.OwnGeolocateY != "" %}
                             <div id="tab-map" class="tab-pane {% if gallery_photos | length == 0 %}active{% endif %}">
-                                <div id="big_map_details" class="flexible-container google-maps"
+                                <div id="big_map_details_disable" class="embed-responsive embed-responsive-16by9 flexible-container google-maps"
                                      data-x="{{ ownership.OwnGeolocateX }}"
                                      data-y="{{ ownership.OwnGeolocateY }}"
                                      data-name="{{ ownership.ownname }}"
                                      data-description="{{ "FROM_PRICES" | trans }} {{ promoPrice | price }} {{ "BYNIGHTS_PRICES" | trans }}"
                                      data-image="{{ asset('uploads/ownershipImages/thumbnails/'~image) }}"
                                      data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}">
+                                    {% if ownership.OwnGeolocateX != "" and ownership.OwnGeolocateY != "" %}
+                                        <iframe class="embed-responsive-item" src="https://maps.google.com/maps?q={{ ownership.OwnGeolocateX }}, {{ ownership.OwnGeolocateY }}&markers=icon:{{ asset('bundles/frontend/img/map_marker.png') }}&output=embed" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+
+                                    {% endif %}
                                 </div>
                             </div>
                         {% endif %}
