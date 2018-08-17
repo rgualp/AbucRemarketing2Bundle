@@ -2733,9 +2733,7 @@
             </trans-unit>
             <trans-unit id="680">
                 <source>ADD_TO_CART_ERROR</source>
-                <target>L’une de ces chambres existe déjà sur votre wishlist et la période prévue pour le séjour
-                    coïncide avec celle qui est déjà enregistrée. S’il vous plaît, modifiez la date.
-                </target>
+                <target>L’une de ces chambres existe déjà sur votre wishlist et la période prévue pour le séjour coïncide avec celle qui est déjà enregistrée. S’il vous plaît, modifiez la date.</target>
             </trans-unit>
             <trans-unit id="681">
                 <source>ADDRESS_STREET</source>
