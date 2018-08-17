@@ -384,16 +384,11 @@
                                         <ul class="price">
                                             <li class="lead">
                                                 <div class="row">
-                                                    <div class="col-xs-6">
+                                                    <div class="col">
                                                         <h4 class="no-margin text-left"
-                                                            style="margin-left: 20px">{{ room.roomtype | trans | title }}</h4>
+                                                            style="margin-left: 20px">{{ room.roomtype | trans | title }}-{{ "FROM_PRICES" | trans }} {{ room.roomPriceDownTo | price }}</h4>
                                                     </div>
-                                                    <div class="col-xs-6">
-                                                        {% if not hasCompleteReservation %}
-                                                            <h4 class="no-margin text-right"
-                                                                style="margin-right: 20px">{{ "FROM_PRICES" | trans }} {{ room.roomPriceDownTo | price }}</h4>
-                                                        {% endif %}
-                                                    </div>
+
                                                 </div>
 
                                             </li>
@@ -635,7 +630,7 @@
                         <br/>
                         <textarea class="col-sm-12 form-control" id="input_comment"
                                   required-message="{{ "COMMENTTEXT_REQUIERED_MESSAGE" | trans }}"></textarea>
-                        <button class="btn btn-primary margin-t" id="btn_insert_comment"
+                        <button class="btn  btn-primary margin-t" id="btn_insert_comment"
                                 data-url="{{ path('frontend_insert_comment',{'ownid':ownership.own_id}) }}">
                             {{ "SEND_COMMENT_DETAILS" | trans }}
                         </button>
@@ -745,7 +740,7 @@
                     </li>
                     <li>
                         <button onclick="javascript:refresh_calendar_button()"
-                                class="btn btn-primary">{{ "VERIFY_PRICES_FOR_THIS_DATES" | trans }}</button>
+                                class="btn btn-block btn-primary">{{ "VERIFY_PRICES_FOR_THIS_DATES" | trans }}</button>
                     </li>
                 </ul>
                 <hr class="margin-t"/>
