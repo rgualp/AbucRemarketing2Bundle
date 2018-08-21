@@ -129,7 +129,7 @@
                     {% endif %}
                 </div>
             </div>
-            <div id="filter_upper">
+            <div id="filter_upper" style="margin-left: 20px;">
                 {% if check_filters is defined and check_filters | length %}
 
                 {% endif %}
@@ -507,7 +507,11 @@
                 });
                 
                 $('.action_remove_filter_up').change(function() {
-                    research(1);
+                    if($(this).is(":checked")) // "this" refers to the element that fired the event
+                    {
+                        research(1);
+                    }
+
                 });
 
 
