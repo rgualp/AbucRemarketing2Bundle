@@ -47,8 +47,7 @@
 
 {% block include_javascripts_and_css %}
     {% stylesheets
-        '@FrontEndBundle/Resources/public/css/plugins/ionRangeSlider/ion.rangeSlider.css'
-        '@FrontEndBundle/Resources/public/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css'
+
         '@FrontEndBundle/Resources/public/js/plugins/bootstrap-select/bootstrap-select.min.css'
         '@FrontEndBundle/Resources/public/css/slider.css'
         '@FrontEndBundle/Resources/public/css/filtersv2.css'
@@ -143,12 +142,18 @@
                     </header>
                     <div class="filter-content">
                         <div class="card-body">
-                            {% set count=owns_prices|length-1 %}
-                            <div class="row" style="margin-top: 20px; padding-left: 15px;">
-                                <b style="display: inline-block; margin-right: 20px;">${{ owns_prices[0][0] }}</b>
-                                <input id="priceFilter" type="text" class="span2" style="width: 100%;" value="" data-slider-min="0" data-slider-max="{{ owns_prices[count][1] }}" data-slider-step="1" data-slider-value="[{{ owns_prices[0][0] }},40]"/>
-                                <b style="display: inline-block; margin-left: 15px;">${{ owns_prices[count][1] }}</b>
+                            <div class="form-group">
+                                {% set count=owns_prices|length-1 %}
+                                <select id="priceFilter" class="form-control select" >
+                                    <option value="0-300" selected >$(0-300)</option>
+                                    <option value="0,70">$(0-70)</option>
+                                    <option value="70,100">$(70-100)</option>
+                                    <option value="100,200">$(100-200)</option>
+                                    <option value="200,300">$(200-300)</option>
+
+                                </select>
                             </div>
+
 
                         </div> <!-- card-body.// -->
                     </div>
@@ -468,8 +473,8 @@
                 });
 
                 $("iframe").css("position", "fixed");
-                jQuery("#priceFilter").slider({});
-                jQuery("#priceFilter2").slider({});
+
+                // jQuery("#priceFilter2").slider({});
                 $('#cancel-filters').on('click', function () {
                     $('#button_research').removeClass('hide');
                     $('#more_filters').addClass('collapsed');
@@ -511,6 +516,12 @@
                     {
                         research(1);
                     }
+
+                });
+
+                $('#priceFilter').change(function() {
+                        research(1);
+
 
                 });
 

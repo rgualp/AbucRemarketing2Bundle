@@ -316,18 +316,22 @@ function load_upper_filters(page)
         //        $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_price_" + $(this).val() + "' data-control-id='' data-value='" + $(this).val() + "' data-control-name='own_price'><i class='icon-remove-sign'></i>" + $(this).parent().text() + "</a> ");
         //    }
         //});
-        var rangePrice=$('#priceFilter').val();
-        if(rangePrice!=''){
-            var res = rangePrice.split(",");
+        var rangePrice=$('#priceFilter');
+        console.log(rangePrice.find(":selected").val());
+
+        var price=rangePrice.find(":selected").val();
+
+        if(price!='' && price!="0-300" && price !=undefined){
+            var res = price.split(",");
             own_price_items.push(parseInt(res[0]));
             own_price_from_items.push(parseInt(res[0]));
             own_price_to_items.push(parseInt(res[1]));
-            if (document.getElementById("fu_own_price_" + rangePrice) == null)
+            if (document.getElementById("fu_own_price_" + price) == null)
             {
                 innerHtml = $("#filter_upper").html();
-                $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_price_" + rangePrice + "' data-control-id='#priceFilter' data-value='" + rangePrice + "' data-control-name='own_price'><i class='icon-remove-sign'></i>$(" + rangePrice + ")</a> ");
+                $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_price_" + price + "' data-control-id='#priceFilter' data-value='" + price + "' data-control-name='own_price'><i class='icon-remove-sign'></i>$(" + price + ")</a> ");
             }else{
-                $("#fu_own_price_" + rangePrice).remove();
+                $("#fu_own_price_" + price).remove();
             }
         }
         $('input[name=own_price]:checked').each(function() {

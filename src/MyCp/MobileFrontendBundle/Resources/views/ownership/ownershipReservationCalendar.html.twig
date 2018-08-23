@@ -9,7 +9,7 @@
         <th align="center" style="text-align: center;">  <i class="fa fa-male"></i></th>
         <th align="center" style="text-align: center;"><i class="fa fa-child"></i></th>
         {% for date in array_dates %}
-            <th class="hidden-md hidden-sm hidden-xs">{{ date['day_name'] | trans}} {{ date['day_number'] }}</th>
+            <th class="d-none hidden-md hidden-sm hidden-xs">{{ date['day_name'] | trans}} {{ date['day_number'] }}</th>
         {% endfor %}
 
 
@@ -96,7 +96,7 @@
             {% endif %}
             {% set cont_days = 1 %}
             {% for date in array_dates %}
-                <td>
+                <td class="d-none">
                     {% set print_price = 1%}
                     {% if no_available_days[room.getRoomId] is defined%}
                         {% set print_price = 1%}
