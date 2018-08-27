@@ -300,6 +300,7 @@ class FeedbackReminderWorkerCommand extends Worker {
 
 
                 $emailService->sendEmail($mail, $subject, $bodyExtraServices, 'services@mycasaparticular.com');
+                $emailService->sendEmail('orlando@hds.li', $subject, $bodyExtraServices, 'services@mycasaparticular.com');
 
                 $output->writeln('Successfully sent notification email to address '.$tourist["user_email"]);
             }
