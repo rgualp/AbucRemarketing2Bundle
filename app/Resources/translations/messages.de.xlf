@@ -4608,6 +4608,95 @@ Zusätzlich zu der Verwaltung der Unterkunft, bieten wir Ihnen mehrere <strong>T
                 </target>
 
              </trans-unit>
+                  <trans-unit id="4850">
+                                              <source>EMAIL_TWO_DAYS_TITTLE</source>
+                                                 <target>
+                                          Tipps für die Reise nach Kuba
+                                              </target>
+
+                                           </trans-unit>
+                                           <trans-unit id="4851">
+                                                        <source>EMAIL_TWO_DAYS_TEXT</source>
+                                                           <target>
+                                        Wir sehen, dass Sie daran interessiert sind, nach Kuba zu reisen.
+                                        Brauchst du neue Ideen? Wir senden Ihnen einige Tipps, damit Sie Ihren Informationen erweitern können.
+                                        Reise durchschnittliche Zeit in Kuba liegt zwischen 10 und 21 Tagen. Nach den Zielen und Aktivitäten, die Sie in jedem von ihnen durchführen können, empfehlen wir diese Destinationen: Habana (4 Nächte), Viñales (2 Nächte), Cienfuegos (1 Nacht), Trinidad (3 Nächte), Varadero (4 Nächte)
+                                        Denken Sie daran, in Kuba Annäherung der Hochsaison des Tourismus, nicht die Gelegenheit verpassen, die Häuser Ihrer Wahl zu buchen. Hier verlassen wir einige der von unseren Reisenden empfohlenen.
+
+                                                        </target>
+
+                                                     </trans-unit>
+                                                     <trans-unit id="4852">
+                                                                            <source>EMAIL_TWO_DAYS_FOOTER</source>
+                                                                               <target>
+                                                           Sie können uns per E-Mail oder über unsere Kontakte schreiben:
+                                                           Facebook: https://www.facebook.com/MyCasaParticular
+                                                           WhatsApp: ((+53) 55 59-97-50).
+                                                           Büro in Kuba: (53) 7 8673574
+
+                                                           Wir können Ihnen helfen, die Erfahrung, die Sie auf Sie vor Ihrer Ankunft in Kuba und während Ihres Aufenthalts auf der Insel planen.
+                                                           Grüße aus Kuba!
+
+
+
+                                                                            </target>
+
+                                                                         </trans-unit>
+ <trans-unit id="4853">
+                    <source>EMAIL_TWO_DAYS_TITTLE_1</source>
+                       <target>
+                 Dein Urlaub steht vor der Tür!
+                    </target>
+
+                 </trans-unit>
+                 <trans-unit id="4854">
+                              <source>EMAIL_TWO_DAYS_TEXT_1</source>
+                                 <target>
+            Bist du bereit?
+            Es ist sehr wenig übrig für Ihren Urlaub in Kuba!
+            Wenn Sie Ihre Transfers während Ihrer Reise noch nicht organisiert haben oder neue Ziele buchen möchten, sind Sie immer noch pünktlich. Schreiben Sie uns über diese E-Mail oder über unsere Kontakte und wir helfen Ihnen dabei:
+                    </target>
+
+                           </trans-unit>
+                           <trans-unit id="4855">
+                                                  <source>EMAIL_TWO_DAYS_FOOTER_1</source>
+                                                     <target>
+                              Facebook: https://www.facebook.com/MyCasaParticular
+                              WhatsApp: ((+53) 55 59-97-50).
+                              Büro in Kuba: (53) 7 8673574
+
+                              Wir warten auf dich!
+
+
+                                                  </target>
+
+                                               </trans-unit>
+  <trans-unit id="4856">
+                    <source>EMAIL_TWO_DAYS_TITTLE_2</source>
+                       <target>
+                Bist du schon bereit?
+                    </target>
+
+                 </trans-unit>
+                 <trans-unit id="4857">
+                              <source>EMAIL_TWO_DAYS_TEXT_2</source>
+                                 <target>
+           Alles ist bereit für Ihre Reise.
+
+                   </target>
+
+                           </trans-unit>
+                           <trans-unit id="4858">
+                                                  <source>EMAIL_TWO_DAYS_FOOTER_2</source>
+                                                     <target>
+                           Ihr Gastgeber wurde über die Einzelheiten Ihrer Ankunft informiert und wartet auf Sie.
+                           Im Falle von Änderungen oder Eventualitäten, kontaktieren Sie uns bitte.
+                           Für weitere Informationen können Sie unsere Allgemeinen Geschäftsbedingungen einsehen (Link zur Website)
+                           Grüße!
+
+                                                  </target>
+
+                                               </trans-unit>
          </body>
     </file>
 </xliff>
