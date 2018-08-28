@@ -138,8 +138,8 @@ class CheckInCommand extends ContainerAwareCommand {
             foreach($checkInEmails as $tourist)
             {
                 $locale = strtolower($tourist["lang_code"]);
-                $subject = $translator->trans('EXTRA_SERVICES_SUBJECT', array(), null, $locale);
-                $mail = (true) ? "orlando@hds.li" : $tourist["user_email"];
+                $subject = $translator->trans('EMAIL_TWO_DAYS_TITTLE_2', array(), null, $locale);
+                $mail = $tourist["user_email"];
                 $dest_list = $em->getRepository('mycpBundle:destination')->getAllDestinations($locale, null, null);
 
                 $bodyExtraServices = $emailService->getViewContent('FrontEndBundle:mails:CheckinTwoDaysMail.html.twig', array(
@@ -196,8 +196,8 @@ class CheckInCommand extends ContainerAwareCommand {
             foreach($checkInEmails as $tourist)
             {
                 $locale = strtolower($tourist["lang_code"]);
-                $subject = $translator->trans('EXTRA_SERVICES_SUBJECT', array(), null, $locale);
-                $mail = (true) ? "orlando@hds.li" : $tourist["user_email"];
+                $subject = $translator->trans('EMAIL_TWO_DAYS_TITTLE_1', array(), null, $locale);
+                $mail =  $tourist["user_email"];
                 $dest_list = $em->getRepository('mycpBundle:destination')->getAllDestinations($locale, null, null);
 
                 $bodyExtraServices = $emailService->getViewContent('FrontEndBundle:mails:CheckinFiveDaysMail.html.twig', array(
