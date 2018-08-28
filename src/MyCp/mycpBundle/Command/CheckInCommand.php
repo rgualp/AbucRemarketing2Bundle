@@ -26,7 +26,20 @@ class CheckInCommand extends ContainerAwareCommand {
     protected function execute(InputInterface $input, OutputInterface $output) {
         $container = $this->getContainer();
         $em = $container->get('doctrine')->getManager();
+        $emailService = $container->get('mycp.service.email_manager');
+        $user_not_reservation= $em->getRepository('mycpBundle:user')->getUserNotReservations();
+        if($user_not_reservation){
+            foreach ($user_not_reservation as $client){
 
+                $output->writeln('Send Offerts Reminder Email to User  ' . $client->getUserEmail());
+                $this->sendOffertEmail($client);
+
+            }
+
+        }
+
+        $this->CheckInTwoDays($input,$output,$emailService);
+        $this->CheckInFiveDays($input,$output,$emailService);
         $output->writeln(date(DATE_W3C) . ': Starting check-in command...');
 
         $date = new \DateTime();
@@ -46,7 +59,7 @@ class CheckInCommand extends ContainerAwareCommand {
 
         $output->writeln('Check-in found: ' . $existsCheckIns);
 
-        $emailService = $container->get('mycp.service.email_manager');
+
         $excelService = $container->get('mycp.service.export_to_excel');
         $notificationService = $container->get('mycp.notification.service');
         $logger = $container->get('logger');
@@ -87,19 +100,8 @@ class CheckInCommand extends ContainerAwareCommand {
             $output->writeln($message);
         }
 
-        $this->CheckInTwoDays($input,$output,$emailService);
-        $this->CheckInFiveDays($input,$output,$emailService);
 
-        $user_not_reservation= $em->getRepository('mycpBundle:user')->getUserNotReservations();
-        if($user_not_reservation){
-            foreach ($user_not_reservation as $client){
 
-                $output->writeln('Send Offerts Reminder Email to User  ' . $client->getUserEmail());
-                $this->sendOffertEmail($client);
-
-            }
-
-        }
 
         $output->writeln('Operation completed!!!');
         return 0;
