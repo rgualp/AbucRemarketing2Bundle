@@ -142,7 +142,7 @@ class CheckInCommand extends ContainerAwareCommand {
                 $mail = (true) ? "orlando@hds.li" : $tourist["user_email"];
                 $dest_list = $em->getRepository('mycpBundle:destination')->getAllDestinations($locale, null, null);
 
-                $bodyExtraServices = $emailService->getViewContent('FrontEndBundle:mails:offerts:CheckinTwoDaysMail.html.twig', array(
+                $bodyExtraServices = $emailService->getViewContent('FrontEndBundle:mails:CheckinTwoDaysMail.html.twig', array(
                     'user_name' => $tourist["user_user_name"],
                     'main_destinations' => array_slice($dest_list, 0, 6),
                     'user_locale' => $locale));
@@ -167,7 +167,7 @@ class CheckInCommand extends ContainerAwareCommand {
     private function CheckInFiveDays(InputInterface $input, OutputInterface $output,$emailService) {
         $container = $this->getContainer();
         $em = $container->get('doctrine')->getManager();
-
+        $templatingService = $container->get('templating');
         $output->writeln(date(DATE_W3C) . ': Starting check-in 5 days command...');
 
         $date = new \DateTime();
@@ -200,7 +200,7 @@ class CheckInCommand extends ContainerAwareCommand {
                 $mail = (true) ? "orlando@hds.li" : $tourist["user_email"];
                 $dest_list = $em->getRepository('mycpBundle:destination')->getAllDestinations($locale, null, null);
 
-                $bodyExtraServices = $emailService->getViewContent('FrontEndBundle:mails:offerts:CheckinFiveDaysMail.html.twig', array(
+                $bodyExtraServices = $emailService->getViewContent('FrontEndBundle:mails:CheckinFiveDaysMail.html.twig', array(
                     'user_name' => $tourist["user_user_name"],
                     'main_destinations' => array_slice($dest_list, 0, 6),
                     'user_locale' => $locale));
@@ -242,7 +242,7 @@ class CheckInCommand extends ContainerAwareCommand {
 
 
         $emailBody = $emailManager->getViewContent(
-            'FrontEndBundle:mails:offerts:aftertwodays.html.twig', array(
+            'FrontEndBundle:mails:aftertwodays.html.twig', array(
             'ownerships'=>$top_20->setMaxResults(6)->getResult(),
             'user_name' => $userName,
             'user_locale' => $userLocale,
