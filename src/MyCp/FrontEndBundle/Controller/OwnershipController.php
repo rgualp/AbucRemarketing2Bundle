@@ -423,6 +423,12 @@ class OwnershipController extends Controller
         $currentServiceFee = $em->getRepository("mycpBundle:serviceFee")->getCurrent();
         $allLanguages = $em->getRepository("mycpBundle:lang")->findBy(array('lang_active' => 1));
 
+        $bookingModality = $ownership->getBookingModality();
+
+        $completeReservationPrice = 0;
+        if ($bookingModality != null and $bookingModality->getBookingModality()->getName() == bookingModality::COMPLETE_RESERVATION_BOOKING)
+            $completeReservationPrice = $bookingModality->getPrice();
+
         $langCountry = array(
             'en' => 'en-US',
             'es' => 'es-ES',
@@ -437,7 +443,7 @@ class OwnershipController extends Controller
 
                 'ownership' => $ownership_array,
                 'description' => $ownership_array['description'],
-
+                'isCompletePayment' => ($completeReservationPrice > 0),
                 'automaticTranslation' => $ownership_array['autotomaticTranslation'],
 
                 'comments' => $total_comments->getResult(),
@@ -491,7 +497,7 @@ class OwnershipController extends Controller
                 'locale' => $locale,
 
                 'languages' => $languages,
-
+                'isCompletePayment' => ($completeReservationPrice > 0),
                 'currentServiceFee' => $currentServiceFee,
                 'lastPage' => $paginator->getLastPage(),
                 'allLanguages' => $allLanguages,

@@ -391,9 +391,13 @@
                                                                         style="margin-left: 25px;color:white;">{{ room.roomtype | trans | title }}</h4>
                                                                 </div>
                                                                 <div class="col-6">
-                                                                    {% if not hasCompleteReservation %}
+                                                                    {% if not isCompletePayment %}
                                                                         <h4 class="no-margin text-right"
                                                                             style="margin-right: 20px;color:white;">{{ "FROM_PRICES" | trans }} {{ room.roomPriceDownTo | price }}</h4>
+                                                                    {% else %}
+                                                                      <h4 class="no-margin text-right"
+                                                                            style="margin-right: 20px;color:white;">{{ "Propiedad completa" | trans }}</h4>
+
                                                                     {% endif %}
                                                                 </div>
                                                             </div>

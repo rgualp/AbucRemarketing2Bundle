@@ -254,6 +254,7 @@ class SearchUtils {
                             o.own_rating as rating,
                             o.own_category as category,
                             o.own_type as type,
+                            mod.name as booking_modality,
                             o.own_geolocate_x as OwnGeolocateX,
                             o.own_geolocate_y as OwnGeolocateY,
                             IF(abMod.price IS NOT NULL AND bMod.name LIKE '%completa%', abMod.price,o.own_minimum_price) as minimum_price,
@@ -279,6 +280,8 @@ class SearchUtils {
                              JOIN o.own_address_province prov
                              JOIN o.own_address_municipality mun
                              JOIN o.own_destination des
+                             JOIN o.bookingModality bm
+                             JOIN bm.bookingModality mod
                              JOIN o.data data
                              LEFT JOIN data.principalPhoto op
                              LEFT JOIN op.own_pho_photo pho
@@ -525,7 +528,7 @@ class SearchUtils {
                 $insideWhere = SearchUtils::getStringFromArray($filters['own_type']);
 
                 if($insideWhere != "")
-                    $where .= " AND (o.own_type IN (" . $insideWhere . ") OR o.own_rental_type IN (" . $insideWhere . ") )";
+                    $where .= " AND (o.own_type IN (" . $insideWhere . ") OR mod.name IN (" . $insideWhere . ") )";
             }
 
             if (array_key_exists('own_price_from', $filters) && $filters['own_price_from'] != null && is_array($filters['own_price_from']) && count($filters['own_price_from']) > 0 && $filters['own_price_to'] != null && is_array($filters['own_price_to']) && count($filters['own_price_to']) > 0) {
