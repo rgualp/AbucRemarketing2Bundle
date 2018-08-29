@@ -100,12 +100,7 @@
                 <div class="mb-4 scroll">
                     <strong>{{ description | raw }}</strong>
                 </div>
-                <div class="text-center">
-                <a  href="{{ path('frontend_search_ownership',{'text':desName|urlNormalize})}}"  class="btn btn-outline-white btn-lg waves-effect waves-light">
 
-                    <i class="fa fa-search ml-2"> {{ 'KEEP_SEARCHING'|trans }}</i>
-                </a>
-                </div>
             </div>
             <!-- Content -->
         </div>
@@ -207,6 +202,7 @@
                                 </h2>
                             </div>
 
+
                         </div>
                     </div>
                     <div class="modal fade" id="myModalOwnerShipCalendar"  tabindex="-1" role="dialog"  aria-hidden="true" role="dialog" >
@@ -240,6 +236,12 @@
                             'destination_name': destination.desname | lower | replace(" ", "-"),
                             'destination_id': destination.desid,
                             'data_view' : data_view }) }}
+                    </div>
+                    <div class="text-center">
+                        <a  href="{{ path('frontend_search_ownership',{'text':desName|urlNormalize})}}"  class="btn btn-blue btn-lg waves-effect waves-light">
+
+                            <i class="fa fa-search ml-2"> {{ 'KEEP_SEARCHING'|trans }}</i>
+                        </a>
                     </div>
                 {% endif %}
             </div>
