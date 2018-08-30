@@ -368,6 +368,7 @@ class SearchUtils {
         $where = "";
         if ($filters != null && is_array($filters)) {
 
+
             if (array_key_exists('own_beds_total', $filters) && $filters['own_beds_total'] != null && is_array($filters['own_beds_total']) && count($filters['own_beds_total']) > 0)
             {
                 $insideWhere = SearchUtils::getPlusFilterString($filters['own_beds_total'], "r.room_beds", 6);
@@ -514,6 +515,12 @@ class SearchUtils {
                 $insideWhere = SearchUtils::getPlusFilterString($filters['own_beds_total'], "r.room_beds", 6);
                 if($insideWhere != "")
                     $where .= " AND (" . $insideWhere . ")";
+            }
+            if (array_key_exists('reviews_items', $filters) && $filters['reviews_items'] != null && is_array($filters['reviews_items']) && count($filters['reviews_items']) > 0)
+            {
+                $insideWhere = SearchUtils::getStringFromArray($filters['reviews_items']);
+                if($insideWhere != "")
+                 $where .= " AND o.own_rating IN (" . $insideWhere . ")";
             }
 
             if (array_key_exists('own_category', $filters) && $filters['own_category'] != null && is_array($filters['own_category']) && count($filters['own_category']) > 0)

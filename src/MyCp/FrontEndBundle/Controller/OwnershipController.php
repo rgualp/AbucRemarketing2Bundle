@@ -1000,7 +1000,7 @@ class OwnershipController extends Controller
             $check_filters['own_others_pets'] = ($request->request->get('own_others_pets') == 'true' || $request->request->get('own_others_pets') == '1') ? true : false;
             $check_filters['own_others_internet'] = ($request->request->get('own_others_internet') == 'true' || $request->request->get('own_others_internet') == '1') ? true : false;
             $check_filters['own_inmediate_booking'] = ($request->request->get('own_inmediate_booking') == 'true' || $request->request->get('own_inmediate_booking') == '1') ? true : false;
-
+            $check_filters['reviews_items'] = $request->request->get('reviews_items');
             $room_filter = ($check_filters['room_type'] != null ||
                 $check_filters['room_bathroom'] != null ||
                 $check_filters['room_climatization'] != null ||

@@ -163,6 +163,58 @@
                 </article>
                 <article class="card-group-item">
                     <header class="card-header text-center">
+                        <h6 class="title">{{"RATINGS" | trans}}</h6>
+                    </header>
+                    <div class="filter-content">
+                        <div class="card-body">
+                            <label class="form-check">
+                                <input class="form-check-input action_remove_filter_up" type="checkbox" name="stars" id="stars_5" value="5" {%if check_filters is defined and check_filters['own_others_languages'] is defined and check_filters['own_others_languages'] == '1___'%} checked="checked" {%endif%} {%if not( own_statistics['own_lang_english'] > 0 or (check_filters is defined and check_filters['own_others_languages'] == '1___'))%} disabled="disabled" {%endif%}/>
+                                <img class="icon icon-2 tiny-star-icon" src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" title="MyCasaparticular" alt="{{"MyCasaparticular" | trans}}">
+                                <img class="icon icon-2 tiny-star-icon" src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" title="MyCasaparticular" alt="{{"MyCasaparticular" | trans}}">
+                                <img class="icon icon-2 tiny-star-icon" src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" title="MyCasaparticular" alt="{{"MyCasaparticular" | trans}}">
+                                <img class="icon icon-2 tiny-star-icon" src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" title="MyCasaparticular" alt="{{"MyCasaparticular" | trans}}">
+                                <img class="icon icon-2 tiny-star-icon" src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" title="MyCasaparticular" alt="{{"MyCasaparticular" | trans}}">
+
+
+                            </label>
+
+                            <label class="form-check">
+                                <input class="form-check-input  action_remove_filter_up" type="checkbox" name="stars" id="stars_4" value="4" {%if check_filters is defined and check_filters['own_others_languages'] is defined and check_filters['own_others_languages'] == '_1__'%} checked="checked" {%endif%} {%if not(own_statistics['own_lang_french'] > 0 or (check_filters is defined and check_filters['own_others_languages'] == '_1__'))%}disabled="disabled" {%endif%}/>
+                                <img class="icon icon-2 tiny-star-icon" src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" title="MyCasaparticular" alt="{{"MyCasaparticular" | trans}}">
+                                <img class="icon icon-2 tiny-star-icon" src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" title="MyCasaparticular" alt="{{"MyCasaparticular" | trans}}">
+                                <img class="icon icon-2 tiny-star-icon" src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" title="MyCasaparticular" alt="{{"MyCasaparticular" | trans}}">
+                                <img class="icon icon-2 tiny-star-icon" src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" title="MyCasaparticular" alt="{{"MyCasaparticular" | trans}}">
+                                <img class="icon icon-2 tiny-star-off-icon" src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" title="MyCasaparticular" alt="{{"MyCasaparticular" | trans}}">
+
+
+                            </label>
+                            <label class="form-check">
+                                <input class="form-check-input  action_remove_filter_up" type="checkbox" name="stars" id="stars_3" value="3" {%if check_filters is defined and check_filters['own_others_languages'] is defined and check_filters['own_others_languages'] == '__1_'%} checked="checked" {%endif%} {%if not( own_statistics['own_lang_german'] > 0 or (check_filters is defined and check_filters['own_others_languages'] == '__1_'))%} disabled="disabled" {%endif%}/>
+                                <img class="icon icon-2 tiny-star-icon" src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" title="MyCasaparticular" alt="{{"MyCasaparticular" | trans}}">
+                                <img class="icon icon-2 tiny-star-icon" src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" title="MyCasaparticular" alt="{{"MyCasaparticular" | trans}}">
+                                <img class="icon icon-2 tiny-star-icon" src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" title="MyCasaparticular" alt="{{"MyCasaparticular" | trans}}">
+                                <img class="icon icon-2 tiny-star-off-icon" src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" title="MyCasaparticular" alt="{{"MyCasaparticular" | trans}}">
+                                <img class="icon icon-2 tiny-star-off-icon" src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" title="MyCasaparticular" alt="{{"MyCasaparticular" | trans}}">
+
+                            </label>
+                            <label class="form-check">
+
+                                <input class="form-check-input action_remove_filter_up" type="checkbox" name="stars" id="stars_2" value="2" {%if check_filters is defined and check_filters['own_others_languages'] is defined and check_filters['own_others_languages'] == '___1'%} checked="checked" {%endif%} {%if not( own_statistics['own_lang_italian'] > 0 or (check_filters is defined and check_filters['own_others_languages'] == '___1'))%} disabled="disabled" {%endif%}/>
+                                <img class="icon icon-2 tiny-star-icon" src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" title="MyCasaparticular" alt="{{"MyCasaparticular" | trans}}">
+                                <img class="icon icon-2 tiny-star-icon" src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" title="MyCasaparticular" alt="{{"MyCasaparticular" | trans}}">
+                                <img class="icon icon-2 tiny-star-off-icon" src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" title="MyCasaparticular" alt="{{"MyCasaparticular" | trans}}">
+                                <img class="icon icon-2 tiny-star-off-icon" src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" title="MyCasaparticular" alt="{{"MyCasaparticular" | trans}}">
+                                <img class="icon icon-2 tiny-star-off-icon" src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" title="MyCasaparticular" alt="{{"MyCasaparticular" | trans}}">
+
+
+                            </label>
+
+
+                        </div> <!-- card-body.// -->
+                    </div>
+                </article>
+                <article class="card-group-item">
+                    <header class="card-header text-center">
                         <h6 class="title">{{"SELECT_OWNERSHIP_TYPE_OPTION" | trans}}</h6>
                     </header>
                     <div class="filter-content">
