@@ -570,7 +570,7 @@ function load_upper_filters(page)
         if (document.getElementById("fu_stars_" + $(this).val()) == null)
         {
             innerHtml = $("#filter_upper").html();
-            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_stars_" + $(this).val() + "' data-value='" + $(this).val() + "' data-control-id='' data-control-name='stars'><i class='icon-remove-sign'></i> " + $(this).val()+"<img class='icon icon-2 tiny-star-icon' src='/MyCasaParticular/web/bundles/frontend/img/icons/pixel.gif' title='MyCasaparticular' alt='MyCasaparticular'>" + "</a> ");
+            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_stars_" + $(this).val() + "' data-value='" + $(this).val() + "' data-control-id='' data-control-name='stars'><i class='fa fa-star'></i> " + $(this).val() + "</a> ");
         }else{
             $("#fu_stars_" + $(this).val()).remove();
         }
