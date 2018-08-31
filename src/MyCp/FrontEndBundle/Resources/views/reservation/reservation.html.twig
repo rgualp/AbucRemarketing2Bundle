@@ -47,14 +47,14 @@
             <label>+</label>
         </div>
         <div class="col-sm-2" rel="tooltip" title="{{ "SERVICE_TOURIST_TAX_TITLE" | trans }}">{{"SERVICE_TOURIST_TAX" | trans}}: <br/><span>{{touristTax | price}}</span></div>
-        <div class="d-none col-sm-1">
+        <div class="col-sm-1">
             <label>+</label>
         </div>
-        <div class="d-none col-sm-2" rel="tooltip" title="{{ "SERVICE_FIXED_TAX_TITLE" | trans }}">{{"SERVICE_FIXED_TAX" | trans}}: <br/><span>{{currentServiceFee.fixedFee | price}}</span></div>
+        <div class=" col-sm-2" rel="tooltip" title="{{ "SERVICE_FIXED_TAX_TITLE" | trans }}">{{"SERVICE_FIXED_TAX" | trans}}: <br/><span>{{currentServiceFee.fixedFee | price}}</span></div>
         <div class="col-sm-1">
             <label>=</label>
         </div>
-        <div class="col-sm-2 text-right" style="font-size: larger; font-weight: bold" rel="tooltip" title="{{ "ACCOMMODATION_TOTAL_COST_PLURAL_TOOLTIP" | trans }}">
+        <div class="col-sm-2 text-right" style="font-size: larger; font-weight: bold">
             {{ 'RESERVATION_TOTAL_PRICE' | trans }} <br/>
             <span>{{(total_price + touristTax + currentServiceFee.fixedFee) | price}}</span>
         </div>
