@@ -94,7 +94,7 @@
      <div class="row" style="padding-right: 20px">
         <div style="font-size: 10px;" class="col-xs-12 text-right text-uppercase" rel="tooltip" title="{{ "ACCOMMODATION_TOTAL_COST_PLURAL_TOOLTIP" | trans }}">{{"ACCOMMODATION_TOTAL_COST" | trans}} <span style="font-size: 16px;"><b>{{total_price | price}}</b></span></div>
         <div style="font-size: 10px;" class="col-xs-12 text-right text-uppercase" rel="tooltip" title="{{ "SERVICE_TOURIST_TAX_TITLE" | trans }}">{{"SERVICE_TOURIST_TAX" | trans}}: <span style="font-size: 16px;"><b>{{touristTax | price}}</b></span></div>
-        <div style="font-size: 10px;" class="col-xs-12 text-right text-uppercase" rel="tooltip" title="{{ "SERVICE_FIXED_TAX_TITLE" | trans }}">{{"SERVICE_FIXED_TAX" | trans}}: <span style="font-size: 16px;"><b>{{currentServiceFee.fixedFee | price}}</b></span></div>
+        <div style="font-size: 10px;" class="d-none col-xs-12 text-right text-uppercase" rel="tooltip" title="{{ "SERVICE_FIXED_TAX_TITLE" | trans }}">{{"SERVICE_FIXED_TAX" | trans}}: <span style="font-size: 16px;"><b>{{currentServiceFee.fixedFee | price}}</b></span></div>
         <div class="col-xs-12 text-right text-uppercase" style="font-size: larger; color: #218CDC" rel="tooltip" title="{{ "ACCOMMODATION_TOTAL_COST_PLURAL_TOOLTIP" | trans }}">
             {{ 'RESERVATION_TOTAL_PRICE' | trans }} <span><b>{{(total_price + touristTax + currentServiceFee.fixedFee) | price}}</b></span>
         </div>

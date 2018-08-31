@@ -7,6 +7,9 @@
             font: 11px Verdana, Arial, Helvetica, sans-serif;
             letter-spacing: 0.3px;
         }
+        .d-none{
+            display:none!important;
+        }
 
         h2 {
             font-size: 15px;
@@ -275,7 +278,7 @@
 
 
                 <tr>
-                    <td><b>{{ "SERVICE_FIXED_TAX"|trans({}, "messages", user_locale) }}</b></td>
+                    <td class="{% if fixedTax == 0  %}d-none"{% endif %}><b>{{ "SERVICE_FIXED_TAX"|trans({}, "messages", user_locale) }}</b></td>
                     <td class="text-right"><h4
                                 class="no-margin">{{ currency_symbol }} {{ fixedTax | number_format(2) }}</h4>
                     </td>
@@ -309,7 +312,7 @@
                 <td class="text-right">{{ currency_symbol }} {{ ((own_res_payments[own.id].touristTax)) | number_format(2) }}</td>
             </tr>
             {% if (own_res | length == 1) %}
-                <tr>
+                <tr class="{% if fixedTax == 0  %}d-none"{% endif %}">
                     <td>-{{ "SERVICE_FIXED_TAX"|trans({}, "messages", user_locale) }}</td>
                     <td class="text-right">{{ currency_symbol }} {{ fixedTax | number_format(2) }}</td>
                 </tr>
@@ -360,7 +363,7 @@
                     class="no-margin">{{ currency_symbol }} {{ (tourist_tax_total) | number_format(2) }}</h4></td>
     </tr>
 
-    <tr>
+    <tr class="{% if service_charge_total == 0  %}d-none"{% endif %}">
         <td><b>{{ "SERVICE_FIXED_TAX"|trans({}, "messages", user_locale) }}</b></td>
         <td class="text-right"><h4
                     class="no-margin">{{ currency_symbol }} {{ service_charge_total | number_format(2) }}</h4></td>
@@ -388,7 +391,7 @@
         <td class="text-right">{{ currency_symbol }} {{ (tourist_tax_total) | number_format(2) }}</td>
     </tr>
 
-    <tr>
+    <tr class="{% if service_charge_total == 0  %}d-none"{% endif %}">
         <td>- {{ "SERVICE_FIXED_TAX"|trans({}, "messages", user_locale) }}</td>
         <td class="text-right">{{ currency_symbol }} {{ service_charge_total | number_format(2) }}</td>
     </tr>
@@ -419,10 +422,10 @@
 <br/><br/>
 <b>{{ "SERVICE_TOURIST_TAX" | trans({}, "messages", user_locale) }}</b>: {{ "SERVICE_TOURIST_TAX_TITLE" | trans({}, "messages", user_locale) }}
 <br/><br/>
-
+<div class="d-none">
 <b>{{ "SERVICE_FIXED_TAX" | trans({}, "messages", user_locale) }}</b>: {{ "SERVICE_FIXED_TAX_TITLE" | trans({}, "messages", user_locale) }}
 <br/><br/>
-
+</div>
 <b>{{ "RESERVATION_TOTAL_PRICE" | trans({}, "messages", user_locale) }}</b> {{ "ACCOMMODATION_TOTAL_COST_PLURAL_TOOLTIP" | trans({}, "messages", user_locale) }}
 <br/><br/>
 <b>{{ "PREPAYMENT" | trans({}, "messages", user_locale) }}</b>: {{ "PREPAYMENT_TOOLTIP" | trans({}, "messages", user_locale) }}
