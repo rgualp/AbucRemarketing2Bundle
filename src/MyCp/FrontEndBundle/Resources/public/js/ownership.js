@@ -149,6 +149,15 @@ function change_order()
         manage_favorities(".favorite_off_action");
         manage_favorities(".favorite_on_action");
         hide_loading();
+        if ($('.bttrlazyloading').length > 0){
+            $('.bttrlazyloading.no_show').each(function () {
+                $(this).removeClass("no_show");
+                $(this).bttrlazyloading(
+                    { container: '#div_result' }
+
+                );
+            });
+        }
     });
 
     return false;
