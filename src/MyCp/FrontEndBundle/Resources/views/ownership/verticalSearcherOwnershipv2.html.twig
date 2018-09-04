@@ -114,8 +114,15 @@
                 </label>
             </div>
         </div>
+        <div class="col-sm-2" style="margin: 0">
+            <select class="form-control custom-select d-block w-100" id="select_change_order"
+                    data-url="{{ path('frontend_order_search_results_ownership_callback') }}">
+                {{ render(controller('mycpBundle:BackendUtils:orderBy', {'sortBy': app.session.get("search_order"), 'elementToOrder': constant('\\MyCp\\mycpBundle\\Helpers\\ElementToOrder::SEARCHER'), 'doTranlations': true})) }}
+            </select>
+        </div>
     </div>
     </div>
+
     <div class="d-none row">
         <div class="col-sm-12 text-center">
             <a id="more_filters" class="collapsed" data-toggle="collapse" href="#collapseFilters"

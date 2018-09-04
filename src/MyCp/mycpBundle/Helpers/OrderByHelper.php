@@ -133,12 +133,9 @@ class OrderByHelper {
            case ElementToOrder::SEARCHER:
                 return array(array(self::SEARCHER_PRICE_LOW_HIGH, "PRICE_LOW_HIGH_ORDER_BY"),
                              array(self::SEARCHER_PRICE_HIGH_LOW, "PRICE_HIGH_LOW_ORDER_BY"),
-                             array(self::SEARCHER_BEST_VALUED, "BEST_VALUED_ORDER_BY"),
-                             array(self::SEARCHER_WORST_VALUED, "WORST_VALUED_ORDER_BY"),
-                             array(self::SEARCHER_A_Z, "A_Z_ORDER_BY"),
-                             array(self::SEARCHER_Z_A, "Z_A_ORDER_BY"),
-                             array(self::SEARCHER_RESERVATIONS_HIGH_LOW, "RESERVATIONS_HIGH_LOW_ORDERBY"),
-                             array(self::SEARCHER_RESERVATIONS_LOW_HIGH, "RESERVATIONS_LOW_HIGH_ORDERBY"));
+                             array(self::SEARCHER_BEST_VALUED, "RATINGS"),
+
+                             );
             case ElementToOrder::AWARD_ACCOMMODATION:
                 return array(array(self::AWARD_ACCOMMODATION_CODE, "Código del alojamiento"),
                     array(self::AWARD_ACCOMMODATION_RANKING, "Mayor Ranking"));

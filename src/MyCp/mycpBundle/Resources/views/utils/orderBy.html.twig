@@ -1,6 +1,6 @@
 
 
-<option value="{{constant('\\MyCp\\mycpBundle\\Helpers\\OrderByHelper::DEFAULT_ORDER_BY')}}"></option>
+<option value="{{constant('\\MyCp\\mycpBundle\\Helpers\\OrderByHelper::DEFAULT_ORDER_BY')}}">{{ 'SEARCH_RESULT_ORDER_BY'|trans }}</option>
 {%for orderItem in orderItems%}
     {%if translate%}
         <option {% if selected== orderItem[0] %} selected="TRUE" {% endif %} value="{{orderItem[0]}}">{{orderItem[1] | trans}}</option>

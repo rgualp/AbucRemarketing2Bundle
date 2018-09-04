@@ -811,7 +811,7 @@ class OwnershipController extends Controller
             $session->set('own_ids', $own_ids);
 
             if ($session->get('search_view_results') != null && $session->get('search_view_results') == 'LIST') {
-                $response = $this->renderView('FrontEndBundle:ownership:searchListOwnership.html.twig', array(
+                $response = $this->renderView('FrontEndBundle:new_layout:ownership_list_search.html.twig', array(
                     'list' => $result_list,
                     'items_per_page' => $items_per_page,
                     'total_items' => $paginator->getTotalItems(),
@@ -820,7 +820,7 @@ class OwnershipController extends Controller
                     'show_paginator' => true
                 ));
             } elseif ($session->get('search_view_results') != null && $session->get('search_view_results') == 'PHOTOS') {
-                $response = $this->renderView('FrontEndBundle:ownership:searchMosaicOwnership.html.twig', array(
+                $response = $this->renderView('FrontEndBundle:new_layout:ownership_list_search.html.twig', array(
                     'list' => $result_list,
                     'items_per_page' => $items_per_page,
                     'total_items' => $paginator->getTotalItems(),
@@ -829,7 +829,7 @@ class OwnershipController extends Controller
                     'show_paginator' => true
                 ));
             } elseif ($session->get('search_view_results') != null && $session->get('search_view_results') == 'MAP') {
-                $response = $this->renderView('FrontEndBundle:ownership:searchMapOwnership.html.twig', array(
+                $response = $this->renderView('FrontEndBundle:new_layout:ownership_list_search.html.twig', array(
                     'list' => $result_list,
                     'items_per_page' => $items_per_page,
                     'total_items' => $paginator->getTotalItems(),
@@ -838,7 +838,7 @@ class OwnershipController extends Controller
                     'show_paginator' => true
                 ));
             } else { // guarantee that a response is always returned
-                $response = $this->renderView('FrontEndBundle:ownership:searchListOwnership.html.twig', array(
+                $response = $this->renderView('FrontEndBundle:new_layout:ownership_list_search.html.twig', array(
                     'list' => $result_list,
                     'items_per_page' => $items_per_page,
                     'total_items' => $paginator->getTotalItems(),
