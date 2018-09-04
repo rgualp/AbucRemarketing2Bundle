@@ -424,6 +424,12 @@ class OwnershipController extends Controller
         $currentServiceFee = $em->getRepository("mycpBundle:serviceFee")->getCurrent();
         $allLanguages = $em->getRepository("mycpBundle:lang")->findBy(array('lang_active' => 1));
 
+        $bookingModality = $ownership->getBookingModality();
+
+        $completeReservationPrice = 0;
+        if ($bookingModality != null and $bookingModality->getBookingModality()->getName() == bookingModality::COMPLETE_RESERVATION_BOOKING)
+            $completeReservationPrice = $bookingModality->getPrice();
+
         $langCountry = array(
             'en' => 'en-US',
             'es' => 'es-ES',
@@ -438,7 +444,7 @@ class OwnershipController extends Controller
 
                 'ownership' => $ownership_array,
                 'description' => $ownership_array['description'],
-
+                'isCompletePayment' => ($completeReservationPrice > 0),
                 'automaticTranslation' => $ownership_array['autotomaticTranslation'],
 
                 'comments' => $total_comments->getResult(),
@@ -492,7 +498,7 @@ class OwnershipController extends Controller
                 'locale' => $locale,
 
                 'languages' => $languages,
-
+                'isCompletePayment' => ($completeReservationPrice > 0),
                 'currentServiceFee' => $currentServiceFee,
                 'lastPage' => $paginator->getLastPage(),
                 'allLanguages' => $allLanguages,
@@ -806,7 +812,7 @@ class OwnershipController extends Controller
             $session->set('own_ids', $own_ids);
 
             if ($session->get('search_view_results') != null && $session->get('search_view_results') == 'LIST') {
-                $response = $this->renderView('FrontEndBundle:ownership:searchListOwnership.html.twig', array(
+                $response = $this->renderView('FrontEndBundle:new_layout:ownership_list_search.html.twig', array(
                     'list' => $result_list,
                     'items_per_page' => $items_per_page,
                     'total_items' => $paginator->getTotalItems(),
@@ -815,7 +821,7 @@ class OwnershipController extends Controller
                     'show_paginator' => true
                 ));
             } elseif ($session->get('search_view_results') != null && $session->get('search_view_results') == 'PHOTOS') {
-                $response = $this->renderView('FrontEndBundle:ownership:searchMosaicOwnership.html.twig', array(
+                $response = $this->renderView('FrontEndBundle:new_layout:ownership_list_search.html.twig', array(
                     'list' => $result_list,
                     'items_per_page' => $items_per_page,
                     'total_items' => $paginator->getTotalItems(),
@@ -824,7 +830,7 @@ class OwnershipController extends Controller
                     'show_paginator' => true
                 ));
             } elseif ($session->get('search_view_results') != null && $session->get('search_view_results') == 'MAP') {
-                $response = $this->renderView('FrontEndBundle:ownership:searchMapOwnership.html.twig', array(
+                $response = $this->renderView('FrontEndBundle:new_layout:ownership_list_search.html.twig', array(
                     'list' => $result_list,
                     'items_per_page' => $items_per_page,
                     'total_items' => $paginator->getTotalItems(),
@@ -833,7 +839,7 @@ class OwnershipController extends Controller
                     'show_paginator' => true
                 ));
             } else { // guarantee that a response is always returned
-                $response = $this->renderView('FrontEndBundle:ownership:searchListOwnership.html.twig', array(
+                $response = $this->renderView('FrontEndBundle:new_layout:ownership_list_search.html.twig', array(
                     'list' => $result_list,
                     'items_per_page' => $items_per_page,
                     'total_items' => $paginator->getTotalItems(),
@@ -995,7 +1001,7 @@ class OwnershipController extends Controller
             $check_filters['own_others_pets'] = ($request->request->get('own_others_pets') == 'true' || $request->request->get('own_others_pets') == '1') ? true : false;
             $check_filters['own_others_internet'] = ($request->request->get('own_others_internet') == 'true' || $request->request->get('own_others_internet') == '1') ? true : false;
             $check_filters['own_inmediate_booking'] = ($request->request->get('own_inmediate_booking') == 'true' || $request->request->get('own_inmediate_booking') == '1') ? true : false;
-
+            $check_filters['reviews_items'] = $request->request->get('reviews_items');
             $room_filter = ($check_filters['room_type'] != null ||
                 $check_filters['room_bathroom'] != null ||
                 $check_filters['room_climatization'] != null ||

@@ -254,6 +254,7 @@ class SearchUtils {
                             o.own_rating as rating,
                             o.own_category as category,
                             o.own_type as type,
+                            mod.name as booking_modality,
                             o.own_geolocate_x as OwnGeolocateX,
                             o.own_geolocate_y as OwnGeolocateY,
                             IF(abMod.price IS NOT NULL AND bMod.name LIKE '%completa%', abMod.price,o.own_minimum_price) as minimum_price,
@@ -279,6 +280,8 @@ class SearchUtils {
                              JOIN o.own_address_province prov
                              JOIN o.own_address_municipality mun
                              JOIN o.own_destination des
+                             JOIN o.bookingModality bm
+                             JOIN bm.bookingModality mod
                              JOIN o.data data
                              LEFT JOIN data.principalPhoto op
                              LEFT JOIN op.own_pho_photo pho
@@ -364,6 +367,7 @@ class SearchUtils {
     public static function getFilterWherePartner($filters) {
         $where = "";
         if ($filters != null && is_array($filters)) {
+
 
             if (array_key_exists('own_beds_total', $filters) && $filters['own_beds_total'] != null && is_array($filters['own_beds_total']) && count($filters['own_beds_total']) > 0)
             {
@@ -512,6 +516,12 @@ class SearchUtils {
                 if($insideWhere != "")
                     $where .= " AND (" . $insideWhere . ")";
             }
+            if (array_key_exists('reviews_items', $filters) && $filters['reviews_items'] != null && is_array($filters['reviews_items']) && count($filters['reviews_items']) > 0)
+            {
+                $insideWhere = SearchUtils::getStringFromArray($filters['reviews_items']);
+                if($insideWhere != "")
+                 $where .= " AND o.own_rating IN (" . $insideWhere . ")";
+            }
 
             if (array_key_exists('own_category', $filters) && $filters['own_category'] != null && is_array($filters['own_category']) && count($filters['own_category']) > 0)
             {
@@ -525,7 +535,7 @@ class SearchUtils {
                 $insideWhere = SearchUtils::getStringFromArray($filters['own_type']);
 
                 if($insideWhere != "")
-                    $where .= " AND (o.own_type IN (" . $insideWhere . ") OR o.own_rental_type IN (" . $insideWhere . ") )";
+                    $where .= " AND (o.own_type IN (" . $insideWhere . ") OR mod.name IN (" . $insideWhere . ") )";
             }
 
             if (array_key_exists('own_price_from', $filters) && $filters['own_price_from'] != null && is_array($filters['own_price_from']) && count($filters['own_price_from']) > 0 && $filters['own_price_to'] != null && is_array($filters['own_price_to']) && count($filters['own_price_to']) > 0) {

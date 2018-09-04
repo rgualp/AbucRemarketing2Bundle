@@ -1,0 +1,48 @@
+{% extends 'FrontEndBundle:layout:translatedbaseMailTemplateNew.html.twig' %}
+
+{% block content %}
+    <h4 style="font-family: Arial; font-size: 20px">{{"EMAIL_TWO_DAYS_TITTLE"|trans({}, "messages", user_locale)}}</h4>
+    <p style="font-family: arial; font-size: 14px">
+    {{"DEAR_MR" | trans({}, "messages", user_locale)}} {{user_name}},<br/><br/>
+    {{ "EMAIL_TWO_DAYS_TEXT"|trans({}, "messages", user_locale) }} <br/><br/>
+
+
+
+    {% for own in ownerships %}
+        <table width="100%" cellpadding="10" cellspacing="0" border="0">
+            <tr>
+                <td bgcolor="#F5F5F5" style="background-color: #F5F5F5;border: 1px solid #E3E3E3;">
+                    <table width="100%" cellpadding="6" cellspacing="0" border="0">
+                        <tr>
+                            <td width="66%" valign="top" align="left" >
+                                <table cellpadding="4" border="0" cellspacing="0">
+                                    <tr>
+                                        <td style="background-color: #FFFFFF; border: solid 1px #cccccc;">
+                                            <img width="100%" style="display:block;" border="0" src="{{mail_base_url}}/uploads/ownershipImages/thumbnails/{{own.photo}}" alt="{{"Thumbnails" | trans}}"/>
+                                        </td>
+                                        <td>&nbsp;</td>
+                                        <td valign="top" style="font-family: arial; font-size: 13px; line-height: 18px">
+                                            <h3 style="color: #084D74">{{own.getOwnName}}</h3>
+                                            {{own.getOwnAddressProvince.getProvName}}
+                                            - {{own.getOwnAddressMunicipality.getMunName}}<br/>
+
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td width="34%" valign="top" align="right" style="font-family: arial; font-size: 13px; line-height: 20px; text-align: right">
+
+                                <h3>{{'FROM_PRICES' | trans}}: {{own.getOwnMinimumPrice | price}}</h3>
+                                <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ url('frontend_details_ownership',{'own_name':own.getOwnName | urlNormalize}) }}">{{"VIEW_DETAILS"|trans}}</a>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    {% endfor %}
+    {{"EMAIL_GREETINGS" | trans({}, "messages", user_locale)}}.<br/>
+    {{"EMAIL_GREETINGS_2" | trans({}, "messages", user_locale)}}<br/><br/>
+    <b>{{"MYCP_TEAM" | trans({}, "messages", user_locale)}}</b>
+    </p>
+{% endblock %}

@@ -40,13 +40,15 @@
     <meta property="og:url" content="{{ url('frontend_details_ownership',{'own_name':ownership.ownname  | urlNormalize}) }}">
     <meta property="fb:admins" content="312774092497">
 
-    {% set page = app.request.query.get('page')  %}
-    <link rel="canonical" href="{{ url("frontend_details_ownership", {'own_name':ownership.ownname|lower|replace(' ','-'), "page": page, "locale": locale}) }}"/>
+   {% set page = app.request.query.get('page') %}
+    <link rel="canonical"
+          href="{{ url("frontend_details_ownership", {'own_name':ownership.ownname| urlNormalize, "page": page, "locale": locale}) }}"/>
 
     {% for lang in allLanguages %}
-        {% if lang.langCode | lower != locale %}
-            <link rel="alternate" hreflang="{{ langCountry[lang.langCode|lower] }}" href="{{ url("frontend_details_ownership", {'own_name':ownership.ownname|lower|replace(' ','-'), "page": page, "locale": lang.langCode | lower}) }}"/>
-        {% endif %}
+
+            <link rel="alternate" hreflang="{{ langCountry[lang.langCode|lower] }}"
+                  href="{{ url("frontend_details_ownership", {'own_name':ownership.ownname| urlNormalize, "page": page, "locale": lang.langCode | lower}) }}"/>
+
     {% endfor %}
 
     {% set next = page + 1 %}
@@ -391,9 +393,13 @@
                                                                         style="margin-left: 25px;color:white;">{{ room.roomtype | trans | title }}</h4>
                                                                 </div>
                                                                 <div class="col-6">
-                                                                    {% if not hasCompleteReservation %}
+                                                                    {% if not isCompletePayment %}
                                                                         <h4 class="no-margin text-right"
                                                                             style="margin-right: 20px;color:white;">{{ "FROM_PRICES" | trans }} {{ room.roomPriceDownTo | price }}</h4>
+                                                                    {% else %}
+                                                                      <h4 class="no-margin text-right"
+                                                                            style="margin-right: 20px;color:white;">{{ "Propiedad completa" | trans }}</h4>
+
                                                                     {% endif %}
                                                                 </div>
                                                             </div>

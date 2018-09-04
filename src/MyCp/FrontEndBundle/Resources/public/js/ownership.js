@@ -267,6 +267,7 @@ function load_upper_filters(page)
         var room_total_items = [];
         var room_type_items = [];
         var room_bathroom_items = [];
+        var reviews_items = [];
         var room_beds_total_items = [];
         var room_windows_total_items = [];
         var others_languages_items = [];
@@ -294,6 +295,7 @@ function load_upper_filters(page)
                 $("#fu_own_category_" + $(this).val()).remove();
             }
         });
+
         $('input[name=own_awards]:checked').each(function() {
             own_awards.push($(this).val());
             if (document.getElementById("fu_own_awards_" + $(this).val()) == null)
@@ -316,18 +318,22 @@ function load_upper_filters(page)
         //        $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_price_" + $(this).val() + "' data-control-id='' data-value='" + $(this).val() + "' data-control-name='own_price'><i class='icon-remove-sign'></i>" + $(this).parent().text() + "</a> ");
         //    }
         //});
-        var rangePrice=$('#priceFilter').val();
-        if(rangePrice!=''){
-            var res = rangePrice.split(",");
+        var rangePrice=$('#priceFilter');
+        console.log(rangePrice.find(":selected").val());
+
+        var price=rangePrice.find(":selected").val();
+
+        if(price!='' && price!="0-300" && price !=undefined){
+            var res = price.split(",");
             own_price_items.push(parseInt(res[0]));
             own_price_from_items.push(parseInt(res[0]));
             own_price_to_items.push(parseInt(res[1]));
-            if (document.getElementById("fu_own_price_" + rangePrice) == null)
+            if (document.getElementById("fu_own_price_" + price) == null)
             {
                 innerHtml = $("#filter_upper").html();
-                $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_price_" + rangePrice + "' data-control-id='#priceFilter' data-value='" + rangePrice + "' data-control-name='own_price'><i class='icon-remove-sign'></i>$(" + rangePrice + ")</a> ");
+                $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_price_" + price + "' data-control-id='#priceFilter' data-value='" + price + "' data-control-name='own_price'><i class='icon-remove-sign'></i>$(" + price + ")</a> ");
             }else{
-                $("#fu_own_price_" + rangePrice).remove();
+                $("#fu_own_price_" + price).remove();
             }
         }
         $('input[name=own_price]:checked').each(function() {
@@ -424,6 +430,7 @@ function load_upper_filters(page)
         }else{
             $("#fu_room_smoker").remove();
         }
+
 
         var room_safe = document.getElementById('room_safe') != null && document.getElementById('room_safe').checked;
         if (room_safe && document.getElementById("fu_room_safe") == null)
@@ -558,7 +565,16 @@ function load_upper_filters(page)
         }else{
             $("#fu_own_inmediate_booking2").remove();
         }
-
+        $('input[name=stars]:checked').each(function() {
+        reviews_items.push($(this).val());
+        if (document.getElementById("fu_stars_" + $(this).val()) == null)
+        {
+            innerHtml = $("#filter_upper").html();
+            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_stars_" + $(this).val() + "' data-value='" + $(this).val() + "' data-control-id='' data-control-name='stars'><i class='fa fa-star'></i> " + $(this).val() + "</a> ");
+        }else{
+            $("#fu_stars_" + $(this).val()).remove();
+        }
+        });
 
         $(".filter_upper_item").unbind();
 
@@ -618,6 +634,7 @@ function load_upper_filters(page)
             "own_beds_total": (room_beds_total_items.length > 0) ? room_beds_total_items : null,
             "room_bathroom": (room_bathroom_items.length > 0) ? room_bathroom_items : null,
             "room_windows_total": (room_windows_total_items.length > 0) ? room_windows_total_items : null,
+            "reviews_items": (reviews_items.length > 0) ? reviews_items : null,
             "room_climatization": room_climatization,
             "room_audiovisuals": room_audiovisuals,
             "room_kids": room_kids,
@@ -686,7 +703,9 @@ function filter_upper(element)
                 if ($(this).val() == item_value)
                     $(this).removeAttr("checked");
             });
+
         }
+        element.remove();
     }
     research(1);
     element.remove();

@@ -2717,9 +2717,7 @@
             </trans-unit>
             <trans-unit id="680">
                 <source>ADD_TO_CART_ERROR</source>
-                <target>One room already exists in your wishlist and the selected date range collides with which it is
-                    stored. Please change the date range.
-                </target>
+                <target>One room already exists in your wishlist and the selected date range collides with which it is stored. Please change the date range.</target>
             </trans-unit>
             <trans-unit id="681">
                 <source>ADDRESS_STREET</source>
@@ -4579,6 +4577,96 @@
      </target>
 
   </trans-unit>
+       <trans-unit id="4850">
+                                   <source>EMAIL_TWO_DAYS_TITTLE</source>
+                                      <target>
+                               Conseils pour voyager à Cuba
+                                   </target>
+
+                                </trans-unit>
+                                <trans-unit id="4851">
+                                             <source>EMAIL_TWO_DAYS_TEXT</source>
+                                                <target>
+                               Nous nous rendons compte que vous êtes intéressé à voyager à Cuba.
+                               Avez-vous besoin de nouvelles idées? Nous vous envoyons des conseils afin que vous puissiez élargir votre horizon.
+                               Le temps moyen que des voyageurs séjournent à Cuba est entre 10 et 21 jours. Selon les destinations et les activités que vous pouvez effectuer dans chacun d'eux, nous vous proposons cet itinéraire: Habana (4 nuits), Viñales (2 nuits), Cienfuegos (1 nuit), Trinidad (3 nuits), Varadero (4 nuits)
+                               Rappelez-vous que la haute saison du tourisme à Cuba arrive, ne manquez pas l'occasion de réserver les logements de votre choix. Ci-dessous, certains des plus recommandés par nos voyageurs.
+
+                                             </target>
+
+                                          </trans-unit>
+                                          <trans-unit id="4852">
+                                                                 <source>EMAIL_TWO_DAYS_FOOTER</source>
+                                                                    <target>
+                                                  Vous pouvez nous écrire par email ou via nos contacts:
+                                                  Facebook: https://www.facebook.com/MyCasaParticular
+                                                  WhatsApp: ((+53) 55 59-97-50).
+                                                  Bureau à Cuba: (53) 7 8673574
+
+                                                  Nous pouvons vous aider à organiser l'expérience que vous souhaitez avant votre arrivée à Cuba et pendant votre séjour sur l'île.
+                                                  Salutations de Cuba!
+
+
+                                                                 </target>
+
+                                                              </trans-unit>
+<trans-unit id="4853">
+                    <source>EMAIL_TWO_DAYS_TITTLE_1</source>
+                       <target>
+                 Your holiday is coming!
+                    </target>
+
+                 </trans-unit>
+                 <trans-unit id="4854">
+                              <source>EMAIL_TWO_DAYS_TEXT_1</source>
+                                 <target>
+          Are you ready?
+          There is very little time left!
+          If you have not yet organized your transfers for your trip or want to book new destinations, you are still on time. Write to us using this email or through our contacts and we can help you do it:
+            </target>
+
+                           </trans-unit>
+                           <trans-unit id="4855">
+                                                  <source>EMAIL_TWO_DAYS_FOOTER_1</source>
+                                                     <target>
+                            Facebook: https://www.facebook.com/MyCasaParticular
+                            WhatsApp: ((+53) 55 59-97-50).
+                            Office in Cuba: (53) 7 8673574
+                            We are waiting for you!
+                            Cheers!
+
+
+
+                                                  </target>
+
+                                               </trans-unit>
+  <trans-unit id="4856">
+                    <source>EMAIL_TWO_DAYS_TITTLE_2</source>
+                       <target>
+                Ready to travel?
+                    </target>
+
+                 </trans-unit>
+                 <trans-unit id="4857">
+                              <source>EMAIL_TWO_DAYS_TEXT_2</source>
+                                 <target>
+           Everything is ready for your trip.
+
+                   </target>
+
+                           </trans-unit>
+                           <trans-unit id="4858">
+                                                  <source>EMAIL_TWO_DAYS_FOOTER_2</source>
+                                                     <target>
+                           Your host has been notified with the details of your arrival and awaits for you.
+                           In case of any change or eventuality that may arise, please contact us.
+                           For more details, you can check our Terms and Conditions
+                           Safe Travel!
+
+
+                                                  </target>
+
+                                               </trans-unit>
         </body>
     </file>
 </xliff>

@@ -26,7 +26,20 @@ class CheckInCommand extends ContainerAwareCommand {
     protected function execute(InputInterface $input, OutputInterface $output) {
         $container = $this->getContainer();
         $em = $container->get('doctrine')->getManager();
+        $emailService = $container->get('mycp.service.email_manager');
+        $user_not_reservation= $em->getRepository('mycpBundle:user')->getUserNotReservations();
+        if($user_not_reservation){
+            foreach ($user_not_reservation as $client){
 
+                $output->writeln('Send Offerts Reminder Email to User  ' . $client->getUserEmail());
+                $this->sendOffertEmail($client);
+
+            }
+
+        }
+
+        $this->CheckInTwoDays($input,$output,$emailService);
+        $this->CheckInFiveDays($input,$output,$emailService);
         $output->writeln(date(DATE_W3C) . ': Starting check-in command...');
 
         $date = new \DateTime();
@@ -46,7 +59,7 @@ class CheckInCommand extends ContainerAwareCommand {
 
         $output->writeln('Check-in found: ' . $existsCheckIns);
 
-        $emailService = $container->get('mycp.service.email_manager');
+
         $excelService = $container->get('mycp.service.export_to_excel');
         $notificationService = $container->get('mycp.notification.service');
         $logger = $container->get('logger');
@@ -89,8 +102,155 @@ class CheckInCommand extends ContainerAwareCommand {
 
 
 
+
         $output->writeln('Operation completed!!!');
         return 0;
+    }
+
+    private function CheckInTwoDays(InputInterface $input, OutputInterface $output,$emailService) {
+        $container = $this->getContainer();
+        $em = $container->get('doctrine')->getManager();
+
+        $output->writeln(date(DATE_W3C) . ': Starting check-in 2 days command...');
+
+        $date = new \DateTime();
+        $startTimeStamp = $date->getTimestamp();
+        $startTimeStamp = strtotime("+2 day", $startTimeStamp);
+        $date->setTimestamp($startTimeStamp);
+        $date = $date->format("d/m/Y");
+
+        $checkInEmails = $em->getRepository("mycpBundle:generalReservation")->getCheckinsServiceEmail($date);
+
+        $existsCheckIns = count($checkInEmails);
+
+        if ($existsCheckIns == 0) {
+            $output->writeln("No check-in  for $date found for send.");
+            return 0;
+        }
+
+        $output->writeln('Check-in found: ' . $existsCheckIns);
+
+        $emailService = $container->get('mycp.service.email_manager');
+        $logger = $container->get('logger');
+        $translator = $container->get('translator');
+
+        try{
+            foreach($checkInEmails as $tourist)
+            {
+                $locale = strtolower($tourist["lang_code"]);
+                $subject = $translator->trans('EMAIL_TWO_DAYS_TITTLE_2', array(), null, $locale);
+                $mail = $tourist["user_email"];
+                $dest_list = $em->getRepository('mycpBundle:destination')->getAllDestinations($locale, null, null);
+
+                $bodyExtraServices = $emailService->getViewContent('FrontEndBundle:mails:CheckinTwoDaysMail.html.twig', array(
+                    'user_name' => $tourist["user_user_name"],
+                    'main_destinations' => array_slice($dest_list, 0, 6),
+                    'user_locale' => $locale));
+
+
+                $emailService->sendEmail($mail, $subject, $bodyExtraServices, 'services@mycasaparticular.com');
+                $emailService->sendEmail('orlando@hds.li', $subject, $bodyExtraServices, 'services@mycasaparticular.com');
+
+                $output->writeln('Successfully sent notification email to address '.$tourist["user_email"]);
+            }
+        }
+        catch (\Exception $e) {
+            $message = "Could not send Email" . PHP_EOL . $e->getMessage();
+            $logger->warning($message);
+            $output->writeln($message);
+        }
+
+        $output->writeln('Operation completed!!!');
+        return 0;
+    }
+
+    private function CheckInFiveDays(InputInterface $input, OutputInterface $output,$emailService) {
+        $container = $this->getContainer();
+        $em = $container->get('doctrine')->getManager();
+        $templatingService = $container->get('templating');
+        $output->writeln(date(DATE_W3C) . ': Starting check-in 5 days command...');
+
+        $date = new \DateTime();
+        $startTimeStamp = $date->getTimestamp();
+        $startTimeStamp = strtotime("+5 day", $startTimeStamp);
+        $date->setTimestamp($startTimeStamp);
+        $date = $date->format("d/m/Y");
+
+        $checkInEmails = $em->getRepository("mycpBundle:generalReservation")->getCheckinsServiceEmail($date);
+
+        $existsCheckIns = count($checkInEmails);
+
+        if ($existsCheckIns == 0) {
+            $output->writeln("No check-in  for $date found for send.");
+            return 0;
+        }
+
+        $output->writeln('Check-in found: ' . $existsCheckIns);
+
+        $emailService = $container->get('mycp.service.email_manager');
+        $logger = $container->get('logger');
+        $translator = $container->get('translator');
+
+
+        try{
+            foreach($checkInEmails as $tourist)
+            {
+                $locale = strtolower($tourist["lang_code"]);
+                $subject = $translator->trans('EMAIL_TWO_DAYS_TITTLE_1', array(), null, $locale);
+                $mail =  $tourist["user_email"];
+                $dest_list = $em->getRepository('mycpBundle:destination')->getAllDestinations($locale, null, null);
+
+                $bodyExtraServices = $emailService->getViewContent('FrontEndBundle:mails:CheckinFiveDaysMail.html.twig', array(
+                    'user_name' => $tourist["user_user_name"],
+                    'main_destinations' => array_slice($dest_list, 0, 6),
+                    'user_locale' => $locale));
+
+
+                $emailService->sendEmail($mail, $subject, $bodyExtraServices, 'services@mycasaparticular.com');
+                $emailService->sendEmail('orlando@hds.li', $subject, $bodyExtraServices, 'services@mycasaparticular.com');
+
+                $output->writeln('Successfully sent notification email to address '.$tourist["user_email"]);
+            }
+        }
+        catch (\Exception $e) {
+            $message = "Could not send Email" . PHP_EOL . $e->getMessage();
+            $logger->warning($message);
+            $output->writeln($message);
+        }
+
+        $output->writeln('Operation completed!!!');
+        return 0;
+    }
+
+    private function sendOffertEmail($client){
+        $emailManager = $this->getService('mycp.service.email_manager');
+        $translatorService = $this->getService('translator');
+        $securityService = $this->getService('Secure');
+        $timer = $this->getService('Time');
+        $em = $this->getService('doctrine.orm.entity_manager');
+        $logger = $this->getService('mycp.logger');
+        $emailManager->setLocaleByUser($client);
+        $userEmail = $client->getUserEmail();
+        $userName = $client->getUserUserName();
+        $emailSubject = $translatorService->trans('EMAIL_TWO_DAYS_TITTLE');
+
+        $userTourist = $emailManager->getTouristByUser($client);
+        $userLocale = (empty($userTourist))? strtolower($client->getUserLanguage()->getLangCode()):strtolower($userTourist->getUserTouristLanguage()->getLangCode());
+        $top_20=$em->getRepository('mycpBundle:ownership')->top20($userLocale, null, $client->getUserId(), null);
+
+
+
+
+        $emailBody = $emailManager->getViewContent(
+            'FrontEndBundle:mails:aftertwodays.html.twig', array(
+            'ownerships'=>$top_20->setMaxResults(6)->getResult(),
+            'user_name' => $userName,
+            'user_locale' => $userLocale,
+        ));
+
+
+        $logger->logMail(date('Y-m-d H:i:s') ." Worker FeedbackReminder Email: ".$userEmail." ".print_r($emailBody));
+        $emailManager->sendEmail($userEmail, $emailSubject, $emailBody);
     }
 
 }

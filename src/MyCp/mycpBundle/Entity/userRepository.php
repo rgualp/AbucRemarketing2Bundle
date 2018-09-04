@@ -625,6 +625,24 @@ class userRepository extends EntityRepository
 
 
     }
+    public function getUserNotReservations()
+    {
+        $date = date('Y-m-d');
+        $new_date = strtotime('-2 day', strtotime($date));
+        $new_date = date('Y-m-d', $new_date);
+
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT u FROM mycpBundle:user u JOIN u.user_subrole sr
+        WHERE (u.locked is null or u.locked = 0) AND u.user_creation_date like '%$new_date%' AND u.user_role = 'ROLE_CLIENT_TOURIST'
+        AND u.user_id NOT IN (SELECT DISTINCT us.user_id from mycpBundle:generalReservation gre JOIN gre.gen_res_user_id us
+        where gre.gen_res_date>=$new_date
+        )
+        
+         ");
+
+
+        return $query->getResult();
+    }
 
     public function getNotTourOperators()
     {

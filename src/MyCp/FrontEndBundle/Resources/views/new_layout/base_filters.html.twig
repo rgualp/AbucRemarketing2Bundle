@@ -235,7 +235,6 @@ filter='?uglifyjs2' %}
         '@LayoutBundle/Resources/public/js/plugins/sweetalert/sweetalert.min.js'
         '@LayoutBundle/Resources/public/js/plugins/toastr/toastr.min.js'
         '@LayoutBundle/Resources/public/js/plugins/toastr/toastr-hds.js'
-        '@FrontEndBundle/Resources/public/js/plugins/ionRangeSlider/ion.rangeSlider.min.js'
         '@FrontEndBundle/Resources/public/js/destinations.js'
         '@FrontEndBundle/Resources/public/js/ownership.min.js'
         '@FrontEndBundle/Resources/public/js/custom.js'
@@ -292,31 +291,48 @@ filter='?uglifyjs2' %}
 
 
 <!-- Facebook Pixel Code -->
-<script>
-    !function (f, b, e, v, n, t, s) {
-        if (f.fbq) return;
-        n = f.fbq = function () {
-            n.callMethod ?
-                n.callMethod.apply(n, arguments) : n.queue.push(arguments)
-        };
-        if (!f._fbq) f._fbq = n;
-        n.push = n;
-        n.loaded = !0;
-        n.version = '2.0';
-        n.queue = [];
-        t = b.createElement(e);
-        t.async = !0;
-        t.src = v;
-        s = b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t, s)
-    }(window,
-        document, 'script', '//connect.facebook.net/en_US/fbevents.js');
 
-    fbq('init', '1240648305949371');
-    fbq('track', "PageView");</script>
-<noscript><img height="1" width="1" style="display:none"
-               src="https://www.facebook.com/tr?id=1240648305949371&ev=PageView&noscript=1"
-               alt="{{ "Facebook" | trans }}"/></noscript>
+
+<script>
+
+    !function(f,b,e,v,n,t,s)
+
+
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+
+
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+
+
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+
+
+        n.queue=[];t=b.createElement(e);t.async=!0;
+
+
+        t.src=v;s=b.getElementsByTagName(e)[0];
+
+
+        s.parentNode.insertBefore(t,s)}(window,document,'script',
+
+
+        'https://connect.facebook.net/en_US/fbevents.js');
+
+
+    fbq('init', '192239564693365');
+
+
+    fbq('track', 'PageView');
+
+
+</script>
+
+
+<noscript>
+    <img height="1"  alt="{{ "Facebook" | trans }}"    width="1"    src="https://www.facebook.com/tr?id=192239564693365&ev=PageView&noscript=1"/>
+</noscript>
+
+
 <!-- End Facebook Pixel Code -->
 
 <!-- Google Tag Manager -->

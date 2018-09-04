@@ -390,7 +390,7 @@
                                                 <div class="row">
                                                     <div class="col">
                                                         <h4 class="no-margin text-left"
-                                                            style="margin-left: 20px">{{ room.roomtype | trans | title }}-{{ "FROM_PRICES" | trans }} {{ room.roomPriceDownTo | price }}</h4>
+                                                            style="margin-left: 20px">{{ room.roomtype | trans | title }}- {% if  isCompletePayment %}{{ 'Propiedad completa'|trans }} {% else %}{{ "FROM_PRICES" | trans }} {{ room.roomPriceDownTo | price }}{% endif %}</h4>
                                                     </div>
 
                                                 </div>

@@ -4561,6 +4561,97 @@ Guarda il nostro tutorial di avvio rapido di 1 minuto.
                                                </target>
 
                                             </trans-unit>
+                                              <trans-unit id="4850">
+                                                                                          <source>EMAIL_TWO_DAYS_TITTLE</source>
+                                                                                             <target>
+                                                                                      Tipps für die Reise nach Kuba
+                                                                                          </target>
+
+                                                                                       </trans-unit>
+                                                                                       <trans-unit id="4851">
+                                                                                                    <source>EMAIL_TWO_DAYS_TEXT</source>
+                                                                                                       <target>
+                                                                                    Wir sehen, dass Sie daran interessiert sind, nach Kuba zu reisen.
+                                                                                    Brauchst du neue Ideen? Wir senden Ihnen einige Tipps, damit Sie Ihren Informationen erweitern können.
+                                                                                    Reise durchschnittliche Zeit in Kuba liegt zwischen 10 und 21 Tagen. Nach den Zielen und Aktivitäten, die Sie in jedem von ihnen durchführen können, empfehlen wir diese Destinationen: Habana (4 Nächte), Viñales (2 Nächte), Cienfuegos (1 Nacht), Trinidad (3 Nächte), Varadero (4 Nächte)
+                                                                                    Denken Sie daran, in Kuba Annäherung der Hochsaison des Tourismus, nicht die Gelegenheit verpassen, die Häuser Ihrer Wahl zu buchen. Hier verlassen wir einige der von unseren Reisenden empfohlenen.
+
+                                                                                                    </target>
+
+                                                                                                 </trans-unit>
+                                                                                                 <trans-unit id="4852">
+                                                                                                                        <source>EMAIL_TWO_DAYS_FOOTER</source>
+                                                                                                                           <target>
+                                                                                                       Sie können uns per E-Mail oder über unsere Kontakte schreiben:
+                                                                                                       Facebook: https://www.facebook.com/MyCasaParticular
+                                                                                                       WhatsApp: ((+53) 55 59-97-50).
+                                                                                                       Büro in Kuba: (53) 7 8673574
+
+                                                                                                       Wir können Ihnen helfen, die Erfahrung, die Sie auf Sie vor Ihrer Ankunft in Kuba und während Ihres Aufenthalts auf der Insel planen.
+                                                                                                       Grüße aus Kuba!
+
+
+
+                                                                                                                        </target>
+
+                                                                                                                     </trans-unit>
+  <trans-unit id="4853">
+                      <source>EMAIL_TWO_DAYS_TITTLE_1</source>
+                         <target>
+                   Your holiday is coming!
+                      </target>
+
+                   </trans-unit>
+                   <trans-unit id="4854">
+                                <source>EMAIL_TWO_DAYS_TEXT_1</source>
+                                   <target>
+            Are you ready?
+            There is very little time left!
+            If you have not yet organized your transfers for your trip or want to book new destinations, you are still on time. Write to us using this email or through our contacts and we can help you do it:
+              </target>
+
+                             </trans-unit>
+                             <trans-unit id="4855">
+                                                    <source>EMAIL_TWO_DAYS_FOOTER_1</source>
+                                                       <target>
+                              Facebook: https://www.facebook.com/MyCasaParticular
+                              WhatsApp: ((+53) 55 59-97-50).
+                              Office in Cuba: (53) 7 8673574
+                              We are waiting for you!
+                              Cheers!
+
+
+
+                                                    </target>
+
+                                                 </trans-unit>
+    <trans-unit id="4856">
+                      <source>EMAIL_TWO_DAYS_TITTLE_2</source>
+                         <target>
+                  Ready to travel?
+                      </target>
+
+                   </trans-unit>
+                   <trans-unit id="4857">
+                                <source>EMAIL_TWO_DAYS_TEXT_2</source>
+                                   <target>
+             Everything is ready for your trip.
+
+                     </target>
+
+                             </trans-unit>
+                             <trans-unit id="4858">
+                                                    <source>EMAIL_TWO_DAYS_FOOTER_2</source>
+                                                       <target>
+                             Your host has been notified with the details of your arrival and awaits for you.
+                             In case of any change or eventuality that may arise, please contact us.
+                             For more details, you can check our Terms and Conditions
+                             Safe Travel!
+
+
+                                                    </target>
+
+                                                 </trans-unit>
         </body>
     </file>
 </xliff>

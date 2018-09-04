@@ -285,7 +285,7 @@
 
                 {% if fixedTax>0 %}
                 <tr>
-                    <td><b>{{ "SERVICE_FIXED_TAX"|trans({}, "messages", user_locale) }}</b></td>
+                    <td class="{% if fixedTax == 0  %}d-none"{% endif %}><b>{{ "SERVICE_FIXED_TAX"|trans({}, "messages", user_locale) }}</b></td>
                     <td class="text-right"><h4
                                 class="no-margin">{{ currency_symbol }} {{ fixedTax | number_format(2) }}</h4>
                     </td>
