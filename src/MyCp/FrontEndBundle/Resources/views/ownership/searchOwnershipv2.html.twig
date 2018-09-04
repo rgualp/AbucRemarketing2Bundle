@@ -116,18 +116,18 @@
             {{ include('FrontEndBundle:ownership:verticalSearcherOwnershipv2.html.twig',
                 {'is_within_search_results':true,
                     'locale': locale}) }}
-            <div class="d-none filter accordion-body collapse" id="collapseFilters">
-                <div id="filters" data-url-filter="{{ path('frontend_filter_ownership_callback') }}"
-                     data-url-statistics="{{ path('frontend_filter_statistics_ownership_callback') }}">
-                    {% if check_filters is defined %}
-                        {{ include('FrontEndBundle:ownership:filtersv2.html.twig',
-                            {'own_statistics': own_statistics,'check_filters': check_filters}) }}
-                    {% else %}
-                        {{ include('FrontEndBundle:ownership:filtersv2.html.twig',
-                            {'own_statistics': own_statistics}) }}
-                    {% endif %}
-                </div>
-            </div>
+            {#<div class="d-none filter accordion-body collapse" id="collapseFilters">#}
+                {#<div id="filters" data-url-filter="{{ path('frontend_filter_ownership_callback') }}"#}
+                     {#data-url-statistics="{{ path('frontend_filter_statistics_ownership_callback') }}">#}
+                    {#{% if check_filters is defined %}#}
+                        {#{{ include('FrontEndBundle:ownership:filtersv2.html.twig',#}
+                            {#{'own_statistics': own_statistics,'check_filters': check_filters}) }}#}
+                    {#{% else %}#}
+                        {#{{ include('FrontEndBundle:ownership:filtersv2.html.twig',#}
+                            {#{'own_statistics': own_statistics}) }}#}
+                    {#{% endif %}#}
+                {#</div>#}
+            {#</div>#}
             <div id="filter_upper" style="margin-left: 20px;">
                 {% if check_filters is defined and check_filters | length %}
 
