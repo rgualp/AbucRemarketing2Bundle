@@ -725,7 +725,12 @@ class SearchUtils {
                 return "  ORDER BY o.own_comments_total ASC, o.own_inmediate_booking_2 DESC, o.own_ranking ASC,  count_reservations DESC, o.own_availability_update DESC ";
             case OrderByHelper::SEARCHER_AVALIABLE_UPDATE:
                 return "  ORDER BY o.own_inmediate_booking_2 DESC, o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC, o.own_availability_update DESC ";
-            default:
+          case OrderByHelper::SEARCHER_AVALIABLE_UPDATE:
+              return "  ORDER BY o.own_inmediate_booking_2 DESC, o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC, o.own_availability_update DESC ";
+          case OrderByHelper::COMMENT_RATING:
+              return "ORDER BY o.own_comments_total DESC";
+              break;
+          default:
                 return $order_by;
 
         }

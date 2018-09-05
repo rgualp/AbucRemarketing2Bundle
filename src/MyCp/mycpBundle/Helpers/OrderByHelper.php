@@ -131,11 +131,10 @@ class OrderByHelper {
                              array(self::FAQ_QUESTION_DESC, "Pregunta (Z-A)"),
                              array(self::FAQ_CREATION_DATE, "Fecha creación"));
            case ElementToOrder::SEARCHER:
-                return array(array(self::SEARCHER_PRICE_LOW_HIGH, "PRICE_LOW_HIGH_ORDER_BY"),
-                             array(self::SEARCHER_PRICE_HIGH_LOW, "PRICE_HIGH_LOW_ORDER_BY"),
-                             array(self::SEARCHER_BEST_VALUED, "RATINGS"),
-
-                             );
+                return array(
+                             array(self::SEARCHER_BEST_VALUED, "BEST_VALUED_ORDER_BY"),
+                             array(self::SEARCHER_WORST_VALUED, "WORST_VALUED_ORDER_BY"),
+                             array(self::COMMENT_RATING, "FORMS_COMMENTS"));
             case ElementToOrder::AWARD_ACCOMMODATION:
                 return array(array(self::AWARD_ACCOMMODATION_CODE, "Código del alojamiento"),
                     array(self::AWARD_ACCOMMODATION_RANKING, "Mayor Ranking"));

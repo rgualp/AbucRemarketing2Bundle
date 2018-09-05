@@ -27,16 +27,7 @@ class CheckInCommand extends ContainerAwareCommand {
         $container = $this->getContainer();
         $em = $container->get('doctrine')->getManager();
         $emailService = $container->get('mycp.service.email_manager');
-        $user_not_reservation= $em->getRepository('mycpBundle:user')->getUserNotReservations();
-        if($user_not_reservation){
-            foreach ($user_not_reservation as $client){
 
-                $output->writeln('Send Offerts Reminder Email to User  ' . $client->getUserEmail());
-                $this->sendOffertEmail($client);
-
-            }
-
-        }
 
         $this->CheckInTwoDays($input,$output,$emailService);
         $this->CheckInFiveDays($input,$output,$emailService);
@@ -98,6 +89,16 @@ class CheckInCommand extends ContainerAwareCommand {
             $message = "Could not send Email" . PHP_EOL . $e->getMessage();
             $logger->warning($message);
             $output->writeln($message);
+        }
+        $user_not_reservation= $em->getRepository('mycpBundle:user')->getUserNotReservations();
+        if($user_not_reservation){
+            foreach ($user_not_reservation as $client){
+
+                $output->writeln('Send Offerts Reminder Email to User  ' . $client->getUserEmail());
+                $this->sendOffertEmail($client);
+
+            }
+
         }
 
 
