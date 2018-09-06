@@ -1269,6 +1269,13 @@ class BookingService extends Controller
                         $ownerEmail,
                         $bodyOwner
                     );
+                    $emailService->sendEmail(
+                        'Confirmación de reserva',
+                        'no-reply@mycasaparticular.com',
+                        'MyCasaParticular.com',
+                        'andy@hds.li',
+                        $bodyOwner
+                    );
 
                     $logger->info('Successfully sent email to Casa Owner. Booking ID: ' .
                         $bookingId . ', Email: ' . $ownerEmail);
