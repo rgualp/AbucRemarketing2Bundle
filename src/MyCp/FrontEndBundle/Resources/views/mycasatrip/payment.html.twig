@@ -37,8 +37,8 @@
                     <small class="top">{{"FROM_PRICES" | trans}}: {{res['own_res_reservation_from_date']|date('d/m/Y')}} {{"TO_PRICES" | trans}}: {{res['own_res_reservation_to_date']|date('d/m/Y')}}</small>
                 </div>
                 <div class="col-sm-3 text-center">
-                    {% if  nights[loop.index0] >=4 %}
-                        <span rel="tooltip"  title="More than 4 nights " class="discount float-lg-right badge badge-pill badge-danger large ">-10%</span>
+                    {% if  nights[loop.index0] >=10 %}
+                        <span rel="tooltip"  title="More than 10 nights " class="discount float-lg-right badge badge-pill badge-warning large ">-30%</span>
                     {% endif %}
                     <h2 class="no-margin h-grey margin-t">
                                     {%if res['own_res_night_price'] != 0%}

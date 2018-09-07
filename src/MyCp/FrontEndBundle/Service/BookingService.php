@@ -551,10 +551,11 @@ class BookingService extends Controller
 
             $touristTaxTotal += $totalPrice * $tax;*/
             $dicount=0;
-            if($tempNights>=4){
-                $dicount=($totalPrice+ ($totalPrice * $tax)) *0.1;
+            if($tempNights>=10){
+                $dicount=($totalPercentPrice) *0.3;
 
             }
+
 
             $payments[$own_r["id"]] = array(
                 'total_price' => $totalPrice * $currencyRate,
@@ -573,6 +574,7 @@ class BookingService extends Controller
         $totalPrice = 0;
         $totalPercentPrice = 0;
         $dicount1=0;
+        $tNights=0;
         foreach ($ownReservations as $own) {
             $array_dates = $timeService->datesBetween(
                 $own->getOwnResReservationFromDate()->getTimestamp(),
@@ -587,13 +589,11 @@ class BookingService extends Controller
             $commission = $own->getOwnResGenResId()->GetGenResOwnId()->getOwnCommissionPercent();
 
             $tempNights = $timeService->nights($own->getOwnResReservationFromDate()->format("Y-m-d"), $own->getOwnResReservationToDate()->format("Y-m-d"));
+            $tNights+=$tempNights;
 
 
 
-            if($tempNights>=4){
-                $dicount1=($partialPrice+ ($partialPrice * $tax)) *0.1;
 
-            }
             $totalPercentPrice += $partialPrice * $commission / 100;
             $totalPrice += $partialPrice;
             $insert = 1;
@@ -621,6 +621,11 @@ class BookingService extends Controller
 
         $totalPriceToPayAtServiceInCUC = $totalPrice - $totalPercentPrice;
 
+        if($tNights>=10){
+            $dicount1=$totalPrepayment*0.3;
+
+        }
+
 
         return array(
             'user_locale' => $userLocale,
@@ -642,7 +647,7 @@ class BookingService extends Controller
             'total_servicing_price' => $totalServicingPrice,
             'total_price_to_pay_at_service_in_cuc' => $totalPriceToPayAtServiceInCUC,
             'tourist_tax_total' => $touristTaxTotal,
-            'discount'=>$dicount1*$currencyRate
+            'discount'=>$dicount1
         );
     }
 

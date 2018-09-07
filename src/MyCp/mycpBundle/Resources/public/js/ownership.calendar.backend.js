@@ -67,8 +67,8 @@ function totalPrice(curr,percent, totalNights)
     var fixed_tax = $("#tourist_service").data("fixed-tax");
     var prepayment = parseFloat(percent_value)  + parseFloat(fixed_tax) + parseFloat(tourist_service);
     console.log(prepayment);
-    if(nights >= 4){
-        var discount=total_price*0.1;
+    if(nights >=10){
+        var discount=prepayment*0.1;
         prepayment=prepayment-discount;
         total_price=total_price-discount;
         $('#discount-amount').html(normalize_prices(discount));
@@ -219,7 +219,7 @@ function reservationsBody()
 
         }
         console.log($("#totalNights").val());
-        if($("#totalNights").val()>=4){
+        if($("#totalNights").val()>=10){
             $('#discount-cotent').removeClass('d-none').addClass('d-flex');
         }
     });

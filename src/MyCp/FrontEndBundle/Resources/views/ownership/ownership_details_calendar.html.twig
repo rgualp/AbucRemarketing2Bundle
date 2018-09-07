@@ -59,7 +59,7 @@
             <!-- Heading -->
             <h4 class="d-flex justify-content-between align-items-center mb-3">
                 <span class="text-black-50">{{ 'YOUR_PAYMENT'|trans }}</span>
-                <span rel="tooltip" id="discount" title="More than 4 nights " class="d-none float-lg-right badge badge-pill badge-danger large ">-10%</span>
+                <span rel="tooltip" id="discount" title="More than 10 nights " class="d-none float-lg-right badge badge-pill badge-warning large ">-30%</span>
 
             </h4>
 
@@ -98,17 +98,20 @@
                     <strong id="service_recharge" class="text-muted"> {{ (currentServiceFee.fixedFee * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))) | number_format(2) }}</strong>
                 </li>
                 <li id="discount-cotent" class="list-group-item d-none justify-content-between bg-light" style="padding-bottom: 0;">
-                    <div class="text-success">
-                        <h6 class="my-0">More than 4 nights</h6>
-                        <small>DISCOUNT</small>
+                    <div class="text-warning">
+                        <h6 class="my-0">More than 10 nights</h6>
+                        <small>ONLINE PAYMENT DISCOUNT</small>
+                        <span rel="tooltip" title="More than 10 nights " class="d-none float-lg-right badge badge-pill badge-warning large ">-30%</span>
+
                     </div>
-                    <strong id="discount-amount" class="text-success"></strong>
+                    <strong id="discount-amount" class="text-warning"></strong>
                 </li>
                 <li class="list-group-item d-flex justify-content-between" style="padding-bottom: 0;">
                     <span class="text-black-50" rel="tooltip" title="{{ 'ACCOMMODATION_TOTAL_COST_PLURAL_TOOLTIP' | trans()}}" > {{ 'RESERVATION_TOTAL_PRICE' | trans }} ( {{ currSymbol }})</span>
                     <strong class="text-black-50" id="total_price"></strong>
                 </li>
             </ul>
+
             <!-- Cart -->
 
             <!-- Promo code -->
@@ -131,6 +134,10 @@
                     <span id="pay_at_service_cuc" style="font-size: small"></span>
                 {% endif %}
             </div>
+
+        </div>
+        <div class="row" style="font-size: 20px; margin-top: 10px;margin-left: 20px;">
+            <span class="text-warning" > TEXTO ....</span>
         </div>
 
     </li>

@@ -109,14 +109,14 @@ var Calendar = function () {
         $("#pay_at_service_cuc").html("CUC " + normalize_prices(pay_at_service/curr));
         var prepayment = percent_value + fixed_tax + tourist_service;
 
-        if(nights >= 4){
-            var discount=total_price*0.1;
+        if(nights >= 10){
+            var discount=prepayment*0.3;
             prepayment=prepayment-discount;
             total_price=total_price-discount;
             $('#discount-amount').html(normalize_prices(discount));
             $('#discount-amount').removeClass('d-none').addClass('d-flex');
             console.log($("#totalNights").val());
-            if($("#totalNights").val()>=4){
+            if($("#totalNights").val()>=10){
                 $('#discount-cotent').removeClass('d-none').addClass('d-flex');
             }
             $('#discount').removeClass('d-none').addClass('d-flex');

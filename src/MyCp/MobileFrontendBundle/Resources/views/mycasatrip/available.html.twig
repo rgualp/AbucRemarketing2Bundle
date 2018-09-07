@@ -41,8 +41,8 @@
                                     <div class="panel-heading">
 
                                         <h4 class="panel-title">
-                                            {% if  nights[loop.index0] >=4 %}
-                                                <span rel="tooltip"  title="More than 4 nights " class="discount float-lg-right badge badge-pill badge-danger ">-10%</span>
+                                            {% if  nights[loop.index0] >=10 %}
+                                                <span rel="tooltip"  title="More than 10 nights " class="discount float-lg-right badge badge-pill badge-danger ">-30%</span>
                                             {% endif %}
                                             <div class='row'>
 
@@ -55,7 +55,7 @@
                                                 <div class='col-1' style='top: -2px;right: 2px;'>
                                                     <div class="togglebutton">
                                                         <label style='line-height: 0;'>
-                                                            <input value="{{res['own_res_total_in_site']}}" class='check_pay'name="checkbox_{{res['own_res_id']}}" type="checkbox">
+                                                            <input value="{{res['own_res_total_in_site']}}" data-value="{{ nights[loop.index0]}}" class='check_pay' name="checkbox_{{res['own_res_id']}}" type="checkbox">
                                                            <span class="toggle"></span>
 
                                                         </label>
@@ -149,6 +149,7 @@
 {% block includejs %}
     <script>
         var total=0;
+        var tnight=0;
         function roundTo(n, digits) {
             if (digits === undefined) {
                 digits = 0;
@@ -162,20 +163,26 @@
         $('.check_pay').click(function() {
             if ($(this).is(':checked')) {
                 total=total+(parseFloat(this.value)*{{ currRate }});
-
+                tnight=tnight+(parseFloat($(this).attr('data-value')));
             }
             if($(this).is(":not(:checked)")) {
 
                 total=total-(parseFloat(this.value)*{{ currRate }});
-
+                tnight=tnight-(parseFloat($(this).attr('data-value')));
                 if(total<0){
                     total=0;
+                }
+                if(tnight<0){
+                    tnight=0;
                 }
             }
             if(total>0) {
                 $("#total").replaceWith("<span id='total' itemprop='price'>" + roundTo(total,2) +''+coin+"</span>");
             }else{
                 $("#total").replaceWith("<span id='total' itemprop='price'></span>");
+            }
+            if(tnight>=10) {
+                swal("Usted resivira un descuento del 30% a su prepago online", "", "info");
             }
 
         });

@@ -9,15 +9,19 @@
     <span>››</span>
     <a href="#" class="active" title="{{"DISPONIBILITY" | trans}}">{{"DISPONIBILITY" | trans}}</a>
 {% endblock %}
+
 {% block body_inner %}
     {% for message in app.session.flashbag.get('message_no_select') %}
             <div class="alert alert-info" style="margin-bottom: 10px">{{ message }}</div>
     {% endfor %}
-<div class="tab-content lazy-cont">
+    <div class="alert alert-warning" style="margin-bottom: 10px"><span id="discount_alert">Si reserva mas de 9 noches con nosotros tendrà un descuento de un 30% de su pago online.</span></div>
+    <div class="tab-content lazy-cont">
     <div id="tab2" class="tab-pane active">
         <div class="thumbs-houses houses-list myct-records">
+
+
             <form method="POST" action="{{ path('frontend_redirect_reservation_reservation') }}" style="margin: 0">
-                    {% for res in res_available %}
+                  {% for res in res_available %}
                         <div class="row no-margin">
                             <div class="col-sm-3">
                                 <div data-text="&nbsp;&nbsp;&nbsp;{{'AVAILABLE' | trans}}&nbsp;&nbsp;&nbsp;" class="thumbnail has-ribbon has-ribbon-left">
@@ -43,10 +47,10 @@
                                 <small class="top">{{"FROM_PRICES" | trans}}: {{res['own_res_reservation_from_date']|date('d/m/Y')}} {{"TO_PRICES" | trans}}: {{res['own_res_reservation_to_date']|date('d/m/Y')}}</small>
                             </div>
                             <div class="col-sm-3 text-center grey">
-                                {% if  nights[loop.index0] >=4 %}
-                                    <span rel="tooltip"  title="More than 4 nights " class=" discount float-lg-right badge badge-pill badge-danger large ">-10%</span>
+                                {% if  nights[loop.index0] >=10 %}
+                                    <span rel="tooltip"  title="More than 10 nights " class=" discount float-lg-right badge badge-pill badge-warning large ">-30%</span>
                                 {% endif %}
-                                <div><input name="checkbox_{{res['own_res_id']}}" type="checkbox"> {{"SELECT_FOR_PAYMENT" | trans}}</div>
+                                <div><input name="checkbox_{{res['own_res_id']}}" data-value="{{ nights[loop.index0]}}" class="check_pay" type="checkbox"> {{"SELECT_FOR_PAYMENT" | trans}}</div>
                                 <div class="big-price-blue">
                                     {%if res['own_res_night_price'] != 0%}
                                     {{(res['own_res_night_price'] *(nights[loop.index0])) | price}}

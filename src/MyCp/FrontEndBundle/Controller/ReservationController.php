@@ -295,7 +295,7 @@ class ReservationController extends Controller {
         $commissions = array();
         $nights = array();
         $discount=0;
-
+        $tNights=0;
         $generalReservationIds = array();
         $triple_room_recharge = $this->container->getParameter('configuration.triple.room.charge');
         foreach ($reservations as $reservation) {
@@ -319,9 +319,7 @@ class ReservationController extends Controller {
             $tax = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFeeByGeneralReservation($reservation->getOwnResGenResId()->getGenResId(), $service_time);
 
             $totalNights = $service_time->nights($reservation->getOwnResReservationFromDate()->getTimestamp(), $reservation->getOwnResReservationToDate()->getTimestamp());
-            if($totalNights>=4){
-                $discount+=( $total_price_current_reservation+$tax)*0.1;
-            }
+            $tNights+=$totalNights;
             array_push($nights, $totalNights);
 
         }
@@ -340,7 +338,9 @@ class ReservationController extends Controller {
         $post = null;
         $post_country = null;
         $count_errors = 0;
-
+        if($tNights>=10){
+            $discount= ($total_percent_price  + $touristTax)*0.3;
+        }
         if ($request->getMethod() == "POST") {
 
             $errors = array();

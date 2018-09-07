@@ -4,15 +4,23 @@
 <div class="alert alert-danger" style="margin-top: 40px">
 {{"FILL_FORM_CORRECTLY" | trans}}</div>
 {%endif%}
-<h1 class="h-blue caecilia-roman h-size-1" style="font-weight: normal;">{{"RESERVATION_DETAILS" | trans}}</h1>
+    {% set night=0 %}
+    {% for res in reservations %}
+        {% set night=night+nights[loop.index0] %}
+    {% endfor %}
+
+<h1 class="h-blue caecilia-roman h-size-1" style="font-weight: normal;">{{"RESERVATION_DETAILS" | trans}}
+    {% if  night >=10 %}
+        <span rel="tooltip"  title="More than 10 nights " class="discount float-lg-right badge badge-pill badge-warning ">-30%</span>
+    {% endif %}
+</h1>
 {#<div class="h-blue t-size-12" style="font-weight: normal"><b >{{"ARRIVAL_RESERVATION" | trans}}:</b> {{ dates_string_day[0] }}{{dates_string[0]}} <b style="margin-left: 20px">{{"DEPARTURE_RESERVATION" | trans}}:</b> {{dates_string_day[dates_string_day|length -1]}}{{dates_string[dates_string|length -1]}}</div>#}
 <div class="items-cart">
+
 {% for reservation in reservations %}
     {% set accommodation = reservation.ownResGenResId.genResOwnId %}
 <div class="item">
-    {% if  nights[loop.index0] >=4 %}
-    <span rel="tooltip"  title="More than 4 nights " class="discount float-lg-right badge badge-pill badge-danger large ">-10%</span>
-    {% endif %}
+
     <table cellpadding="15" class="full-width">
         <tbody><tr>
             <td class="date"><span>{{ loop.index }}</span></td>
@@ -43,7 +51,7 @@
     </div>
     {#{% set nights = (dates_string | length) - 1 %}#}
     {#% set touristTax = total_price * touristTax(reservations | length, nights , (total_price / nights)) %#}
-    {% set prepayment =  ceil_round((total_percent_price + currentServiceFee.fixedFee + touristTax)-discount) | price%}
+    {% set prepayment =  ((total_percent_price + currentServiceFee.fixedFee + touristTax)-discount) | price%}
     <div class="row">
         <div class="col-sm-3" rel="tooltip" title="{{ "ACCOMMODATION_TOTAL_COST_PLURAL_TOOLTIP" | trans }}">{{"ACCOMMODATION_TOTAL_COST" | trans}} <br/><span>{{total_price | price}}</span></div>
         <div class="col-sm-1">
@@ -54,7 +62,7 @@
         <div class="col-sm-1">
             <label>-</label>
         </div>
-            <div class="col-sm-2" rel="tooltip" title="{{ "SERVICE_FIXED_TAX_TITLE" | trans }}">Discount: <br/><span>{{discount | price}}</span></div>
+            <div class="col-sm-2 text-warning" rel="tooltip" title="{{ "SERVICE_FIXED_TAX_TITLE" | trans }}">Discount: <br/><span>{{discount | price}}</span></div>
 
         {% endif %}
 
