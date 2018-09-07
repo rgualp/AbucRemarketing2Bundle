@@ -10,6 +10,9 @@
 {% for reservation in reservations %}
     {% set accommodation = reservation.ownResGenResId.genResOwnId %}
 <div class="item">
+    {% if  nights[loop.index0] >=4 %}
+    <span rel="tooltip"  title="More than 4 nights " class="discount float-lg-right badge badge-pill badge-danger large ">-10%</span>
+    {% endif %}
     <table cellpadding="15" class="full-width">
         <tbody><tr>
             <td class="date"><span>{{ loop.index }}</span></td>
@@ -40,28 +43,33 @@
     </div>
     {#{% set nights = (dates_string | length) - 1 %}#}
     {#% set touristTax = total_price * touristTax(reservations | length, nights , (total_price / nights)) %#}
-    {% set prepayment =  ceil_round((total_percent_price + currentServiceFee.fixedFee + touristTax)) | price%}
+    {% set prepayment =  ceil_round((total_percent_price + currentServiceFee.fixedFee + touristTax)-discount) | price%}
     <div class="row">
         <div class="col-sm-3" rel="tooltip" title="{{ "ACCOMMODATION_TOTAL_COST_PLURAL_TOOLTIP" | trans }}">{{"ACCOMMODATION_TOTAL_COST" | trans}} <br/><span>{{total_price | price}}</span></div>
         <div class="col-sm-1">
             <label>+</label>
         </div>
         <div class="col-sm-2" rel="tooltip" title="{{ "SERVICE_TOURIST_TAX_TITLE" | trans }}">{{"SERVICE_TOURIST_TAX" | trans}}: <br/><span>{{touristTax | price}}</span></div>
+        {% if discount >0 %}
         <div class="col-sm-1">
-            <label>+</label>
+            <label>-</label>
         </div>
-        <div class=" col-sm-2" rel="tooltip" title="{{ "SERVICE_FIXED_TAX_TITLE" | trans }}">{{"SERVICE_FIXED_TAX" | trans}}: <br/><span>{{currentServiceFee.fixedFee | price}}</span></div>
+            <div class="col-sm-2" rel="tooltip" title="{{ "SERVICE_FIXED_TAX_TITLE" | trans }}">Discount: <br/><span>{{discount | price}}</span></div>
+
+        {% endif %}
+
+        <div class="d-none col-sm-2" rel="tooltip" title="{{ "SERVICE_FIXED_TAX_TITLE" | trans }}">{{"SERVICE_FIXED_TAX" | trans}}: <br/><span>{{currentServiceFee.fixedFee | price}}</span></div>
         <div class="col-sm-1">
             <label>=</label>
         </div>
         <div class="col-sm-2 text-right" style="font-size: larger; font-weight: bold">
             {{ 'RESERVATION_TOTAL_PRICE' | trans }} <br/>
-            <span>{{(total_price + touristTax + currentServiceFee.fixedFee) | price}}</span>
+            <span>{{(total_price + touristTax + currentServiceFee.fixedFee-discount) | price}}</span>
         </div>
     </div>
     <div class="row" style="line-height: 25px; color: #218CDC">
         <div class="col-sm-6" rel="tooltip" title="{{ "PREPAYMENT_TOOLTIP" | trans }}">
-            {{"PREPAYMENT" | trans}}: <span>{{(total_percent_price +touristTax + currentServiceFee.fixedFee) | price}}</span>
+            {{"PREPAYMENT" | trans}}: <span>{{(total_percent_price +touristTax + currentServiceFee.fixedFee-discount) | price}}</span>
         </div>
         <div class="col-sm-6 text-right" rel="tooltip" title="{{ "TOTAL_PAY_AT_SERVICE_TOOLTIP" | trans }}">
             {{"TOTAL_PAY_AT_SERVICE" | trans}}: <span>{{(total_price - total_percent_price) | price}}</span> <br/>

@@ -43,6 +43,9 @@
                                 <small class="top">{{"FROM_PRICES" | trans}}: {{res['own_res_reservation_from_date']|date('d/m/Y')}} {{"TO_PRICES" | trans}}: {{res['own_res_reservation_to_date']|date('d/m/Y')}}</small>
                             </div>
                             <div class="col-sm-3 text-center grey">
+                                {% if  nights[loop.index0] >=4 %}
+                                    <span rel="tooltip"  title="More than 4 nights " class=" discount float-lg-right badge badge-pill badge-danger large ">-10%</span>
+                                {% endif %}
                                 <div><input name="checkbox_{{res['own_res_id']}}" type="checkbox"> {{"SELECT_FOR_PAYMENT" | trans}}</div>
                                 <div class="big-price-blue">
                                     {%if res['own_res_night_price'] != 0%}

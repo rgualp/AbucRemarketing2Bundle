@@ -550,14 +550,19 @@ class BookingService extends Controller
             $tax = $em->getRepository("mycpBundle:serviceFee")->calculateTouristServiceFee($totalRooms, $totalNights, $totalPrice / $totalNights, $own_r["service_fee"]);
 
             $touristTaxTotal += $totalPrice * $tax;*/
+            $dicount=0;
+            if($tempNights>=4){
+                $dicount=($totalPrice+ ($totalPrice * $tax)) *0.1;
 
+            }
 
             $payments[$own_r["id"]] = array(
                 'total_price' => $totalPrice * $currencyRate,
                 'prepayment' => $totalPercentPrice * $currencyRate,
                 'touristTax' => $totalPrice * $tax * $currencyRate,
                 'pay_at_service_cuc' => $totalPrice - $totalPercentPrice,
-                'pay_at_service' => ($totalPrice - $totalPercentPrice) * $currencyRate
+                'pay_at_service' => ($totalPrice - $totalPercentPrice) * $currencyRate,
+                'discount'=>$dicount*$currencyRate
             );
         }
 
@@ -567,7 +572,7 @@ class BookingService extends Controller
 
         $totalPrice = 0;
         $totalPercentPrice = 0;
-
+        $dicount1=0;
         foreach ($ownReservations as $own) {
             $array_dates = $timeService->datesBetween(
                 $own->getOwnResReservationFromDate()->getTimestamp(),
@@ -577,10 +582,20 @@ class BookingService extends Controller
             $nights[$own->getOwnResId()] = count($array_dates) - 1;
             array_push($rooms, $em->getRepository('mycpBundle:room')->find($own->getOwnResSelectedRoomId()));
             $partialPrice = \MyCp\FrontEndBundle\Helpers\ReservationHelper::getTotalPrice($em, $timeService, $own, $this->tripleRoomCharge);
-            $totalPrice += $partialPrice;
-            $commission = $own->getOwnResGenResId()->GetGenResOwnId()->getOwnCommissionPercent();
-            $totalPercentPrice += $partialPrice * $commission / 100;
 
+
+            $commission = $own->getOwnResGenResId()->GetGenResOwnId()->getOwnCommissionPercent();
+
+            $tempNights = $timeService->nights($own->getOwnResReservationFromDate()->format("Y-m-d"), $own->getOwnResReservationToDate()->format("Y-m-d"));
+
+
+
+            if($tempNights>=4){
+                $dicount1=($partialPrice+ ($partialPrice * $tax)) *0.1;
+
+            }
+            $totalPercentPrice += $partialPrice * $commission / 100;
+            $totalPrice += $partialPrice;
             $insert = 1;
 
             foreach ($commissions as $com) {
@@ -626,7 +641,8 @@ class BookingService extends Controller
             'total_prepayment_cuc' => $totalPrepaymentInCuc,
             'total_servicing_price' => $totalServicingPrice,
             'total_price_to_pay_at_service_in_cuc' => $totalPriceToPayAtServiceInCUC,
-            'tourist_tax_total' => $touristTaxTotal
+            'tourist_tax_total' => $touristTaxTotal,
+            'discount'=>$dicount1*$currencyRate
         );
     }
 

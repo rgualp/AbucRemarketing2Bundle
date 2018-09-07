@@ -84,11 +84,9 @@ var Calendar = function () {
             }
             else
                 tourist_fee_percent = $("#tourist_service").attr("data-one-night-several-rooms-percent");
-
         }
-        else if(nights == 2){
+        else if(nights == 2)
             tourist_fee_percent = $("#tourist_service").attr("data-one-2-nights-percent");
-        }
         else if(nights == 3)
             tourist_fee_percent = $("#tourist_service").attr("data-one-3-nights-percent");
         else if(nights == 4)
@@ -96,25 +94,39 @@ var Calendar = function () {
         else if(nights >= 5)
             tourist_fee_percent = $("#tourist_service").attr("data-one-5-nights-percent");
 
+
         $('#data_reservation').val(string_url);
         $('#accommodation_price').html( normalize_prices(total_price_var) );
         $('#subtotal_price').html(normalize_prices(total_price_var));
         var percent_value=total_price_var * percent / 100;
         var tourist_service = total_price_var*parseFloat(tourist_fee_percent);
-        var fixed_tax = parseFloat($("#tourist_service").attr("data-fixed-tax")) *curr;
+        var fixed_tax = parseFloat($("#tourist_service").data("fixed-tax")) *curr;
         $("#tourist_service").html(normalize_prices(tourist_service));
         var total_price = total_price_var + tourist_service + fixed_tax;
-        $('#total_price').html(normalize_prices(total_price));
+
         var pay_at_service = total_price_var - percent_value;
         $('#pay_at_service').html(normalize_prices(pay_at_service));
         $("#pay_at_service_cuc").html("CUC " + normalize_prices(pay_at_service/curr));
-
-
         var prepayment = percent_value + fixed_tax + tourist_service;
-        // console.log("Porciento" + percent_value);
-        //  console.log("Turista" + tourist_service);
-        //  console.log("Tarifa fija" + fixed_tax);
-        //  console.log(prepayment);
+
+        if(nights >= 4){
+            var discount=total_price*0.1;
+            prepayment=prepayment-discount;
+            total_price=total_price-discount;
+            $('#discount-amount').html(normalize_prices(discount));
+            $('#discount-amount').removeClass('d-none').addClass('d-flex');
+            console.log($("#totalNights").val());
+            if($("#totalNights").val()>=4){
+                $('#discount-cotent').removeClass('d-none').addClass('d-flex');
+            }
+            $('#discount').removeClass('d-none').addClass('d-flex');
+
+        }
+        $('#total_price').html(normalize_prices(total_price));
+        /*console.log("Porciento" + percent_value);
+        console.log("Turista" + tourist_service);
+        console.log("Tarifa fija" + fixed_tax);
+        console.log(prepayment);*/
         $('#total_prepayment').html(normalize_prices(prepayment));
         $('.calendar-results').css({display: 'block'});
 

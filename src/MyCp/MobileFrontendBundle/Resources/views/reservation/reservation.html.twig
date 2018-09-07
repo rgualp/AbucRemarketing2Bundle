@@ -49,7 +49,13 @@
                     <tbody><tr>
 
                         <td>
-                            <b>{{ accommodation.ownName }}</b><br/>
+                            <div class="row" style="margin-left: 2px">
+                            <b>{{ accommodation.ownName }}</b>
+                            {% if  nights[loop.index0] >=4 %}
+                                <span rel="tooltip"  title="More than 4 nights " class="discount float-lg-right badge badge-pill badge-danger ">-10%</span>
+                            {% endif %}
+                            </div>
+                            <br/>
                             {{ accommodation.ownAddressMunicipality.munName }}, {{ accommodation.ownAddressProvince.provName }} <br/>
                             <small>
                                 {% if reservation.ownResGenResId.completeReservationMode %}
@@ -89,19 +95,22 @@
     </div>
     <div><img src="{{ asset('bundles/frontend/img/line-gradient-green.png') }}" style="width: 100%; height: 1px; margin: 16px 0" alt="{{"Gradient" | trans}}"></div>
 
-    {% set prepayment =  ceil_round((total_percent_price + currentServiceFee.fixedFee + touristTax)) | price%}
+    {% set prepayment =  ceil_round((total_percent_price + currentServiceFee.fixedFee + touristTax-discount)) | price%}
 
      <div class="row" style="padding-right: 20px">
         <div style="font-size: 10px;" class="col-xs-12 text-right text-uppercase" rel="tooltip" title="{{ "ACCOMMODATION_TOTAL_COST_PLURAL_TOOLTIP" | trans }}">{{"ACCOMMODATION_TOTAL_COST" | trans}} <span style="font-size: 16px;"><b>{{total_price | price}}</b></span></div>
         <div style="font-size: 10px;" class="col-xs-12 text-right text-uppercase" rel="tooltip" title="{{ "SERVICE_TOURIST_TAX_TITLE" | trans }}">{{"SERVICE_TOURIST_TAX" | trans}}: <span style="font-size: 16px;"><b>{{touristTax | price}}</b></span></div>
-        <div style="font-size: 10px;" class="col-xs-12 text-right text-uppercase" rel="tooltip" title="{{ "SERVICE_FIXED_TAX_TITLE" | trans }}">{{"SERVICE_FIXED_TAX" | trans}}: <span style="font-size: 16px;"><b>{{currentServiceFee.fixedFee | price}}</b></span></div>
-        <div class="col-xs-12 text-right text-uppercase" style="font-size: larger; color: #218CDC">
-            {{ 'RESERVATION_TOTAL_PRICE' | trans }} <span><b>{{(total_price + touristTax + currentServiceFee.fixedFee) | price}}</b></span>
+        {% if discount>0 %}
+         <div style="font-size: 10px;" class="col-xs-12 text-right text-uppercase" rel="tooltip" title="{{ "SERVICE_FIXED_TAX_TITLE" | trans }}">Discount: <span style="font-size: 16px;"><b>{{discount | price}}</b></span></div>
+        {% endif %}
+         <div style="font-size: 10px;" class="d-none col-xs-12 text-right text-uppercase" rel="tooltip" title="{{ "SERVICE_FIXED_TAX_TITLE" | trans }}">{{"SERVICE_FIXED_TAX" | trans}}: <span style="font-size: 16px;"><b>{{currentServiceFee.fixedFee | price}}</b></span></div>
+        <div class="col-xs-12 text-right text-uppercase" style="font-size: larger; color: #218CDC" rel="tooltip" title="{{ "ACCOMMODATION_TOTAL_COST_PLURAL_TOOLTIP" | trans }}">
+            {{ 'RESERVATION_TOTAL_PRICE' | trans }} <span><b>{{(total_price + touristTax + currentServiceFee.fixedFee-discount) | price}}</b></span>
         </div>
     </div>
     <div class="row" style="color: #218CDC; padding-right: 20px" >
         <div style="font-size: 12px;"  class="col-xs-12 text-right text-uppercase" rel="tooltip" title="{{ "PREPAYMENT_TOOLTIP" | trans }}">
-            {{"PREPAYMENT" | trans}}: <span style="font-size: 14px;"><b>{{(total_percent_price +touristTax + currentServiceFee.fixedFee) | price}}</b></span>
+            {{"PREPAYMENT" | trans}}: <span style="font-size: 14px;"><b>{{(total_percent_price +touristTax + currentServiceFee.fixedFee-discount) | price}}</b></span>
         </div>
         <div class="col-xs-12 text-right text-uppercase" rel="tooltip" title="{{ "TOTAL_PAY_AT_SERVICE_TOOLTIP" | trans }}">
             {{"TOTAL_PAY_AT_SERVICE" | trans}}: <span><b>{{(total_price - total_percent_price) | price}}</b></span> <br/>

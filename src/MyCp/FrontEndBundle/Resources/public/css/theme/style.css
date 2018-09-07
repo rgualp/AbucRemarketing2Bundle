@@ -27,8 +27,8 @@
 .page-footer {
   background-color: #1C2331;
 }
-#main-search-2{
-    margin-left:8%;
+#main-search-2 .form.fixed-top {
+    margin-left:8% ;
 }
 .lang{
     top: -13px;

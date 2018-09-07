@@ -80,15 +80,15 @@
 
                     </div>
                     <strong id="tourist_service"
-                            data-one-nr-until-20-percent ="{{ currentServiceFee.oneNrUntil20Percent }}"
-                            data-one-nr-from-20-to-25-percent ="{{ currentServiceFee.oneNrFrom20To25Percent }}"
-                            data-one-nr-from-more-25-percent = "{{ currentServiceFee.oneNrFromMore25Percent }}"
-                            data-one-night-several-rooms-percent = "{{ currentServiceFee.oneNightSeveralRoomsPercent }}"
-                            data-one-2-nights-percent = "{{ currentServiceFee.one2NightsPercent }}"
-                            data-one-3-nights-percent = "{{ currentServiceFee.one3NightsPercent }}"
-                            data-one-4-nights-percent = "{{ currentServiceFee.one4NightsPercent }}"
-                            data-one-5-nights-percent = "{{ currentServiceFee.one5NightsPercent }}"
-                            data-fixed-tax = "{{ currentServiceFee.fixedFee }}" class="text-muted"></strong>
+                          data-one-nr-until-20-percent ="{{ currentServiceFee.oneNrUntil20Percent }}"
+                          data-one-nr-from-20-to-25-percent ="{{ currentServiceFee.oneNrFrom20To25Percent }}"
+                          data-one-nr-from-more-25-percent = "{{ currentServiceFee.oneNrFromMore25Percent }}"
+                          data-one-night-several-rooms-percent = "{{ currentServiceFee.oneNightSeveralRoomsPercent }}"
+                          data-one-2-nights-percent = "{{ currentServiceFee.one2NightsPercent }}"
+                          data-one-3-nights-percent = "{{ currentServiceFee.one3NightsPercent }}"
+                          data-one-4-nights-percent = "{{ currentServiceFee.one4NightsPercent }}"
+                          data-one-5-nights-percent = "{{ currentServiceFee.one5NightsPercent }}"
+                          data-fixed-tax = "{{ currentServiceFee.fixedFee }}" class="text-muted"></strong>
                 </li>
                 <li class="d-none list-group-item justify-content-between lh-condensed" style="padding-bottom: 0;">
                     <div>
@@ -105,7 +105,7 @@
                     <strong id="discount-amount" class="text-success"></strong>
                 </li>
                 <li class="list-group-item d-flex justify-content-between" style="padding-bottom: 0;">
-                    <span class="text-black-50"  > {{ 'RESERVATION_TOTAL_PRICE' | trans }} ( {{ currSymbol }})</span>
+                    <span class="text-black-50" rel="tooltip" title="{{ 'ACCOMMODATION_TOTAL_COST_PLURAL_TOOLTIP' | trans()}}" > {{ 'RESERVATION_TOTAL_PRICE' | trans }} ( {{ currSymbol }})</span>
                     <strong class="text-black-50" id="total_price"></strong>
                 </li>
             </ul>
