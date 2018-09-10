@@ -303,7 +303,12 @@
                         }
                         if(tnight>=10) {
                             $('#discount_alert').replaceWith('<span id="discount_alert">Usted resivira un descuento del 30% a su prepago online</span>')
-                        }else{
+                        }
+                        else if(tnight=0){
+                            $('#discount_alert').replaceWith('<span id="discount_alert">Si reserva mas de 9 noches con nosotros tendrà un descuento de un 30% de su pago online.</span>')
+
+                        }
+                        else{
                             var temp=parseFloat(10-tnight);
                             $('#discount_alert').replaceWith('<span id="discount_alert">Si reserva '+temp+' noches màs con nosotros tendrà un descuento de un 30% de su pago online.</span>')
 
