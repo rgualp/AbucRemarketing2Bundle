@@ -122,6 +122,10 @@ var Calendar = function () {
             $('#discount').removeClass('d-none').addClass('d-flex');
 
         }
+        else{
+            $('#discount-cotent').removeClass('d-flex').addClass('d-none');
+            $('#discount').removeClass('d-flex').addClass('d-none');
+        }
         $('#total_price').html(normalize_prices(total_price));
         /*console.log("Porciento" + percent_value);
         console.log("Turista" + tourist_service);
