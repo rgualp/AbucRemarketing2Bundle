@@ -19,7 +19,7 @@ class Version20180911142753 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
 
-        $this->addSql("UPDATE  ownership  SET  own_mcp_code = CM005  WHERE  own_mcp_code  IN ('CM213');");
+        $this->addSql("UPDATE  ownership  SET  own_mcp_code = 'CM005'  WHERE  own_mcp_code  = 'CM213';");
 
     }
 
