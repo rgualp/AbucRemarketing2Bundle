@@ -4690,6 +4690,27 @@
                                                   </target>
 
                                                </trans-unit>
+    <trans-unit id="4859">
+ <source>OFFERT_TEXT1</source>
+   <target>¡Sé un explorador! Define tu ruta y conoce a Cuba en tres destinos o más. Obtén un 30% de descuento de tu pago online a partir de 10 noches.</target>
+   </trans-unit>
+
+   <trans-unit id="4860">
+            <source>OFFERT_TEXT2</source>
+          <target>¡Reservas a partir de 10 noches con un 30% de descuento de tu pago online! Aprovéchalas.</target>
+               </trans-unit>
+    <trans-unit id="4861">
+                   <source>OFFERT_TEXT4</source>
+                 <target>¡Casi lo consigues! Reserva </target>
+                   </trans-unit>
+    <trans-unit id="4862">
+                      <source>OFFERT_TEXT5</source>
+                    <target> noches más y obtendrás un descuento del 30% de tu pago online.</target>
+                      </trans-unit>
+      <trans-unit id="4863">
+                         <source>OFFERT_TEXT6</source>
+                       <target>¡Tus 10 noches están listas! Finaliza tu compra y recibe el 30%  de descuento del pago online.</target>
+                         </trans-unit>
         </body>
     </file>
 </xliff>

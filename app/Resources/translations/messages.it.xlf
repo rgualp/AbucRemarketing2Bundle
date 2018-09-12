@@ -4652,6 +4652,29 @@ Guarda il nostro tutorial di avvio rapido di 1 minuto.
                                                     </target>
 
                                                  </trans-unit>
+    <trans-unit id="4859">
+   <source>OFFERT_TEXT1</source>
+     <target>Be an explorer! Define your route and meet Cuba in three or more destinations. Get a 30% discount on your online payment from 10 nights on.</target>
+     </trans-unit>
+
+     <trans-unit id="4860">
+              <source>OFFERT_TEXT2</source>
+            <target>Bookings from 10 nights on with a 30% discount on your online payment. Don´t miss them!</target>
+              </trans-unit>
+
+
+      <trans-unit id="4863">
+                     <source>OFFERT_TEXT4</source>
+                   <target>You almost got it! Book </target>
+                     </trans-unit>
+      <trans-unit id="4864">
+                        <source>OFFERT_TEXT5</source>
+                      <target> more nights and you will get a discount of 30% on your online payment.</target>
+                        </trans-unit>
+        <trans-unit id="4865">
+                           <source>OFFERT_TEXT6</source>
+                         <target>Your 10 nights are ready! Finish your purchase and receive a 30% discount on the online payment.</target>
+                           </trans-unit>
         </body>
     </file>
 </xliff>

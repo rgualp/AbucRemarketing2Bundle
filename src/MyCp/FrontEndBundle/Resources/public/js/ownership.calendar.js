@@ -99,6 +99,7 @@ function total_price(curr,percent)
         console.log($("#totalNights").val());
         if($("#totalNights").val()*roomsTotal>=10){
             $('#discount-cotent').removeClass('d-none').addClass('d-flex');
+            $('#texto-cal').removeClass('d-none').addClass('d-flex');
         }
         $('#discount').removeClass('d-none').addClass('d-flex');
 
@@ -106,6 +107,7 @@ function total_price(curr,percent)
     else{
         $('#discount-cotent').removeClass('d-flex').addClass('d-none');
         $('#discount').removeClass('d-flex').addClass('d-none');
+        $('#texto-cal').removeClass('d-flex').addClass('d-none');
     }
     $('#total_price').html(normalize_prices(total_price));
     /*console.log("Porciento" + percent_value);
