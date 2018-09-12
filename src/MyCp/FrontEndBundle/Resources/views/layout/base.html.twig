@@ -147,7 +147,24 @@
                 {% endblock %}
             {% endblock %}
         </div>
+        <div class="modal fade bottom modal-content-clickable" id="frameModalBottomSuccessDemo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="false" style="padding-right: 17px; display: block;">
+            <div class="modal-dialog modal-frame modal-bottom modal-notify modal-alert" role="document">
+                <!--Content-->
+                <div class="modal-content">
+                    <!--Body-->
+                    <div class="modal-body">
+                        <div class="row d-flex justify-content-center align-items-center">
 
+                            <p class="pt-3 pr-2 text-warning" style="font-size: 19px;">{{ 'OFFERT_TEXT1'|trans }}</p>
+
+
+                            <a role="button" class="btn btn-outline-alert waves-effect" data-dismiss="modal">{{ 'CANCEL' | trans }}</a>
+                        </div>
+                    </div>
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>
 
     </main>
     <!--Main layout-->
@@ -161,6 +178,7 @@
     {% include 'FrontEndBundle:new_layout:footer.html.twig' %}
 
     {% include 'FrontEndBundle:mails:sendMailPopup.html.twig' %}
+
 
 
     <script type="text/javascript">
@@ -319,7 +337,7 @@
 
 
                 });
-
+                $('#frameModalBottomSuccessDemo').modal('toggle');
             });
 
     </script>
