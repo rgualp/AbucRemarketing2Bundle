@@ -284,6 +284,12 @@
 
                         });
                     });
+
+                    var mes="{{ "OFFERT_TEXT6"|trans }}";
+                    var mes1="{{ "OFFERT_TEXT1"|trans }}";
+                    var temp1="{{ "OFFERT_TEXT4"|trans }}";
+                    var temp2="{{"OFFERT_TEXT5"|trans }}";
+
                     var tnight=0;
                     $('.check_pay').click(function() {
 
@@ -302,14 +308,15 @@
                             }
                         }
                         if(tnight>=10) {
-                            $('#discount_alert').replaceWith('<span id="discount_alert">Usted resivira un descuento del 30% a su prepago online</span>')
+                            $('#discount_alert').replaceWith('<span id="discount_alert">'+mes1+'</span>')
                         }else{
                             var temp=parseFloat(10-tnight);
-                            $('#discount_alert').replaceWith('<span id="discount_alert">Si reserva '+temp+' noches màs con nosotros tendrà un descuento de un 30% de su pago online.</span>')
+                            $('#discount_alert').replaceWith('<span id="discount_alert">'+temp1+temp+temp2+'</span>')
 
                         }
 
                     });
+
 
                 });
 

@@ -14,7 +14,7 @@
     {% for message in app.session.flashbag.get('message_no_select') %}
             <div class="alert alert-info" style="margin-bottom: 10px">{{ message }}</div>
     {% endfor %}
-    <div class="alert alert-warning" style="margin-bottom: 10px"><span id="discount_alert">Si reserva mas de 9 noches con nosotros tendrà un descuento de un 30% de su pago online.</span></div>
+    <div class="alert alert-warning" style="margin-bottom: 10px"><span id="discount_alert">{{ 'OFFERT_TEXT1'|trans }}</span></div>
     <div class="tab-content lazy-cont">
     <div id="tab2" class="tab-pane active">
         <div class="thumbs-houses houses-list myct-records">

@@ -4697,6 +4697,29 @@ Zusätzlich zu der Verwaltung der Unterkunft, bieten wir Ihnen mehrere <strong>T
                                                   </target>
 
                                                </trans-unit>
+   <trans-unit id="4859">
+  <source>OFFERT_TEXT1</source>
+    <target>Sei ein Entdecker! Definieren Sie Ihre Route und kennen Sie Kuba in drei oder mehr Destinationen. Erhalten Sie 30% Rabatt auf Ihre Online-Zahlung ab 10 Nächten.</target>
+    </trans-unit>
+
+    <trans-unit id="4860">
+             <source>OFFERT_TEXT2</source>
+           <target>Reservierungen ab 10 Nächten mit 30% Rabatt auf Ihre Online-Zahlung! Nutze sie aus.</target>
+             </trans-unit>
+
+                </trans-unit>
+     <trans-unit id="4863">
+                    <source>OFFERT_TEXT4</source>
+                  <target>Du hast es fast verstanden! Reservieren Sie </target>
+                    </trans-unit>
+     <trans-unit id="4864">
+                       <source>OFFERT_TEXT5</source>
+                     <target> mehr Nächte und Sie erhalten einen Rabatt von 30% Ihrer Online-Zahlung.</target>
+                       </trans-unit>
+       <trans-unit id="4865">
+                          <source>OFFERT_TEXT6</source>
+                        <target>Deine 10 Nächte sind fertig! Schließen Sie Ihren Kauf ab und erhalten Sie einen Rabatt von 30% auf die Online-Zahlung.</target>
+                          </trans-unit>
          </body>
     </file>
 </xliff>

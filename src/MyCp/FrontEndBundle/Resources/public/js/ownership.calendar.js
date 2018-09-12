@@ -90,18 +90,24 @@ function total_price(curr,percent)
     $("#pay_at_service_cuc").html("CUC " + normalize_prices(pay_at_service/curr));
     var prepayment = percent_value + fixed_tax + tourist_service;
 
-    if(nights >= 10){
+    if(nights*roomsTotal >= 10){
         var discount=prepayment*0.3;
         prepayment=prepayment-discount;
         total_price=total_price-discount;
         $('#discount-amount').html(normalize_prices(discount));
         $('#discount-amount').removeClass('d-none').addClass('d-flex');
         console.log($("#totalNights").val());
-        if($("#totalNights").val()>=10){
+        if($("#totalNights").val()*roomsTotal>=10){
             $('#discount-cotent').removeClass('d-none').addClass('d-flex');
+            $('#texto-cal').removeClass('d-none').addClass('d-flex');
         }
         $('#discount').removeClass('d-none').addClass('d-flex');
 
+    }
+    else{
+        $('#discount-cotent').removeClass('d-flex').addClass('d-none');
+        $('#discount').removeClass('d-flex').addClass('d-none');
+        $('#texto-cal').removeClass('d-flex').addClass('d-none');
     }
     $('#total_price').html(normalize_prices(total_price));
     /*console.log("Porciento" + percent_value);
