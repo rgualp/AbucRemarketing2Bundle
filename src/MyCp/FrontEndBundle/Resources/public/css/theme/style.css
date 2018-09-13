@@ -13,7 +13,7 @@
 /* Navbar animation */
 .navbar {
   background-color: rgba(0, 0, 0, 0.2); }
-
+.row:before, .row:after { display: inline-block!important; /* 2 */  }
 .top-nav-collapse {
   background-color: #1d4b99; }
 
