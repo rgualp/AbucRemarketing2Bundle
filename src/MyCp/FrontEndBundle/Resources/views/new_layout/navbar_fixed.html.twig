@@ -30,7 +30,23 @@
                 {{ render(controller('FrontEndBundle:Public:getMainMenuDestinations')) }}
 
                 {#{{ render(controller('FrontEndBundle:Public:getMainMenuAccomodations')) }}#}
+                <li class="nav-item dropdown">
 
+                    <a class="nav-link dropdown-toggle waves-effect">
+                        <span class="badge red z-depth-1 mr-1"> -30% </span>
+                        <i class="fa fa-asterisk"></i>
+                        <span class="clearfix d-none d-sm-inline-block"> {{ 'OFFERS_MAIN_MENU'|trans }} </span>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+
+                        <div class="row-fluid">
+                            <span style="width: 280px;color:white;font-size: 16px">{{ 'OFFERT_TEXT1'|trans }}</span>
+                        </div>
+
+
+                    </div>
+
+                </li>
 
 
 
