@@ -73,14 +73,14 @@
         <ul class="list-group mb-3 z-depth-1">
             {% set currSymbol = app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol %}
 
-            <li class="list-group-item d-flex justify-content-between lh-condensed">
+            <li class="list-group-item d-flex justify-content-between lh-condensed row">
                 <div>
                     <h6 title="{{ "ACCOMMODATION_TOTAL_COST_PLURAL_TOOLTIP" | trans }}" class="my-0 text-black-50">  {{ 'ACCOMMODATION_TOTAL_COST' | trans }}</h6>
 
                 </div>
                 <span id="accommodation_price" ></span>
             </li>
-            <li class="list-group-item d-flex justify-content-between lh-condensed">
+            <li class="list-group-item d-flex justify-content-between lh-condensed row">
                 <div>
                     <h6 class="my-0 text-black-50"  title="{{ 'SERVICE_TOURIST_TAX_TITLE' | trans()}}" >{{ 'SERVICE_TOURIST_TAX' | trans }}</h6>
 
@@ -96,25 +96,25 @@
                       data-one-5-nights-percent = "{{ currentServiceFee.one5NightsPercent }}"
                       data-fixed-tax = "{{ currentServiceFee.fixedFee }}" ></span>
             </li>
-            <li class="d-none list-group-item justify-content-between lh-condensed">
+            <li class="d-none list-group-item justify-content-between lh-condensed row">
                 <div>
                     <h6 title="{{ 'SERVICE_FIXED_TAX_TITLE' | trans()}}" class="my-0">{{ 'SERVICE_FIXED_TAX' | trans }}</h6>
 
                 </div>
                 <span id="service_recharge" > {{ (currentServiceFee.fixedFee * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))) | number_format(2) }}</span>
             </li>
-            <li id="discount-cotent" class="list-group-item d-none justify-content-between bg-light">
+            <li id="discount-cotent" class="list-group-item d-none justify-content-between bg-light row">
                 <div class="text-success">
                     <h6 class="my-0">More than 10 nights</h6>
                     <small>DISCOUNT</small>
                 </div>
                 <span id="discount-amount" class="text-success"></span>
             </li>
-            <li class="list-group-item d-flex justify-content-between">
+            <li class="list-group-item d-flex justify-content-between row">
                 <span class="text-black-50" rel="tooltip" title="{{ 'ACCOMMODATION_TOTAL_COST_PLURAL_TOOLTIP' | trans()}}" > {{ 'RESERVATION_TOTAL_PRICE' | trans }} ( {{ currSymbol }})</span>
                 <strong class="text-black-50" id="total_price"></strong>
             </li>
-            <li class="list-group-item d-flex justify-content-between" style="font-size: 12px;">
+            <li class="list-group-item d-flex justify-content-between row" style="font-size: 12px;">
                 <span class="text-black-50" rel="tooltip" title="{{ 'TOTAL_PAY_AT_SERVICE_TOOLTIP' | trans()}}" > {{ 'TOTAL_PAY_AT_SERVICE' | trans }} ( {{ currSymbol }})</span>
                 <strong class="text-black-50" id="pay_at_service"></strong>
                 {% if currSymbol != "CUC" %}
