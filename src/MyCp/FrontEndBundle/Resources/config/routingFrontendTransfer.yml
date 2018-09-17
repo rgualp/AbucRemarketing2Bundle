@@ -1,0 +1,7 @@
+frontend_view_transfer:
+    locales:  { en: "/transfers/", es: "/transportes/", de: "/transfers/", fr: "/transfers/", it: "/transfers/" }
+    defaults: { _controller: FrontEndBundle:Transfer:getMainTransferForm }
+
+frontend_submit_transfer:
+    locales:  { en: "/transfers/submit/", es: "/transportes/submit/", de: "/transfers/submit/", fr: "/transfers/submit/", it: "/transfers/submit/" }
+    defaults: { _controller: FrontEndBundle:Transfer:SendTransferRequest }

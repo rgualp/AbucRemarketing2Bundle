@@ -72,7 +72,9 @@ mycp_currency:
 mycp_language:
     resource: "@mycpBundle/Resources/config/routingBackendLanguage.yml"
     prefix:   backend/language/
-
+mycp_transfer:
+    resource: "@mycpBundle/Resources/config/routingBackendTransfer.yml"
+    prefix:   backend/transfer/
 mycp_log:
     resource: "@mycpBundle/Resources/config/routingBackendLog.yml"
     prefix:   backend/log/

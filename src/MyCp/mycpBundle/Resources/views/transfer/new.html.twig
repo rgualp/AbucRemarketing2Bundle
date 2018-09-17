@@ -1,0 +1,45 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_transfer') }}">Transfer</a> <span class="divider">/</span></li>
+    <li class="active">{% if edit_lang is defined %}Editar {% else %}Adicionar {% endif %}Transfer</li>
+    <li class="pull-right"><a href="{{ path('mycp_list_transfer') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+</ul>
+{% endblock %}
+{% block form_actions %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_transfer') }}">Transfer</a> <span class="divider">/</span></li>
+    <li class="active">{% if edit_lang is defined %}Editar {% else %}Adicionar {% endif %}Transfer</li>
+    <li class="pull-right"><a href="{{ path('mycp_list_transfer') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+</ul>
+<div class="form-actions">
+    <button class="btn btn-success" type="submit">Guardar</button>
+    <a class="btn" href="{{ path('mycp_list_transfer') }}">Cancelar</a>
+</div>
+</form>
+{% endblock %}
+{% block content %}
+<h2>{% if edit_lang is defined %}Editar {% else %}Adicionar {% endif %}Transfer</h2>
+<hr/>
+<form class="sfgen" enctype="multipart/form-data" method="POST" action="{% if edit_lang is defined %}{{path('mycp_edit_transfer',{'id_transfer':id_transfer})}}{% else %}{{path('mycp_new_transfer')}}{% endif %}" novalidate="true">
+<div class="row-fluid">
+    <div class="span4">
+        {{form_row(form.from)}}
+        {{form_row(form.to)}}
+
+        {{form_row(form.price)}}
+        <label>&nbsp;Publicado en el sitio</label>
+        {{form_rest(form)}}
+    </div>
+
+</div>
+   {% javascripts
+    '@mycpBundle/Resources/public/js/bootstrap-fileinput.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

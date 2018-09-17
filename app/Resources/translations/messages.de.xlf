@@ -4719,6 +4719,18 @@ Zusätzlich zu der Verwaltung der Unterkunft, bieten wir Ihnen mehrere <strong>T
                           <source>OFFERT_TEXT6</source>
                         <target>Deine 10 Nächte sind fertig! Schließen Sie Ihren Kauf ab und erhalten Sie einen Rabatt von 30% auf die Online-Zahlung.</target>
                           </trans-unit>
+
+
+      <trans-unit id="4866">
+                      <source>OFFERS_SERVICE_TRANSFER</source>
+                      <target>Shuttlebus</target>
+                  </trans-unit>
+   <trans-unit id="4867">
+        <source>TRANSFER_TITTLE</source>
+          <target>Ob Sie ein lokales Taxi oder einen Ferntransfer benötigen. Wir bieten Transferdienste mit professionellen Fahrern, in Autos aller Art: klassisch, modern, Busse ...
+                                   Unsere Fahrzeuge sind von den lokalen Behörden des Landes zertifiziert und verfügen über einen erstklassigen Komfort. Sie werden eine sichere und wirtschaftliche Reise genießen, wir versichern Ihnen!...
+                    </target>
+                        </trans-unit>
          </body>
     </file>
 </xliff>

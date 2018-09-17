@@ -4690,6 +4690,17 @@
                          <source>OFFERT_TEXT6</source>
                        <target>Your 10 nights are ready! Finish your purchase and receive a 30% discount on the online payment.</target>
                          </trans-unit>
+    <trans-unit id="4866">
+                          <source>OFFERS_SERVICE_TRANSFER</source>
+                          <target>Transfer Service</target>
+        </trans-unit>
+      <trans-unit id="4867">
+       <source>TRANSFER_TITTLE</source>
+         <target>
+         Whether you need a local taxi or a long distance transfer. We offer transfer services with professional drivers, in cars of all kinds: classic, modern, buses ...
+         Our vehicles are duly certified by the local authorities of the country and have a first class comfort. You will enjoy a safe and economic trip.
+         </target>
+      </trans-unit>
         </body>
     </file>
 </xliff>

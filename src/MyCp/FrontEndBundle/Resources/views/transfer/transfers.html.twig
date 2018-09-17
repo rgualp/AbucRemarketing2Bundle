@@ -1,0 +1,233 @@
+{% extends 'FrontEndBundle:layout:base.html.twig' %}
+{%set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_CONTACT_US')%}
+{% block title %}{{"OFFERS_SERVICE_TRANSFER" | trans}} Cuba{% endblock %}
+
+{% block metas %}
+    {{ get_metas('Contactos', app.session.get('app_lang_code')|lower )|raw }}
+{% endblock metas %}
+
+
+{% block body %}
+
+        <div class="container wow fadeIn" style="visibility: visible; animation-name: fadeIn;">
+
+            <!-- Heading -->
+            <h1 class="my-5 h2 text-center">{{"OFFERS_SERVICE_TRANSFER" | trans}}</h1>
+            <h5 class="my-5 h5 text-center">{{ 'TRANSFER_TITTLE'|trans|raw }}</h5>
+            <!--Grid row-->
+            <div class="row">
+
+                <!--Grid column-->
+                <div class="col-md-8 mb-4">
+
+                    <!--Card-->
+                    <div class="card">
+
+                        <!--Card content-->
+                        <form class="card-body" id="transfer_form"  action="{{ path('frontend_submit_transfer') }}" >
+
+                            <!--Grid row-->
+                            <div class="row">
+
+                                <!--Grid column-->
+                                <div class="col-md-6 mb-2">
+
+                                    <!--firstName-->
+                                    <div class="md-form ">
+                                        <input type="text" id="firstName" required="" name="name" class="form-control">
+                                        <label for="firstName" class="">{{ 'FORMS_NAME'|trans }}</label>
+                                    </div>
+
+                                </div>
+                                <!--Grid column-->
+
+                                <!--Grid column-->
+                                <div class="col-md-6 mb-2">
+
+                                    <!--lastName-->
+                                    <div class="md-form">
+                                        <input type="text" id="lastName" required="" name="lastname" class="form-control">
+                                        <label for="lastName" class="">{{ 'FORMS_LASTNAME'|trans }}</label>
+                                    </div>
+
+                                </div>
+                                <!--Grid column-->
+
+                            </div>
+                            <!--Grid row-->
+
+
+
+                            <!--email-->
+                            <div class="md-form mb-5">
+                                <input type="text" id="email" class="form-control" required="" name="email" placeholder="youremail@example.com">
+                                <label for="email" class="active">{{ 'FORMS_EMAIL'|trans }}</label>
+                            </div>
+
+
+
+                            <!--Grid row-->
+                            <div class="row">
+
+                                <!--Grid column-->
+                                <div class="col-lg-4 col-md-12 mb-4">
+
+                                    <label for="country">{{ 'OFFERS_SERVICE_TRANSFER'|trans }}</label>
+                                    <select class="custom-select d-block w-100" id="country" name="transfer" required="">
+                                        <option value="">Choose...</option>
+                                        {%for trans in transfer %}
+                                            <option value="{{ trans.id }}">{{ trans.from }} - {{ trans.to }} </option>
+                                        {% endfor %}
+
+                                    </select>
+
+
+                                </div>
+                                <!--Grid column-->
+
+                                <!--Grid column-->
+                                <div class="col-lg-4 col-md-6 mb-4">
+                                    <label for="address-2" class="active">Pax:</label>
+                                    <input min="1" name="pax" type="number" id="address-2" class="form-control" required="" placeholder="People Amount">
+
+
+
+                                </div>
+
+
+                            </div>
+                            <!--Grid row-->
+
+
+
+                            <hr>
+
+                            <div class="d-block my-3">
+                                <div class="custom-control custom-radio">
+                                    <input id="private" name="transferMethod" value="1" type="radio" class="custom-control-input" checked="" required="">
+                                    <label class="custom-control-label" for="private">Private Car</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input id="van" name="transferMethod" type="radio" value="2" class="custom-control-input" required="">
+                                    <label class="custom-control-label" for="van">Collective Car</label>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col form-group">
+                                    <label for="date">Please give us all the details?</label>
+                                <textarea required="" style="height: 180px;" name="comment" class="form-control" rows="6" style="border-radius: 0"></textarea>
+                                </div>
+                            </div>
+
+                            <hr class="mb-4">
+                            <button id="submitbtn" class="btn btn-primary btn-lg btn-block waves-effect waves-light" type="submit">Continue to checkout</button>
+
+                        </form>
+
+                    </div>
+                    <!--/.Card-->
+
+                </div>
+                <!--Grid column-->
+
+                <!--Grid column-->
+                <div class="col-md-4 mb-4">
+
+                    <!-- Heading -->
+                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="text-muted">Our Services</span>
+                        <span class="badge badge-secondary badge-pill">{{ transfer|length }}</span>
+                    </h4>
+
+                    <!-- Cart -->
+                    <ul class="list-group mb-3 z-depth-1">
+                        {%for trans in transfer %}
+                        <li class="list-group-item d-flex justify-content-between lh-condensed">
+                            <div>
+                                <h6 class="my-0">{{  trans.from }}</h6>
+                                <small class="text-muted">{{  trans.to}}</small>
+                            </div>
+                            <span class="text-muted">{{  trans.price|price}}</span>
+                        </li>
+                       {% endfor %}
+
+                    </ul>
+                    <!-- Cart -->
+
+                    <!-- Promo code -->
+                    <ul class="card p-2">
+                        <li class="list-group-item d-flex justify-content-between lh-condensed">
+                            <div>
+
+                            <img alt="Classic" title="Classic Car" src="{{ asset('bundles/frontend/img/classic.JPG') }}" class="img-fluid my-0"></img>
+
+                            </div>
+
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between lh-condensed">
+                            <div>
+                                <img alt="Modern" title="Modern Car" src="{{ asset('bundles/frontend/img/modern.JPG') }}" class="img-fluid my-0"></img>
+
+
+                            </div>
+
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between lh-condensed">
+                            <div>
+                                <img alt="Minivan" title="Minivan Car" src="{{ asset('bundles/frontend/img/minivan.JPG') }}" class="img-fluid my-0"></img>
+
+
+                            </div>
+
+                        </li>
+                    </ul>
+                    <!-- Promo code -->
+
+                </div>
+                <!--Grid column-->
+
+            </div>
+            <!--Grid row-->
+
+        </div>
+
+{%endblock%}
+{% block javascripts %}
+    <script type="text/javascript">
+        function initJSTwig() {
+            var form = $("#transfer_form");
+            form.on("submit", function (e) {
+                //Solo se envia por ajax
+                //1-si el usuario no esta logueado solo se envia para el wishlist.
+                //2-Cuando el usser esta login se manda por ajax la wishlist y la consulta de disponibilidad.
+                    e.stopPropagation();
+                    e.preventDefault();
+                    var formData = new FormData(form[0]);
+                    console.log(formData);
+                    $.ajax({
+                        url: form.attr('action'),
+                        type: "post",
+                        dataType: "html",
+                        data: formData,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: function(response){
+                               if(response==1) {
+                                   swal("{{ 'REQUEST_IN_PROCESS_24_HOURS'| trans }}", "", "success");
+                               }
+                               else{
+                                   swal("{{ 'ERROR_TITLE_PAGE'| trans }}", "", "error");
+                               }
+
+                            }
+
+
+                    });
+
+            });
+        }
+    </script>
+{% endblock javascripts %}

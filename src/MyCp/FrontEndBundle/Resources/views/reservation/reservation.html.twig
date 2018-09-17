@@ -8,7 +8,7 @@
     {% for res in reservations %}
         {% set night=night+nights[loop.index0] %}
     {% endfor %}
- <div class="alert alert-warning" style="margin-bottom: 10px"><span id="discount_alert">{{ 'OFFERT_TEXT1'|trans }}</span></div>
+ <div class="alert alert-warning" style="margin-bottom: 10px"><span id="discount_alert">{{ 'OFFERT_TEXT1'|trans }}</span>  <a target="_blank" class="text-right" title="My Casa Particular - {{ "DESTINATIONS_MAIN_MENU" | trans }}" href="{{ path('frontend_list_destinations') }}">{{ "DESTINATIONS_MAIN_MENU" | trans }}</a></div>
 <h1 class="h-blue caecilia-roman h-size-1" style="font-weight: normal;">{{"RESERVATION_DETAILS" | trans}}
     {% if  night >=10 %}
         <span rel="tooltip"  title="More than 10 nights " class="discount float-lg-right badge badge-pill badge-warning ">-30%</span>

@@ -14,7 +14,12 @@
     {% for message in app.session.flashbag.get('message_no_select') %}
             <div class="alert alert-info" style="margin-bottom: 10px">{{ message }}</div>
     {% endfor %}
-    <div class="alert alert-warning" style="margin-bottom: 10px"><span id="discount_alert">{{ 'OFFERT_TEXT1'|trans }}</span></div>
+    <div class="alert alert-warning" style="margin-bottom: 10px">
+        <span id="discount_alert">{{ 'OFFERT_TEXT1'|trans }}</span>
+        <a target="_blank" class="nav-link" title="My Casa Particular - {{ "DESTINATIONS_MAIN_MENU" | trans }}"
+           href="{{ path('frontend_list_destinations') }}">{{ "DESTINATIONS_MAIN_MENU" | trans }}</a>
+
+    </div>
     <div class="tab-content lazy-cont">
     <div id="tab2" class="tab-pane active">
         <div class="thumbs-houses houses-list myct-records">

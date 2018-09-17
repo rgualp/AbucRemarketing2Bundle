@@ -83,6 +83,9 @@ oauth_facebook:
 frontend_cart:
     resource: "@FrontEndBundle/Resources/config/routingFrontendCart.yml"
     type: be_simple_i18n
+frontend_transfer:
+    resource: "@FrontEndBundle/Resources/config/routingFrontendTransfer.yml"
+    type: be_simple_i18n
 frontend_mycasarenta:
     resource: "@FrontEndBundle/Resources/config/routingFrontendMyCasaRenta.yml"
     type: be_simple_i18n

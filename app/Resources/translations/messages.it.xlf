@@ -4675,6 +4675,17 @@ Guarda il nostro tutorial di avvio rapido di 1 minuto.
                            <source>OFFERT_TEXT6</source>
                          <target>Your 10 nights are ready! Finish your purchase and receive a 30% discount on the online payment.</target>
                            </trans-unit>
+   <trans-unit id="4866">
+                                 <source>OFFERS_SERVICE_TRANSFER</source>
+                                 <target>Servizio di trasferimento</target>
+               </trans-unit>
+
+  <trans-unit id="4867">
+       <source>TRANSFER_TITTLE</source>
+         <target>Se hai bisogno di un taxi locale o di un trasferimento a lunga distanza. Offriamo servizi di trasferimento con autisti professionisti, in auto di tutti i tipi: classico, moderno, autobus ...
+                                  I nostri veicoli sono debitamente certificati dalle autorità locali del paese e offrono un comfort di prima classe. Ti godrai un viaggio sicuro ed economico, ti assicuriamo!
+          </target>
+                   </trans-unit>
         </body>
     </file>
 </xliff>

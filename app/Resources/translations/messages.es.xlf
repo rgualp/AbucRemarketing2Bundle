@@ -4711,6 +4711,11 @@
                          <source>OFFERT_TEXT6</source>
                        <target>¡Tus 10 noches están listas! Finaliza tu compra y recibe el 30%  de descuento del pago online.</target>
                          </trans-unit>
+       <trans-unit id="4864">
+   <source>TRANSFER_TITTLE</source>
+     <target>Ya sea que necesite un taxi local o una transferencia de larga distancia. Ofrecemos servicios de traslado con conductores profesionales, en autos de todo tipo: clásicos, modernos, autobuses ...
+             Nuestros vehículos están debidamente certificados por las autoridades locales del país y tienen una comodidad de primera clase. Disfrutarás de un viaje seguro y económico, ¡te lo garantizamos!</target>
+  </trans-unit>
         </body>
     </file>
 </xliff>

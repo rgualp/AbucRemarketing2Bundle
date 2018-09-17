@@ -100,6 +100,25 @@ class ContactService extends Controller
         $this->get('session')->getFlashBag()->add('message_global_success', $message);
     }
 
+    public function sendTransferContact($touristName, $touristLastName, $pax,$origen,$destino,$transporte, $touristEmail, $touristComment)
+    {
+        $service_email = $this->get('Email');
+        $content = $this->render('FrontEndBundle:transfer:transfers.html.twig', array(
+            'tourist_name' => $touristName,
+            'tourist_last_name' => $touristLastName,
+            'pax' => $pax,
+            'origen'=>$origen,
+            'destino'=>$destino,
+            'tourist_email' => $touristEmail,
+            'tourist_comment' => $touristComment,
+            'transporte'=>$transporte
+        ));
+        $service_email->sendTemplatedEmail(
+            'Solicitud de Transfer', $touristEmail, 'services@mycasaparticular.com ', $content->getContent());
+        $message = $this->get('translator')->trans("USER_CONTACT_TOURIST_SUCCESS");
+        $this->get('session')->getFlashBag()->add('message_global_success', $message);
+    }
+
     private function getInstructionsZipPath()
     {
         $filePath = $this->additionalFilesPath . "MyCasaParticular.zip";

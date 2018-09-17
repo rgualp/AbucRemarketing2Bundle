@@ -4775,6 +4775,17 @@ En plus de la gestion du logement, nous vous offrons plusieurs options de <stron
                               <source>OFFERT_TEXT6</source>
                             <target>Your 10 nights are ready! Finish your purchase and receive a 30% discount on the online payment.</target>
                               </trans-unit>
-        </body>
+    <trans-unit id="4866">
+                              <source>OFFERS_SERVICE_TRANSFER</source>
+                              <target>Service de transfert</target>
+            </trans-unit>
+
+ <trans-unit id="4867">
+      <source>TRANSFER_TITTLE</source>
+        <target>Que vous ayez besoin d'un taxi local ou d'un transfert longue distance. Nous proposons des services de transfert avec des chauffeurs professionnels, dans des voitures de toutes sortes: classiques, modernes, bus ...
+                                 Nos véhicules sont dûment certifiés par les autorités locales du pays et offrent un confort de première classe. Vous profiterez d'un voyage sûr et économique, nous vous assurons!
+      </target>
+           </trans-unit>
+       </body>
     </file>
 </xliff>
