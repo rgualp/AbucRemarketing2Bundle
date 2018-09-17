@@ -18,7 +18,7 @@ class Version20180917140830 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
 // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-        $this->addSql('CREATE TABLE transfers (id INT AUTO_INCREMENT NOT NULL, transfer_price DECIMAL PRECISION 10 SCALE 2 NOT NULL,transfer_to VARCHAR(250) NOT NULL,transfer_from VARCHAR(250) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE transfers (id INT AUTO_INCREMENT NOT NULL, transfer_price DECIMAL PRECISION  NOT NULL,transfer_to VARCHAR(250) NOT NULL,transfer_from VARCHAR(250) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
 
 
 
