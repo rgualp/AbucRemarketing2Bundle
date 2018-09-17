@@ -43,8 +43,12 @@ class TransferController extends Controller {
         $email=$check_dispo=$request->get('email');
         $transfer=$em->getRepository('mycpBundle:transfer')->find($request->get('transfer'));
         $pax=$request->get('pax');
+        $time=$request->get('date');
         $comment=$request->get('comment');
         $veiculo=$request->get('transferMethod');
+        $address=$request->get('address');
+        $hora=$request->get('hora');
+
         if($veiculo==1){
             $veiculo='Privado';
 
@@ -54,7 +58,7 @@ class TransferController extends Controller {
         }
         $contactService = $this->get('front_end.services.contact');
         try {
-            $contactService->sendTransferContact($name,$lastname,$pax,$transfer->getFrom(),$transfer->getTo(),$veiculo,$email,$comment);
+            $contactService->sendTransferContact($hora,$address,$time,$name,$lastname,$pax,$transfer->getFrom(),$transfer->getTo(),$veiculo,$email,$comment);
         } catch (\Exception $e) {
             return new Response(0);
         }

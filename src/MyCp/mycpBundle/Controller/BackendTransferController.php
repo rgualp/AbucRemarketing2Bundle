@@ -75,7 +75,7 @@ class BackendTransferController extends Controller
             }
 
         }
-        return $this->render('mycpBundle:transfer:list.html.twig',array('form'=>$form->createView(),'data'=>$data,'id_language'=>$id_transfer,'edit_lang'=>true));
+        return $this->render('mycpBundle:transfer:new.html.twig',array('form'=>$form->createView(),'data'=>$trans,'id_transfer'=>$id_transfer,'edit_transfer'=>true));
     }
 
     public function new_transferAction(Request $request)
