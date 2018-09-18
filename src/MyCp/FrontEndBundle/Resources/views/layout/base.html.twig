@@ -290,6 +290,7 @@
                     var temp1="{{ "OFFERT_TEXT4"|trans }}";
                     var temp2="{{"OFFERT_TEXT5"|trans }}";
 
+
                     var tnight=0;
                     $('.check_pay').click(function() {
 
@@ -308,7 +309,7 @@
                             }
                         }
                         if(tnight>=10) {
-                            $('#discount_alert').replaceWith('<span id="discount_alert">'+mes1+'</span>')
+                            $('#discount_alert').replaceWith('<span id="discount_alert">'+mes+'</span>')
                         }else{
                             var temp=parseFloat(10-tnight);
                             $('#discount_alert').replaceWith('<span id="discount_alert">'+temp1+temp+temp2+'</span>')
