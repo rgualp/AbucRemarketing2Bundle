@@ -24,7 +24,7 @@ class TransferController extends Controller {
 
 
         if ($mobileDetector->isMobile()) {
-            return $this->render('MyCpMobileFrontend:transfer:transfers.html.twig', array(
+            return $this->render('@MyCpMobileFrontend/transfer/transfer.html.twig', array(
             'transfer'=>$transfers
             ));
         }

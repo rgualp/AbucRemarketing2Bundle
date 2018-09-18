@@ -3,7 +3,7 @@
 {% block title %}{{"OFFERS_SERVICE_TRANSFER" | trans}} Cuba{% endblock %}
 
 {% block metas %}
-    {{ get_metas('Contactos', app.session.get('app_lang_code')|lower )|raw }}
+    {{ get_metas('Transfer', app.session.get('app_lang_code')|lower )|raw }}
 {% endblock metas %}
 
 
@@ -67,7 +67,7 @@
                             <!--email-->
                             <div class="md-form mb-5">
                                 <input type="text" id="addres" class="form-control" required="" name="addres" placeholder="{{ 'ADDRESS'|trans }}">
-                                <label for="email" class="active">{{ 'ADDRESS'|trans }}</label>
+                                <label for="email" class="active">Pick up {{ 'ADDRESS'|trans }}</label>
                             </div>
 
                             <!--Grid row-->
@@ -78,7 +78,7 @@
 
                                     <label for="country">{{ 'OFFERS_SERVICE_TRANSFER'|trans }}</label>
                                     <select class="custom-select d-block w-100" id="country" name="transfer" required="">
-                                        <option value="">Choose...</option>
+                                        <option value="">...</option>
                                         {%for trans in transfer %}
                                             <option value="{{ trans.id }}">{{ trans.from }} - {{ trans.to }} </option>
                                         {% endfor %}
@@ -100,7 +100,7 @@
 
                                 <!--Grid column-->
                                 <div class="col-lg-4 col-md-6 mb-4">
-                                    <label for="address-2" class="active">Date:</label>
+                                    <label for="address-2" class="active">{{ 'backend.package.bookings.date'|trans }}:</label>
                                     <input min="1" name="date" type="date" id="date" class="form-control" required="" placeholder="People Amount">
 
 
@@ -135,11 +135,11 @@
                             <div class="d-block my-3">
                                 <div class="custom-control custom-radio">
                                     <input id="private" name="transferMethod" value="1" type="radio" class="custom-control-input" checked="" required="">
-                                    <label class="custom-control-label" for="private">Private Car</label>
+                                    <label class="custom-control-label" for="private">{{ 'TRANSFER_TAXI_TYPE_PRIVATE'|trans }}</label>
                                 </div>
                                 <div class="custom-control custom-radio">
                                     <input id="van" name="transferMethod" type="radio" value="2" class="custom-control-input" required="">
-                                    <label class="custom-control-label" for="van">Collective Car</label>
+                                    <label class="custom-control-label" for="van">{{ 'TRANSFER_TAXI_TYPE_COLECTIVE'|trans }}</label>
                                 </div>
 
                             </div>
@@ -247,6 +247,7 @@
                         success: function(response){
                                if(response==1) {
                                    swal("{{ 'REQUEST_IN_PROCESS_24_HOURS'| trans }}", "", "success");
+                                   window.location.href="{{ path('frontend-welcome') }}";
                                }
                                else{
                                    swal("{{ 'ERROR_TITLE_PAGE'| trans }}", "", "error");
