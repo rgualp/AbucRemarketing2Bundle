@@ -34,7 +34,7 @@
 
                                     <!--firstName-->
                                     <div class="md-form ">
-                                        <input type="text" id="firstName" required="" name="name" class="form-control">
+                                        <input type="text" id="firstName" required="" name="name" class="form-control"{% if app.user.getUserUserName is defined%}value="{{ app.user.getUserUserName }}"{% endif %}>
                                         <label for="firstName" class="">{{ 'FORMS_NAME'|trans }}</label>
                                     </div>
 
@@ -46,7 +46,7 @@
 
                                     <!--lastName-->
                                     <div class="md-form">
-                                        <input type="text" id="lastName" required="" name="lastname" class="form-control">
+                                        <input type="text" id="lastName" required="" name="lastname" class="form-control"{% if app.user.getUserUserName is defined%}value="{{ app.user.getUserLastName }}"{% endif %}>
                                         <label for="lastName" class="">{{ 'FORMS_LASTNAME'|trans }}</label>
                                     </div>
 
@@ -60,7 +60,7 @@
 
                             <!--email-->
                             <div class="md-form mb-5">
-                                <input type="text" id="email" class="form-control" required="" name="email" placeholder="youremail@example.com">
+                                <input type="text" id="email" class="form-control" required="" name="email" placeholder="youremail@example.com" {% if app.user.getUserUserName is defined%}value="{{ app.user.getUserEmail }}"{% endif %}>
                                 <label for="email" class="active">{{ 'FORMS_EMAIL'|trans }}</label>
                             </div>
 
@@ -113,6 +113,23 @@
                             <!--Grid row-->
                             <!--Grid row-->
                             <div class="row">
+                                <!--Grid column-->
+                                <div class="d-none col-lg-4 col-md-6 mb-4" id="aaa">
+                                    <label for="horas" class="active">Airline:</label>
+                                    <input  name="aereolinea" type="text" id="airline" class="form-control" >
+
+
+
+                                </div>
+                                <!--Grid column-->
+                                <div class="d-none col-lg-4 col-md-6 mb-4" id="fff">
+                                    <label for="horas" class="active">Fly #:</label>
+                                    <input  name="vuelo" type="text" id="fly" class="form-control" >
+
+
+
+                                </div>
+
 
                                 <!--Grid column-->
                                 <div class="col-lg-4 col-md-6 mb-4">
@@ -257,6 +274,21 @@
 
 
                     });
+
+            });
+            $('#country').on('change', function () {
+
+                if(this.value==1){
+                    console.log('asd');
+                    $('#fff').removeClass('d-none');
+                    $('#aaa').removeClass('d-none');
+                }
+                else{
+                    console.log('asdasdas');
+                    $('#fff').addClass('d-none');
+                    $('#aaa').addClass('d-none');
+                }
+
 
             });
         }
