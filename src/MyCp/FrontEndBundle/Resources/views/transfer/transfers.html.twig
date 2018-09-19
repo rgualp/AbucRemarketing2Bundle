@@ -14,6 +14,32 @@
             <!-- Heading -->
             <h1 class="my-5 h2 text-center">{{"OFFERS_SERVICE_TRANSFER" | trans}}</h1>
             <h5 class="my-5 h5 text-center">{{ 'TRANSFER_TITTLE'|trans|raw }}</h5>
+            <div class="row  p-2 ">
+                <div class="col  d-flex justify-content-between lh-condensed">
+                    <div>
+
+                        <img alt="Classic" title="Classic Car" src="{{ asset('bundles/frontend/img/classic.JPG') }}" class="img-fluid my-0"></img>
+
+                    </div>
+
+                </div>
+                <div class="col  d-flex justify-content-between lh-condensed">
+                    <div>
+                        <img alt="Modern" title="Modern Car" src="{{ asset('bundles/frontend/img/modern.JPG') }}" class="img-fluid my-0"></img>
+
+
+                    </div>
+
+                </div>
+                <div class="col  d-flex justify-content-between lh-condensed">
+                    <div>
+                        <img alt="Minivan" title="Minivan Car" src="{{ asset('bundles/frontend/img/minivan.JPG') }}" class="img-fluid my-0"></img>
+
+
+                    </div>
+
+                </div>
+            </div>
             <!--Grid row-->
             <div class="row">
 
@@ -193,43 +219,35 @@
                         {%for trans in transfer %}
                         <li class="list-group-item d-flex justify-content-between lh-condensed">
                             <div>
-                                <h6 class="my-0">{{  trans.from }}</h6>
-                                <small class="text-muted">{{  trans.to}}</small>
+                                <h6 class="my-0">{{  trans.from }}-{{  trans.to}} </h6>
+                                <small class="text-muted">{{ 'TRANSFER_TAXI_TYPE_PRIVATE'|trans }}</small>
                             </div>
                             <span class="text-muted">{{  trans.price|price}}</span>
+
                         </li>
+                         <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                <div>
+                                    <h6 class="my-0">{{  trans.from }}-{{  trans.to}} </h6>
+                                    <small class="text-muted">{{ 'TRANSFER_TAXI_TYPE_COLECTIVE'|trans }}</small>
+                                </div>
+                                {% if trans.priceVan > 0 %}
+
+                                    <span class="text-muted">{{trans.priceVan|price}}</span>
+                                {% else %}
+                                    <span class="text-muted  text-warning">{{ 'NOT_AVAILABLE'|trans }}</span>
+
+
+                                {% endif %}
+
+                            </li>
+
                        {% endfor %}
 
                     </ul>
                     <!-- Cart -->
 
                     <!-- Promo code -->
-                    <ul class="card p-2">
-                        <li class="list-group-item d-flex justify-content-between lh-condensed">
-                            <div>
 
-                            <img alt="Classic" title="Classic Car" src="{{ asset('bundles/frontend/img/classic.JPG') }}" class="img-fluid my-0"></img>
-
-                            </div>
-
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between lh-condensed">
-                            <div>
-                                <img alt="Modern" title="Modern Car" src="{{ asset('bundles/frontend/img/modern.JPG') }}" class="img-fluid my-0"></img>
-
-
-                            </div>
-
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between lh-condensed">
-                            <div>
-                                <img alt="Minivan" title="Minivan Car" src="{{ asset('bundles/frontend/img/minivan.JPG') }}" class="img-fluid my-0"></img>
-
-
-                            </div>
-
-                        </li>
-                    </ul>
                     <!-- Promo code -->
 
                 </div>
@@ -279,12 +297,12 @@
             $('#country').on('change', function () {
 
                 if(this.value==1){
-                    console.log('asd');
+
                     $('#fff').removeClass('d-none');
                     $('#aaa').removeClass('d-none');
                 }
                 else{
-                    console.log('asdasdas');
+
                     $('#fff').addClass('d-none');
                     $('#aaa').addClass('d-none');
                 }

@@ -48,7 +48,8 @@ class TransferController extends Controller {
         $veiculo=$request->get('transferMethod');
         $address=$request->get('address');
         $hora=$request->get('hora');
-
+        $airline=$request->get('aereolinea');
+        $fly=$request->get('vuelo');
         if($veiculo==1){
             $veiculo='Privado';
 
@@ -58,7 +59,7 @@ class TransferController extends Controller {
         }
         $contactService = $this->get('front_end.services.contact');
         try {
-            $contactService->sendTransferContact($hora,$address,$time,$name,$lastname,$pax,$transfer->getFrom(),$transfer->getTo(),$veiculo,$email,$comment);
+            $contactService->sendTransferContact($fly,$airline,$hora,$address,$time,$name,$lastname,$pax,$transfer->getFrom(),$transfer->getTo(),$veiculo,$email,$comment);
         } catch (\Exception $e) {
             return new Response(0);
         }

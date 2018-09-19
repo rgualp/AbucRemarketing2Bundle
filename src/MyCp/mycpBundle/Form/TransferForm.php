@@ -14,6 +14,7 @@ class TransferForm extends AbstractType
             ->add('from',null,array('label'=>'Origen:', 'attr'=>array('class'=>'input-block-level')))
             ->add('to',null,array('label'=>'Destino:','attr'=>array('class'=>'input-block-level')))
             ->add('price',null,array('label'=>'Precio CUC','attr'=>array('class'=>'input-block-level')))
+            ->add('price_van',null,array('label'=>'Precio Van CUC','attr'=>array('class'=>'input-block-level')))
         ;
     }
 

@@ -100,7 +100,7 @@ class ContactService extends Controller
         $this->get('session')->getFlashBag()->add('message_global_success', $message);
     }
 
-    public function sendTransferContact($hora,$address,$time,$touristName, $touristLastName, $pax,$origen,$destino,$transporte, $touristEmail, $touristComment)
+    public function sendTransferContact($fly,$airline,$hora,$address,$time,$touristName, $touristLastName, $pax,$origen,$destino,$transporte, $touristEmail, $touristComment)
     {
         $service_email = $this->get('Email');
         $content = $this->render('FrontEndBundle:transfer:transfers.html.twig', array(
@@ -114,7 +114,9 @@ class ContactService extends Controller
             'transporte'=>$transporte,
             'time'=>$time,
             'direccion'=>$address,
-            'h'=>$hora
+            'h'=>$hora,
+            'fly'=>$fly,
+            'airline'=>$airline
         ));
         $service_email->sendTemplatedEmail(
             'Solicitud de Transfer', $touristEmail, 'services@mycasaparticular.com ', $content->getContent());

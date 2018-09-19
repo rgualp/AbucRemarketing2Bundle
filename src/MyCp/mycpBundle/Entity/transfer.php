@@ -115,6 +115,29 @@ class transfer
      */
     private $price;
 
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="transfer_price_van", type="decimal", precision=10, scale=2)
+     */
+    private $price_van;
+
+    /**
+     * @return float
+     */
+    public function getPriceVan()
+    {
+        return $this->price_van;
+    }
+
+    /**
+     * @param float $price_van
+     */
+    public function setPriceVan($price_van)
+    {
+        $this->price_van = $price_van;
+    }
+
 
 
 }

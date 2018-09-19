@@ -204,10 +204,25 @@
                     {%for trans in transfer %}
                         <li class="list-group-item d-flex justify-content-between lh-condensed">
                             <div>
-                                <h6 class="my-0">{{  trans.from }} - {{  trans.to}}</h6>
+                                <h6 class="my-0">{{  trans.from }} - {{  trans.to}}- (Private)</h6>
 
                             </div>
                             <span class="text-muted">{{  trans.price|price}}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between lh-condensed">
+                            <div>
+                                <h6 class="my-0">{{  trans.from }} - {{  trans.to}}- (Colective) </h6>
+
+                            </div>
+                            {% if trans.priceVan > 0 %}
+
+                                <span class="text-muted">{{trans.priceVan|price}}</span>
+                            {% else %}
+                                <span class="text-muted  text-warning">{{ 'NOT_AVAILABLE'|trans }}</span>
+
+
+                            {% endif %}
+
                         </li>
                     {% endfor %}
 
@@ -290,12 +305,12 @@
             $('#country').on('change', function () {
 
                 if(this.value==1){
-                    console.log('asd');
+
                     $('#fff').removeClass('d-none');
                     $('#aaa').removeClass('d-none');
                 }
                 else{
-                    console.log('asdasdas');
+
                     $('#fff').addClass('d-none');
                     $('#aaa').addClass('d-none');
                 }

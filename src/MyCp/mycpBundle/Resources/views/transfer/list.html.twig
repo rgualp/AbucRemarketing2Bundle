@@ -47,6 +47,7 @@
         <th>Origen</th>
         <th>Destino</th>
         <th>Precio</th>
+        <th>Van</th>
         <th style="text-align: right">
             Acciones
         </th>
@@ -58,6 +59,7 @@
         <td>{{ tran.getFrom }}</td>
         <td>{{ tran.getTo }}</td>
         <td>{{ tran.getPrice }}</td>
+        <td>{{ tran.getPriceVan }}</td>
         <td style="text-align: right">
             <a class="btn btn-mini" href="{{ path('mycp_edit_transfer',{'id_transfer':tran.getId}) }}">Editar</a>
             <button data='{{ path('mycp_delete_transfer',{'id_transfer':tran.getId}) }}' class="btn btn-mini btn-danger delete">Eliminar</button>
