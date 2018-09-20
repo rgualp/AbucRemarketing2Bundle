@@ -119,7 +119,7 @@ class ContactService extends Controller
             'airline'=>$airline
         ));
         $service_email->sendEmail('Solicitud de Transfer', 'no-reply@mycasaparticular.com','Solicitud de Transfer', 'services@mycasaparticular.com', $content);
-        $service_email->sendEmail('Solicitud de Transfer', 'no-reply@mycasaparticular.com','Solicitud de Transfer', 'orlando@hds.li', $content);
+        $service_email->sendEmail('Solicitud de Transfer', 'no-reply@mycasaparticular.com','Solicitud de Transfer', 'vhagar91@gmail.com', $content);
         $message = $this->get('translator')->trans("USER_CONTACT_TOURIST_SUCCESS");
 
         $this->get('session')->getFlashBag()->add('message_global_success', $message);
