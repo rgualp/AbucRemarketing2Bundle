@@ -61,6 +61,7 @@ class TransferController extends Controller {
         try {
 
             $contactService->sendTransferContact($fly,$airline,$hora,$address,$time,$name,$lastname,$pax,$transfer->getFrom(),$transfer->getTo(),$veiculo,$email,$comment);
+
         } catch (\Exception $e) {
             return new Response(0);
         }

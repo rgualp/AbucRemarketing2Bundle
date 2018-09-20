@@ -103,7 +103,7 @@ class ContactService extends Controller
     public function sendTransferContact($fly,$airline,$hora,$address,$time,$touristName, $touristLastName, $pax,$origen,$destino,$transporte, $touristEmail, $touristComment)
     {
         $service_email = $this->get('Email');
-        $content = $this->render('FrontEndBundle:transfer:transfers.html.twig', array(
+        $content = $this->render('FrontEndBundle:transfer:transferEmail.html.twig', array(
             'tourist_name' => $touristName,
             'tourist_last_name' => $touristLastName,
             'pax' => $pax,
@@ -118,10 +118,10 @@ class ContactService extends Controller
             'fly'=>$fly,
             'airline'=>$airline
         ));
-        $service_email->sendEmail('Solicitud de Transfer', 'no-reply@mycasaparticular.com','Solicitud de Transfer', 'services@mycasaparticular.com ', $content);
-        $service_email->sendEmail('Solicitud de Transfer', 'no-reply@mycasaparticular.com','Solicitud de Transfer', 'vhagar91@gmail.com ', $content);
-
+        $service_email->sendEmail('Solicitud de Transfer', 'no-reply@mycasaparticular.com','Solicitud de Transfer', 'services@mycasaparticular.com', $content);
+        $service_email->sendEmail('Solicitud de Transfer', 'no-reply@mycasaparticular.com','Solicitud de Transfer', 'orlando@hds.li', $content);
         $message = $this->get('translator')->trans("USER_CONTACT_TOURIST_SUCCESS");
+
         $this->get('session')->getFlashBag()->add('message_global_success', $message);
     }
 
