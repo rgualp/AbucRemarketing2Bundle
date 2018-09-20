@@ -94,7 +94,7 @@
                                 <select class="custom-select d-block w-100" id="country" name="transfer" required="">
                                     <option value="">...</option>
                                     {%for trans in transfer %}
-                                        <option value="{{ trans.id }}">{{ trans.from }} - {{ trans.to }} </option>
+                                        <option data-value="{{ trans.from }}" value="{{ trans.id }}">{{ trans.from }} - {{ trans.to }} </option>
                                     {% endfor %}
 
                                 </select>
@@ -207,7 +207,15 @@
                                 <h6 class="my-0">{{  trans.from }} - {{  trans.to}}- (Private)</h6>
 
                             </div>
-                            <span class="text-muted">{{ 'FROM_PRICES'|trans }} {{  trans.price}} CUC</span>
+                            {% if trans.price > 0 %}
+
+                                <span class="text-muted">{{ 'FROM_PRICES'|trans }} {{trans.price}} CUC</span>
+                            {% else %}
+                                <span class="text-muted  text-warning">{{ 'NOT_AVAILABLE'|trans }}</span>
+
+
+                            {% endif %}
+
                         </li>
                         <li class="list-group-item d-flex justify-content-between lh-condensed">
                             <div>
@@ -303,8 +311,8 @@
 
             });
             $('#country').on('change', function () {
-
-                if(this.value==1){
+                console.log($("#country option:selected").attr('data-value'));
+                if($("#country option:selected").attr('data-value')=='Airport'){
 
                     $('#fff').removeClass('d-none');
                     $('#aaa').removeClass('d-none');
