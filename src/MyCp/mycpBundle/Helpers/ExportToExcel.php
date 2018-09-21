@@ -1767,7 +1767,7 @@ ORDER BY own.own_mcp_code ASC
         );
         $sheet->getStyle("A1:R1")->applyFromArray($centerStyle);
 
-        $sheet = $this->styleHeader("A5:R5", $sheet);
+        $sheet = $this->styleHeader("A5:S5", $sheet);
 
         $style = array(
             'font' => array(
