@@ -1765,7 +1765,7 @@ ORDER BY own.own_mcp_code ASC
                 'horizontal' => \PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
             )
         );
-        $sheet->getStyle("A1:R1")->applyFromArray($centerStyle);
+        $sheet->getStyle("A1:S1")->applyFromArray($centerStyle);
 
         $sheet = $this->styleHeader("A5:S5", $sheet);
 
@@ -1779,10 +1779,10 @@ ORDER BY own.own_mcp_code ASC
 
         $sheet->fromArray($data, ' ', 'A6');
 
-        $this->setColumnAutoSize("a", "r", $sheet);
+        $this->setColumnAutoSize("a", "s", $sheet);
 
         //$sheet->setAutoFilter($sheet->calculateWorksheetDimension());
-        $sheet->setAutoFilter("A5:R".(count($data)+5));
+        $sheet->setAutoFilter("A5:S".(count($data)+5));
 
         return $excel;
     }
