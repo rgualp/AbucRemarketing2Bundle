@@ -1700,12 +1700,15 @@ ORDER BY own.own_mcp_code ASC
                 //Comision
                 $data[15] = ($currentReservation != $generalReservation->getGenResId()) ? $comision: "";
 
+                //Comision
+                $data[16] = ($currentReservation != $generalReservation->getGenResId()) ? $transferTax: "";
+
                 //TourOperadot
-                $data[16] = ($currentReservation != $generalReservation->getGenResId()) ? $generalReservation->getGenResUserId()->getUsername() : "";
+                $data[17] = ($currentReservation != $generalReservation->getGenResId()) ? $generalReservation->getGenResUserId()->getUsername() : "";
 
                 //Agencia
                 $agency=$this->em->getRepository('PartnerBundle:paTravelAgency')->getByUserId($generalReservation->getGenResUserId()->getUserId());
-                $data[17] = ($currentReservation != $generalReservation->getGenResId()) ? $agency[0]['name']: "";
+                $data[18] = ($currentReservation != $generalReservation->getGenResId()) ? $agency[0]['name']: "";
 
 
 
@@ -1751,8 +1754,9 @@ ORDER BY own.own_mcp_code ASC
         $sheet->setCellValue('n5', 'Total a Pagar EUR');
         $sheet->setCellValue('o5', 'Pago a Casa');
         $sheet->setCellValue('p5', 'Comisión MyCP');
-        $sheet->setCellValue('q5', 'TourOperador');
-        $sheet->setCellValue('r5', 'Agencia');
+        $sheet->setCellValue('q5', 'PAgo x Transferencia');
+        $sheet->setCellValue('r5', 'TourOperador');
+        $sheet->setCellValue('s5', 'Agencia');
 
 
 
